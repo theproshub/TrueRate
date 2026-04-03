@@ -11,25 +11,25 @@ import { stocks } from '@/data/stocks';
 type SortKey = 'name' | 'price' | 'change' | 'changePercent' | 'volume' | 'marketCap';
 
 const INDICATORS = [
-  { label: 'LRD/USD',    value: '192.50',    change: '+1.25',  pct: '+0.65%', up: true,  spark: [186,188,187,190,189,191,190,192,191,193,192,192.5] },
-  { label: 'LRD/EUR',    value: '209.85',    change: '-0.92',  pct: '-0.44%', up: false, spark: [212,211,210,211,209,210,209,210,208,209,210,209.85] },
-  { label: 'LRD/GBP',    value: '243.15',    change: '+2.10',  pct: '+0.87%', up: true,  spark: [238,240,239,241,240,242,241,243,242,244,243,243.15] },
-  { label: 'GDP Growth',  value: '4.5%',      change: '+0.2pp', pct: 'YoY',    up: true,  spark: [3.2,3.4,3.5,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5] },
-  { label: 'Inflation',   value: '10.2%',     change: '-0.8pp', pct: 'YoY',    up: true,  spark: [12.5,12.2,11.8,11.5,11.2,11.0,10.8,10.6,10.5,10.4,10.3,10.2] },
-  { label: 'Gold',        value: '2,285.40',  change: '+18.60', pct: '+0.82%', up: true,  spark: [2240,2255,2250,2265,2260,2270,2268,2278,2275,2282,2284,2285] },
-  { label: 'Iron Ore',    value: '108.50',    change: '-2.30',  pct: '-2.08%', up: false, spark: [115,114,113,112,111,110,109,109,108,108,108,108.5] },
-  { label: 'Rubber',      value: '1.72',      change: '+0.04',  pct: '+2.38%', up: true,  spark: [1.60,1.62,1.63,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.72] },
-  { label: 'CBL Rate',    value: '17.50%',    change: '0.00',   pct: 'Steady', up: true,  spark: [17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5] },
+  { label: 'GDP Growth',  value: '4.5%',      change: '+0.2pp', pct: 'YoY',    up: true,  group: 'economy', spark: [3.2,3.4,3.5,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5] },
+  { label: 'Inflation',   value: '10.2%',     change: '-0.8pp', pct: 'YoY',    up: true,  group: 'economy', spark: [12.5,12.2,11.8,11.5,11.2,11.0,10.8,10.6,10.5,10.4,10.3,10.2] },
+  { label: 'CBL Rate',    value: '17.50%',    change: '0.00',   pct: 'Steady', up: true,  group: 'economy', spark: [17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5] },
+  { label: 'LRD/USD',    value: '192.50',    change: '+1.25',  pct: '+0.65%', up: true,  group: 'fx',      spark: [186,188,187,190,189,191,190,192,191,193,192,192.5] },
+  { label: 'LRD/EUR',    value: '209.85',    change: '-0.92',  pct: '-0.44%', up: false, group: 'fx',      spark: [212,211,210,211,209,210,209,210,208,209,210,209.85] },
+  { label: 'LRD/GBP',    value: '243.15',    change: '+2.10',  pct: '+0.87%', up: true,  group: 'fx',      spark: [238,240,239,241,240,242,241,243,242,244,243,243.15] },
+  { label: 'Iron Ore',    value: '108.50',    change: '-2.30',  pct: '-2.08%', up: false, group: 'commodity', spark: [115,114,113,112,111,110,109,109,108,108,108,108.5] },
+  { label: 'Rubber',      value: '1.72',      change: '+0.04',  pct: '+2.38%', up: true,  group: 'commodity', spark: [1.60,1.62,1.63,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.72] },
+  { label: 'Gold',        value: '2,285.40',  change: '+18.60', pct: '+0.82%', up: true,  group: 'commodity', spark: [2240,2255,2250,2265,2260,2270,2268,2278,2275,2282,2284,2285] },
 ];
 
-const TRENDING = [
-  { ticker: 'Iron Ore',    name: 'Nimba County Exports',       price: '108.50', change: '-2.30',  pct: '-2.08%', up: false },
-  { ticker: 'Rubber',      name: 'Firestone Liberia Output',   price: '1.72',   change: '+0.04',  pct: '+2.38%', up: true  },
-  { ticker: 'LRD/USD',     name: 'Exchange Rate',              price: '192.50', change: '+1.25',  pct: '+0.65%', up: true  },
-  { ticker: 'Gold',        name: 'Global Gold Futures',        price: '2,285',  change: '+18.60', pct: '+0.82%', up: true  },
-  { ticker: 'Palm Oil',    name: 'Global Benchmark',           price: '865.00', change: '-12.50', pct: '-1.42%', up: false },
-  { ticker: 'Remittances', name: 'Diaspora Inflows (Q1)',      price: '$680M',  change: '+$45M',  pct: '+7.1%',  up: true  },
-  { ticker: 'CBL Rate',    name: 'Central Bank Policy Rate',   price: '17.50%', change: '0.00',   pct: 'Steady', up: true  },
+const ECONOMY_PULSE = [
+  { topic: 'GDP Growth',    context: 'Liberia economy',        value: '4.5%',    change: '+0.2pp', up: true,  tag: 'Economy'  },
+  { topic: 'Inflation',     context: 'Consumer prices YoY',   value: '10.2%',   change: '-0.8pp', up: true,  tag: 'Economy'  },
+  { topic: 'Iron Ore',      context: 'Nimba County exports',  value: '$108.50', change: '-2.08%', up: false, tag: 'Mining'   },
+  { topic: 'Rubber',        context: 'Firestone output',      value: '$1.72',   change: '+2.38%', up: true,  tag: 'Agri'     },
+  { topic: 'Remittances',   context: 'Diaspora inflows Q1',   value: '$680M',   change: '+7.1%',  up: true,  tag: 'Trade'    },
+  { topic: 'LRD/USD',       context: 'Exchange rate',         value: '192.50',  change: '+0.65%', up: true,  tag: 'FX'       },
+  { topic: 'CBL Rate',      context: 'Policy rate',           value: '17.50%',  change: 'Steady', up: true,  tag: 'Policy'   },
 ];
 
 const RATES: Record<string, number> = { LRD: 1, USD: 192.50, EUR: 209.85, GBP: 243.15, NGN: 0.124, GHS: 14.82 };
@@ -64,6 +64,13 @@ const LATEST_NEWS = [
   { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'] },
   { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'] },
   { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'] },
+];
+
+const MORE_NEWS = [
+  { category: 'Banking', title: 'Liberia\'s banking sector sees 14% deposit growth in Q1 2026', summary: 'Central Bank data shows rising household savings and business deposits, driven by mobile money adoption and renewed investor confidence.', source: 'FrontPage Africa', time: '2h ago', img: 'https://picsum.photos/seed/lr9/200/120' },
+  { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago', img: 'https://picsum.photos/seed/lr10/200/120' },
+  { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago', img: 'https://picsum.photos/seed/lr11/200/120' },
+  { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago', img: 'https://picsum.photos/seed/lr12/200/120' },
 ];
 
 const VIDEOS = [
@@ -110,17 +117,42 @@ function Pill({ text, up }: { text: string; up: boolean }) {
   );
 }
 
+const TAG_COLORS: Record<string, string> = {
+  economy:    'bg-blue-500/15 text-blue-300',
+  policy:     'bg-white/20 text-white/70',
+  forex:      'bg-cyan-500/15 text-cyan-300',
+  commodities:'bg-amber-500/15 text-amber-300',
+  trade:      'bg-teal-500/15 text-teal-300',
+  banking:    'bg-indigo-500/15 text-indigo-300',
+  mining:     'bg-orange-500/15 text-orange-300',
+  agriculture:'bg-green-500/15 text-green-300',
+};
+
 function TagPill({ label }: { label: string }) {
   if (label.startsWith('+')) return <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-400 tabular-nums">{label}</span>;
   if (label.startsWith('-')) return <span className="rounded-full bg-red-400/15 px-2 py-0.5 text-[11px] font-semibold text-red-400 tabular-nums">{label}</span>;
-  return <span className="rounded-full bg-violet-500/20 px-2 py-0.5 text-[11px] font-semibold text-violet-300">{label}</span>;
+  const color = TAG_COLORS[label.toLowerCase()] ?? 'bg-white/20 text-white/70';
+  return <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${color}`}>{label}</span>;
+}
+
+function SmallTag({ label }: { label: string }) {
+  const colorMap: Record<string, string> = {
+    'Economy': 'bg-blue-500/15 text-blue-300',
+    'Policy':  'bg-white/20 text-white/70',
+    'FX':      'bg-cyan-500/15 text-cyan-300',
+    'Mining':  'bg-orange-500/15 text-orange-300',
+    'Agri':    'bg-green-500/15 text-green-300',
+    'Trade':   'bg-teal-500/15 text-teal-300',
+  };
+  const color = colorMap[label] ?? 'bg-white/10 text-gray-400';
+  return <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${color}`}>{label}</span>;
 }
 
 function SectionHeading({ title, action, actionLabel = 'View all' }: { title: string; action?: string; actionLabel?: string }) {
   return (
     <div className="flex items-center justify-between mb-4">
       <h2 className="text-[17px] font-bold text-white tracking-tight">{title}</h2>
-      {action && <a href={action} className="text-[12px] font-medium text-violet-400 hover:text-violet-300 hover:underline transition-colors">{actionLabel} ›</a>}
+      {action && <a href={action} className="text-[12px] font-medium text-white hover:text-white/70 hover:underline transition-colors">{actionLabel} ›</a>}
     </div>
   );
 }
@@ -147,11 +179,12 @@ function Header() {
           <span className={`block h-[2px] w-5 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
           <span className={`block h-[2px] w-5 bg-white transition-transform origin-center ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
         </button>
-        <a href="/" className="flex shrink-0 items-center gap-2.5 no-underline">
-          <span className="text-[24px] font-black tracking-tight text-white">TrueRate</span>
-          <span className="rounded-md bg-gradient-to-r from-violet-600 to-violet-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-lg shadow-violet-500/20">Liberia</span>
+        <a href="/" className="flex shrink-0 items-center gap-2 no-underline">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="TrueRate" className="shrink-0 brightness-0 invert" style={{height: '60px', width: 'auto'}} />
+          <span className="ml-1.5 rounded border border-white/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white/70">Liberia</span>
         </a>
-        <div className="hidden sm:flex flex-1 max-w-[480px] items-center gap-2.5 rounded-xl bg-white/[0.06] px-4 py-2.5 border border-white/[0.06] transition focus-within:bg-white/[0.08] focus-within:border-violet-500/30">
+        <div className="hidden sm:flex flex-1 max-w-[480px] items-center gap-2.5 rounded-xl bg-white/[0.06] px-4 py-2.5 border border-white/[0.06] transition focus-within:bg-white/[0.08] focus-within:border-white/30">
           <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -162,7 +195,7 @@ function Header() {
           <button className="rounded-lg border border-white/10 px-4 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/[0.06] hover:text-white">
             Sign in
           </button>
-          <button className="hidden sm:block rounded-lg bg-gradient-to-r from-violet-600 to-violet-500 px-5 py-2 text-[13px] font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:shadow-violet-500/30 hover:brightness-110">
+          <button className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:shadow-white/15 hover:brightness-110">
             Subscribe
           </button>
         </div>
@@ -184,7 +217,7 @@ function Header() {
             <button key={tab} onClick={() => setActive(tab)}
               className={`whitespace-nowrap px-4 py-3 text-[13px] font-medium transition-colors ${
                 active === tab
-                  ? 'border-b-2 border-violet-500 text-white'
+                  ? 'border-b-2 border-white text-white'
                   : 'text-gray-500 hover:text-gray-300'
               }`}>
               {tab}
@@ -199,14 +232,14 @@ function Header() {
             <button key={tab} onClick={() => { setActive(tab); setMenuOpen(false); }}
               className={`flex w-full items-center px-6 py-4 text-[14px] font-medium border-b border-white/[0.04] transition-colors ${
                 active === tab
-                  ? 'text-white bg-violet-500/10 border-l-2 border-l-violet-500'
+                  ? 'text-white bg-white/10 border-l-2 border-l-white'
                   : 'text-gray-400 hover:text-white hover:bg-white/[0.03]'
               }`}>
               {tab}
             </button>
           ))}
           <div className="px-6 py-5">
-            <button className="w-full rounded-lg bg-gradient-to-r from-violet-600 to-violet-500 py-3 text-[13px] font-semibold text-white shadow-lg shadow-violet-500/20">
+            <button className="w-full rounded-lg bg-white py-3 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10">
               Subscribe
             </button>
           </div>
@@ -220,22 +253,25 @@ function Header() {
    ECONOMIC INDICATORS STRIP
 ───────────────────────────────────────────────────────────────────────────── */
 
+const INDICATOR_GROUPS: { key: string; label: string; accent: string; bg: string }[] = [
+  { key: 'economy',   label: 'Economy',     accent: 'text-blue-400',   bg: 'bg-blue-500/[0.04]'   },
+  { key: 'fx',        label: 'Foreign Exchange', accent: 'text-cyan-400',    bg: 'bg-cyan-500/[0.04]'   },
+  { key: 'commodity', label: 'Commodities', accent: 'text-amber-400',  bg: 'bg-amber-500/[0.04]'  },
+];
+
 function IndicatorsStrip() {
   return (
-    <div className="bg-[#0c0c0f] border-b border-white/[0.04]">
-      <div className="mx-auto max-w-[1320px] px-5 py-2">
-        <div className="flex overflow-x-auto gap-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="bg-[#0a0a0d] border-b border-white/[0.05]">
+      <div className="mx-auto max-w-[1320px] px-4">
+        <div className="flex items-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {INDICATORS.map(item => (
             <a key={item.label} href="#"
-              className="group shrink-0 flex flex-col min-w-[140px] rounded-lg px-3.5 py-2.5 no-underline transition hover:bg-white/[0.04] cursor-pointer">
-              <div className="flex items-center justify-between gap-3 mb-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-gray-500">{item.label}</span>
-                <Spark data={item.spark} up={item.up} w={48} h={18} />
-              </div>
-              <div className="tabular-nums text-[15px] font-bold text-white leading-tight">{item.value}</div>
-              <div className={`tabular-nums text-[11px] font-semibold mt-0.5 ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                {item.change} <span className="text-gray-600">({item.pct})</span>
-              </div>
+              className="shrink-0 flex items-center gap-2.5 rounded-full bg-white/[0.07] px-4 py-2 no-underline transition hover:bg-white/[0.11] cursor-pointer">
+              <span className="text-[13px] font-bold text-white whitespace-nowrap">{item.label}</span>
+              <span className="tabular-nums text-[13px] font-bold text-white whitespace-nowrap">{item.value}</span>
+              <span className={`flex items-center gap-0.5 tabular-nums text-[12px] font-semibold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                {item.up ? '▲' : '▼'}{item.pct}
+              </span>
             </a>
           ))}
         </div>
@@ -262,22 +298,17 @@ function FeaturedColumn() {
           <img src={NEWS_IMGS[0]} alt={featured.title} className="w-full h-[220px] lg:h-[300px] object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
         <div className="mt-4">
-          <div className="flex items-center gap-2 text-[11px] mb-2.5">
-            <span className="font-bold uppercase tracking-[0.1em] text-violet-400">Economy</span>
+          <div className="flex items-center gap-2 mb-2.5">
+            <span className="text-[11px] font-bold uppercase tracking-wide text-white">Economy</span>
             <span className="text-gray-700">·</span>
-            <span className="text-gray-500">{featured.source}</span>
+            <span className="text-[11px] text-gray-500">{featured.source}</span>
             <span className="text-gray-700">·</span>
-            <span className="text-gray-500">{timeAgo(featured.date)}</span>
+            <span className="text-[11px] text-gray-500">{timeAgo(featured.date)}</span>
           </div>
-          <h2 className="text-[22px] font-bold leading-snug text-white group-hover:text-violet-300 transition-colors">
+          <h2 className="text-[22px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">
             <a href="#" className="no-underline">{featured.title}</a>
           </h2>
           <p className="mt-2.5 line-clamp-2 text-[14px] leading-relaxed text-gray-500">{featured.summary}</p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {['Monetary Policy', 'Inflation', 'CBL'].map(t => (
-              <TagPill key={t} label={t} />
-            ))}
-          </div>
         </div>
       </article>
 
@@ -289,7 +320,7 @@ function FeaturedColumn() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={NEWS_IMGS[i + 1]} alt="" className="w-full h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
-            <h3 className="mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-violet-300 transition-colors">
+            <h3 className="mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
               <a href="#" className="no-underline">{item.title}</a>
             </h3>
             <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
@@ -305,7 +336,7 @@ function FeaturedColumn() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={NEWS_IMGS[i + 3]} alt="" className="w-full h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
-            <h3 className="mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-violet-300 transition-colors">
+            <h3 className="mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
               <a href="#" className="no-underline">{item.title}</a>
             </h3>
             <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
@@ -331,19 +362,16 @@ function NewsListColumn() {
             <img src={NEWS_IMGS[(i + 3) % NEWS_IMGS.length]} alt="" className="h-[76px] w-[112px] object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-violet-300 transition-colors">
+            <h3 className="line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
               <a href="#" className="no-underline">{item.title}</a>
             </h3>
-            <div className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px]">
+            <div className="mt-1.5 flex items-center gap-x-1.5 text-[11px]">
+              {item.category && <span className="font-medium text-white capitalize">{item.category}</span>}
+              {item.category && <span className="text-gray-700">·</span>}
               <span className="text-gray-500">{item.source}</span>
               <span className="text-gray-700">·</span>
               <span className="text-gray-500">{timeAgo(item.date)}</span>
             </div>
-            {item.category && (
-              <div className="mt-2">
-                <TagPill label={item.category} />
-              </div>
-            )}
           </div>
         </article>
       ))}
@@ -365,14 +393,15 @@ function LatestColumn() {
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {LATEST_NEWS.map((item, i) => (
           <div key={i} className="group cursor-pointer py-3.5 first:pt-0">
-            <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-violet-300 transition-colors">
+            <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
               <a href="#" className="no-underline">{item.title}</a>
             </h3>
-            <div className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px]">
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-1.5 text-[11px]">
+              {item.tags.length > 0 && <span className="font-medium text-white">{item.tags[0]}</span>}
+              {item.tags.length > 0 && <span className="text-gray-700">·</span>}
               <span className="text-gray-500">{item.source}</span>
               <span className="text-gray-700">·</span>
               <span className="text-gray-500">{item.time}</span>
-              {item.tags.map(tk => <TagPill key={tk} label={tk} />)}
             </div>
           </div>
         ))}
@@ -385,25 +414,45 @@ function LatestColumn() {
    SIDEBAR: TRENDING
 ───────────────────────────────────────────────────────────────────────────── */
 
-function TrendingWidget() {
+const BRIEFING = [
+  {
+    label: 'MONETARY POLICY',
+    headline: 'CBL holds rate at 17.50% for third consecutive quarter',
+    summary: 'The Central Bank of Liberia cited easing food prices but flagged currency risks ahead of Q2 budget disbursements.',
+    time: '2h ago',
+  },
+  {
+    label: 'TRADE',
+    headline: 'Liberia joins ECOWAS digital payments pilot',
+    summary: 'Five other West African nations are participating. The pilot aims to cut cross-border transaction costs by up to 30%.',
+    time: '4h ago',
+  },
+  {
+    label: 'COMMODITIES',
+    headline: 'Rubber output at decade high — what it means for GDP',
+    summary: 'Firestone Liberia reports record production driven by favorable weather. Agriculture\'s GDP share may rise to 35%.',
+    time: '8h ago',
+  },
+];
+
+function EconomyPulseWidget() {
   return (
     <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-4 py-3.5">
-        <h2 className="text-[13px] font-bold text-white">Trending</h2>
-        <a href="#" className="text-[11px] font-medium text-violet-400 hover:text-violet-300 hover:underline transition-colors">View all ›</a>
+      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
+        <div>
+          <h2 className="text-[15px] font-bold text-white">Today's Briefing</h2>
+          <p className="text-[11px] text-gray-600 mt-0.5">Key stories · Apr 3, 2026</p>
+        </div>
+        <a href="#" className="text-[12px] text-white/50 hover:text-white transition-colors">All ›</a>
       </div>
       <div className="divide-y divide-white/[0.04]">
-        {TRENDING.map(t => (
-          <div key={t.ticker} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.02] transition-colors cursor-pointer">
-            <div className="min-w-0 flex-1">
-              <a href="#" className="block text-[13px] font-bold text-violet-400 no-underline hover:underline">{t.ticker}</a>
-              <span className="block truncate text-[11px] text-gray-600">{t.name}</span>
-            </div>
-            <div className="shrink-0 text-right">
-              <div className="tabular-nums text-[12px] font-semibold text-white">{t.price}</div>
-              <Pill text={t.pct} up={t.up} />
-            </div>
-          </div>
+        {BRIEFING.map((b, i) => (
+          <a key={i} href="#" className="block px-5 py-4 hover:bg-white/[0.02] transition-colors no-underline group">
+            <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-600 mb-1.5">{b.label}</div>
+            <div className="text-[13px] font-semibold text-white leading-snug group-hover:text-white/80 mb-1.5">{b.headline}</div>
+            <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{b.summary}</p>
+            <div className="mt-2 text-[11px] text-gray-700">{b.time}</div>
+          </a>
         ))}
       </div>
     </div>
@@ -418,21 +467,22 @@ function KeySectorsWidget() {
   return (
     <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <h2 className="text-[15px] font-bold text-white">Key Sectors</h2>
-        <span className="rounded-full bg-violet-500/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-violet-400">Liberia</span>
+        <div>
+          <h2 className="text-[15px] font-bold text-white">GDP by Sector</h2>
+          <p className="text-[11px] text-gray-600 mt-0.5">Liberia · 2026 estimate</p>
+        </div>
+        <a href="#" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors">Details ›</a>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {KEY_SECTORS.map(s => (
-          <div key={s.sector} className="px-5 py-3.5 hover:bg-white/[0.02] transition-colors">
-            <div className="flex items-center justify-between mb-1">
-              <a href="#" className="text-[13px] font-semibold text-white no-underline hover:text-violet-300 transition-colors">
-                {s.sector}
-              </a>
-              <Pill text={s.growth} up={s.up} />
+          <div key={s.sector} className="flex items-center gap-4 px-5 py-3 hover:bg-white/[0.02] transition-colors cursor-pointer">
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-semibold text-white">{s.sector}</div>
+              <div className="text-[11px] text-gray-600 mt-0.5">{s.desc}</div>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] text-gray-600">{s.desc}</span>
-              <span className="text-[11px] font-medium text-gray-500">{s.contrib} of GDP</span>
+            <div className="shrink-0 text-right">
+              <div className="text-[13px] font-bold text-white tabular-nums">{s.contrib} <span className="text-[11px] font-normal text-gray-600">GDP</span></div>
+              <div className={`text-[12px] font-semibold tabular-nums ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>{s.growth}</div>
             </div>
           </div>
         ))}
@@ -463,47 +513,44 @@ function BusinessOverview() {
 
   const SH = ({ k, label, right = true }: { k: SortKey; label: string; right?: boolean }) => (
     <th onClick={() => { if (sortKey === k) { setSortAsc(!sortAsc); } else { setSortKey(k); setSortAsc(false); } }}
-      className={`cursor-pointer select-none px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-600 hover:text-gray-300 transition-colors ${right ? 'text-right' : 'text-left'}`}>
-      {label} <span className="text-[10px] text-gray-700">{sortKey === k ? (sortAsc ? '▲' : '▼') : '⇅'}</span>
+      className={`cursor-pointer select-none px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-600 hover:text-gray-400 transition-colors ${right ? 'text-right' : 'text-left'}`}>
+      {label}{sortKey === k ? <span className="ml-1 text-gray-700">{sortAsc ? '↑' : '↓'}</span> : null}
     </th>
   );
 
   return (
     <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <h2 className="text-[15px] font-bold text-white">Major Enterprises</h2>
-        <span className="hidden sm:inline text-[11px] text-gray-600">Prices in LRD · Sources: CBL, GSE, BRVM</span>
+        <div>
+          <h2 className="text-[15px] font-bold text-white">Market Data</h2>
+          <p className="text-[11px] text-gray-600 mt-0.5">Liberia · West Africa · Sources: CBL, GSE, BRVM</p>
+        </div>
+        <a href="#" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors">Full table ›</a>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-[12px]">
-          <thead className="border-b border-white/[0.05] bg-white/[0.01]">
+          <thead className="border-b border-white/[0.04]">
             <tr>
               <SH k="name" label="Company" right={false} />
-              <SH k="price" label="Price" />
-              <SH k="change" label="Change" />
-              <SH k="changePercent" label="% Chg" />
-              <SH k="volume" label="Volume" />
+              <SH k="price" label="Price (LRD)" />
+              <SH k="changePercent" label="Change" />
               <SH k="marketCap" label="Mkt Cap" />
             </tr>
           </thead>
           <tbody className="divide-y divide-white/[0.03]">
             {sorted.map(s => (
-              <tr key={s.ticker} className="hover:bg-white/[0.02] transition-colors">
-                <td className="px-5 py-3">
-                  <a href="#" className="font-bold text-violet-400 no-underline hover:underline">{s.ticker}</a>
-                  <span className="ml-2 text-[11px] text-gray-600">{s.name}</span>
+              <tr key={s.ticker} className="hover:bg-white/[0.02] transition-colors cursor-pointer">
+                <td className="px-4 py-3">
+                  <a href="#" className="text-[12px] font-bold text-white no-underline">{s.ticker}</a>
+                  <div className="text-[11px] text-gray-600 truncate max-w-[160px]">{s.name}</div>
                 </td>
-                <td className="tabular-nums px-5 py-3 text-right font-medium text-white">
+                <td className="tabular-nums px-4 py-3 text-right font-semibold text-white">
                   {s.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </td>
-                <td className={`tabular-nums px-5 py-3 text-right font-medium ${s.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {s.change >= 0 ? '+' : ''}{s.change.toFixed(2)}
+                <td className={`tabular-nums px-4 py-3 text-right font-semibold ${s.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {s.changePercent >= 0 ? '+' : ''}{s.changePercent.toFixed(2)}%
                 </td>
-                <td className="tabular-nums px-5 py-3 text-right">
-                  <Pill text={`${Math.abs(s.changePercent).toFixed(2)}%`} up={s.changePercent >= 0} />
-                </td>
-                <td className="tabular-nums px-5 py-3 text-right text-gray-600">{s.volume}</td>
-                <td className="tabular-nums px-5 py-3 text-right text-gray-600">{s.marketCap}</td>
+                <td className="tabular-nums px-4 py-3 text-right text-gray-500">{s.marketCap}</td>
               </tr>
             ))}
           </tbody>
@@ -517,61 +564,36 @@ function BusinessOverview() {
    CURRENCY CONVERTER
 ───────────────────────────────────────────────────────────────────────────── */
 
+const FX_RATES = [
+  { pair: 'USD / LRD', rate: '192.50', change: '+1.25', up: true,  note: 'Dollar strengthening on diaspora inflows' },
+  { pair: 'EUR / LRD', rate: '209.85', change: '-0.92', up: false, note: 'Euro softens on ECB rate signals' },
+  { pair: 'GBP / LRD', rate: '243.15', change: '+2.10', up: true,  note: 'Sterling up on UK trade data' },
+  { pair: 'NGN / LRD', rate: '0.124',  change: '+0.002', up: true, note: 'Naira holds steady this week' },
+];
+
 function ForexWidget() {
-  const [amount, setAmount] = useState('1');
-  const [from, setFrom] = useState('USD');
-  const [to, setTo] = useState('LRD');
-  const currs = Object.keys(RATES);
-
-  const converted = useMemo(() => {
-    const amt = parseFloat(amount) || 0;
-    return ((amt * RATES[from]) / RATES[to]).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [amount, from, to]);
-
-  const rate = (RATES[from] / RATES[to]).toFixed(4);
-
   return (
     <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-      <div className="border-b border-white/[0.05] px-5 py-4">
-        <h2 className="text-[15px] font-bold text-white">Currency Converter</h2>
+      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
+        <div>
+          <h2 className="text-[15px] font-bold text-white">Exchange Rates</h2>
+          <p className="text-[11px] text-gray-600 mt-0.5">Liberian Dollar (LRD) · CBL · Apr 3, 2026</p>
+        </div>
+        <a href="#" className="text-[12px] text-white/50 hover:text-white transition-colors">Converter ›</a>
       </div>
-      <div className="p-5 space-y-3.5">
-        <div>
-          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-600">Amount</label>
-          <div className="flex overflow-hidden rounded-lg border border-white/[0.08] transition focus-within:border-violet-500/40 focus-within:ring-1 focus-within:ring-violet-500/20">
-            <input type="number" value={amount} min="0" onChange={e => setAmount(e.target.value)}
-              className="tabular-nums w-full px-3.5 py-2.5 text-[15px] font-bold text-white outline-none bg-white/[0.03]" />
-            <select value={from} onChange={e => setFrom(e.target.value)}
-              className="border-l border-white/[0.08] bg-white/[0.05] px-3 py-2.5 text-[12px] font-bold text-white outline-none">
-              {currs.map(c => <option key={c}>{c}</option>)}
-            </select>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="h-px flex-1 bg-white/[0.06]" />
-          <button onClick={() => { setFrom(to); setTo(from); }}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-gray-500 transition hover:border-violet-500/40 hover:text-violet-400">
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-            </svg>
-          </button>
-          <div className="h-px flex-1 bg-white/[0.06]" />
-        </div>
-        <div>
-          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-600">Converted</label>
-          <div className="flex overflow-hidden rounded-lg border border-white/[0.08] bg-white/[0.03]">
-            <div className="tabular-nums w-full px-3.5 py-2.5 text-[15px] font-bold text-white">{converted}</div>
-            <select value={to} onChange={e => setTo(e.target.value)}
-              className="border-l border-white/[0.08] bg-white/[0.05] px-3 py-2.5 text-[12px] font-bold text-white outline-none">
-              {currs.map(c => <option key={c}>{c}</option>)}
-            </select>
-          </div>
-        </div>
-        <p className="text-center text-[11px] text-gray-600">
-          1 {from} = <span className="tabular-nums font-bold text-white">{rate}</span> {to}
-          <span className="ml-1 text-[10px] text-gray-700">· Apr 1, 2026</span>
-        </p>
+      <div className="divide-y divide-white/[0.04]">
+        {FX_RATES.map(r => (
+          <a key={r.pair} href="#" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-bold text-white tabular-nums">{r.pair}</div>
+              <div className="text-[11px] text-gray-600 mt-0.5 line-clamp-1">{r.note}</div>
+            </div>
+            <div className="shrink-0 text-right">
+              <div className="text-[14px] font-bold text-white tabular-nums">{r.rate}</div>
+              <div className={`text-[12px] font-semibold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.up ? '+' : ''}{r.change}</div>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   );
@@ -581,25 +603,36 @@ function ForexWidget() {
    COMMODITIES
 ───────────────────────────────────────────────────────────────────────────── */
 
+const COMMODITIES_WITH_CONTEXT = [
+  { name: 'Rubber',   unit: 'USD/kg', price: '1.72',     pct: '+2.38%', up: true,  note: 'Decade high on Firestone output surge' },
+  { name: 'Iron Ore', unit: 'USD/t',  price: '108.50',   pct: '-2.08%', up: false, note: 'Weak China demand weighs on prices' },
+  { name: 'Gold',     unit: 'USD/oz', price: '2,285.40', pct: '+0.82%', up: true,  note: 'Safe-haven demand on global uncertainty' },
+  { name: 'Palm Oil', unit: 'USD/t',  price: '865.00',   pct: '-1.42%', up: false, note: 'Supply recovery from SE Asia' },
+  { name: 'Cocoa',    unit: 'USD/t',  price: '4,820.00', pct: '+1.79%', up: true,  note: 'West Africa crop concerns persist' },
+];
+
 function CommoditiesWidget() {
   return (
     <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <h2 className="text-[15px] font-bold text-white">Commodities</h2>
-        <a href="#" className="text-[12px] font-medium text-violet-400 hover:text-violet-300 hover:underline transition-colors">View all ›</a>
+        <div>
+          <h2 className="text-[15px] font-bold text-white">Commodities</h2>
+          <p className="text-[11px] text-gray-600 mt-0.5">Liberia-relevant · Apr 3, 2026</p>
+        </div>
+        <a href="#" className="text-[12px] text-white/50 hover:text-white transition-colors">All ›</a>
       </div>
       <div className="divide-y divide-white/[0.04]">
-        {COMMODITIES.map(c => (
-          <div key={c.name} className="flex items-center justify-between px-5 py-3 hover:bg-white/[0.02] transition-colors">
-            <div>
-              <a href="#" className="block text-[13px] font-semibold text-white no-underline hover:text-violet-300 transition-colors">{c.name}</a>
-              <span className="text-[11px] text-gray-600">{c.unit}</span>
+        {COMMODITIES_WITH_CONTEXT.map(c => (
+          <a key={c.name} href="#" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-600">{c.unit}</span></div>
+              <div className="text-[11px] text-gray-600 mt-0.5 line-clamp-1">{c.note}</div>
             </div>
-            <div className="text-right">
-              <div className="tabular-nums text-[13px] font-bold text-white">${c.price}</div>
-              <Pill text={c.pct} up={c.up} />
+            <div className="shrink-0 text-right">
+              <div className="text-[13px] font-bold text-white tabular-nums">${c.price}</div>
+              <div className={`text-[12px] font-semibold tabular-nums ${c.up ? 'text-emerald-400' : 'text-red-400'}`}>{c.pct}</div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -612,32 +645,34 @@ function CommoditiesWidget() {
 
 function EconomicWidget() {
   const rows = [
-    { label: 'GDP',           value: '$4.33B',  pct: '+4.34%', up: true  },
-    { label: 'Inflation',     value: '10.2%',   pct: '-0.80pp', up: true  },
-    { label: 'CBL Rate',      value: '17.50%',  pct: 'Steady',  up: true  },
-    { label: 'Unemployment',  value: '3.6%',    pct: '-5.26%',  up: true  },
-    { label: 'Trade Balance', value: '-$0.82B', pct: '+5.75%',  up: true  },
-    { label: 'Debt / GDP',    value: '55.4%',   pct: '+2.21%',  up: false },
+    { label: 'GDP',           value: '$4.33B',  pct: '+4.34%', up: true,  note: 'Fastest growth in 5 years' },
+    { label: 'Inflation',     value: '10.2%',   pct: '-0.8pp', up: true,  note: 'Declining — CBL target is 8%' },
+    { label: 'CBL Rate',      value: '17.50%',  pct: 'Steady', up: true,  note: 'Held for 3rd consecutive quarter' },
+    { label: 'Unemployment',  value: '3.6%',    pct: '-0.2pp', up: true,  note: 'Mining & construction hiring up' },
+    { label: 'Trade Balance', value: '-$0.82B', pct: 'Improving', up: true, note: 'Export growth outpacing imports' },
+    { label: 'Debt / GDP',    value: '55.4%',   pct: '+2.2pp', up: false, note: 'IMF urges fiscal discipline' },
   ];
   return (
     <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <h2 className="text-[15px] font-bold text-white">Economic Indicators</h2>
-        <span className="rounded-full bg-violet-500/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-violet-400">Liberia</span>
+        <div>
+          <h2 className="text-[15px] font-bold text-white">Liberia at a Glance</h2>
+          <p className="text-[11px] text-gray-600 mt-0.5">Key indicators · Sources: CBL, World Bank, IMF</p>
+        </div>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {rows.map(r => (
-          <div key={r.label} className="flex items-center justify-between px-5 py-3 hover:bg-white/[0.02] transition-colors">
-            <span className="text-[13px] text-gray-400">{r.label}</span>
-            <div className="flex items-center gap-3">
-              <span className="tabular-nums text-[13px] font-bold text-white">{r.value}</span>
-              <span className={`tabular-nums text-[11px] font-semibold ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</span>
+          <a key={r.label} href="#" className="flex items-start gap-3 px-5 py-3 hover:bg-white/[0.02] transition-colors no-underline group">
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-semibold text-white">{r.label}</div>
+              <div className="text-[11px] text-gray-600 mt-0.5">{r.note}</div>
             </div>
-          </div>
+            <div className="shrink-0 text-right">
+              <div className="tabular-nums text-[13px] font-bold text-white">{r.value}</div>
+              <div className={`tabular-nums text-[12px] font-semibold ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
+            </div>
+          </a>
         ))}
-      </div>
-      <div className="border-t border-white/[0.05] px-5 py-2.5">
-        <span className="text-[10px] text-gray-700">Sources: CBL · World Bank · IMF · Updated Apr 1, 2026</span>
       </div>
     </div>
   );
@@ -648,34 +683,55 @@ function EconomicWidget() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 function VideosSection() {
+  const [active, setActive] = useState(0);
+  const v = VIDEOS[active];
   return (
     <div>
-      <SectionHeading title="Videos" action="#" actionLabel="View more" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {VIDEOS.map((v, i) => (
-          <div key={i} className="group flex gap-3.5 cursor-pointer">
-            <div className="relative shrink-0 overflow-hidden rounded-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={v.thumb} alt="" className="h-[76px] w-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10">
-                  <svg className="h-3 w-3 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-[17px] font-bold text-white tracking-tight">Today's Videos</h2>
+        <button className="rounded-full border border-white/20 px-4 py-1.5 text-[12px] font-medium text-white/70 hover:border-white/40 hover:text-white transition-colors">Explore More</button>
+      </div>
+      {/* Card */}
+      <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#141418]">
+        {/* Thumbnail */}
+        <div className="relative cursor-pointer group">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={v.thumb} alt="" className="w-full h-[220px] object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+          {/* Play button */}
+          <div className="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/40 to-transparent">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-lg">
+                <svg className="h-4 w-4 translate-x-0.5 text-[#0a0a0d]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
               </div>
-              <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white tabular-nums">{v.duration}</span>
-            </div>
-            <div className="min-w-0 flex-1">
-              <h3 className="line-clamp-2 text-[13px] font-semibold leading-snug text-white group-hover:text-violet-300 transition-colors">{v.title}</h3>
-              <div className="mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px]">
-                <span className="text-gray-600">{v.source}</span>
-                <span className="text-gray-700">·</span>
-                <span className="text-gray-600">{v.time}</span>
-              </div>
+              <span className="tabular-nums text-[15px] font-bold text-white drop-shadow">{v.duration}</span>
             </div>
           </div>
-        ))}
+        </div>
+        {/* Title */}
+        <div className="px-5 py-4">
+          <h3 className="text-[15px] font-bold leading-snug text-white">{v.title}</h3>
+        </div>
+        {/* Dots + arrows */}
+        <div className="flex items-center justify-between px-5 pb-4">
+          <div className="flex items-center gap-2">
+            {VIDEOS.map((_, i) => (
+              <button key={i} onClick={() => setActive(i)}
+                className={`h-2 w-2 rounded-full transition-colors ${i === active ? 'bg-white' : 'bg-white/25'}`} />
+            ))}
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setActive(i => (i - 1 + VIDEOS.length) % VIDEOS.length)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors">
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button onClick={() => setActive(i => (i + 1) % VIDEOS.length)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors">
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -696,7 +752,7 @@ function Footer() {
   return (
     <footer className="mt-10 border-t border-white/[0.06] bg-[#0a0a0d]">
       {/* Newsletter */}
-      <div className="border-b border-white/[0.05] bg-gradient-to-r from-violet-950/30 via-[#141418] to-violet-950/30 px-5 py-10">
+      <div className="border-b border-white/[0.05] bg-gradient-to-r from-[#001428]/30 via-[#141418] to-[#001428]/30 px-5 py-10">
         <div className="mx-auto max-w-[1320px] flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-[18px] font-bold text-white">TrueRate Daily Brief</h3>
@@ -704,8 +760,8 @@ function Footer() {
           </div>
           <div className="flex w-full max-w-[420px] gap-2.5">
             <input type="email" placeholder="Email address"
-              className="flex-1 rounded-lg bg-white/[0.05] border border-white/[0.08] px-4 py-3 text-[13px] text-white placeholder:text-gray-600 outline-none focus:border-violet-500/40 transition-colors" />
-            <button className="shrink-0 rounded-lg bg-gradient-to-r from-violet-600 to-violet-500 px-6 py-3 text-[13px] font-semibold text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/30 hover:brightness-110 transition">
+              className="flex-1 rounded-lg bg-white/[0.05] border border-white/[0.08] px-4 py-3 text-[13px] text-white placeholder:text-gray-600 outline-none focus:border-white/40 transition-colors" />
+            <button className="shrink-0 rounded-lg bg-white px-6 py-3 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 hover:shadow-white/15 hover:brightness-110 transition">
               Subscribe
             </button>
           </div>
@@ -719,7 +775,7 @@ function Footer() {
               <h4 className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">{title}</h4>
               <ul className="space-y-2">
                 {links.map(l => (
-                  <li key={l}><a href="#" className="text-[13px] text-gray-600 hover:text-violet-400 no-underline transition-colors">{l}</a></li>
+                  <li key={l}><a href="#" className="text-[13px] text-gray-600 hover:text-white no-underline transition-colors">{l}</a></li>
                 ))}
               </ul>
             </div>
@@ -730,7 +786,7 @@ function Footer() {
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-600">Trending topics</p>
           <div className="flex flex-wrap gap-2">
             {trending.map(t => (
-              <a key={t} href="#" className="rounded-lg border border-white/[0.06] px-3.5 py-1.5 text-[12px] text-gray-500 hover:border-violet-500/30 hover:text-violet-400 hover:bg-violet-500/5 transition-all no-underline">{t}</a>
+              <a key={t} href="#" className="rounded-lg border border-white/[0.06] px-3.5 py-1.5 text-[12px] text-gray-500 hover:border-white/30 hover:text-white hover:bg-white/5 transition-all no-underline">{t}</a>
             ))}
           </div>
         </div>
@@ -738,7 +794,7 @@ function Footer() {
         <div className="border-t border-white/[0.05] pt-6">
           <div className="flex flex-wrap gap-x-5 gap-y-1 mb-3">
             {['Data Disclaimer', 'Help', 'Feedback', 'Sitemap', 'Terms and Privacy Policy', 'Privacy Dashboard'].map(l => (
-              <a key={l} href="#" className="text-[11px] text-gray-700 hover:text-violet-400 no-underline transition-colors">{l}</a>
+              <a key={l} href="#" className="text-[11px] text-gray-700 hover:text-white no-underline transition-colors">{l}</a>
             ))}
           </div>
           <p className="text-[11px] text-gray-800">Copyright © 2026 TrueRate. All rights reserved. · Not investment advice</p>
@@ -746,6 +802,175 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DEEP READS (center column filler)
+───────────────────────────────────────────────────────────────────────────── */
+
+const DEEP_READS = [
+  {
+    category: 'Analysis',
+    title: 'Why Liberia\'s 4.5% GDP growth rate may be hiding structural weakness',
+    summary: 'Strong headline numbers mask an economy still heavily dependent on two export commodities. Economists warn that without services sector diversification, growth remains fragile.',
+    source: 'TrueRate Analysis',
+    time: '1h ago',
+    img: 'https://picsum.photos/seed/dr1/400/220',
+    large: true,
+  },
+  {
+    category: 'Policy',
+    title: 'CBL\'s rate hold: prudent caution or missed opportunity?',
+    summary: 'With inflation easing to 10.2%, some economists argue the Central Bank has room to cut. Others say the LRD remains too vulnerable.',
+    source: 'Daily Observer',
+    time: '3h ago',
+    img: 'https://picsum.photos/seed/dr2/200/120',
+    large: false,
+  },
+  {
+    category: 'Trade',
+    title: 'ECOWAS payments integration could unlock $2B in cross-border commerce',
+    summary: 'A new digital payments corridor linking six West African nations stands to benefit Liberian exporters the most, according to a World Bank assessment.',
+    source: 'World Bank',
+    time: '6h ago',
+    img: 'https://picsum.photos/seed/dr3/200/120',
+    large: false,
+  },
+  {
+    category: 'Mining',
+    title: 'ArcelorMittal\'s Nimba expansion: Liberia\'s biggest industrial moment in a decade',
+    summary: 'The expanded iron ore operation could add $320M annually to export revenues and create 1,800 permanent jobs in the region.',
+    source: 'Bloomberg',
+    time: '8h ago',
+    img: 'https://picsum.photos/seed/dr4/200/120',
+    large: false,
+  },
+];
+
+function DeepReadsColumn() {
+  const [lead, ...rest] = DEEP_READS;
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-[15px] font-bold text-white">In Depth</h2>
+        <a href="#" className="text-[12px] text-white/50 hover:text-white transition-colors">More ›</a>
+      </div>
+      {/* Lead story */}
+      <a href="#" className="group block no-underline mb-5">
+        <div className="overflow-hidden rounded-xl mb-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={lead.img} alt="" className="w-full h-[180px] object-cover transition-transform duration-500 group-hover:scale-105" />
+        </div>
+        <div className="text-[11px] font-bold uppercase tracking-wide text-white/40 mb-1.5">{lead.category}</div>
+        <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-2">{lead.title}</h3>
+        <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-3">{lead.summary}</p>
+        <div className="mt-2 text-[11px] text-gray-700">{lead.source} · {lead.time}</div>
+      </a>
+      {/* Remaining stories */}
+      <div className="flex flex-col divide-y divide-white/[0.05]">
+        {rest.map((item, i) => (
+          <a key={i} href="#" className="group flex gap-3.5 py-4 first:pt-0 no-underline">
+            <div className="min-w-0 flex-1">
+              <div className="text-[11px] font-bold uppercase tracking-wide text-white/40 mb-1">{item.category}</div>
+              <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
+              <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
+              <div className="mt-1.5 text-[11px] text-gray-700">{item.source} · {item.time}</div>
+            </div>
+            <div className="shrink-0 overflow-hidden rounded-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.img} alt="" className="h-[72px] w-[108px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MORE NEWS (left column filler)
+───────────────────────────────────────────────────────────────────────────── */
+
+function MoreNewsColumn() {
+  return (
+    <div className="flex flex-col divide-y divide-white/[0.05]">
+      {MORE_NEWS.map((item, i) => (
+        <a key={i} href="#" className="group flex gap-4 py-4 first:pt-0 no-underline">
+          <div className="min-w-0 flex-1">
+            <div className="text-[11px] font-bold uppercase tracking-wide text-white/40 mb-1">{item.category}</div>
+            <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
+            <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
+            <div className="mt-2 text-[11px] text-gray-700">{item.source} · {item.time}</div>
+          </div>
+          <div className="shrink-0 overflow-hidden rounded-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={item.img} alt="" className="h-[72px] w-[108px] object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SIDEBAR: LATEST + IN FOCUS
+───────────────────────────────────────────────────────────────────────────── */
+
+const SIDEBAR_LATEST = [
+  { time: '2h',  headline: 'CBL signals readiness to intervene if LRD weakens past 195' },
+  { time: '4h',  headline: 'ArcelorMittal ships first expanded-capacity iron ore batch from Nimba' },
+  { time: '6h',  headline: 'World Bank approves $45M grant for Liberia road infrastructure' },
+  { time: '8h',  headline: 'Firestone rubber output hits decade high on favorable weather conditions' },
+  { time: '10h', headline: 'Ecobank raises dividend after strong West Africa quarter earnings' },
+  { time: '12h', headline: 'Liberia joins ECOWAS digital payments pilot with five other nations' },
+  { time: '14h', headline: 'IMF praises Liberia fiscal consolidation, urges revenue reform plan' },
+  { time: '21h', headline: 'Palm oil prices dip on Southeast Asia supply chain recovery' },
+];
+
+const IN_FOCUS_TOPICS = [
+  'Iron Ore', 'LRD/USD', 'Rubber Prices', 'CBL Rate',
+  'ECOWAS Trade', 'Liberia GDP', 'Mining Policy', 'Remittances',
+];
+
+function LatestSidebar() {
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Latest news list */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[15px] font-bold text-white">Latest</h2>
+          <a href="#" className="text-[12px] text-white/50 hover:text-white transition-colors">See all latest ›</a>
+        </div>
+        <div className="flex flex-col divide-y divide-white/[0.05]">
+          {SIDEBAR_LATEST.map((item, i) => (
+            <a key={i} href="#" className="flex gap-3 py-3 first:pt-0 no-underline group">
+              <span className="shrink-0 tabular-nums text-[12px] text-gray-600 w-8 pt-0.5">{item.time}</span>
+              <span className="text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.headline}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* In Focus */}
+      <div className="border-t border-white/[0.05] pt-5">
+        <h2 className="text-[15px] font-bold text-white mb-3">In Focus</h2>
+        <div className="flex flex-wrap gap-2">
+          {IN_FOCUS_TOPICS.map(t => (
+            <a key={t} href="#" className="rounded border border-white/[0.12] px-3 py-1.5 text-[12px] text-white/70 hover:border-white/30 hover:text-white transition-colors no-underline">
+              {t}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Data widgets below */}
+      <div className="border-t border-white/[0.05] pt-5 flex flex-col gap-5">
+        <ForexWidget />
+        <CommoditiesWidget />
+        <EconomicWidget />
+      </div>
+    </div>
   );
 }
 
@@ -761,47 +986,36 @@ export default function Home() {
 
       <main className="mx-auto max-w-[1320px] px-5 py-6">
 
-        {/* 4-column news layout */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-5 mb-10">
+        {/* Three-column layout */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-5">
 
-          {/* News list — col 1-3 on desktop, 2nd on mobile */}
-          <div className="order-2 lg:order-1 lg:col-span-3">
-            <NewsListColumn />
-          </div>
-
-          {/* Featured — col 4-8 on desktop, 1st on mobile */}
-          <div className="order-1 lg:order-2 lg:col-span-5 lg:border-l lg:border-white/[0.05] lg:pl-5">
+          {/* LEFT: Featured video + video list — col 1-5 */}
+          <div className="order-1 lg:col-span-5 flex flex-col gap-5">
             <FeaturedColumn />
+            <div className="border-t border-white/[0.05] pt-5">
+              <VideosSection />
+            </div>
+            <div className="border-t border-white/[0.05] pt-5">
+              <MoreNewsColumn />
+            </div>
           </div>
 
-          {/* Latest — col 9-10 */}
-          <div className="order-3 lg:col-span-2 lg:border-l lg:border-white/[0.05] lg:pl-5">
-            <LatestColumn />
+          {/* CENTER: News feed — col 6-9 */}
+          <div className="order-2 lg:col-span-4 lg:border-l lg:border-white/[0.05] lg:pl-5 flex flex-col gap-5">
+            <NewsListColumn />
+            <div className="border-t border-white/[0.05] pt-5">
+              <LatestColumn />
+            </div>
+            <div className="border-t border-white/[0.05] pt-5">
+              <DeepReadsColumn />
+            </div>
           </div>
 
-          {/* Sidebar — col 11-12 */}
-          <div className="order-4 lg:col-span-2 lg:border-l lg:border-white/[0.05] lg:pl-5 flex flex-col gap-4">
-            <TrendingWidget />
-          </div>
-
-        </div>
-
-        {/* Videos */}
-        <div className="mb-10 border-t border-white/[0.05] pt-7">
-          <VideosSection />
-        </div>
-
-        {/* Business data */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start border-t border-white/[0.05] pt-7">
-          <div className="flex min-w-0 flex-1 flex-col gap-6">
-            <BusinessOverview />
-            <KeySectorsWidget />
-          </div>
-          <aside className="flex w-full shrink-0 flex-col gap-5 lg:w-[340px]">
-            <ForexWidget />
-            <CommoditiesWidget />
-            <EconomicWidget />
+          {/* RIGHT: Sidebar — col 10-12 */}
+          <aside className="order-3 lg:col-span-3 lg:border-l lg:border-white/[0.05] lg:pl-5">
+            <LatestSidebar />
           </aside>
+
         </div>
 
       </main>
