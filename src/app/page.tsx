@@ -45,36 +45,36 @@ const COMMODITIES = [
 ];
 
 const NEWS_IMGS = [
-  'https://picsum.photos/seed/lr1/800/420',
-  'https://picsum.photos/seed/lr2/200/120',
-  'https://picsum.photos/seed/lr3/200/120',
-  'https://picsum.photos/seed/lr4/200/120',
-  'https://picsum.photos/seed/lr5/200/120',
-  'https://picsum.photos/seed/lr6/200/120',
-  'https://picsum.photos/seed/lr7/200/120',
-  'https://picsum.photos/seed/lr8/200/120',
+  'https://loremflickr.com/800/420/central,bank,economy/all?lock=10',   // hero: CBL rate
+  'https://loremflickr.com/200/120/currency,exchange,money/all?lock=11', // LRD/currency
+  'https://loremflickr.com/200/120/iron,ore,mining/all?lock=12',         // ArcelorMittal
+  'https://loremflickr.com/200/120/road,construction,bridge/all?lock=13',// World Bank infra
+  'https://loremflickr.com/200/120/bank,finance,africa/all?lock=14',     // Ecobank
+  'https://loremflickr.com/200/120/mobile,payment,technology/all?lock=15',// ECOWAS digital
+  'https://loremflickr.com/200/120/rubber,plantation,harvest/all?lock=16',// Firestone rubber
+  'https://loremflickr.com/200/120/parliament,government,policy/all?lock=17',// IMF policy
 ];
 
 const LATEST_NEWS = [
-  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'], img: 'https://picsum.photos/seed/ln1/300/200', chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy', '+12%'], img: 'https://picsum.photos/seed/ln2/300/200', chips: [{ label: 'Energy', pct: '+12%', up: true }] },
-  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'], img: 'https://picsum.photos/seed/ln3/300/200', chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
-  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'], img: 'https://picsum.photos/seed/ln4/300/200', chips: [] },
-  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], img: 'https://picsum.photos/seed/ln5/300/200', chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
-  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], img: 'https://picsum.photos/seed/ln6/300/200', chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], img: 'https://picsum.photos/seed/ln7/300/200', chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
-  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'], img: 'https://picsum.photos/seed/ln8/300/200', chips: [] },
+  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'], img: 'https://loremflickr.com/300/200/central,bank,monetary,policy/all?lock=20', chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy', '+12%'], img: 'https://loremflickr.com/300/200/petroleum,oil,refinery/all?lock=21', chips: [{ label: 'Energy', pct: '+12%', up: true }] },
+  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'], img: 'https://loremflickr.com/300/200/iron,ore,mining,africa/all?lock=22', chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
+  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'], img: 'https://loremflickr.com/300/200/bridge,road,infrastructure/all?lock=23', chips: [] },
+  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], img: 'https://loremflickr.com/300/200/bank,finance,africa/all?lock=24', chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
+  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], img: 'https://loremflickr.com/300/200/mobile,payment,digital,fintech/all?lock=25', chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], img: 'https://loremflickr.com/300/200/rubber,plantation,harvest/all?lock=26', chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
+  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'], img: 'https://loremflickr.com/300/200/government,finance,policy/all?lock=27', chips: [] },
 ];
 
 const MORE_NEWS = [
-  { category: 'Banking', title: 'Liberia\'s banking sector sees 14% deposit growth in Q1 2026', summary: 'Central Bank data shows rising household savings and business deposits, driven by mobile money adoption and renewed investor confidence.', source: 'FrontPage Africa', time: '2h ago', img: 'https://picsum.photos/seed/lr9/200/120' },
-  { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago', img: 'https://picsum.photos/seed/lr10/200/120' },
-  { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago', img: 'https://picsum.photos/seed/lr11/200/120' },
-  { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago', img: 'https://picsum.photos/seed/lr12/200/120' },
-  { category: 'Trade', title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework', summary: 'Negotiations in Brussels produced a draft tariff schedule covering rubber, cocoa and timber exports, potentially boosting annual trade by $180M.', source: 'Reuters', time: '9h ago', img: 'https://picsum.photos/seed/lr13/200/120' },
-  { category: 'Mining', title: 'Gold exploration licenses issued for Grand Cape Mount region', summary: 'Three international mining firms have been granted exploration licenses covering 240 square kilometers in Grand Cape Mount County.', source: 'Bloomberg', time: '11h ago', img: 'https://picsum.photos/seed/lr14/200/120' },
-  { category: 'Tech', title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending', summary: 'PayLink Liberia plans to use the funding to reach 150,000 new borrowers across rural counties through its USSD-based lending platform.', source: 'TechCabal', time: '13h ago', img: 'https://picsum.photos/seed/lr15/200/120' },
-  { category: 'Policy', title: 'Finance Ministry tables revised budget with 12% increase in capital spending', summary: 'The supplementary budget allocates an additional $62M to infrastructure, health and education, funded partly by improved revenue collection.', source: 'Daily Observer', time: '15h ago', img: 'https://picsum.photos/seed/lr16/200/120' },
+  { category: 'Banking', title: 'Liberia\'s banking sector sees 14% deposit growth in Q1 2026', summary: 'Central Bank data shows rising household savings and business deposits, driven by mobile money adoption and renewed investor confidence.', source: 'FrontPage Africa', time: '2h ago', img: 'https://loremflickr.com/200/120/bank,savings,deposit/all?lock=30' },
+  { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago', img: 'https://loremflickr.com/200/120/road,construction,highway/all?lock=31' },
+  { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago', img: 'https://loremflickr.com/200/120/solar,panel,energy/all?lock=32' },
+  { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago', img: 'https://loremflickr.com/200/120/palm,oil,plantation/all?lock=33' },
+  { category: 'Trade', title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework', summary: 'Negotiations in Brussels produced a draft tariff schedule covering rubber, cocoa and timber exports, potentially boosting annual trade by $180M.', source: 'Reuters', time: '9h ago', img: 'https://loremflickr.com/200/120/port,shipping,trade/all?lock=34' },
+  { category: 'Mining', title: 'Gold exploration licenses issued for Grand Cape Mount region', summary: 'Three international mining firms have been granted exploration licenses covering 240 square kilometers in Grand Cape Mount County.', source: 'Bloomberg', time: '11h ago', img: 'https://loremflickr.com/200/120/gold,mining,exploration/all?lock=35' },
+  { category: 'Tech', title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending', summary: 'PayLink Liberia plans to use the funding to reach 150,000 new borrowers across rural counties through its USSD-based lending platform.', source: 'TechCabal', time: '13h ago', img: 'https://loremflickr.com/200/120/mobile,fintech,smartphone/all?lock=36' },
+  { category: 'Policy', title: 'Finance Ministry tables revised budget with 12% increase in capital spending', summary: 'The supplementary budget allocates an additional $62M to infrastructure, health and education, funded partly by improved revenue collection.', source: 'Daily Observer', time: '15h ago', img: 'https://loremflickr.com/200/120/government,budget,parliament/all?lock=37' },
 ];
 
 const QUICK_READS = [
@@ -87,10 +87,10 @@ const QUICK_READS = [
 ];
 
 const VIDEOS = [
-  { title: "CBL Governor on rate outlook: 'We're watching food prices closely'", duration: '2:48', thumb: 'https://picsum.photos/seed/v1/320/180', source: 'TrueRate', time: '55m ago' },
-  { title: 'ArcelorMittal Nimba expansion — what it means for Liberia GDP', duration: '1:52', thumb: 'https://picsum.photos/seed/v2/320/180', source: 'TrueRate', time: '3h ago' },
-  { title: 'Rubber prices surge: how Liberia benefits from record output', duration: '3:14', thumb: 'https://picsum.photos/seed/v3/320/180', source: 'TrueRate', time: '8h ago' },
-  { title: 'Diaspora remittances hit $680M — a new record for Liberia', duration: '2:31', thumb: 'https://picsum.photos/seed/v4/320/180', source: 'TrueRate', time: '3h ago' },
+  { title: "CBL Governor on rate outlook: 'We're watching food prices closely'", duration: '2:48', thumb: 'https://loremflickr.com/320/180/central,bank,governor,economics/all?lock=40', source: 'TrueRate', time: '55m ago' },
+  { title: 'ArcelorMittal Nimba expansion — what it means for Liberia GDP', duration: '1:52', thumb: 'https://loremflickr.com/320/180/iron,ore,mining,excavator/all?lock=41', source: 'TrueRate', time: '3h ago' },
+  { title: 'Rubber prices surge: how Liberia benefits from record output', duration: '3:14', thumb: 'https://loremflickr.com/320/180/rubber,plantation,africa/all?lock=42', source: 'TrueRate', time: '8h ago' },
+  { title: 'Diaspora remittances hit $680M — a new record for Liberia', duration: '2:31', thumb: 'https://loremflickr.com/320/180/money,transfer,remittance/all?lock=43', source: 'TrueRate', time: '3h ago' },
 ];
 
 const KEY_SECTORS = [
@@ -960,7 +960,7 @@ const DEEP_READS = [
     summary: 'Strong headline numbers mask an economy still heavily dependent on two export commodities. Economists warn that without services sector diversification, growth remains fragile.',
     source: 'TrueRate Analysis',
     time: '1h ago',
-    img: 'https://picsum.photos/seed/dr1/400/220',
+    img: 'https://loremflickr.com/400/220/economy,gdp,growth,africa/all?lock=50',
     large: true,
   },
   {
@@ -969,7 +969,7 @@ const DEEP_READS = [
     summary: 'With inflation easing to 10.2%, some economists argue the Central Bank has room to cut. Others say the LRD remains too vulnerable.',
     source: 'Daily Observer',
     time: '3h ago',
-    img: 'https://picsum.photos/seed/dr2/200/120',
+    img: 'https://loremflickr.com/200/120/central,bank,interest,rate/all?lock=51',
     large: false,
   },
   {
@@ -978,7 +978,7 @@ const DEEP_READS = [
     summary: 'A new digital payments corridor linking six West African nations stands to benefit Liberian exporters the most, according to a World Bank assessment.',
     source: 'World Bank',
     time: '6h ago',
-    img: 'https://picsum.photos/seed/dr3/200/120',
+    img: 'https://loremflickr.com/200/120/digital,payment,west,africa/all?lock=52',
     large: false,
   },
   {
@@ -987,7 +987,7 @@ const DEEP_READS = [
     summary: 'The expanded iron ore operation could add $320M annually to export revenues and create 1,800 permanent jobs in the region.',
     source: 'Bloomberg',
     time: '8h ago',
-    img: 'https://picsum.photos/seed/dr4/200/120',
+    img: 'https://loremflickr.com/200/120/iron,ore,steel,industry/all?lock=53',
     large: false,
   },
   {
@@ -996,7 +996,7 @@ const DEEP_READS = [
     summary: 'With smartphone penetration rising above 60%, mobile-first financial services are pulling millions of unbanked Liberians into the formal economy.',
     source: 'FrontPage Africa',
     time: '10h ago',
-    img: 'https://picsum.photos/seed/dr5/200/120',
+    img: 'https://loremflickr.com/200/120/mobile,banking,smartphone,africa/all?lock=54',
     large: false,
   },
   {
@@ -1005,7 +1005,7 @@ const DEEP_READS = [
     summary: 'Record Firestone output and favorable global prices are creating an opening. But analysts say infrastructure bottlenecks could cap the opportunity.',
     source: 'TrueRate Analysis',
     time: '12h ago',
-    img: 'https://picsum.photos/seed/dr6/200/120',
+    img: 'https://loremflickr.com/200/120/rubber,tree,plantation,harvest/all?lock=55',
     large: false,
   },
   {
@@ -1014,7 +1014,7 @@ const DEEP_READS = [
     summary: 'The Fund praised revenue reforms but flagged risks around public wage bills and off-budget spending ahead of the $38M disbursement.',
     source: 'IMF',
     time: '1d ago',
-    img: 'https://picsum.photos/seed/dr7/200/120',
+    img: 'https://loremflickr.com/200/120/imf,fiscal,development,economy/all?lock=56',
     large: false,
   },
 ];
