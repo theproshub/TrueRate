@@ -1,0 +1,8 @@
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cursor icon mark -->
+  <path d="M5 2L5 28L12 21L16 32L21 30L17 19H28L5 2Z" fill="white"/>
+  <!-- truerate wordmark -->
+  <text x="36" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="900" fill="white" letter-spacing="-0.5">truerate</text>
+  <!-- TM mark -->
+  <text x="148" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="white">TM</text>
+</svg>

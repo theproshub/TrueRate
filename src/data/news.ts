@@ -1,0 +1,68 @@
+import { NewsItem } from '@/lib/types';
+
+export const newsItems: NewsItem[] = [
+  {
+    id: '1',
+    title: 'CBL Holds Policy Rate Steady at 17.5% Amid Inflation Concerns',
+    summary: 'The Central Bank of Liberia maintained its benchmark interest rate, citing progress on inflation but warning of persistent food price pressures.',
+    source: 'Liberian Observer',
+    date: '2026-03-30',
+    category: 'policy',
+  },
+  {
+    id: '2',
+    title: 'Liberian Dollar Strengthens Against Regional Currencies',
+    summary: 'The LRD gained ground against the Ghanaian Cedi and Nigerian Naira, supported by improved foreign reserve levels and diaspora remittances.',
+    source: 'FrontPage Africa',
+    date: '2026-03-29',
+    category: 'forex',
+  },
+  {
+    id: '3',
+    title: 'ArcelorMittal Expands Yekepa Iron Ore Operations',
+    summary: 'The mining giant announced a $120M expansion of its Nimba County operations, expected to boost Liberia\'s iron ore exports by 15% annually.',
+    source: 'Daily Observer',
+    date: '2026-03-28',
+    category: 'commodities',
+  },
+  {
+    id: '4',
+    title: 'World Bank Projects 4.5% GDP Growth for Liberia in 2026',
+    summary: 'Liberia\'s economy is expected to accelerate, driven by mining sector recovery, agricultural expansion, and infrastructure investment.',
+    source: 'World Bank',
+    date: '2026-03-27',
+    category: 'economy',
+  },
+  {
+    id: '5',
+    title: 'Firestone Liberia Reports Record Rubber Output',
+    summary: 'The Harbel plantation achieved its highest quarterly production in a decade, benefiting from replanting programs and favorable weather conditions.',
+    source: 'The New Dawn',
+    date: '2026-03-26',
+    category: 'commodities',
+  },
+  {
+    id: '6',
+    title: 'Government Launches Digital Payment Initiative for Civil Servants',
+    summary: 'A new mobile money platform aims to streamline salary payments and reduce reliance on physical cash in the economy.',
+    source: 'Liberian Observer',
+    date: '2026-03-25',
+    category: 'policy',
+  },
+  {
+    id: '7',
+    title: 'Palm Oil Prices Dip on Southeast Asian Supply Surge',
+    summary: 'Global palm oil prices fell 1.4% as Indonesian and Malaysian exports increased, pressuring Liberian producers\' margins.',
+    source: 'Reuters',
+    date: '2026-03-24',
+    category: 'commodities',
+  },
+  {
+    id: '8',
+    title: 'IMF Completes Article IV Review of Liberian Economy',
+    summary: 'The Fund praised fiscal consolidation efforts while urging continued structural reforms in revenue collection and public financial management.',
+    source: 'IMF',
+    date: '2026-03-23',
+    category: 'economy',
+  },
+];
