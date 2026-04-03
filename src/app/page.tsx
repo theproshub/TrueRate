@@ -56,14 +56,14 @@ const NEWS_IMGS = [
 ];
 
 const LATEST_NEWS = [
-  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'] },
-  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy', '+12%'] },
-  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'] },
-  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'] },
-  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'] },
-  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'] },
-  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'] },
-  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'] },
+  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'], img: 'https://picsum.photos/seed/ln1/300/200', chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy', '+12%'], img: 'https://picsum.photos/seed/ln2/300/200', chips: [{ label: 'Energy', pct: '+12%', up: true }] },
+  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'], img: 'https://picsum.photos/seed/ln3/300/200', chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
+  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'], img: 'https://picsum.photos/seed/ln4/300/200', chips: [] },
+  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], img: 'https://picsum.photos/seed/ln5/300/200', chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
+  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], img: 'https://picsum.photos/seed/ln6/300/200', chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], img: 'https://picsum.photos/seed/ln7/300/200', chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
+  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'], img: 'https://picsum.photos/seed/ln8/300/200', chips: [] },
 ];
 
 const MORE_NEWS = [
@@ -71,6 +71,19 @@ const MORE_NEWS = [
   { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago', img: 'https://picsum.photos/seed/lr10/200/120' },
   { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago', img: 'https://picsum.photos/seed/lr11/200/120' },
   { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago', img: 'https://picsum.photos/seed/lr12/200/120' },
+  { category: 'Trade', title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework', summary: 'Negotiations in Brussels produced a draft tariff schedule covering rubber, cocoa and timber exports, potentially boosting annual trade by $180M.', source: 'Reuters', time: '9h ago', img: 'https://picsum.photos/seed/lr13/200/120' },
+  { category: 'Mining', title: 'Gold exploration licenses issued for Grand Cape Mount region', summary: 'Three international mining firms have been granted exploration licenses covering 240 square kilometers in Grand Cape Mount County.', source: 'Bloomberg', time: '11h ago', img: 'https://picsum.photos/seed/lr14/200/120' },
+  { category: 'Tech', title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending', summary: 'PayLink Liberia plans to use the funding to reach 150,000 new borrowers across rural counties through its USSD-based lending platform.', source: 'TechCabal', time: '13h ago', img: 'https://picsum.photos/seed/lr15/200/120' },
+  { category: 'Policy', title: 'Finance Ministry tables revised budget with 12% increase in capital spending', summary: 'The supplementary budget allocates an additional $62M to infrastructure, health and education, funded partly by improved revenue collection.', source: 'Daily Observer', time: '15h ago', img: 'https://picsum.photos/seed/lr16/200/120' },
+];
+
+const QUICK_READS = [
+  { tag: 'FOREX', headline: 'Dollar steady at 192.50 — CBL watching closely', time: '30m' },
+  { tag: 'MINING', headline: 'Nimba ships 2.1M tonnes of iron ore in Q1, best quarter since 2019', time: '1h' },
+  { tag: 'BANKING', headline: 'Ecobank pushes into Lofa and Grand Bassa with two new branches', time: '2h' },
+  { tag: 'TRADE', headline: 'Freeport of Monrovia posts strongest quarter in five years', time: '3h' },
+  { tag: 'ENERGY', headline: 'Power cuts in Paynesville ease after LEC completes grid repairs', time: '4h' },
+  { tag: 'AGRI', headline: 'Cocoa farmers push for $2.80/kg floor price ahead of harvest season', time: '6h' },
 ];
 
 const VIDEOS = [
@@ -161,17 +174,25 @@ function SectionHeading({ title, action, actionLabel = 'View all' }: { title: st
    HEADER
 ───────────────────────────────────────────────────────────────────────────── */
 
+const FOOTER_SECTIONS: Record<string, string[]> = {
+  'Business':  ['Top Stories', 'Companies', 'Startups', 'Banking & Finance'],
+  'Economy':   ['GDP & Growth', 'Inflation', 'Trade & Exports', 'Development'],
+  'Explore':   ['Currency Converter', 'Economic Data', 'Commodities', 'Sector Analysis'],
+  'About':     ['About TrueRate', 'Sitemap', 'Help', 'Feedback', 'Licensing'],
+};
+
 function Header() {
   const NAV = ['Business', 'Economy', 'Policy', 'Trade', 'Markets', 'Commodities', 'News', 'Videos'];
   const [active, setActive] = useState('Business');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 bg-[#131316] border-b border-white/[0.06]">
       {/* Top bar */}
-      <div className="mx-auto flex max-w-[1320px] items-center gap-4 px-5 py-3">
+      <div className="mx-auto flex max-w-[1320px] items-center px-4 py-3 relative gap-3">
         {/* Hamburger — mobile only */}
         <button
-          className="sm:hidden flex shrink-0 flex-col justify-center gap-[5px] p-1"
+          className="sm:hidden flex shrink-0 flex-col justify-center gap-[5px] p-1 z-10"
           onClick={() => setMenuOpen(o => !o)}
           aria-label="Open menu"
         >
@@ -179,34 +200,98 @@ function Header() {
           <span className={`block h-[2px] w-5 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
           <span className={`block h-[2px] w-5 bg-white transition-transform origin-center ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
         </button>
-        <a href="/" className="flex shrink-0 items-center gap-2 no-underline">
+
+        {/* Logo — absolutely centered on mobile, static on desktop */}
+        <a href="/" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="TrueRate" className="shrink-0 brightness-0 invert" style={{height: '60px', width: 'auto'}} />
-          <span className="ml-1.5 rounded border border-white/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white/70">Liberia</span>
+          <img src="/logo.png" alt="TrueRate" className="shrink-0 brightness-0 invert" style={{height: '52px', width: 'auto'}} />
+          <span className="hidden sm:inline ml-1.5 rounded border border-white/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white/70">Liberia</span>
         </a>
-        <div className="hidden sm:flex flex-1 max-w-[480px] items-center gap-2.5 rounded-xl bg-white/[0.06] px-4 py-2.5 border border-white/[0.06] transition focus-within:bg-white/[0.08] focus-within:border-white/30">
+
+        {/* Desktop search bar */}
+        <div className="hidden sm:flex flex-1 max-w-[360px] ml-2 items-center gap-2.5 rounded-xl bg-white/[0.06] px-4 py-2 border border-white/[0.06] transition focus-within:bg-white/[0.08] focus-within:border-white/30">
           <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <input type="text" placeholder="Search business news, sectors, or topics"
+          <input type="text" placeholder="Search news, sectors, topics"
             className="w-full bg-transparent text-[13px] text-white outline-none placeholder:text-gray-600" />
         </div>
-        <div className="ml-auto flex items-center gap-2.5">
-          <button className="rounded-lg border border-white/10 px-4 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/[0.06] hover:text-white">
+
+        {/* Super nav links — desktop only, after search */}
+        <div className="hidden sm:flex items-center gap-0.5">
+          {['Entertainment', 'Finance', 'Sports'].map(item => (
+            <a key={item} href="#" className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${
+              item === 'Finance' ? 'text-emerald-400' : 'text-gray-400 hover:text-white'
+            }`}>
+              {item}
+            </a>
+          ))}
+          {/* More dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setMoreOpen(o => !o)}
+              className="flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium text-gray-400 hover:text-white transition-colors whitespace-nowrap"
+            >
+              More
+              <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {moreOpen && (
+              <>
+                {/* Backdrop */}
+                <div className="fixed inset-0 z-40" onClick={() => setMoreOpen(false)} />
+                {/* Dropdown */}
+                <div className="absolute left-0 top-full mt-2 z-50 w-[520px] rounded-2xl border border-white/[0.08] bg-[#131316] shadow-2xl shadow-black/50 px-6 py-6">
+                  <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+                    {Object.entries(FOOTER_SECTIONS).map(([section, links]) => (
+                      <div key={section}>
+                        <h4 className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">{section}</h4>
+                        <ul className="space-y-2">
+                          {links.map(link => (
+                            <li key={link}>
+                              <a href="#" onClick={() => setMoreOpen(false)}
+                                className="text-[13px] text-gray-600 hover:text-white transition-colors no-underline">
+                                {link}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Right: bell + Mail + Sign in + Subscribe */}
+        <div className="ml-auto flex items-center gap-2 z-10">
+          {/* Bell — desktop only */}
+          <button className="hidden sm:flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/[0.06] transition-colors">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          {/* Sign in */}
+          <button className="rounded-lg border border-white/20 px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-white/[0.06]">
             Sign in
           </button>
+          {/* Subscribe — desktop only */}
           <button className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:shadow-white/15 hover:brightness-110">
             Subscribe
           </button>
         </div>
       </div>
+
       {/* Mobile search bar */}
-      <div className="sm:hidden px-5 pb-3">
-        <div className="flex items-center gap-2.5 rounded-xl bg-white/[0.06] px-4 py-2.5 border border-white/[0.06]">
+      <div className="sm:hidden px-4 pb-3">
+        <div className="flex items-center gap-2.5 rounded-xl bg-white/[0.07] px-4 py-2.5 border border-white/[0.06]">
           <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <input type="text" placeholder="Search business news, sectors, or topics"
+          <input type="text" placeholder="Search for news or tickers"
             className="w-full bg-transparent text-[13px] text-white outline-none placeholder:text-gray-600" />
         </div>
       </div>
@@ -225,23 +310,47 @@ function Header() {
           ))}
         </div>
       </div>
-      {/* Mobile drawer */}
+      {/* Mobile drawer — full screen overlay */}
       {menuOpen && (
-        <div className="sm:hidden absolute inset-x-0 top-full z-50 bg-[#131316] border-t border-white/[0.06] shadow-2xl shadow-black/50">
-          {NAV.map(tab => (
-            <button key={tab} onClick={() => { setActive(tab); setMenuOpen(false); }}
-              className={`flex w-full items-center px-6 py-4 text-[14px] font-medium border-b border-white/[0.04] transition-colors ${
-                active === tab
-                  ? 'text-white bg-white/10 border-l-2 border-l-white'
-                  : 'text-gray-400 hover:text-white hover:bg-white/[0.03]'
-              }`}>
-              {tab}
-            </button>
-          ))}
-          <div className="px-6 py-5">
-            <button className="w-full rounded-lg bg-white py-3 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10">
-              Subscribe
-            </button>
+        <div className="sm:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
+          {/* Panel */}
+          <div className="relative flex flex-col w-[300px] max-w-[85vw] bg-[#131316] h-full shadow-2xl overflow-y-auto">
+            {/* Panel header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="TrueRate" className="brightness-0 invert" style={{height: '40px', width: 'auto'}} />
+              <button onClick={() => setMenuOpen(false)} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] text-gray-400 hover:text-white transition-colors">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            {/* Nav items */}
+            <nav className="flex-1 px-3 py-4">
+              <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-600">Sections</p>
+              {NAV.map(tab => (
+                <button key={tab} onClick={() => { setActive(tab); setMenuOpen(false); }}
+                  className={`flex w-full items-center justify-between px-3 py-3 rounded-lg text-[15px] font-medium transition-colors mb-0.5 ${
+                    active === tab
+                      ? 'bg-white/[0.08] text-white'
+                      : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
+                  }`}>
+                  <span>{tab}</span>
+                  {active === tab && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
+                </button>
+              ))}
+            </nav>
+            {/* Footer CTAs */}
+            <div className="border-t border-white/[0.06] px-5 py-5 space-y-3">
+              <button className="w-full rounded-xl bg-white py-3 text-[14px] font-bold text-[#0a0a0d]">
+                Subscribe
+              </button>
+              <button className="w-full rounded-xl border border-white/15 py-3 text-[14px] font-medium text-white/70 hover:text-white transition-colors">
+                Sign in
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -262,8 +371,27 @@ const INDICATOR_GROUPS: { key: string; label: string; accent: string; bg: string
 function IndicatorsStrip() {
   return (
     <div className="bg-[#0a0a0d] border-b border-white/[0.05]">
-      <div className="mx-auto max-w-[1320px] px-4">
-        <div className="flex items-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="mx-auto max-w-[1320px]">
+
+        {/* Mobile: auto-scrolling marquee ticker */}
+        <div className="sm:hidden overflow-hidden">
+          <div className="ticker-scroll flex">
+            {[...INDICATORS, ...INDICATORS].map((item, i) => (
+              <div key={i} className="shrink-0 flex flex-col px-4 py-2.5 border-r border-white/[0.07]">
+                <span className="text-[12px] font-semibold text-white whitespace-nowrap">{item.label}</span>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="tabular-nums text-[12px] text-gray-400 whitespace-nowrap">{item.value}</span>
+                  <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {item.pct}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: pill chips */}
+        <div className="hidden sm:flex items-center gap-2 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {INDICATORS.map(item => (
             <a key={item.label} href="#"
               className="shrink-0 flex items-center gap-2.5 rounded-full bg-white/[0.07] px-4 py-2 no-underline transition hover:bg-white/[0.11] cursor-pointer">
@@ -275,6 +403,7 @@ function IndicatorsStrip() {
             </a>
           ))}
         </div>
+
       </div>
     </div>
   );
@@ -313,33 +442,37 @@ function FeaturedColumn() {
       </article>
 
       {/* Two sub-articles */}
-      <div className="grid grid-cols-2 gap-4 border-t border-white/[0.06] pt-5">
+      <div className="border-t border-white/[0.06] pt-5 flex flex-col sm:grid sm:grid-cols-2 gap-4">
         {[sub1, sub2].map((item, i) => (
-          <article key={item.id} className="group cursor-pointer">
-            <div className="overflow-hidden rounded-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={NEWS_IMGS[i + 1]} alt="" className="w-full h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
+          <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
+            <div className="flex-1 min-w-0 order-1 sm:order-none">
+              <h3 className="sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
+                <a href="#" className="no-underline">{item.title}</a>
+              </h3>
+              <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
             </div>
-            <h3 className="mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
-              <a href="#" className="no-underline">{item.title}</a>
-            </h3>
-            <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
+            <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={NEWS_IMGS[i + 1]} alt="" className="h-[76px] w-[100px] sm:w-full sm:h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            </div>
           </article>
         ))}
       </div>
 
       {/* More sub-articles */}
-      <div className="grid grid-cols-2 gap-4 border-t border-white/[0.06] pt-5">
+      <div className="border-t border-white/[0.06] pt-5 flex flex-col sm:grid sm:grid-cols-2 gap-4">
         {[newsItems[3], newsItems[4]].map((item, i) => (
-          <article key={item.id} className="group cursor-pointer">
-            <div className="overflow-hidden rounded-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={NEWS_IMGS[i + 3]} alt="" className="w-full h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
+          <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
+            <div className="flex-1 min-w-0 order-1 sm:order-none">
+              <h3 className="sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
+                <a href="#" className="no-underline">{item.title}</a>
+              </h3>
+              <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
             </div>
-            <h3 className="mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
-              <a href="#" className="no-underline">{item.title}</a>
-            </h3>
-            <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
+            <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={NEWS_IMGS[i + 3]} alt="" className="h-[76px] w-[100px] sm:w-full sm:h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            </div>
           </article>
         ))}
       </div>
@@ -356,22 +489,18 @@ function NewsListColumn() {
   return (
     <div className="flex flex-col divide-y divide-white/[0.05]">
       {items.map((item, i) => (
-        <article key={item.id} className="group flex gap-3.5 py-3.5 first:pt-0 cursor-pointer">
-          <div className="overflow-hidden rounded-lg shrink-0">
+        <article key={item.id} className="group flex gap-3.5 py-4 first:pt-0 cursor-pointer">
+          <div className="overflow-hidden rounded-xl shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={NEWS_IMGS[(i + 3) % NEWS_IMGS.length]} alt="" className="h-[76px] w-[112px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            <img src={NEWS_IMGS[(i + 3) % NEWS_IMGS.length]} alt=""
+              className="h-[90px] w-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
+            {item.category && <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-white/40">{item.category}</p>}
+            <h3 className="line-clamp-3 text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">
               <a href="#" className="no-underline">{item.title}</a>
             </h3>
-            <div className="mt-1.5 flex items-center gap-x-1.5 text-[11px]">
-              {item.category && <span className="font-medium text-white capitalize">{item.category}</span>}
-              {item.category && <span className="text-gray-700">·</span>}
-              <span className="text-gray-500">{item.source}</span>
-              <span className="text-gray-700">·</span>
-              <span className="text-gray-500">{timeAgo(item.date)}</span>
-            </div>
+            <p className="mt-1 text-[12px] text-gray-500">{item.source} · {timeAgo(item.date)}</p>
           </div>
         </article>
       ))}
@@ -390,20 +519,35 @@ function LatestColumn() {
         <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
         Latest
       </h2>
+
+      {/* Large-card style — all viewports */}
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {LATEST_NEWS.map((item, i) => (
-          <div key={i} className="group cursor-pointer py-3.5 first:pt-0">
-            <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
-              <a href="#" className="no-underline">{item.title}</a>
-            </h3>
-            <div className="mt-1.5 flex flex-wrap items-center gap-x-1.5 text-[11px]">
-              {item.tags.length > 0 && <span className="font-medium text-white">{item.tags[0]}</span>}
-              {item.tags.length > 0 && <span className="text-gray-700">·</span>}
-              <span className="text-gray-500">{item.source}</span>
-              <span className="text-gray-700">·</span>
-              <span className="text-gray-500">{item.time}</span>
+          <a key={i} href="#" className="flex gap-3.5 py-4 first:pt-0 no-underline group">
+            {/* Thumbnail */}
+            <div className="shrink-0 overflow-hidden rounded-xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.img} alt="" className="h-[90px] w-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
             </div>
-          </div>
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
+              <p className="mt-1 text-[12px] text-gray-500">{item.source} · {item.time}</p>
+              {item.chips.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {item.chips.map(chip => (
+                    <span key={chip.label} className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-2.5 py-1 text-[11px] font-semibold">
+                      <span className="text-white/90">{chip.label}</span>
+                      <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
+                      <svg className="h-3 w-3 shrink-0 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                      </svg>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
         ))}
       </div>
     </div>
@@ -846,6 +990,49 @@ const DEEP_READS = [
     img: 'https://picsum.photos/seed/dr4/200/120',
     large: false,
   },
+  {
+    category: 'Banking',
+    title: 'Mobile money is reshaping how Liberians save, borrow, and invest',
+    summary: 'With smartphone penetration rising above 60%, mobile-first financial services are pulling millions of unbanked Liberians into the formal economy.',
+    source: 'FrontPage Africa',
+    time: '10h ago',
+    img: 'https://picsum.photos/seed/dr5/200/120',
+    large: false,
+  },
+  {
+    category: 'Agriculture',
+    title: 'Can Liberia become West Africa\'s next rubber powerhouse?',
+    summary: 'Record Firestone output and favorable global prices are creating an opening. But analysts say infrastructure bottlenecks could cap the opportunity.',
+    source: 'TrueRate Analysis',
+    time: '12h ago',
+    img: 'https://picsum.photos/seed/dr6/200/120',
+    large: false,
+  },
+  {
+    category: 'Development',
+    title: 'IMF program review: what the next tranche means for Liberia\'s fiscal path',
+    summary: 'The Fund praised revenue reforms but flagged risks around public wage bills and off-budget spending ahead of the $38M disbursement.',
+    source: 'IMF',
+    time: '1d ago',
+    img: 'https://picsum.photos/seed/dr7/200/120',
+    large: false,
+  },
+];
+
+const MOST_READ = [
+  { rank: 1, title: 'CBL holds rate at 17.5% for third consecutive quarter', source: 'Reuters', time: '2h ago' },
+  { rank: 2, title: 'ArcelorMittal ships first expanded-capacity iron ore batch from Nimba', source: 'Bloomberg', time: '46m ago' },
+  { rank: 3, title: 'Rubber output hits decade high — what it means for Liberia GDP', source: 'TrueRate', time: '8h ago' },
+  { rank: 4, title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago' },
+  { rank: 5, title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago' },
+];
+
+const UPCOMING_EVENTS = [
+  { date: 'Apr 7', label: 'CBL Monetary Policy Meeting', type: 'Policy' },
+  { date: 'Apr 10', label: 'Q1 GDP Advance Estimate — Ministry of Finance', type: 'Economy' },
+  { date: 'Apr 14', label: 'Liberia Investment Forum — Monrovia', type: 'Trade' },
+  { date: 'Apr 18', label: 'World Bank Liberia Country Dialogue', type: 'Development' },
+  { date: 'Apr 25', label: 'ECOWAS Finance Ministers Summit', type: 'Trade' },
 ];
 
 function DeepReadsColumn() {
@@ -964,11 +1151,118 @@ function LatestSidebar() {
         </div>
       </div>
 
-      {/* Data widgets below */}
-      <div className="border-t border-white/[0.05] pt-5 flex flex-col gap-5">
+      {/* Data widgets below — desktop sidebar only */}
+      <div className="hidden lg:flex flex-col gap-5 border-t border-white/[0.05] pt-5">
         <ForexWidget />
         <CommoditiesWidget />
         <EconomicWidget />
+      </div>
+
+      {/* Most Read — all viewports */}
+      <MostReadWidget />
+
+      {/* Upcoming Events — all viewports */}
+      <UpcomingEventsWidget />
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   QUICK READS
+───────────────────────────────────────────────────────────────────────────── */
+
+function QuickReadsColumn() {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-[17px] font-bold text-white tracking-tight">In Brief</h2>
+        <a href="#" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors">More ›</a>
+      </div>
+      <div className="flex flex-col divide-y divide-white/[0.05]">
+        {QUICK_READS.map((item, i) => (
+          <a key={i} href="#" className="flex items-start gap-3 py-3.5 first:pt-0 no-underline group">
+            <span className="mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] text-white/50">
+              {item.tag}
+            </span>
+            <span className="flex-1 text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">
+              {item.headline}
+            </span>
+            <span className="shrink-0 tabular-nums text-[11px] text-gray-600 pt-0.5">{item.time}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOST READ + UPCOMING EVENTS WIDGETS
+───────────────────────────────────────────────────────────────────────────── */
+
+function MostReadWidget() {
+  return (
+    <div className="border-t border-white/[0.05] pt-5">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-[15px] font-bold text-white">Most Read</h2>
+        <a href="#" className="text-[12px] text-white/50 hover:text-white transition-colors">See all ›</a>
+      </div>
+      <div className="flex flex-col divide-y divide-white/[0.05]">
+        {MOST_READ.map(item => (
+          <a key={item.rank} href="#" className="flex items-start gap-3.5 py-3 first:pt-0 no-underline group">
+            <span className="shrink-0 tabular-nums text-[22px] font-black text-white/10 leading-none w-6 pt-0.5">{item.rank}</span>
+            <div className="min-w-0">
+              <p className="text-[13px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{item.title}</p>
+              <p className="mt-1 text-[11px] text-gray-600">{item.source} · {item.time}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function UpcomingEventsWidget() {
+  return (
+    <div className="border-t border-white/[0.05] pt-5">
+      <h2 className="text-[15px] font-bold text-white mb-3">Upcoming Events</h2>
+      <div className="flex flex-col gap-2.5">
+        {UPCOMING_EVENTS.map((ev, i) => (
+          <a key={i} href="#" className="flex items-start gap-3 no-underline group">
+            <div className="shrink-0 rounded-lg bg-white/[0.05] border border-white/[0.06] px-2 py-1.5 text-center min-w-[46px]">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">{ev.date.split(' ')[0]}</p>
+              <p className="text-[15px] font-black text-white leading-none">{ev.date.split(' ')[1]}</p>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors">{ev.label}</p>
+              <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] text-white/50">{ev.type}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE BOTTOM TICKER BAR
+───────────────────────────────────────────────────────────────────────────── */
+
+function MobileTickerBar() {
+  const pinned = INDICATORS.slice(0, 6);
+  return (
+    <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0a0a0d]/95 backdrop-blur-sm border-t border-white/[0.06] px-3 py-2">
+      <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {pinned.map(item => (
+          <a key={item.label} href="#" className="no-underline shrink-0 flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-3 py-1.5">
+            <span className="text-[12px] font-bold text-white whitespace-nowrap">{item.label}</span>
+            <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+              {item.pct}
+            </span>
+            <svg className="h-3 w-3 text-white/25 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+            </svg>
+          </a>
+        ))}
       </div>
     </div>
   );
@@ -984,7 +1278,7 @@ export default function Home() {
       <Header />
       <IndicatorsStrip />
 
-      <main className="mx-auto max-w-[1320px] px-5 py-6">
+      <main className="mx-auto max-w-[1320px] px-5 py-6 pb-20 sm:pb-6">
 
         {/* Three-column layout */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-5">
@@ -997,6 +1291,9 @@ export default function Home() {
             </div>
             <div className="border-t border-white/[0.05] pt-5">
               <MoreNewsColumn />
+            </div>
+            <div className="border-t border-white/[0.05] pt-5">
+              <QuickReadsColumn />
             </div>
           </div>
 
@@ -1021,6 +1318,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <MobileTickerBar />
     </div>
   );
 }
