@@ -23,7 +23,6 @@ const MORE_SECTIONS: Record<string, string[]> = {
   'New on TrueRate': ['TrueRate Scout', 'Creators', 'Tech', 'Local'],
 };
 
-const NAV_LINKS: { label: string; href: string }[] = [];
 
 const MORE_LINK_MAP: Record<string, Record<string, string>> = {
   'News':            { "Today's News": '/news', 'Politics': '/news', 'Economy': '/economy', 'World': '/news', 'Climate': '/news', 'Health': '/news', 'Science': '/news', 'Originals': '/news', 'Newsletters': '/news' },

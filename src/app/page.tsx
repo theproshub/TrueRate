@@ -23,27 +23,6 @@ const INDICATORS = [
   { label: 'Gold',        value: '2,285.40',  change: '+18.60', pct: '+0.82%', up: true,  group: 'commodity', spark: [2240,2255,2250,2265,2260,2270,2268,2278,2275,2282,2284,2285] },
 ];
 
-const ECONOMY_PULSE = [
-  { topic: 'GDP Growth',    context: 'Liberia economy',        value: '4.5%',    change: '+0.2pp', up: true,  tag: 'Economy'  },
-  { topic: 'Inflation',     context: 'Consumer prices YoY',   value: '10.2%',   change: '-0.8pp', up: true,  tag: 'Economy'  },
-  { topic: 'Iron Ore',      context: 'Nimba County exports',  value: '$108.50', change: '-2.08%', up: false, tag: 'Mining'   },
-  { topic: 'Rubber',        context: 'Firestone output',      value: '$1.72',   change: '+2.38%', up: true,  tag: 'Agri'     },
-  { topic: 'Remittances',   context: 'Diaspora inflows Q1',   value: '$680M',   change: '+7.1%',  up: true,  tag: 'Trade'    },
-  { topic: 'LRD/USD',       context: 'Exchange rate',         value: '192.50',  change: '+0.65%', up: true,  tag: 'FX'       },
-  { topic: 'CBL Rate',      context: 'Policy rate',           value: '17.50%',  change: 'Steady', up: true,  tag: 'Policy'   },
-];
-
-const RATES: Record<string, number> = { LRD: 1, USD: 192.50, EUR: 209.85, GBP: 243.15, NGN: 0.124, GHS: 14.82 };
-
-const COMMODITIES = [
-  { name: 'Rubber',   unit: 'USD/kg', price: '1.72',     pct: '+2.38%', up: true  },
-  { name: 'Iron Ore', unit: 'USD/t',  price: '108.50',   pct: '-2.08%', up: false },
-  { name: 'Gold',     unit: 'USD/oz', price: '2,285.40', pct: '+0.82%', up: true  },
-  { name: 'Palm Oil', unit: 'USD/t',  price: '865.00',   pct: '-1.42%', up: false },
-  { name: 'Diamonds', unit: 'USD/ct', price: '135.00',   pct: '+1.89%', up: true  },
-  { name: 'Cocoa',    unit: 'USD/t',  price: '4,820.00', pct: '+1.79%', up: true  },
-  { name: 'Timber',   unit: 'USD/m³', price: '245.00',   pct: '-1.29%', up: false },
-];
 
 const NEWS_IMGS = [
   'https://picsum.photos/seed/cbl-rate/800/420',
@@ -113,54 +92,6 @@ function timeAgo(d: string) {
    MICRO COMPONENTS
 ───────────────────────────────────────────────────────────────────────────── */
 
-function Spark({ data, up, w = 64, h = 28 }: { data: number[]; up: boolean; w?: number; h?: number }) {
-  const max = Math.max(...data), min = Math.min(...data), range = max - min || 1;
-  const pts = data.map((v, i) => `${(i / (data.length - 1)) * w},${h - ((v - min) / range) * h}`).join(' ');
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} className="block shrink-0">
-      <polyline points={pts} fill="none" stroke={up ? '#4ade80' : '#f87171'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function Pill({ text, up }: { text: string; up: boolean }) {
-  return (
-    <span className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[11px] font-semibold tabular-nums ${up ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-400/15 text-red-400'}`}>
-      {up ? '▲' : '▼'} {text}
-    </span>
-  );
-}
-
-const TAG_COLORS: Record<string, string> = {
-  economy:    'bg-blue-500/15 text-blue-300',
-  policy:     'bg-white/20 text-white/70',
-  forex:      'bg-cyan-500/15 text-cyan-300',
-  commodities:'bg-amber-500/15 text-amber-300',
-  trade:      'bg-teal-500/15 text-teal-300',
-  banking:    'bg-indigo-500/15 text-indigo-300',
-  mining:     'bg-orange-500/15 text-orange-300',
-  agriculture:'bg-green-500/15 text-green-300',
-};
-
-function TagPill({ label }: { label: string }) {
-  if (label.startsWith('+')) return <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-400 tabular-nums">{label}</span>;
-  if (label.startsWith('-')) return <span className="rounded-full bg-red-400/15 px-2 py-0.5 text-[11px] font-semibold text-red-400 tabular-nums">{label}</span>;
-  const color = TAG_COLORS[label.toLowerCase()] ?? 'bg-white/20 text-white/70';
-  return <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${color}`}>{label}</span>;
-}
-
-function SmallTag({ label }: { label: string }) {
-  const colorMap: Record<string, string> = {
-    'Economy': 'bg-blue-500/15 text-blue-300',
-    'Policy':  'bg-white/20 text-white/70',
-    'FX':      'bg-cyan-500/15 text-cyan-300',
-    'Mining':  'bg-orange-500/15 text-orange-300',
-    'Agri':    'bg-green-500/15 text-green-300',
-    'Trade':   'bg-teal-500/15 text-teal-300',
-  };
-  const color = colorMap[label] ?? 'bg-white/10 text-gray-400';
-  return <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${color}`}>{label}</span>;
-}
 
 function SectionHeading({ title, action, actionLabel = 'View all' }: { title: string; action?: string; actionLabel?: string }) {
   return (
@@ -176,11 +107,6 @@ function SectionHeading({ title, action, actionLabel = 'View all' }: { title: st
    ECONOMIC INDICATORS STRIP
 ───────────────────────────────────────────────────────────────────────────── */
 
-const INDICATOR_GROUPS: { key: string; label: string; accent: string; bg: string }[] = [
-  { key: 'economy',   label: 'Economy',     accent: 'text-blue-400',   bg: 'bg-blue-500/[0.04]'   },
-  { key: 'fx',        label: 'Foreign Exchange', accent: 'text-cyan-400',    bg: 'bg-cyan-500/[0.04]'   },
-  { key: 'commodity', label: 'Commodities', accent: 'text-amber-400',  bg: 'bg-amber-500/[0.04]'  },
-];
 
 function IndicatorsStrip() {
   return (
@@ -396,61 +322,6 @@ const BRIEFING = [
   },
 ];
 
-function EconomyPulseWidget() {
-  return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <div>
-          <h2 className="text-[15px] font-bold text-white">Today's Briefing</h2>
-          <p className="text-[11px] text-gray-600 mt-0.5">Key stories · Apr 3, 2026</p>
-        </div>
-        <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
-      </div>
-      <div className="divide-y divide-white/[0.04]">
-        {BRIEFING.map((b, i) => (
-          <Link key={i} href="/news" className="block px-5 py-4 hover:bg-white/[0.02] transition-colors no-underline group">
-            <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-600 mb-1.5">{b.label}</div>
-            <div className="text-[13px] font-semibold text-white leading-snug group-hover:text-white/80 mb-1.5">{b.headline}</div>
-            <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{b.summary}</p>
-            <div className="mt-2 text-[11px] text-gray-700">{b.time}</div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   KEY SECTORS
-───────────────────────────────────────────────────────────────────────────── */
-
-function KeySectorsWidget() {
-  return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <div>
-          <h2 className="text-[15px] font-bold text-white">GDP by Sector</h2>
-          <p className="text-[11px] text-gray-600 mt-0.5">Liberia · 2026 estimate</p>
-        </div>
-        <Link href="/economy" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">Details ›</Link>
-      </div>
-      <div className="divide-y divide-white/[0.04]">
-        {KEY_SECTORS.map(s => (
-          <div key={s.sector} className="flex items-center gap-4 px-5 py-3 hover:bg-white/[0.02] transition-colors cursor-pointer">
-            <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-semibold text-white">{s.sector}</div>
-              <div className="text-[11px] text-gray-600 mt-0.5">{s.desc}</div>
-            </div>
-            <div className="shrink-0 text-right">
-              <div className="text-[13px] font-bold text-white tabular-nums">{s.contrib} <span className="text-[11px] font-normal text-gray-600">GDP</span></div>
-              <div className={`text-[12px] font-semibold tabular-nums ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>{s.growth}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MAJOR ENTERPRISES TABLE
@@ -649,7 +520,7 @@ function VideosSection() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-[17px] font-bold text-white tracking-tight">Today's Videos</h2>
+        <h2 className="text-[17px] font-bold text-white tracking-tight">Today&apos;s Videos</h2>
         <Link href="/videos" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">Explore More</Link>
       </div>
       {/* Card */}
