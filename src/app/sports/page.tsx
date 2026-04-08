@@ -167,7 +167,6 @@ export default function SportsPage() {
             <div className="w-full lg:w-[55%] shrink-0 overflow-hidden relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={HERO.img} alt="" className="w-full h-[200px] sm:h-[260px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
-              <span className="absolute top-4 left-4 rounded bg-emerald-500 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">{HERO.label}</span>
             </div>
             <div className="flex flex-col justify-center px-8 py-8 flex-1">
               <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS[HERO.category] ?? 'text-white/50'}`}>{HERO.category}</span>
