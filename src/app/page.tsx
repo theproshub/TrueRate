@@ -165,22 +165,23 @@ function FeaturedColumn() {
     <div className="flex flex-col gap-5">
       {/* Hero article */}
       <article className="group cursor-pointer">
-        <div className="overflow-hidden rounded-xl">
+        {/* Edge-to-edge image on mobile, rounded on desktop */}
+        <div className="overflow-hidden -mx-4 sm:mx-0 sm:rounded-xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={NEWS_IMGS[0]} alt={featured.title} className="w-full h-[220px] lg:h-[300px] object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img src={NEWS_IMGS[0]} alt={featured.title} className="w-full aspect-[16/9] object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
-        <div className="mt-4">
-          <div className="flex items-center gap-2 mb-2.5">
-            <span className="text-[11px] font-bold uppercase tracking-wide text-white">Economy</span>
+        <div className="mt-4 sm:mt-5">
+          <div className="flex items-center justify-center sm:justify-start gap-2 mb-3">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-white">Economy</span>
             <span className="text-gray-700">·</span>
             <span className="text-[11px] text-gray-500">{featured.source}</span>
             <span className="text-gray-700">·</span>
             <span className="text-[11px] text-gray-500">{timeAgo(featured.date)}</span>
           </div>
-          <h2 className="text-[22px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">
+          <h2 className="text-[24px] sm:text-[26px] font-bold leading-snug text-white text-center sm:text-left group-hover:text-white/80 transition-colors">
             <Link href={`/news/${featured.id}`} className="no-underline">{featured.title}</Link>
           </h2>
-          <p className="mt-2.5 line-clamp-2 text-[14px] leading-relaxed text-gray-500">{featured.summary}</p>
+          <p className="mt-3 line-clamp-3 text-[15px] leading-relaxed text-gray-400 text-center sm:text-left">{featured.summary}</p>
         </div>
       </article>
 
