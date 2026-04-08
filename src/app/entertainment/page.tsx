@@ -117,10 +117,10 @@ export default function EntertainmentPage() {
         <div className="flex-1 min-w-0">
 
           {/* Hero — image left, text right */}
-          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 sm:rounded-2xl overflow-hidden border-y sm:border border-white/[0.07] bg-[#141418] no-underline mb-6 -mx-4 sm:mx-0">
+          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 rounded-2xl overflow-hidden border border-white/[0.07] bg-[#141418] no-underline mb-6 -mx-2 sm:mx-0">
             <div className="w-full lg:w-[55%] shrink-0 overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={HERO.img} alt="" className="w-full h-[240px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              <img src={HERO.img} alt="" className="w-full h-[200px] sm:h-[260px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             </div>
             <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
               <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS[HERO.category] ?? 'text-white/50'}`}>

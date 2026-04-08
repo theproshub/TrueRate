@@ -166,7 +166,7 @@ function FeaturedColumn() {
       {/* Hero article */}
       <article className="group cursor-pointer">
         {/* Edge-to-edge image on mobile, rounded on desktop */}
-        <div className="overflow-hidden -mx-4 sm:mx-0 sm:rounded-xl">
+        <div className="overflow-hidden -mx-2 sm:mx-0 rounded-xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={NEWS_IMGS[0]} alt={featured.title} className="w-full h-[200px] sm:h-[260px] object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>

@@ -202,14 +202,14 @@ export default function EconomyPage() {
       {/* Hero + Top Stories */}
       <div className="flex flex-col sm:flex-row gap-6 mb-10">
         {/* Hero */}
-        <Link href="/economy" className="group relative flex-1 min-w-0 overflow-hidden -mx-4 sm:mx-0 sm:rounded-2xl no-underline block">
+        <Link href="/economy" className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 rounded-2xl no-underline block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={HERO.thumb} alt="" className="w-full h-[340px] object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
+          <img src={HERO.thumb} alt="" className="w-full h-[200px] sm:h-[260px] object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-2 block">{HERO.category}</span>
-            <h2 className="text-[22px] lg:text-[26px] font-black leading-snug text-white mb-3 line-clamp-3">{HERO.title}</h2>
-            <p className="text-[13px] text-white/60 line-clamp-2 mb-3 hidden sm:block">{HERO.desc}</p>
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{HERO.category}</span>
+            <h2 className="text-[20px] sm:text-[24px] font-bold leading-snug text-white mb-2 line-clamp-2">{HERO.title}</h2>
+            <p className="text-[13px] text-white/60 line-clamp-2 mb-2 hidden sm:block">{HERO.desc}</p>
             <div className="text-[12px] text-white/40">{HERO.author} · {HERO.time}</div>
           </div>
         </Link>
