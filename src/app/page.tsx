@@ -245,11 +245,11 @@ function FeaturedColumn() {
           <img src={NEWS_IMGS[0]} alt={featured.title} className="w-full h-[200px] sm:h-[260px] object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
         <div className="mt-3">
-          <h2 className="text-[20px] sm:text-[24px] font-bold leading-snug text-white text-center sm:text-left group-hover:text-white/80 transition-colors mb-2">
+          <h2 className="text-[22px] sm:text-[26px] font-bold leading-snug text-white text-left group-hover:text-white/80 transition-colors mb-2">
             <Link href={`/news/${featured.id}`} className="no-underline">{featured.title}</Link>
           </h2>
-          <p className="line-clamp-2 text-[14px] leading-relaxed text-gray-400 text-center sm:text-left">{featured.summary}</p>
-          <div className="flex items-center justify-center sm:justify-start gap-1.5 mt-2">
+          <p className="line-clamp-2 text-[15px] leading-relaxed text-gray-400 text-center">{featured.summary}</p>
+          <div className="flex items-center justify-center gap-1.5 mt-2">
             <span className="text-[12px] text-gray-500">{featured.source}</span>
             <span className="text-gray-700">·</span>
             <span className="text-[12px] text-gray-500">{timeAgo(featured.date)}</span>
