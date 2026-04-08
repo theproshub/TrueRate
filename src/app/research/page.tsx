@@ -19,13 +19,13 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 export default function ResearchPage() {
   return (
-    <main className="mx-auto max-w-[1280px] px-4 py-8">
-      <h1 className="mb-1 text-[24px] font-black text-white">Research</h1>
-      <p className="mb-8 text-[13px] text-[#666]">Equity research, macro analysis, and sector reports on Liberia & West Africa</p>
+    <main className="mx-auto max-w-[1320px] px-4 py-8">
+      <h1 className="mb-1 text-[26px] font-bold text-white">Research</h1>
+      <p className="mb-8 text-[13px] text-gray-500">Equity research, macro analysis, and sector reports on Liberia & West Africa</p>
 
       <div className="flex flex-col gap-3">
         {REPORTS.map(r => (
-          <div key={r.title} className="flex items-center justify-between gap-4 rounded-lg border border-[#2a2a2a] bg-[#161618] px-5 py-4 hover:bg-[#1c1c1e] transition-colors">
+          <div key={r.title} className="flex items-center justify-between gap-4 rounded-xl border border-white/[0.07] bg-[#141418] px-5 py-4 hover:bg-white/[0.03] transition-colors">
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2 mb-1">
                 <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS[r.category] ?? 'text-[#a78bfa] bg-[#a78bfa]/10'}`}>
@@ -36,14 +36,14 @@ export default function ResearchPage() {
                 )}
               </div>
               <h3 className="text-[14px] font-semibold text-white">{r.title}</h3>
-              <div className="mt-1 text-[12px] text-[#555]">{r.date} · {r.pages} pages</div>
+              <div className="mt-1 text-[12px] text-gray-600">{r.date} · {r.pages} pages</div>
             </div>
             {r.premium ? (
-              <Link href="/premium" className="shrink-0 rounded-lg border border-[#6001d2] px-4 py-2 text-[12px] font-semibold text-[#a78bfa] transition hover:bg-[#6001d2]/20 no-underline">
+              <Link href="/signin" className="shrink-0 rounded-xl border border-[#6001d2] px-4 py-2 text-[12px] font-semibold text-[#a78bfa] transition hover:bg-[#6001d2]/20 no-underline">
                 Unlock
               </Link>
             ) : (
-              <button className="shrink-0 rounded-lg bg-[#1c1c1e] border border-[#2a2a2a] px-4 py-2 text-[12px] font-semibold text-white transition hover:bg-[#222]">
+              <button className="shrink-0 rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-2 text-[12px] font-semibold text-white transition hover:bg-white/[0.04]">
                 Read
               </button>
             )}
@@ -51,10 +51,10 @@ export default function ResearchPage() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-lg border border-[#6001d2]/40 bg-[#6001d2]/10 p-6 text-center">
+      <div className="mt-8 rounded-xl border border-[#6001d2]/40 bg-[#6001d2]/10 p-6 text-center">
         <h2 className="mb-2 text-[16px] font-bold text-white">Get access to all premium research</h2>
-        <p className="mb-4 text-[13px] text-[#777]">Unlock all equity reports, macro analysis, and sector deep-dives with a Premium subscription.</p>
-        <Link href="/premium" className="inline-block rounded-full bg-[#6001d2] px-6 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#490099] no-underline">
+        <p className="mb-4 text-[13px] text-gray-500">Unlock all equity reports, macro analysis, and sector deep-dives with a Premium subscription.</p>
+        <Link href="/signin" className="inline-block rounded-full bg-[#6001d2] px-6 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#490099] no-underline">
           Get Premium
         </Link>
       </div>

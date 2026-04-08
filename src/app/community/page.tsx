@@ -15,16 +15,16 @@ const TAG_COLORS: Record<string, string> = {
   Commodities:      'text-[#fbbf24] bg-[#fbbf24]/10',
   Markets:          'text-[#34d399] bg-[#34d399]/10',
   'Personal Finance':'text-[#fb923c] bg-[#fb923c]/10',
-  Macro:            'text-[#f87171] bg-[#f87171]/10',
+  Macro:            'text-red-400 bg-[#f87171]/10',
 };
 
 export default function CommunityPage() {
   return (
-    <main className="mx-auto max-w-[1280px] px-4 py-8">
+    <main className="mx-auto max-w-[1320px] px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-[24px] font-black text-white">Community</h1>
-          <p className="mt-0.5 text-[13px] text-[#666]">Discussion forums for Liberia & West Africa investors</p>
+          <h1 className="text-[26px] font-bold text-white">Community</h1>
+          <p className="mt-0.5 text-[13px] text-gray-500">Discussion forums for Liberia & West Africa investors</p>
         </div>
         <Link href="/signin" className="rounded-full bg-[#6001d2] px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-[#490099] no-underline">
           Join discussion
@@ -33,7 +33,7 @@ export default function CommunityPage() {
 
       <div className="flex flex-col gap-2">
         {THREADS.map(t => (
-          <div key={t.title} className="flex items-start justify-between gap-4 rounded-lg border border-[#2a2a2a] bg-[#161618] px-5 py-4 hover:bg-[#1c1c1e] transition-colors cursor-pointer">
+          <div key={t.title} className="flex items-start justify-between gap-4 rounded-xl border border-white/[0.07] bg-[#141418] px-5 py-4 hover:bg-white/[0.03] transition-colors cursor-pointer">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${TAG_COLORS[t.tag] ?? 'text-[#a78bfa] bg-[#a78bfa]/10'}`}>
@@ -41,13 +41,13 @@ export default function CommunityPage() {
                 </span>
               </div>
               <h3 className="text-[14px] font-semibold text-white hover:text-[#a78bfa] transition-colors">{t.title}</h3>
-              <div className="mt-1.5 flex items-center gap-3 text-[12px] text-[#555]">
-                <span className="font-semibold text-[#777]">{t.author}</span>
+              <div className="mt-1.5 flex items-center gap-3 text-[12px] text-gray-600">
+                <span className="font-semibold text-gray-500">{t.author}</span>
                 <span>·</span>
                 <span>{t.time}</span>
               </div>
             </div>
-            <div className="shrink-0 flex flex-col items-end gap-1 text-[12px] text-[#555]">
+            <div className="shrink-0 flex flex-col items-end gap-1 text-[12px] text-gray-600">
               <span>{t.replies} replies</span>
               <span>{t.views} views</span>
             </div>
@@ -55,9 +55,9 @@ export default function CommunityPage() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-lg border border-[#2a2a2a] bg-[#161618] p-6 text-center">
+      <div className="mt-8 rounded-xl border border-white/[0.07] bg-[#141418] p-6 text-center">
         <h2 className="mb-2 text-[16px] font-bold text-white">Join the TrueRate community</h2>
-        <p className="mb-4 text-[13px] text-[#777]">Sign in to post, reply, and follow topics that matter to you.</p>
+        <p className="mb-4 text-[13px] text-gray-500">Sign in to post, reply, and follow topics that matter to you.</p>
         <Link href="/signin" className="inline-block rounded-full bg-[#6001d2] px-6 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#490099] no-underline">
           Sign in to participate
         </Link>

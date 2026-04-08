@@ -14,7 +14,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  a { color: #a78bfa; text-decoration: none; }
+  a { color: white; text-decoration: none; }
   a:hover { text-decoration: underline; }
 }
 

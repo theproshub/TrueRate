@@ -10,22 +10,22 @@ const FAQS = [
 export default function HelpPage() {
   return (
     <main className="mx-auto max-w-[860px] px-4 py-12">
-      <h1 className="mb-1 text-[24px] font-black text-white">Help Center</h1>
-      <p className="mb-8 text-[13px] text-[#666]">Answers to common questions about TrueRate</p>
+      <h1 className="mb-1 text-[26px] font-bold text-white">Help Center</h1>
+      <p className="mb-8 text-[13px] text-gray-500">Answers to common questions about TrueRate</p>
 
       <div className="space-y-3">
         {FAQS.map(faq => (
-          <div key={faq.q} className="rounded-lg border border-[#2a2a2a] bg-[#161618] p-5">
+          <div key={faq.q} className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
             <h3 className="mb-2 text-[14px] font-bold text-white">{faq.q}</h3>
-            <p className="text-[13px] leading-relaxed text-[#777]">{faq.a}</p>
+            <p className="text-[13px] leading-relaxed text-gray-500">{faq.a}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-8 rounded-lg border border-[#2a2a2a] bg-[#161618] p-6 text-center">
+      <div className="mt-8 rounded-xl border border-white/[0.07] bg-[#141418] p-6 text-center">
         <h2 className="mb-2 text-[16px] font-bold text-white">Still need help?</h2>
-        <p className="mb-4 text-[13px] text-[#777]">Send us a message and we&apos;ll get back to you within 24 hours.</p>
-        <a href="/feedback" className="inline-block rounded-full bg-[#6001d2] px-6 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#490099] no-underline">
+        <p className="mb-4 text-[13px] text-gray-500">Send us a message and we&apos;ll get back to you within 24 hours.</p>
+        <a href="/feedback" className="inline-block rounded-full bg-white px-6 py-2.5 text-[13px] font-semibold text-[#0a0a0d] hover:bg-white/90 transition no-underline">
           Contact Support
         </a>
       </div>
