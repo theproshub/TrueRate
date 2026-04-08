@@ -141,7 +141,7 @@ export default function Header() {
         {/* Logo */}
         <a href="/" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="TrueRate" className="shrink-0" style={{ height: '24px', width: 'auto' }} />
+          <img src="/logo.png" alt="TrueRate" className="shrink-0" style={{ height: '52px', width: 'auto' }} />
         </a>
 
         {/* Search */}
