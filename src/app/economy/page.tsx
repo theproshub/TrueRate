@@ -202,7 +202,7 @@ export default function EconomyPage() {
       {/* Hero + Top Stories */}
       <div className="flex flex-col sm:flex-row gap-6 mb-10">
         {/* Hero */}
-        <Link href="/economy" className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 rounded-2xl no-underline block">
+        <Link href="/economy" className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 no-underline block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={HERO.thumb} alt="" className="w-full h-[200px] sm:h-[260px] object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
