@@ -71,7 +71,7 @@ export const newsItems: NewsItem[] = [
     summary: 'Container volumes rose 22% year-on-year as improved handling capacity and trade route expansion drove record activity at the Freeport.',
     source: 'Liberia Maritime Authority',
     date: '2026-03-22',
-    category: 'trade',
+    category: 'economy',
   },
   {
     id: '10',
