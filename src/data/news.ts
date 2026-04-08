@@ -95,7 +95,7 @@ export const newsItems: NewsItem[] = [
     summary: 'Strong SME lending and digital banking adoption underpinned Ecobank Liberia\'s best annual result since 2018.',
     source: 'FrontPage Africa',
     date: '2026-03-19',
-    category: 'markets',
+    category: 'economy',
   },
   {
     id: '13',
@@ -119,7 +119,7 @@ export const newsItems: NewsItem[] = [
     summary: 'The mobile money platform hit the milestone in March 2026, driven by merchant adoption and government salary disbursement integration.',
     source: 'TrueRate',
     date: '2026-03-16',
-    category: 'markets',
+    category: 'economy',
   },
   {
     id: '16',
@@ -143,7 +143,7 @@ export const newsItems: NewsItem[] = [
     summary: 'The debut sustainability-linked bond was oversubscribed 2.4x, signalling strong international investor appetite for Liberian sovereign paper.',
     source: 'Ministry of Finance',
     date: '2026-03-13',
-    category: 'markets',
+    category: 'economy',
   },
   {
     id: '19',
