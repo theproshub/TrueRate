@@ -301,26 +301,6 @@ function LatestColumn() {
    SIDEBAR: TRENDING
 ───────────────────────────────────────────────────────────────────────────── */
 
-const BRIEFING = [
-  {
-    label: 'MONETARY POLICY',
-    headline: 'CBL holds rate at 17.50% for third consecutive quarter',
-    summary: 'The Central Bank of Liberia cited easing food prices but flagged currency risks ahead of Q2 budget disbursements.',
-    time: '2h ago',
-  },
-  {
-    label: 'TRADE',
-    headline: 'Liberia joins ECOWAS digital payments pilot',
-    summary: 'Five other West African nations are participating. The pilot aims to cut cross-border transaction costs by up to 30%.',
-    time: '4h ago',
-  },
-  {
-    label: 'COMMODITIES',
-    headline: 'Rubber output at decade high — what it means for GDP',
-    summary: 'Firestone Liberia reports record production driven by favorable weather. Agriculture\'s GDP share may rise to 35%.',
-    time: '8h ago',
-  },
-];
 
 
 /* ─────────────────────────────────────────────────────────────────────────────
