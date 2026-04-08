@@ -205,7 +205,7 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
           </button>
-          <Link href="/signin" className="rounded-lg border border-white/20 px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-white/[0.06] no-underline">
+          <Link href="/signin" className="rounded-full border border-white/30 px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-white/[0.06] no-underline">
             Sign in
           </Link>
           <Link href="/signin" className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:shadow-white/15 hover:brightness-110 no-underline">
@@ -217,11 +217,11 @@ export default function Header() {
       {/* Mobile search — collapses on scroll */}
       <div className={`sm:hidden overflow-hidden transition-all duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`}>
         <div className="px-4">
-          <div className="flex items-center gap-2.5 rounded-xl bg-white/[0.07] px-4 py-2.5 border border-white/[0.06]">
-            <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="flex items-center gap-2.5 rounded-full bg-white/[0.10] px-4 py-2.5">
+            <svg className="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input type="text" placeholder="Search for news or tickers" className="w-full bg-transparent text-[13px] text-white outline-none placeholder:text-gray-600" />
+            <input type="text" placeholder="Search for news, tickers or companies" className="w-full bg-transparent text-[14px] text-white outline-none placeholder:text-gray-400" />
           </div>
         </div>
       </div>
