@@ -163,16 +163,16 @@ export default function SportsPage() {
         <div className="flex-1 min-w-0">
 
           {/* Hero story */}
-          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 sm:rounded-2xl overflow-hidden border-y sm:border border-white/[0.07] bg-[#141418] no-underline mb-6 -mx-4 sm:mx-0">
+          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 rounded-2xl overflow-hidden border border-white/[0.07] bg-[#141418] no-underline mb-6 -mx-2 sm:mx-0">
             <div className="w-full lg:w-[55%] shrink-0 overflow-hidden relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={HERO.img} alt="" className="w-full h-[260px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              <img src={HERO.img} alt="" className="w-full h-[200px] sm:h-[260px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
               <span className="absolute top-4 left-4 rounded bg-emerald-500 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">{HERO.label}</span>
             </div>
             <div className="flex flex-col justify-center px-8 py-8 flex-1">
               <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS[HERO.category] ?? 'text-white/50'}`}>{HERO.category}</span>
-              <h2 className="text-[22px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-4">{HERO.title}</h2>
-              <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
+              <h2 className="text-[20px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-3">{HERO.title}</h2>
+              <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-2 mb-3">{HERO.summary}</p>
               <div className="text-[12px] text-gray-500">{HERO.source} · {HERO.time}</div>
             </div>
           </Link>
