@@ -236,15 +236,10 @@ export default function Header() {
             { label: 'Politics',   href: '/news' },
             { label: 'Opinion',    href: '/news' },
             { label: 'What to Watch', href: '/videos' },
-          ].map(({ label, href, dropdown }) => (
+          ].map(({ label, href }) => (
             <Link key={label} href={href}
               className="flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold text-white/70 hover:text-white transition-colors no-underline">
               {label}
-              {dropdown && (
-                <svg className="h-3 w-3 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              )}
             </Link>
           ))}
         </div>
