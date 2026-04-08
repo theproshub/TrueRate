@@ -132,16 +132,16 @@ export default function Header() {
       {/* Top bar */}
       <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
-        <button className="sm:hidden flex shrink-0 flex-col justify-center gap-[5px] p-1 z-10" onClick={() => setMenuOpen(o => !o)} aria-label="Open menu">
-          <span className={`block h-[2px] w-5 bg-white transition-transform origin-center ${menuOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
-          <span className={`block h-[2px] w-5 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block h-[2px] w-5 bg-white transition-transform origin-center ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
+        <button className="sm:hidden flex shrink-0 flex-col justify-center gap-[4px] p-0.5 z-10" onClick={() => setMenuOpen(o => !o)} aria-label="Open menu">
+          <span className={`block h-[2px] w-4 bg-white transition-transform origin-center ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`} />
+          <span className={`block h-[2px] w-4 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`block h-[2px] w-4 bg-white transition-transform origin-center ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
         {/* Logo */}
         <a href="/" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="TrueRate" className="shrink-0" style={{ height: '52px', width: 'auto' }} />
+          <img src="/logo.png" alt="TrueRate" className="shrink-0" style={{ height: '64px', width: 'auto' }} />
         </a>
 
         {/* Search */}
@@ -204,7 +204,7 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
           </button>
-          <Link href="/signin" className="rounded-lg border border-white/20 px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-white/[0.06] no-underline">
+          <Link href="/signin" className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-white/[0.06] no-underline whitespace-nowrap">
             Sign in
           </Link>
           <Link href="/signin" className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:shadow-white/15 hover:brightness-110 no-underline">
