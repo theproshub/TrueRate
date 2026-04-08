@@ -204,7 +204,7 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
           </button>
-          <Link href="/signin" className="rounded-full border border-white/30 px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-white/[0.06] no-underline">
+          <Link href="/signin" className="rounded-lg border border-white/20 px-5 py-2 text-[13px] font-semibold text-white transition hover:bg-white/[0.06] no-underline">
             Sign in
           </Link>
           <Link href="/signin" className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:shadow-white/15 hover:brightness-110 no-underline">
