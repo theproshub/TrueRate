@@ -13,7 +13,7 @@ const config: Config = {
         'brand-accent':  '#BFEA36',   // Yellow-green — primary CTA, active states
         'brand-dark':    '#050d11',   // Page background — near-black with dark azure undertone
         'brand-header':  '#061520',   // Header / nav background
-        'brand-card':    '#0a1e2a',   // Card / panel background
+        'brand-card':    '#040f18',   // Card / panel background — matches secondary nav
         'brand-nav':     '#040f18',   // Secondary nav bar
         'brand-azure':   '#061E29',   // Dark Azure — brand color, used for borders/accents
         'brand-light':   '#F3F4F4',   // Light grey — surfaces, subtle text
