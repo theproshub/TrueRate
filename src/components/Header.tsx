@@ -199,10 +199,10 @@ export default function Header() {
         <a href="/" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={isLight ? '/logo-dark.svg' : '/logo.png'}
+            src="/logo.png"
             alt="TrueRate"
             className="shrink-0"
-            style={{ height: '64px', width: 'auto' }}
+            style={{ height: '64px', width: 'auto', filter: isLight ? 'brightness(0)' : 'none' }}
           />
         </a>
 
