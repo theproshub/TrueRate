@@ -197,12 +197,13 @@ export default function Header() {
 
         {/* Logo */}
         <a href="/" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none" style={{ height: '44px', width: 'auto' }} aria-label="TrueRate">
-            <rect x="0" y="8" width="6" height="24" rx="2" fill="#10b981"/>
-            <rect x="10" y="0" width="6" height="32" rx="2" fill="#10b981"/>
-            <rect x="20" y="14" width="6" height="18" rx="2" fill="#10b981"/>
-            <text x="36" y="28" fontFamily="system-ui, -apple-system, sans-serif" fontSize="22" fontWeight="700" fill={isLight ? '#111827' : '#ffffff'} letterSpacing="-0.5">TrueRate</text>
-          </svg>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={isLight ? '/logo-dark.svg' : '/logo.png'}
+            alt="TrueRate"
+            className="shrink-0"
+            style={{ height: '64px', width: 'auto' }}
+          />
         </a>
 
         {/* Search */}
