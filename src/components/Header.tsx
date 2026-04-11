@@ -89,7 +89,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   return (
     <div className="sm:hidden fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative flex flex-col w-[82vw] max-w-[340px] bg-brand-header h-full shadow-2xl">
+      <div className="relative flex flex-col w-[82vw] max-w-[340px] bg-brand-dark h-full shadow-2xl">
         <div className="flex-1 overflow-y-auto">
           <nav className="pt-3">
             {MOBILE_NAV.map(item => (
@@ -185,7 +185,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-header border-white/[0.06]'}`}>
+    <header className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-dark border-white/[0.06]'}`}>
       {/* Top bar */}
       <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
@@ -246,7 +246,7 @@ export default function Header() {
               </svg>
             </button>
             {moreOpen && (
-              <div className={`fixed left-0 right-0 top-[var(--header-h,56px)] z-50 border-t border-b shadow-2xl ${isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-header border-white/[0.06] shadow-black/60'}`} onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
+              <div className={`fixed left-0 right-0 top-[var(--header-h,56px)] z-50 border-t border-b shadow-2xl ${isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.06] shadow-black/60'}`} onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
                 <div className="mx-auto max-w-[1320px] px-6 py-8">
                   <div className="grid grid-cols-5 gap-x-8">
                     {Object.entries(MORE_SECTIONS).map(([section, links]) => (
