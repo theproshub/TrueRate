@@ -38,7 +38,7 @@ function RateTicker() {
           <span className="text-[11px] font-bold tabular-nums text-white group-hover:text-gray-100 transition-colors">
             {t.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
-          <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-brand-accent' : 'text-red-400'}`}>
+          <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}
           </span>
         </Link>
@@ -96,7 +96,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
               <div key={item.label}>
                 <button
                   onClick={() => setExpanded(e => e === item.label ? null : item.label)}
-                  className={`flex w-full items-center justify-between px-5 py-2.5 border-l-[3px] transition-colors ${expanded === item.label ? 'border-brand-accent' : 'border-transparent'}`}
+                  className={`flex w-full items-center justify-between px-5 py-2.5 border-l-[3px] transition-colors ${expanded === item.label ? 'border-emerald-400' : 'border-transparent'}`}
                 >
                   <span className="text-[17px] font-bold text-white">{item.label}</span>
                   {item.sub && (
@@ -212,7 +212,7 @@ export default function Header() {
           <button
             onClick={handleSearch}
             aria-label="Search"
-            className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:bg-brand-accent/80 transition-colors m-0.5 rounded-lg"
+            className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
           >
             <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -227,7 +227,7 @@ export default function Header() {
             { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
-            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-brand-accent' : 'text-gray-400 hover:text-white'}`}>
+            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-emerald-400' : 'text-gray-400 hover:text-white'}`}>
               {item.label}
             </Link>
           ))}
@@ -284,7 +284,7 @@ export default function Header() {
             <button
               onClick={handleSearch}
               aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:bg-brand-accent/80 transition-colors m-0.5 rounded-lg"
+              className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
             >
               <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -310,7 +310,7 @@ export default function Header() {
               <Link key={label} href={href}
                 className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
                   isActive
-                    ? 'border-brand-accent text-brand-accent'
+                    ? 'border-emerald-400 text-emerald-400'
                     : 'border-transparent text-white/70 hover:text-white'
                 }`}>
                 {label}
