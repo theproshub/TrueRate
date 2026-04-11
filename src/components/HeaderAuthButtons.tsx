@@ -9,6 +9,7 @@
  */
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Show, UserButton } from '@clerk/nextjs';
 
 const isClerkConfigured =
@@ -16,18 +17,26 @@ const isClerkConfigured =
   !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.includes('replace_me');
 
 /* ── Static fallback (no Clerk keys) ── */
-function StaticAuthButtons() {
+function StaticAuthButtons({ isLight }: { isLight: boolean }) {
   return (
     <>
       <Link
         href="/sign-in"
-        className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-white/[0.06] no-underline whitespace-nowrap"
+        className={`rounded-lg border px-3 py-1.5 text-[12px] font-semibold transition no-underline whitespace-nowrap ${
+          isLight
+            ? 'border-gray-300 text-gray-700 hover:bg-gray-100'
+            : 'border-white/20 text-white hover:bg-white/[0.06]'
+        }`}
       >
         Sign in
       </Link>
       <Link
         href="/sign-up"
-        className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:brightness-110 no-underline"
+        className={`hidden sm:block rounded-lg px-5 py-2 text-[13px] font-semibold transition no-underline whitespace-nowrap ${
+          isLight
+            ? 'bg-gray-900 text-white hover:bg-gray-700'
+            : 'bg-white text-[#0a0a0d] shadow-lg shadow-white/10 hover:brightness-110'
+        }`}
       >
         Subscribe
       </Link>
@@ -36,14 +45,18 @@ function StaticAuthButtons() {
 }
 
 /* ── Live Clerk auth buttons ── */
-function ClerkAuthButtons() {
+function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
   return (
     <>
       {/* Watchlist icon — signed-in only */}
       <Show when="signed-in">
         <Link
           href="/watchlist"
-          className="hidden sm:flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+          className={`hidden sm:flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+            isLight
+              ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+              : 'text-gray-400 hover:text-white hover:bg-white/[0.06]'
+          }`}
           title="My Watchlist"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -56,13 +69,21 @@ function ClerkAuthButtons() {
       <Show when="signed-out">
         <Link
           href="/sign-in"
-          className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-white/[0.06] no-underline whitespace-nowrap"
+          className={`rounded-lg border px-3 py-1.5 text-[12px] font-semibold transition no-underline whitespace-nowrap ${
+            isLight
+              ? 'border-gray-300 text-gray-700 hover:bg-gray-100'
+              : 'border-white/20 text-white hover:bg-white/[0.06]'
+          }`}
         >
           Sign in
         </Link>
         <Link
           href="/sign-up"
-          className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:brightness-110 no-underline"
+          className={`hidden sm:block rounded-lg px-5 py-2 text-[13px] font-semibold transition no-underline whitespace-nowrap ${
+            isLight
+              ? 'bg-gray-900 text-white hover:bg-gray-700'
+              : 'bg-white text-[#0a0a0d] shadow-lg shadow-white/10 hover:brightness-110'
+          }`}
         >
           Subscribe
         </Link>
@@ -89,5 +110,7 @@ function ClerkAuthButtons() {
 }
 
 export default function HeaderAuthButtons() {
-  return isClerkConfigured ? <ClerkAuthButtons /> : <StaticAuthButtons />;
+  const pathname = usePathname();
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports');
+  return isClerkConfigured ? <ClerkAuthButtons isLight={isLight} /> : <StaticAuthButtons isLight={isLight} />;
 }
