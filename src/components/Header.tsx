@@ -12,7 +12,7 @@ const SEED_TICKER = [
   { pair: 'GHS/LRD', rate: 13.20,  change: -0.08 },
 ];
 
-function RateTicker() {
+function RateTicker({ isLight }: { isLight: boolean }) {
   const [tickers, setTickers] = useState(SEED_TICKER);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ function RateTicker() {
     <div className="hidden sm:flex items-center gap-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0">
       {tickers.map(t => (
         <Link key={t.pair} href="/forex" className="flex items-center gap-1.5 no-underline group shrink-0">
-          <span className="text-[11px] font-semibold text-gray-400 group-hover:text-gray-200 transition-colors">{t.pair}</span>
-          <span className="text-[11px] font-bold tabular-nums text-white group-hover:text-gray-100 transition-colors">
+          <span className={`text-[11px] font-semibold transition-colors ${isLight ? 'text-gray-500 group-hover:text-gray-700' : 'text-gray-400 group-hover:text-gray-200'}`}>{t.pair}</span>
+          <span className={`text-[11px] font-bold tabular-nums transition-colors ${isLight ? 'text-gray-900 group-hover:text-gray-700' : 'text-white group-hover:text-gray-100'}`}>
             {t.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
           <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -164,6 +164,8 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const lastScrollY = useRef(0);
 
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports');
+
   function handleSearch() {
     const q = searchQuery.trim();
     if (!q) return;
@@ -183,14 +185,14 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-header border-b border-white/[0.06]">
+    <header className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-header border-white/[0.06]'}`}>
       {/* Top bar */}
       <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
         <button className="sm:hidden flex shrink-0 flex-col justify-center gap-[4px] p-0.5 z-10" onClick={() => setMenuOpen(o => !o)} aria-label="Open menu">
-          <span className={`block h-[2px] w-4 bg-white transition-transform origin-center ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`} />
-          <span className={`block h-[2px] w-4 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block h-[2px] w-4 bg-white transition-transform origin-center ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
+          <span className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`} />
+          <span className={`block h-[2px] w-4 transition-opacity ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
         {/* Logo */}
@@ -200,14 +202,14 @@ export default function Header() {
         </a>
 
         {/* Search */}
-        <div className="hidden sm:flex flex-1 items-center rounded-xl bg-white/[0.06] border border-white/[0.06] transition focus-within:bg-white/[0.08] focus-within:border-white/20 overflow-hidden ml-4 mr-2">
+        <div className={`hidden sm:flex flex-1 items-center rounded-xl border transition overflow-hidden ml-4 mr-2 ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}>
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSearch()}
             placeholder="Search for news, tickers or companies"
-            className="flex-1 bg-transparent px-4 py-2.5 text-[14px] text-white outline-none placeholder:text-gray-500 min-w-0"
+            className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-400' : 'text-white placeholder:text-gray-500'}`}
           />
           <button
             onClick={handleSearch}
@@ -227,28 +229,28 @@ export default function Header() {
             { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
-            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-emerald-400' : 'text-gray-400 hover:text-white'}`}>
+            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-emerald-500' : isLight ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-white'}`}>
               {item.label}
             </Link>
           ))}
           <div className="relative" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
-            <button className="flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium text-gray-400 hover:text-white transition-colors whitespace-nowrap">
+            <button className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap ${isLight ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-white'}`}>
               More
               <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             {moreOpen && (
-              <div className="fixed left-0 right-0 top-[var(--header-h,56px)] z-50 bg-brand-header border-t border-b border-white/[0.06] shadow-2xl shadow-black/60" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
+              <div className={`fixed left-0 right-0 top-[var(--header-h,56px)] z-50 border-t border-b shadow-2xl ${isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-header border-white/[0.06] shadow-black/60'}`} onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
                 <div className="mx-auto max-w-[1320px] px-6 py-8">
                   <div className="grid grid-cols-5 gap-x-8">
                     {Object.entries(MORE_SECTIONS).map(([section, links]) => (
                       <div key={section}>
-                        <h4 className="mb-4 text-[14px] font-bold text-white">{section}</h4>
+                        <h4 className={`mb-4 text-[14px] font-bold ${isLight ? 'text-gray-900' : 'text-white'}`}>{section}</h4>
                         <ul className="space-y-3">
                           {links.map(link => (
                             <li key={link}>
-                              <Link href={MORE_LINK_MAP[section]?.[link] ?? '/'} onClick={() => setMoreOpen(false)} className="text-[14px] text-gray-400 hover:text-white transition-colors no-underline">
+                              <Link href={MORE_LINK_MAP[section]?.[link] ?? '/'} onClick={() => setMoreOpen(false)} className={`text-[14px] transition-colors no-underline ${isLight ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-white'}`}>
                                 {link}
                               </Link>
                             </li>
@@ -272,14 +274,14 @@ export default function Header() {
       {/* Mobile search — collapses on scroll */}
       <div className={`sm:hidden overflow-hidden transition-all duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`}>
         <div className="px-4">
-            <div className="flex items-center rounded-xl bg-white/[0.06] border border-white/[0.06] overflow-hidden focus-within:bg-white/[0.08] focus-within:border-white/20 transition">
+            <div className={`flex items-center rounded-xl border overflow-hidden transition ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}>
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
               placeholder="Search for news, tickers or companies"
-              className="flex-1 bg-transparent px-4 py-2.5 text-[14px] text-white outline-none placeholder:text-gray-500 min-w-0"
+              className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-400' : 'text-white placeholder:text-gray-500'}`}
             />
             <button
               onClick={handleSearch}
@@ -295,7 +297,7 @@ export default function Header() {
       </div>
 
       {/* Bloomberg-style secondary nav */}
-      <div className="hidden sm:block border-t border-white/[0.06] bg-brand-nav">
+      <div className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
         <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
           {/* Nav items */}
           {[
@@ -311,7 +313,7 @@ export default function Header() {
                 className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
                   isActive
                     ? 'border-emerald-400 text-emerald-400'
-                    : 'border-transparent text-white/70 hover:text-white'
+                    : isLight ? 'border-transparent text-gray-500 hover:text-gray-900' : 'border-transparent text-white/70 hover:text-white'
                 }`}>
                 {label}
               </Link>
@@ -319,8 +321,8 @@ export default function Header() {
           })}
 
           {/* Rate ticker — right-aligned */}
-          <div className="ml-auto pl-4 border-l border-white/[0.06] py-2">
-            <RateTicker />
+          <div className={`ml-auto pl-4 border-l py-2 ${isLight ? 'border-gray-200' : 'border-white/[0.06]'}`}>
+            <RateTicker isLight={isLight} />
           </div>
         </div>
       </div>
