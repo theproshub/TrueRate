@@ -111,27 +111,27 @@ function TrendingPanel() {
           <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
-          <h2 className="text-[14px] font-bold text-white uppercase tracking-wide">Trending</h2>
+          <h2 className="text-[14px] font-bold text-gray-900 uppercase tracking-wide">Trending</h2>
         </div>
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100">
           {TRENDING.map(item => (
-            <Link key={item.rank} href="/news" className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-white/[0.03] transition-colors">
-              <span className="shrink-0 tabular-nums text-[20px] font-black text-white/10 leading-none w-5 pt-0.5">{item.rank}</span>
+            <Link key={item.rank} href="/news" className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
+              <span className="shrink-0 tabular-nums text-[20px] font-black text-gray-300 leading-none w-5 pt-0.5">{item.rank}</span>
               <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{item.title}</p>
+                <p className="text-[13px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-2">{item.title}</p>
               </div>
             </Link>
           ))}
-          <Link href="/news" className="flex items-center justify-between px-4 py-3 no-underline group hover:bg-white/[0.03] transition-colors">
-            <span className="text-[13px] text-gray-500 group-hover:text-white transition-colors">See more stories</span>
-            <svg className="h-4 w-4 text-gray-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <Link href="/news" className="flex items-center justify-between px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+            <span className="text-[13px] text-gray-500 group-hover:text-gray-900 transition-colors">See more stories</span>
+            <svg className="h-4 w-4 text-gray-400 group-hover:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
 
         {/* Mini market widget */}
-        <div className="mt-5 rounded-xl border border-white/[0.07] bg-brand-card p-4">
+        <div className="mt-5 rounded-xl border border-gray-200 bg-white p-4">
           <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-3">Markets</h3>
           {[
             { label: 'LRD/USD', value: '192.50', pct: '+0.65%', up: true },
@@ -140,23 +140,23 @@ function TrendingPanel() {
             { label: 'Gold', value: '$3,108', pct: '+1.12%', up: true },
             { label: 'Palm Oil', value: '$922/t', pct: '-1.40%', up: false },
           ].map(r => (
-            <div key={r.label} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
-              <span className="text-[12px] font-semibold text-white">{r.label}</span>
+            <div key={r.label} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+              <span className="text-[12px] font-semibold text-gray-900">{r.label}</span>
               <div className="text-right">
-                <div className="text-[12px] tabular-nums text-white">{r.value}</div>
+                <div className="text-[12px] tabular-nums text-gray-900">{r.value}</div>
                 <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
               </div>
             </div>
           ))}
-          <Link href="/economy" className="mt-3 block text-center text-[12px] text-gray-500 hover:text-white transition-colors no-underline">Full markets ›</Link>
+          <Link href="/economy" className="mt-3 block text-center text-[12px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full markets ›</Link>
         </div>
 
         {/* In Focus topics */}
-        <div className="mt-5 rounded-xl border border-white/[0.07] bg-brand-card p-4">
-          <h3 className="text-[13px] font-bold text-white mb-3">In Focus</h3>
+        <div className="mt-5 rounded-xl border border-gray-200 bg-white p-4">
+          <h3 className="text-[13px] font-bold text-gray-900 mb-3">In Focus</h3>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'Rubber', 'CBL Rate', 'Remittances', 'ECOWAS', 'Mining Policy', 'Inflation', 'Gold', 'ESG Bonds'].map(t => (
-              <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">{t}</Link>
+              <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-gray-900 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
             ))}
           </div>
         </div>
@@ -177,21 +177,21 @@ function HeroCarousel() {
       <div className="absolute top-4 left-4 flex items-center gap-2">
         <span className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
       </div>
-      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
+      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-gray-900 tabular-nums">
         {idx + 1} / {slides.length}
       </div>
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <Link href={`/news/${item.id}`} className="no-underline">
-          <h2 className="text-[22px] font-bold leading-snug text-white hover:text-white/80 transition-colors drop-shadow-lg line-clamp-3">{item.title}</h2>
+          <h2 className="text-[22px] font-bold leading-snug text-gray-900 hover:text-gray-700 transition-colors drop-shadow-lg line-clamp-3">{item.title}</h2>
         </Link>
-        <p className="mt-1.5 text-[13px] text-white/60 line-clamp-1">{item.source} · {timeAgo(item.date)}</p>
+        <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-1">{item.source} · {timeAgo(item.date)}</p>
       </div>
       <button onClick={() => setIdx(i => (i - 1 + slides.length) % slides.length)}
-        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors">
+        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-gray-900 hover:bg-black/60 transition-colors">
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
       </button>
       <button onClick={() => setIdx(i => (i + 1) % slides.length)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors">
+        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-gray-900 hover:bg-black/60 transition-colors">
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
       </button>
       <div className="absolute bottom-4 right-5 flex gap-1.5">
@@ -215,7 +215,7 @@ function SubStoryRow() {
           </div>
           <div className="mt-2.5">
             <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <h3 className="mt-0.5 text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
+            <h3 className="mt-0.5 text-[13px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
             <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-400">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
             </div>
@@ -232,13 +232,13 @@ function FeedList({ tab }: { tab: string }) {
   const items = filtered.length ? filtered : all;
 
   return (
-    <div className="flex flex-col divide-y divide-white/[0.05]">
+    <div className="flex flex-col divide-y divide-gray-100">
       {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
           <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">{item.title}</h3>
+            <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">{item.title}</h3>
             <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
             <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
               <span className="font-medium text-gray-500">{item.source}</span>
@@ -258,20 +258,20 @@ function RightRail() {
       <div className="sticky top-[120px] flex flex-col gap-5">
 
         {/* Newsletter */}
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-          <h3 className="text-[14px] font-bold text-white mb-1">TrueRate Daily Brief</h3>
+        <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <h3 className="text-[14px] font-bold text-gray-900 mb-1">TrueRate Daily Brief</h3>
           <p className="text-[12px] text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
           <input type="email" placeholder="Email address"
-            className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2.5 text-[13px] text-white placeholder:text-gray-400 outline-none focus:border-white/30 transition-colors mb-2" />
+            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-[13px] text-gray-900 placeholder:text-gray-400 outline-none focus:border-white/30 transition-colors mb-2" />
           <button className="w-full rounded-lg bg-white py-2.5 text-[13px] font-semibold text-[#0a0a0d] hover:brightness-90 transition">Subscribe</button>
         </div>
 
         {/* Upcoming events */}
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-          <div className="px-4 py-3.5 border-b border-white/[0.05]">
-            <h3 className="text-[13px] font-bold text-white">Upcoming Events</h3>
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="px-4 py-3.5 border-b border-gray-100">
+            <h3 className="text-[13px] font-bold text-gray-900">Upcoming Events</h3>
           </div>
-          <div className="divide-y divide-white/[0.04]">
+          <div className="divide-y divide-gray-100">
             {[
               { date: 'Apr 7',  label: 'CBL Monetary Policy Meeting',     type: 'Policy' },
               { date: 'Apr 10', label: 'Q1 GDP Advance Estimate',          type: 'Economy' },
@@ -280,14 +280,14 @@ function RightRail() {
               { date: 'Apr 18', label: 'World Bank Country Dialogue',       type: 'Development' },
               { date: 'Apr 22', label: 'ArcelorMittal Q1 Earnings Call',    type: 'Markets' },
             ].map((ev, i) => (
-              <Link key={i} href="/economy" className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
-                <div className="shrink-0 rounded-lg bg-white/[0.05] border border-white/[0.06] px-2 py-1 text-center min-w-[40px]">
+              <Link key={i} href="/economy" className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+                <div className="shrink-0 rounded-lg bg-gray-100 border border-gray-200 px-2 py-1 text-center min-w-[40px]">
                   <p className="text-[9px] font-bold uppercase tracking-wide text-gray-400">{ev.date.split(' ')[0]}</p>
-                  <p className="text-[14px] font-black text-white leading-none">{ev.date.split(' ')[1]}</p>
+                  <p className="text-[14px] font-black text-gray-900 leading-none">{ev.date.split(' ')[1]}</p>
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{ev.label}</p>
-                  <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/60">{ev.type}</span>
+                  <p className="text-[12px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors leading-snug">{ev.label}</p>
+                  <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase bg-gray-100 text-gray-500">{ev.type}</span>
                 </div>
               </Link>
             ))}
@@ -295,23 +295,23 @@ function RightRail() {
         </div>
 
         {/* Most read */}
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-          <div className="px-4 py-3.5 border-b border-white/[0.05]">
-            <h3 className="text-[13px] font-bold text-white">Most Read</h3>
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="px-4 py-3.5 border-b border-gray-100">
+            <h3 className="text-[13px] font-bold text-gray-900">Most Read</h3>
           </div>
-          <div className="divide-y divide-white/[0.04]">
+          <div className="divide-y divide-gray-100">
             {newsItems.slice(0, 5).map((item, i) => (
-              <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
-                <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none pt-0.5">{i + 1}</span>
-                <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-3">{item.title}</p>
+              <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+                <span className="shrink-0 text-[20px] font-black text-gray-300 tabular-nums w-5 leading-none pt-0.5">{i + 1}</span>
+                <p className="text-[12px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-3">{item.title}</p>
               </Link>
             ))}
           </div>
         </div>
 
         {/* Premium CTA */}
-        <div className="rounded-xl border border-white/[0.12] bg-gradient-to-br from-white/[0.06] to-transparent p-5">
-          <h3 className="text-[14px] font-bold text-white mb-1">Go Premium</h3>
+        <div className="rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-5">
+          <h3 className="text-[14px] font-bold text-gray-900 mb-1">Go Premium</h3>
           <p className="text-[12px] text-gray-500 mb-4">Unlock deep-dive analysis, exclusive data, and ad-free reading.</p>
           <Link href="/signin" className="block w-full rounded-lg bg-white py-2.5 text-center text-[13px] font-semibold text-[#0a0a0d] hover:bg-white/90 transition no-underline">
             See plans
@@ -347,14 +347,15 @@ function NewsPageInner() {
     : [];
 
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <div className="bg-[#f8f9fa] min-h-screen">
+      <main className="mx-auto max-w-[1320px] px-4 py-6">
 
       {/* ── Search results view ── */}
       {query && (
         <div className="mb-8">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <h1 className="text-[22px] font-bold text-white">
+              <h1 className="text-[22px] font-bold text-gray-900">
                 Search results for{' '}
                 <span className="text-emerald-400">&ldquo;{query}&rdquo;</span>
               </h1>
@@ -362,21 +363,21 @@ function NewsPageInner() {
                 {searchResults.length} article{searchResults.length !== 1 ? 's' : ''} found
               </p>
             </div>
-            <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">
+            <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">
               ← All news
             </Link>
           </div>
 
           {searchResults.length === 0 ? (
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card p-10 text-center">
-              <h2 className="mb-1 text-[16px] font-bold text-white">No results found</h2>
+            <div className="rounded-xl border border-gray-200 bg-white p-10 text-center">
+              <h2 className="mb-1 text-[16px] font-bold text-gray-900">No results found</h2>
               <p className="text-[13px] text-gray-500">
                 Try searching for &ldquo;inflation&rdquo;, &ldquo;forex&rdquo;, &ldquo;rubber&rdquo; or &ldquo;CBL&rdquo;.
               </p>
             </div>
           ) : (
             <div className="flex gap-6">
-              <div className="flex-1 min-w-0 flex flex-col divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card px-5">
+              <div className="flex-1 min-w-0 flex flex-col divide-y divide-gray-100 rounded-xl border border-gray-200 bg-white px-5">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
                     <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
@@ -384,7 +385,7 @@ function NewsPageInner() {
                       <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">
+                      <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">
                         {item.title}
                       </h3>
                       <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
@@ -406,16 +407,16 @@ function NewsPageInner() {
       {!query && (<>
 
       {/* Breaking ticker */}
-      <div className="mb-5 flex items-center gap-0 rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
+      <div className="mb-5 flex items-center gap-0 rounded-xl border border-gray-200 bg-white overflow-hidden">
         <div className="shrink-0 bg-emerald-500 px-3 py-2.5 z-10">
           <span className="text-[10px] font-black uppercase tracking-widest text-white">Live</span>
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
             {[...BREAKING, ...BREAKING].map((b, i) => (
-              <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-white/[0.06]">
+              <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
                 <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{b.label}</span>
-                <span className="text-[12px] text-gray-400 group-hover:text-white transition-colors">{b.text}</span>
+                <span className="text-[12px] text-gray-400 group-hover:text-gray-900 transition-colors">{b.text}</span>
               </Link>
             ))}
           </div>
@@ -440,18 +441,18 @@ function NewsPageInner() {
           {/* Tab bar + feed */}
           <div className="mt-8 mb-5">
             <div className="flex items-center justify-between mb-1">
-              <h2 className="text-[18px] font-bold text-white">For You</h2>
-              <div className="hidden sm:flex items-center gap-1 rounded-lg border border-white/[0.08] p-0.5">
+              <h2 className="text-[18px] font-bold text-gray-900">For You</h2>
+              <div className="hidden sm:flex items-center gap-1 rounded-lg border border-gray-200 p-0.5">
                 {['Feed', 'Cards'].map(v => (
-                  <button key={v} className="px-3 py-1 rounded text-[12px] font-medium text-gray-500 hover:text-white transition-colors">{v}</button>
+                  <button key={v} className="px-3 py-1 rounded text-[12px] font-medium text-gray-500 hover:text-gray-900 transition-colors">{v}</button>
                 ))}
               </div>
             </div>
-            <div className="flex gap-0 overflow-x-auto border-b border-white/[0.06] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-0 overflow-x-auto border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {TABS.map(tab => (
                 <button key={tab} onClick={() => setActiveTab(tab)}
                   className={`whitespace-nowrap px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px ${
-                    activeTab === tab ? 'border-white text-white' : 'border-transparent text-gray-500 hover:text-gray-300'
+                    activeTab === tab ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-800'
                   }`}>
                   {tab}
                 </button>
@@ -463,17 +464,17 @@ function NewsPageInner() {
           {/* More Stories grid */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">More Stories</h2>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">All stories ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">More Stories</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">All stories ›</Link>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-x divide-white/[0.05]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 rounded-xl border border-gray-200 bg-white overflow-hidden divide-x divide-gray-100">
               {newsItems.slice(0, 4).map((item) => (
-                <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-col gap-2.5 p-4 no-underline hover:bg-white/[0.02] transition-colors">
+                <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-col gap-2.5 p-4 no-underline hover:bg-gray-50 transition-colors">
                   <div className="overflow-hidden rounded-lg">
                     <NewsThumbnail category={item.category} className="w-full h-[80px]" />
                   </div>
                   <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
+                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
                   <div className="text-[10px] text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
                 </Link>
               ))}
@@ -483,8 +484,8 @@ function NewsPageInner() {
           {/* Videos strip */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">Videos</h2>
-              <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View all ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">Videos</h2>
+              <Link href="/videos" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">View all ›</Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {VIDEOS.map((v, i) => (
@@ -492,7 +493,7 @@ function NewsPageInner() {
                   <div className="relative overflow-hidden rounded-xl mb-2">
                     <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[110px]" />
                   </div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{v.title}</h3>
+                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{v.title}</h3>
                   <span className="text-[11px] text-gray-400">{v.time}</span>
                 </Link>
               ))}
@@ -502,17 +503,17 @@ function NewsPageInner() {
           {/* Analysis & Opinion */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">Analysis &amp; Opinion</h2>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View all ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">Analysis &amp; Opinion</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">View all ›</Link>
             </div>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
+            <div className="flex flex-col divide-y divide-gray-100">
               {OPINION.map((op, i) => (
                 <Link key={i} href="/news" className="group flex items-center gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-full">
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{op.title}</h3>
+                    <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{op.title}</h3>
                     <div className="text-[12px] text-gray-500">{op.author} · <span className="text-gray-400">{op.role}</span> · <span className="text-gray-400">{op.time}</span></div>
                   </div>
                   <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -524,8 +525,8 @@ function NewsPageInner() {
           {/* West Africa section */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">From West Africa</h2>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">More regional news ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">From West Africa</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More regional news ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {WEST_AFRICA.map((w, i) => (
@@ -535,7 +536,7 @@ function NewsPageInner() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{w.country}</span>
-                    <h3 className="mt-0.5 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{w.title}</h3>
+                    <h3 className="mt-0.5 text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{w.title}</h3>
                     <div className="text-[11px] text-gray-400">{w.source} · {w.time}</div>
                   </div>
                 </Link>
@@ -546,21 +547,21 @@ function NewsPageInner() {
           {/* Data Stories */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">Data Stories</h2>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">Data Stories</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {DATA_STORIES.map((s, i) => (
-                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-gray-200 bg-white overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.category} className="w-full h-[120px]" />
                   </div>
                   <div className="p-4">
                     <div className="mb-2">
-                      <span className="text-[32px] font-black text-white tabular-nums leading-none">{s.stat}</span>
+                      <span className="text-[32px] font-black text-gray-900 tabular-nums leading-none">{s.stat}</span>
                       <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400">{s.statLabel}</span>
                     </div>
-                    <h3 className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
+                    <h3 className="text-[12px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-[11px] text-gray-400">{s.time}</span>
                   </div>
                 </Link>
@@ -571,17 +572,17 @@ function NewsPageInner() {
           {/* From the Archives */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">From the Archives</h2>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">Browse archive ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">From the Archives</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Browse archive ›</Link>
             </div>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
+            <div className="flex flex-col divide-y divide-gray-100">
               {ARCHIVES.map((a, i) => (
                 <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-xl">
                     <NewsThumbnail category={a.category} className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1.5">{a.title}</h3>
+                    <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1.5">{a.title}</h3>
                     <div className="flex items-center gap-2 text-[11px] text-gray-400">
                       <span>{a.date}</span>
                       <span>·</span>
@@ -597,20 +598,20 @@ function NewsPageInner() {
           {/* Community Voices */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">Community Voices</h2>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">Community Voices</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {COMMUNITY_VOICES.map((cv, i) => (
-                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card p-5">
-                  <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{cv.title}</h3>
+                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-gray-200 bg-white p-5">
+                  <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-2">{cv.title}</h3>
                   <p className="text-[12px] text-gray-500 line-clamp-3 mb-4 flex-1">{cv.excerpt}</p>
-                  <div className="flex items-center gap-3 pt-3 border-t border-white/[0.06]">
+                  <div className="flex items-center gap-3 pt-3 border-t border-gray-200">
                     <div className="shrink-0 overflow-hidden rounded-full">
                       <AuthorAvatar name={cv.author} className="h-8 w-8 rounded-full" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[12px] font-semibold text-white/80 truncate">{cv.author}</p>
+                      <p className="text-[12px] font-semibold text-gray-700 truncate">{cv.author}</p>
                       <p className="text-[11px] text-gray-400 truncate">{cv.role} · {cv.time}</p>
                     </div>
                   </div>
@@ -622,15 +623,15 @@ function NewsPageInner() {
           {/* Upcoming Economic Events */}
           <div className="mt-10 mb-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">Upcoming Economic Events</h2>
-              <Link href="/economy" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">Full calendar ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">Upcoming Economic Events</h2>
+              <Link href="/economy" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full calendar ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100">
               {UPCOMING_EVENTS.map((ev, i) => (
-                <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.03] transition-colors">
+                <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-3.5 no-underline hover:bg-gray-50 transition-colors">
                   <span className="shrink-0 w-[52px] text-[12px] font-bold text-emerald-400 tabular-nums">{ev.date}</span>
-                  <p className="flex-1 text-[13px] font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{ev.title}</p>
-                  <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/60">{ev.type}</span>
+                  <p className="flex-1 text-[13px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors leading-snug">{ev.title}</p>
+                  <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-gray-100 text-gray-500">{ev.type}</span>
                 </Link>
               ))}
             </div>
@@ -644,6 +645,7 @@ function NewsPageInner() {
     </>)}
 
     </main>
+    </div>
   );
 }
 

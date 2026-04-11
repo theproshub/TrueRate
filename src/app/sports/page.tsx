@@ -87,22 +87,23 @@ export default function SportsPage() {
   const [activeTab, setActiveTab] = useState('All');
 
   return (
+    <div className="bg-[#f8f9fa] min-h-screen">
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
       {/* Breadcrumb + header */}
       <div className="mb-6">
         <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
-          <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
+          <Link href="/" className="hover:text-gray-900 transition-colors no-underline">Home</Link>
           <span>/</span>
           <span className="text-gray-400">Sports</span>
         </div>
-        <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-0 border-b border-gray-200 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SPORT_TABS.map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`whitespace-nowrap px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
                 activeTab === tab
-                  ? 'border-white text-white'
-                  : 'border-transparent text-gray-500 hover:text-gray-300'
+                  ? 'border-gray-900 text-gray-900'
+                  : 'border-transparent text-gray-500 hover:text-gray-800'
               }`}>
               {tab}
             </button>
@@ -114,16 +115,16 @@ export default function SportsPage() {
       <div className="mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex gap-3 min-w-max">
           {SCORES.map((s, i) => (
-            <Link key={i} href="/sports" className="group flex flex-col items-center border border-white/[0.07] bg-brand-card px-4 py-3 no-underline hover:border-white/20 transition-colors min-w-[170px]">
+            <Link key={i} href="/sports" className="group flex flex-col items-center border border-gray-200 bg-white px-4 py-3 no-underline hover:border-gray-400 transition-colors min-w-[170px]">
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">{s.competition}</div>
               <div className="flex items-center gap-3 w-full">
                 <div className="flex-1 min-w-0">
-                  <div className="text-[13px] font-bold text-white truncate">{s.home}</div>
-                  <div className="text-[13px] font-bold text-white truncate">{s.away}</div>
+                  <div className="text-[13px] font-bold text-gray-900 truncate">{s.home}</div>
+                  <div className="text-[13px] font-bold text-gray-900 truncate">{s.away}</div>
                 </div>
                 <div className="text-right shrink-0">
-                  <div className={`text-[14px] font-black tabular-nums ${s.homeScore > s.awayScore ? 'text-white' : 'text-gray-500'}`}>{s.homeScore}</div>
-                  <div className={`text-[14px] font-black tabular-nums ${s.awayScore > s.homeScore ? 'text-white' : 'text-gray-500'}`}>{s.awayScore}</div>
+                  <div className={`text-[14px] font-black tabular-nums ${s.homeScore > s.awayScore ? 'text-gray-900' : 'text-gray-500'}`}>{s.homeScore}</div>
+                  <div className={`text-[14px] font-black tabular-nums ${s.awayScore > s.homeScore ? 'text-gray-900' : 'text-gray-500'}`}>{s.awayScore}</div>
                 </div>
               </div>
               <div className={`mt-2 text-[10px] font-bold ${s.status === 'FT' ? 'text-gray-400' : 'text-emerald-400'}`}>
@@ -139,13 +140,13 @@ export default function SportsPage() {
         <div className="flex-1 min-w-0">
 
           {/* Hero */}
-          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-white/[0.07] bg-brand-card no-underline mb-6">
+          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-6">
             <div className="w-full lg:w-[55%] shrink-0">
               <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
             <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
               <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS_FN(HERO.category)}`}>{HERO.category}</span>
-              <h2 className="text-[24px] font-black leading-snug text-white group-hover:text-white/80 transition-colors mb-4">{HERO.title}</h2>
+              <h2 className="text-[24px] font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-4">{HERO.title}</h2>
               <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
               <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
                 <span>{HERO.source}</span>
@@ -163,21 +164,21 @@ export default function SportsPage() {
                   <NewsThumbnail category={s.category} className="w-full h-[130px]" />
                 </div>
                 <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS_FN(s.category)}`}>{s.category}</span>
-                <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 flex-1 mb-1.5">{s.title}</h3>
+                <h3 className="text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 flex-1 mb-1.5">{s.title}</h3>
                 <div className="text-[11px] text-gray-400">{s.source} · {s.time}</div>
               </Link>
             ))}
           </div>
 
           {/* Transfer table */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Transfer Tracker</h2>
+          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 className="text-[15px] font-bold text-gray-900">Transfer Tracker</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Deal values · Apr 2026</span>
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <table className="w-full min-w-[520px] text-[13px]">
-                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
                     <th className="px-5 py-3 text-left">Player</th>
                     <th className="px-5 py-3 text-left">From</th>
@@ -186,13 +187,13 @@ export default function SportsPage() {
                     <th className="px-5 py-3 text-right">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.04]">
+                <tbody className="divide-y divide-gray-100">
                   {TRANSFERS.map((t, i) => (
-                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 font-bold text-white">{t.player}</td>
+                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-5 py-3 font-bold text-gray-900">{t.player}</td>
                       <td className="px-5 py-3 text-gray-400">{t.from}</td>
                       <td className="px-5 py-3 text-gray-400">{t.to}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{t.fee}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-bold text-gray-900">{t.fee}</td>
                       <td className={`px-5 py-3 text-right text-[12px] font-semibold ${t.confirmed ? 'text-emerald-400' : 'text-gray-500'}`}>
                         {t.status}
                       </td>
@@ -204,14 +205,14 @@ export default function SportsPage() {
           </div>
 
           {/* Broadcast rights */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Broadcast Rights</h2>
+          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 className="text-[15px] font-bold text-gray-900">Broadcast Rights</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Current deals</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-[13px]">
-                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
                     <th className="px-5 py-3 text-left">Competition</th>
                     <th className="px-5 py-3 text-left">Rights Holder</th>
@@ -220,12 +221,12 @@ export default function SportsPage() {
                     <th className="hidden sm:table-cell px-5 py-3 text-right">Expiry</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.04]">
+                <tbody className="divide-y divide-gray-100">
                   {BROADCAST.map((row, i) => (
-                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 font-bold text-white">{row.competition}</td>
+                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-5 py-3 font-bold text-gray-900">{row.competition}</td>
                       <td className="px-5 py-3 text-gray-400">{row.rightsholder}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{row.value}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-bold text-gray-900">{row.value}</td>
                       <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{row.territory}</td>
                       <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-400">{row.expiry}</td>
                     </tr>
@@ -237,8 +238,8 @@ export default function SportsPage() {
 
           {/* Feed */}
           <div className="mb-8">
-            <h2 className="text-[17px] font-bold text-white mb-5">Analysis</h2>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
+            <h2 className="text-[17px] font-bold text-gray-900 mb-5">Analysis</h2>
+            <div className="flex flex-col divide-y divide-gray-100">
               {FEED.map((item, i) => (
                 <Link key={i} href="/sports" className="group flex gap-4 py-5 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden">
@@ -246,7 +247,7 @@ export default function SportsPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS_FN(item.category)}`}>{item.category}</span>
-                    <h3 className="text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1.5 line-clamp-2">{item.title}</h3>
+                    <h3 className="text-[15px] font-black leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-1.5 line-clamp-2">{item.title}</h3>
                     <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
                     <div className="flex items-center gap-2 text-[12px] text-gray-400">
                       <span className="text-gray-500">{item.source}</span>
@@ -260,14 +261,14 @@ export default function SportsPage() {
           </div>
 
           {/* Sponsorship */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Major Sponsorship Deals</h2>
+          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 className="text-[15px] font-bold text-gray-900">Major Sponsorship Deals</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Liberia &amp; West Africa</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-[13px]">
-                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
                     <th className="px-5 py-3 text-left">Club / Body</th>
                     <th className="px-5 py-3 text-left">Sponsor</th>
@@ -276,13 +277,13 @@ export default function SportsPage() {
                     <th className="hidden sm:table-cell px-5 py-3 text-right">Since</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.04]">
+                <tbody className="divide-y divide-gray-100">
                   {SPONSORSHIP.map((row, i) => (
-                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 font-bold text-white">{row.club}</td>
+                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-5 py-3 font-bold text-gray-900">{row.club}</td>
                       <td className="px-5 py-3 text-gray-400">{row.sponsor}</td>
                       <td className="px-5 py-3 text-gray-500">{row.category}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{row.value}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-bold text-gray-900">{row.value}</td>
                       <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-400">{row.since}</td>
                     </tr>
                   ))}
@@ -294,8 +295,8 @@ export default function SportsPage() {
           {/* Videos */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-white">Videos</h2>
-              <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View all ›</Link>
+              <h2 className="text-[17px] font-bold text-gray-900">Videos</h2>
+              <Link href="/videos" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">View all ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {VIDEOS.map((v, i) => (
@@ -303,7 +304,7 @@ export default function SportsPage() {
                   <div className="relative overflow-hidden mb-2.5">
                     <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[130px]" />
                   </div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">{v.title}</h3>
+                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">{v.title}</h3>
                 </Link>
               ))}
             </div>
@@ -316,16 +317,16 @@ export default function SportsPage() {
           <div className="sticky top-[120px] flex flex-col gap-5">
 
             {/* Business snapshot */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Sports Business Snapshot</h3>
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <div className="px-4 py-3.5 border-b border-gray-100">
+                <h3 className="text-[13px] font-bold text-gray-900">Sports Business Snapshot</h3>
               </div>
-              <div className="divide-y divide-white/[0.04]">
+              <div className="divide-y divide-gray-100">
                 {BUSINESS_METRICS.map((m, i) => (
                   <div key={i} className="flex items-center justify-between px-4 py-3">
                     <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
                     <div className="text-right shrink-0">
-                      <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
+                      <div className="text-[14px] font-bold text-gray-900 tabular-nums">{m.value}</div>
                       <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
                     </div>
                   </div>
@@ -334,13 +335,13 @@ export default function SportsPage() {
             </div>
 
             {/* LFA Standings */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.05]">
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-100">
                 <div>
-                  <h3 className="text-[13px] font-bold text-white">LFA League</h3>
+                  <h3 className="text-[13px] font-bold text-gray-900">LFA League</h3>
                   <p className="text-[10px] text-gray-400">Week 22</p>
                 </div>
-                <Link href="/sports" className="text-[11px] text-gray-500 hover:text-white transition-colors no-underline">Full table ›</Link>
+                <Link href="/sports" className="text-[11px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full table ›</Link>
               </div>
               <div className="px-4 py-2">
                 <div className="flex text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1 gap-0">
@@ -353,34 +354,34 @@ export default function SportsPage() {
                   <span className="w-8 text-right font-black">Pts</span>
                 </div>
                 {STANDINGS.map(row => (
-                  <div key={row.pos} className="flex items-center py-2 border-t border-white/[0.03] text-[12px] gap-0">
+                  <div key={row.pos} className="flex items-center py-2 border-t border-gray-100 text-[12px] gap-0">
                     <span className="w-5 shrink-0 text-gray-400 font-bold">{row.pos}</span>
-                    <span className="flex-1 font-semibold text-white truncate pr-1">{row.team}</span>
+                    <span className="flex-1 font-semibold text-gray-900 truncate pr-1">{row.team}</span>
                     <span className="w-5 text-center text-gray-500">{row.p}</span>
                     <span className="w-5 text-center text-gray-500">{row.w}</span>
                     <span className="w-5 text-center text-gray-500">{row.d}</span>
                     <span className="w-5 text-center text-gray-500">{row.l}</span>
-                    <span className="w-8 text-right font-black text-white">{row.pts}</span>
+                    <span className="w-8 text-right font-black text-gray-900">{row.pts}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Upcoming fixtures */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Upcoming Fixtures</h3>
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-100">
+                <h3 className="text-[13px] font-bold text-gray-900">Upcoming Fixtures</h3>
               </div>
-              <div className="divide-y divide-white/[0.04]">
+              <div className="divide-y divide-gray-100">
                 {[
                   { home: 'Liberia',       away: 'Guinea',          date: 'Apr 8',  time: '18:00', competition: 'WAFU Cup SF' },
                   { home: 'Monrovia FC',   away: 'FC Nimba',        date: 'Apr 9',  time: '15:00', competition: 'LFA League' },
                   { home: 'LISCR FC',      away: 'BYC FC',          date: 'Apr 10', time: '16:00', competition: 'LFA League' },
                   { home: 'Rivers Hoopers', away: 'Monrovia Ballers', date: 'Apr 11', time: '20:00', competition: 'NBL Africa' },
                 ].map((f, i) => (
-                  <Link key={i} href="/sports" className="flex flex-col px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
+                  <Link key={i} href="/sports" className="flex flex-col px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                     <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">{f.competition}</div>
-                    <div className="text-[12px] font-semibold text-white group-hover:text-white/80">{f.home} <span className="text-gray-400 font-normal">vs</span> {f.away}</div>
+                    <div className="text-[12px] font-semibold text-gray-900 group-hover:text-gray-700">{f.home} <span className="text-gray-400 font-normal">vs</span> {f.away}</div>
                     <div className="text-[11px] text-gray-400 mt-0.5">{f.date} · {f.time} WAT</div>
                   </Link>
                 ))}
@@ -388,11 +389,11 @@ export default function SportsPage() {
             </div>
 
             {/* Most read */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Most Read</h3>
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <div className="px-4 py-3.5 border-b border-gray-100">
+                <h3 className="text-[13px] font-bold text-gray-900">Most Read</h3>
               </div>
-              <div className="divide-y divide-white/[0.04]">
+              <div className="divide-y divide-gray-100">
                 {[
                   { rank: 1, title: "AFCON 2027 broadcast rights: the $340M deal",          tag: 'Football' },
                   { rank: 2, title: "NBA Africa Monrovia — $4.2M impact study",              tag: 'Basketball' },
@@ -400,10 +401,10 @@ export default function SportsPage() {
                   { rank: 4, title: "Marcus Pewee's $840K deal — how it compares",           tag: 'Basketball' },
                   { rank: 5, title: "Comfort Brown sponsorship value: $220K and rising",     tag: 'Athletics' },
                 ].map(t => (
-                  <Link key={t.rank} href="/sports" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
-                    <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
+                  <Link key={t.rank} href="/sports" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+                    <span className="shrink-0 text-[20px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
-                      <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors line-clamp-2 leading-snug">{t.title}</p>
+                      <p className="text-[12px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-2 leading-snug">{t.title}</p>
                       <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS_FN(t.tag)}`}>{t.tag}</span>
                     </div>
                   </Link>
@@ -415,5 +416,6 @@ export default function SportsPage() {
         </aside>
       </div>
     </main>
+    </div>
   );
 }
