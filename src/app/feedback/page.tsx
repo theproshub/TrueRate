@@ -8,7 +8,7 @@ export default function FeedbackPage() {
         <div className="space-y-4">
           <div>
             <label className="mb-1.5 block text-[12px] font-semibold text-gray-400">Type</label>
-            <select className="w-full rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-3 text-[14px] text-white outline-none focus:border-brand-accent/50">
+            <select className="w-full rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-3 text-[14px] text-white outline-none focus:border-emerald-400/50">
               <option>General feedback</option>
               <option>Data error</option>
               <option>Feature request</option>
@@ -21,7 +21,7 @@ export default function FeedbackPage() {
             <input
               type="email"
               placeholder="you@example.com"
-              className="w-full rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-3 text-[14px] text-white outline-none focus:border-brand-accent/50 focus:ring-1 focus:ring-brand-accent/20 placeholder:text-gray-500"
+              className="w-full rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-3 text-[14px] text-white outline-none focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 placeholder:text-gray-500"
             />
           </div>
           <div>
@@ -29,7 +29,7 @@ export default function FeedbackPage() {
             <textarea
               rows={5}
               placeholder="Tell us what you think…"
-              className="w-full rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-3 text-[14px] text-white outline-none focus:border-brand-accent/50 focus:ring-1 focus:ring-brand-accent/20 placeholder:text-gray-500 resize-none"
+              className="w-full rounded-lg bg-white/[0.05] border border-white/[0.07] px-4 py-3 text-[14px] text-white outline-none focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 placeholder:text-gray-500 resize-none"
             />
           </div>
           <button className="w-full rounded-lg bg-white py-3 text-[14px] font-semibold text-[#0a0a0d] hover:bg-white/90 transition">

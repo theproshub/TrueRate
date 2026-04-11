@@ -229,7 +229,7 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
 
       {/* Status bar */}
       <div className="mb-6 flex items-center gap-2">
-        <span className={`h-1.5 w-1.5 rounded-full ${isLive ? 'bg-brand-accent animate-pulse' : 'bg-yellow-500'}`} />
+        <span className={`h-1.5 w-1.5 rounded-full ${isLive ? 'bg-emerald-500 animate-pulse' : 'bg-yellow-500'}`} />
         <span className="text-[12px] text-gray-500">
           {isLive ? `Live rates · Updated ${dateLabel}` : `Fetching live data…`}
         </span>
@@ -245,7 +245,7 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
               <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-gray-400">
                 Amount
               </label>
-              <div className="flex overflow-hidden rounded border border-white/[0.07] transition focus-within:border-brand-accent/50 focus-within:ring-1 focus-within:ring-brand-accent/20">
+              <div className="flex overflow-hidden rounded border border-white/[0.07] transition focus-within:border-emerald-400/50 focus-within:ring-1 focus-within:ring-emerald-400/20">
                 <input
                   type="number"
                   value={amount}
@@ -268,7 +268,7 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
               <div className="h-px flex-1 bg-brand-card" />
               <button
                 onClick={() => { const tmp = from; setFrom(to); setTo(tmp); }}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.07] bg-white/[0.05] text-gray-500 transition hover:border-brand-accent/50 hover:text-brand-accent"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.07] bg-white/[0.05] text-gray-500 transition hover:border-emerald-400/50 hover:text-emerald-400"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
@@ -307,8 +307,8 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
           <div className="border-b border-white/[0.06] px-5 py-3 flex items-center justify-between">
             <h2 className="text-[15px] font-bold text-white">Exchange Rate Table</h2>
             {isLive && (
-              <span className="flex items-center gap-1.5 text-[11px] text-brand-accent">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
+              <span className="flex items-center gap-1.5 text-[11px] text-emerald-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live
               </span>
             )}
@@ -328,7 +328,7 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
               <tbody className="divide-y divide-white/[0.05]">
                 {rates.map(r => (
                   <tr key={r.pair} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="px-5 py-3 font-bold text-brand-accent">{r.pair}</td>
+                    <td className="px-5 py-3 font-bold text-emerald-400">{r.pair}</td>
                     <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">
                       {r.rate.toFixed(4)}
                     </td>

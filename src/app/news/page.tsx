@@ -108,7 +108,7 @@ function TrendingPanel() {
     <aside className="hidden lg:block w-[270px] shrink-0">
       <div className="sticky top-[120px]">
         <div className="flex items-center gap-2 mb-3">
-          <svg className="h-4 w-4 text-brand-accent" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
           <h2 className="text-[14px] font-bold text-white uppercase tracking-wide">Trending</h2>
@@ -356,7 +356,7 @@ function NewsPageInner() {
             <div>
               <h1 className="text-[22px] font-bold text-white">
                 Search results for{' '}
-                <span className="text-brand-accent">&ldquo;{query}&rdquo;</span>
+                <span className="text-emerald-400">&ldquo;{query}&rdquo;</span>
               </h1>
               <p className="mt-1 text-[13px] text-gray-500">
                 {searchResults.length} article{searchResults.length !== 1 ? 's' : ''} found
@@ -407,14 +407,14 @@ function NewsPageInner() {
 
       {/* Breaking ticker */}
       <div className="mb-5 flex items-center gap-0 rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
-        <div className="shrink-0 bg-brand-accent px-3 py-2.5 z-10">
+        <div className="shrink-0 bg-emerald-500 px-3 py-2.5 z-10">
           <span className="text-[10px] font-black uppercase tracking-widest text-white">Live</span>
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
             {[...BREAKING, ...BREAKING].map((b, i) => (
               <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-white/[0.06]">
-                <span className="text-[10px] font-black uppercase tracking-widest text-brand-accent">{b.label}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{b.label}</span>
                 <span className="text-[12px] text-gray-400 group-hover:text-white transition-colors">{b.text}</span>
               </Link>
             ))}
@@ -534,7 +534,7 @@ function NewsPageInner() {
                     <NewsThumbnail category="economy" className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wide text-brand-accent">{w.country}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{w.country}</span>
                     <h3 className="mt-0.5 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{w.title}</h3>
                     <div className="text-[11px] text-gray-400">{w.source} · {w.time}</div>
                   </div>
@@ -558,7 +558,7 @@ function NewsPageInner() {
                   <div className="p-4">
                     <div className="mb-2">
                       <span className="text-[32px] font-black text-white tabular-nums leading-none">{s.stat}</span>
-                      <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-brand-accent">{s.statLabel}</span>
+                      <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400">{s.statLabel}</span>
                     </div>
                     <h3 className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-[11px] text-gray-400">{s.time}</span>
@@ -628,7 +628,7 @@ function NewsPageInner() {
             <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
               {UPCOMING_EVENTS.map((ev, i) => (
                 <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.03] transition-colors">
-                  <span className="shrink-0 w-[52px] text-[12px] font-bold text-brand-accent tabular-nums">{ev.date}</span>
+                  <span className="shrink-0 w-[52px] text-[12px] font-bold text-emerald-400 tabular-nums">{ev.date}</span>
                   <p className="flex-1 text-[13px] font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{ev.title}</p>
                   <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/60">{ev.type}</span>
                 </Link>

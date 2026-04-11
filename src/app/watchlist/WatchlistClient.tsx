@@ -107,7 +107,7 @@ function AddModal({ onAdd, existing, onClose }: {
                   <div className="text-[11px] text-gray-500">{opt.sub}</div>
                 </div>
                 {already ? (
-                  <span className="text-[10px] font-bold uppercase text-brand-accent">Watching</span>
+                  <span className="text-[10px] font-bold uppercase text-emerald-400">Watching</span>
                 ) : (
                   <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -210,7 +210,7 @@ export default function WatchlistClient() {
                 {watchedRates.map(r => r && (
                   <div key={r.pair} className="flex items-center justify-between px-5 py-4">
                     <div>
-                      <div className="text-[15px] font-bold text-brand-accent">{r.pair}</div>
+                      <div className="text-[15px] font-bold text-emerald-400">{r.pair}</div>
                       <div className="text-[11px] text-gray-400">LRD-denominated</div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -296,7 +296,7 @@ export default function WatchlistClient() {
           {/* Add button */}
           <button
             onClick={() => setShowModal(true)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-[13px] font-semibold text-gray-400 hover:border-brand-accent/50/50 hover:text-brand-accent transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-[13px] font-semibold text-gray-400 hover:border-emerald-400/50/50 hover:text-emerald-400 transition-colors"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -326,7 +326,7 @@ export default function WatchlistClient() {
             <div className="mb-1 flex items-center gap-2">
               <span className="text-lg">🔔</span>
               <h3 className="text-[13px] font-bold text-white">Rate Alerts</h3>
-              <span className="rounded bg-[#6001d2]/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-brand-accent">Soon</span>
+              <span className="rounded bg-[#6001d2]/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-400">Soon</span>
             </div>
             <p className="text-[12px] text-gray-500">
               Get notified when USD/LRD moves past your threshold. Email and SMS alerts coming next.

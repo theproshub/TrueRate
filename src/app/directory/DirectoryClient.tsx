@@ -6,7 +6,7 @@ import type { Company, CompanySector } from '@/lib/types';
 
 const SECTOR_ACCENT: Record<string, string> = {
   Mining:      'text-orange-400',
-  Banking:     'text-brand-accent',
+  Banking:     'text-emerald-400',
   Telecom:     'text-blue-400',
   Agriculture: 'text-lime-400',
   Energy:      'text-yellow-400',
@@ -18,7 +18,7 @@ const SECTOR_ACCENT: Record<string, string> = {
 };
 
 const STATUS_DOT: Record<string, string> = {
-  Active:        'bg-brand-accent',
+  Active:        'bg-emerald-500',
   Suspended:     'bg-red-400',
   'Under Review': 'bg-amber-400',
 };

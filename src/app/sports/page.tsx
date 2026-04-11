@@ -126,7 +126,7 @@ export default function SportsPage() {
                   <div className={`text-[14px] font-black tabular-nums ${s.awayScore > s.homeScore ? 'text-white' : 'text-gray-500'}`}>{s.awayScore}</div>
                 </div>
               </div>
-              <div className={`mt-2 text-[10px] font-bold ${s.status === 'FT' ? 'text-gray-400' : 'text-brand-accent'}`}>
+              <div className={`mt-2 text-[10px] font-bold ${s.status === 'FT' ? 'text-gray-400' : 'text-emerald-400'}`}>
                 {s.status}
               </div>
             </Link>

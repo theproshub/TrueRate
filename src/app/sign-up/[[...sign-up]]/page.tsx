@@ -39,10 +39,10 @@ export default function SignUpPage() {
                 dividerText: 'text-gray-400',
                 formFieldLabel: 'text-gray-400 text-[13px]',
                 formFieldInput:
-                  'bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-gray-400 rounded-lg focus:border-brand-accent/50 focus:ring-1 focus:ring-[#6001d2]/30',
+                  'bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-gray-400 rounded-lg focus:border-emerald-400/50 focus:ring-1 focus:ring-[#6001d2]/30',
                 formButtonPrimary:
                   'bg-[#6001d2] hover:bg-[#490099] text-white font-semibold rounded-lg transition-colors',
-                footerActionLink: 'text-brand-accent hover:text-[#c4b5fd]',
+                footerActionLink: 'text-emerald-400 hover:text-[#c4b5fd]',
                 formFieldErrorText: 'text-red-400',
                 alertText: 'text-red-400',
               },

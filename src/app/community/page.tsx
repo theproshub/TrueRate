@@ -10,7 +10,7 @@ const THREADS = [
 ];
 
 const TAG_COLORS: Record<string, string> = {
-  Equities:         'text-brand-accent bg-[#a78bfa]/10',
+  Equities:         'text-emerald-400 bg-[#a78bfa]/10',
   Forex:            'text-[#60a5fa] bg-[#60a5fa]/10',
   Commodities:      'text-[#fbbf24] bg-[#fbbf24]/10',
   Markets:          'text-[#34d399] bg-[#34d399]/10',
@@ -36,11 +36,11 @@ export default function CommunityPage() {
           <div key={t.title} className="flex items-start justify-between gap-4 rounded-xl border border-white/[0.07] bg-brand-card px-5 py-4 hover:bg-white/[0.03] transition-colors cursor-pointer">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 mb-1.5">
-                <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${TAG_COLORS[t.tag] ?? 'text-brand-accent bg-[#a78bfa]/10'}`}>
+                <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${TAG_COLORS[t.tag] ?? 'text-emerald-400 bg-[#a78bfa]/10'}`}>
                   {t.tag}
                 </span>
               </div>
-              <h3 className="text-[14px] font-semibold text-white hover:text-brand-accent transition-colors">{t.title}</h3>
+              <h3 className="text-[14px] font-semibold text-white hover:text-emerald-400 transition-colors">{t.title}</h3>
               <div className="mt-1.5 flex items-center gap-3 text-[12px] text-gray-400">
                 <span className="font-semibold text-gray-500">{t.author}</span>
                 <span>·</span>

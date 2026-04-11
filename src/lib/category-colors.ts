@@ -56,7 +56,7 @@ const NEWS_COLORS: Record<string, string> = {
   commodities:      'text-orange-400',
   commodity:        'text-orange-400',
   mining:           'text-orange-400',
-  banking:          'text-brand-accent',
+  banking:          'text-emerald-400',
   agriculture:      'text-green-400',
   agri:             'text-green-400',
   energy:           'text-yellow-400',

@@ -26,11 +26,11 @@ const INDICATORS = [
 // ── Category visuals imported from shared component ───────────────────────────
 const CAT_STYLE: Record<string, { bg: string; accent: string; label: string }> = {
   policy:         { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Policy' },
-  forex:          { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-brand-accent', label: 'Forex' },
+  forex:          { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Forex' },
   economy:        { bg: 'bg-gradient-to-br from-blue-950 to-[#04060f]',    accent: 'text-blue-300',    label: 'Economy' },
   commodities:    { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Commodities' },
   Mining:         { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Mining' },
-  Banking:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-brand-accent', label: 'Banking' },
+  Banking:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Banking' },
   Agriculture:    { bg: 'bg-gradient-to-br from-lime-950 to-[#060e00]',    accent: 'text-lime-400',    label: 'Agriculture' },
   Energy:         { bg: 'bg-gradient-to-br from-yellow-950 to-[#0f0b00]',  accent: 'text-yellow-300',  label: 'Energy' },
   Trade:          { bg: 'bg-gradient-to-br from-purple-950 to-[#07000f]',  accent: 'text-purple-300',  label: 'Trade' },

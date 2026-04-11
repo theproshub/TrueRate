@@ -91,7 +91,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
             min="0"
             value={amount}
             onChange={e => setAmount(e.target.value)}
-            className="w-full rounded-lg border border-white/[0.1] bg-white/[0.05] px-4 py-2.5 text-[16px] font-bold text-white outline-none focus:border-brand-accent/50 focus:bg-white/[0.07] transition tabular-nums"
+            className="w-full rounded-lg border border-white/[0.1] bg-white/[0.05] px-4 py-2.5 text-[16px] font-bold text-white outline-none focus:border-emerald-400/50 focus:bg-white/[0.07] transition tabular-nums"
             placeholder="Enter amount"
           />
         </div>
@@ -103,7 +103,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
             <select
               value={from}
               onChange={e => setFrom(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-[14px] font-semibold text-white outline-none focus:border-brand-accent/50 transition appearance-none cursor-pointer"
+              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-[14px] font-semibold text-white outline-none focus:border-emerald-400/50 transition appearance-none cursor-pointer"
             >
               {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
                 <option key={c} value={c}>{c} — {LABELS[c]}</option>
@@ -126,7 +126,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
             <select
               value={to}
               onChange={e => setTo(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-[14px] font-semibold text-white outline-none focus:border-brand-accent/50 transition appearance-none cursor-pointer"
+              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-[14px] font-semibold text-white outline-none focus:border-emerald-400/50 transition appearance-none cursor-pointer"
             >
               {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
                 <option key={c} value={c}>{c} — {LABELS[c]}</option>
@@ -142,7 +142,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
           </p>
           <p className="text-[28px] font-black text-white tabular-nums leading-tight">
             {result !== null ? fmt(result) : '—'}{' '}
-            <span className="text-[20px] text-brand-accent">{to}</span>
+            <span className="text-[20px] text-emerald-400">{to}</span>
           </p>
           {result !== null && (
             <p className="text-[12px] text-gray-500 mt-1.5">

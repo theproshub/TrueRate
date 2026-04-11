@@ -162,7 +162,7 @@ function StoryCard({ title, time, category }: { title: string; time: string; cat
       <div className="relative overflow-hidden rounded-xl mb-3">
         <NewsThumbnail category={category ?? 'economy'} className="w-full h-[170px]" />
       </div>
-      {category && <span className="text-[11px] font-bold uppercase tracking-widest text-brand-accent mb-1">{category}</span>}
+      {category && <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-1">{category}</span>}
       <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{title}</h3>
       <span className="text-[11px] text-gray-400">{time}</span>
     </Link>
@@ -246,8 +246,8 @@ export default function EconomyPage() {
       {/* Indicators strip */}
       <div className="mb-8 flex flex-wrap gap-2 items-center">
         {isLive && (
-          <span className="flex items-center gap-1.5 mr-1 text-[11px] text-brand-accent">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
+          <span className="flex items-center gap-1.5 mr-1 text-[11px] text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Live
           </span>
         )}
@@ -278,7 +278,7 @@ export default function EconomyPage() {
           <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-brand-accent mb-1.5 block">{HERO.category}</span>
+            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{HERO.category}</span>
             <h2 className="text-[20px] sm:text-[24px] font-bold leading-snug text-white mb-2 line-clamp-2">{HERO.title}</h2>
             <p className="text-[13px] text-white/60 line-clamp-2 mb-2 hidden sm:block">{HERO.desc}</p>
             <div className="text-[12px] text-white/60">{HERO.author} · {HERO.time}</div>
@@ -293,7 +293,7 @@ export default function EconomyPage() {
                 <NewsThumbnail category={s.category} className="w-full h-[60px]" />
               </div>
               <div className="min-w-0 flex-1">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1 block">{s.category}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1 block">{s.category}</span>
                 <h4 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{s.title}</h4>
                 <span className="text-[11px] text-gray-400">{s.author} · {s.time}</span>
               </div>
@@ -330,7 +330,7 @@ export default function EconomyPage() {
                     <NewsThumbnail category={a.category} className="w-full h-[180px]" />
                   </div>
                   <div className="p-5">
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-brand-accent mb-2 block">{a.label}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-2 block">{a.label}</span>
                     <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2">{a.title}</h3>
                     <p className="text-[12px] text-gray-500 line-clamp-2 mb-3">{a.desc}</p>
                     <span className="text-[11px] text-gray-400">{a.author} · {a.time}</span>
@@ -375,7 +375,7 @@ export default function EconomyPage() {
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
                   <div className="p-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1.5 block">{s.category}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{s.category}</span>
                     <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{s.title}</h3>
                     <p className="text-[12px] text-gray-500 line-clamp-3">{s.summary}</p>
                   </div>
@@ -400,7 +400,7 @@ export default function EconomyPage() {
                     <p className="text-[13px] font-semibold text-white group-hover:text-white/70 transition-colors leading-snug">{item.title}</p>
                   </div>
                   <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
-                    item.status === 'Active'    ? 'bg-brand-accent/15 text-brand-accent' :
+                    item.status === 'Active'    ? 'bg-emerald-500/15 text-emerald-400' :
                     item.status === 'Completed' ? 'bg-white/[0.07] text-gray-400'     :
                                                   'bg-blue-500/15 text-blue-400'
                   }`}>{item.status}</span>
@@ -422,7 +422,7 @@ export default function EconomyPage() {
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
                   <div className="p-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1.5 block">{s.category}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{s.category}</span>
                     <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-[11px] text-gray-400">{s.time}</span>
                   </div>
@@ -585,7 +585,7 @@ export default function EconomyPage() {
             </div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-[12px] text-gray-500">Current Tranche</span>
-              <span className="rounded-full bg-brand-accent/15 px-2.5 py-0.5 text-[11px] font-bold text-brand-accent">3rd — Approved</span>
+              <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">3rd — Approved</span>
             </div>
             <div className="rounded-lg bg-white/[0.04] border border-white/[0.05] p-3 space-y-2">
               {[
