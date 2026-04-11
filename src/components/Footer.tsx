@@ -1,4 +1,6 @@
+'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
   'Finance': [
@@ -50,6 +52,8 @@ const LEGAL_LINKS = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith('/news') || pathname.startsWith('/sports')) return null;
   return (
     <footer className="mt-10 border-t border-white/[0.06] bg-brand-dark">
 
