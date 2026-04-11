@@ -1,15 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { newsItems } from '@/data/news';
-import { stocks } from '@/data/stocks';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
 
-type SortKey = 'name' | 'price' | 'change' | 'changePercent' | 'volume' | 'marketCap';
 
 const INDICATORS = [
   { label: 'GDP Growth',  value: '4.5%',      change: '+0.2pp', pct: 'YoY',    up: true,  group: 'economy', spark: [3.2,3.4,3.5,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5] },
@@ -328,74 +326,6 @@ function LatestColumn() {
 
 
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   MAJOR ENTERPRISES TABLE
-───────────────────────────────────────────────────────────────────────────── */
-
-function BusinessOverview() {
-  const [sortKey, setSortKey] = useState<SortKey>('changePercent');
-  const [sortAsc, setSortAsc] = useState(false);
-
-  const sorted = useMemo(() => {
-    const copy = [...stocks];
-    copy.sort((a, b) => {
-      let av: string | number = a[sortKey];
-      let bv: string | number = b[sortKey];
-      if (typeof av === 'string') av = av.toLowerCase();
-      if (typeof bv === 'string') bv = bv.toLowerCase();
-      return sortAsc ? (av < bv ? -1 : 1) : (av > bv ? -1 : 1);
-    });
-    return copy;
-  }, [sortKey, sortAsc]);
-
-  const SH = ({ k, label, right = true }: { k: SortKey; label: string; right?: boolean }) => (
-    <th onClick={() => { if (sortKey === k) { setSortAsc(!sortAsc); } else { setSortKey(k); setSortAsc(false); } }}
-      className={`cursor-pointer select-none px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400 hover:text-gray-400 transition-colors ${right ? 'text-right' : 'text-left'}`}>
-      {label}{sortKey === k ? <span className="ml-1 text-gray-500">{sortAsc ? '↑' : '↓'}</span> : null}
-    </th>
-  );
-
-  return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <div>
-          <h2 className="text-[15px] font-bold text-white">Market Data</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Liberia · West Africa · Sources: CBL, GSE, BRVM</p>
-        </div>
-        <Link href="/economy" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">Full table ›</Link>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-[12px]">
-          <thead className="border-b border-white/[0.04]">
-            <tr>
-              <SH k="name" label="Company" right={false} />
-              <SH k="price" label="Price (LRD)" />
-              <SH k="changePercent" label="Change" />
-              <SH k="marketCap" label="Mkt Cap" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/[0.03]">
-            {sorted.map(s => (
-              <tr key={s.ticker} className="hover:bg-white/[0.02] transition-colors cursor-pointer">
-                <td className="px-4 py-3">
-                  <Link href="/economy" className="text-[12px] font-bold text-white no-underline">{s.ticker}</Link>
-                  <div className="text-[11px] text-gray-400 truncate max-w-[160px]">{s.name}</div>
-                </td>
-                <td className="tabular-nums px-4 py-3 text-right font-semibold text-white">
-                  {s.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </td>
-                <td className={`tabular-nums px-4 py-3 text-right font-semibold ${s.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {s.changePercent >= 0 ? '+' : ''}{s.changePercent.toFixed(2)}%
-                </td>
-                <td className="tabular-nums px-4 py-3 text-right text-gray-500">{s.marketCap}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    CURRENCY CONVERTER
