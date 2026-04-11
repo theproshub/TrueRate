@@ -79,8 +79,12 @@ export default function Footer() {
           {/* Left: logo + copyright + socials */}
           <div className="shrink-0 flex flex-col gap-6 sm:w-[200px]">
             <Link href="/" className="no-underline inline-block">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.png" alt="TrueRate" style={{ height: '80px', width: 'auto' }} />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none" style={{ height: '44px', width: 'auto' }} aria-label="TrueRate">
+                <rect x="0" y="8" width="6" height="24" rx="2" fill="#10b981"/>
+                <rect x="10" y="0" width="6" height="32" rx="2" fill="#10b981"/>
+                <rect x="20" y="14" width="6" height="18" rx="2" fill="#10b981"/>
+                <text x="36" y="28" fontFamily="system-ui, -apple-system, sans-serif" fontSize="22" fontWeight="700" fill="#ffffff" letterSpacing="-0.5">TrueRate</text>
+              </svg>
             </Link>
             <p className="text-[13px] text-gray-400 leading-relaxed">
               Copyright © 2026 TrueRate.<br />All rights reserved.
