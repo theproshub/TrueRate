@@ -116,13 +116,6 @@ const VIDEOS = [
   { title: 'Diaspora remittances hit $680M — a new record for Liberia',          duration: '2:31', category: 'economy',   source: 'TrueRate', time: '3h ago' },
 ];
 
-const KEY_SECTORS = [
-  { sector: 'Mining & Minerals',  contrib: '12.8%', growth: '+6.2%', up: true,  desc: 'Iron ore, gold, diamonds' },
-  { sector: 'Agriculture',        contrib: '34.2%', growth: '+3.8%', up: true,  desc: 'Rubber, palm oil, cocoa, timber' },
-  { sector: 'Services',           contrib: '42.5%', growth: '+5.1%', up: true,  desc: 'Telecoms, banking, trade' },
-  { sector: 'Manufacturing',      contrib: '6.3%',  growth: '+2.4%', up: true,  desc: 'Beverages, cement, food processing' },
-  { sector: 'Construction',       contrib: '4.2%',  growth: '+8.5%', up: true,  desc: 'Infrastructure, housing, roads' },
-];
 
 function timeAgo(d: string) {
   const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
@@ -817,46 +810,6 @@ function UpcomingEventsWidget() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   MARKETS PANEL (collapsible)
-───────────────────────────────────────────────────────────────────────────── */
-
-function MarketsPanel() {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="mt-10 border-t border-white/[0.05] pt-8">
-      <div className="flex items-center justify-between mb-0">
-        <div className="flex items-center gap-4">
-          <h2 className="text-[17px] font-bold text-white tracking-tight">Markets</h2>
-          <span className="text-[11px] text-gray-400">Liberia · West Africa · CBL, GSE, BRVM</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link href="/economy" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">
-            Full markets ›
-          </Link>
-          <button
-            onClick={() => setOpen(o => !o)}
-            className="flex items-center gap-2 rounded-lg border border-white/[0.15] bg-white/[0.04] px-4 py-2 text-[13px] font-semibold text-white hover:bg-white/[0.08] hover:border-white/30 transition-colors"
-          >
-            {open ? 'Hide' : 'Show markets'}
-            <svg
-              className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {open && (
-        <div className="mt-4">
-          <BusinessOverview />
-        </div>
-      )}
-    </div>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    PAGE

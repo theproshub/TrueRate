@@ -22,14 +22,6 @@ const CATEGORY_COLOR: Record<string, string> = {
   markets:     'text-cyan-400',
   trade:       'text-yellow-400',
 };
-const CATEGORY_BG: Record<string, string> = {
-  policy:      'bg-purple-500/15 text-purple-400',
-  economy:     'bg-emerald-500/15 text-emerald-400',
-  commodities: 'bg-orange-500/15 text-orange-400',
-  forex:       'bg-blue-500/15 text-blue-400',
-  markets:     'bg-cyan-500/15 text-cyan-400',
-  trade:       'bg-yellow-500/15 text-yellow-400',
-};
 
 /* ── static data ── */
 const TRENDING = [

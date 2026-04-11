@@ -79,6 +79,7 @@ export default function Footer() {
           {/* Left: logo + copyright + socials */}
           <div className="shrink-0 flex flex-col gap-6 sm:w-[200px]">
             <Link href="/" className="no-underline inline-block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo.png" alt="TrueRate" style={{ height: '80px', width: 'auto' }} />
             </Link>
             <p className="text-[13px] text-gray-400 leading-relaxed">
