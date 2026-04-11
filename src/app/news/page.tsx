@@ -19,11 +19,14 @@ function timeAgo(d: string) {
 const TRENDING = [
   { rank: 1, title: 'CBL holds rate for third straight quarter', isNew: true },
   { rank: 2, title: 'ArcelorMittal Nimba expansion lifts exports', isNew: true },
-  { rank: 3, title: 'Rubber output hits decade high on Firestone surge', isNew: false },
-  { rank: 4, title: 'World Bank approves $45M infrastructure grant', isNew: false },
-  { rank: 5, title: 'ECOWAS digital payments pilot goes live', isNew: false },
-  { rank: 6, title: 'Gold passes $3,100 — miners positioned to gain', isNew: false },
-  { rank: 7, title: 'Diaspora remittances hit record $680M', isNew: false },
+  { rank: 3, title: 'Bea Mountain strikes 1.4M oz gold deposit', isNew: true },
+  { rank: 4, title: 'Rubber output hits decade high on Firestone surge', isNew: false },
+  { rank: 5, title: 'World Bank approves $45M infrastructure grant', isNew: false },
+  { rank: 6, title: 'ECOWAS digital payments pilot goes live', isNew: false },
+  { rank: 7, title: 'Gold passes $3,100 — miners positioned to gain', isNew: false },
+  { rank: 8, title: 'Diaspora remittances hit record $680M', isNew: false },
+  { rank: 9, title: 'LiberAgro lists on Ghana Stock Exchange', isNew: false },
+  { rank: 10, title: 'CBL foreign reserves hit $642M — 13-year high', isNew: false },
 ];
 
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
@@ -33,12 +36,18 @@ const BREAKING = [
   { label: 'MARKETS', text: 'Iron ore spot price falls 2.1% on China demand data' },
   { label: 'POLICY', text: 'Finance Ministry confirms mid-year budget review set for Apr 14' },
   { label: 'TRADE', text: 'Port of Monrovia reports busiest week since 2021' },
+  { label: 'MINING', text: 'Bea Mountain confirms 1.4M oz gold deposit in Grand Cape Mount' },
+  { label: 'ECONOMY', text: 'CBL reserves hit $642M — highest since 2013' },
+  { label: 'ENERGY', text: 'Solar capacity triples as off-grid projects add 48MW across Liberia' },
+  { label: 'FINANCE', text: 'LiberAgro IPO raises $12M on Ghana Stock Exchange' },
 ];
 
 const OPINION = [
   { title: "Why Liberia's rubber sector needs a pricing overhaul — now", author: 'Dr. Y. Kollie', role: 'Economic Adviser', time: '2d ago' },
   { title: 'The case for a Liberia sovereign wealth fund before the mining boom peaks', author: 'Prof. A. Dahn', role: 'University of Liberia', time: '3d ago' },
   { title: "ECOWAS monetary union: Liberia should lead, not follow", author: 'M. Wreh', role: 'Senior Economist, CBL', time: '4d ago' },
+  { title: "5G is coming — but can Liberia's power grid support it?", author: 'E. Pewu', role: 'Tech Policy Analyst', time: '5d ago' },
+  { title: "The Freeport expansion is great — now fix the hinterland roads", author: 'S. Flomo', role: 'Logistics Economist', time: '6d ago' },
 ];
 
 const WEST_AFRICA = [
@@ -46,6 +55,10 @@ const WEST_AFRICA = [
   { country: 'Nigeria', title: 'Nigerian stock exchange posts best month in 18 years on oil rebound', source: 'BusinessDay NG', time: '6h ago' },
   { country: 'Sierra Leone', title: "Freetown port expansion fast-tracked with $80M Chinese loan", source: 'Awoko', time: '8h ago' },
   { country: "Côte d'Ivoire", title: "Abidjan bourse outperforms regional peers in Q1 2026", source: 'Agence Ecofin', time: '10h ago' },
+  { country: 'Senegal', title: "Dakar's offshore oil revenue projected at $2.4B for 2026 as Sangomar field ramps", source: 'Jeune Afrique', time: '14h ago' },
+  { country: 'Guinea', title: 'Bauxite production in Guinea surpasses 100M tonnes annually for first time', source: 'Mining Weekly Africa', time: '1d ago' },
+  { country: 'Gambia', title: "Gambia's tourism receipts jump 28% on new European charter routes", source: 'Daily Observer GM', time: '1d ago' },
+  { country: 'Mali', title: 'Mali gold output rises 9% despite political headwinds, Barrick reports', source: 'Reuters Africa', time: '2d ago' },
 ];
 
 const DATA_STORIES = [
@@ -53,6 +66,46 @@ const DATA_STORIES = [
   { stat: '$680M', statLabel: 'Remittances',   title: 'Diaspora Remittances Hit Record $680M — Highest in Liberia\'s History',       time: '2d ago',  category: 'economy' },
   { stat: '5.1%',  statLabel: 'GDP forecast',  title: 'IMF Upgrades Liberia Growth Forecast to 5.1% on Mining Rebound',             time: '3d ago',  category: 'economy' },
   { stat: '2,400', statLabel: 'New jobs',       title: 'Firestone Expansion Creates 2,400 Jobs as Rubber Output Hits Decade High',   time: '4d ago',  category: 'Agriculture' },
+  { stat: '$642M', statLabel: 'FX Reserves',   title: 'CBL Foreign Reserves Hit $642M — Highest Level Since 2013',                  time: '5d ago',  category: 'policy' },
+  { stat: '48MW',  statLabel: 'Solar added',   title: 'Off-Grid Solar Triples: 48MW New Capacity Powers 190,000 Liberian Homes',    time: '6d ago',  category: 'economy' },
+];
+
+const EDITORS_PICKS = [
+  {
+    category: 'Deep Dive',
+    title: "How ArcelorMittal's Nimba Expansion Could Reshape Liberia's Fiscal Future",
+    excerpt: "The $120M expansion is more than a mining story — it's a test of whether Liberia can translate commodity booms into lasting public revenue. We model three scenarios.",
+    author: 'TrueRate Analysis',
+    readTime: '8 min read',
+    time: '1d ago',
+  },
+  {
+    category: 'Explainer',
+    title: "What the IMF's 5.1% Growth Upgrade Actually Means for Everyday Liberians",
+    excerpt: "GDP forecasts are abstract. We break down which sectors are driving growth, who benefits, and where the gains are unlikely to reach.",
+    author: 'TrueRate',
+    readTime: '5 min read',
+    time: '2d ago',
+  },
+  {
+    category: 'Investigation',
+    title: "Inside Liberia's $50M Green Bond: Ambition, Risk, and the Road Ahead",
+    excerpt: "The debut ESG bond was oversubscribed 2.4x — but where will the money go, who is accountable, and what happens if targets are missed?",
+    author: 'TrueRate Investigation',
+    readTime: '11 min read',
+    time: '3d ago',
+  },
+];
+
+const LATEST_HEADLINES = [
+  { category: 'policy',      title: 'CBL RTGS upgrade cuts settlement time to under 90 seconds', time: '22m ago' },
+  { category: 'commodities', title: 'Palm oil futures drop 1.8% on Malaysia export data', time: '1h ago' },
+  { category: 'economy',     title: 'Orange Money crosses 1 million active users in Liberia', time: '2h ago' },
+  { category: 'forex',       title: 'LRD gains against CFA franc for third consecutive session', time: '3h ago' },
+  { category: 'policy',      title: 'Legislature passes amended Revenue Code — new mining royalty tiers in effect', time: '4h ago' },
+  { category: 'economy',     title: 'Monrovia rent prices up 34% year-on-year as urban population grows', time: '5h ago' },
+  { category: 'commodities', title: 'Cargill signs cocoa supply deal with seven Liberian cooperatives', time: '6h ago' },
+  { category: 'economy',     title: 'LiberAgro IPO oversubscribed 3.1x on Ghana Stock Exchange debut', time: '8h ago' },
 ];
 
 const ARCHIVES = [
@@ -60,6 +113,27 @@ const ARCHIVES = [
   { title: "The History of CBL Independence: From Post-War Reconstruction to Modern Monetary Policy",   date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
   { title: 'Iron Ore, Timber, Rubber: How Liberia Became Dependent on Three Commodities',              date: 'Sep 2025', category: 'Mining',      readTime: '10 min read' },
   { title: "Monrovia's Informal Economy: The Hidden Engine Powering Half of Urban Liberia",            date: 'Jul 2025', category: 'economy',     readTime: '9 min read' },
+];
+
+const UPCOMING_EVENTS = [
+  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Monetary Policy' },
+  { date: 'Apr 10', title: 'Q1 2026 GDP Advance Estimate Release',       type: 'Data' },
+  { date: 'Apr 12', title: 'LTA 5G Spectrum Consultation — Monrovia',    type: 'Tech' },
+  { date: 'Apr 14', title: 'Mid-Year Budget Review — Legislature',        type: 'Fiscal' },
+  { date: 'Apr 14', title: 'Liberia Investment Forum — Monrovia',         type: 'Trade' },
+  { date: 'Apr 18', title: 'West Africa Trade Facilitation Summit',       type: 'Trade' },
+  { date: 'Apr 22', title: 'IMF Staff Mission Begins',                    type: 'IMF' },
+  { date: 'Apr 28', title: 'ArcelorMittal Q1 Earnings Call',             type: 'Markets' },
+  { date: 'May 5',  title: 'African Development Bank Annual Meetings',    type: 'Development' },
+];
+
+const VIDEOS = [
+  { title: 'CBL Governor on rate outlook and food inflation', duration: '2:48', category: 'policy', time: '55m ago' },
+  { title: 'ArcelorMittal expansion — what it means for Liberia GDP', duration: '1:52', category: 'Mining', time: '3h ago' },
+  { title: 'Diaspora remittances hit $680M — a new record', duration: '2:31', category: 'economy', time: '12h ago' },
+  { title: 'ECOWAS digital payment pilot: live from Lagos', duration: '3:14', category: 'Trade', time: '1d ago' },
+  { title: 'Bea Mountain gold discovery: what investors need to know', duration: '4:05', category: 'commodities', time: '2d ago' },
+  { title: 'Inside the Freeport expansion — Phase II complete', duration: '3:22', category: 'economy', time: '3d ago' },
 ];
 
 const COMMUNITY_VOICES = [
@@ -84,21 +158,13 @@ const COMMUNITY_VOICES = [
     role: 'CEO, LiberAgro Ltd',
     time: '5d ago',
   },
-];
-
-const UPCOMING_EVENTS = [
-  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Monetary Policy' },
-  { date: 'Apr 10', title: 'Q1 2026 GDP Advance Estimate Release',       type: 'Data' },
-  { date: 'Apr 14', title: 'Mid-Year Budget Review — Legislature',        type: 'Fiscal' },
-  { date: 'Apr 14', title: 'Liberia Investment Forum — Monrovia',         type: 'Trade' },
-  { date: 'Apr 22', title: 'IMF Staff Mission Begins',                    type: 'IMF' },
-];
-
-const VIDEOS = [
-  { title: 'CBL Governor on rate outlook and food inflation', duration: '2:48', category: 'policy', time: '55m ago' },
-  { title: 'ArcelorMittal expansion — what it means for Liberia GDP', duration: '1:52', category: 'Mining', time: '3h ago' },
-  { title: 'Diaspora remittances hit $680M — a new record', duration: '2:31', category: 'economy', time: '12h ago' },
-  { title: 'ECOWAS digital payment pilot: live from Lagos', duration: '3:14', category: 'Trade', time: '1d ago' },
+  {
+    title: "The Lofa Corridor Is Liberia's Biggest Untapped Opportunity",
+    excerpt: "Connecting Lofa's rich agricultural belt to Monrovia with cold-chain logistics could generate $200M annually — yet the roads remain unpaved.",
+    author: 'David Tarr',
+    role: 'Supply Chain Analyst, USAID Liberia',
+    time: '6d ago',
+  },
 ];
 
 /* ── components ── */
@@ -446,6 +512,23 @@ function NewsPageInner() {
         </div>
       </div>
 
+      {/* Latest headlines strip */}
+      <div className="mb-5 rounded-xl border border-gray-200 bg-white overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+          <h2 className="text-[12px] font-bold uppercase tracking-widest text-gray-900">Latest</h2>
+          <span className="text-[11px] text-gray-400">Updated 22m ago</span>
+        </div>
+        <div className="divide-y divide-gray-100">
+          {LATEST_HEADLINES.map((h, i) => (
+            <Link key={i} href="/news" className="group flex items-center gap-3 px-4 py-2.5 no-underline hover:bg-gray-50 transition-colors">
+              <span className={`shrink-0 text-[9px] font-black uppercase tracking-widest ${getCatColor(h.category)} w-[60px]`}>{h.category}</span>
+              <p className="flex-1 text-[13px] text-gray-700 group-hover:text-gray-900 transition-colors leading-snug line-clamp-1">{h.title}</p>
+              <span className="shrink-0 text-[11px] text-gray-400 tabular-nums">{h.time}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Three-column layout */}
       <div className="flex gap-6">
 
@@ -484,6 +567,32 @@ function NewsPageInner() {
           </div>
           <FeedList tab={activeTab} />
 
+          {/* Editor's Picks */}
+          <div className="mt-10">
+            <div className="flex items-center gap-2 mb-4">
+              <svg className="h-4 w-4 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <h2 className="text-[18px] font-bold text-gray-900">Editor&apos;s Picks</h2>
+            </div>
+            <div className="flex flex-col gap-4">
+              {EDITORS_PICKS.map((p, i) => (
+                <Link key={i} href="/news" className="group flex gap-4 rounded-xl border border-gray-200 bg-white p-5 no-underline hover:border-gray-300 transition-colors">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gray-500">{p.category}</span>
+                      <span className="text-[11px] text-gray-400">{p.readTime}</span>
+                    </div>
+                    <h3 className="text-[16px] font-bold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-2">{p.title}</h3>
+                    <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3">{p.excerpt}</p>
+                    <div className="text-[12px] text-gray-400">{p.author} · {p.time}</div>
+                  </div>
+                  <div className="shrink-0 overflow-hidden rounded-xl">
+                    <NewsThumbnail category={i === 0 ? 'Mining' : i === 1 ? 'economy' : 'policy'} className="h-[110px] w-[160px]" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* More Stories grid */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
@@ -491,7 +600,7 @@ function NewsPageInner() {
               <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">All stories ›</Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 rounded-xl border border-gray-200 bg-white overflow-hidden divide-x divide-gray-100">
-              {newsItems.slice(0, 4).map((item) => (
+              {newsItems.slice(20, 24).map((item) => (
                 <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-col gap-2.5 p-4 no-underline hover:bg-gray-50 transition-colors">
                   <div className="overflow-hidden rounded-lg">
                     <NewsThumbnail category={item.category} className="w-full h-[80px]" />
@@ -573,7 +682,7 @@ function NewsPageInner() {
               <h2 className="text-[17px] font-bold text-gray-900">Data Stories</h2>
               <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {DATA_STORIES.map((s, i) => (
                 <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-gray-200 bg-white overflow-hidden">
                   <div className="relative overflow-hidden">
@@ -624,7 +733,7 @@ function NewsPageInner() {
               <h2 className="text-[17px] font-bold text-gray-900">Community Voices</h2>
               <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {COMMUNITY_VOICES.map((cv, i) => (
                 <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-gray-200 bg-white p-5">
                   <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-2">{cv.title}</h3>

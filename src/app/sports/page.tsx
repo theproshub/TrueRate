@@ -9,11 +9,14 @@ import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
 const SPORT_TABS = ['All', 'Transfers & Deals', 'Broadcast Rights', 'Club Finance', 'Sponsorship'];
 
 const SCORES = [
-  { home: 'Liberia',         away: 'Ghana',          homeScore: 2, awayScore: 1, status: 'FT',  competition: 'WAFU Cup' },
-  { home: 'Nigeria',         away: 'Ivory Coast',    homeScore: 0, awayScore: 0, status: "67'", competition: 'AFCON Qual.' },
-  { home: 'Monrovia FC',     away: 'LISCR FC',       homeScore: 1, awayScore: 1, status: 'HT',  competition: 'LFA League' },
-  { home: 'Rivers Hoopers',  away: 'Bayelsa Wave',   homeScore: 78, awayScore: 65, status: 'Q3', competition: 'NBL Africa' },
-  { home: 'Senegal',         away: 'Kenya',          homeScore: 3, awayScore: 1, status: 'FT',  competition: 'Africa Cup' },
+  { home: 'Liberia',          away: 'Ghana',           homeScore: 2,  awayScore: 1,  status: 'FT',   competition: 'WAFU Cup' },
+  { home: 'Nigeria',          away: 'Ivory Coast',     homeScore: 0,  awayScore: 0,  status: "67'",  competition: 'AFCON Qual.' },
+  { home: 'Monrovia FC',      away: 'LISCR FC',        homeScore: 1,  awayScore: 1,  status: 'HT',   competition: 'LFA League' },
+  { home: 'Rivers Hoopers',   away: 'Bayelsa Wave',    homeScore: 78, awayScore: 65, status: 'Q3',   competition: 'NBL Africa' },
+  { home: 'Senegal',          away: 'Kenya',           homeScore: 3,  awayScore: 1,  status: 'FT',   competition: 'Africa Cup' },
+  { home: 'BYC FC',           away: 'Barrack Young',   homeScore: 0,  awayScore: 2,  status: 'FT',   competition: 'LFA League' },
+  { home: 'Guinea',           away: 'Burkina Faso',    homeScore: 1,  awayScore: 0,  status: "42'",  competition: 'WAFU Cup' },
+  { home: 'Monrovia Ballers', away: 'Accra Lions',     homeScore: 62, awayScore: 71, status: 'FT',   competition: 'NBL Africa' },
 ];
 
 const HERO = {
@@ -37,14 +40,21 @@ const FEED = [
   { category: 'Football',   title: "How Marcus Pewee became the most valuable Liberian player since Weah — the numbers",            summary: "Rivers Hoopers' $840K contract and pre-draft NBA valuation make Pewee the highest-earning Liberian athlete in active competition.",                               source: 'TrueRate Sports', time: '9h ago' },
   { category: 'Football',   title: "Shirt sponsorship in West African football: deals, values, and the brands that pay the most",  summary: "A survey of 40 top-flight clubs finds median jersey deal values of $120K/year — with Monrovia FC's Orange partnership among the region's top 10.",            source: 'Sportcal', time: '1d ago' },
   { category: 'Athletics',  title: "Comfort Brown's commercial value: sponsorship worth $220K — and growing fast",                  summary: "After breaking the West African 100m record, the sprinter has attracted Puma, MTN, and Liberia Petroleum as sponsors in a six-month window.",                    source: 'TrueRate Sports', time: '1d ago' },
+  { category: 'Football',   title: "WAFU Cup semi-final preview: Liberia vs Guinea — tactical and financial breakdown",              summary: "Liberia's Lone Star faces Guinea in the WAFU Cup semi-final. We break down the prize money at stake, the tactics, and what a final appearance would mean commercially.", source: 'TrueRate Sports', time: '2d ago' },
+  { category: 'Basketball', title: "NBA Africa Monrovia 2026: venue, ticket revenue, and the long-term legacy",                     summary: "With a venue confirmed and ticket sales open, we model the $4.2M economic impact — and ask whether a permanent NBA Africa franchise in Liberia is now realistic.",    source: 'TrueRate Sports', time: '2d ago' },
+  { category: 'Football',   title: "Liberia's youth football pipeline: how the U20 system could become a commercial asset",        summary: "With four Liberian under-20s attracting European scout interest, the LFA is exploring a $500K academy partnership model with a Premier League club.",             source: 'TrueRate Sports', time: '3d ago' },
+  { category: 'Athletics',  title: "West Africa Athletics Grand Prix returns to Monrovia — $180K prize pool announced",             summary: "The continental circuit event returns after a two-year absence, with prize money up 60% and broadcast coverage confirmed on SuperSport.",                       source: 'World Athletics', time: '3d ago' },
 ];
 
 const TRANSFERS = [
-  { player: 'Emmanuel Kollie', from: 'Monrovia FC',   to: 'LISCR FC',             fee: '$280K',      status: 'Rumour',    confirmed: false },
-  { player: 'James Dolo',      from: 'BYC FC',        to: 'Barrack Young',        fee: '$45K',       status: 'Confirmed', confirmed: true  },
-  { player: 'Marcus Pewee',    from: 'Free Agent',    to: 'Rivers Hoopers',       fee: '$840K / 2yr',status: 'Done',      confirmed: true  },
-  { player: 'Eric Kpah',       from: 'LISCR FC',      to: 'Club de Foot Abidjan', fee: '$190K',      status: 'Confirmed', confirmed: true  },
-  { player: 'Samuel Toe',      from: 'FC Nimba',      to: 'Monrovia FC',          fee: 'Undisclosed', status: 'Rumour',   confirmed: false },
+  { player: 'Emmanuel Kollie', from: 'Monrovia FC',   to: 'LISCR FC',              fee: '$280K',       status: 'Rumour',    confirmed: false },
+  { player: 'James Dolo',      from: 'BYC FC',        to: 'Barrack Young',         fee: '$45K',        status: 'Confirmed', confirmed: true  },
+  { player: 'Marcus Pewee',    from: 'Free Agent',    to: 'Rivers Hoopers',        fee: '$840K / 2yr', status: 'Done',      confirmed: true  },
+  { player: 'Eric Kpah',       from: 'LISCR FC',      to: 'Club de Foot Abidjan',  fee: '$190K',       status: 'Confirmed', confirmed: true  },
+  { player: 'Samuel Toe',      from: 'FC Nimba',      to: 'Monrovia FC',           fee: 'Undisclosed', status: 'Rumour',    confirmed: false },
+  { player: 'Alvin Sumo',      from: 'Barrack Young', to: 'Semassi FC (Togo)',     fee: '$60K',        status: 'Confirmed', confirmed: true  },
+  { player: 'George Flomo',    from: 'Free Agent',    to: 'BYC FC',               fee: '$22K',        status: 'Done',      confirmed: true  },
+  { player: 'Ibrahim Kamara',  from: 'LISCR FC',      to: 'Williamsville AC (CIV)', fee: '$310K',      status: 'Negotiating', confirmed: false },
 ];
 
 const BROADCAST = [
@@ -66,14 +76,48 @@ const VIDEOS = [
   { title: "Lone Star's AFCON qualifier — and the $4M prize money on the line", duration: '4:22', category: 'Football' },
   { title: 'NBA Africa Monrovia 2026: the business case explained', duration: '6:10', category: 'Basketball' },
   { title: 'Comfort Brown and the economics of African sprint sponsorship', duration: '3:15', category: 'Athletics' },
+  { title: 'WAFU Cup semi-final preview: Liberia vs Guinea', duration: '5:48', category: 'Football' },
+  { title: 'Inside Monrovia FC stadium deal — PPP explained', duration: '4:02', category: 'Football' },
+  { title: 'LFA annual deficit: where does the money go?', duration: '3:30', category: 'Football' },
 ];
 
 const STANDINGS = [
-  { pos: 1, team: 'Monrovia FC',   p: 22, w: 14, d: 5, l: 3,  pts: 47 },
-  { pos: 2, team: 'LISCR FC',      p: 22, w: 12, d: 6, l: 4,  pts: 42 },
-  { pos: 3, team: 'BYC FC',        p: 22, w: 11, d: 5, l: 6,  pts: 38 },
-  { pos: 4, team: 'Barrack Young', p: 22, w: 9,  d: 7, l: 6,  pts: 34 },
-  { pos: 5, team: 'FC Nimba',      p: 22, w: 8,  d: 6, l: 8,  pts: 30 },
+  { pos: 1, team: 'Monrovia FC',    p: 24, w: 15, d: 5, l: 4,  pts: 50 },
+  { pos: 2, team: 'LISCR FC',       p: 24, w: 13, d: 6, l: 5,  pts: 45 },
+  { pos: 3, team: 'BYC FC',         p: 24, w: 12, d: 5, l: 7,  pts: 41 },
+  { pos: 4, team: 'Barrack Young',  p: 24, w: 10, d: 7, l: 7,  pts: 37 },
+  { pos: 5, team: 'FC Nimba',       p: 24, w: 9,  d: 6, l: 9,  pts: 33 },
+  { pos: 6, team: 'Gbarpolu FC',    p: 24, w: 8,  d: 5, l: 11, pts: 29 },
+  { pos: 7, team: 'Lofa Rangers',   p: 24, w: 6,  d: 7, l: 11, pts: 25 },
+  { pos: 8, team: 'Grand Bassa',    p: 24, w: 5,  d: 5, l: 14, pts: 20 },
+];
+
+const PLAYER_SPOTLIGHT = {
+  name: 'Comfort Brown',
+  sport: 'Athletics',
+  achievement: 'West African 100m Record Holder',
+  stat: '9.87s',
+  statLabel: '100m Personal Best',
+  summary: "After breaking the West African 100m record in Dakar, Comfort Brown has emerged as the continent's most commercially valuable sprinter — with $220K in active sponsorships and a shot at the 2028 Olympics.",
+  sponsors: ['Puma', 'MTN', 'Liberia Petroleum'],
+  nationality: 'Liberia',
+};
+
+const TOP_PERFORMERS = [
+  { name: 'T. Kollie',     team: 'Monrovia FC',  stat: '16 goals',  category: 'Football',   label: 'Top Scorer' },
+  { name: 'E. Kpah',       team: 'LISCR FC',     stat: '11 assists', category: 'Football',   label: 'Assists' },
+  { name: 'M. Pewee',      team: 'Rivers Hoopers',stat: '28.4 ppg',  category: 'Basketball', label: 'Points/Game' },
+  { name: 'C. Brown',      team: 'Liberia NAT',  stat: '9.87s',     category: 'Athletics',  label: '100m PB' },
+  { name: 'A. Sumo',       team: 'Barrack Young',stat: '9 clean sheets', category: 'Football', label: 'Goalkeeper' },
+];
+
+const WAFU_STANDINGS = [
+  { pos: 1, team: 'Liberia',        pld: 3, w: 3, d: 0, l: 0, gf: 6, ga: 2, pts: 9 },
+  { pos: 2, team: 'Nigeria',        pld: 3, w: 2, d: 1, l: 0, gf: 5, ga: 1, pts: 7 },
+  { pos: 3, team: 'Ghana',          pld: 3, w: 2, d: 0, l: 1, gf: 4, ga: 3, pts: 6 },
+  { pos: 4, team: 'Guinea',         pld: 3, w: 1, d: 1, l: 1, gf: 3, ga: 3, pts: 4 },
+  { pos: 5, team: 'Sierra Leone',   pld: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4, pts: 3 },
+  { pos: 6, team: 'Gambia',         pld: 3, w: 0, d: 0, l: 3, gf: 1, ga: 8, pts: 0 },
 ];
 
 const BUSINESS_METRICS = [
@@ -81,6 +125,8 @@ const BUSINESS_METRICS = [
   { label: 'W. Africa Sports Sponsorship',     value: '$340M',  change: '+22% YoY', up: true  },
   { label: 'Monrovia FC Est. Valuation',       value: '$8.4M',  change: '+11% YoY', up: true  },
   { label: 'CAF Prize Money (AFCON 2027)',     value: '$22.5M', change: '+18% YoY', up: true  },
+  { label: 'WAFU Cup Winner Prize',            value: '$800K',  change: '+25% YoY', up: true  },
+  { label: 'NBL Africa Monrovia Gate Revenue', value: '$1.1M',  change: 'Projected', up: true  },
 ];
 
 export default function SportsPage() {
@@ -292,6 +338,108 @@ export default function SportsPage() {
             </div>
           </div>
 
+          {/* Player Spotlight */}
+          <div className="mb-8">
+            <h2 className="text-[17px] font-bold text-gray-900 mb-4">Player Spotlight</h2>
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden flex flex-col sm:flex-row">
+              <div className="w-full sm:w-[220px] shrink-0">
+                <NewsThumbnail category={PLAYER_SPOTLIGHT.sport} className="w-full h-[200px] sm:h-full" />
+              </div>
+              <div className="p-6 flex flex-col justify-between flex-1">
+                <div>
+                  <span className={`text-[10px] font-bold uppercase tracking-widest mb-2 block ${CATEGORY_COLORS_FN(PLAYER_SPOTLIGHT.sport)}`}>{PLAYER_SPOTLIGHT.sport} · {PLAYER_SPOTLIGHT.nationality}</span>
+                  <h3 className="text-[22px] font-black text-gray-900 mb-1">{PLAYER_SPOTLIGHT.name}</h3>
+                  <p className="text-[12px] text-gray-500 mb-3">{PLAYER_SPOTLIGHT.achievement}</p>
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-[40px] font-black text-gray-900 tabular-nums leading-none">{PLAYER_SPOTLIGHT.stat}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400">{PLAYER_SPOTLIGHT.statLabel}</span>
+                  </div>
+                  <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-3 mb-4">{PLAYER_SPOTLIGHT.summary}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Sponsors</p>
+                  <div className="flex flex-wrap gap-2">
+                    {PLAYER_SPOTLIGHT.sponsors.map(s => (
+                      <span key={s} className="rounded-lg bg-gray-100 border border-gray-200 px-3 py-1 text-[12px] font-semibold text-gray-700">{s}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Top Performers */}
+          <div className="mb-8">
+            <h2 className="text-[17px] font-bold text-gray-900 mb-4">Top Performers</h2>
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <table className="w-full text-[13px]">
+                <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  <tr>
+                    <th className="px-5 py-3 text-left">Athlete</th>
+                    <th className="px-5 py-3 text-left hidden sm:table-cell">Club / Body</th>
+                    <th className="px-5 py-3 text-right">Stat</th>
+                    <th className="px-5 py-3 text-right hidden sm:table-cell">Category</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {TOP_PERFORMERS.map((p, i) => (
+                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-5 py-3 font-bold text-gray-900">{p.name} <span className="font-normal text-gray-400 text-[11px]">· {p.label}</span></td>
+                      <td className="px-5 py-3 text-gray-400 hidden sm:table-cell">{p.team}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-black text-gray-900">{p.stat}</td>
+                      <td className={`px-5 py-3 text-right text-[11px] font-bold hidden sm:table-cell ${CATEGORY_COLORS_FN(p.category)}`}>{p.category}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* WAFU Cup Group Standings */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-[17px] font-bold text-gray-900">WAFU Cup 2026</h2>
+                <p className="text-[12px] text-gray-500">Group Stage Standings</p>
+              </div>
+              <span className="rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-600">Live</span>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <table className="w-full text-[13px] min-w-[400px]">
+                  <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                    <tr>
+                      <th className="px-5 py-3 text-left">#</th>
+                      <th className="px-5 py-3 text-left">Team</th>
+                      <th className="px-3 py-3 text-center">Pld</th>
+                      <th className="px-3 py-3 text-center">W</th>
+                      <th className="px-3 py-3 text-center">D</th>
+                      <th className="px-3 py-3 text-center">L</th>
+                      <th className="px-3 py-3 text-center">GF</th>
+                      <th className="px-3 py-3 text-center">GA</th>
+                      <th className="px-5 py-3 text-right font-black">Pts</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {WAFU_STANDINGS.map(row => (
+                      <tr key={row.pos} className={`hover:bg-gray-50 transition-colors ${row.team === 'Liberia' ? 'bg-emerald-50/50' : ''}`}>
+                        <td className="px-5 py-3 text-gray-400 font-bold">{row.pos}</td>
+                        <td className={`px-5 py-3 font-bold ${row.team === 'Liberia' ? 'text-emerald-600' : 'text-gray-900'}`}>{row.team}</td>
+                        <td className="px-3 py-3 text-center text-gray-500">{row.pld}</td>
+                        <td className="px-3 py-3 text-center text-gray-500">{row.w}</td>
+                        <td className="px-3 py-3 text-center text-gray-500">{row.d}</td>
+                        <td className="px-3 py-3 text-center text-gray-500">{row.l}</td>
+                        <td className="px-3 py-3 text-center text-gray-500">{row.gf}</td>
+                        <td className="px-3 py-3 text-center text-gray-500">{row.ga}</td>
+                        <td className="px-5 py-3 text-right font-black text-gray-900">{row.pts}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
           {/* Videos */}
           <div>
             <div className="flex items-center justify-between mb-4">
@@ -374,10 +522,12 @@ export default function SportsPage() {
               </div>
               <div className="divide-y divide-gray-100">
                 {[
-                  { home: 'Liberia',       away: 'Guinea',          date: 'Apr 8',  time: '18:00', competition: 'WAFU Cup SF' },
-                  { home: 'Monrovia FC',   away: 'FC Nimba',        date: 'Apr 9',  time: '15:00', competition: 'LFA League' },
-                  { home: 'LISCR FC',      away: 'BYC FC',          date: 'Apr 10', time: '16:00', competition: 'LFA League' },
-                  { home: 'Rivers Hoopers', away: 'Monrovia Ballers', date: 'Apr 11', time: '20:00', competition: 'NBL Africa' },
+                  { home: 'Liberia',        away: 'Guinea',           date: 'Apr 8',  time: '18:00', competition: 'WAFU Cup SF' },
+                  { home: 'Monrovia FC',    away: 'FC Nimba',         date: 'Apr 9',  time: '15:00', competition: 'LFA League' },
+                  { home: 'LISCR FC',       away: 'BYC FC',           date: 'Apr 10', time: '16:00', competition: 'LFA League' },
+                  { home: 'Rivers Hoopers', away: 'Monrovia Ballers',  date: 'Apr 11', time: '20:00', competition: 'NBL Africa' },
+                  { home: 'Liberia',        away: 'Nigeria',           date: 'Apr 14', time: '20:00', competition: 'WAFU Cup Final' },
+                  { home: 'Barrack Young',  away: 'Gbarpolu FC',       date: 'Apr 16', time: '15:00', competition: 'LFA League' },
                 ].map((f, i) => (
                   <Link key={i} href="/sports" className="flex flex-col px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                     <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">{f.competition}</div>
@@ -400,6 +550,8 @@ export default function SportsPage() {
                   { rank: 3, title: "LFA's $2.1M annual deficit explained",                  tag: 'Football' },
                   { rank: 4, title: "Marcus Pewee's $840K deal — how it compares",           tag: 'Basketball' },
                   { rank: 5, title: "Comfort Brown sponsorship value: $220K and rising",     tag: 'Athletics' },
+                  { rank: 6, title: "WAFU Cup semi-final: Liberia vs Guinea preview",        tag: 'Football' },
+                  { rank: 7, title: "Monrovia FC stadium PPP: the $18M deal breakdown",      tag: 'Football' },
                 ].map(t => (
                   <Link key={t.rank} href="/sports" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                     <span className="shrink-0 text-[20px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
