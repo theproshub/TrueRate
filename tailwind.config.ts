@@ -11,9 +11,11 @@ const config: Config = {
       colors: {
         // ── Brand palette ──────────────────────────────────────────────────
         'brand-accent':  '#BFEA36',   // Yellow-green — primary CTA, active states
-        'brand-dark':    '#061E29',   // Dark azure — page background, header
-        'brand-card':    '#0a2535',   // Card / panel background
-        'brand-nav':     '#051a26',   // Secondary nav bar
+        'brand-dark':    '#050d11',   // Page background — near-black with dark azure undertone
+        'brand-header':  '#061520',   // Header / nav background
+        'brand-card':    '#0a1e2a',   // Card / panel background
+        'brand-nav':     '#040f18',   // Secondary nav bar
+        'brand-azure':   '#061E29',   // Dark Azure — brand color, used for borders/accents
         'brand-light':   '#F3F4F4',   // Light grey — surfaces, subtle text
 
         // ── Semantic tokens ────────────────────────────────────────────────
