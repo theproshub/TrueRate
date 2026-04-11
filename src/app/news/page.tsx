@@ -183,7 +183,7 @@ function HeroCarousel() {
       <NewsThumbnail category={item.category} className="w-full h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className={`text-[11px] font-bold uppercase tracking-wide ${CATEGORY_COLORS[item.category] ?? 'text-white'}`}>{item.category}</span>
+        <span className={`text-[11px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white'}`}>{item.category}</span>
       </div>
       <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
         {idx + 1} / {slides.length}
