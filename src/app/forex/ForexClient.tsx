@@ -159,7 +159,7 @@ function ForexChart() {
 
 function Pill({ text, up }: { text: string; up: boolean }) {
   return (
-    <span className={`tabular-nums text-[12px] font-semibold ${up ? 'text-brand-accent' : 'text-red-400'}`}>
+    <span className={`tabular-nums text-[12px] font-semibold ${up ? 'text-emerald-400' : 'text-red-400'}`}>
       {up ? '▲' : '▼'} {text}
     </span>
   );
@@ -332,7 +332,7 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
                     <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">
                       {r.rate.toFixed(4)}
                     </td>
-                    <td className={`tabular-nums px-5 py-3 text-right font-semibold ${r.change >= 0 ? 'text-brand-accent' : 'text-red-400'}`}>
+                    <td className={`tabular-nums px-5 py-3 text-right font-semibold ${r.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {r.change >= 0 ? '+' : ''}{r.change.toFixed(4)}
                     </td>
                     <td className="px-5 py-3 text-right">

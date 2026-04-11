@@ -164,7 +164,7 @@ export default function EntertainmentPage() {
                       <td className="px-5 py-3 text-[18px] font-black text-white/10 tabular-nums">{film.rank}</td>
                       <td className="px-5 py-3 font-semibold text-white">{film.title}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{film.gross}</td>
-                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${film.up ? 'text-brand-accent' : 'text-red-400'}`}>
+                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${film.up ? 'text-emerald-400' : 'text-red-400'}`}>
                         {film.weeklyChange}
                       </td>
                       <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-500">{film.screens}</td>
@@ -198,7 +198,7 @@ export default function EntertainmentPage() {
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-5 py-3 font-bold text-white">{s.platform}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{s.subscribers}</td>
-                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${s.up ? 'text-brand-accent' : 'text-red-400'}`}>
+                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>
                         {s.up ? '+' : ''}{s.qChange}
                       </td>
                       <td className="tabular-nums px-5 py-3 text-right text-gray-300">{s.revenue}</td>
@@ -313,7 +313,7 @@ export default function EntertainmentPage() {
                     <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
                     <div className="text-right shrink-0">
                       <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
-                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-brand-accent' : 'text-red-400'}`}>{m.change}</div>
+                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
                     </div>
                   </div>
                 ))}

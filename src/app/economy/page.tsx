@@ -265,8 +265,8 @@ export default function EconomyPage() {
         {indicators.map(ind => (
           <span key={ind.label} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-white/[0.06] transition-colors cursor-default flex items-center gap-1.5">
             <span className="text-gray-500">{ind.label}</span>
-            <span className={ind.up ? 'text-brand-accent' : 'text-red-400'}>{ind.value}</span>
-            <span className={`text-[10px] ${ind.up ? 'text-brand-accent' : 'text-red-500'}`}>{ind.change}</span>
+            <span className={ind.up ? 'text-emerald-400' : 'text-red-400'}>{ind.value}</span>
+            <span className={`text-[10px] ${ind.up ? 'text-emerald-400' : 'text-red-500'}`}>{ind.change}</span>
           </span>
         ))}
       </div>
@@ -473,7 +473,7 @@ export default function EconomyPage() {
                     <span className="text-[11px] text-gray-500 uppercase tracking-wide">{stat.label}</span>
                     <span className="text-[28px] font-black text-white tabular-nums leading-none">{stat.value}</span>
                     <div className="flex items-center gap-1.5 mt-1">
-                      <span className={`text-[12px] font-bold ${stat.up ? 'text-brand-accent' : 'text-red-400'}`}>
+                      <span className={`text-[12px] font-bold ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
                         {stat.up ? '▲' : '▼'} {stat.change}
                       </span>
                     </div>
@@ -537,7 +537,7 @@ export default function EconomyPage() {
                   <span className="text-[12px] text-gray-500">{ind.label}</span>
                   <div className="flex items-center gap-2">
                     <span className="text-[13px] font-bold text-white tabular-nums">{ind.value}</span>
-                    <span className={`text-[11px] font-semibold ${ind.up ? 'text-brand-accent' : 'text-red-400'}`}>{ind.change}</span>
+                    <span className={`text-[11px] font-semibold ${ind.up ? 'text-emerald-400' : 'text-red-400'}`}>{ind.change}</span>
                   </div>
                 </div>
               ))}
@@ -596,7 +596,7 @@ export default function EconomyPage() {
               ].map((t, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <span className="text-[11px] text-gray-500">{t.tranche} Tranche · {t.amount}</span>
-                  <span className={`text-[11px] font-bold ${t.up ? 'text-brand-accent' : 'text-gray-400'}`}>{t.status}</span>
+                  <span className={`text-[11px] font-bold ${t.up ? 'text-emerald-400' : 'text-gray-400'}`}>{t.status}</span>
                 </div>
               ))}
             </div>

@@ -157,7 +157,7 @@ function IndicatorsStrip() {
                 <span className="text-[12px] font-semibold text-white whitespace-nowrap">{item.label}</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="tabular-nums text-[12px] text-gray-400 whitespace-nowrap">{item.value}</span>
-                  <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-brand-accent' : 'text-red-400'}`}>
+                  <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
                     {item.pct}
                   </span>
                 </div>
@@ -174,7 +174,7 @@ function IndicatorsStrip() {
                 <span className="text-[13px] font-semibold text-white whitespace-nowrap">{item.label}</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="tabular-nums text-[13px] text-gray-400 whitespace-nowrap">{item.value}</span>
-                  <span className={`flex items-center gap-0.5 tabular-nums text-[12px] font-bold whitespace-nowrap ${item.up ? 'text-brand-accent' : 'text-red-400'}`}>
+                  <span className={`flex items-center gap-0.5 tabular-nums text-[12px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
                     {item.up ? '▲' : '▼'}{item.pct}
                   </span>
                 </div>
@@ -309,7 +309,7 @@ function LatestColumn() {
                 <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
                   {item.chips.map(chip => (
                     <span key={chip.label} className="text-[11px] text-gray-400">
-                      {chip.label} <span className={chip.up ? 'text-brand-accent' : 'text-red-400'}>{chip.pct}</span>
+                      {chip.label} <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
                     </span>
                   ))}
                 </div>
@@ -359,7 +359,7 @@ function ForexWidget() {
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[14px] font-bold text-white tabular-nums">{r.rate}</div>
-              <div className={`text-[12px] font-semibold tabular-nums ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.up ? '+' : ''}{r.change}</div>
+              <div className={`text-[12px] font-semibold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.up ? '+' : ''}{r.change}</div>
             </div>
           </Link>
         ))}
@@ -399,7 +399,7 @@ function CommoditiesWidget() {
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[13px] font-bold text-white tabular-nums">${c.price}</div>
-              <div className={`text-[12px] font-semibold tabular-nums ${c.up ? 'text-brand-accent' : 'text-red-400'}`}>{c.pct}</div>
+              <div className={`text-[12px] font-semibold tabular-nums ${c.up ? 'text-emerald-400' : 'text-red-400'}`}>{c.pct}</div>
             </div>
           </Link>
         ))}
@@ -438,7 +438,7 @@ function EconomicWidget() {
             </div>
             <div className="shrink-0 text-right">
               <div className="tabular-nums text-[13px] font-bold text-white">{r.value}</div>
-              <div className={`tabular-nums text-[12px] font-semibold ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.pct}</div>
+              <div className={`tabular-nums text-[12px] font-semibold ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
             </div>
           </Link>
         ))}

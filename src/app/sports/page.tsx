@@ -193,7 +193,7 @@ export default function SportsPage() {
                       <td className="px-5 py-3 text-gray-400">{t.from}</td>
                       <td className="px-5 py-3 text-gray-400">{t.to}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{t.fee}</td>
-                      <td className={`px-5 py-3 text-right text-[12px] font-semibold ${t.confirmed ? 'text-brand-accent' : 'text-gray-500'}`}>
+                      <td className={`px-5 py-3 text-right text-[12px] font-semibold ${t.confirmed ? 'text-emerald-400' : 'text-gray-500'}`}>
                         {t.status}
                       </td>
                     </tr>
@@ -326,7 +326,7 @@ export default function SportsPage() {
                     <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
                     <div className="text-right shrink-0">
                       <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
-                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-brand-accent' : 'text-red-400'}`}>{m.change}</div>
+                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
                     </div>
                   </div>
                 ))}

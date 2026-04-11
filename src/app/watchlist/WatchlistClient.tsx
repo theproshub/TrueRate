@@ -44,7 +44,7 @@ function saveWatched(userId: string, items: WatchedItem[]) {
 function ChangePill({ value, suffix = '%' }: { value: number; suffix?: string }) {
   const up = value >= 0;
   return (
-    <span className={`inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-semibold tabular-nums ${up ? 'bg-brand-accent/15 text-brand-accent' : 'bg-red-500/15 text-red-400'}`}>
+    <span className={`inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-semibold tabular-nums ${up ? 'bg-emerald-400/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>
       {up ? '▲' : '▼'} {Math.abs(value).toFixed(2)}{suffix}
     </span>
   );

@@ -163,7 +163,7 @@ export default function ForexPage() {
                     <td className="px-5 py-3 font-bold text-white">{row.commodity}</td>
                     <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{row.value}</td>
                     <td className="tabular-nums px-5 py-3 text-right text-gray-400">{row.share}</td>
-                    <td className={`px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-brand-accent' : 'text-red-400'}`}>
+                    <td className={`px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-emerald-400' : 'text-red-400'}`}>
                       {row.sensitivity}
                     </td>
                     <td className="px-5 py-3 text-[12px] text-gray-500 max-w-[320px]">{row.note}</td>
@@ -198,7 +198,7 @@ export default function ForexPage() {
                 {item.rateVsUSD}
                 <span className="ml-1.5 text-[12px] font-semibold text-gray-500">{item.currency}</span>
               </div>
-              <span className={`tabular-nums text-[12px] font-semibold ${item.up ? 'text-brand-accent' : 'text-red-400'}`}>
+              <span className={`tabular-nums text-[12px] font-semibold ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
                 {item.up ? '▲' : '▼'} {item.change30d} 30d
               </span>
             </Link>

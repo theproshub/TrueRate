@@ -144,7 +144,7 @@ function TrendingPanel() {
               <span className="text-[12px] font-semibold text-white">{r.label}</span>
               <div className="text-right">
                 <div className="text-[12px] tabular-nums text-white">{r.value}</div>
-                <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.pct}</div>
+                <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
               </div>
             </div>
           ))}
