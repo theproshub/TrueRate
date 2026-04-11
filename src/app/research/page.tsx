@@ -36,7 +36,7 @@ export default function ResearchPage() {
                 )}
               </div>
               <h3 className="text-[14px] font-semibold text-white">{r.title}</h3>
-              <div className="mt-1 text-[12px] text-gray-600">{r.date} · {r.pages} pages</div>
+              <div className="mt-1 text-[12px] text-gray-400">{r.date} · {r.pages} pages</div>
             </div>
             {r.premium ? (
               <Link href="/signin" className="shrink-0 rounded-xl border border-[#6001d2] px-4 py-2 text-[12px] font-semibold text-[#a78bfa] transition hover:bg-[#6001d2]/20 no-underline">

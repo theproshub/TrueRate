@@ -41,13 +41,13 @@ export default function CommunityPage() {
                 </span>
               </div>
               <h3 className="text-[14px] font-semibold text-white hover:text-[#a78bfa] transition-colors">{t.title}</h3>
-              <div className="mt-1.5 flex items-center gap-3 text-[12px] text-gray-600">
+              <div className="mt-1.5 flex items-center gap-3 text-[12px] text-gray-400">
                 <span className="font-semibold text-gray-500">{t.author}</span>
                 <span>·</span>
                 <span>{t.time}</span>
               </div>
             </div>
-            <div className="shrink-0 flex flex-col items-end gap-1 text-[12px] text-gray-600">
+            <div className="shrink-0 flex flex-col items-end gap-1 text-[12px] text-gray-400">
               <span>{t.replies} replies</span>
               <span>{t.views} views</span>
             </div>

@@ -24,37 +24,80 @@ const INDICATORS = [
 ];
 
 
-const NEWS_IMGS = [
-  'https://picsum.photos/seed/cbl-rate/800/420',
-  'https://picsum.photos/seed/lrd-currency/200/120',
-  'https://picsum.photos/seed/iron-ore/200/120',
-  'https://picsum.photos/seed/road-infra/200/120',
-  'https://picsum.photos/seed/ecobank/200/120',
-  'https://picsum.photos/seed/digital-pay/200/120',
-  'https://picsum.photos/seed/rubber-farm/200/120',
-  'https://picsum.photos/seed/imf-policy/200/120',
-];
+// ── Category visuals imported from shared component ───────────────────────────
+const CAT_STYLE: Record<string, { bg: string; accent: string; label: string }> = {
+  policy:         { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Policy' },
+  forex:          { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Forex' },
+  economy:        { bg: 'bg-gradient-to-br from-blue-950 to-[#04060f]',    accent: 'text-blue-300',    label: 'Economy' },
+  commodities:    { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Commodities' },
+  Mining:         { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Mining' },
+  Banking:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Banking' },
+  Agriculture:    { bg: 'bg-gradient-to-br from-lime-950 to-[#060e00]',    accent: 'text-lime-400',    label: 'Agriculture' },
+  Energy:         { bg: 'bg-gradient-to-br from-yellow-950 to-[#0f0b00]',  accent: 'text-yellow-300',  label: 'Energy' },
+  Trade:          { bg: 'bg-gradient-to-br from-purple-950 to-[#07000f]',  accent: 'text-purple-300',  label: 'Trade' },
+  Tech:           { bg: 'bg-gradient-to-br from-sky-950 to-[#030a12]',     accent: 'text-sky-300',     label: 'Tech' },
+  Analysis:       { bg: 'bg-gradient-to-br from-indigo-950 to-[#04000f]',  accent: 'text-indigo-300',  label: 'Analysis' },
+  Development:    { bg: 'bg-gradient-to-br from-teal-950 to-[#030f0b]',    accent: 'text-teal-300',    label: 'Development' },
+  Infrastructure: { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Infrastructure' },
+  Policy:         { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Policy' },
+  'Monetary Policy': { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]', accent: 'text-slate-300', label: 'Monetary Policy' },
+};
+function getCatStyle(cat: string) {
+  return CAT_STYLE[cat] ?? CAT_STYLE['economy'];
+}
+/** Replaces random stock photo thumbnails with intentional category treatments */
+function NewsThumbnail({ category, className }: { category: string; className: string }) {
+  const s = getCatStyle(category);
+  return (
+    <div className={`relative overflow-hidden ${s.bg} ${className}`}>
+      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '18px 18px' }} />
+    </div>
+  );
+}
+/** Large hero visual — replaces the big top-of-page stock photo */
+function HeroVisual({ category }: { category: string }) {
+  const s = getCatStyle(category);
+  return (
+    <div className={`w-full h-[200px] sm:h-[260px] relative overflow-hidden ${s.bg}`}>
+      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+    </div>
+  );
+}
+/** Video thumbnail — category-gradient with centred play button */
+function VideoThumbnail({ category }: { category: string }) {
+  const s = getCatStyle(category);
+  return (
+    <div className={`relative w-full h-[220px] overflow-hidden flex items-center justify-center ${s.bg}`}>
+      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+      <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-2xl">
+        <svg className="h-5 w-5 translate-x-0.5 text-[#0a0a0d]" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+  );
+}
 
 const LATEST_NEWS = [
-  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'], img: 'https://picsum.photos/seed/ln-cbl/300/200', chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy', '+12%'], img: 'https://picsum.photos/seed/ln-petro/300/200', chips: [{ label: 'Energy', pct: '+12%', up: true }] },
-  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'], img: 'https://picsum.photos/seed/ln-ironore/300/200', chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
-  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'], img: 'https://picsum.photos/seed/ln-bridge/300/200', chips: [] },
-  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], img: 'https://picsum.photos/seed/ln-ecobank/300/200', chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
-  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], img: 'https://picsum.photos/seed/ln-ecowas/300/200', chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], img: 'https://picsum.photos/seed/ln-rubber/300/200', chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
-  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'], img: 'https://picsum.photos/seed/ln-imf/300/200', chips: [] },
+  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'], chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy'], chips: [{ label: 'Energy', pct: '+12%', up: true }] },
+  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'], chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
+  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'], chips: [] },
+  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
+  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
+  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'], chips: [] },
 ];
 
 const MORE_NEWS = [
-  { category: 'Banking', title: 'Liberia\'s banking sector sees 14% deposit growth in Q1 2026', summary: 'Central Bank data shows rising household savings and business deposits, driven by mobile money adoption and renewed investor confidence.', source: 'FrontPage Africa', time: '2h ago', img: 'https://picsum.photos/seed/mn-banking/200/120' },
-  { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago', img: 'https://picsum.photos/seed/mn-road/200/120' },
-  { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago', img: 'https://picsum.photos/seed/mn-solar/200/120' },
-  { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago', img: 'https://picsum.photos/seed/mn-palmoil/200/120' },
-  { category: 'Trade', title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework', summary: 'Negotiations in Brussels produced a draft tariff schedule covering rubber, cocoa and timber exports, potentially boosting annual trade by $180M.', source: 'Reuters', time: '9h ago', img: 'https://picsum.photos/seed/mn-port/200/120' },
-  { category: 'Mining', title: 'Gold exploration licenses issued for Grand Cape Mount region', summary: 'Three international mining firms have been granted exploration licenses covering 240 square kilometers in Grand Cape Mount County.', source: 'Bloomberg', time: '11h ago', img: 'https://picsum.photos/seed/mn-gold/200/120' },
-  { category: 'Tech', title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending', summary: 'PayLink Liberia plans to use the funding to reach 150,000 new borrowers across rural counties through its USSD-based lending platform.', source: 'TechCabal', time: '13h ago', img: 'https://picsum.photos/seed/mn-fintech/200/120' },
-  { category: 'Policy', title: 'Finance Ministry tables revised budget with 12% increase in capital spending', summary: 'The supplementary budget allocates an additional $62M to infrastructure, health and education, funded partly by improved revenue collection.', source: 'Daily Observer', time: '15h ago', img: 'https://picsum.photos/seed/mn-budget/200/120' },
+  { category: 'Banking', title: 'Liberia\'s banking sector sees 14% deposit growth in Q1 2026', summary: 'Central Bank data shows rising household savings and business deposits, driven by mobile money adoption and renewed investor confidence.', source: 'FrontPage Africa', time: '2h ago' },
+  { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago' },
+  { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago' },
+  { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago' },
+  { category: 'Trade', title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework', summary: 'Negotiations in Brussels produced a draft tariff schedule covering rubber, cocoa and timber exports, potentially boosting annual trade by $180M.', source: 'Reuters', time: '9h ago' },
+  { category: 'Mining', title: 'Gold exploration licenses issued for Grand Cape Mount region', summary: 'Three international mining firms have been granted exploration licenses covering 240 square kilometers in Grand Cape Mount County.', source: 'Bloomberg', time: '11h ago' },
+  { category: 'Tech', title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending', summary: 'PayLink Liberia plans to use the funding to reach 150,000 new borrowers across rural counties through its USSD-based lending platform.', source: 'TechCabal', time: '13h ago' },
+  { category: 'Policy', title: 'Finance Ministry tables revised budget with 12% increase in capital spending', summary: 'The supplementary budget allocates an additional $62M to infrastructure, health and education, funded partly by improved revenue collection.', source: 'Daily Observer', time: '15h ago' },
 ];
 
 const QUICK_READS = [
@@ -67,10 +110,10 @@ const QUICK_READS = [
 ];
 
 const VIDEOS = [
-  { title: "CBL Governor on rate outlook: 'We're watching food prices closely'", duration: '2:48', thumb: 'https://picsum.photos/seed/vid-cbl/320/180', source: 'TrueRate', time: '55m ago' },
-  { title: 'ArcelorMittal Nimba expansion — what it means for Liberia GDP', duration: '1:52', thumb: 'https://picsum.photos/seed/vid-nimba/320/180', source: 'TrueRate', time: '3h ago' },
-  { title: 'Rubber prices surge: how Liberia benefits from record output', duration: '3:14', thumb: 'https://picsum.photos/seed/vid-rubber/320/180', source: 'TrueRate', time: '8h ago' },
-  { title: 'Diaspora remittances hit $680M — a new record for Liberia', duration: '2:31', thumb: 'https://picsum.photos/seed/vid-remit/320/180', source: 'TrueRate', time: '3h ago' },
+  { title: "CBL Governor on rate outlook: 'We're watching food prices closely'", duration: '2:48', category: 'policy',   source: 'TrueRate', time: '55m ago' },
+  { title: 'ArcelorMittal Nimba expansion — what it means for Liberia GDP',     duration: '1:52', category: 'Mining',    source: 'TrueRate', time: '3h ago' },
+  { title: 'Rubber prices surge: how Liberia benefits from record output',       duration: '3:14', category: 'commodities', source: 'TrueRate', time: '8h ago' },
+  { title: 'Diaspora remittances hit $680M — a new record for Liberia',          duration: '2:31', category: 'economy',   source: 'TrueRate', time: '3h ago' },
 ];
 
 const KEY_SECTORS = [
@@ -166,36 +209,34 @@ function FeaturedColumn() {
       {/* Hero article */}
       <article className="group cursor-pointer">
         {/* Edge-to-edge image on mobile, rounded on desktop */}
-        <div className="overflow-hidden -mx-2 sm:mx-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={NEWS_IMGS[0]} alt={featured.title} className="w-full h-[200px] sm:h-[260px] object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl">
+          <HeroVisual category={featured.category} />
         </div>
         <div className="mt-3">
-          <h2 className="text-[22px] sm:text-[26px] font-bold leading-snug text-white text-left group-hover:text-white/80 transition-colors mb-2">
+          <h2 className="text-[24px] sm:text-[26px] font-black leading-tight text-white text-center group-hover:text-white/80 transition-colors mb-2 tracking-tight">
             <Link href={`/news/${featured.id}`} className="no-underline">{featured.title}</Link>
           </h2>
           <p className="line-clamp-2 text-[15px] leading-relaxed text-gray-400 text-center">{featured.summary}</p>
           <div className="flex items-center justify-center gap-1.5 mt-2">
-            <span className="text-[12px] text-gray-500">{featured.source}</span>
-            <span className="text-gray-700">·</span>
-            <span className="text-[12px] text-gray-500">{timeAgo(featured.date)}</span>
+            <span className="text-[13px] text-gray-500">{featured.source}</span>
+            <span className="text-gray-500">·</span>
+            <span className="text-[13px] text-gray-500">{timeAgo(featured.date)}</span>
           </div>
         </div>
       </article>
 
       {/* Two sub-articles */}
       <div className="border-t border-white/[0.06] pt-5 flex flex-col sm:grid sm:grid-cols-2 gap-4">
-        {[sub1, sub2].map((item, i) => (
+        {[sub1, sub2].map((item) => (
           <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
             <div className="flex-1 min-w-0 order-1 sm:order-none">
               <h3 className="sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
                 <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
               </h3>
-              <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
+              <div className="mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={NEWS_IMGS[i + 1]} alt="" className="h-[76px] w-[100px] sm:w-full sm:h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
+              <NewsThumbnail category={item.category} className="h-[76px] w-[100px] sm:w-full sm:h-[100px]" />
             </div>
           </article>
         ))}
@@ -203,17 +244,16 @@ function FeaturedColumn() {
 
       {/* More sub-articles */}
       <div className="border-t border-white/[0.06] pt-5 flex flex-col sm:grid sm:grid-cols-2 gap-4">
-        {[newsItems[3], newsItems[4]].map((item, i) => (
+        {[newsItems[3], newsItems[4]].map((item) => (
           <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
             <div className="flex-1 min-w-0 order-1 sm:order-none">
               <h3 className="sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
                 <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
               </h3>
-              <div className="mt-1.5 text-[11px] text-gray-600">{item.source} · {timeAgo(item.date)}</div>
+              <div className="mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={NEWS_IMGS[i + 3]} alt="" className="h-[76px] w-[100px] sm:w-full sm:h-[100px] object-cover transition-transform duration-500 group-hover:scale-105" />
+              <NewsThumbnail category={item.category} className="h-[76px] w-[100px] sm:w-full sm:h-[100px]" />
             </div>
           </article>
         ))}
@@ -230,15 +270,13 @@ function NewsListColumn() {
   const items = newsItems.slice(3, 7);
   return (
     <div className="flex flex-col divide-y divide-white/[0.05]">
-      {items.map((item, i) => (
+      {items.map((item) => (
         <article key={item.id} className="group flex gap-3.5 py-4 first:pt-0 cursor-pointer">
           <div className="overflow-hidden rounded-xl shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={NEWS_IMGS[(i + 3) % NEWS_IMGS.length]} alt=""
-              className="h-[90px] w-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            <NewsThumbnail category={item.category} className="h-[90px] w-[130px]" />
           </div>
           <div className="min-w-0 flex-1">
-            {item.category && <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-white/40">{item.category}</p>}
+            {item.category && <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-white/60">{item.category}</p>}
             <h3 className="line-clamp-3 text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">
               <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
             </h3>
@@ -268,22 +306,17 @@ function LatestColumn() {
           <Link key={i} href="/news" className="flex gap-3.5 py-4 first:pt-0 no-underline group">
             {/* Thumbnail */}
             <div className="shrink-0 overflow-hidden rounded-xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.img} alt="" className="h-[90px] w-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
+              <NewsThumbnail category={item.tags?.[0] ?? 'economy'} className="h-[90px] w-[130px]" />
             </div>
             {/* Content */}
             <div className="flex-1 min-w-0">
               <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
               <p className="mt-1 text-[12px] text-gray-500">{item.source} · {item.time}</p>
               {item.chips.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
+                <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
                   {item.chips.map(chip => (
-                    <span key={chip.label} className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-2.5 py-1 text-[11px] font-semibold">
-                      <span className="text-white/90">{chip.label}</span>
-                      <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
-                      <svg className="h-3 w-3 shrink-0 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                      </svg>
+                    <span key={chip.label} className="text-[11px] text-gray-400">
+                      {chip.label} <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
                     </span>
                   ))}
                 </div>
@@ -324,8 +357,8 @@ function BusinessOverview() {
 
   const SH = ({ k, label, right = true }: { k: SortKey; label: string; right?: boolean }) => (
     <th onClick={() => { if (sortKey === k) { setSortAsc(!sortAsc); } else { setSortKey(k); setSortAsc(false); } }}
-      className={`cursor-pointer select-none px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-600 hover:text-gray-400 transition-colors ${right ? 'text-right' : 'text-left'}`}>
-      {label}{sortKey === k ? <span className="ml-1 text-gray-700">{sortAsc ? '↑' : '↓'}</span> : null}
+      className={`cursor-pointer select-none px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400 hover:text-gray-400 transition-colors ${right ? 'text-right' : 'text-left'}`}>
+      {label}{sortKey === k ? <span className="ml-1 text-gray-500">{sortAsc ? '↑' : '↓'}</span> : null}
     </th>
   );
 
@@ -334,7 +367,7 @@ function BusinessOverview() {
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Market Data</h2>
-          <p className="text-[11px] text-gray-600 mt-0.5">Liberia · West Africa · Sources: CBL, GSE, BRVM</p>
+          <p className="text-[11px] text-gray-400 mt-0.5">Liberia · West Africa · Sources: CBL, GSE, BRVM</p>
         </div>
         <Link href="/economy" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">Full table ›</Link>
       </div>
@@ -353,7 +386,7 @@ function BusinessOverview() {
               <tr key={s.ticker} className="hover:bg-white/[0.02] transition-colors cursor-pointer">
                 <td className="px-4 py-3">
                   <Link href="/economy" className="text-[12px] font-bold text-white no-underline">{s.ticker}</Link>
-                  <div className="text-[11px] text-gray-600 truncate max-w-[160px]">{s.name}</div>
+                  <div className="text-[11px] text-gray-400 truncate max-w-[160px]">{s.name}</div>
                 </td>
                 <td className="tabular-nums px-4 py-3 text-right font-semibold text-white">
                   {s.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -388,7 +421,7 @@ function ForexWidget() {
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Exchange Rates</h2>
-          <p className="text-[11px] text-gray-600 mt-0.5">Liberian Dollar (LRD) · CBL · Apr 3, 2026</p>
+          <p className="text-[11px] text-gray-400 mt-0.5">Liberian Dollar (LRD) · CBL · Apr 3, 2026</p>
         </div>
         <Link href="/forex" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">Converter ›</Link>
       </div>
@@ -397,7 +430,7 @@ function ForexWidget() {
           <Link key={r.pair} href="/forex" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-bold text-white tabular-nums">{r.pair}</div>
-              <div className="text-[11px] text-gray-600 mt-0.5 line-clamp-1">{r.note}</div>
+              <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{r.note}</div>
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[14px] font-bold text-white tabular-nums">{r.rate}</div>
@@ -428,7 +461,7 @@ function CommoditiesWidget() {
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Commodities</h2>
-          <p className="text-[11px] text-gray-600 mt-0.5">Liberia-relevant · Apr 3, 2026</p>
+          <p className="text-[11px] text-gray-400 mt-0.5">Liberia-relevant · Apr 3, 2026</p>
         </div>
         <Link href="/economy" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
       </div>
@@ -436,8 +469,8 @@ function CommoditiesWidget() {
         {COMMODITIES_WITH_CONTEXT.map(c => (
           <Link key={c.name} href="/economy" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
             <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-600">{c.unit}</span></div>
-              <div className="text-[11px] text-gray-600 mt-0.5 line-clamp-1">{c.note}</div>
+              <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-400">{c.unit}</span></div>
+              <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{c.note}</div>
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[13px] font-bold text-white tabular-nums">${c.price}</div>
@@ -468,7 +501,7 @@ function EconomicWidget() {
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Liberia at a Glance</h2>
-          <p className="text-[11px] text-gray-600 mt-0.5">Key indicators · Sources: CBL, World Bank, IMF</p>
+          <p className="text-[11px] text-gray-400 mt-0.5">Key indicators · Sources: CBL, World Bank, IMF</p>
         </div>
       </div>
       <div className="divide-y divide-white/[0.04]">
@@ -476,7 +509,7 @@ function EconomicWidget() {
           <Link key={r.label} href="/economy" className="flex items-start gap-3 px-5 py-3 hover:bg-white/[0.02] transition-colors no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-semibold text-white">{r.label}</div>
-              <div className="text-[11px] text-gray-600 mt-0.5">{r.note}</div>
+              <div className="text-[11px] text-gray-400 mt-0.5">{r.note}</div>
             </div>
             <div className="shrink-0 text-right">
               <div className="tabular-nums text-[13px] font-bold text-white">{r.value}</div>
@@ -506,18 +539,9 @@ function VideosSection() {
       <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#141418]">
         {/* Thumbnail */}
         <div className="relative cursor-pointer group">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={v.thumb} alt="" className="w-full h-[220px] object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
-          {/* Play button */}
-          <div className="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/40 to-transparent">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-lg">
-                <svg className="h-4 w-4 translate-x-0.5 text-[#0a0a0d]" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <span className="tabular-nums text-[15px] font-bold text-white drop-shadow">{v.duration}</span>
-            </div>
+          <VideoThumbnail category={v.category} />
+          <div className="absolute bottom-4 left-4 flex items-center gap-3">
+            <span className="tabular-nums text-[14px] font-bold text-white/80 drop-shadow">{v.duration}</span>
           </div>
         </div>
         {/* Title */}
@@ -558,69 +582,13 @@ function VideosSection() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 const DEEP_READS = [
-  {
-    category: 'Analysis',
-    title: 'Why Liberia\'s 4.5% GDP growth rate may be hiding structural weakness',
-    summary: 'Strong headline numbers mask an economy still heavily dependent on two export commodities. Economists warn that without services sector diversification, growth remains fragile.',
-    source: 'TrueRate Analysis',
-    time: '1h ago',
-    img: 'https://picsum.photos/seed/dr-gdp/400/220',
-    large: true,
-  },
-  {
-    category: 'Policy',
-    title: 'CBL\'s rate hold: prudent caution or missed opportunity?',
-    summary: 'With inflation easing to 10.2%, some economists argue the Central Bank has room to cut. Others say the LRD remains too vulnerable.',
-    source: 'Daily Observer',
-    time: '3h ago',
-    img: 'https://picsum.photos/seed/dr-cbl/200/120',
-    large: false,
-  },
-  {
-    category: 'Trade',
-    title: 'ECOWAS payments integration could unlock $2B in cross-border commerce',
-    summary: 'A new digital payments corridor linking six West African nations stands to benefit Liberian exporters the most, according to a World Bank assessment.',
-    source: 'World Bank',
-    time: '6h ago',
-    img: 'https://picsum.photos/seed/dr-ecowas/200/120',
-    large: false,
-  },
-  {
-    category: 'Mining',
-    title: 'ArcelorMittal\'s Nimba expansion: Liberia\'s biggest industrial moment in a decade',
-    summary: 'The expanded iron ore operation could add $320M annually to export revenues and create 1,800 permanent jobs in the region.',
-    source: 'Bloomberg',
-    time: '8h ago',
-    img: 'https://picsum.photos/seed/dr-nimba/200/120',
-    large: false,
-  },
-  {
-    category: 'Banking',
-    title: 'Mobile money is reshaping how Liberians save, borrow, and invest',
-    summary: 'With smartphone penetration rising above 60%, mobile-first financial services are pulling millions of unbanked Liberians into the formal economy.',
-    source: 'FrontPage Africa',
-    time: '10h ago',
-    img: 'https://picsum.photos/seed/dr-mbank/200/120',
-    large: false,
-  },
-  {
-    category: 'Agriculture',
-    title: 'Can Liberia become West Africa\'s next rubber powerhouse?',
-    summary: 'Record Firestone output and favorable global prices are creating an opening. But analysts say infrastructure bottlenecks could cap the opportunity.',
-    source: 'TrueRate Analysis',
-    time: '12h ago',
-    img: 'https://picsum.photos/seed/dr-rubber/200/120',
-    large: false,
-  },
-  {
-    category: 'Development',
-    title: 'IMF program review: what the next tranche means for Liberia\'s fiscal path',
-    summary: 'The Fund praised revenue reforms but flagged risks around public wage bills and off-budget spending ahead of the $38M disbursement.',
-    source: 'IMF',
-    time: '1d ago',
-    img: 'https://picsum.photos/seed/dr-imf/200/120',
-    large: false,
-  },
+  { category: 'Analysis',     title: 'Why Liberia\'s 4.5% GDP growth rate may be hiding structural weakness', summary: 'Strong headline numbers mask an economy still heavily dependent on two export commodities. Economists warn that without services sector diversification, growth remains fragile.', source: 'TrueRate Analysis', time: '1h ago', large: true },
+  { category: 'Policy',       title: 'CBL\'s rate hold: prudent caution or missed opportunity?', summary: 'With inflation easing to 10.2%, some economists argue the Central Bank has room to cut. Others say the LRD remains too vulnerable.', source: 'Daily Observer', time: '3h ago', large: false },
+  { category: 'Trade',        title: 'ECOWAS payments integration could unlock $2B in cross-border commerce', summary: 'A new digital payments corridor linking six West African nations stands to benefit Liberian exporters the most, according to a World Bank assessment.', source: 'World Bank', time: '6h ago', large: false },
+  { category: 'Mining',       title: 'ArcelorMittal\'s Nimba expansion: Liberia\'s biggest industrial moment in a decade', summary: 'The expanded iron ore operation could add $320M annually to export revenues and create 1,800 permanent jobs in the region.', source: 'Bloomberg', time: '8h ago', large: false },
+  { category: 'Banking',      title: 'Mobile money is reshaping how Liberians save, borrow, and invest', summary: 'With smartphone penetration rising above 60%, mobile-first financial services are pulling millions of unbanked Liberians into the formal economy.', source: 'FrontPage Africa', time: '10h ago', large: false },
+  { category: 'Agriculture',  title: 'Can Liberia become West Africa\'s next rubber powerhouse?', summary: 'Record Firestone output and favorable global prices are creating an opening. But analysts say infrastructure bottlenecks could cap the opportunity.', source: 'TrueRate Analysis', time: '12h ago', large: false },
+  { category: 'Development',  title: 'IMF program review: what the next tranche means for Liberia\'s fiscal path', summary: 'The Fund praised revenue reforms but flagged risks around public wage bills and off-budget spending ahead of the $38M disbursement.', source: 'IMF', time: '1d ago', large: false },
 ];
 
 const MOST_READ = [
@@ -650,27 +618,25 @@ function DeepReadsColumn() {
       {/* Lead story */}
       <Link href="/news" className="group block no-underline mb-5">
         <div className="overflow-hidden rounded-xl mb-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={lead.img} alt="" className="w-full h-[180px] object-cover transition-transform duration-500 group-hover:scale-105" />
+          <NewsThumbnail category={lead.category} className="w-full h-[180px]" />
         </div>
-        <div className="text-[11px] font-bold uppercase tracking-wide text-white/40 mb-1.5">{lead.category}</div>
+        <div className="text-[11px] font-bold uppercase tracking-wide text-white/60 mb-1.5">{lead.category}</div>
         <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-2">{lead.title}</h3>
         <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-3">{lead.summary}</p>
-        <div className="mt-2 text-[11px] text-gray-700">{lead.source} · {lead.time}</div>
+        <div className="mt-2 text-[11px] text-gray-500">{lead.source} · {lead.time}</div>
       </Link>
       {/* Remaining stories */}
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {rest.map((item, i) => (
           <Link key={i} href="/news" className="group flex gap-3.5 py-4 first:pt-0 no-underline">
             <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-bold uppercase tracking-wide text-white/40 mb-1">{item.category}</div>
+              <div className="text-[11px] font-bold uppercase tracking-wide text-white/60 mb-1">{item.category}</div>
               <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
               <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-              <div className="mt-1.5 text-[11px] text-gray-700">{item.source} · {item.time}</div>
+              <div className="mt-1.5 text-[11px] text-gray-500">{item.source} · {item.time}</div>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.img} alt="" className="h-[72px] w-[108px] object-cover transition-transform duration-500 group-hover:scale-105" />
+              <NewsThumbnail category={item.category} className="h-[72px] w-[108px]" />
             </div>
           </Link>
         ))}
@@ -689,14 +655,13 @@ function MoreNewsColumn() {
       {MORE_NEWS.map((item, i) => (
         <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
           <div className="min-w-0 flex-1">
-            <div className="text-[11px] font-bold uppercase tracking-wide text-white/40 mb-1">{item.category}</div>
+            <div className="text-[11px] font-bold uppercase tracking-wide text-white/60 mb-1">{item.category}</div>
             <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
             <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-            <div className="mt-2 text-[11px] text-gray-700">{item.source} · {item.time}</div>
+            <div className="mt-2 text-[11px] text-gray-500">{item.source} · {item.time}</div>
           </div>
           <div className="shrink-0 overflow-hidden rounded-lg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item.img} alt="" className="h-[72px] w-[108px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            <NewsThumbnail category={item.category} className="h-[72px] w-[108px]" />
           </div>
         </Link>
       ))}
@@ -736,7 +701,7 @@ function LatestSidebar() {
         <div className="flex flex-col divide-y divide-white/[0.05]">
           {SIDEBAR_LATEST.map((item, i) => (
             <Link key={i} href="/news" className="flex gap-3 py-3 first:pt-0 no-underline group">
-              <span className="shrink-0 tabular-nums text-[12px] text-gray-600 w-8 pt-0.5">{item.time}</span>
+              <span className="shrink-0 tabular-nums text-[12px] text-gray-400 w-8 pt-0.5">{item.time}</span>
               <span className="text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.headline}</span>
             </Link>
           ))}
@@ -791,7 +756,7 @@ function QuickReadsColumn() {
             <span className="flex-1 text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">
               {item.headline}
             </span>
-            <span className="shrink-0 tabular-nums text-[11px] text-gray-600 pt-0.5">{item.time}</span>
+            <span className="shrink-0 tabular-nums text-[11px] text-gray-400 pt-0.5">{item.time}</span>
           </Link>
         ))}
       </div>
@@ -816,7 +781,7 @@ function MostReadWidget() {
             <span className="shrink-0 tabular-nums text-[22px] font-black text-white/10 leading-none w-6 pt-0.5">{item.rank}</span>
             <div className="min-w-0">
               <p className="text-[13px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{item.title}</p>
-              <p className="mt-1 text-[11px] text-gray-600">{item.source} · {item.time}</p>
+              <p className="mt-1 text-[11px] text-gray-400">{item.source} · {item.time}</p>
             </div>
           </Link>
         ))}
@@ -851,23 +816,44 @@ function UpcomingEventsWidget() {
    MOBILE BOTTOM TICKER BAR
 ───────────────────────────────────────────────────────────────────────────── */
 
-function MobileTickerBar() {
-  const pinned = INDICATORS.slice(0, 6);
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MARKETS PANEL (collapsible)
+───────────────────────────────────────────────────────────────────────────── */
+
+function MarketsPanel() {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0a0a0d]/95 backdrop-blur-sm border-t border-white/[0.06] px-3 py-2">
-      <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {pinned.map(item => (
-          <Link key={item.label} href="/economy" className="no-underline shrink-0 flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-3 py-1.5">
-            <span className="text-[12px] font-bold text-white whitespace-nowrap">{item.label}</span>
-            <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-              {item.pct}
-            </span>
-            <svg className="h-3 w-3 text-white/25 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-            </svg>
+    <div className="mt-10 border-t border-white/[0.05] pt-8">
+      <div className="flex items-center justify-between mb-0">
+        <div className="flex items-center gap-4">
+          <h2 className="text-[17px] font-bold text-white tracking-tight">Markets</h2>
+          <span className="text-[11px] text-gray-400">Liberia · West Africa · CBL, GSE, BRVM</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link href="/economy" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">
+            Full markets ›
           </Link>
-        ))}
+          <button
+            onClick={() => setOpen(o => !o)}
+            className="flex items-center gap-2 rounded-lg border border-white/[0.15] bg-white/[0.04] px-4 py-2 text-[13px] font-semibold text-white hover:bg-white/[0.08] hover:border-white/30 transition-colors"
+          >
+            {open ? 'Hide' : 'Show markets'}
+            <svg
+              className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <div className="mt-4">
+          <BusinessOverview />
+        </div>
+      )}
     </div>
   );
 }
@@ -920,45 +906,29 @@ export default function Home() {
 
         {/* ── Full-width sections below the grid ── */}
 
-        {/* Key Sectors */}
-        <div className="mt-10 border-t border-white/[0.05] pt-8">
-          <SectionHeading title="Key Sectors" action="/economy" actionLabel="Economy overview" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {KEY_SECTORS.map((s, i) => (
-              <Link key={i} href="/economy" className="group rounded-xl border border-white/[0.07] bg-[#141418] p-4 no-underline hover:border-white/20 transition-colors">
-                <div className={`text-[11px] font-bold uppercase tracking-widest mb-2 ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>{s.growth}</div>
-                <div className="text-[14px] font-bold text-white leading-snug mb-1 group-hover:text-white/80 transition-colors">{s.sector}</div>
-                <div className="text-[11px] text-gray-600 line-clamp-2">{s.desc}</div>
-                <div className="mt-2 text-[12px] font-semibold text-white/50">{s.contrib} of GDP</div>
-              </Link>
-            ))}
-          </div>
-        </div>
 
         {/* Regional Spotlight */}
         <div className="mt-10 border-t border-white/[0.05] pt-8">
           <SectionHeading title="West Africa in Focus" action="/news" actionLabel="More regional news" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { country: 'Ghana', flag: '🇬🇭', headline: 'Cedi hits 6-month high after IMF tranche release', stat: 'GHS/USD 14.82', time: '4h ago', img: 'https://picsum.photos/seed/gh-reg/400/220' },
-              { country: 'Nigeria', flag: '🇳🇬', headline: 'NSE posts best month in 18 years as oil rebounds', stat: 'Brent $84.20/bbl', time: '6h ago', img: 'https://picsum.photos/seed/ng-reg/400/220' },
-              { country: 'Sierra Leone', flag: '🇸🇱', headline: 'Freetown port expansion fast-tracked with $80M loan', stat: 'SLL/USD 22,100', time: '8h ago', img: 'https://picsum.photos/seed/sl-reg/400/220' },
-              { country: "Côte d'Ivoire", flag: '🇨🇮', headline: "Abidjan bourse outperforms regional peers in Q1", stat: 'BRVM Index +3.4%', time: '10h ago', img: 'https://picsum.photos/seed/ci-reg/400/220' },
+              { country: 'Ghana',         headline: 'Cedi hits 6-month high after IMF tranche release', stat: 'GHS/USD 14.82', time: '4h ago', cat: 'forex' },
+              { country: 'Nigeria',       headline: 'NSE posts best month in 18 years as oil rebounds', stat: 'Brent $84.20/bbl', time: '6h ago', cat: 'commodities' },
+              { country: 'Sierra Leone',  headline: 'Freetown port expansion fast-tracked with $80M loan', stat: 'SLL/USD 22,100', time: '8h ago', cat: 'Development' },
+              { country: "Côte d'Ivoire", headline: "Abidjan bourse outperforms regional peers in Q1", stat: 'BRVM Index +3.4%', time: '10h ago', cat: 'economy' },
             ].map((r, i) => (
               <Link key={i} href="/news" className="group flex flex-col no-underline overflow-hidden rounded-xl border border-white/[0.07] bg-[#141418] hover:border-white/20 transition-colors">
                 <div className="overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={r.img} alt="" className="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <NewsThumbnail category={r.cat} className="w-full h-[120px]" />
                 </div>
                 <div className="p-3 flex-1">
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <span className="text-[13px]">{r.flag}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{r.country}</span>
+                  <div className="mb-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wide text-white/50">{r.country}</span>
                   </div>
                   <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{r.headline}</h3>
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-bold text-white/50 tabular-nums">{r.stat}</span>
-                    <span className="text-[10px] text-gray-600">{r.time}</span>
+                    <span className="text-[10px] text-gray-400">{r.time}</span>
                   </div>
                 </div>
               </Link>
@@ -966,15 +936,30 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Business Data strip */}
+
+        {/* More Stories */}
         <div className="mt-10 border-t border-white/[0.05] pt-8">
-          <SectionHeading title="Market Data" action="/economy" actionLabel="Full markets" />
-          <BusinessOverview />
+          <SectionHeading title="More Stories" action="/news" actionLabel="All stories" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y sm:divide-y-0 divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+            {newsItems.slice(8, 16).map((item, i) => (
+              <Link key={item.id} href={`/news/${item.id}`} className={`group flex gap-3 p-4 no-underline hover:bg-white/[0.02] transition-colors ${i > 0 ? 'sm:border-l border-white/[0.05]' : ''} ${i >= 4 ? 'border-t border-white/[0.05]' : ''}`}>
+                <div className="shrink-0 overflow-hidden rounded-lg">
+                  <NewsThumbnail category={item.category} className="h-[64px] w-[80px]" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] font-bold uppercase tracking-wide text-white/35 mb-1">{item.category}</div>
+                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
+                  <div className="mt-1.5 text-[10px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
 
+
         {/* Trending Topics */}
-        <div className="mt-10 border-t border-white/[0.05] pt-8 pb-4">
-          <h2 className="text-[15px] font-bold text-white mb-3">Trending Topics</h2>
+        <div className="mt-8 border-t border-white/[0.05] pt-8 pb-4">
+          <h2 className="text-[15px] font-bold text-white mb-3">Topics</h2>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'CBL Rate', 'Rubber Prices', 'ECOWAS Trade', 'Liberia GDP', 'Diaspora Remittances', 'Mining Policy', 'Inflation', 'Gold Prices', 'Firestone', 'ArcelorMittal', 'World Bank', 'IMF Program', 'Port of Monrovia', 'Ecobank', 'Mobile Money'].map(t => (
               <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">{t}</Link>
@@ -984,7 +969,6 @@ export default function Home() {
 
       </main>
 
-      <MobileTickerBar />
     </div>
   );
 }

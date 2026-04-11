@@ -77,6 +77,76 @@ export function generateHistoricalData(
   return data;
 }
 
+/**
+ * Generate realistic daily historical data anchored to real annual values.
+ *
+ * Instead of a pure random walk from a single base value, this interpolates
+ * between known real-world data points (e.g. World Bank annual GDP) and adds
+ * controlled noise around the true trend. Charts built from this reflect actual
+ * historical trajectories rather than synthetic random motion.
+ *
+ * @param anchors  Array of { year, value } pairs, sorted oldest → newest
+ * @param volatility  Daily noise factor (e.g. 0.008 = 0.8% daily std)
+ * @param seed  Deterministic seed for the random number generator
+ */
+export function generateHistoricalDataFromAnchors(
+  anchors: { year: number; value: number }[],
+  volatility: number,
+  seed: number
+): HistoricalDataPoint[] {
+  if (anchors.length < 2) {
+    // Fallback: single-point random walk
+    return generateHistoricalData(anchors[0]?.value ?? 0, volatility, 365, seed);
+  }
+
+  const random = seededRandom(seed);
+  const result: HistoricalDataPoint[] = [];
+
+  for (let i = 0; i < anchors.length - 1; i++) {
+    const startDate = new Date(`${anchors[i].year}-01-01`);
+    const endDate = new Date(`${anchors[i + 1].year}-01-01`);
+    const startVal = anchors[i].value;
+    const endVal = anchors[i + 1].value;
+    const totalDays = Math.floor(
+      (endDate.getTime() - startDate.getTime()) / 86_400_000
+    );
+
+    let value = startVal;
+
+    for (let d = 0; d < totalDays; d++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + d);
+
+      const progress = d / totalDays;
+      // Linear interpolated "true" value between the two anchors
+      const target = startVal + (endVal - startVal) * progress;
+      // Pull toward the true trend (mean reversion)
+      const pull = (target - value) * 0.04;
+      // Random daily noise
+      const noise = (random() - 0.5) * 2 * volatility * Math.abs(value);
+
+      value = value + pull + noise;
+      // Hard clamp: don't let synthetic noise stray more than ±30% from target
+      value = Math.max(value, target * 0.7);
+      value = Math.min(value, target * 1.3);
+
+      result.push({
+        date: date.toISOString().split('T')[0],
+        value: Number(value.toFixed(4)),
+      });
+    }
+  }
+
+  // Append the final anchor date itself
+  const last = anchors[anchors.length - 1];
+  result.push({
+    date: `${last.year}-01-01`,
+    value: last.value,
+  });
+
+  return result;
+}
+
 export function filterDataByTimeRange(
   data: HistoricalDataPoint[],
   range: TimeRange

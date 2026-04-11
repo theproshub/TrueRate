@@ -2,98 +2,84 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { NewsThumbnail, HeroVisual, VideoThumbnail } from '@/components/NewsThumbnail';
 
 /* ── data ── */
-const SPORT_TABS = ['All', 'Football', 'Basketball', 'Athletics', 'Cricket', 'Tennis', 'Golf', 'Fantasy'];
+const SPORT_TABS = ['All', 'Transfers & Deals', 'Broadcast Rights', 'Club Finance', 'Sponsorship'];
 
 const SCORES = [
-  { home: 'Liberia', away: 'Ghana', homeScore: 2, awayScore: 1, status: 'FT', competition: 'WAFU Cup', sport: 'Football' },
-  { home: 'Nigeria', away: 'Ivory Coast', homeScore: 0, awayScore: 0, status: '67\'', competition: 'AFCON Qual.', sport: 'Football' },
-  { home: 'Monrovia FC', away: 'LISCR FC', homeScore: 1, awayScore: 1, status: 'HT', competition: 'LFA League', sport: 'Football' },
-  { home: 'Rivers Hoopers', away: 'Bayelsa Wave', homeScore: 78, awayScore: 65, status: 'Q3', competition: 'NBL Africa', sport: 'Basketball' },
-  { home: 'Senegal', away: 'Kenya', homeScore: 3, awayScore: 1, status: 'FT', competition: 'Africa Cup', sport: 'Cricket' },
+  { home: 'Liberia',         away: 'Ghana',          homeScore: 2, awayScore: 1, status: 'FT',  competition: 'WAFU Cup' },
+  { home: 'Nigeria',         away: 'Ivory Coast',    homeScore: 0, awayScore: 0, status: "67'", competition: 'AFCON Qual.' },
+  { home: 'Monrovia FC',     away: 'LISCR FC',       homeScore: 1, awayScore: 1, status: 'HT',  competition: 'LFA League' },
+  { home: 'Rivers Hoopers',  away: 'Bayelsa Wave',   homeScore: 78, awayScore: 65, status: 'Q3', competition: 'NBL Africa' },
+  { home: 'Senegal',         away: 'Kenya',          homeScore: 3, awayScore: 1, status: 'FT',  competition: 'Africa Cup' },
 ];
 
 const HERO = {
   category: 'Football',
-  title: "Liberia qualifies for AFCON 2027 — Lone Star secures historic berth in dramatic finale",
-  summary: "George Weah's national squad sealed qualification with a last-minute winner against Sierra Leone in front of a packed Antoinette Tubman Stadium, sending fans into rapturous celebration across Monrovia.",
-  source: 'TrueRate Sports',
+  title: "AFCON 2027 broadcast rights: who's paying — and what Liberia's qualification is worth to CAF",
+  summary: "Liberia's historic qualification has boosted regional viewership projections for AFCON 2027 by an estimated 12%. We break down the $340M broadcast deal, CAF's prize money structure, and what the Lone Star stands to earn.",
+  source: 'TrueRate Sports Business',
   time: '1h ago',
-  img: 'https://picsum.photos/seed/sports-hero/900/506',
-  label: 'Breaking',
 };
 
 const TOP_STORIES = [
-  { category: 'Basketball', title: 'Rivers Hoopers sign Liberian point guard Marcus Pewee to 2-year deal', source: 'Hoops Africa', time: '2h ago', img: 'https://picsum.photos/seed/sp2/400/225' },
-  { category: 'Football', title: "African Cup of Nations draw: Liberia lands in tough Group C with Egypt and Senegal", source: 'CAF Online', time: '4h ago', img: 'https://picsum.photos/seed/sp3/400/225' },
-  { category: 'Athletics', title: 'Liberian sprinter Comfort Brown breaks West African 100m record in Dakar', source: 'World Athletics', time: '6h ago', img: 'https://picsum.photos/seed/sp4/400/225' },
+  { category: 'Football',   title: "Premier League Africa TV rights renewal: beIN Sports vs SuperSport bidding war nears $180M", source: 'Reuters', time: '2h ago' },
+  { category: 'Basketball', title: "NBA Africa Series 2026 confirmed for Monrovia — estimated $4.2M economic impact", source: 'NBA Africa', time: '4h ago' },
+  { category: 'Athletics',  title: "World Athletics signs $80M West Africa development sponsorship with MTN Group", source: 'World Athletics', time: '6h ago' },
 ];
 
 const FEED = [
-  { category: 'Football', title: 'LFA League Week 22 recap: Monrovia FC extend lead at the top', summary: 'A hat-trick from striker Emmanuel Kollie powered Monrovia FC to a 3-0 win that stretched their lead to seven points.', source: 'LFA', time: '3h ago', img: 'https://picsum.photos/seed/spf1/300/170' },
-  { category: 'Football', title: "WAFU Cup: Liberia coach Wolo on the squad's evolution — 'These boys believe'", summary: "Head coach Wolo reflects on a transformed squad mentality after the Lone Star's emphatic group-stage run.", source: 'TrueRate Sports', time: '5h ago', img: 'https://picsum.photos/seed/spf2/300/170' },
-  { category: 'Basketball', title: 'NBL Africa expansion: Two West African franchises to join 2027 season', summary: 'The NBA-backed league announces franchise expansion including a potential Monrovia-based team pending arena approval.', source: 'NBA Africa', time: '7h ago', img: 'https://picsum.photos/seed/spf3/300/170' },
-  { category: 'Cricket', title: 'Liberia Cricket Association joins ICC Development Programme', summary: 'The ICC confirms Liberia as one of six new development nations, unlocking coaching funds and youth academies.', source: 'ICC', time: '9h ago', img: 'https://picsum.photos/seed/spf4/300/170' },
-  { category: 'Tennis', title: "West African Tennis Tour: Monrovia Open to debut in August 2026", summary: 'The new ITF-sanctioned grass-court tournament will be held at the Liberia Tennis Federation complex in Sinkor.', source: 'ITF', time: '1d ago', img: 'https://picsum.photos/seed/spf5/300/170' },
-  { category: 'Golf', title: "Liberia Golf Classic tees off with record 140-player field", summary: 'The annual tournament at Monrovia Golf Club draws the largest field in its 12-year history with players from 18 nations.', source: 'TrueRate Sports', time: '1d ago', img: 'https://picsum.photos/seed/spf6/300/170' },
-];
-
-const STANDINGS = [
-  { pos: 1, team: 'Monrovia FC',   p: 22, w: 14, d: 5, l: 3,  pts: 47, form: ['W','W','W','D','W'] },
-  { pos: 2, team: 'LISCR FC',      p: 22, w: 12, d: 6, l: 4,  pts: 42, form: ['W','D','W','L','W'] },
-  { pos: 3, team: 'BYC FC',        p: 22, w: 11, d: 5, l: 6,  pts: 38, form: ['D','W','L','W','D'] },
-  { pos: 4, team: 'Barrack Young', p: 22, w: 9,  d: 7, l: 6,  pts: 34, form: ['L','W','D','W','W'] },
-  { pos: 5, team: 'FC Nimba',      p: 22, w: 8,  d: 6, l: 8,  pts: 30, form: ['W','L','D','L','W'] },
-];
-
-const UPCOMING = [
-  { home: 'Liberia', away: 'Guinea', date: 'Apr 8', time: '18:00', competition: 'WAFU Cup SF' },
-  { home: 'Monrovia FC', away: 'FC Nimba', date: 'Apr 9', time: '15:00', competition: 'LFA League' },
-  { home: 'LISCR FC', away: 'BYC FC', date: 'Apr 10', time: '16:00', competition: 'LFA League' },
-  { home: 'Rivers Hoopers', away: 'Monrovia Ballers', date: 'Apr 11', time: '20:00', competition: 'NBL Africa' },
-];
-
-const VIDEOS = [
-  { title: "Lone Star's historic AFCON qualifier goal — extended highlights", duration: '4:22', thumb: 'https://picsum.photos/seed/sv1/400/225' },
-  { title: 'Marcus Pewee NBA pre-draft workout — full session', duration: '8:15', thumb: 'https://picsum.photos/seed/sv2/400/225' },
-  { title: 'Comfort Brown 100m world-record attempt: race breakdown', duration: '2:47', thumb: 'https://picsum.photos/seed/sv3/400/225' },
-];
-
-const PLAYER_SPOTLIGHT = [
-  { name: 'Emmanuel Kollie', position: 'Striker', club: 'Monrovia FC', nationality: 'Liberia', stat: '18 Goals', statLabel: 'Season', img: 'https://picsum.photos/seed/ps1/300/300' },
-  { name: 'Marcus Pewee', position: 'Point Guard', club: 'Rivers Hoopers', nationality: 'Liberia', stat: '22.4 PPG', statLabel: 'Avg', img: 'https://picsum.photos/seed/ps2/300/300' },
-  { name: 'Comfort Brown', position: 'Sprinter', club: 'Team Liberia', nationality: 'Liberia', stat: '10.87s', statLabel: '100m PB', img: 'https://picsum.photos/seed/ps3/300/300' },
+  { category: 'Football',   title: "Monrovia FC's new stadium deal: $18M PPP project explained",                                    summary: "The club's groundbreaking public-private partnership with the Liberian government and a Ghanaian construction firm could transform club revenues within three seasons.",    source: 'TrueRate Sports', time: '3h ago' },
+  { category: 'Football',   title: "LFA commercial revenue up 31% — but the league still runs at a $2.1M annual deficit",           summary: "Growing sponsorship and gate receipts mask a structural funding gap that the Football Association has yet to close with broadcast income.",                          source: 'LFA / TrueRate', time: '5h ago' },
+  { category: 'Basketball', title: "NBL Africa franchise expansion: what a Monrovia team would cost and generate",                   summary: "A new NBA Africa-backed franchise report estimates $6M entry fee and $2.8M annual operating costs against projected $4.1M in revenue by year three.",               source: 'NBA Africa', time: '7h ago' },
+  { category: 'Football',   title: "How Marcus Pewee became the most valuable Liberian player since Weah — the numbers",            summary: "Rivers Hoopers' $840K contract and pre-draft NBA valuation make Pewee the highest-earning Liberian athlete in active competition.",                               source: 'TrueRate Sports', time: '9h ago' },
+  { category: 'Football',   title: "Shirt sponsorship in West African football: deals, values, and the brands that pay the most",  summary: "A survey of 40 top-flight clubs finds median jersey deal values of $120K/year — with Monrovia FC's Orange partnership among the region's top 10.",            source: 'Sportcal', time: '1d ago' },
+  { category: 'Athletics',  title: "Comfort Brown's commercial value: sponsorship worth $220K — and growing fast",                  summary: "After breaking the West African 100m record, the sprinter has attracted Puma, MTN, and Liberia Petroleum as sponsors in a six-month window.",                    source: 'TrueRate Sports', time: '1d ago' },
 ];
 
 const TRANSFERS = [
-  { player: 'Emmanuel Kollie', from: 'Monrovia FC', to: 'LISCR FC', status: 'Rumour', confirmed: false },
-  { player: 'James Dolo', from: 'BYC FC', to: 'Barrack Young', status: 'Confirmed', confirmed: true },
-  { player: 'Marcus Pewee', from: 'Free Agent', to: 'Rivers Hoopers', status: 'Done', confirmed: true },
-  { player: 'Samuel Toe', from: 'FC Nimba', to: 'Monrovia FC', status: 'Rumour', confirmed: false },
-  { player: 'Eric Kpah', from: 'LISCR FC', to: 'Club de Foot Abidjan', status: 'Confirmed', confirmed: true },
+  { player: 'Emmanuel Kollie', from: 'Monrovia FC',   to: 'LISCR FC',             fee: '$280K',      status: 'Rumour',    confirmed: false },
+  { player: 'James Dolo',      from: 'BYC FC',        to: 'Barrack Young',        fee: '$45K',       status: 'Confirmed', confirmed: true  },
+  { player: 'Marcus Pewee',    from: 'Free Agent',    to: 'Rivers Hoopers',       fee: '$840K / 2yr',status: 'Done',      confirmed: true  },
+  { player: 'Eric Kpah',       from: 'LISCR FC',      to: 'Club de Foot Abidjan', fee: '$190K',      status: 'Confirmed', confirmed: true  },
+  { player: 'Samuel Toe',      from: 'FC Nimba',      to: 'Monrovia FC',          fee: 'Undisclosed', status: 'Rumour',   confirmed: false },
 ];
 
-const ATHLETICS_STORIES = [
-  { category: 'Athletics', title: 'Comfort Brown targets sub-10.8s at Dakar Diamond League', time: '4h ago', img: 'https://picsum.photos/seed/ath1/300/170' },
-  { category: 'Cricket', title: 'Liberia U19 cricket side wins first ICC qualifying match', time: '8h ago', img: 'https://picsum.photos/seed/ath2/300/170' },
-  { category: 'Tennis', title: 'Monrovia Open ITF draw revealed — six Liberian wildcards', time: '1d ago', img: 'https://picsum.photos/seed/ath3/300/170' },
-  { category: 'Golf', title: 'Liberia Golf Classic: Day 2 leaderboard shows tight three-way tie', time: '2d ago', img: 'https://picsum.photos/seed/ath4/300/170' },
+const BROADCAST = [
+  { competition: 'AFCON 2027',          rightsholder: 'SuperSport / beIN',   value: '$340M', territory: 'Global',      expiry: '2027' },
+  { competition: 'Premier League',      rightsholder: 'SuperSport',          value: '$180M', territory: 'Sub-Saharan', expiry: '2028' },
+  { competition: 'LFA League',          rightsholder: 'ELBC / Orange',       value: '$1.8M', territory: 'Liberia',     expiry: '2026' },
+  { competition: 'NBL Africa',          rightsholder: 'NBA Africa / DStv',   value: '$22M',  territory: 'Pan-Africa',  expiry: '2027' },
+  { competition: 'WAFU Cup',            rightsholder: 'CAF Media',           value: '$12M',  territory: 'West Africa', expiry: '2026' },
 ];
 
-const TOP_SCORERS = [
-  { rank: 1, name: 'Emmanuel Kollie', club: 'Monrovia FC', goals: 18 },
-  { rank: 2, name: 'Roland Nah', club: 'LISCR FC', goals: 14 },
-  { rank: 3, name: 'Joseph Gayflor', club: 'BYC FC', goals: 11 },
-  { rank: 4, name: 'Samuel Toe', club: 'FC Nimba', goals: 9 },
-  { rank: 5, name: 'Eric Kpah', club: 'LISCR FC', goals: 8 },
+const SPONSORSHIP = [
+  { club: 'Monrovia FC',  sponsor: 'Orange Liberia',      category: 'Shirt',       value: '$320K/yr', since: '2023' },
+  { club: 'LISCR FC',     sponsor: 'Lonestar Cell MTN',   category: 'Kit',         value: '$180K/yr', since: '2024' },
+  { club: 'LFA',          sponsor: 'CBL / Govt. Liberia', category: 'Federation',  value: '$600K/yr', since: '2022' },
+  { club: 'NBL Africa',   sponsor: 'NBA / SAP Africa',    category: 'Title',       value: '$8M/yr',   since: '2021' },
 ];
 
-const SPORT_CALENDAR = [
-  { event: 'WAFU Cup Semi-Final', date: 'Apr 8', sport: 'Football' },
-  { event: 'NBL Africa Playoffs Begin', date: 'Apr 15', sport: 'Basketball' },
-  { event: 'Dakar Diamond League', date: 'Apr 27', sport: 'Athletics' },
-  { event: 'AFCON 2027 Qualifier Draw', date: 'May 10', sport: 'Football' },
+const VIDEOS = [
+  { title: "Lone Star's AFCON qualifier — and the $4M prize money on the line", duration: '4:22', category: 'Football' },
+  { title: 'NBA Africa Monrovia 2026: the business case explained', duration: '6:10', category: 'Basketball' },
+  { title: 'Comfort Brown and the economics of African sprint sponsorship', duration: '3:15', category: 'Athletics' },
+];
+
+const STANDINGS = [
+  { pos: 1, team: 'Monrovia FC',   p: 22, w: 14, d: 5, l: 3,  pts: 47 },
+  { pos: 2, team: 'LISCR FC',      p: 22, w: 12, d: 6, l: 4,  pts: 42 },
+  { pos: 3, team: 'BYC FC',        p: 22, w: 11, d: 5, l: 6,  pts: 38 },
+  { pos: 4, team: 'Barrack Young', p: 22, w: 9,  d: 7, l: 6,  pts: 34 },
+  { pos: 5, team: 'FC Nimba',      p: 22, w: 8,  d: 6, l: 8,  pts: 30 },
+];
+
+const BUSINESS_METRICS = [
+  { label: 'LFA Total Prize Pool (2025/26)',   value: '$1.2M',  change: '+15% YoY', up: true  },
+  { label: 'W. Africa Sports Sponsorship',     value: '$340M',  change: '+22% YoY', up: true  },
+  { label: 'Monrovia FC Est. Valuation',       value: '$8.4M',  change: '+11% YoY', up: true  },
+  { label: 'CAF Prize Money (AFCON 2027)',     value: '$22.5M', change: '+18% YoY', up: true  },
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -105,21 +91,19 @@ const CATEGORY_COLORS: Record<string, string> = {
   Golf:       'text-lime-400',
 };
 
-const FORM_COLOR: Record<string, string> = {
-  W: 'bg-emerald-500/20 text-emerald-400',
-  D: 'bg-gray-500/20 text-gray-400',
-  L: 'bg-red-500/20 text-red-400',
-};
-
 export default function SportsPage() {
   const [activeTab, setActiveTab] = useState('All');
 
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
-      {/* Page header + sport tabs */}
+      {/* Breadcrumb + header */}
       <div className="mb-6">
-        <h1 className="text-[26px] font-bold text-white mb-4">Sports</h1>
+        <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
+          <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
+          <span>/</span>
+          <span className="text-gray-400">Sports</span>
+        </div>
         <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SPORT_TABS.map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
@@ -138,8 +122,8 @@ export default function SportsPage() {
       <div className="mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex gap-3 min-w-max">
           {SCORES.map((s, i) => (
-            <Link key={i} href="/sports" className="group flex flex-col items-center rounded-xl border border-white/[0.07] bg-[#141418] px-4 py-3 no-underline hover:border-white/20 transition-colors min-w-[170px]">
-              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-600 mb-2">{s.competition}</div>
+            <Link key={i} href="/sports" className="group flex flex-col items-center border border-white/[0.07] bg-[#141418] px-4 py-3 no-underline hover:border-white/20 transition-colors min-w-[170px]">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">{s.competition}</div>
               <div className="flex items-center gap-3 w-full">
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] font-bold text-white truncate">{s.home}</div>
@@ -150,7 +134,7 @@ export default function SportsPage() {
                   <div className={`text-[14px] font-black tabular-nums ${s.awayScore > s.homeScore ? 'text-white' : 'text-gray-500'}`}>{s.awayScore}</div>
                 </div>
               </div>
-              <div className={`mt-2 text-[10px] font-bold px-2 py-0.5 rounded ${s.status === 'FT' ? 'text-gray-500' : 'text-emerald-400 bg-emerald-400/10'}`}>
+              <div className={`mt-2 text-[10px] font-bold ${s.status === 'FT' ? 'text-gray-400' : 'text-emerald-400'}`}>
                 {s.status}
               </div>
             </Link>
@@ -162,57 +146,160 @@ export default function SportsPage() {
         {/* Main column */}
         <div className="flex-1 min-w-0">
 
-          {/* Hero story */}
-          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-white/[0.07] bg-[#141418] no-underline mb-6 -mx-2 sm:mx-0">
-            <div className="w-full lg:w-[55%] shrink-0 overflow-hidden relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={HERO.img} alt="" className="w-full h-[200px] sm:h-[260px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+          {/* Hero */}
+          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-white/[0.07] bg-[#141418] no-underline mb-6">
+            <div className="w-full lg:w-[55%] shrink-0">
+              <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
-            <div className="flex flex-col justify-center px-8 py-8 flex-1">
+            <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
               <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS[HERO.category] ?? 'text-white/50'}`}>{HERO.category}</span>
-              <h2 className="text-[20px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-3">{HERO.title}</h2>
-              <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-2 mb-3">{HERO.summary}</p>
-              <div className="text-[12px] text-gray-500">{HERO.source} · {HERO.time}</div>
+              <h2 className="text-[24px] font-black leading-snug text-white group-hover:text-white/80 transition-colors mb-4">{HERO.title}</h2>
+              <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
+              <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
+                <span>{HERO.source}</span>
+                <span className="text-gray-500">·</span>
+                <span>{HERO.time}</span>
+              </div>
             </div>
           </Link>
 
-          {/* Top stories — 3 cards */}
+          {/* Top stories */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             {TOP_STORIES.map((s, i) => (
               <Link key={i} href="/sports" className="group flex flex-col no-underline">
-                <div className="overflow-hidden rounded-xl mb-2.5">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={s.img} alt="" className="w-full h-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="overflow-hidden mb-2.5">
+                  <NewsThumbnail category={s.category} className="w-full h-[130px]" />
                 </div>
-                <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS[s.category] ?? 'text-white/40'}`}>{s.category}</span>
+                <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS[s.category] ?? 'text-white/60'}`}>{s.category}</span>
                 <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 flex-1 mb-1.5">{s.title}</h3>
-                <div className="text-[11px] text-gray-600">{s.source} · {s.time}</div>
+                <div className="text-[11px] text-gray-400">{s.source} · {s.time}</div>
               </Link>
             ))}
           </div>
 
-          {/* News feed */}
-          <div className="mb-6">
-            <h2 className="text-[17px] font-bold text-white mb-4">Latest Stories</h2>
+          {/* Transfer table */}
+          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
+              <h2 className="text-[15px] font-bold text-white">Transfer Tracker</h2>
+              <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Deal values · Apr 2026</span>
+            </div>
+            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <table className="w-full min-w-[520px] text-[13px]">
+                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  <tr>
+                    <th className="px-5 py-3 text-left">Player</th>
+                    <th className="px-5 py-3 text-left">From</th>
+                    <th className="px-5 py-3 text-left">To</th>
+                    <th className="px-5 py-3 text-right">Fee</th>
+                    <th className="px-5 py-3 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.04]">
+                  {TRANSFERS.map((t, i) => (
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="px-5 py-3 font-bold text-white">{t.player}</td>
+                      <td className="px-5 py-3 text-gray-400">{t.from}</td>
+                      <td className="px-5 py-3 text-gray-400">{t.to}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{t.fee}</td>
+                      <td className={`px-5 py-3 text-right text-[12px] font-semibold ${t.confirmed ? 'text-emerald-400' : 'text-gray-500'}`}>
+                        {t.status}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Broadcast rights */}
+          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
+              <h2 className="text-[15px] font-bold text-white">Broadcast Rights</h2>
+              <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Current deals</span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[13px]">
+                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  <tr>
+                    <th className="px-5 py-3 text-left">Competition</th>
+                    <th className="px-5 py-3 text-left">Rights Holder</th>
+                    <th className="px-5 py-3 text-right">Deal Value</th>
+                    <th className="hidden sm:table-cell px-5 py-3 text-left">Territory</th>
+                    <th className="hidden sm:table-cell px-5 py-3 text-right">Expiry</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.04]">
+                  {BROADCAST.map((row, i) => (
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="px-5 py-3 font-bold text-white">{row.competition}</td>
+                      <td className="px-5 py-3 text-gray-400">{row.rightsholder}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{row.value}</td>
+                      <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{row.territory}</td>
+                      <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-400">{row.expiry}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Feed */}
+          <div className="mb-8">
+            <h2 className="text-[17px] font-bold text-white mb-5">Analysis</h2>
             <div className="flex flex-col divide-y divide-white/[0.05]">
               {FEED.map((item, i) => (
                 <Link key={i} href="/sports" className="group flex gap-4 py-5 first:pt-0 no-underline">
-                  <div className="shrink-0 overflow-hidden rounded-xl">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.img} alt="" className="h-[90px] w-[150px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="shrink-0 overflow-hidden">
+                    <NewsThumbnail category={item.category} className="h-[90px] w-[140px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 inline-block ${CATEGORY_COLORS[item.category] ?? 'text-white/40'}`}>{item.category}</span>
-                    <h3 className="text-[15px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors mb-1.5 line-clamp-2">{item.title}</h3>
+                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS[item.category] ?? 'text-white/60'}`}>{item.category}</span>
+                    <h3 className="text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1.5 line-clamp-2">{item.title}</h3>
                     <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
-                    <div className="text-[12px] text-gray-600">{item.source} · {item.time}</div>
+                    <div className="flex items-center gap-2 text-[12px] text-gray-400">
+                      <span className="text-gray-500">{item.source}</span>
+                      <span>·</span>
+                      <span>{item.time}</span>
+                    </div>
                   </div>
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Videos strip */}
+          {/* Sponsorship */}
+          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
+              <h2 className="text-[15px] font-bold text-white">Major Sponsorship Deals</h2>
+              <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Liberia &amp; West Africa</span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[13px]">
+                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  <tr>
+                    <th className="px-5 py-3 text-left">Club / Body</th>
+                    <th className="px-5 py-3 text-left">Sponsor</th>
+                    <th className="px-5 py-3 text-left">Category</th>
+                    <th className="px-5 py-3 text-right">Annual Value</th>
+                    <th className="hidden sm:table-cell px-5 py-3 text-right">Since</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.04]">
+                  {SPONSORSHIP.map((row, i) => (
+                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="px-5 py-3 font-bold text-white">{row.club}</td>
+                      <td className="px-5 py-3 text-gray-400">{row.sponsor}</td>
+                      <td className="px-5 py-3 text-gray-500">{row.category}</td>
+                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{row.value}</td>
+                      <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-400">{row.since}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Videos */}
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-[17px] font-bold text-white">Videos</h2>
@@ -221,92 +308,10 @@ export default function SportsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {VIDEOS.map((v, i) => (
                 <Link key={i} href="/videos" className="group flex flex-col no-underline">
-                  <div className="relative overflow-hidden rounded-xl mb-2.5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={v.thumb} alt="" className="w-full h-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black/60 group-hover:bg-black/80 transition-colors">
-                        <svg className="h-4 w-4 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                      </div>
-                    </div>
-                    <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-[10px] font-semibold text-white">{v.duration}</span>
+                  <div className="relative overflow-hidden mb-2.5">
+                    <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[130px]" />
                   </div>
                   <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">{v.title}</h3>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Player Spotlight */}
-          <div className="mt-8 mb-8">
-            <div className="flex items-center gap-2 mb-5">
-              <h2 className="text-[17px] font-bold text-white">Player Spotlight</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {PLAYER_SPOTLIGHT.map((player, i) => (
-                <Link key={i} href="/sports" className="group flex flex-col rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden no-underline hover:border-white/20 transition-colors">
-                  <div className="overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={player.img} alt="" className="w-full h-[160px] object-cover transition-transform duration-500 group-hover:scale-105" />
-                  </div>
-                  <div className="p-4">
-                    <p className="text-[14px] font-bold text-white group-hover:text-white/75 transition-colors">{player.name}</p>
-                    <p className="text-[11px] text-gray-500 mt-0.5">{player.position} · {player.club}</p>
-                    <p className="text-[10px] text-gray-700 mt-0.5">{player.nationality}</p>
-                    <div className="mt-3 flex items-baseline gap-1.5">
-                      <span className="text-[20px] font-black text-white tabular-nums">{player.stat}</span>
-                      <span className="text-[10px] text-gray-600 uppercase tracking-wide font-bold">{player.statLabel}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Transfer News */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Transfer News</h2>
-              <span className="text-[11px] text-gray-600 uppercase tracking-wide font-bold">Latest rumours &amp; deals</span>
-            </div>
-            <div className="divide-y divide-white/[0.04]">
-              {TRANSFERS.map((t, i) => (
-                <Link key={i} href="/sports" className="group flex items-center gap-3 px-5 py-3.5 no-underline hover:bg-white/[0.02] transition-colors">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-white group-hover:text-white/75 transition-colors">{t.player}</p>
-                    <p className="text-[11px] text-gray-600 mt-0.5">
-                      <span className="text-gray-400">{t.from}</span>
-                      <span className="mx-1.5 text-gray-700">→</span>
-                      <span className="text-gray-400">{t.to}</span>
-                    </p>
-                  </div>
-                  <span className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${
-                    t.status === 'Done' ? 'bg-emerald-500/15 text-emerald-400' :
-                    t.status === 'Confirmed' ? 'bg-blue-500/15 text-blue-400' :
-                    'bg-orange-500/15 text-orange-400'
-                  }`}>{t.status}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Athletics & Other Sports */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-5">
-              <h2 className="text-[17px] font-bold text-white">Athletics &amp; Other Sports</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {ATHLETICS_STORIES.map((story, i) => (
-                <Link key={i} href="/sports" className="group flex gap-3 rounded-xl border border-white/[0.07] bg-[#141418] p-3 no-underline hover:border-white/20 transition-colors">
-                  <div className="shrink-0 overflow-hidden rounded-lg">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={story.img} alt="" className="h-[80px] w-[110px] object-cover transition-transform duration-500 group-hover:scale-105" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 inline-block ${CATEGORY_COLORS[story.category] ?? 'text-white/40'}`}>{story.category}</span>
-                    <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3">{story.title}</h3>
-                    <p className="text-[10px] text-gray-700 mt-1.5">{story.time}</p>
-                  </div>
                 </Link>
               ))}
             </div>
@@ -318,17 +323,35 @@ export default function SportsPage() {
         <aside className="hidden xl:block w-[290px] shrink-0">
           <div className="sticky top-[120px] flex flex-col gap-5">
 
+            {/* Business snapshot */}
+            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+              <div className="px-4 py-3.5 border-b border-white/[0.05]">
+                <h3 className="text-[13px] font-bold text-white">Sports Business Snapshot</h3>
+              </div>
+              <div className="divide-y divide-white/[0.04]">
+                {BUSINESS_METRICS.map((m, i) => (
+                  <div key={i} className="flex items-center justify-between px-4 py-3">
+                    <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
+                    <div className="text-right shrink-0">
+                      <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
+                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* LFA Standings */}
             <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.05]">
                 <div>
                   <h3 className="text-[13px] font-bold text-white">LFA League</h3>
-                  <p className="text-[10px] text-gray-600">Liberia Football Association · Week 22</p>
+                  <p className="text-[10px] text-gray-400">Week 22</p>
                 </div>
                 <Link href="/sports" className="text-[11px] text-gray-500 hover:text-white transition-colors no-underline">Full table ›</Link>
               </div>
               <div className="px-4 py-2">
-                <div className="flex text-[10px] font-bold uppercase tracking-wide text-gray-600 mb-1 px-0 gap-0">
+                <div className="flex text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1 gap-0">
                   <span className="w-5 shrink-0">#</span>
                   <span className="flex-1">Team</span>
                   <span className="w-5 text-center">P</span>
@@ -339,7 +362,7 @@ export default function SportsPage() {
                 </div>
                 {STANDINGS.map(row => (
                   <div key={row.pos} className="flex items-center py-2 border-t border-white/[0.03] text-[12px] gap-0">
-                    <span className="w-5 shrink-0 text-gray-600 font-bold">{row.pos}</span>
+                    <span className="w-5 shrink-0 text-gray-400 font-bold">{row.pos}</span>
                     <span className="flex-1 font-semibold text-white truncate pr-1">{row.team}</span>
                     <span className="w-5 text-center text-gray-500">{row.p}</span>
                     <span className="w-5 text-center text-gray-500">{row.w}</span>
@@ -349,86 +372,47 @@ export default function SportsPage() {
                   </div>
                 ))}
               </div>
-              <div className="px-4 py-3 border-t border-white/[0.05]">
-                <div className="flex gap-1.5 flex-wrap">
-                  {STANDINGS[0].form.map((f, i) => (
-                    <span key={i} className={`rounded text-[9px] font-black px-1.5 py-0.5 ${FORM_COLOR[f]}`}>{f}</span>
-                  ))}
-                  <span className="text-[10px] text-gray-600 ml-1 self-center">Last 5 (Leader)</span>
-                </div>
-              </div>
             </div>
 
             {/* Upcoming fixtures */}
             <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.05]">
                 <h3 className="text-[13px] font-bold text-white">Upcoming Fixtures</h3>
-                <Link href="/sports" className="text-[11px] text-gray-500 hover:text-white transition-colors no-underline">Full schedule ›</Link>
               </div>
               <div className="divide-y divide-white/[0.04]">
-                {UPCOMING.map((f, i) => (
+                {[
+                  { home: 'Liberia',       away: 'Guinea',          date: 'Apr 8',  time: '18:00', competition: 'WAFU Cup SF' },
+                  { home: 'Monrovia FC',   away: 'FC Nimba',        date: 'Apr 9',  time: '15:00', competition: 'LFA League' },
+                  { home: 'LISCR FC',      away: 'BYC FC',          date: 'Apr 10', time: '16:00', competition: 'LFA League' },
+                  { home: 'Rivers Hoopers', away: 'Monrovia Ballers', date: 'Apr 11', time: '20:00', competition: 'NBL Africa' },
+                ].map((f, i) => (
                   <Link key={i} href="/sports" className="flex flex-col px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
-                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-600 mb-1">{f.competition}</div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-[12px] font-semibold text-white group-hover:text-white/80">{f.home} <span className="text-gray-600 font-normal">vs</span> {f.away}</div>
-                    </div>
-                    <div className="text-[11px] text-gray-600 mt-0.5">{f.date} · {f.time} WAT</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">{f.competition}</div>
+                    <div className="text-[12px] font-semibold text-white group-hover:text-white/80">{f.home} <span className="text-gray-400 font-normal">vs</span> {f.away}</div>
+                    <div className="text-[11px] text-gray-400 mt-0.5">{f.date} · {f.time} WAT</div>
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Fantasy promo */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-4">
-              <h3 className="text-[13px] font-bold text-white mb-1">TrueRate Fantasy</h3>
-              <p className="text-[12px] text-gray-500 mb-3">Pick your West Africa XI and compete weekly with real match data.</p>
-              <Link href="/sports" className="block w-full rounded-lg bg-white py-2.5 text-center text-[13px] font-semibold text-[#0a0a0d] hover:bg-white/90 transition no-underline">
-                Play now
-              </Link>
-            </div>
-
-            {/* Top Scorers */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.05]">
-                <div>
-                  <h3 className="text-[13px] font-bold text-white">Top Scorers</h3>
-                  <p className="text-[10px] text-gray-600">LFA League · 2025/26 Season</p>
-                </div>
-                <Link href="/sports" className="text-[11px] text-gray-500 hover:text-white transition-colors no-underline">Full list ›</Link>
-              </div>
-              <div className="px-4 py-2">
-                <div className="flex text-[10px] font-bold uppercase tracking-wide text-gray-600 mb-1 gap-0">
-                  <span className="w-5 shrink-0">#</span>
-                  <span className="flex-1">Player</span>
-                  <span className="w-16 truncate text-gray-700">Club</span>
-                  <span className="w-6 text-right font-black">G</span>
-                </div>
-                {TOP_SCORERS.map(row => (
-                  <Link key={row.rank} href="/sports" className="flex items-center py-2 border-t border-white/[0.03] text-[12px] gap-0 no-underline group hover:bg-white/[0.02] transition-colors -mx-4 px-4">
-                    <span className="w-5 shrink-0 text-gray-600 font-bold">{row.rank}</span>
-                    <span className="flex-1 font-semibold text-white truncate pr-1 group-hover:text-white/75 transition-colors">{row.name}</span>
-                    <span className="w-16 text-gray-500 text-[11px] truncate">{row.club}</span>
-                    <span className="w-6 text-right font-black text-emerald-400">{row.goals}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Sport Calendar */}
+            {/* Most read */}
             <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
               <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Sport Calendar</h3>
+                <h3 className="text-[13px] font-bold text-white">Most Read</h3>
               </div>
               <div className="divide-y divide-white/[0.04]">
-                {SPORT_CALENDAR.map((ev, i) => (
-                  <Link key={i} href="/sports" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
-                    <div className="shrink-0 flex flex-col items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06]">
-                      <span className="text-[7px] font-bold uppercase text-gray-600 leading-none">{ev.date.split(' ')[0]}</span>
-                      <span className="text-[12px] font-black text-white leading-none mt-0.5">{ev.date.split(' ')[1]}</span>
-                    </div>
+                {[
+                  { rank: 1, title: "AFCON 2027 broadcast rights: the $340M deal",          tag: 'Football' },
+                  { rank: 2, title: "NBA Africa Monrovia — $4.2M impact study",              tag: 'Basketball' },
+                  { rank: 3, title: "LFA's $2.1M annual deficit explained",                  tag: 'Football' },
+                  { rank: 4, title: "Marcus Pewee's $840K deal — how it compares",           tag: 'Basketball' },
+                  { rank: 5, title: "Comfort Brown sponsorship value: $220K and rising",     tag: 'Athletics' },
+                ].map(t => (
+                  <Link key={t.rank} href="/sports" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
+                    <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
-                      <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors line-clamp-2 leading-snug">{ev.event}</p>
-                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS[ev.sport] ?? 'text-white/40'}`}>{ev.sport}</span>
+                      <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors line-clamp-2 leading-snug">{t.title}</p>
+                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS[t.tag] ?? 'text-gray-500'}`}>{t.tag}</span>
                     </div>
                   </Link>
                 ))}

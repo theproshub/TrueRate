@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { newsItems } from '@/data/news';
+import { NewsThumbnail, VideoThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
 
 /* ── helpers ── */
 function timeAgo(d: string) {
@@ -11,9 +13,6 @@ function timeAgo(d: string) {
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
 }
-
-/* ── images ── */
-const IMGS = Array.from({ length: 20 }, (_, i) => `https://picsum.photos/seed/news-${i + 1}/600/340`);
 
 const CATEGORY_COLOR: Record<string, string> = {
   policy:      'text-purple-400',
@@ -53,30 +52,30 @@ const BREAKING = [
 ];
 
 const OPINION = [
-  { title: "Why Liberia's rubber sector needs a pricing overhaul — now", author: 'Dr. Y. Kollie', role: 'Economic Adviser', img: 'https://picsum.photos/seed/op1/80/80', time: '2d ago' },
-  { title: 'The case for a Liberia sovereign wealth fund before the mining boom peaks', author: 'Prof. A. Dahn', role: 'University of Liberia', img: 'https://picsum.photos/seed/op2/80/80', time: '3d ago' },
-  { title: "ECOWAS monetary union: Liberia should lead, not follow", author: 'M. Wreh', role: 'Senior Economist, CBL', img: 'https://picsum.photos/seed/op3/80/80', time: '4d ago' },
+  { title: "Why Liberia's rubber sector needs a pricing overhaul — now", author: 'Dr. Y. Kollie', role: 'Economic Adviser', time: '2d ago' },
+  { title: 'The case for a Liberia sovereign wealth fund before the mining boom peaks', author: 'Prof. A. Dahn', role: 'University of Liberia', time: '3d ago' },
+  { title: "ECOWAS monetary union: Liberia should lead, not follow", author: 'M. Wreh', role: 'Senior Economist, CBL', time: '4d ago' },
 ];
 
 const WEST_AFRICA = [
-  { country: 'Ghana', title: 'Ghana cedi hits six-month high after IMF tranche release', source: 'Ghana Business News', time: '4h ago', img: 'https://picsum.photos/seed/wa1/300/170' },
-  { country: 'Nigeria', title: 'Nigerian stock exchange posts best month in 18 years on oil rebound', source: 'BusinessDay NG', time: '6h ago', img: 'https://picsum.photos/seed/wa2/300/170' },
-  { country: 'Sierra Leone', title: "Freetown port expansion fast-tracked with $80M Chinese loan", source: 'Awoko', time: '8h ago', img: 'https://picsum.photos/seed/wa3/300/170' },
-  { country: "Côte d'Ivoire", title: "Abidjan bourse outperforms regional peers in Q1 2026", source: 'Agence Ecofin', time: '10h ago', img: 'https://picsum.photos/seed/wa4/300/170' },
+  { country: 'Ghana', title: 'Ghana cedi hits six-month high after IMF tranche release', source: 'Ghana Business News', time: '4h ago' },
+  { country: 'Nigeria', title: 'Nigerian stock exchange posts best month in 18 years on oil rebound', source: 'BusinessDay NG', time: '6h ago' },
+  { country: 'Sierra Leone', title: "Freetown port expansion fast-tracked with $80M Chinese loan", source: 'Awoko', time: '8h ago' },
+  { country: "Côte d'Ivoire", title: "Abidjan bourse outperforms regional peers in Q1 2026", source: 'Agence Ecofin', time: '10h ago' },
 ];
 
 const DATA_STORIES = [
-  { stat: '18%',   statLabel: 'Export surge',  title: 'Iron Ore Exports Jump 18% in Q1 as ArcelorMittal Ramps Output',             time: '1d ago',  thumb: 'https://picsum.photos/seed/ds1/600/340' },
-  { stat: '$680M', statLabel: 'Remittances',   title: 'Diaspora Remittances Hit Record $680M — Highest in Liberia\'s History',       time: '2d ago',  thumb: 'https://picsum.photos/seed/ds2/600/340' },
-  { stat: '5.1%',  statLabel: 'GDP forecast',  title: 'IMF Upgrades Liberia Growth Forecast to 5.1% on Mining Rebound',             time: '3d ago',  thumb: 'https://picsum.photos/seed/ds3/600/340' },
-  { stat: '2,400', statLabel: 'New jobs',       title: 'Firestone Expansion Creates 2,400 Jobs as Rubber Output Hits Decade High',   time: '4d ago',  thumb: 'https://picsum.photos/seed/ds4/600/340' },
+  { stat: '18%',   statLabel: 'Export surge',  title: 'Iron Ore Exports Jump 18% in Q1 as ArcelorMittal Ramps Output',             time: '1d ago',  category: 'Mining' },
+  { stat: '$680M', statLabel: 'Remittances',   title: 'Diaspora Remittances Hit Record $680M — Highest in Liberia\'s History',       time: '2d ago',  category: 'economy' },
+  { stat: '5.1%',  statLabel: 'GDP forecast',  title: 'IMF Upgrades Liberia Growth Forecast to 5.1% on Mining Rebound',             time: '3d ago',  category: 'economy' },
+  { stat: '2,400', statLabel: 'New jobs',       title: 'Firestone Expansion Creates 2,400 Jobs as Rubber Output Hits Decade High',   time: '4d ago',  category: 'Agriculture' },
 ];
 
 const ARCHIVES = [
-  { title: "Why Liberia's Rubber Sector Has Never Reached Its Potential — A 30-Year Retrospective",     date: 'Jan 2026', thumb: 'https://picsum.photos/seed/arc1/300/170', readTime: '12 min read' },
-  { title: "The History of CBL Independence: From Post-War Reconstruction to Modern Monetary Policy",   date: 'Nov 2025', thumb: 'https://picsum.photos/seed/arc2/300/170', readTime: '15 min read' },
-  { title: 'Iron Ore, Timber, Rubber: How Liberia Became Dependent on Three Commodities',              date: 'Sep 2025', thumb: 'https://picsum.photos/seed/arc3/300/170', readTime: '10 min read' },
-  { title: "Monrovia's Informal Economy: The Hidden Engine Powering Half of Urban Liberia",            date: 'Jul 2025', thumb: 'https://picsum.photos/seed/arc4/300/170', readTime: '9 min read' },
+  { title: "Why Liberia's Rubber Sector Has Never Reached Its Potential — A 30-Year Retrospective",     date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
+  { title: "The History of CBL Independence: From Post-War Reconstruction to Modern Monetary Policy",   date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
+  { title: 'Iron Ore, Timber, Rubber: How Liberia Became Dependent on Three Commodities',              date: 'Sep 2025', category: 'Mining',      readTime: '10 min read' },
+  { title: "Monrovia's Informal Economy: The Hidden Engine Powering Half of Urban Liberia",            date: 'Jul 2025', category: 'economy',     readTime: '9 min read' },
 ];
 
 const COMMUNITY_VOICES = [
@@ -85,7 +84,6 @@ const COMMUNITY_VOICES = [
     excerpt: "Foreign contractors still dominate mining ancillary contracts. Without real enforcement, local business development remains a slogan.",
     author: 'Korto Williams',
     role: 'Liberia Business Association',
-    img: 'https://picsum.photos/seed/cv1/80/80',
     time: '3d ago',
   },
   {
@@ -93,7 +91,6 @@ const COMMUNITY_VOICES = [
     excerpt: "Mobile money adoption is accelerating outside Monrovia, but unreliable electricity and poor connectivity cap its impact on livelihoods.",
     author: 'James T. Kollie',
     role: 'Fintech Entrepreneur, Monrovia',
-    img: 'https://picsum.photos/seed/cv2/80/80',
     time: '4d ago',
   },
   {
@@ -101,7 +98,6 @@ const COMMUNITY_VOICES = [
     excerpt: "While mining grabs the spotlight, smallholder farming and agro-processing have quietly grown 7% annually for three consecutive years.",
     author: 'Miatta Fallah',
     role: 'CEO, LiberAgro Ltd',
-    img: 'https://picsum.photos/seed/cv3/80/80',
     time: '5d ago',
   },
 ];
@@ -115,10 +111,10 @@ const UPCOMING_EVENTS = [
 ];
 
 const VIDEOS = [
-  { title: 'CBL Governor on rate outlook and food inflation', duration: '2:48', thumb: 'https://picsum.photos/seed/nv1/400/225', time: '55m ago' },
-  { title: 'ArcelorMittal expansion — what it means for Liberia GDP', duration: '1:52', thumb: 'https://picsum.photos/seed/nv2/400/225', time: '3h ago' },
-  { title: 'Diaspora remittances hit $680M — a new record', duration: '2:31', thumb: 'https://picsum.photos/seed/nv3/400/225', time: '12h ago' },
-  { title: 'ECOWAS digital payment pilot: live from Lagos', duration: '3:14', thumb: 'https://picsum.photos/seed/nv4/400/225', time: '1d ago' },
+  { title: 'CBL Governor on rate outlook and food inflation', duration: '2:48', category: 'policy', time: '55m ago' },
+  { title: 'ArcelorMittal expansion — what it means for Liberia GDP', duration: '1:52', category: 'Mining', time: '3h ago' },
+  { title: 'Diaspora remittances hit $680M — a new record', duration: '2:31', category: 'economy', time: '12h ago' },
+  { title: 'ECOWAS digital payment pilot: live from Lagos', duration: '3:14', category: 'Trade', time: '1d ago' },
 ];
 
 /* ── components ── */
@@ -139,15 +135,12 @@ function TrendingPanel() {
               <span className="shrink-0 tabular-nums text-[20px] font-black text-white/10 leading-none w-5 pt-0.5">{item.rank}</span>
               <div className="min-w-0 flex-1">
                 <p className="text-[13px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{item.title}</p>
-                {item.isNew && (
-                  <span className="mt-1.5 inline-block rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400 uppercase tracking-wide">New</span>
-                )}
               </div>
             </Link>
           ))}
           <Link href="/news" className="flex items-center justify-between px-4 py-3 no-underline group hover:bg-white/[0.03] transition-colors">
             <span className="text-[13px] text-gray-500 group-hover:text-white transition-colors">See more stories</span>
-            <svg className="h-4 w-4 text-gray-600 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-4 w-4 text-gray-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -155,7 +148,7 @@ function TrendingPanel() {
 
         {/* Mini market widget */}
         <div className="mt-5 rounded-xl border border-white/[0.07] bg-[#141418] p-4">
-          <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-600 mb-3">Markets</h3>
+          <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-3">Markets</h3>
           {[
             { label: 'LRD/USD', value: '192.50', pct: '+0.65%', up: true },
             { label: 'Iron Ore', value: '$108.50', pct: '-2.08%', up: false },
@@ -194,14 +187,13 @@ function HeroCarousel() {
   const item = slides[idx];
 
   return (
-    <div className="relative rounded-2xl overflow-hidden group">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={IMGS[idx]} alt="" className="w-full h-[380px] object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
+    <div className="relative overflow-hidden group">
+      <NewsThumbnail category={item.category} className="w-full h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide backdrop-blur-sm ${CATEGORY_BG[item.category] ?? 'bg-white/15 text-white'}`}>{item.category}</span>
+        <span className={`text-[11px] font-bold uppercase tracking-wide ${CATEGORY_COLORS[item.category] ?? 'text-white'}`}>{item.category}</span>
       </div>
-      <div className="absolute top-4 right-4 rounded-full bg-black/40 backdrop-blur-sm px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
+      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
         {idx + 1} / {slides.length}
       </div>
       <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -232,16 +224,15 @@ function SubStoryRow() {
   const items = newsItems.slice(5, 8);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-      {items.map((item, i) => (
+      {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group no-underline">
           <div className="overflow-hidden rounded-xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={IMGS[i + 5]} alt="" className="w-full h-[130px] object-cover transition-transform duration-500 group-hover:scale-105" />
+            <NewsThumbnail category={item.category} className="w-full h-[130px]" />
           </div>
           <div className="mt-2.5">
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/40'}`}>{item.category}</span>
+            <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/60'}`}>{item.category}</span>
             <h3 className="mt-0.5 text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
-            <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-600">
+            <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-400">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
             </div>
           </div>
@@ -258,15 +249,14 @@ function FeedList({ tab }: { tab: string }) {
 
   return (
     <div className="flex flex-col divide-y divide-white/[0.05]">
-      {items.map((item, i) => (
+      {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={IMGS[(i + 8) % IMGS.length]} alt="" className="shrink-0 h-[90px] w-[140px] rounded-xl object-cover transition-transform duration-500 group-hover:scale-105" />
+          <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/40'}`}>{item.category}</span>
+            <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/60'}`}>{item.category}</span>
             <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">{item.title}</h3>
             <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-            <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-600">
+            <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
               <span className="font-medium text-gray-500">{item.source}</span>
               <span>·</span>
               <span>{timeAgo(item.date)}</span>
@@ -288,7 +278,7 @@ function RightRail() {
           <h3 className="text-[14px] font-bold text-white mb-1">TrueRate Daily Brief</h3>
           <p className="text-[12px] text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
           <input type="email" placeholder="Email address"
-            className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2.5 text-[13px] text-white placeholder:text-gray-600 outline-none focus:border-white/30 transition-colors mb-2" />
+            className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2.5 text-[13px] text-white placeholder:text-gray-400 outline-none focus:border-white/30 transition-colors mb-2" />
           <button className="w-full rounded-lg bg-white py-2.5 text-[13px] font-semibold text-[#0a0a0d] hover:brightness-90 transition">Subscribe</button>
         </div>
 
@@ -308,12 +298,12 @@ function RightRail() {
             ].map((ev, i) => (
               <Link key={i} href="/economy" className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
                 <div className="shrink-0 rounded-lg bg-white/[0.05] border border-white/[0.06] px-2 py-1 text-center min-w-[40px]">
-                  <p className="text-[9px] font-bold uppercase tracking-wide text-gray-600">{ev.date.split(' ')[0]}</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wide text-gray-400">{ev.date.split(' ')[0]}</p>
                   <p className="text-[14px] font-black text-white leading-none">{ev.date.split(' ')[1]}</p>
                 </div>
                 <div>
                   <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{ev.label}</p>
-                  <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/40">{ev.type}</span>
+                  <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/60">{ev.type}</span>
                 </div>
               </Link>
             ))}
@@ -349,31 +339,103 @@ function RightRail() {
   );
 }
 
-export default function NewsPage() {
+function NewsPageInner() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q')?.trim() ?? '';
   const [activeTab, setActiveTab] = useState('For You');
+
+  // Reset tab when search query changes
+  useEffect(() => {
+    if (query) setActiveTab('For You');
+  }, [query]);
+
+  // Search results: match against title, summary, category, source
+  const searchResults = query
+    ? newsItems.filter(n => {
+        const q = query.toLowerCase();
+        return (
+          n.title.toLowerCase().includes(q) ||
+          n.summary.toLowerCase().includes(q) ||
+          n.category.toLowerCase().includes(q) ||
+          n.source.toLowerCase().includes(q)
+        );
+      })
+    : [];
 
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
+      {/* ── Search results view ── */}
+      {query && (
+        <div className="mb-8">
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <h1 className="text-[22px] font-bold text-white">
+                Search results for{' '}
+                <span className="text-[#a78bfa]">&ldquo;{query}&rdquo;</span>
+              </h1>
+              <p className="mt-1 text-[13px] text-gray-500">
+                {searchResults.length} article{searchResults.length !== 1 ? 's' : ''} found
+              </p>
+            </div>
+            <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">
+              ← All news
+            </Link>
+          </div>
+
+          {searchResults.length === 0 ? (
+            <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-10 text-center">
+              <h2 className="mb-1 text-[16px] font-bold text-white">No results found</h2>
+              <p className="text-[13px] text-gray-500">
+                Try searching for &ldquo;inflation&rdquo;, &ldquo;forex&rdquo;, &ldquo;rubber&rdquo; or &ldquo;CBL&rdquo;.
+              </p>
+            </div>
+          ) : (
+            <div className="flex gap-6">
+              <div className="flex-1 min-w-0 flex flex-col divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] px-5">
+                {searchResults.map((item) => (
+                  <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
+                    <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
+                    <div className="min-w-0 flex-1">
+                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/60'}`}>
+                        {item.category}
+                      </span>
+                      <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
+                      <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
+                        <span className="font-medium text-gray-500">{item.source}</span>
+                        <span>·</span>
+                        <span>{timeAgo(item.date)}</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Normal news view (hidden when searching) ── */}
+      {!query && (<>
+
       {/* Breaking ticker */}
       <div className="mb-5 flex items-center gap-0 rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-        <div className="shrink-0 bg-emerald-500 px-3 py-2.5">
+        <div className="shrink-0 bg-emerald-500 px-3 py-2.5 z-10">
           <span className="text-[10px] font-black uppercase tracking-widest text-white">Live</span>
         </div>
-        <div className="flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden divide-x divide-white/[0.06]">
-          {BREAKING.map((b, i) => (
-            <Link key={i} href="/news" className="flex items-center gap-2 px-4 py-2.5 no-underline whitespace-nowrap group hover:bg-white/[0.03] transition-colors shrink-0">
-              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{b.label}</span>
-              <span className="text-[12px] text-gray-400 group-hover:text-white transition-colors">{b.text}</span>
-            </Link>
-          ))}
+        <div className="flex-1 overflow-hidden">
+          <div className="ticker-scroll flex w-max">
+            {[...BREAKING, ...BREAKING].map((b, i) => (
+              <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-white/[0.06]">
+                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{b.label}</span>
+                <span className="text-[12px] text-gray-400 group-hover:text-white transition-colors">{b.text}</span>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-
-      {/* Page title */}
-      <div className="flex items-center justify-between mb-5">
-        <h1 className="text-[22px] font-bold text-white tracking-tight">News</h1>
-        <Link href="/" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">← Home</Link>
       </div>
 
       {/* Three-column layout */}
@@ -414,6 +476,26 @@ export default function NewsPage() {
           </div>
           <FeedList tab={activeTab} />
 
+          {/* More Stories grid */}
+          <div className="mt-10">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-[17px] font-bold text-white">More Stories</h2>
+              <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">All stories ›</Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-x divide-white/[0.05]">
+              {newsItems.slice(0, 4).map((item) => (
+                <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-col gap-2.5 p-4 no-underline hover:bg-white/[0.02] transition-colors">
+                  <div className="overflow-hidden rounded-lg">
+                    <NewsThumbnail category={item.category} className="w-full h-[80px]" />
+                  </div>
+                  <div className="text-[10px] font-bold uppercase tracking-wide text-white/35">{item.category}</div>
+                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
+                  <div className="text-[10px] text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* Videos strip */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
@@ -424,17 +506,10 @@ export default function NewsPage() {
               {VIDEOS.map((v, i) => (
                 <Link key={i} href="/videos" className="group flex flex-col no-underline">
                   <div className="relative overflow-hidden rounded-xl mb-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={v.thumb} alt="" className="w-full h-[110px] object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/60 group-hover:bg-black/80 transition-colors">
-                        <svg className="h-3.5 w-3.5 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                      </div>
-                    </div>
-                    <span className="absolute bottom-1.5 right-1.5 rounded bg-black/80 px-1 py-0.5 text-[10px] font-semibold text-white">{v.duration}</span>
+                    <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[110px]" />
                   </div>
                   <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{v.title}</h3>
-                  <span className="text-[11px] text-gray-600">{v.time}</span>
+                  <span className="text-[11px] text-gray-400">{v.time}</span>
                 </Link>
               ))}
             </div>
@@ -450,14 +525,13 @@ export default function NewsPage() {
               {OPINION.map((op, i) => (
                 <Link key={i} href="/news" className="group flex items-center gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-full">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={op.img} alt="" className="h-11 w-11 object-cover" />
+                    <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{op.title}</h3>
-                    <div className="text-[12px] text-gray-500">{op.author} · <span className="text-gray-600">{op.role}</span> · <span className="text-gray-600">{op.time}</span></div>
+                    <div className="text-[12px] text-gray-500">{op.author} · <span className="text-gray-400">{op.role}</span> · <span className="text-gray-400">{op.time}</span></div>
                   </div>
-                  <svg className="shrink-0 h-4 w-4 text-gray-700 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </Link>
               ))}
             </div>
@@ -473,13 +547,12 @@ export default function NewsPage() {
               {WEST_AFRICA.map((w, i) => (
                 <Link key={i} href="/news" className="group flex gap-3 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-xl">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={w.img} alt="" className="h-[80px] w-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <NewsThumbnail category="economy" className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{w.country}</span>
                     <h3 className="mt-0.5 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{w.title}</h3>
-                    <div className="text-[11px] text-gray-600">{w.source} · {w.time}</div>
+                    <div className="text-[11px] text-gray-400">{w.source} · {w.time}</div>
                   </div>
                 </Link>
               ))}
@@ -496,8 +569,7 @@ export default function NewsPage() {
               {DATA_STORIES.map((s, i) => (
                 <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
                   <div className="relative overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={s.thumb} alt="" className="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <NewsThumbnail category={s.category} className="w-full h-[120px]" />
                   </div>
                   <div className="p-4">
                     <div className="mb-2">
@@ -505,7 +577,7 @@ export default function NewsPage() {
                       <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400">{s.statLabel}</span>
                     </div>
                     <h3 className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
-                    <span className="text-[11px] text-gray-600">{s.time}</span>
+                    <span className="text-[11px] text-gray-400">{s.time}</span>
                   </div>
                 </Link>
               ))}
@@ -522,18 +594,17 @@ export default function NewsPage() {
               {ARCHIVES.map((a, i) => (
                 <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-xl">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={a.thumb} alt="" className="h-[80px] w-[120px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <NewsThumbnail category={a.category} className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1.5">{a.title}</h3>
-                    <div className="flex items-center gap-2 text-[11px] text-gray-600">
+                    <div className="flex items-center gap-2 text-[11px] text-gray-400">
                       <span>{a.date}</span>
                       <span>·</span>
                       <span>{a.readTime}</span>
                     </div>
                   </div>
-                  <svg className="shrink-0 h-4 w-4 text-gray-700 group-hover:text-gray-400 transition-colors self-center" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors self-center" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </Link>
               ))}
             </div>
@@ -552,12 +623,11 @@ export default function NewsPage() {
                   <p className="text-[12px] text-gray-500 line-clamp-3 mb-4 flex-1">{cv.excerpt}</p>
                   <div className="flex items-center gap-3 pt-3 border-t border-white/[0.06]">
                     <div className="shrink-0 overflow-hidden rounded-full">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={cv.img} alt="" className="h-8 w-8 object-cover" />
+                      <AuthorAvatar name={cv.author} className="h-8 w-8 rounded-full" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-[12px] font-semibold text-white/80 truncate">{cv.author}</p>
-                      <p className="text-[11px] text-gray-600 truncate">{cv.role} · {cv.time}</p>
+                      <p className="text-[11px] text-gray-400 truncate">{cv.role} · {cv.time}</p>
                     </div>
                   </div>
                 </Link>
@@ -576,7 +646,7 @@ export default function NewsPage() {
                 <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.03] transition-colors">
                   <span className="shrink-0 w-[52px] text-[12px] font-bold text-emerald-400 tabular-nums">{ev.date}</span>
                   <p className="flex-1 text-[13px] font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{ev.title}</p>
-                  <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/40">{ev.type}</span>
+                  <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/60">{ev.type}</span>
                 </Link>
               ))}
             </div>
@@ -587,6 +657,16 @@ export default function NewsPage() {
         {/* Right rail */}
         <RightRail />
       </div>
+    </>)}
+
     </main>
+  );
+}
+
+export default function NewsPage() {
+  return (
+    <Suspense fallback={null}>
+      <NewsPageInner />
+    </Suspense>
   );
 }

@@ -2,13 +2,56 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import HeaderAuthButtons from './HeaderAuthButtons';
+
+const SEED_TICKER = [
+  { pair: 'USD/LRD', rate: 192.50, change: 0.35 },
+  { pair: 'EUR/LRD', rate: 209.85, change: -0.21 },
+  { pair: 'GBP/LRD', rate: 245.30, change: 0.18 },
+  { pair: 'GHS/LRD', rate: 13.20,  change: -0.08 },
+];
+
+function RateTicker() {
+  const [tickers, setTickers] = useState(SEED_TICKER);
+
+  useEffect(() => {
+    fetch('/api/rates')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.rates?.length) return;
+        const mapped = data.rates.slice(0, 4).map((r: { pair: string; rate: number; change: number }) => ({
+          pair: r.pair,
+          rate: r.rate,
+          change: r.change,
+        }));
+        if (mapped.length) setTickers(mapped);
+      })
+      .catch(() => {/* keep seed */});
+  }, []);
+
+  return (
+    <div className="hidden sm:flex items-center gap-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0">
+      {tickers.map(t => (
+        <Link key={t.pair} href="/forex" className="flex items-center gap-1.5 no-underline group shrink-0">
+          <span className="text-[11px] font-semibold text-gray-400 group-hover:text-gray-200 transition-colors">{t.pair}</span>
+          <span className="text-[11px] font-bold tabular-nums text-white group-hover:text-gray-100 transition-colors">
+            {t.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+          <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}
+          </span>
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 const MOBILE_NAV: { label: string; sub?: string[] }[] = [
-  { label: 'Entertainment', sub: ['Movies', 'TV', 'Music', 'Celebrity', 'Gaming'] },
-  { label: 'Sports',        sub: ['NFL', 'NBA', 'Soccer', 'Cricket', 'Tennis', 'Golf'] },
-  { label: 'Business',      sub: ['Top Stories', 'Companies', 'Startups', 'Banking & Finance'] },
-  { label: 'Finance',       sub: ['News', 'Markets', 'Research', 'Community', 'Videos', 'Watch Now'] },
+  { label: 'Culture',       sub: ['Box Office', 'Streaming Revenue', 'Music Industry', 'Film Finance', 'Deals & Acquisitions'] },
+  { label: 'Sports',        sub: ['Liberia Football', 'Transfer Deals', 'Broadcast Rights', 'Club Finance', 'African Cup'] },
+  { label: 'Business',      sub: ['Top Stories', 'Companies', 'Research', 'Banking & Finance'] },
+  { label: 'Finance',       sub: ['Markets', 'Forex & Rates', 'Economy', 'Research', 'Watch Now'] },
   { label: 'Economy',       sub: ['GDP & Growth', 'Inflation', 'Trade & Exports', 'Development'] },
   { label: 'New on TrueRate' },
 ];
@@ -16,29 +59,29 @@ const MOBILE_NAV: { label: string; sub?: string[] }[] = [
 const SUB_HAS_ARROW = new Set(['News', 'Markets', 'Research', 'Videos']);
 
 const MORE_SECTIONS: Record<string, string[]> = {
-  'News':            ["Today's News", 'Politics', 'Economy', 'World', 'Climate', 'Health', 'Science', 'Originals', 'Newsletters'],
-  'Entertainment':   ['Celebrity', 'TV', 'Movies', 'Music', 'How to Watch', 'Interviews', 'Videos'],
-  'Finance':         ['News', 'Research', 'Community', 'Videos'],
-  'Sports':          ['Liberia Football', 'African Cup', 'NBA Africa', 'Athletics', 'Cricket', 'Tennis', 'Golf', 'Show all'],
-  'New on TrueRate': ['TrueRate Scout', 'Creators', 'Tech', 'Local'],
+  'News':            ["Today's News", 'Liberia', 'West Africa', 'Economy', 'Politics', 'Development', 'Health', 'World'],
+  'Culture':         ['Box Office', 'Streaming Revenue', 'Music Industry', 'Film Finance', 'Deals & Acquisitions'],
+  'Finance':         ['Markets', 'Forex & Rates', 'Business Directory', 'Research', 'Economy', 'Watch Now'],
+  'Sports':          ['Liberia Football', 'Transfer Deals', 'Broadcast Rights', 'Club Finance', 'Sponsorship', 'African Cup'],
+  'New on TrueRate': ['Watchlist', 'Data & Research', 'Local Business', 'TrueRate Scout'],
 };
 
 
 const MORE_LINK_MAP: Record<string, Record<string, string>> = {
-  'News':            { "Today's News": '/news', 'Politics': '/news', 'Economy': '/economy', 'World': '/news', 'Climate': '/news', 'Health': '/news', 'Science': '/news', 'Originals': '/news', 'Newsletters': '/news' },
-  'Entertainment':   { 'Celebrity': '/entertainment', 'TV': '/entertainment', 'Movies': '/entertainment', 'Music': '/entertainment', 'How to Watch': '/entertainment', 'Interviews': '/entertainment', 'Videos': '/videos' },
-  'Finance':         { 'News': '/news', 'Research': '/research', 'Community': '/community', 'Videos': '/videos' },
-  'Sports':          { 'Liberia Football': '/sports', 'African Cup': '/sports', 'NBA Africa': '/sports', 'Athletics': '/sports', 'Cricket': '/sports', 'Tennis': '/sports', 'Golf': '/sports', 'Show all': '/sports' },
-  'New on TrueRate': { 'TrueRate Scout': '/', 'Creators': '/', 'Tech': '/news', 'Local': '/news' },
+  'News':            { "Today's News": '/news', 'Liberia': '/news', 'West Africa': '/news', 'Economy': '/economy', 'Politics': '/news', 'Development': '/news', 'Health': '/news', 'World': '/news' },
+  'Culture':         { 'Box Office': '/entertainment', 'Streaming Revenue': '/entertainment', 'Music Industry': '/entertainment', 'Film Finance': '/entertainment', 'Deals & Acquisitions': '/entertainment' },
+  'Finance':         { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Business Directory': '/directory', 'Research': '/research', 'Economy': '/economy', 'Watch Now': '/videos' },
+  'Sports':          { 'Liberia Football': '/sports', 'Transfer Deals': '/sports', 'Broadcast Rights': '/sports', 'Club Finance': '/sports', 'Sponsorship': '/sports', 'African Cup': '/sports' },
+  'New on TrueRate': { 'Watchlist': '/watchlist', 'Data & Research': '/research', 'Local Business': '/directory', 'TrueRate Scout': '/' },
 };
 
 const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Entertainment':   { 'Movies': '/entertainment', 'TV': '/entertainment', 'Music': '/entertainment', 'Celebrity': '/entertainment', 'Gaming': '/entertainment' },
-  'Sports':          { 'NFL': '/sports', 'NBA': '/sports', 'Soccer': '/sports', 'Cricket': '/sports', 'Tennis': '/sports', 'Golf': '/sports' },
-  'Business':        { 'Top Stories': '/news', 'Companies': '/news', 'Startups': '/research', 'Banking & Finance': '/economy' },
-  'Finance':         { 'News': '/news', 'Research': '/research', 'Community': '/community', 'Videos': '/videos', 'Watch Now': '/videos' },
+  'Culture':         { 'Box Office': '/entertainment', 'Streaming Revenue': '/entertainment', 'Music Industry': '/entertainment', 'Film Finance': '/entertainment', 'Deals & Acquisitions': '/entertainment' },
+  'Sports':          { 'Liberia Football': '/sports', 'Transfer Deals': '/sports', 'Broadcast Rights': '/sports', 'Club Finance': '/sports', 'African Cup': '/sports' },
+  'Business':        { 'Top Stories': '/news', 'Companies': '/directory', 'Research': '/research', 'Banking & Finance': '/economy' },
+  'Finance':         { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Economy': '/economy', 'Research': '/research', 'Watch Now': '/videos' },
   'Economy':         { 'GDP & Growth': '/economy', 'Inflation': '/economy', 'Trade & Exports': '/economy', 'Development': '/economy' },
-  'New on TrueRate': { 'TrueRate Scout': '/', 'Creators': '/', 'Tech': '/news', 'Local': '/news' },
+  'New on TrueRate': { 'Watchlist': '/watchlist', 'Data & Research': '/research', 'Local Business': '/directory', 'TrueRate Scout': '/' },
 };
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
@@ -69,7 +112,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
                         className="flex items-center justify-between px-6 py-3 text-[15px] text-gray-400 hover:text-white transition-colors no-underline">
                         <span>{sub}</span>
                         {SUB_HAS_ARROW.has(sub) && (
-                          <svg className="h-4 w-4 shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <svg className="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                           </svg>
                         )}
@@ -86,10 +129,10 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
             ))}
           </div>
           <div className="px-5 pt-4 pb-8">
-            <p className="text-[13px] text-gray-600">© 2026 <span className="font-bold text-gray-500">TrueRate</span> All rights reserved.</p>
+            <p className="text-[13px] text-gray-400">© 2026 <span className="font-bold text-gray-500">TrueRate</span> All rights reserved.</p>
             <div className="flex items-center gap-4 flex-wrap mt-2">
               {['About our ads', 'Advertising', 'Careers'].map(link => (
-                <Link key={link} href="/about" className="text-[13px] text-gray-600 hover:text-white transition-colors no-underline">{link}</Link>
+                <Link key={link} href="/about" className="text-[13px] text-gray-400 hover:text-white transition-colors no-underline">{link}</Link>
               ))}
             </div>
           </div>
@@ -101,9 +144,12 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <Link href="/signin" className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white whitespace-nowrap no-underline">
+        <Link href="/sign-in" onClick={onClose} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white whitespace-nowrap no-underline">
           Sign in
         </Link>
+        <Link href="/watchlist" onClick={onClose} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white whitespace-nowrap no-underline hidden">
+            Watchlist
+          </Link>
       </div>
     </div>
   );
@@ -111,10 +157,19 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const lastScrollY = useRef(0);
+
+  function handleSearch() {
+    const q = searchQuery.trim();
+    if (!q) return;
+    router.push(`/news?q=${encodeURIComponent(q)}`);
+    setSearchQuery('');
+  }
 
   useEffect(() => {
     const onScroll = () => {
@@ -146,8 +201,19 @@ export default function Header() {
 
         {/* Search */}
         <div className="hidden sm:flex flex-1 items-center rounded-xl bg-white/[0.06] border border-white/[0.06] transition focus-within:bg-white/[0.08] focus-within:border-white/20 overflow-hidden ml-4 mr-2">
-          <input type="text" placeholder="Search for news, tickers or companies" className="flex-1 bg-transparent px-4 py-2.5 text-[14px] text-white outline-none placeholder:text-gray-500 min-w-0" />
-          <button className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
+            placeholder="Search for news, tickers or companies"
+            className="flex-1 bg-transparent px-4 py-2.5 text-[14px] text-white outline-none placeholder:text-gray-500 min-w-0"
+          />
+          <button
+            onClick={handleSearch}
+            aria-label="Search"
+            className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
+          >
             <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -157,8 +223,8 @@ export default function Header() {
         {/* Super nav + More dropdown */}
         <div className="hidden sm:flex items-center gap-0.5">
           {([
-            { label: 'Finance',       href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') },
-            { label: 'Entertainment', href: '/entertainment', active: pathname.startsWith('/entertainment') },
+            { label: 'Finance',       href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') && !pathname.startsWith('/news') },
+            { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
             <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-emerald-400' : 'text-gray-400 hover:text-white'}`}>
@@ -197,51 +263,65 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Right: bell + sign in + subscribe */}
+        {/* Right: watchlist + auth */}
         <div className="flex items-center gap-2 z-10 shrink-0 ml-auto sm:ml-0">
-          <button className="hidden sm:flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/[0.06] transition-colors">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-          </button>
-          <Link href="/signin" className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-white/[0.06] no-underline whitespace-nowrap">
-            Sign in
-          </Link>
-          <Link href="/signin" className="hidden sm:block rounded-lg bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0d] shadow-lg shadow-white/10 transition hover:shadow-white/15 hover:brightness-110 no-underline">
-            Subscribe
-          </Link>
+          <HeaderAuthButtons />
         </div>
       </div>
 
       {/* Mobile search — collapses on scroll */}
       <div className={`sm:hidden overflow-hidden transition-all duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`}>
         <div className="px-4">
-          <div className="flex items-center gap-2.5 rounded-full bg-white/[0.10] px-4 py-2.5">
-            <svg className="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input type="text" placeholder="Search for news, tickers or companies" className="w-full bg-transparent text-[14px] text-white outline-none placeholder:text-gray-400" />
+            <div className="flex items-center rounded-xl bg-white/[0.06] border border-white/[0.06] overflow-hidden focus-within:bg-white/[0.08] focus-within:border-white/20 transition">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSearch()}
+              placeholder="Search for news, tickers or companies"
+              className="flex-1 bg-transparent px-4 py-2.5 text-[14px] text-white outline-none placeholder:text-gray-500 min-w-0"
+            />
+            <button
+              onClick={handleSearch}
+              aria-label="Search"
+              className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
+            >
+              <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
       {/* Bloomberg-style secondary nav */}
       <div className="hidden sm:block border-t border-white/[0.06] bg-[#0c0c0f]">
-        <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
           {/* Nav items */}
           {[
-            { label: 'Economics',  href: '/economy' },
-            { label: 'Industries', href: '/news' },
-            { label: 'Tech',       href: '/news' },
-            { label: 'Politics',   href: '/news' },
-            { label: 'Opinion',    href: '/news' },
-            { label: 'What to Watch', href: '/videos' },
-          ].map(({ label, href }) => (
-            <Link key={label} href={href}
-              className="flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold text-white/70 hover:text-white transition-colors no-underline">
-              {label}
-            </Link>
-          ))}
+            { label: 'Economy',    href: '/economy' },
+            { label: 'Companies',  href: '/directory' },
+            { label: 'Forex',      href: '/forex' },
+            { label: 'Culture',    href: '/entertainment' },
+            { label: 'Watch Now',  href: '/videos' },
+          ].map(({ label, href }) => {
+            const isActive = pathname.startsWith(href);
+            return (
+              <Link key={label} href={href}
+                className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                  isActive
+                    ? 'border-white text-white'
+                    : 'border-transparent text-white/70 hover:text-white'
+                }`}>
+                {label}
+              </Link>
+            );
+          })}
+
+          {/* Rate ticker — right-aligned */}
+          <div className="ml-auto pl-4 border-l border-white/[0.06] py-2">
+            <RateTicker />
+          </div>
         </div>
       </div>
 
