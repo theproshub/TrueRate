@@ -51,7 +51,7 @@ const LEGAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="mt-10 border-t border-white/[0.06] bg-[#0a0a0d]">
+    <footer className="mt-10 border-t border-white/[0.06] bg-brand-header">
 
       {/* Newsletter */}
       <div className="border-b border-white/[0.05] px-4 py-10">
