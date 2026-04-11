@@ -156,7 +156,7 @@ function TrendingPanel() {
           <h3 className="text-[13px] font-bold text-gray-900 mb-3">In Focus</h3>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'Rubber', 'CBL Rate', 'Remittances', 'ECOWAS', 'Mining Policy', 'Inflation', 'Gold', 'ESG Bonds'].map(t => (
-              <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-gray-900 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
+              <Link key={t} href="/news" className="rounded-lg border border-gray-300 px-4 py-1.5 text-[13px] font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
             ))}
           </div>
         </div>
@@ -177,21 +177,21 @@ function HeroCarousel() {
       <div className="absolute top-4 left-4 flex items-center gap-2">
         <span className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
       </div>
-      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-gray-900 tabular-nums">
+      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
         {idx + 1} / {slides.length}
       </div>
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <Link href={`/news/${item.id}`} className="no-underline">
-          <h2 className="text-[22px] font-bold leading-snug text-gray-900 hover:text-gray-700 transition-colors drop-shadow-lg line-clamp-3">{item.title}</h2>
+          <h2 className="text-[22px] font-bold leading-snug text-white hover:text-white/80 transition-colors drop-shadow-lg line-clamp-3">{item.title}</h2>
         </Link>
-        <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-1">{item.source} · {timeAgo(item.date)}</p>
+        <p className="mt-1.5 text-[13px] text-white/70 line-clamp-1">{item.source} · {timeAgo(item.date)}</p>
       </div>
       <button onClick={() => setIdx(i => (i - 1 + slides.length) % slides.length)}
-        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-gray-900 hover:bg-black/60 transition-colors">
+        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors">
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
       </button>
       <button onClick={() => setIdx(i => (i + 1) % slides.length)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-gray-900 hover:bg-black/60 transition-colors">
+        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors">
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
       </button>
       <div className="absolute bottom-4 right-5 flex gap-1.5">
@@ -262,7 +262,7 @@ function RightRail() {
           <h3 className="text-[14px] font-bold text-gray-900 mb-1">TrueRate Daily Brief</h3>
           <p className="text-[12px] text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
           <input type="email" placeholder="Email address"
-            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-[13px] text-gray-900 placeholder:text-gray-400 outline-none focus:border-white/30 transition-colors mb-2" />
+            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-[13px] text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors mb-2" />
           <button className="w-full rounded-lg bg-white py-2.5 text-[13px] font-semibold text-[#0a0a0d] hover:brightness-90 transition">Subscribe</button>
         </div>
 
