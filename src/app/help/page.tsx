@@ -15,14 +15,14 @@ export default function HelpPage() {
 
       <div className="space-y-3">
         {FAQS.map(faq => (
-          <div key={faq.q} className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+          <div key={faq.q} className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="mb-2 text-[14px] font-bold text-white">{faq.q}</h3>
             <p className="text-[13px] leading-relaxed text-gray-500">{faq.a}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-8 rounded-xl border border-white/[0.07] bg-[#141418] p-6 text-center">
+      <div className="mt-8 rounded-xl border border-white/[0.07] bg-brand-card p-6 text-center">
         <h2 className="mb-2 text-[16px] font-bold text-white">Still need help?</h2>
         <p className="mb-4 text-[13px] text-gray-500">Send us a message and we&apos;ll get back to you within 24 hours.</p>
         <a href="/feedback" className="inline-block rounded-full bg-white px-6 py-2.5 text-[13px] font-semibold text-[#0a0a0d] hover:bg-white/90 transition no-underline">

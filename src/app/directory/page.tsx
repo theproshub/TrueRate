@@ -22,7 +22,7 @@ function SectorStats() {
     .slice(0, 5);
 
   return (
-    <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+    <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
       <div className="grid grid-cols-2 sm:grid-cols-5 divide-x divide-y sm:divide-y-0 divide-white/[0.05]">
         {topSectors.map(([sector, count]) => (
           <div key={sector} className="px-5 py-4">
@@ -40,7 +40,7 @@ function FeaturedStrip() {
   return (
     <div className="mb-8">
       <h2 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Featured</h2>
-      <div className="flex gap-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-x divide-white/[0.05]">
+      <div className="flex gap-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-x divide-white/[0.05]">
         {FEATURED_COMPANIES.map(c => (
           <Link
             key={c.id}

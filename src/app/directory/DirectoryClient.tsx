@@ -6,7 +6,7 @@ import type { Company, CompanySector } from '@/lib/types';
 
 const SECTOR_ACCENT: Record<string, string> = {
   Mining:      'text-orange-400',
-  Banking:     'text-emerald-400',
+  Banking:     'text-brand-accent',
   Telecom:     'text-blue-400',
   Agriculture: 'text-lime-400',
   Energy:      'text-yellow-400',
@@ -18,7 +18,7 @@ const SECTOR_ACCENT: Record<string, string> = {
 };
 
 const STATUS_DOT: Record<string, string> = {
-  Active:        'bg-emerald-400',
+  Active:        'bg-brand-accent',
   Suspended:     'bg-red-400',
   'Under Review': 'bg-amber-400',
 };
@@ -31,7 +31,7 @@ function CompanyCard({ company }: { company: Company }) {
   return (
     <Link
       href={`/directory/${company.id}`}
-      className="group block rounded-xl border border-white/[0.07] bg-[#141418] p-5 hover:border-white/[0.14] hover:bg-white/[0.03] transition-colors no-underline"
+      className="group block rounded-xl border border-white/[0.07] bg-brand-card p-5 hover:border-white/[0.14] hover:bg-white/[0.03] transition-colors no-underline"
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">

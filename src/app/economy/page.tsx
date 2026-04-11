@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import type { NormalizedIndicator } from '@/app/api/indicators/route';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
+import { getCatColor } from '@/lib/category-colors';
 
 /* ── data ── */
 const HERO = {
@@ -161,7 +162,7 @@ function StoryCard({ title, time, category }: { title: string; time: string; cat
       <div className="relative overflow-hidden rounded-xl mb-3">
         <NewsThumbnail category={category ?? 'economy'} className="w-full h-[170px]" />
       </div>
-      {category && <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-1">{category}</span>}
+      {category && <span className="text-[11px] font-bold uppercase tracking-widest text-brand-accent mb-1">{category}</span>}
       <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{title}</h3>
       <span className="text-[11px] text-gray-400">{time}</span>
     </Link>
@@ -245,8 +246,8 @@ export default function EconomyPage() {
       {/* Indicators strip */}
       <div className="mb-8 flex flex-wrap gap-2 items-center">
         {isLive && (
-          <span className="flex items-center gap-1.5 mr-1 text-[11px] text-emerald-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="flex items-center gap-1.5 mr-1 text-[11px] text-brand-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
             Live
           </span>
         )}
@@ -264,8 +265,8 @@ export default function EconomyPage() {
         {indicators.map(ind => (
           <span key={ind.label} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-white/[0.06] transition-colors cursor-default flex items-center gap-1.5">
             <span className="text-gray-500">{ind.label}</span>
-            <span className={ind.up ? 'text-emerald-400' : 'text-red-400'}>{ind.value}</span>
-            <span className={`text-[10px] ${ind.up ? 'text-emerald-500' : 'text-red-500'}`}>{ind.change}</span>
+            <span className={ind.up ? 'text-brand-accent' : 'text-red-400'}>{ind.value}</span>
+            <span className={`text-[10px] ${ind.up ? 'text-brand-accent' : 'text-red-500'}`}>{ind.change}</span>
           </span>
         ))}
       </div>
@@ -277,7 +278,7 @@ export default function EconomyPage() {
           <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{HERO.category}</span>
+            <span className="text-[11px] font-bold uppercase tracking-widest text-brand-accent mb-1.5 block">{HERO.category}</span>
             <h2 className="text-[20px] sm:text-[24px] font-bold leading-snug text-white mb-2 line-clamp-2">{HERO.title}</h2>
             <p className="text-[13px] text-white/60 line-clamp-2 mb-2 hidden sm:block">{HERO.desc}</p>
             <div className="text-[12px] text-white/60">{HERO.author} · {HERO.time}</div>
@@ -292,7 +293,7 @@ export default function EconomyPage() {
                 <NewsThumbnail category={s.category} className="w-full h-[60px]" />
               </div>
               <div className="min-w-0 flex-1">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1 block">{s.category}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1 block">{s.category}</span>
                 <h4 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{s.title}</h4>
                 <span className="text-[11px] text-gray-400">{s.author} · {s.time}</span>
               </div>
@@ -324,12 +325,12 @@ export default function EconomyPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {ANALYSIS.map((a, i) => (
-                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-2xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-2xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={a.category} className="w-full h-[180px]" />
                   </div>
                   <div className="p-5">
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-2 block">{a.label}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-brand-accent mb-2 block">{a.label}</span>
                     <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2">{a.title}</h3>
                     <p className="text-[12px] text-gray-500 line-clamp-2 mb-3">{a.desc}</p>
                     <span className="text-[11px] text-gray-400">{a.author} · {a.time}</span>
@@ -369,12 +370,12 @@ export default function EconomyPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {GLOBAL_MACRO.map((s, i) => (
-                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
                   <div className="p-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{s.category}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1.5 block">{s.category}</span>
                     <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{s.title}</h3>
                     <p className="text-[12px] text-gray-500 line-clamp-3">{s.summary}</p>
                   </div>
@@ -389,7 +390,7 @@ export default function EconomyPage() {
               <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Policy Tracker</h2>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">Full timeline ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-y divide-white/[0.05]">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
               {POLICY_TIMELINE.map((item, i) => (
                 <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-4 no-underline hover:bg-white/[0.03] transition-colors">
                   <div className="shrink-0 w-[90px]">
@@ -399,7 +400,7 @@ export default function EconomyPage() {
                     <p className="text-[13px] font-semibold text-white group-hover:text-white/70 transition-colors leading-snug">{item.title}</p>
                   </div>
                   <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
-                    item.status === 'Active'    ? 'bg-emerald-500/15 text-emerald-400' :
+                    item.status === 'Active'    ? 'bg-brand-accent/15 text-brand-accent' :
                     item.status === 'Completed' ? 'bg-white/[0.07] text-gray-400'     :
                                                   'bg-blue-500/15 text-blue-400'
                   }`}>{item.status}</span>
@@ -416,12 +417,12 @@ export default function EconomyPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {INFRA_STORIES.map((s, i) => (
-                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
                   <div className="p-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{s.category}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1.5 block">{s.category}</span>
                     <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-[11px] text-gray-400">{s.time}</span>
                   </div>
@@ -436,7 +437,7 @@ export default function EconomyPage() {
               <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">More Stories</h2>
               <Link href="/news" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">All stories ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-y divide-white/[0.05]">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
               {[
                 { cat: 'Banking',        title: "Liberia's banking sector sees 14% deposit growth in Q1 2026",                   src: 'FrontPage Africa', time: '2h ago' },
                 { cat: 'Energy',         title: 'Liberia Energy Authority approves two new solar projects totaling 40MW',        src: 'The New Dawn',     time: '5h ago' },
@@ -450,7 +451,7 @@ export default function EconomyPage() {
                     <NewsThumbnail category={s.cat} className="h-[64px] w-[90px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-[10px] font-bold uppercase tracking-wide text-white/35 mb-1">{s.cat}</div>
+                    <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.cat)} mb-1`}>{s.cat}</div>
                     <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{s.title}</h3>
                     <div className="text-[11px] text-gray-400">{s.src} · {s.time}</div>
                   </div>
@@ -465,14 +466,14 @@ export default function EconomyPage() {
               <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Data Focus: Liberia&apos;s Exports</h2>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">Full data ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
               <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y divide-white/[0.05]" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
                 {EXPORT_STATS.map((stat, i) => (
                   <div key={i} className="p-5 flex flex-col gap-1">
                     <span className="text-[11px] text-gray-500 uppercase tracking-wide">{stat.label}</span>
                     <span className="text-[28px] font-black text-white tabular-nums leading-none">{stat.value}</span>
                     <div className="flex items-center gap-1.5 mt-1">
-                      <span className={`text-[12px] font-bold ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <span className={`text-[12px] font-bold ${stat.up ? 'text-brand-accent' : 'text-red-400'}`}>
                         {stat.up ? '▲' : '▼'} {stat.change}
                       </span>
                     </div>
@@ -490,7 +491,7 @@ export default function EconomyPage() {
         <aside className="w-full sm:w-[260px] shrink-0 space-y-8">
 
           {/* Most Read */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-4">Most Read</h3>
             <ol className="space-y-4">
               {MOST_READ.map((title, i) => (
@@ -503,7 +504,7 @@ export default function EconomyPage() {
           </div>
 
           {/* Latest Updates */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
             <div className="px-4 py-3.5 border-b border-white/[0.05]">
               <h3 className="text-[13px] font-bold text-white">Latest Updates</h3>
             </div>
@@ -528,7 +529,7 @@ export default function EconomyPage() {
           </div>
 
           {/* Data snapshot */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-4">Data Snapshot</h3>
             <div className="space-y-3">
               {indicators.map(ind => (
@@ -536,7 +537,7 @@ export default function EconomyPage() {
                   <span className="text-[12px] text-gray-500">{ind.label}</span>
                   <div className="flex items-center gap-2">
                     <span className="text-[13px] font-bold text-white tabular-nums">{ind.value}</span>
-                    <span className={`text-[11px] font-semibold ${ind.up ? 'text-emerald-400' : 'text-red-400'}`}>{ind.change}</span>
+                    <span className={`text-[11px] font-semibold ${ind.up ? 'text-brand-accent' : 'text-red-400'}`}>{ind.change}</span>
                   </div>
                 </div>
               ))}
@@ -545,7 +546,7 @@ export default function EconomyPage() {
           </div>
 
           {/* Newsletter */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-1">Economy Brief</h3>
             <p className="text-[12px] text-gray-500 mb-4">The week&apos;s key economic stories from Liberia and West Africa, every Friday.</p>
             <input type="email" placeholder="Your email" className="w-full rounded-lg bg-white/[0.06] border border-white/[0.08] px-3 py-2 text-[13px] text-white placeholder:text-gray-400 outline-none focus:border-white/30 mb-2" />
@@ -555,7 +556,7 @@ export default function EconomyPage() {
           </div>
 
           {/* Policy Calendar */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
             <div className="px-4 py-3.5 border-b border-white/[0.05]">
               <h3 className="text-[13px] font-black text-white uppercase tracking-wide">Policy Calendar</h3>
             </div>
@@ -576,7 +577,7 @@ export default function EconomyPage() {
           </div>
 
           {/* IMF Program Status */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-3">IMF Program Status</h3>
             <div className="flex items-center justify-between mb-3">
               <span className="text-[12px] text-gray-500">Program</span>
@@ -584,7 +585,7 @@ export default function EconomyPage() {
             </div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-[12px] text-gray-500">Current Tranche</span>
-              <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">3rd — Approved</span>
+              <span className="rounded-full bg-brand-accent/15 px-2.5 py-0.5 text-[11px] font-bold text-brand-accent">3rd — Approved</span>
             </div>
             <div className="rounded-lg bg-white/[0.04] border border-white/[0.05] p-3 space-y-2">
               {[
@@ -595,7 +596,7 @@ export default function EconomyPage() {
               ].map((t, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <span className="text-[11px] text-gray-500">{t.tranche} Tranche · {t.amount}</span>
-                  <span className={`text-[11px] font-bold ${t.up ? 'text-emerald-400' : 'text-gray-400'}`}>{t.status}</span>
+                  <span className={`text-[11px] font-bold ${t.up ? 'text-brand-accent' : 'text-gray-400'}`}>{t.status}</span>
                 </div>
               ))}
             </div>

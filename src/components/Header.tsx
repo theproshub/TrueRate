@@ -38,7 +38,7 @@ function RateTicker() {
           <span className="text-[11px] font-bold tabular-nums text-white group-hover:text-gray-100 transition-colors">
             {t.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
-          <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-brand-accent' : 'text-red-400'}`}>
             {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}
           </span>
         </Link>
@@ -89,14 +89,14 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   return (
     <div className="sm:hidden fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative flex flex-col w-[82vw] max-w-[340px] bg-[#111113] h-full shadow-2xl">
+      <div className="relative flex flex-col w-[82vw] max-w-[340px] bg-brand-dark h-full shadow-2xl">
         <div className="flex-1 overflow-y-auto">
           <nav className="pt-3">
             {MOBILE_NAV.map(item => (
               <div key={item.label}>
                 <button
                   onClick={() => setExpanded(e => e === item.label ? null : item.label)}
-                  className={`flex w-full items-center justify-between px-5 py-2.5 border-l-[3px] transition-colors ${expanded === item.label ? 'border-white' : 'border-transparent'}`}
+                  className={`flex w-full items-center justify-between px-5 py-2.5 border-l-[3px] transition-colors ${expanded === item.label ? 'border-brand-accent' : 'border-transparent'}`}
                 >
                   <span className="text-[17px] font-bold text-white">{item.label}</span>
                   {item.sub && (
@@ -183,7 +183,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#131316] border-b border-white/[0.06]">
+    <header className="sticky top-0 z-50 bg-brand-dark border-b border-white/[0.06]">
       {/* Top bar */}
       <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
@@ -212,9 +212,9 @@ export default function Header() {
           <button
             onClick={handleSearch}
             aria-label="Search"
-            className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
+            className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:bg-brand-accent/80 transition-colors m-0.5 rounded-lg"
           >
-            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
@@ -227,7 +227,7 @@ export default function Header() {
             { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
-            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-emerald-400' : 'text-gray-400 hover:text-white'}`}>
+            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-brand-accent' : 'text-gray-400 hover:text-white'}`}>
               {item.label}
             </Link>
           ))}
@@ -239,7 +239,7 @@ export default function Header() {
               </svg>
             </button>
             {moreOpen && (
-              <div className="fixed left-0 right-0 top-[var(--header-h,56px)] z-50 bg-[#131316] border-t border-b border-white/[0.06] shadow-2xl shadow-black/60" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
+              <div className="fixed left-0 right-0 top-[var(--header-h,56px)] z-50 bg-brand-dark border-t border-b border-white/[0.06] shadow-2xl shadow-black/60" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
                 <div className="mx-auto max-w-[1320px] px-6 py-8">
                   <div className="grid grid-cols-5 gap-x-8">
                     {Object.entries(MORE_SECTIONS).map(([section, links]) => (
@@ -284,9 +284,9 @@ export default function Header() {
             <button
               onClick={handleSearch}
               aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
+              className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:bg-brand-accent/80 transition-colors m-0.5 rounded-lg"
             >
-              <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
@@ -295,7 +295,7 @@ export default function Header() {
       </div>
 
       {/* Bloomberg-style secondary nav */}
-      <div className="hidden sm:block border-t border-white/[0.06] bg-[#0c0c0f]">
+      <div className="hidden sm:block border-t border-white/[0.06] bg-brand-nav">
         <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
           {/* Nav items */}
           {[
@@ -310,7 +310,7 @@ export default function Header() {
               <Link key={label} href={href}
                 className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
                   isActive
-                    ? 'border-white text-white'
+                    ? 'border-brand-accent text-brand-accent'
                     : 'border-transparent text-white/70 hover:text-white'
                 }`}>
                 {label}

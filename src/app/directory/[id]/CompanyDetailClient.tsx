@@ -8,7 +8,7 @@ import { COMPANIES } from '@/data/companies';
 // ── Helpers ────────────────────────────────────────────────────────────────────
 const SECTOR_ACCENT: Record<string, string> = {
   Mining:      'text-orange-400',
-  Banking:     'text-emerald-400',
+  Banking:     'text-brand-accent',
   Telecom:     'text-blue-400',
   Agriculture: 'text-lime-400',
   Energy:      'text-yellow-400',
@@ -20,7 +20,7 @@ const SECTOR_ACCENT: Record<string, string> = {
 };
 
 const STATUS_DOT: Record<string, string> = {
-  Active:         'bg-emerald-400',
+  Active:         'bg-brand-accent',
   Suspended:      'bg-red-400',
   'Under Review': 'bg-amber-400',
 };
@@ -195,7 +195,7 @@ function RelatedTab({ company }: { company: Company }) {
           <Link
             key={c.id}
             href={`/directory/${c.id}`}
-            className="group block rounded-xl border border-white/[0.07] bg-[#141418] p-5 hover:border-white/[0.14] hover:bg-white/[0.03] transition-colors no-underline"
+            className="group block rounded-xl border border-white/[0.07] bg-brand-card p-5 hover:border-white/[0.14] hover:bg-white/[0.03] transition-colors no-underline"
           >
             <h3 className="text-[14px] font-bold text-white group-hover:text-white/80 transition-colors mb-1">{c.name}</h3>
             {c.shortName && c.shortName !== c.name && (

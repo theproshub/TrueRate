@@ -5,6 +5,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { newsItems } from '@/data/news';
 import { NewsThumbnail, VideoThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
+import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 
 /* ── helpers ── */
 function timeAgo(d: string) {
@@ -13,15 +14,6 @@ function timeAgo(d: string) {
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
 }
-
-const CATEGORY_COLOR: Record<string, string> = {
-  policy:      'text-purple-400',
-  economy:     'text-emerald-400',
-  commodities: 'text-orange-400',
-  forex:       'text-blue-400',
-  markets:     'text-cyan-400',
-  trade:       'text-yellow-400',
-};
 
 /* ── static data ── */
 const TRENDING = [
@@ -116,12 +108,12 @@ function TrendingPanel() {
     <aside className="hidden lg:block w-[270px] shrink-0">
       <div className="sticky top-[120px]">
         <div className="flex items-center gap-2 mb-3">
-          <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 text-brand-accent" fill="currentColor" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
           <h2 className="text-[14px] font-bold text-white uppercase tracking-wide">Trending</h2>
         </div>
-        <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-y divide-white/[0.05]">
+        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
           {TRENDING.map(item => (
             <Link key={item.rank} href="/news" className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-white/[0.03] transition-colors">
               <span className="shrink-0 tabular-nums text-[20px] font-black text-white/10 leading-none w-5 pt-0.5">{item.rank}</span>
@@ -139,7 +131,7 @@ function TrendingPanel() {
         </div>
 
         {/* Mini market widget */}
-        <div className="mt-5 rounded-xl border border-white/[0.07] bg-[#141418] p-4">
+        <div className="mt-5 rounded-xl border border-white/[0.07] bg-brand-card p-4">
           <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-3">Markets</h3>
           {[
             { label: 'LRD/USD', value: '192.50', pct: '+0.65%', up: true },
@@ -152,7 +144,7 @@ function TrendingPanel() {
               <span className="text-[12px] font-semibold text-white">{r.label}</span>
               <div className="text-right">
                 <div className="text-[12px] tabular-nums text-white">{r.value}</div>
-                <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
+                <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.pct}</div>
               </div>
             </div>
           ))}
@@ -160,7 +152,7 @@ function TrendingPanel() {
         </div>
 
         {/* In Focus topics */}
-        <div className="mt-5 rounded-xl border border-white/[0.07] bg-[#141418] p-4">
+        <div className="mt-5 rounded-xl border border-white/[0.07] bg-brand-card p-4">
           <h3 className="text-[13px] font-bold text-white mb-3">In Focus</h3>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'Rubber', 'CBL Rate', 'Remittances', 'ECOWAS', 'Mining Policy', 'Inflation', 'Gold', 'ESG Bonds'].map(t => (
@@ -183,7 +175,7 @@ function HeroCarousel() {
       <NewsThumbnail category={item.category} className="w-full h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className={`text-[11px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white'}`}>{item.category}</span>
+        <span className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
       </div>
       <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
         {idx + 1} / {slides.length}
@@ -222,7 +214,7 @@ function SubStoryRow() {
             <NewsThumbnail category={item.category} className="w-full h-[130px]" />
           </div>
           <div className="mt-2.5">
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/60'}`}>{item.category}</span>
+            <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <h3 className="mt-0.5 text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
             <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-400">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
@@ -245,7 +237,7 @@ function FeedList({ tab }: { tab: string }) {
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
           <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/60'}`}>{item.category}</span>
+            <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">{item.title}</h3>
             <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
             <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
@@ -266,7 +258,7 @@ function RightRail() {
       <div className="sticky top-[120px] flex flex-col gap-5">
 
         {/* Newsletter */}
-        <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+        <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
           <h3 className="text-[14px] font-bold text-white mb-1">TrueRate Daily Brief</h3>
           <p className="text-[12px] text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
           <input type="email" placeholder="Email address"
@@ -275,7 +267,7 @@ function RightRail() {
         </div>
 
         {/* Upcoming events */}
-        <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
           <div className="px-4 py-3.5 border-b border-white/[0.05]">
             <h3 className="text-[13px] font-bold text-white">Upcoming Events</h3>
           </div>
@@ -303,7 +295,7 @@ function RightRail() {
         </div>
 
         {/* Most read */}
-        <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
           <div className="px-4 py-3.5 border-b border-white/[0.05]">
             <h3 className="text-[13px] font-bold text-white">Most Read</h3>
           </div>
@@ -364,7 +356,7 @@ function NewsPageInner() {
             <div>
               <h1 className="text-[22px] font-bold text-white">
                 Search results for{' '}
-                <span className="text-[#a78bfa]">&ldquo;{query}&rdquo;</span>
+                <span className="text-brand-accent">&ldquo;{query}&rdquo;</span>
               </h1>
               <p className="mt-1 text-[13px] text-gray-500">
                 {searchResults.length} article{searchResults.length !== 1 ? 's' : ''} found
@@ -376,7 +368,7 @@ function NewsPageInner() {
           </div>
 
           {searchResults.length === 0 ? (
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-10 text-center">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card p-10 text-center">
               <h2 className="mb-1 text-[16px] font-bold text-white">No results found</h2>
               <p className="text-[13px] text-gray-500">
                 Try searching for &ldquo;inflation&rdquo;, &ldquo;forex&rdquo;, &ldquo;rubber&rdquo; or &ldquo;CBL&rdquo;.
@@ -384,12 +376,12 @@ function NewsPageInner() {
             </div>
           ) : (
             <div className="flex gap-6">
-              <div className="flex-1 min-w-0 flex flex-col divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] px-5">
+              <div className="flex-1 min-w-0 flex flex-col divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card px-5">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
                     <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
-                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLOR[item.category] ?? 'text-white/60'}`}>
+                      <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
                       <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">
@@ -414,15 +406,15 @@ function NewsPageInner() {
       {!query && (<>
 
       {/* Breaking ticker */}
-      <div className="mb-5 flex items-center gap-0 rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
-        <div className="shrink-0 bg-emerald-500 px-3 py-2.5 z-10">
+      <div className="mb-5 flex items-center gap-0 rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
+        <div className="shrink-0 bg-brand-accent px-3 py-2.5 z-10">
           <span className="text-[10px] font-black uppercase tracking-widest text-white">Live</span>
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
             {[...BREAKING, ...BREAKING].map((b, i) => (
               <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-white/[0.06]">
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{b.label}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-brand-accent">{b.label}</span>
                 <span className="text-[12px] text-gray-400 group-hover:text-white transition-colors">{b.text}</span>
               </Link>
             ))}
@@ -474,13 +466,13 @@ function NewsPageInner() {
               <h2 className="text-[17px] font-bold text-white">More Stories</h2>
               <Link href="/news" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">All stories ›</Link>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-x divide-white/[0.05]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-x divide-white/[0.05]">
               {newsItems.slice(0, 4).map((item) => (
                 <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-col gap-2.5 p-4 no-underline hover:bg-white/[0.02] transition-colors">
                   <div className="overflow-hidden rounded-lg">
                     <NewsThumbnail category={item.category} className="w-full h-[80px]" />
                   </div>
-                  <div className="text-[10px] font-bold uppercase tracking-wide text-white/35">{item.category}</div>
+                  <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
                   <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
                   <div className="text-[10px] text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
                 </Link>
@@ -542,7 +534,7 @@ function NewsPageInner() {
                     <NewsThumbnail category="economy" className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{w.country}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wide text-brand-accent">{w.country}</span>
                     <h3 className="mt-0.5 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{w.title}</h3>
                     <div className="text-[11px] text-gray-400">{w.source} · {w.time}</div>
                   </div>
@@ -559,14 +551,14 @@ function NewsPageInner() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {DATA_STORIES.map((s, i) => (
-                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.category} className="w-full h-[120px]" />
                   </div>
                   <div className="p-4">
                     <div className="mb-2">
                       <span className="text-[32px] font-black text-white tabular-nums leading-none">{s.stat}</span>
-                      <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400">{s.statLabel}</span>
+                      <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-brand-accent">{s.statLabel}</span>
                     </div>
                     <h3 className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-[11px] text-gray-400">{s.time}</span>
@@ -610,7 +602,7 @@ function NewsPageInner() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {COMMUNITY_VOICES.map((cv, i) => (
-                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card p-5">
                   <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{cv.title}</h3>
                   <p className="text-[12px] text-gray-500 line-clamp-3 mb-4 flex-1">{cv.excerpt}</p>
                   <div className="flex items-center gap-3 pt-3 border-t border-white/[0.06]">
@@ -633,10 +625,10 @@ function NewsPageInner() {
               <h2 className="text-[17px] font-bold text-white">Upcoming Economic Events</h2>
               <Link href="/economy" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">Full calendar ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden divide-y divide-white/[0.05]">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
               {UPCOMING_EVENTS.map((ev, i) => (
                 <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.03] transition-colors">
-                  <span className="shrink-0 w-[52px] text-[12px] font-bold text-emerald-400 tabular-nums">{ev.date}</span>
+                  <span className="shrink-0 w-[52px] text-[12px] font-bold text-brand-accent tabular-nums">{ev.date}</span>
                   <p className="flex-1 text-[13px] font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{ev.title}</p>
                   <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-white/[0.06] text-white/60">{ev.type}</span>
                 </Link>

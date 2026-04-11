@@ -214,7 +214,7 @@ export default function VideosPage() {
             { title: "Liberia Stock Exchange: Opening Bell & Q1 Earnings Roundup", channel: 'LSE Channel', time: '9:00 AM', date: 'Apr 8', category: 'economy', badge: 'UPCOMING' },
             { title: 'Iron Ore Investor Day — ArcelorMittal Nimba Expansion', channel: 'TrueRate Live', time: '11:00 AM', date: 'Apr 9', category: 'Mining', badge: 'UPCOMING' },
           ].map((item, i) => (
-            <Link key={i} href="/videos" className="group block rounded-xl overflow-hidden border border-white/[0.07] bg-[#141418] hover:border-white/[0.15] transition-colors no-underline">
+            <Link key={i} href="/videos" className="group block rounded-xl overflow-hidden border border-white/[0.07] bg-brand-card hover:border-white/[0.15] transition-colors no-underline">
               <div className="relative overflow-hidden">
                 <VideoThumbnail category={item.category} className="w-full aspect-video" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -269,7 +269,7 @@ export default function VideosPage() {
               label: 'Beginner Guide',
             },
           ].map((item, i) => (
-            <Link key={i} href="/videos" className="group flex flex-col rounded-xl overflow-hidden border border-white/[0.07] bg-[#141418] hover:border-white/[0.15] transition-colors no-underline">
+            <Link key={i} href="/videos" className="group flex flex-col rounded-xl overflow-hidden border border-white/[0.07] bg-brand-card hover:border-white/[0.15] transition-colors no-underline">
               <div className="relative overflow-hidden shrink-0">
                 <VideoThumbnail category={item.category} duration={item.duration} className="w-full aspect-video" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -301,7 +301,7 @@ export default function VideosPage() {
             { title: 'CBL Conversations', ep: 'Ep. 18', duration: '27:55', category: 'Monetary Policy', desc: 'Official commentary from Central Bank economists on monetary policy and FX reserves.' },
             { title: 'Trade Winds: Africa', ep: 'Ep. 44',  duration: '33:20', category: 'Trade', desc: 'ECOWAS trade flows, port congestion at Monrovia, and iron ore shipping trends.' },
           ].map((pod, i) => (
-            <Link key={i} href="/videos" className="group shrink-0 w-[200px] flex flex-col rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden hover:border-white/[0.15] transition-colors no-underline">
+            <Link key={i} href="/videos" className="group shrink-0 w-[200px] flex flex-col rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden hover:border-white/[0.15] transition-colors no-underline">
               <div className="relative overflow-hidden">
                 <NewsThumbnail category={pod.category} className="w-full aspect-square" />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

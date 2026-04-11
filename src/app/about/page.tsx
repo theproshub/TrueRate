@@ -23,7 +23,7 @@ export default function AboutPage() {
           <ul className="space-y-2 list-none">
             {['Liberian Dollar (LRD) exchange rates and Central Bank of Liberia policy', 'West African equity markets including BRVM and Ghana Stock Exchange', 'Liberian export commodities: rubber, iron ore, gold, palm oil, timber', 'Macroeconomic indicators, GDP data, and fiscal policy', 'Corporate earnings from Liberian and regional companies'].map(item => (
               <li key={item} className="flex items-start gap-2">
-                <svg className="mt-1 h-4 w-4 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="mt-1 h-4 w-4 shrink-0 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
                 {item}
@@ -50,7 +50,7 @@ export default function AboutPage() {
           { label: 'Privacy Policy', href: '/about' },
           { label: 'Terms of Service', href: '/about' },
         ].map(l => (
-          <Link key={l.label} href={l.href} className="rounded-xl border border-white/[0.07] px-4 py-2 text-[13px] text-gray-500 no-underline hover:text-[#a78bfa] hover:border-[#6001d2]/40 transition-colors">
+          <Link key={l.label} href={l.href} className="rounded-xl border border-white/[0.07] px-4 py-2 text-[13px] text-gray-500 no-underline hover:text-brand-accent hover:border-brand-accent/50/40 transition-colors">
             {l.label}
           </Link>
         ))}

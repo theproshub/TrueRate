@@ -74,7 +74,7 @@ function ClerkAuthButtons() {
           appearance={{
             elements: {
               avatarBox: 'h-8 w-8 rounded-full ring-2 ring-white/10 hover:ring-white/30 transition-all',
-              userButtonPopoverCard: 'bg-[#141418] border border-white/[0.08] shadow-2xl',
+              userButtonPopoverCard: 'bg-brand-card border border-white/[0.08] shadow-2xl',
               userButtonPopoverActionButton: 'text-gray-300 hover:text-white hover:bg-white/[0.05]',
               userButtonPopoverActionButtonText: 'text-[13px]',
               userButtonPopoverFooter: 'hidden',

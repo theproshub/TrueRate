@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { newsItems } from '@/data/news';
+import { getCatColor } from '@/lib/category-colors';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
@@ -25,11 +26,11 @@ const INDICATORS = [
 // ── Category visuals imported from shared component ───────────────────────────
 const CAT_STYLE: Record<string, { bg: string; accent: string; label: string }> = {
   policy:         { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Policy' },
-  forex:          { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Forex' },
+  forex:          { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-brand-accent', label: 'Forex' },
   economy:        { bg: 'bg-gradient-to-br from-blue-950 to-[#04060f]',    accent: 'text-blue-300',    label: 'Economy' },
   commodities:    { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Commodities' },
   Mining:         { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Mining' },
-  Banking:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Banking' },
+  Banking:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-brand-accent', label: 'Banking' },
   Agriculture:    { bg: 'bg-gradient-to-br from-lime-950 to-[#060e00]',    accent: 'text-lime-400',    label: 'Agriculture' },
   Energy:         { bg: 'bg-gradient-to-br from-yellow-950 to-[#0f0b00]',  accent: 'text-yellow-300',  label: 'Energy' },
   Trade:          { bg: 'bg-gradient-to-br from-purple-950 to-[#07000f]',  accent: 'text-purple-300',  label: 'Trade' },
@@ -43,6 +44,7 @@ const CAT_STYLE: Record<string, { bg: string; accent: string; label: string }> =
 function getCatStyle(cat: string) {
   return CAT_STYLE[cat] ?? CAT_STYLE['economy'];
 }
+
 /** Replaces random stock photo thumbnails with intentional category treatments */
 function NewsThumbnail({ category, className }: { category: string; className: string }) {
   const s = getCatStyle(category);
@@ -155,7 +157,7 @@ function IndicatorsStrip() {
                 <span className="text-[12px] font-semibold text-white whitespace-nowrap">{item.label}</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="tabular-nums text-[12px] text-gray-400 whitespace-nowrap">{item.value}</span>
-                  <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                  <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-brand-accent' : 'text-red-400'}`}>
                     {item.pct}
                   </span>
                 </div>
@@ -172,7 +174,7 @@ function IndicatorsStrip() {
                 <span className="text-[13px] font-semibold text-white whitespace-nowrap">{item.label}</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="tabular-nums text-[13px] text-gray-400 whitespace-nowrap">{item.value}</span>
-                  <span className={`flex items-center gap-0.5 tabular-nums text-[12px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                  <span className={`flex items-center gap-0.5 tabular-nums text-[12px] font-bold whitespace-nowrap ${item.up ? 'text-brand-accent' : 'text-red-400'}`}>
                     {item.up ? '▲' : '▼'}{item.pct}
                   </span>
                 </div>
@@ -267,7 +269,7 @@ function NewsListColumn() {
             <NewsThumbnail category={item.category} className="h-[90px] w-[130px]" />
           </div>
           <div className="min-w-0 flex-1">
-            {item.category && <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-white/60">{item.category}</p>}
+            {item.category && <p className={`mb-1 text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</p>}
             <h3 className="line-clamp-3 text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">
               <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
             </h3>
@@ -307,7 +309,7 @@ function LatestColumn() {
                 <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
                   {item.chips.map(chip => (
                     <span key={chip.label} className="text-[11px] text-gray-400">
-                      {chip.label} <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
+                      {chip.label} <span className={chip.up ? 'text-brand-accent' : 'text-red-400'}>{chip.pct}</span>
                     </span>
                   ))}
                 </div>
@@ -340,7 +342,7 @@ const FX_RATES = [
 
 function ForexWidget() {
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
+    <div className="rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Exchange Rates</h2>
@@ -357,7 +359,7 @@ function ForexWidget() {
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[14px] font-bold text-white tabular-nums">{r.rate}</div>
-              <div className={`text-[12px] font-semibold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.up ? '+' : ''}{r.change}</div>
+              <div className={`text-[12px] font-semibold tabular-nums ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.up ? '+' : ''}{r.change}</div>
             </div>
           </Link>
         ))}
@@ -380,7 +382,7 @@ const COMMODITIES_WITH_CONTEXT = [
 
 function CommoditiesWidget() {
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
+    <div className="rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Commodities</h2>
@@ -397,7 +399,7 @@ function CommoditiesWidget() {
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[13px] font-bold text-white tabular-nums">${c.price}</div>
-              <div className={`text-[12px] font-semibold tabular-nums ${c.up ? 'text-emerald-400' : 'text-red-400'}`}>{c.pct}</div>
+              <div className={`text-[12px] font-semibold tabular-nums ${c.up ? 'text-brand-accent' : 'text-red-400'}`}>{c.pct}</div>
             </div>
           </Link>
         ))}
@@ -420,7 +422,7 @@ function EconomicWidget() {
     { label: 'Debt / GDP',    value: '55.4%',   pct: '+2.2pp', up: false, note: 'IMF urges fiscal discipline' },
   ];
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-[#141418] overflow-hidden">
+    <div className="rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
       <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
         <div>
           <h2 className="text-[15px] font-bold text-white">Liberia at a Glance</h2>
@@ -436,7 +438,7 @@ function EconomicWidget() {
             </div>
             <div className="shrink-0 text-right">
               <div className="tabular-nums text-[13px] font-bold text-white">{r.value}</div>
-              <div className={`tabular-nums text-[12px] font-semibold ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
+              <div className={`tabular-nums text-[12px] font-semibold ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.pct}</div>
             </div>
           </Link>
         ))}
@@ -459,7 +461,7 @@ function VideosSection() {
         <Link href="/videos" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">Explore More</Link>
       </div>
       {/* Card */}
-      <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#141418]">
+      <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-brand-card">
         {/* Thumbnail */}
         <div className="relative cursor-pointer group">
           <VideoThumbnail category={v.category} />
@@ -543,7 +545,7 @@ function DeepReadsColumn() {
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.category} className="w-full h-[180px]" />
         </div>
-        <div className="text-[11px] font-bold uppercase tracking-wide text-white/60 mb-1.5">{lead.category}</div>
+        <div className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
         <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-2">{lead.title}</h3>
         <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-3">{lead.summary}</p>
         <div className="mt-2 text-[11px] text-gray-500">{lead.source} · {lead.time}</div>
@@ -553,7 +555,7 @@ function DeepReadsColumn() {
         {rest.map((item, i) => (
           <Link key={i} href="/news" className="group flex gap-3.5 py-4 first:pt-0 no-underline">
             <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-bold uppercase tracking-wide text-white/60 mb-1">{item.category}</div>
+              <div className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1`}>{item.category}</div>
               <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
               <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
               <div className="mt-1.5 text-[11px] text-gray-500">{item.source} · {item.time}</div>
@@ -578,7 +580,7 @@ function MoreNewsColumn() {
       {MORE_NEWS.map((item, i) => (
         <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
           <div className="min-w-0 flex-1">
-            <div className="text-[11px] font-bold uppercase tracking-wide text-white/60 mb-1">{item.category}</div>
+            <div className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1`}>{item.category}</div>
             <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
             <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
             <div className="mt-2 text-[11px] text-gray-500">{item.source} · {item.time}</div>
@@ -673,7 +675,7 @@ function QuickReadsColumn() {
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {QUICK_READS.map((item, i) => (
           <Link key={i} href="/news" className="flex items-start gap-3 py-3.5 first:pt-0 no-underline group">
-            <span className="mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] text-white/50">
+            <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getCatColor(item.tag)}`}>
               {item.tag}
             </span>
             <span className="flex-1 text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">
@@ -726,7 +728,7 @@ function UpcomingEventsWidget() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors">{ev.label}</p>
-              <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] text-white/50">{ev.type}</span>
+              <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getCatColor(ev.type)}`}>{ev.type}</span>
             </div>
           </Link>
         ))}
@@ -800,7 +802,7 @@ export default function Home() {
               { country: 'Sierra Leone',  headline: 'Freetown port expansion fast-tracked with $80M loan', stat: 'SLL/USD 22,100', time: '8h ago', cat: 'Development' },
               { country: "Côte d'Ivoire", headline: "Abidjan bourse outperforms regional peers in Q1", stat: 'BRVM Index +3.4%', time: '10h ago', cat: 'economy' },
             ].map((r, i) => (
-              <Link key={i} href="/news" className="group flex flex-col no-underline overflow-hidden rounded-xl border border-white/[0.07] bg-[#141418] hover:border-white/20 transition-colors">
+              <Link key={i} href="/news" className="group flex flex-col no-underline overflow-hidden rounded-xl border border-white/[0.07] bg-brand-card hover:border-white/20 transition-colors">
                 <div className="overflow-hidden">
                   <NewsThumbnail category={r.cat} className="w-full h-[120px]" />
                 </div>
@@ -823,14 +825,14 @@ export default function Home() {
         {/* More Stories */}
         <div className="mt-10 border-t border-white/[0.05] pt-8">
           <SectionHeading title="More Stories" action="/news" actionLabel="All stories" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y sm:divide-y-0 divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y sm:divide-y-0 divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
             {newsItems.slice(8, 16).map((item, i) => (
               <Link key={item.id} href={`/news/${item.id}`} className={`group flex gap-3 p-4 no-underline hover:bg-white/[0.02] transition-colors ${i > 0 ? 'sm:border-l border-white/[0.05]' : ''} ${i >= 4 ? 'border-t border-white/[0.05]' : ''}`}>
                 <div className="shrink-0 overflow-hidden rounded-lg">
                   <NewsThumbnail category={item.category} className="h-[64px] w-[80px]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-[10px] font-bold uppercase tracking-wide text-white/35 mb-1">{item.category}</div>
+                  <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1`}>{item.category}</div>
                   <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
                   <div className="mt-1.5 text-[10px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
                 </div>

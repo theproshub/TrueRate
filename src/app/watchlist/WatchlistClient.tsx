@@ -44,7 +44,7 @@ function saveWatched(userId: string, items: WatchedItem[]) {
 function ChangePill({ value, suffix = '%' }: { value: number; suffix?: string }) {
   const up = value >= 0;
   return (
-    <span className={`inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-semibold tabular-nums ${up ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>
+    <span className={`inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-semibold tabular-nums ${up ? 'bg-brand-accent/15 text-brand-accent' : 'bg-red-500/15 text-red-400'}`}>
       {up ? '▲' : '▼'} {Math.abs(value).toFixed(2)}{suffix}
     </span>
   );
@@ -68,7 +68,7 @@ function AddModal({ onAdd, existing, onClose }: {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-      <div className="relative w-full max-w-md rounded-2xl border border-white/[0.08] bg-[#141418] p-6 shadow-2xl">
+      <div className="relative w-full max-w-md rounded-2xl border border-white/[0.08] bg-brand-card p-6 shadow-2xl">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-[16px] font-bold text-white">Add to Watchlist</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors">
@@ -107,7 +107,7 @@ function AddModal({ onAdd, existing, onClose }: {
                   <div className="text-[11px] text-gray-500">{opt.sub}</div>
                 </div>
                 {already ? (
-                  <span className="text-[10px] font-bold uppercase text-emerald-500">Watching</span>
+                  <span className="text-[10px] font-bold uppercase text-brand-accent">Watching</span>
                 ) : (
                   <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -206,11 +206,11 @@ export default function WatchlistClient() {
           {watchedRates.length > 0 && (
             <section>
               <h2 className="mb-3 text-[13px] font-bold uppercase tracking-widest text-gray-400">Exchange Rates</h2>
-              <div className="divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+              <div className="divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                 {watchedRates.map(r => r && (
                   <div key={r.pair} className="flex items-center justify-between px-5 py-4">
                     <div>
-                      <div className="text-[15px] font-bold text-[#a78bfa]">{r.pair}</div>
+                      <div className="text-[15px] font-bold text-brand-accent">{r.pair}</div>
                       <div className="text-[11px] text-gray-400">LRD-denominated</div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -234,7 +234,7 @@ export default function WatchlistClient() {
           {watchedIndicators.length > 0 && (
             <section>
               <h2 className="mb-3 text-[13px] font-bold uppercase tracking-widest text-gray-400">Economic Indicators</h2>
-              <div className="divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+              <div className="divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                 {watchedIndicators.map(ind => ind && (
                   <div key={ind.name} className="flex items-center justify-between px-5 py-4">
                     <div>
@@ -264,7 +264,7 @@ export default function WatchlistClient() {
           {watchedCommodities.length > 0 && (
             <section>
               <h2 className="mb-3 text-[13px] font-bold uppercase tracking-widest text-gray-400">Commodities</h2>
-              <div className="divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+              <div className="divide-y divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                 {watchedCommodities.map(c => c && (
                   <div key={c.name} className="flex items-center justify-between px-5 py-4">
                     <div>
@@ -296,7 +296,7 @@ export default function WatchlistClient() {
           {/* Add button */}
           <button
             onClick={() => setShowModal(true)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-[13px] font-semibold text-gray-400 hover:border-[#6001d2]/50 hover:text-[#a78bfa] transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-[13px] font-semibold text-gray-400 hover:border-brand-accent/50/50 hover:text-brand-accent transition-colors"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -305,7 +305,7 @@ export default function WatchlistClient() {
           </button>
 
           {/* Quick links */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="mb-3 text-[13px] font-bold text-white">Quick links</h3>
             <div className="space-y-2">
               {[
@@ -326,7 +326,7 @@ export default function WatchlistClient() {
             <div className="mb-1 flex items-center gap-2">
               <span className="text-lg">🔔</span>
               <h3 className="text-[13px] font-bold text-white">Rate Alerts</h3>
-              <span className="rounded bg-[#6001d2]/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[#a78bfa]">Soon</span>
+              <span className="rounded bg-[#6001d2]/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-brand-accent">Soon</span>
             </div>
             <p className="text-[12px] text-gray-500">
               Get notified when USD/LRD moves past your threshold. Email and SMS alerts coming next.

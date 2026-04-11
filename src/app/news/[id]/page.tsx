@@ -2,13 +2,7 @@ import Link from 'next/link';
 import { newsItems } from '@/data/news';
 import { notFound } from 'next/navigation';
 import { HeroVisual, NewsThumbnail } from '@/components/NewsThumbnail';
-
-const CATEGORY_COLORS: Record<string, string> = {
-  economy:     'text-[#34d399]',
-  forex:       'text-[#60a5fa]',
-  commodities: 'text-[#fbbf24]',
-  policy:      'text-[#a78bfa]',
-};
+import { getCatColor } from '@/lib/category-colors';
 
 const LATEST_HEADLINES = [
   { category: 'Forex',   title: 'CBL signals readiness to intervene if LRD weakens past 195',              time: '16m ago' },
@@ -56,15 +50,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
         <span>/</span>
         <Link href="/news" className="hover:text-white transition-colors no-underline">News</Link>
         <span>/</span>
-        <span className={CATEGORY_COLORS[item.category] ?? 'text-gray-500'}>{item.category}</span>
+        <span className={getCatColor(item.category)}>{item.category}</span>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10">
 
         {/* ── Main article ── */}
         <main className="flex-1 min-w-0">
-          <div className="text-[11px] font-bold uppercase tracking-widest mb-2 ${CATEGORY_COLORS[item.category] ?? 'text-gray-500'}">
-            <span className={CATEGORY_COLORS[item.category] ?? 'text-gray-500'}>{item.category}</span>
+          <div className={`text-[11px] font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
+            <span>{item.category}</span>
           </div>
 
           <h1 className="text-[26px] sm:text-[30px] font-black leading-tight text-white mb-3">{item.title}</h1>
@@ -131,7 +125,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     <div className="overflow-hidden rounded-xl mb-2.5">
                       <NewsThumbnail category={r.category} className="w-full h-[110px]" />
                     </div>
-                    <div className="text-[10px] font-bold uppercase tracking-wide text-white/35 mb-1">{r.category}</div>
+                    <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
                     <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{r.title}</h3>
                     <div className="text-[11px] text-[#555]">{r.source} · {timeAgo(r.date)}</div>
                   </Link>
@@ -153,7 +147,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     <NewsThumbnail category={s.category} className="h-[70px] w-[105px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-[10px] font-bold uppercase tracking-wide text-white/35 mb-1">{s.category}</div>
+                    <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
                     <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{s.title}</h3>
                     <p className="text-[12px] text-gray-400">{s.source} · {timeAgo(s.date)}</p>
                   </div>
@@ -168,7 +162,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           <div className="lg:sticky lg:top-[120px] flex flex-col gap-6">
 
             {/* Latest Headlines */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
               <div className="px-4 py-3.5 border-b border-white/[0.05]">
                 <h3 className="text-[13px] font-bold text-white">Latest Headlines</h3>
               </div>
@@ -177,7 +171,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                   <Link key={i} href="/news" className="group flex items-start gap-3 px-4 py-3 no-underline hover:bg-white/[0.02] transition-colors">
                     <span className="shrink-0 tabular-nums text-[18px] font-black text-white/[0.08] leading-none w-5 mt-0.5">{i + 1}</span>
                     <div className="min-w-0">
-                      <div className="text-[10px] font-bold uppercase tracking-wide text-white/35 mb-0.5">{h.category}</div>
+                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(h.category)} mb-0.5`}>{h.category}</div>
                       <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{h.title}</p>
                       <p className="mt-1 text-[10px] text-gray-400">{h.time}</p>
                     </div>
@@ -190,7 +184,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Market Rates */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-4">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card p-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-[13px] font-bold text-white">Markets</h3>
                 <Link href="/forex" className="text-[11px] text-gray-400 hover:text-white transition-colors no-underline">Full view ›</Link>
@@ -201,7 +195,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     <span className="text-[12px] font-semibold text-white">{r.label}</span>
                     <div className="text-right">
                       <div className="text-[12px] tabular-nums font-bold text-white">{r.value}</div>
-                      <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
+                      <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-brand-accent' : 'text-red-400'}`}>{r.pct}</div>
                     </div>
                   </div>
                 ))}
@@ -209,7 +203,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* In Focus topics */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] p-4">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card p-4">
               <h3 className="text-[13px] font-bold text-white mb-3">In Focus</h3>
               <div className="flex flex-wrap gap-2">
                 {['Iron Ore', 'LRD/USD', 'CBL Rate', 'Rubber', 'Remittances', 'ECOWAS', 'Mining Policy', 'Gold'].map(t => (

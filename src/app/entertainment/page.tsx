@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
+import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
 
 /* ── data ── */
 const HERO = {
@@ -69,14 +70,6 @@ const INDUSTRY_METRICS = [
   { label: 'Music Export Value (Liberia)',    value: '$18M',   change: '+41% YoY', up: true  },
 ];
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Movies:         'text-orange-400',
-  TV:             'text-blue-400',
-  Music:          'text-purple-400',
-  'Film Finance': 'text-yellow-400',
-  Deals:          'text-emerald-400',
-};
-
 export default function EntertainmentPage() {
   const [activeTab, setActiveTab] = useState('All');
 
@@ -109,12 +102,12 @@ export default function EntertainmentPage() {
         <div className="flex-1 min-w-0">
 
           {/* Hero */}
-          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-white/[0.07] bg-[#141418] no-underline mb-6">
+          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-white/[0.07] bg-brand-card no-underline mb-6">
             <div className="w-full lg:w-[55%] shrink-0">
               <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
             <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
-              <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS[HERO.category] ?? 'text-white/50'}`}>
+              <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS_FN(HERO.category)}`}>
                 {HERO.category}
               </span>
               <h2 className="text-[24px] font-black leading-snug text-white group-hover:text-white/80 transition-colors mb-4">
@@ -136,7 +129,7 @@ export default function EntertainmentPage() {
                 <div className="overflow-hidden mb-2.5">
                   <NewsThumbnail category={card.category} className="w-full h-[120px]" />
                 </div>
-                <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS[card.category] ?? 'text-white/60'}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS_FN(card.category)}`}>
                   {card.category}
                 </span>
                 <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 flex-1">
@@ -148,7 +141,7 @@ export default function EntertainmentPage() {
           </div>
 
           {/* Box Office */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
               <h2 className="text-[15px] font-bold text-white">Box Office</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">West Africa Weekend</span>
@@ -171,7 +164,7 @@ export default function EntertainmentPage() {
                       <td className="px-5 py-3 text-[18px] font-black text-white/10 tabular-nums">{film.rank}</td>
                       <td className="px-5 py-3 font-semibold text-white">{film.title}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{film.gross}</td>
-                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${film.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${film.up ? 'text-brand-accent' : 'text-red-400'}`}>
                         {film.weeklyChange}
                       </td>
                       <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-500">{film.screens}</td>
@@ -184,7 +177,7 @@ export default function EntertainmentPage() {
           </div>
 
           {/* Streaming platforms */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
               <h2 className="text-[15px] font-bold text-white">Streaming Platform Performance</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Q1 2026</span>
@@ -205,7 +198,7 @@ export default function EntertainmentPage() {
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-5 py-3 font-bold text-white">{s.platform}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{s.subscribers}</td>
-                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${s.up ? 'text-brand-accent' : 'text-red-400'}`}>
                         {s.up ? '+' : ''}{s.qChange}
                       </td>
                       <td className="tabular-nums px-5 py-3 text-right text-gray-300">{s.revenue}</td>
@@ -227,7 +220,7 @@ export default function EntertainmentPage() {
                     <NewsThumbnail category={item.category} className="h-[90px] w-[140px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS[item.category] ?? 'text-white/60'}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS_FN(item.category)}`}>
                       {item.category}
                     </span>
                     <h3 className="text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1.5 line-clamp-2">
@@ -246,7 +239,7 @@ export default function EntertainmentPage() {
           </div>
 
           {/* Music streaming revenue */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-8">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
               <h2 className="text-[15px] font-bold text-white">Music Streaming Revenue</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Est. 2025 earnings</span>
@@ -281,7 +274,7 @@ export default function EntertainmentPage() {
           </div>
 
           {/* Deals */}
-          <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden mb-2">
+          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-2">
             <div className="px-5 py-4 border-b border-white/[0.05]">
               <h2 className="text-[15px] font-bold text-white">Recent Deals</h2>
             </div>
@@ -310,7 +303,7 @@ export default function EntertainmentPage() {
           <div className="sticky top-[120px] flex flex-col gap-5">
 
             {/* Industry snapshot */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
               <div className="px-4 py-3.5 border-b border-white/[0.05]">
                 <h3 className="text-[13px] font-bold text-white">Industry Snapshot</h3>
               </div>
@@ -320,7 +313,7 @@ export default function EntertainmentPage() {
                     <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
                     <div className="text-right shrink-0">
                       <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
-                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
+                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-brand-accent' : 'text-red-400'}`}>{m.change}</div>
                     </div>
                   </div>
                 ))}
@@ -328,7 +321,7 @@ export default function EntertainmentPage() {
             </div>
 
             {/* Trending */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
               <div className="px-4 py-3.5 border-b border-white/[0.05]">
                 <h3 className="text-[13px] font-bold text-white">Most Read</h3>
               </div>
@@ -344,7 +337,7 @@ export default function EntertainmentPage() {
                     <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
                       <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors line-clamp-2 leading-snug">{t.title}</p>
-                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS[t.tag] ?? 'text-gray-500'}`}>{t.tag}</span>
+                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS_FN(t.tag)}`}>{t.tag}</span>
                     </div>
                   </Link>
                 ))}
@@ -352,7 +345,7 @@ export default function EntertainmentPage() {
             </div>
 
             {/* Key dates */}
-            <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
               <div className="px-4 py-3.5 border-b border-white/[0.05]">
                 <h3 className="text-[13px] font-bold text-white">Industry Calendar</h3>
               </div>

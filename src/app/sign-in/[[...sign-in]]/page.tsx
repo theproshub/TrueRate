@@ -20,7 +20,7 @@ export default function SignInPage() {
             appearance={{
               elements: {
                 rootBox: 'w-full',
-                card: 'bg-[#141418] border border-white/[0.07] shadow-2xl rounded-2xl',
+                card: 'bg-brand-card border border-white/[0.07] shadow-2xl rounded-2xl',
                 headerTitle: 'text-white',
                 headerSubtitle: 'text-gray-400',
                 socialButtonsBlockButton:
@@ -30,12 +30,12 @@ export default function SignInPage() {
                 dividerText: 'text-gray-400',
                 formFieldLabel: 'text-gray-400 text-[13px]',
                 formFieldInput:
-                  'bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-gray-400 rounded-lg focus:border-[#6001d2] focus:ring-1 focus:ring-[#6001d2]/30',
+                  'bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-gray-400 rounded-lg focus:border-brand-accent/50 focus:ring-1 focus:ring-[#6001d2]/30',
                 formButtonPrimary:
                   'bg-[#6001d2] hover:bg-[#490099] text-white font-semibold rounded-lg transition-colors',
-                footerActionLink: 'text-[#a78bfa] hover:text-[#c4b5fd]',
+                footerActionLink: 'text-brand-accent hover:text-[#c4b5fd]',
                 identityPreviewText: 'text-white',
-                identityPreviewEditButton: 'text-[#a78bfa]',
+                identityPreviewEditButton: 'text-brand-accent',
                 formFieldErrorText: 'text-red-400',
                 alertText: 'text-red-400',
                 alertIcon: 'text-red-400',

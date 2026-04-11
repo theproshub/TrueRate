@@ -40,7 +40,7 @@ export default function ForexPage() {
 
       {/* CBL Policy Updates */}
       <section className="mt-8">
-        <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
           <div className="border-b border-white/[0.06] px-5 py-3 flex items-center justify-between">
             <h2 className="text-[15px] font-bold text-white">CBL Policy Updates</h2>
             <span className="text-[11px] text-gray-500">Central Bank of Liberia</span>
@@ -123,7 +123,7 @@ export default function ForexPage() {
               date: 'Mar 27, 2026',
             },
           ].map((card, i) => (
-            <div key={i} className="rounded-xl border border-white/[0.07] bg-[#141418] p-5">
+            <div key={i} className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
               <p className="mb-4 text-[13px] leading-relaxed text-gray-300 line-clamp-4 border-l-2 border-white/[0.10] pl-4">{card.quote}</p>
               <div className="border-t border-white/[0.06] pt-3">
                 <div className="text-[13px] font-semibold text-white">{card.analyst}</div>
@@ -136,7 +136,7 @@ export default function ForexPage() {
 
       {/* Commodity-Linked FX */}
       <section className="mt-8">
-        <div className="rounded-xl border border-white/[0.07] bg-[#141418] overflow-hidden">
+        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
           <div className="border-b border-white/[0.06] px-5 py-3">
             <h2 className="text-[15px] font-bold text-white">Commodity-Linked FX</h2>
             <p className="mt-0.5 text-[11px] text-gray-400">How Liberia&apos;s commodity export performance influences LRD strength</p>
@@ -163,7 +163,7 @@ export default function ForexPage() {
                     <td className="px-5 py-3 font-bold text-white">{row.commodity}</td>
                     <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{row.value}</td>
                     <td className="tabular-nums px-5 py-3 text-right text-gray-400">{row.share}</td>
-                    <td className={`px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <td className={`px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-brand-accent' : 'text-red-400'}`}>
                       {row.sensitivity}
                     </td>
                     <td className="px-5 py-3 text-[12px] text-gray-500 max-w-[320px]">{row.note}</td>
@@ -188,7 +188,7 @@ export default function ForexPage() {
             { country: 'Ghana',        currency: 'GHS', name: 'Ghanaian Cedi',           rateVsUSD: '15.84',     change30d: '-1.07%', up: false },
             { country: 'Sierra Leone', currency: 'SLL', name: 'Sierra Leonean Leone',    rateVsUSD: '22,750',    change30d: '+0.18%', up: true  },
           ].map((item, i) => (
-            <Link key={i} href="/forex" className="group block rounded-xl border border-white/[0.07] bg-[#141418] p-5 hover:border-white/[0.14] transition-colors no-underline">
+            <Link key={i} href="/forex" className="group block rounded-xl border border-white/[0.07] bg-brand-card p-5 hover:border-white/[0.14] transition-colors no-underline">
               <div className="mb-3">
                 <div className="text-[13px] font-bold text-white">{item.country}</div>
                 <div className="text-[11px] text-gray-500">{item.name}</div>
@@ -198,7 +198,7 @@ export default function ForexPage() {
                 {item.rateVsUSD}
                 <span className="ml-1.5 text-[12px] font-semibold text-gray-500">{item.currency}</span>
               </div>
-              <span className={`tabular-nums text-[12px] font-semibold ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+              <span className={`tabular-nums text-[12px] font-semibold ${item.up ? 'text-brand-accent' : 'text-red-400'}`}>
                 {item.up ? '▲' : '▼'} {item.change30d} 30d
               </span>
             </Link>
