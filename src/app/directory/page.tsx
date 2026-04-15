@@ -94,10 +94,7 @@ export default function DirectoryPage() {
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Business Directory' }]} />
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-[28px] font-black text-white leading-tight mb-1">Business Directory</h1>
-            <p className="text-[14px] text-gray-400">
-              Profiles of major companies operating in Liberia — mining, banking, agriculture, energy, telecom &amp; more.
-            </p>
+            <h1 className="text-[28px] font-black text-white leading-tight">Business Directory</h1>
           </div>
           <span className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12px] font-semibold text-gray-400">
             {COMPANIES.length} companies
