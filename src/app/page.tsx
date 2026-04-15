@@ -146,7 +146,7 @@ function SectionHeading({ title, action, actionLabel = 'View all' }: { title: st
 
 function IndicatorsStrip() {
   return (
-    <div className="bg-[#0a0a0d] border-b border-white/[0.05]">
+    <div className="bg-brand-dark border-b border-white/[0.05]">
       <div className="mx-auto max-w-[1320px]">
 
         {/* Mobile: auto-scrolling marquee ticker */}
