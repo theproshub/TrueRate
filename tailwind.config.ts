@@ -34,9 +34,9 @@ const config: Config = {
       },
       fontFamily: {
         // Poppins = main brand font, Montserrat = secondary
-        sans:       ['var(--font-poppins)', 'Poppins', 'sans-serif'],
-        poppins:    ['var(--font-poppins)', 'Poppins', 'sans-serif'],
-        montserrat: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
+        sans:       ['Poppins', 'sans-serif'],
+        poppins:    ['Poppins', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
       },
     },
   },
