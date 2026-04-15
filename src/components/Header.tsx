@@ -52,7 +52,6 @@ const MOBILE_NAV: { label: string; sub?: string[] }[] = [
   { label: 'Investing',        sub: ['Markets', 'Forex & Rates', 'Research', 'Commodities', 'Watchlist'] },
   { label: 'Technology',       sub: ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'] },
   { label: 'Entrepreneurship', sub: ['Founders', 'Funding', 'SMEs', 'Growth Stories'] },
-  { label: 'Leadership',       sub: ['Executives', 'Strategy', 'Management', 'Careers'] },
   { label: 'Lifestyle',        sub: ['Culture', 'Sports', 'Health & Wellness', 'Travel'] },
 ];
 
@@ -63,7 +62,6 @@ const MORE_SECTIONS: Record<string, string[]> = {
   'Investing':        ['Markets', 'Forex & Rates', 'Research', 'Commodities', 'Watchlist'],
   'Technology':       ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'],
   'Entrepreneurship': ['Founders', 'Funding', 'SMEs', 'Growth Stories'],
-  'Leadership':       ['Executives', 'Strategy', 'Management', 'Careers'],
 };
 
 
@@ -72,7 +70,6 @@ const MORE_LINK_MAP: Record<string, Record<string, string>> = {
   'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
   'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
   'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
-  'Leadership':       { 'Executives': '/news', 'Strategy': '/news', 'Management': '/news', 'Careers': '/news' },
 };
 
 const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
@@ -80,7 +77,6 @@ const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
   'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
   'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
   'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
-  'Leadership':       { 'Executives': '/news', 'Strategy': '/news', 'Management': '/news', 'Careers': '/news' },
   'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/news', 'Travel': '/news' },
 };
 
