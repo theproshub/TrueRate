@@ -4,7 +4,6 @@
 
 import Link from 'next/link';
 import ForexClient from './ForexClient';
-import CurrencyConverter from '@/components/CurrencyConverter';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { exchangeRates } from '@/data/exchangeRates';
 import type { NormalizedRate } from '@/app/api/rates/route';
@@ -88,11 +87,6 @@ export default function ForexPage() {
         </div>
       </section>
 
-      {/* Currency Converter */}
-      <section className="mt-8">
-        <CurrencyConverter />
-      </section>
-
       {/* Market Commentary */}
       <section className="mt-8">
         <h2 className="mb-4 text-[17px] font-bold text-white">Market Commentary</h2>
@@ -142,14 +136,14 @@ export default function ForexPage() {
             <p className="mt-0.5 text-[11px] text-gray-400">How Liberia&apos;s commodity export performance influences LRD strength</p>
           </div>
           <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <table className="w-full min-w-[580px] text-[13px]">
+            <table className="w-full min-w-[320px] sm:min-w-[580px] text-[13px]">
               <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                 <tr>
-                  <th className="px-5 py-3 text-left">Commodity</th>
-                  <th className="px-5 py-3 text-right">Export Value (2025)</th>
-                  <th className="px-5 py-3 text-right">% of Total Exports</th>
-                  <th className="px-5 py-3 text-right">LRD Sensitivity</th>
-                  <th className="px-5 py-3 text-left">Impact Note</th>
+                  <th className="px-3 sm:px-5 py-3 text-left">Commodity</th>
+                  <th className="px-3 sm:px-5 py-3 text-right">Export Value</th>
+                  <th className="hidden sm:table-cell px-5 py-3 text-right">% of Total</th>
+                  <th className="px-3 sm:px-5 py-3 text-right">Sensitivity</th>
+                  <th className="hidden md:table-cell px-5 py-3 text-left">Impact Note</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.05]">
@@ -160,13 +154,13 @@ export default function ForexPage() {
                   { commodity: 'Palm Oil',  value: '$143M', share: '13.0%', sensitivity: 'Moderate', up: false, note: 'Declining global prices in 2025 exerted mild downward pressure on Q3 LRD performance.' },
                 ].map((row, i) => (
                   <tr key={i} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="px-5 py-3 font-bold text-white">{row.commodity}</td>
-                    <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{row.value}</td>
-                    <td className="tabular-nums px-5 py-3 text-right text-gray-400">{row.share}</td>
-                    <td className={`px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <td className="px-3 sm:px-5 py-3 font-bold text-white">{row.commodity}</td>
+                    <td className="tabular-nums px-3 sm:px-5 py-3 text-right font-semibold text-white">{row.value}</td>
+                    <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-400">{row.share}</td>
+                    <td className={`px-3 sm:px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-emerald-400' : 'text-red-400'}`}>
                       {row.sensitivity}
                     </td>
-                    <td className="px-5 py-3 text-[12px] text-gray-500 max-w-[320px]">{row.note}</td>
+                    <td className="hidden md:table-cell px-5 py-3 text-[12px] text-gray-500 max-w-[320px]">{row.note}</td>
                   </tr>
                 ))}
               </tbody>

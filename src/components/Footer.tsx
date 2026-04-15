@@ -3,26 +3,28 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
-  'Finance': [
+  'Business': [
     { label: 'Economy',           href: '/economy' },
-    { label: 'News',              href: '/news' },
+    { label: 'Companies',         href: '/directory' },
     { label: 'Research',          href: '/research' },
     { label: 'Videos',            href: '/videos' },
     { label: 'Community',         href: '/community' },
   ],
-  'Explore': [
-    { label: 'Business Directory', href: '/directory' },
-    { label: 'Currency Converter', href: '/forex' },
-    { label: 'Economic Data',     href: '/economy' },
-    { label: 'West Africa',       href: '/news' },
-    { label: 'Central Bank',      href: '/economy' },
+  'Investing': [
+    { label: 'Markets',           href: '/forex' },
+    { label: 'Forex & Rates',     href: '/forex' },
+    { label: 'Commodities',       href: '/economy' },
+    { label: 'Watchlist',         href: '/watchlist' },
+    { label: 'Research',          href: '/research' },
   ],
-  'Media': [
-    { label: 'Culture',           href: '/entertainment' },
+  'Editorial': [
+    { label: 'Technology',        href: '/news' },
+    { label: 'Entrepreneurship',  href: '/news' },
+    { label: 'Leadership',        href: '/news' },
+    { label: 'Lifestyle',         href: '/entertainment' },
     { label: 'Sports',            href: '/sports' },
-    { label: 'Videos',            href: '/videos' },
   ],
-  'About': [
+  'Company': [
     { label: 'About TrueRate',    href: '/about' },
     { label: 'Help',              href: '/help' },
     { label: 'Feedback',          href: '/feedback' },
@@ -31,16 +33,16 @@ const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
 };
 
 const TRENDING_LINKS = [
-  { label: 'LRD/USD',           href: '/forex' },
-  { label: 'Iron Ore',          href: '/economy' },
-  { label: 'Rubber',            href: '/economy' },
-  { label: 'CBL Rate',          href: '/economy' },
-  { label: 'Gold',              href: '/economy' },
-  { label: 'ArcelorMittal',     href: '/directory/arcelormittal-liberia' },
-  { label: 'Firestone',         href: '/directory/firestone-liberia' },
-  { label: 'Liberia GDP',       href: '/economy' },
+  { label: 'Entrepreneurship',  href: '/news' },
+  { label: 'Startups',          href: '/news' },
+  { label: 'AI & Innovation',   href: '/news' },
+  { label: 'Investing',         href: '/forex' },
+  { label: 'Leadership',        href: '/news' },
+  { label: 'Forex & Rates',     href: '/forex' },
+  { label: 'Economy',           href: '/economy' },
   { label: 'Companies',         href: '/directory' },
-  { label: 'Mining Policy',     href: '/economy' },
+  { label: 'Technology',        href: '/news' },
+  { label: 'Lifestyle',         href: '/entertainment' },
 ];
 
 const LEGAL_LINKS = [
@@ -58,11 +60,11 @@ export default function Footer() {
     <footer className="mt-10 border-t border-white/[0.06] bg-brand-dark">
 
       {/* Newsletter */}
-      <div className="border-b border-white/[0.05] px-4 py-10">
+      <div className="border-b border-white/[0.05] px-4 py-6">
         <div className="mx-auto max-w-[1320px] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-[18px] font-bold text-white">TrueRate Daily Brief</h3>
-            <p className="mt-1 text-[14px] text-gray-500">Business and economy news from Liberia, delivered daily</p>
+            <p className="mt-1 text-[14px] text-gray-500">Business, investing, and technology — delivered daily</p>
           </div>
           <div className="flex w-full max-w-[420px] gap-2.5">
             <input
@@ -77,11 +79,11 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1320px] px-4 py-12">
-        <div className="flex flex-col gap-10 sm:flex-row sm:gap-16">
+      <div className="mx-auto max-w-[1320px] px-4 py-5">
+        <div className="flex flex-col gap-5 sm:flex-row sm:gap-16">
 
           {/* Left: logo + copyright + socials */}
-          <div className="shrink-0 flex flex-col gap-6 sm:w-[200px]">
+          <div className="shrink-0 flex flex-col gap-4 sm:w-[200px]">
             <Link href="/" className="no-underline inline-block">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo.png" alt="TrueRate" style={{ height: '64px', width: 'auto' }} />
@@ -158,7 +160,7 @@ export default function Footer() {
             ))}
           </div>
           <p className="text-[11px] text-gray-400">Copyright © 2026 TrueRate. All rights reserved. · Not investment advice</p>
-          <p className="mt-1 text-[10px] text-gray-400">Data: Central Bank of Liberia · World Bank · IMF · Ghana Stock Exchange · BRVM</p>
+          <p className="mt-1 text-[10px] text-gray-400">Data: Central Bank of Liberia · World Bank · IMF · Ghana Stock Exchange · BRVM · TrueRate Research</p>
         </div>
 
       </div>

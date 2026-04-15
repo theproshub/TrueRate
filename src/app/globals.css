@@ -5,8 +5,12 @@
 @layer base {
   * { box-sizing: border-box; }
 
+  html, body {
+    overflow-x: hidden;
+  }
+
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: #050d11;
     color: #e8e8e8;
     font-size: 14px;
@@ -14,11 +18,11 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Brand typography: Poppins = headings/UI, Montserrat = body copy */
+  /* Brand typography: Inter = headings/UI, Montserrat = body copy */
   h1, h2, h3, h4, h5, h6,
   a, button,
   [role='button'] {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 
   p, li, small, label, input, textarea, select {

@@ -48,40 +48,40 @@ function RateTicker({ isLight }: { isLight: boolean }) {
 }
 
 const MOBILE_NAV: { label: string; sub?: string[] }[] = [
-  { label: 'Culture',       sub: ['Box Office', 'Streaming Revenue', 'Music Industry', 'Film Finance', 'Deals & Acquisitions'] },
-  { label: 'Sports',        sub: ['Liberia Football', 'Transfer Deals', 'Broadcast Rights', 'Club Finance', 'African Cup'] },
-  { label: 'Business',      sub: ['Top Stories', 'Companies', 'Research', 'Banking & Finance'] },
-  { label: 'Finance',       sub: ['Markets', 'Forex & Rates', 'Economy', 'Research', 'Watch Now'] },
-  { label: 'Economy',       sub: ['GDP & Growth', 'Inflation', 'Trade & Exports', 'Development'] },
-  { label: 'New on TrueRate' },
+  { label: 'Business',         sub: ['Top Stories', 'Companies', 'Economy', 'Banking & Finance', 'Infrastructure'] },
+  { label: 'Investing',        sub: ['Markets', 'Forex & Rates', 'Research', 'Commodities', 'Watchlist'] },
+  { label: 'Technology',       sub: ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'] },
+  { label: 'Entrepreneurship', sub: ['Founders', 'Funding', 'SMEs', 'Growth Stories'] },
+  { label: 'Leadership',       sub: ['Executives', 'Strategy', 'Management', 'Careers'] },
+  { label: 'Lifestyle',        sub: ['Culture', 'Sports', 'Health & Wellness', 'Travel'] },
 ];
 
 const SUB_HAS_ARROW = new Set(['News', 'Markets', 'Research', 'Videos']);
 
 const MORE_SECTIONS: Record<string, string[]> = {
-  'News':            ["Today's News", 'Liberia', 'West Africa', 'Economy', 'Politics', 'Development', 'Health', 'World'],
-  'Culture':         ['Box Office', 'Streaming Revenue', 'Music Industry', 'Film Finance', 'Deals & Acquisitions'],
-  'Finance':         ['Markets', 'Forex & Rates', 'Business Directory', 'Research', 'Economy', 'Watch Now'],
-  'Sports':          ['Liberia Football', 'Transfer Deals', 'Broadcast Rights', 'Club Finance', 'Sponsorship', 'African Cup'],
-  'New on TrueRate': ['Watchlist', 'Data & Research', 'Local Business', 'TrueRate Scout'],
+  'Business':         ['Top Stories', 'Companies', 'Economy', 'Banking & Finance', 'Infrastructure'],
+  'Investing':        ['Markets', 'Forex & Rates', 'Research', 'Commodities', 'Watchlist'],
+  'Technology':       ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'],
+  'Entrepreneurship': ['Founders', 'Funding', 'SMEs', 'Growth Stories'],
+  'Leadership':       ['Executives', 'Strategy', 'Management', 'Careers'],
 };
 
 
 const MORE_LINK_MAP: Record<string, Record<string, string>> = {
-  'News':            { "Today's News": '/news', 'Liberia': '/news', 'West Africa': '/news', 'Economy': '/economy', 'Politics': '/news', 'Development': '/news', 'Health': '/news', 'World': '/news' },
-  'Culture':         { 'Box Office': '/entertainment', 'Streaming Revenue': '/entertainment', 'Music Industry': '/entertainment', 'Film Finance': '/entertainment', 'Deals & Acquisitions': '/entertainment' },
-  'Finance':         { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Business Directory': '/directory', 'Research': '/research', 'Economy': '/economy', 'Watch Now': '/videos' },
-  'Sports':          { 'Liberia Football': '/sports', 'Transfer Deals': '/sports', 'Broadcast Rights': '/sports', 'Club Finance': '/sports', 'Sponsorship': '/sports', 'African Cup': '/sports' },
-  'New on TrueRate': { 'Watchlist': '/watchlist', 'Data & Research': '/research', 'Local Business': '/directory', 'TrueRate Scout': '/' },
+  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
+  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
+  'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
+  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
+  'Leadership':       { 'Executives': '/news', 'Strategy': '/news', 'Management': '/news', 'Careers': '/news' },
 };
 
 const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Culture':         { 'Box Office': '/entertainment', 'Streaming Revenue': '/entertainment', 'Music Industry': '/entertainment', 'Film Finance': '/entertainment', 'Deals & Acquisitions': '/entertainment' },
-  'Sports':          { 'Liberia Football': '/sports', 'Transfer Deals': '/sports', 'Broadcast Rights': '/sports', 'Club Finance': '/sports', 'African Cup': '/sports' },
-  'Business':        { 'Top Stories': '/news', 'Companies': '/directory', 'Research': '/research', 'Banking & Finance': '/economy' },
-  'Finance':         { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Economy': '/economy', 'Research': '/research', 'Watch Now': '/videos' },
-  'Economy':         { 'GDP & Growth': '/economy', 'Inflation': '/economy', 'Trade & Exports': '/economy', 'Development': '/economy' },
-  'New on TrueRate': { 'Watchlist': '/watchlist', 'Data & Research': '/research', 'Local Business': '/directory', 'TrueRate Scout': '/' },
+  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
+  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
+  'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
+  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
+  'Leadership':       { 'Executives': '/news', 'Strategy': '/news', 'Management': '/news', 'Careers': '/news' },
+  'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/news', 'Travel': '/news' },
 };
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
@@ -213,7 +213,7 @@ export default function Header() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSearch()}
-            placeholder="Search for news, tickers or companies"
+            placeholder="Search stories, companies, or topics"
             className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-400' : 'text-white placeholder:text-gray-500'}`}
           />
           <button
@@ -230,7 +230,7 @@ export default function Header() {
         {/* Super nav + More dropdown */}
         <div className="hidden sm:flex items-center gap-0.5">
           {([
-            { label: 'Finance',       href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') && !pathname.startsWith('/news') },
+            { label: 'Business',      href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') && !pathname.startsWith('/news') },
             { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
@@ -285,7 +285,7 @@ export default function Header() {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
-              placeholder="Search for news, tickers or companies"
+              placeholder="Search stories, companies, or topics"
               className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-400' : 'text-white placeholder:text-gray-500'}`}
             />
             <button
@@ -306,11 +306,10 @@ export default function Header() {
         <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
           {/* Nav items */}
           {[
-            { label: 'Economy',    href: '/economy' },
-            { label: 'Companies',  href: '/directory' },
-            { label: 'Forex',      href: '/forex' },
-            { label: 'Culture',    href: '/entertainment' },
-            { label: 'Watch Now',  href: '/videos' },
+            { label: 'Markets',         href: '/forex' },
+            { label: 'Companies',       href: '/directory' },
+            { label: 'Lifestyle',       href: '/entertainment' },
+            { label: 'Watch Now',       href: '/videos' },
           ].map(({ label, href }) => {
             const isActive = pathname.startsWith(href);
             return (

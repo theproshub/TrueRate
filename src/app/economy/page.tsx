@@ -467,11 +467,11 @@ export default function EconomyPage() {
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">Full data ›</Link>
             </div>
             <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y divide-white/[0.05]" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+              <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y divide-white/[0.05]">
                 {EXPORT_STATS.map((stat, i) => (
                   <div key={i} className="p-5 flex flex-col gap-1">
                     <span className="text-[11px] text-gray-500 uppercase tracking-wide">{stat.label}</span>
-                    <span className="text-[28px] font-black text-white tabular-nums leading-none">{stat.value}</span>
+                    <span className="text-[22px] sm:text-[28px] font-black text-white tabular-nums leading-none">{stat.value}</span>
                     <div className="flex items-center gap-1.5 mt-1">
                       <span className={`text-[12px] font-bold ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
                         {stat.up ? '▲' : '▼'} {stat.change}

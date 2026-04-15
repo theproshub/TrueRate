@@ -223,24 +223,24 @@ export default function SportsPage() {
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Deal values · Apr 2026</span>
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <table className="w-full min-w-[520px] text-[13px]">
+              <table className="w-full min-w-[320px] sm:min-w-[520px] text-[13px]">
                 <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
-                    <th className="px-5 py-3 text-left">Player</th>
-                    <th className="px-5 py-3 text-left">From</th>
-                    <th className="px-5 py-3 text-left">To</th>
-                    <th className="px-5 py-3 text-right">Fee</th>
-                    <th className="px-5 py-3 text-right">Status</th>
+                    <th className="px-3 sm:px-5 py-3 text-left">Player</th>
+                    <th className="hidden sm:table-cell px-5 py-3 text-left">From</th>
+                    <th className="px-3 sm:px-5 py-3 text-left">To</th>
+                    <th className="px-3 sm:px-5 py-3 text-right">Fee</th>
+                    <th className="hidden sm:table-cell px-5 py-3 text-right">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {TRANSFERS.map((t, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-5 py-3 font-bold text-gray-900">{t.player}</td>
-                      <td className="px-5 py-3 text-gray-400">{t.from}</td>
-                      <td className="px-5 py-3 text-gray-400">{t.to}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-bold text-gray-900">{t.fee}</td>
-                      <td className={`px-5 py-3 text-right text-[12px] font-semibold ${t.confirmed ? 'text-emerald-400' : 'text-gray-500'}`}>
+                      <td className="px-3 sm:px-5 py-3 font-bold text-gray-900">{t.player}</td>
+                      <td className="hidden sm:table-cell px-5 py-3 text-gray-400">{t.from}</td>
+                      <td className="px-3 sm:px-5 py-3 text-gray-400">{t.to}</td>
+                      <td className="tabular-nums px-3 sm:px-5 py-3 text-right font-bold text-gray-900">{t.fee}</td>
+                      <td className={`hidden sm:table-cell px-5 py-3 text-right text-[12px] font-semibold ${t.confirmed ? 'text-emerald-400' : 'text-gray-500'}`}>
                         {t.status}
                       </td>
                     </tr>
@@ -287,9 +287,9 @@ export default function SportsPage() {
             <h2 className="text-[17px] font-bold text-gray-900 mb-5">Analysis</h2>
             <div className="flex flex-col divide-y divide-gray-100">
               {FEED.map((item, i) => (
-                <Link key={i} href="/sports" className="group flex gap-4 py-5 first:pt-0 no-underline">
+                <Link key={i} href="/sports" className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden">
-                    <NewsThumbnail category={item.category} className="h-[90px] w-[140px]" />
+                    <NewsThumbnail category={item.category} className="h-[80px] w-[100px] sm:h-[90px] sm:w-[140px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS_FN(item.category)}`}>{item.category}</span>
@@ -406,32 +406,32 @@ export default function SportsPage() {
             </div>
             <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
               <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <table className="w-full text-[13px] min-w-[400px]">
+                <table className="w-full text-[13px] min-w-[280px] sm:min-w-[400px]">
                   <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                     <tr>
-                      <th className="px-5 py-3 text-left">#</th>
-                      <th className="px-5 py-3 text-left">Team</th>
-                      <th className="px-3 py-3 text-center">Pld</th>
-                      <th className="px-3 py-3 text-center">W</th>
-                      <th className="px-3 py-3 text-center">D</th>
-                      <th className="px-3 py-3 text-center">L</th>
-                      <th className="px-3 py-3 text-center">GF</th>
-                      <th className="px-3 py-3 text-center">GA</th>
-                      <th className="px-5 py-3 text-right font-black">Pts</th>
+                      <th className="px-3 sm:px-5 py-3 text-left">#</th>
+                      <th className="px-3 sm:px-5 py-3 text-left">Team</th>
+                      <th className="px-2 sm:px-3 py-3 text-center">P</th>
+                      <th className="px-2 sm:px-3 py-3 text-center">W</th>
+                      <th className="px-2 sm:px-3 py-3 text-center">D</th>
+                      <th className="px-2 sm:px-3 py-3 text-center">L</th>
+                      <th className="hidden sm:table-cell px-3 py-3 text-center">GF</th>
+                      <th className="hidden sm:table-cell px-3 py-3 text-center">GA</th>
+                      <th className="px-3 sm:px-5 py-3 text-right font-black">Pts</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {WAFU_STANDINGS.map(row => (
                       <tr key={row.pos} className={`hover:bg-gray-50 transition-colors ${row.team === 'Liberia' ? 'bg-emerald-50/50' : ''}`}>
-                        <td className="px-5 py-3 text-gray-400 font-bold">{row.pos}</td>
-                        <td className={`px-5 py-3 font-bold ${row.team === 'Liberia' ? 'text-emerald-600' : 'text-gray-900'}`}>{row.team}</td>
-                        <td className="px-3 py-3 text-center text-gray-500">{row.pld}</td>
-                        <td className="px-3 py-3 text-center text-gray-500">{row.w}</td>
-                        <td className="px-3 py-3 text-center text-gray-500">{row.d}</td>
-                        <td className="px-3 py-3 text-center text-gray-500">{row.l}</td>
-                        <td className="px-3 py-3 text-center text-gray-500">{row.gf}</td>
-                        <td className="px-3 py-3 text-center text-gray-500">{row.ga}</td>
-                        <td className="px-5 py-3 text-right font-black text-gray-900">{row.pts}</td>
+                        <td className="px-3 sm:px-5 py-3 text-gray-400 font-bold">{row.pos}</td>
+                        <td className={`px-3 sm:px-5 py-3 font-bold ${row.team === 'Liberia' ? 'text-emerald-600' : 'text-gray-900'}`}>{row.team}</td>
+                        <td className="px-2 sm:px-3 py-3 text-center text-gray-500">{row.pld}</td>
+                        <td className="px-2 sm:px-3 py-3 text-center text-gray-500">{row.w}</td>
+                        <td className="px-2 sm:px-3 py-3 text-center text-gray-500">{row.d}</td>
+                        <td className="px-2 sm:px-3 py-3 text-center text-gray-500">{row.l}</td>
+                        <td className="hidden sm:table-cell px-3 py-3 text-center text-gray-500">{row.gf}</td>
+                        <td className="hidden sm:table-cell px-3 py-3 text-center text-gray-500">{row.ga}</td>
+                        <td className="px-3 sm:px-5 py-3 text-right font-black text-gray-900">{row.pts}</td>
                       </tr>
                     ))}
                   </tbody>

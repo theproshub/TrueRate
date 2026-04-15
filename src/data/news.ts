@@ -4,7 +4,7 @@ export const newsItems: NewsItem[] = [
   {
     id: '1',
     title: 'CBL Holds Policy Rate Steady at 17.5% Amid Inflation Concerns',
-    summary: 'The Central Bank of Liberia maintained its benchmark interest rate, citing progress on inflation but warning of persistent food price pressures.',
+    summary: 'The Central Bank of Liberia held its benchmark interest rate at 17.5% for the second consecutive quarter, citing steady progress in bringing inflation toward its 8% target and improved foreign reserve coverage. The Monetary Policy Committee noted that headline inflation eased to 10.2% in February, down from a peak of 14.7% in mid-2025, but cautioned that food price pressures and exchange rate volatility warranted continued vigilance before any easing cycle begins.',
     source: 'Liberian Observer',
     date: '2026-03-30',
     category: 'policy',

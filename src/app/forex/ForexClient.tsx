@@ -317,10 +317,10 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
             <table className="w-full text-[13px]">
               <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                 <tr>
-                  <th className="px-5 py-3 text-left">Pair</th>
-                  <th className="px-5 py-3 text-right">Rate (LRD)</th>
-                  <th className="px-5 py-3 text-right">Change</th>
-                  <th className="px-5 py-3 text-right">% Chg</th>
+                  <th className="px-3 sm:px-5 py-3 text-left">Pair</th>
+                  <th className="px-3 sm:px-5 py-3 text-right">Rate (LRD)</th>
+                  <th className="hidden sm:table-cell px-5 py-3 text-right">Change</th>
+                  <th className="px-3 sm:px-5 py-3 text-right">% Chg</th>
                   <th className="hidden sm:table-cell px-5 py-3 text-right">52W High</th>
                   <th className="hidden sm:table-cell px-5 py-3 text-right">52W Low</th>
                 </tr>
@@ -328,14 +328,14 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
               <tbody className="divide-y divide-white/[0.05]">
                 {rates.map(r => (
                   <tr key={r.pair} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="px-5 py-3 font-bold text-emerald-400">{r.pair}</td>
-                    <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">
+                    <td className="px-3 sm:px-5 py-3 font-bold text-emerald-400">{r.pair}</td>
+                    <td className="tabular-nums px-3 sm:px-5 py-3 text-right font-semibold text-white">
                       {r.rate.toFixed(4)}
                     </td>
-                    <td className={`tabular-nums px-5 py-3 text-right font-semibold ${r.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <td className={`hidden sm:table-cell tabular-nums px-5 py-3 text-right font-semibold ${r.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {r.change >= 0 ? '+' : ''}{r.change.toFixed(4)}
                     </td>
-                    <td className="px-5 py-3 text-right">
+                    <td className="px-3 sm:px-5 py-3 text-right">
                       <Pill text={`${Math.abs(r.changePercent).toFixed(2)}%`} up={r.changePercent >= 0} />
                     </td>
                     <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-500">
