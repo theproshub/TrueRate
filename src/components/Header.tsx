@@ -66,17 +66,17 @@ const MORE_SECTIONS: Record<string, string[]> = {
 
 
 const MORE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
+  'Business':         { 'Top Stories': '/news', 'Companies': '/news', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
   'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
   'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
-  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
+  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/news', 'Growth Stories': '/news' },
 };
 
 const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
+  'Business':         { 'Top Stories': '/news', 'Companies': '/news', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
   'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
   'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
-  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
+  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/news', 'Growth Stories': '/news' },
   'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/news', 'Travel': '/news' },
 };
 
@@ -303,7 +303,6 @@ export default function Header() {
           {/* Nav items */}
           {[
             { label: 'Markets',         href: '/forex' },
-            { label: 'Companies',       href: '/directory' },
             { label: 'Lifestyle',       href: '/entertainment' },
             { label: 'Watch Now',       href: '/videos' },
           ].map(({ label, href }) => {
