@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useState, useEffect } from 'react';
 import type { NormalizedIndicator } from '@/app/api/indicators/route';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
@@ -231,6 +232,7 @@ export default function EconomyPage() {
 
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Economy' }]} />
 
       {/* Topic filter */}
       <div className="mb-6 pb-4 border-b border-white/[0.06]">

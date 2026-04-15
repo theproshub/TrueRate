@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { newsItems } from '@/data/news';
@@ -427,6 +428,7 @@ function NewsPageInner() {
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
       <main className="mx-auto max-w-[1320px] px-4 py-6">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News' }]} light />
 
       {/* ── Search results view ── */}
       {query && (
@@ -493,8 +495,8 @@ function NewsPageInner() {
           <div className="ticker-scroll flex w-max">
             {[...BREAKING, ...BREAKING].map((b, i) => (
               <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{b.label}</span>
-                <span className="text-[12px] text-gray-400 group-hover:text-gray-900 transition-colors">{b.text}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">{b.label}</span>
+                <span className="text-[13px] font-medium text-gray-700 group-hover:text-gray-950 transition-colors">{b.text}</span>
               </Link>
             ))}
           </div>

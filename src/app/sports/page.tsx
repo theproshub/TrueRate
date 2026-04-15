@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useState } from 'react';
 import { NewsThumbnail, HeroVisual, VideoThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
@@ -138,11 +139,7 @@ export default function SportsPage() {
 
       {/* Breadcrumb + header */}
       <div className="mb-6">
-        <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
-          <Link href="/" className="hover:text-gray-900 transition-colors no-underline">Home</Link>
-          <span>/</span>
-          <span className="text-gray-400">Sports</span>
-        </div>
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Sports' }]} light />
         <div className="flex gap-0 border-b border-gray-200 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SPORT_TABS.map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}

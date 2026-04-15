@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useState } from 'react';
 import { VideoThumbnail, NewsThumbnail } from '@/components/NewsThumbnail';
 
@@ -84,11 +85,7 @@ export default function VideosPage() {
 
       {/* Page title + tabs */}
       <div className="mb-6">
-        <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
-          <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
-          <span>/</span>
-          <span className="text-gray-400">Videos</span>
-        </div>
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
         <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}

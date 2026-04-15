@@ -10,6 +10,7 @@
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import WatchlistClient from './WatchlistClient';
+import Breadcrumb from '@/components/Breadcrumb';
 
 export default async function WatchlistPage() {
   const user = await currentUser();
@@ -20,6 +21,7 @@ export default async function WatchlistPage() {
 
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-8">
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Watchlist' }]} />
       {/* Page header */}
       <div className="mb-8 flex items-start justify-between">
         <div>

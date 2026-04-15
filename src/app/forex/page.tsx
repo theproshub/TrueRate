@@ -3,6 +3,7 @@
  */
 
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import ForexClient from './ForexClient';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { exchangeRates } from '@/data/exchangeRates';
@@ -29,11 +30,7 @@ export default function ForexPage() {
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-5">
-        <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
-        <span>/</span>
-        <span className="text-gray-400">Forex</span>
-      </div>
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Forex' }]} />
 
       <ForexClient seedRates={seedRates} seedDate={null} />
 

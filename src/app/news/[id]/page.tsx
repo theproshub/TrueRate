@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import { newsItems } from '@/data/news';
 import { notFound } from 'next/navigation';
 import { HeroVisual, NewsThumbnail } from '@/components/NewsThumbnail';
@@ -45,13 +46,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     <div className="mx-auto max-w-[1200px] px-4 py-8">
 
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 mb-6 text-[12px] text-gray-400">
-        <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
-        <span>/</span>
-        <Link href="/news" className="hover:text-white transition-colors no-underline">News</Link>
-        <span>/</span>
-        <span className={getCatColor(item.category)}>{item.category}</span>
-      </div>
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category, color: getCatColor(item.category) }]} />
 
       <div className="flex flex-col lg:flex-row gap-10">
 

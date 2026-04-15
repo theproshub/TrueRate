@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useState } from 'react';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
@@ -78,11 +79,7 @@ export default function EntertainmentPage() {
 
       {/* Breadcrumb + header */}
       <div className="mb-6">
-        <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
-          <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
-          <span>/</span>
-          <span className="text-gray-400">Culture</span>
-        </div>
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Culture' }]} />
         <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {['All', ...SUB_NAV].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}

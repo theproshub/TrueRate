@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 
 const REPORTS = [
   { title: 'Liberia Mining Sector Outlook Q2 2026', category: 'Sector', date: 'Apr 1, 2026', pages: 18, premium: false },
@@ -20,6 +21,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 export default function ResearchPage() {
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-8">
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Research' }]} />
       <h1 className="mb-1 text-[26px] font-bold text-white">Research</h1>
       <p className="mb-8 text-[13px] text-gray-500">Equity research, macro analysis, and sector reports on Liberia & West Africa</p>
 

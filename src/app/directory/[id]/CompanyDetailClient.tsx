@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 import type { Company } from '@/lib/types';
 import { COMPANIES } from '@/data/companies';
 
@@ -219,13 +220,7 @@ export default function CompanyDetailClient({ company }: { company: Company }) {
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-10">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-6">
-        <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
-        <span>/</span>
-        <Link href="/directory" className="hover:text-white transition-colors no-underline">Directory</Link>
-        <span>/</span>
-        <span className="text-gray-400 truncate">{company.name}</span>
-      </div>
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Directory', href: '/directory' }, { label: company.name }]} />
 
       {/* Profile header */}
       <div className="mb-8 pb-6 border-b border-white/[0.06]">

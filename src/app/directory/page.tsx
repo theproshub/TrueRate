@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { COMPANIES, FEATURED_COMPANIES } from '@/data/companies';
 import DirectoryClient from './DirectoryClient';
 import Link from 'next/link';
+import Breadcrumb from '@/components/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'Business Directory — TrueRate',
@@ -63,11 +64,7 @@ export default function DirectoryPage() {
     <main className="mx-auto max-w-[1320px] px-4 py-10">
       {/* Header */}
       <div className="mb-8 pb-6 border-b border-white/[0.06]">
-        <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
-          <Link href="/" className="hover:text-white transition-colors no-underline">Home</Link>
-          <span>/</span>
-          <span>Business Directory</span>
-        </div>
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Business Directory' }]} />
         <div className="flex items-center justify-end gap-4 flex-wrap">
           <p className="text-[13px] text-gray-400 shrink-0">{COMPANIES.length} companies</p>
         </div>
