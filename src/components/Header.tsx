@@ -300,30 +300,61 @@ export default function Header() {
       {/* Bloomberg-style secondary nav */}
       <div className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
         <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
-          {/* Nav items */}
-          {[
-            { label: 'Markets',         href: '/forex' },
-            { label: 'Companies',       href: '/directory' },
-            { label: 'Lifestyle',       href: '/entertainment' },
-            { label: 'Watch Now',       href: '/videos' },
-          ].map(({ label, href }) => {
-            const isActive = pathname.startsWith(href);
-            return (
-              <Link key={label} href={href}
-                className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
-                  isActive
-                    ? 'border-emerald-400 text-emerald-400'
-                    : isLight ? 'border-transparent text-gray-500 hover:text-gray-900' : 'border-transparent text-white/70 hover:text-white'
-                }`}>
-                {label}
-              </Link>
-            );
-          })}
 
-          {/* Rate ticker — right-aligned */}
-          <div className={`ml-auto pl-4 border-l py-2 ${isLight ? 'border-gray-200' : 'border-white/[0.06]'}`}>
-            <RateTicker isLight={isLight} />
-          </div>
+          {pathname.startsWith('/sports') ? (
+            /* Sports-specific tabs */
+            <>
+              {[
+                { label: 'All',               href: '/sports' },
+                { label: 'Transfers & Deals', href: '/sports?tab=transfers-deals' },
+                { label: 'Broadcast Rights',  href: '/sports?tab=broadcast-rights' },
+                { label: 'Club Finance',      href: '/sports?tab=club-finance' },
+                { label: 'Sponsorship',       href: '/sports?tab=sponsorship' },
+              ].map(({ label, href }) => {
+                const tabParam = href.includes('?tab=') ? href.split('?tab=')[1] : '';
+                const currentTab = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('tab') ?? '' : '';
+                const isActive = tabParam ? currentTab === tabParam : !currentTab;
+                return (
+                  <Link key={label} href={href}
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                      isActive
+                        ? 'border-gray-900 text-gray-900'
+                        : 'border-transparent text-gray-500 hover:text-gray-800'
+                    }`}>
+                    {label}
+                  </Link>
+                );
+              })}
+            </>
+          ) : (
+            /* Default global nav items */
+            <>
+              {[
+                { label: 'Markets',   href: '/forex' },
+                { label: 'Companies', href: '/directory' },
+                { label: 'Lifestyle', href: '/entertainment' },
+                { label: 'Watch Now', href: '/videos' },
+              ].map(({ label, href }) => {
+                const isActive = pathname.startsWith(href);
+                return (
+                  <Link key={label} href={href}
+                    className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                      isActive
+                        ? 'border-emerald-400 text-emerald-400'
+                        : isLight ? 'border-transparent text-gray-500 hover:text-gray-900' : 'border-transparent text-white/70 hover:text-white'
+                    }`}>
+                    {label}
+                  </Link>
+                );
+              })}
+
+              {/* Rate ticker — right-aligned */}
+              <div className={`ml-auto pl-4 border-l py-2 ${isLight ? 'border-gray-200' : 'border-white/[0.06]'}`}>
+                <RateTicker isLight={isLight} />
+              </div>
+            </>
+          )}
+
         </div>
       </div>
 

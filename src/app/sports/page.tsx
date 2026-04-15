@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { useState } from 'react';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { NewsThumbnail, HeroVisual, VideoThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
 
 /* ── data ── */
-const SPORT_TABS = ['All', 'Transfers & Deals', 'Broadcast Rights', 'Club Finance', 'Sponsorship'];
 
 const SCORES = [
   { home: 'Liberia',          away: 'Ghana',           homeScore: 2,  awayScore: 1,  status: 'FT',   competition: 'WAFU Cup' },
@@ -130,28 +130,25 @@ const BUSINESS_METRICS = [
   { label: 'NBL Africa Monrovia Gate Revenue', value: '$1.1M',  change: 'Projected', up: true  },
 ];
 
-export default function SportsPage() {
-  const [activeTab, setActiveTab] = useState('All');
+const TAB_PARAM_MAP: Record<string, string> = {
+  'transfers-deals':  'Transfers & Deals',
+  'broadcast-rights': 'Broadcast Rights',
+  'club-finance':     'Club Finance',
+  'sponsorship':      'Sponsorship',
+};
+
+function SportsPageInner() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab') ?? '';
+  const activeTab = TAB_PARAM_MAP[tabParam] ?? 'All';
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
-      {/* Breadcrumb + header */}
+      {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Sports' }]} light />
-        <div className="flex gap-0 border-b border-gray-200 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {SPORT_TABS.map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
-                activeTab === tab
-                  ? 'border-gray-900 text-gray-900'
-                  : 'border-transparent text-gray-500 hover:text-gray-800'
-              }`}>
-              {tab}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Scores ticker */}
@@ -177,6 +174,14 @@ export default function SportsPage() {
           ))}
         </div>
       </div>
+
+      {/* Active tab label */}
+      {activeTab !== 'All' && (
+        <div className="mb-5 flex items-center gap-2">
+          <span className="text-[12px] font-bold uppercase tracking-widest text-gray-400">Viewing:</span>
+          <span className="text-[12px] font-bold text-gray-900">{activeTab}</span>
+        </div>
+      )}
 
       <div className="flex gap-6">
         {/* Main column */}
@@ -214,7 +219,7 @@ export default function SportsPage() {
           </div>
 
           {/* Transfer table */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
+          {(activeTab === 'All' || activeTab === 'Transfers & Deals') && <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <h2 className="text-[15px] font-bold text-gray-900">Transfer Tracker</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Deal values · Apr 2026</span>
@@ -245,10 +250,10 @@ export default function SportsPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div>}
 
           {/* Broadcast rights */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
+          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <h2 className="text-[15px] font-bold text-gray-900">Broadcast Rights</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Current deals</span>
@@ -277,10 +282,10 @@ export default function SportsPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div>}
 
           {/* Feed */}
-          <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-8">
             <h2 className="text-[17px] font-bold text-gray-900 mb-5">Analysis</h2>
             <div className="flex flex-col divide-y divide-gray-100">
               {FEED.map((item, i) => (
@@ -301,10 +306,10 @@ export default function SportsPage() {
                 </Link>
               ))}
             </div>
-          </div>
+          </div>}
 
           {/* Sponsorship */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
+          {(activeTab === 'All' || activeTab === 'Sponsorship') && <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <h2 className="text-[15px] font-bold text-gray-900">Major Sponsorship Deals</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Liberia &amp; West Africa</span>
@@ -333,7 +338,7 @@ export default function SportsPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div>}
 
           {/* Player Spotlight */}
           <div className="mb-8">
@@ -366,7 +371,7 @@ export default function SportsPage() {
           </div>
 
           {/* Top Performers */}
-          <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Club Finance') && <div className="mb-8">
             <h2 className="text-[17px] font-bold text-gray-900 mb-4">Top Performers</h2>
             <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
               <table className="w-full text-[13px]">
@@ -390,7 +395,7 @@ export default function SportsPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div>}
 
           {/* WAFU Cup Group Standings */}
           <div className="mb-8">
@@ -589,5 +594,13 @@ export default function SportsPage() {
       </div>
     </main>
     </div>
+  );
+}
+
+export default function SportsPage() {
+  return (
+    <Suspense>
+      <SportsPageInner />
+    </Suspense>
   );
 }
