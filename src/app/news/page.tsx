@@ -97,17 +97,6 @@ const EDITORS_PICKS = [
   },
 ];
 
-const LATEST_HEADLINES = [
-  { category: 'policy',      title: 'CBL RTGS upgrade cuts settlement time to under 90 seconds', time: '22m ago' },
-  { category: 'commodities', title: 'Palm oil futures drop 1.8% on Malaysia export data', time: '1h ago' },
-  { category: 'economy',     title: 'Orange Money crosses 1 million active users in Liberia', time: '2h ago' },
-  { category: 'forex',       title: 'LRD gains against CFA franc for third consecutive session', time: '3h ago' },
-  { category: 'policy',      title: 'Legislature passes amended Revenue Code — new mining royalty tiers in effect', time: '4h ago' },
-  { category: 'economy',     title: 'Monrovia rent prices up 34% year-on-year as urban population grows', time: '5h ago' },
-  { category: 'commodities', title: 'Cargill signs cocoa supply deal with seven Liberian cooperatives', time: '6h ago' },
-  { category: 'economy',     title: 'LiberAgro IPO oversubscribed 3.1x on Ghana Stock Exchange debut', time: '8h ago' },
-];
-
 const ARCHIVES = [
   { title: "Why Liberia's Rubber Sector Has Never Reached Its Potential — A 30-Year Retrospective",     date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
   { title: "The History of CBL Independence: From Post-War Reconstruction to Modern Monetary Policy",   date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
@@ -369,7 +358,7 @@ function RightRail() {
             {newsItems.slice(0, 5).map((item, i) => (
               <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                 <span className="shrink-0 text-[20px] font-black text-gray-300 tabular-nums w-5 leading-none pt-0.5">{i + 1}</span>
-                <p className="text-[12px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-3">{item.title}</p>
+                <p className="text-[12px] font-bold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-3">{item.title}</p>
               </Link>
             ))}
           </div>
@@ -512,23 +501,6 @@ function NewsPageInner() {
         </div>
       </div>
 
-      {/* Latest headlines strip */}
-      <div className="mb-5 rounded-xl border border-gray-200 bg-white overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
-          <h2 className="text-[12px] font-bold uppercase tracking-widest text-gray-900">Latest</h2>
-          <span className="text-[11px] text-gray-400">Updated 22m ago</span>
-        </div>
-        <div className="divide-y divide-gray-100">
-          {LATEST_HEADLINES.map((h, i) => (
-            <Link key={i} href="/news" className="group flex items-center gap-3 px-4 py-2.5 no-underline hover:bg-gray-50 transition-colors">
-              <span className={`shrink-0 text-[9px] font-black uppercase tracking-widest ${getCatColor(h.category)} w-[60px]`}>{h.category}</span>
-              <p className="flex-1 text-[13px] text-gray-700 group-hover:text-gray-900 transition-colors leading-snug line-clamp-1">{h.title}</p>
-              <span className="shrink-0 text-[11px] text-gray-400 tabular-nums">{h.time}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-
       {/* Three-column layout */}
       <div className="flex gap-6">
 
@@ -606,7 +578,7 @@ function NewsPageInner() {
                     <NewsThumbnail category={item.category} className="w-full h-[80px]" />
                   </div>
                   <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
+                  <h3 className="text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
                   <div className="text-[10px] text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
                 </Link>
               ))}

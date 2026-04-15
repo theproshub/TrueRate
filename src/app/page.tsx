@@ -206,11 +206,11 @@ function FeaturedColumn() {
           <HeroVisual category={featured.category} />
         </div>
         <div className="mt-3">
-          <h2 className="text-[24px] sm:text-[26px] font-black leading-tight text-white text-center group-hover:text-white/80 transition-colors mb-2 tracking-tight">
+          <h2 className="font-poppins text-[24px] sm:text-[26px] font-black leading-tight text-white text-center group-hover:text-white/80 transition-colors mb-2 tracking-tight">
             <Link href={`/news/${featured.id}`} className="no-underline">{featured.title}</Link>
           </h2>
-          <p className="line-clamp-2 text-[15px] leading-relaxed text-gray-400 text-center">{featured.summary}</p>
-          <div className="flex items-center justify-center gap-1.5 mt-2">
+          <p className="font-montserrat line-clamp-2 text-[15px] leading-relaxed text-gray-400 text-center">{featured.summary}</p>
+          <div className="font-montserrat flex items-center justify-center gap-1.5 mt-2">
             <span className="text-[13px] text-gray-500">{featured.source}</span>
             <span className="text-gray-500">·</span>
             <span className="text-[13px] text-gray-500">{timeAgo(featured.date)}</span>
@@ -223,10 +223,10 @@ function FeaturedColumn() {
         {[sub1, sub2].map((item) => (
           <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
             <div className="flex-1 min-w-0 order-1 sm:order-none">
-              <h3 className="sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
+              <h3 className="font-poppins sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
                 <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
               </h3>
-              <div className="mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
+              <div className="font-montserrat mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
               <NewsThumbnail category={item.category} className="h-[76px] w-[100px] sm:w-full sm:h-[100px]" />
@@ -240,10 +240,10 @@ function FeaturedColumn() {
         {[newsItems[3], newsItems[4]].map((item) => (
           <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
             <div className="flex-1 min-w-0 order-1 sm:order-none">
-              <h3 className="sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
+              <h3 className="font-poppins sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
                 <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
               </h3>
-              <div className="mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
+              <div className="font-montserrat mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
               <NewsThumbnail category={item.category} className="h-[76px] w-[100px] sm:w-full sm:h-[100px]" />

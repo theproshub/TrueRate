@@ -31,7 +31,7 @@ const isClerkConfigured =
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const content = (
-    <body className={`${poppins.variable} ${montserrat.variable} font-poppins bg-brand-dark`} style={{ background: '#050d11' }}>
+    <body className={`${poppins.className} ${poppins.variable} ${montserrat.variable} font-poppins bg-brand-dark`} style={{ background: '#050d11' }}>
       <Header />
       {children}
       <Footer />
