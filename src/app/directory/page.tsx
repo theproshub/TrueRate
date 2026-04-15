@@ -90,16 +90,11 @@ export default function DirectoryPage() {
     <main className="mx-auto max-w-[1320px] px-4 py-8">
 
       {/* Header */}
-      <div className="mb-8">
-        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Business Directory' }]} />
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <h1 className="text-[28px] font-black text-white leading-tight">Business Directory</h1>
-          </div>
-          <span className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12px] font-semibold text-gray-400">
-            {COMPANIES.length} companies
-          </span>
-        </div>
+      <div className="mb-8 flex items-center justify-between">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Business Directory' }]} className="mb-0" />
+        <span className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12px] font-semibold text-gray-400">
+          {COMPANIES.length} companies
+        </span>
       </div>
 
       {/* Sector stats */}
