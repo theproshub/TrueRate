@@ -31,7 +31,7 @@ const isClerkConfigured =
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const content = (
-    <body className={`${poppins.className} ${poppins.variable} ${montserrat.variable} font-poppins bg-brand-dark`} style={{ background: '#050d11' }}>
+    <body className={`${poppins.className} ${montserrat.className} ${poppins.variable} ${montserrat.variable} bg-brand-dark`} style={{ background: '#050d11', fontFamily: 'var(--font-poppins), Poppins, sans-serif' }}>
       <Header />
       {children}
       <Footer />
@@ -40,6 +40,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" className={`${poppins.variable} ${montserrat.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       {isClerkConfigured ? <ClerkProvider>{content}</ClerkProvider> : content}
     </html>
   );
