@@ -393,11 +393,11 @@ function CommoditiesWidget() {
           <h2 className="text-[15px] font-bold text-white">Commodities</h2>
           <p className="text-[11px] text-gray-400 mt-0.5">Liberia-relevant · Apr 3, 2026</p>
         </div>
-        <Link href="/economy" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
+        <Link href="/commodities" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {COMMODITIES_WITH_CONTEXT.map(c => (
-          <Link key={c.name} href="/economy" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
+          <Link key={c.name} href="/commodities" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-400">{c.unit}</span></div>
               <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{c.note}</div>
@@ -788,7 +788,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT: Sidebar — col 10-12 */}
-          <aside className="order-3 lg:col-span-3 lg:border-l lg:border-white/[0.05] lg:pl-5 lg:self-start">
+          <aside className="order-3 lg:col-span-3 lg:border-l lg:border-white/[0.05] lg:pl-5 lg:self-start lg:sticky lg:top-[calc(var(--header-h,124px)+16px)] lg:max-h-[calc(100vh-var(--header-h,124px)-32px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <LatestSidebar />
           </aside>
 

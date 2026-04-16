@@ -132,7 +132,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
         {/* ── Sidebar ── */}
         <aside className="w-full lg:w-[260px] shrink-0">
-          <div className="lg:sticky lg:top-[120px] flex flex-col gap-6">
+          <div className="lg:sticky flex flex-col gap-6 lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ top: 'calc(var(--header-h, 124px) + 16px)', maxHeight: 'calc(100vh - var(--header-h, 124px) - 32px)' }}>
 
             {/* Latest Headlines */}
             <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">

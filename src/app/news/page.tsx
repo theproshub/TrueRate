@@ -161,7 +161,7 @@ const COMMUNITY_VOICES = [
 
 function TrendingPanel() {
   return (
-    <aside className="hidden lg:block w-[270px] shrink-0 sticky" style={{ top: 'calc(var(--header-h, 124px) + 16px)' }}>
+    <aside className="hidden lg:block w-[270px] shrink-0 sticky overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ top: 'calc(var(--header-h, 124px) + 16px)', maxHeight: 'calc(100vh - var(--header-h, 124px) - 32px)' }}>
       <div>
         <div className="flex items-center gap-2 mb-3">
           <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
@@ -310,7 +310,7 @@ function FeedList({ tab }: { tab: string }) {
 
 function RightRail() {
   return (
-    <aside className="hidden xl:block w-[300px] shrink-0 sticky" style={{ top: 'calc(var(--header-h, 124px) + 16px)' }}>
+    <aside className="hidden xl:block w-[300px] shrink-0 sticky overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ top: 'calc(var(--header-h, 124px) + 16px)', maxHeight: 'calc(100vh - var(--header-h, 124px) - 32px)' }}>
       <div className="flex flex-col gap-5">
 
         {/* Newsletter */}
