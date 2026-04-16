@@ -67,14 +67,14 @@ const MORE_SECTIONS: Record<string, string[]> = {
 
 const MORE_LINK_MAP: Record<string, Record<string, string>> = {
   'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
-  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
+  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/commodities', 'Watchlist': '/watchlist' },
   'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
   'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
 };
 
 const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
   'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
-  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/economy', 'Watchlist': '/watchlist' },
+  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/commodities', 'Watchlist': '/watchlist' },
   'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
   'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
   'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/news', 'Travel': '/news' },
@@ -239,7 +239,7 @@ export default function Header() {
         {/* Super nav + More dropdown */}
         <div className="hidden sm:flex items-center gap-0.5">
           {([
-            { label: 'Business',      href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') && !pathname.startsWith('/news') },
+            { label: 'Business',      href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') && !pathname.startsWith('/news') && !pathname.startsWith('/commodities') && !pathname.startsWith('/forex') },
             { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
@@ -343,10 +343,11 @@ export default function Header() {
             /* Default global nav items */
             <>
               {[
-                { label: 'Markets',   href: '/forex' },
-                { label: 'Companies', href: '/directory' },
-                { label: 'Lifestyle', href: '/entertainment' },
-                { label: 'Watch Now', href: '/videos' },
+                { label: 'Markets',     href: '/forex' },
+                { label: 'Commodities', href: '/commodities' },
+                { label: 'Companies',   href: '/directory' },
+                { label: 'Lifestyle',   href: '/entertainment' },
+                { label: 'Watch Now',   href: '/videos' },
               ].map(({ label, href }) => {
                 const isActive = pathname.startsWith(href);
                 return (
