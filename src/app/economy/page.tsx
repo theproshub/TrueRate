@@ -9,6 +9,7 @@ import { getCatColor } from '@/lib/category-colors';
 
 /* ── data ── */
 const HERO = {
+  href: '/news/1',
   category: 'Monetary Policy',
   title: 'CBL Holds Rate at 20% as Food Prices Keep Inflation Elevated',
   desc: 'The Central Bank of Liberia left its benchmark rate unchanged for a third consecutive meeting, citing stubborn food inflation despite easing pressure from imported goods.',
@@ -17,36 +18,11 @@ const HERO = {
 };
 
 const TOP_STORIES = [
-  {
-    category: 'Growth',
-    title: 'IMF Raises Liberia Growth Forecast to 5.1% on Mining Rebound',
-    author: 'Sarah Pewee',
-    time: '4h ago',
-  },
-  {
-    category: 'Trade',
-    title: 'Iron Ore Exports Jump 18% in Q1, Boosting Current Account',
-    author: 'David Toe',
-    time: '6h ago',
-  },
-  {
-    category: 'Fiscal',
-    title: "Liberia's 2026 Budget Deficit Narrows to 2.8% of GDP",
-    author: 'Monica Wreh',
-    time: '9h ago',
-  },
-  {
-    category: 'Banking',
-    title: 'Ecobank Liberia Reports 14% Deposit Growth in Q1 2026',
-    author: 'J. Kollie',
-    time: '11h ago',
-  },
-  {
-    category: 'Energy',
-    title: 'Liberia Energy Authority Approves Two New 40MW Solar Projects',
-    author: 'FrontPage Africa',
-    time: '1d ago',
-  },
+  { href: '/news/4',  category: 'Growth',   title: 'IMF Raises Liberia Growth Forecast to 5.1% on Mining Rebound',   author: 'Sarah Pewee',      time: '4h ago'  },
+  { href: '/news/35', category: 'Trade',    title: 'Iron Ore Exports Jump 18% in Q1, Boosting Current Account',       author: 'David Toe',        time: '6h ago'  },
+  { href: '/news/31', category: 'Fiscal',   title: "Liberia's 2026 Budget Deficit Narrows to 2.8% of GDP",            author: 'Monica Wreh',      time: '9h ago'  },
+  { href: '/news/12', category: 'Banking',  title: 'Ecobank Liberia Reports 14% Deposit Growth in Q1 2026',           author: 'J. Kollie',        time: '11h ago' },
+  { href: '/news/30', category: 'Energy',   title: 'Liberia Energy Authority Approves Two New 40MW Solar Projects',   author: 'FrontPage Africa', time: '1d ago'  },
 ];
 
 // Seed values — replaced with live World Bank data after mount
@@ -62,9 +38,9 @@ const SEED_INDICATORS = [
 ];
 
 const LIBERIA_STORIES = [
-  { title: 'Rubber Sector Revival: Firestone Expansion Adds 2,400 Jobs',           time: '1d ago', category: 'Agriculture' },
-  { title: 'Diaspora Remittances Hit Record $680M, Cushioning External Shock',      time: '2d ago', category: 'economy' },
-  { title: 'Monrovia Port Expansion Breaks Ground, $200M Chinese-Backed Project',  time: '3d ago', category: 'Trade' },
+  { href: '/news/27', title: 'Rubber Sector Revival: Firestone Expansion Adds 2,400 Jobs',          time: '1d ago', category: 'Agriculture' },
+  { href: '/news/10', title: 'Diaspora Remittances Hit Record $680M, Cushioning External Shock',     time: '2d ago', category: 'economy' },
+  { href: '/news/26', title: 'Monrovia Port Expansion Breaks Ground, $200M Chinese-Backed Project', time: '3d ago', category: 'Trade' },
 ];
 
 const WEST_AFRICA_STORIES = [
@@ -74,13 +50,14 @@ const WEST_AFRICA_STORIES = [
 ];
 
 const CENTRAL_BANK_STORIES = [
-  { title: 'CBL Launches New Digital Payment Infrastructure Pilot in Monrovia',     time: '2d ago', category: 'Monetary Policy' },
-  { title: 'Reserve Requirements Raised to 20% to Tighten Excess Liquidity',       time: '4d ago', category: 'Monetary Policy' },
-  { title: 'Liberia Joins African Central Banks Digital Currency Working Group',    time: '5d ago', category: 'Monetary Policy' },
+  { href: '/news/21', title: 'CBL Launches New Digital Payment Infrastructure Pilot in Monrovia',  time: '2d ago', category: 'Monetary Policy' },
+  { href: '/news/28', title: 'Reserve Requirements Raised to 20% to Tighten Excess Liquidity',    time: '4d ago', category: 'Monetary Policy' },
+  { href: '/news/19', title: 'Liberia Joins African Central Banks Digital Currency Working Group', time: '5d ago', category: 'Monetary Policy' },
 ];
 
 const ANALYSIS = [
   {
+    href: '/news/1',
     label: 'Analysis',
     category: 'Analysis',
     title: "Why Liberia's Rate Pause May Last Longer Than Markets Expect",
@@ -89,6 +66,7 @@ const ANALYSIS = [
     time: '3h ago',
   },
   {
+    href: '/news/18',
     label: 'Opinion',
     category: 'policy',
     title: 'The Case for a Liberian Sovereign Wealth Fund',
@@ -100,18 +78,21 @@ const ANALYSIS = [
 
 const GLOBAL_MACRO = [
   {
+    href: '/news/35',
     category: 'China',
     displayCategory: 'commodities',
     title: 'China Steel Demand Slowdown Weighs on Iron Ore Prices, Hits Liberia Export Revenue',
     summary: 'A contraction in Chinese property construction has pushed iron ore spot prices down 12% since January, directly threatening Liberia\'s largest export earner.',
   },
   {
+    href: '/news/2',
     category: 'US Fed',
     displayCategory: 'forex',
     title: 'Federal Reserve Hold Lifts Dollar, Tightens Liberia\'s LRD Defence Costs',
     summary: 'The Fed\'s decision to keep rates elevated sustains dollar strength, increasing the CBL\'s cost of maintaining LRD stability and compressing import purchasing power.',
   },
   {
+    href: '/news/29',
     category: 'EU Trade',
     displayCategory: 'Trade',
     title: 'EU Carbon Border Mechanism May Reshape Liberia\'s Rubber and Timber Export Markets',
@@ -128,9 +109,9 @@ const POLICY_TIMELINE = [
 ];
 
 const INFRA_STORIES = [
-  { category: 'Ports',   displayCategory: 'Infrastructure', title: 'Monrovia Port Phase 2 Expansion Breaks Ground — $200M Chinese-Backed Contract', time: '3d ago' },
-  { category: 'Roads',   displayCategory: 'Infrastructure', title: 'AfDB Awards $85M Road Contract Linking Buchanan to Grand Bassa Mining Corridor', time: '5d ago' },
-  { category: 'Energy',  displayCategory: 'Energy',         title: 'Liberia Attracts First Utility-Scale Solar Bid — 50MW Project Near Monrovia',    time: '6d ago' },
+  { href: '/news/26', category: 'Ports',  displayCategory: 'Infrastructure', title: 'Monrovia Port Phase 2 Expansion Breaks Ground — $200M Chinese-Backed Contract', time: '3d ago' },
+  { href: '/news/16', category: 'Roads',  displayCategory: 'Infrastructure', title: 'AfDB Awards $85M Road Contract Linking Buchanan to Grand Bassa Mining Corridor', time: '5d ago' },
+  { href: '/news/30', category: 'Energy', displayCategory: 'Energy',         title: 'Liberia Attracts First Utility-Scale Solar Bid — 50MW Project Near Monrovia',    time: '6d ago' },
 ];
 
 const EXPORT_STATS = [
@@ -148,18 +129,18 @@ const POLICY_CALENDAR = [
 ];
 
 const MOST_READ = [
-  'CBL Holds Rate at 17.5% — Full Statement',
-  'IMF Growth Upgrade: What the Numbers Really Mean',
-  "Liberia's Debt Burden: A Closer Look at the $2.1B Figure",
-  'Iron Ore Price Surge: How Long Can It Last?',
-  'ECOWAS Trade Deal — Winners and Losers for Liberia',
+  { href: '/news/1',  title: 'CBL Holds Rate at 17.5% — Full Statement' },
+  { href: '/news/4',  title: 'IMF Growth Upgrade: What the Numbers Really Mean' },
+  { href: '/news/19', title: "Liberia's Debt Burden: A Closer Look at the $2.1B Figure" },
+  { href: '/news/35', title: 'Iron Ore Price Surge: How Long Can It Last?' },
+  { href: '/news/29', title: 'ECOWAS Trade Deal — Winners and Losers for Liberia' },
 ];
 
 const TOPICS = ['All', 'Monetary Policy', 'Growth', 'Inflation', 'Trade', 'Fiscal', 'West Africa'];
 
-function StoryCard({ title, time, category }: { title: string; time: string; category?: string }) {
+function StoryCard({ title, time, category, href }: { title: string; time: string; category?: string; href?: string }) {
   return (
-    <Link href="/economy" className="group flex flex-col no-underline">
+    <Link href={href ?? '/economy'} className="group flex flex-col no-underline">
       <div className="relative overflow-hidden rounded-xl mb-3">
         <NewsThumbnail category={category ?? 'economy'} className="w-full h-[170px]" />
       </div>
@@ -276,7 +257,7 @@ export default function EconomyPage() {
       {/* Hero + Top Stories */}
       <div className="flex flex-col sm:flex-row gap-6 mb-10">
         {/* Hero */}
-        <Link href="/economy" className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 no-underline block">
+        <Link href={HERO.href} className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 no-underline block">
           <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
@@ -290,7 +271,7 @@ export default function EconomyPage() {
         {/* Top stories */}
         <div className="w-full sm:w-[280px] shrink-0 flex flex-col justify-between">
           {TOP_STORIES.map((s, i) => (
-            <Link key={i} href="/economy" className="group flex gap-3 no-underline">
+            <Link key={i} href={s.href ?? '/economy'} className="group flex gap-3 no-underline">
               <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
                 <NewsThumbnail category={s.category} className="w-full h-[60px]" />
               </div>
@@ -327,7 +308,7 @@ export default function EconomyPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {ANALYSIS.map((a, i) => (
-                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-2xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href={a.href ?? '/economy'} className="group flex flex-col no-underline rounded-2xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={a.category} className="w-full h-[180px]" />
                   </div>
@@ -372,7 +353,7 @@ export default function EconomyPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {GLOBAL_MACRO.map((s, i) => (
-                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href={s.href} className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
@@ -419,7 +400,7 @@ export default function EconomyPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {INFRA_STORIES.map((s, i) => (
-                <Link key={i} href="/economy" className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href={s.href} className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
@@ -441,14 +422,14 @@ export default function EconomyPage() {
             </div>
             <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
               {[
-                { cat: 'Banking',        title: "Liberia's banking sector sees 14% deposit growth in Q1 2026",                   src: 'FrontPage Africa', time: '2h ago' },
-                { cat: 'Energy',         title: 'Liberia Energy Authority approves two new solar projects totaling 40MW',        src: 'The New Dawn',     time: '5h ago' },
-                { cat: 'Agriculture',    title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy',        src: 'Liberian Observer', time: '7h ago' },
-                { cat: 'Trade',          title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework',   src: 'Reuters',          time: '9h ago' },
-                { cat: 'Tech',           title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending',       src: 'TechCabal',        time: '13h ago' },
-                { cat: 'Policy',         title: 'Finance Ministry tables revised budget with 12% increase in capital spending',  src: 'Daily Observer',   time: '15h ago' },
+                { href: '/news/33', cat: 'Banking',     title: "Liberia's banking sector sees 14% deposit growth in Q1 2026",                  src: 'FrontPage Africa',  time: '2h ago'  },
+                { href: '/news/30', cat: 'Energy',      title: 'Liberia Energy Authority approves two new solar projects totaling 40MW',       src: 'The New Dawn',      time: '5h ago'  },
+                { href: '/news/7',  cat: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy',       src: 'Liberian Observer', time: '7h ago'  },
+                { href: '/news/29', cat: 'Trade',       title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework',  src: 'Reuters',           time: '9h ago'  },
+                { href: '/news/15', cat: 'Tech',        title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending',      src: 'TechCabal',         time: '13h ago' },
+                { href: '/news/31', cat: 'Policy',      title: 'Finance Ministry tables revised budget with 12% increase in capital spending', src: 'Daily Observer',    time: '15h ago' },
               ].map((s, i) => (
-                <Link key={i} href="/economy" className="group flex items-start gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.02] transition-colors">
+                <Link key={i} href={s.href} className="group flex items-start gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.02] transition-colors">
                   <div className="shrink-0 overflow-hidden rounded-lg">
                     <NewsThumbnail category={s.cat} className="h-[64px] w-[90px]" />
                   </div>
@@ -496,10 +477,10 @@ export default function EconomyPage() {
           <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
             <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-4">Most Read</h3>
             <ol className="space-y-4">
-              {MOST_READ.map((title, i) => (
+              {MOST_READ.map((item, i) => (
                 <li key={i} className="flex gap-3">
                   <span className="text-[22px] font-black text-white/10 tabular-nums leading-none shrink-0 w-6">{i + 1}</span>
-                  <Link href="/economy" className="text-[13px] font-semibold text-gray-300 hover:text-white transition-colors no-underline leading-snug">{title}</Link>
+                  <Link href={item.href} className="text-[13px] font-semibold text-gray-300 hover:text-white transition-colors no-underline leading-snug">{item.title}</Link>
                 </li>
               ))}
             </ol>
@@ -512,14 +493,14 @@ export default function EconomyPage() {
             </div>
             <div className="divide-y divide-white/[0.04]">
               {[
-                { time: '16m', headline: 'CBL signals readiness to intervene if LRD weakens past 195' },
-                { time: '46m', headline: 'ArcelorMittal ships first expanded-capacity iron ore batch' },
-                { time: '1h',  headline: 'World Bank approves $45M grant for Liberia road infrastructure' },
-                { time: '2h',  headline: 'Firestone rubber output hits decade high on favorable weather' },
-                { time: '3h',  headline: 'Ecobank raises dividend after strong West Africa quarter' },
-                { time: '5h',  headline: 'IMF praises Liberia fiscal consolidation, urges revenue reform' },
+                { href: '/news/1',  time: '16m', headline: 'CBL signals readiness to intervene if LRD weakens past 195' },
+                { href: '/news/3',  time: '46m', headline: 'ArcelorMittal ships first expanded-capacity iron ore batch' },
+                { href: '/news/16', time: '1h',  headline: 'World Bank approves $45M grant for Liberia road infrastructure' },
+                { href: '/news/5',  time: '2h',  headline: 'Firestone rubber output hits decade high on favorable weather' },
+                { href: '/news/12', time: '3h',  headline: 'Ecobank raises dividend after strong West Africa quarter' },
+                { href: '/news/8',  time: '5h',  headline: 'IMF praises Liberia fiscal consolidation, urges revenue reform' },
               ].map((item, i) => (
-                <Link key={i} href="/economy" className="group flex items-start gap-3 px-4 py-3 no-underline hover:bg-white/[0.02] transition-colors">
+                <Link key={i} href={item.href} className="group flex items-start gap-3 px-4 py-3 no-underline hover:bg-white/[0.02] transition-colors">
                   <span className="shrink-0 tabular-nums text-[11px] text-gray-400 w-7 pt-0.5">{item.time}</span>
                   <span className="text-[12px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.headline}</span>
                 </Link>

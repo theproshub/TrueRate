@@ -18,16 +18,16 @@ function timeAgo(d: string) {
 
 /* ── static data ── */
 const TRENDING = [
-  { rank: 1, title: "Why the CBL Governor isn't cutting rates — even as inflation falls", isNew: true },
-  { rank: 2, title: "ArcelorMittal's $120M Nimba bet: the biggest wager on Liberia in a decade", isNew: true },
-  { rank: 3, title: "Bea Mountain's 1.4M oz discovery: what happens next", isNew: true },
-  { rank: 4, title: "How Firestone turned Harbel into Africa's most productive rubber estate", isNew: false },
-  { rank: 5, title: "The $680M question: where is Liberia's diaspora money actually going?", isNew: false },
-  { rank: 6, title: "Liberia's $50M green bond was oversubscribed 2.4x — now the hard part", isNew: false },
-  { rank: 7, title: "Gold at $3,100: Liberia's miners are positioned for their best year in a decade", isNew: false },
-  { rank: 8, title: "LiberAgro made history on the Ghana Stock Exchange. Nobody noticed.", isNew: false },
-  { rank: 9, title: "Off-grid solar is quietly electrifying Liberia — without the government", isNew: false },
-  { rank: 10, title: "CBL reserves at $642M: what the 13-year high means for monetary policy", isNew: false },
+  { rank: 1,  href: '/news/1',  title: "Why the CBL Governor isn't cutting rates — even as inflation falls", isNew: true },
+  { rank: 2,  href: '/news/3',  title: "ArcelorMittal's $120M Nimba bet: the biggest wager on Liberia in a decade", isNew: true },
+  { rank: 3,  href: '/news/22', title: "Bea Mountain's 1.4M oz discovery: what happens next", isNew: true },
+  { rank: 4,  href: '/news/5',  title: "How Firestone turned Harbel into Africa's most productive rubber estate", isNew: false },
+  { rank: 5,  href: '/news/10', title: "The $680M question: where is Liberia's diaspora money actually going?", isNew: false },
+  { rank: 6,  href: '/news/18', title: "Liberia's $50M green bond was oversubscribed 2.4x — now the hard part", isNew: false },
+  { rank: 7,  href: '/news/17', title: "Gold at $3,100: Liberia's miners are positioned for their best year in a decade", isNew: false },
+  { rank: 8,  href: '/news/25', title: "LiberAgro made history on the Ghana Stock Exchange. Nobody noticed.", isNew: false },
+  { rank: 9,  href: '/news/30', title: "Off-grid solar is quietly electrifying Liberia — without the government", isNew: false },
+  { rank: 10, href: '/news/28', title: "CBL reserves at $642M: what the 13-year high means for monetary policy", isNew: false },
 ];
 
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
@@ -63,16 +63,17 @@ const WEST_AFRICA = [
 ];
 
 const DATA_STORIES = [
-  { stat: '18%',   statLabel: 'Export surge',  title: 'Iron Ore Exports Jump 18% in Q1 — The ArcelorMittal Expansion Is Already Paying Off',          time: '1d ago',  category: 'Mining' },
-  { stat: '$680M', statLabel: 'Remittances',   title: "The $680M Lifeline: How the Liberian Diaspora Outspends the Government's Development Budget",    time: '2d ago',  category: 'economy' },
-  { stat: '5.1%',  statLabel: 'GDP forecast',  title: 'IMF Upgrades Liberia to 5.1% Growth — But the Numbers Hide a Widening Inequality Story',        time: '3d ago',  category: 'economy' },
-  { stat: '2,400', statLabel: 'New jobs',       title: 'Firestone Created 2,400 Jobs in One Quarter. It Should Inspire a National Conversation.',        time: '4d ago',  category: 'Agriculture' },
-  { stat: '$642M', statLabel: 'FX Reserves',   title: "Liberia's 13-Year Reserve High Is a Cushion — But the CBL Needs a Strategy for What Comes Next", time: '5d ago',  category: 'policy' },
-  { stat: '48MW',  statLabel: 'Solar added',   title: "Private Entrepreneurs Just Did What the Government Couldn't: Power 190,000 Liberian Homes",       time: '6d ago',  category: 'economy' },
+  { href: '/news/35', stat: '18%',   statLabel: 'Export surge', title: 'Iron Ore Exports Jump 18% in Q1 — The ArcelorMittal Expansion Is Already Paying Off',          time: '1d ago', category: 'Mining' },
+  { href: '/news/10', stat: '$680M', statLabel: 'Remittances',  title: "The $680M Lifeline: How the Liberian Diaspora Outspends the Government's Development Budget",    time: '2d ago', category: 'economy' },
+  { href: '/news/4',  stat: '5.1%',  statLabel: 'GDP forecast', title: 'IMF Upgrades Liberia to 5.1% Growth — But the Numbers Hide a Widening Inequality Story',        time: '3d ago', category: 'economy' },
+  { href: '/news/5',  stat: '2,400', statLabel: 'New jobs',     title: 'Firestone Created 2,400 Jobs in One Quarter. It Should Inspire a National Conversation.',        time: '4d ago', category: 'Agriculture' },
+  { href: '/news/28', stat: '$642M', statLabel: 'FX Reserves',  title: "Liberia's 13-Year Reserve High Is a Cushion — But the CBL Needs a Strategy for What Comes Next", time: '5d ago', category: 'policy' },
+  { href: '/news/30', stat: '48MW',  statLabel: 'Solar added',  title: "Private Entrepreneurs Just Did What the Government Couldn't: Power 190,000 Liberian Homes",       time: '6d ago', category: 'economy' },
 ];
 
 const EDITORS_PICKS = [
   {
+    href: '/news/3',
     category: 'Deep Dive',
     title: "ArcelorMittal's $120M Nimba Bet: Three Scenarios for Liberia's Fiscal Future",
     excerpt: "This expansion is more than a mining story — it's a test of whether Liberia can finally translate a commodity boom into lasting public revenue. We model the optimistic case, the base case, and the scenario policymakers don't want to discuss.",
@@ -81,6 +82,7 @@ const EDITORS_PICKS = [
     time: '1d ago',
   },
   {
+    href: '/news/4',
     category: 'Explainer',
     title: "The IMF Said 5.1%. Here's What That Number Actually Means for the Average Liberian.",
     excerpt: "GDP forecasts sound like good news. But the gains from mining-led growth have historically concentrated at the top. We map which sectors are driving the upgrade, who captures the upside — and where the economy is still failing most people.",
@@ -89,6 +91,7 @@ const EDITORS_PICKS = [
     time: '2d ago',
   },
   {
+    href: '/news/18',
     category: 'Investigation',
     title: "Liberia's $50M Green Bond Is Oversubscribed. Now We Need to Talk About Accountability.",
     excerpt: "International investors want a piece of Liberian sovereign paper. But a debut ESG bond is only as credible as its accountability mechanisms. We review every project in the pipeline, the reporting obligations, and the gaps that could cost Liberia its next issuance.",
@@ -171,7 +174,7 @@ function TrendingPanel() {
         </div>
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100">
           {TRENDING.map(item => (
-            <Link key={item.rank} href="/news" className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
+            <Link key={item.rank} href={item.href} className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
               <span className="shrink-0 tabular-nums text-[20px] font-black text-gray-300 leading-none w-5 pt-0.5">{item.rank}</span>
               <div className="min-w-0 flex-1">
                 <p className="text-[13px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-2">{item.title}</p>
@@ -549,7 +552,7 @@ function NewsPageInner() {
             </div>
             <div className="flex flex-col gap-4">
               {EDITORS_PICKS.map((p, i) => (
-                <Link key={i} href="/news" className="group flex gap-4 rounded-xl border border-gray-200 bg-white p-5 no-underline hover:border-gray-300 transition-colors">
+                <Link key={i} href={p.href} className="group flex gap-4 rounded-xl border border-gray-200 bg-white p-5 no-underline hover:border-gray-300 transition-colors">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gray-500">{p.category}</span>
@@ -658,7 +661,7 @@ function NewsPageInner() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {DATA_STORIES.map((s, i) => (
-                <Link key={i} href="/news" className="group flex flex-col no-underline rounded-xl border border-gray-200 bg-white overflow-hidden">
+                <Link key={i} href={s.href} className="group flex flex-col no-underline rounded-xl border border-gray-200 bg-white overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.category} className="w-full h-[120px]" />
                   </div>
