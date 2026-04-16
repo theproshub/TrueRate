@@ -33,9 +33,9 @@ const config: Config = {
         't3':   '#64748b',
       },
       fontFamily: {
-        // Poppins = main brand font, Montserrat = secondary
-        sans:       ['Poppins', 'sans-serif'],
-        poppins:    ['Poppins', 'sans-serif'],
+        // Inter = main brand font (headings/UI), Montserrat = body copy
+        sans:       ['Inter', 'sans-serif'],
+        inter:      ['Inter', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],
       },
     },

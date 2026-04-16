@@ -159,8 +159,21 @@ export default function Header() {
   const [scrolledDown, setScrolledDown] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const lastScrollY = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
 
   const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports');
+
+  // Set --header-h CSS variable so pages can size themselves accurately
+  useEffect(() => {
+    const update = () => {
+      if (headerRef.current) {
+        document.documentElement.style.setProperty('--header-h', `${headerRef.current.offsetHeight}px`);
+      }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   function handleSearch() {
     const q = searchQuery.trim();
@@ -181,7 +194,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-dark border-white/[0.06]'}`}>
+    <header ref={headerRef} className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-dark border-white/[0.06]'}`}>
       {/* Top bar */}
       <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
@@ -215,7 +228,7 @@ export default function Header() {
           <button
             onClick={handleSearch}
             aria-label="Search"
-            className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
+            className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg"
           >
             <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -287,7 +300,7 @@ export default function Header() {
             <button
               onClick={handleSearch}
               aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-9 w-11 bg-emerald-500 hover:bg-emerald-400 transition-colors m-0.5 rounded-lg"
+              className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg"
             >
               <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

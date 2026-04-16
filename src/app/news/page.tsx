@@ -18,80 +18,80 @@ function timeAgo(d: string) {
 
 /* ── static data ── */
 const TRENDING = [
-  { rank: 1, title: 'CBL holds rate for third straight quarter', isNew: true },
-  { rank: 2, title: 'ArcelorMittal Nimba expansion lifts exports', isNew: true },
-  { rank: 3, title: 'Bea Mountain strikes 1.4M oz gold deposit', isNew: true },
-  { rank: 4, title: 'Rubber output hits decade high on Firestone surge', isNew: false },
-  { rank: 5, title: 'World Bank approves $45M infrastructure grant', isNew: false },
-  { rank: 6, title: 'ECOWAS digital payments pilot goes live', isNew: false },
-  { rank: 7, title: 'Gold passes $3,100 — miners positioned to gain', isNew: false },
-  { rank: 8, title: 'Diaspora remittances hit record $680M', isNew: false },
-  { rank: 9, title: 'LiberAgro lists on Ghana Stock Exchange', isNew: false },
-  { rank: 10, title: 'CBL foreign reserves hit $642M — 13-year high', isNew: false },
+  { rank: 1, title: "Why the CBL Governor isn't cutting rates — even as inflation falls", isNew: true },
+  { rank: 2, title: "ArcelorMittal's $120M Nimba bet: the biggest wager on Liberia in a decade", isNew: true },
+  { rank: 3, title: "Bea Mountain's 1.4M oz discovery: what happens next", isNew: true },
+  { rank: 4, title: "How Firestone turned Harbel into Africa's most productive rubber estate", isNew: false },
+  { rank: 5, title: "The $680M question: where is Liberia's diaspora money actually going?", isNew: false },
+  { rank: 6, title: "Liberia's $50M green bond was oversubscribed 2.4x — now the hard part", isNew: false },
+  { rank: 7, title: "Gold at $3,100: Liberia's miners are positioned for their best year in a decade", isNew: false },
+  { rank: 8, title: "LiberAgro made history on the Ghana Stock Exchange. Nobody noticed.", isNew: false },
+  { rank: 9, title: "Off-grid solar is quietly electrifying Liberia — without the government", isNew: false },
+  { rank: 10, title: "CBL reserves at $642M: what the 13-year high means for monetary policy", isNew: false },
 ];
 
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
 
 const BREAKING = [
-  { label: 'FOREX', text: 'LRD/USD steady at 192.50 after CBL open market op' },
-  { label: 'MARKETS', text: 'Iron ore spot price falls 2.1% on China demand data' },
-  { label: 'POLICY', text: 'Finance Ministry confirms mid-year budget review set for Apr 14' },
-  { label: 'TRADE', text: 'Port of Monrovia reports busiest week since 2021' },
-  { label: 'MINING', text: 'Bea Mountain confirms 1.4M oz gold deposit in Grand Cape Mount' },
-  { label: 'ECONOMY', text: 'CBL reserves hit $642M — highest since 2013' },
-  { label: 'ENERGY', text: 'Solar capacity triples as off-grid projects add 48MW across Liberia' },
-  { label: 'FINANCE', text: 'LiberAgro IPO raises $12M on Ghana Stock Exchange' },
+  { label: 'FOREX', text: 'LRD/USD holds at 192.50 — CBL intervenes to anchor exchange rate ahead of budget review' },
+  { label: 'MARKETS', text: "Iron ore drops 2.1% on weak Chinese demand data — ArcelorMittal Liberia watching closely" },
+  { label: 'POLICY', text: 'Finance Ministry sets Apr 14 for mid-year budget review as revenue shortfall widens' },
+  { label: 'TRADE', text: 'Freeport of Monrovia posts strongest weekly throughput since 2021 following Phase II completion' },
+  { label: 'MINING', text: 'Bea Mountain confirms 1.4M oz high-grade deposit — Grand Cape Mount gold rush accelerates' },
+  { label: 'ECONOMY', text: 'CBL gross reserves reach $642M, covering 4.3 months of imports — highest since 2013' },
+  { label: 'ENERGY', text: 'Private mini-grids add 48MW of solar capacity, powering 190,000 homes outside the national grid' },
+  { label: 'CAPITAL MARKETS', text: 'LiberAgro raises $12M in West Africa first cross-border IPO on Ghana Stock Exchange' },
 ];
 
 const OPINION = [
-  { title: "Why Liberia's rubber sector needs a pricing overhaul — now", author: 'Dr. Y. Kollie', role: 'Economic Adviser', time: '2d ago' },
-  { title: 'The case for a Liberia sovereign wealth fund before the mining boom peaks', author: 'Prof. A. Dahn', role: 'University of Liberia', time: '3d ago' },
-  { title: "ECOWAS monetary union: Liberia should lead, not follow", author: 'M. Wreh', role: 'Senior Economist, CBL', time: '4d ago' },
-  { title: "5G is coming — but can Liberia's power grid support it?", author: 'E. Pewu', role: 'Tech Policy Analyst', time: '5d ago' },
-  { title: "The Freeport expansion is great — now fix the hinterland roads", author: 'S. Flomo', role: 'Logistics Economist', time: '6d ago' },
+  { title: "Liberia's rubber pricing model is broken. Here's exactly how to fix it.", author: 'Dr. Y. Kollie', role: 'Economic Adviser, GOL', time: '2d ago' },
+  { title: "We need a sovereign wealth fund before the mining boom peaks. The window is closing.", author: 'Prof. A. Dahn', role: 'University of Liberia', time: '3d ago' },
+  { title: "ECOWAS monetary union is coming. Liberia should lead the conversation, not follow it.", author: 'M. Wreh', role: 'Senior Economist, CBL', time: '4d ago' },
+  { title: "5G will arrive before stable electricity does. That is not a technology problem — it's a governance failure.", author: 'E. Pewu', role: 'Tech Policy Analyst, LIPA', time: '5d ago' },
+  { title: "The Freeport expansion doubled our capacity. The roads behind it haven't changed in 20 years.", author: 'S. Flomo', role: 'Logistics Economist, USAID', time: '6d ago' },
 ];
 
 const WEST_AFRICA = [
-  { country: 'Ghana', title: 'Ghana cedi hits six-month high after IMF tranche release', source: 'Ghana Business News', time: '4h ago' },
-  { country: 'Nigeria', title: 'Nigerian stock exchange posts best month in 18 years on oil rebound', source: 'BusinessDay NG', time: '6h ago' },
-  { country: 'Sierra Leone', title: "Freetown port expansion fast-tracked with $80M Chinese loan", source: 'Awoko', time: '8h ago' },
-  { country: "Côte d'Ivoire", title: "Abidjan bourse outperforms regional peers in Q1 2026", source: 'Agence Ecofin', time: '10h ago' },
-  { country: 'Senegal', title: "Dakar's offshore oil revenue projected at $2.4B for 2026 as Sangomar field ramps", source: 'Jeune Afrique', time: '14h ago' },
-  { country: 'Guinea', title: 'Bauxite production in Guinea surpasses 100M tonnes annually for first time', source: 'Mining Weekly Africa', time: '1d ago' },
-  { country: 'Gambia', title: "Gambia's tourism receipts jump 28% on new European charter routes", source: 'Daily Observer GM', time: '1d ago' },
-  { country: 'Mali', title: 'Mali gold output rises 9% despite political headwinds, Barrick reports', source: 'Reuters Africa', time: '2d ago' },
+  { country: 'Ghana', title: "Ghana cedi at a six-month high — and the IMF tranche is only part of the story", source: 'Ghana Business News', time: '4h ago' },
+  { country: 'Nigeria', title: "Nigeria's bourse just posted its best month in 18 years. Here's who got rich.", source: 'BusinessDay NG', time: '6h ago' },
+  { country: 'Sierra Leone', title: "Freetown's $80M port expansion is a direct challenge to Monrovia's trade ambitions", source: 'Awoko', time: '8h ago' },
+  { country: "Côte d'Ivoire", title: "The Abidjan bourse outperformed every regional peer in Q1. These are the stocks that led.", source: 'Agence Ecofin', time: '10h ago' },
+  { country: 'Senegal', title: "$2.4B in offshore oil revenue projected for 2026 — Dakar is about to have a lot of decisions to make", source: 'Jeune Afrique', time: '14h ago' },
+  { country: 'Guinea', title: "Guinea surpasses 100M tonnes of bauxite output. The wealth is not staying in Guinea.", source: 'Mining Weekly Africa', time: '1d ago' },
+  { country: 'Gambia', title: "Tourism receipts up 28% in Gambia — and Liberia's coast remains largely undiscovered", source: 'Daily Observer GM', time: '1d ago' },
+  { country: 'Mali', title: "Gold output in Mali rises 9% despite the political crisis. Barrick calls it business as usual.", source: 'Reuters Africa', time: '2d ago' },
 ];
 
 const DATA_STORIES = [
-  { stat: '18%',   statLabel: 'Export surge',  title: 'Iron Ore Exports Jump 18% in Q1 as ArcelorMittal Ramps Output',             time: '1d ago',  category: 'Mining' },
-  { stat: '$680M', statLabel: 'Remittances',   title: 'Diaspora Remittances Hit Record $680M — Highest in Liberia\'s History',       time: '2d ago',  category: 'economy' },
-  { stat: '5.1%',  statLabel: 'GDP forecast',  title: 'IMF Upgrades Liberia Growth Forecast to 5.1% on Mining Rebound',             time: '3d ago',  category: 'economy' },
-  { stat: '2,400', statLabel: 'New jobs',       title: 'Firestone Expansion Creates 2,400 Jobs as Rubber Output Hits Decade High',   time: '4d ago',  category: 'Agriculture' },
-  { stat: '$642M', statLabel: 'FX Reserves',   title: 'CBL Foreign Reserves Hit $642M — Highest Level Since 2013',                  time: '5d ago',  category: 'policy' },
-  { stat: '48MW',  statLabel: 'Solar added',   title: 'Off-Grid Solar Triples: 48MW New Capacity Powers 190,000 Liberian Homes',    time: '6d ago',  category: 'economy' },
+  { stat: '18%',   statLabel: 'Export surge',  title: 'Iron Ore Exports Jump 18% in Q1 — The ArcelorMittal Expansion Is Already Paying Off',          time: '1d ago',  category: 'Mining' },
+  { stat: '$680M', statLabel: 'Remittances',   title: "The $680M Lifeline: How the Liberian Diaspora Outspends the Government's Development Budget",    time: '2d ago',  category: 'economy' },
+  { stat: '5.1%',  statLabel: 'GDP forecast',  title: 'IMF Upgrades Liberia to 5.1% Growth — But the Numbers Hide a Widening Inequality Story',        time: '3d ago',  category: 'economy' },
+  { stat: '2,400', statLabel: 'New jobs',       title: 'Firestone Created 2,400 Jobs in One Quarter. It Should Inspire a National Conversation.',        time: '4d ago',  category: 'Agriculture' },
+  { stat: '$642M', statLabel: 'FX Reserves',   title: "Liberia's 13-Year Reserve High Is a Cushion — But the CBL Needs a Strategy for What Comes Next", time: '5d ago',  category: 'policy' },
+  { stat: '48MW',  statLabel: 'Solar added',   title: "Private Entrepreneurs Just Did What the Government Couldn't: Power 190,000 Liberian Homes",       time: '6d ago',  category: 'economy' },
 ];
 
 const EDITORS_PICKS = [
   {
     category: 'Deep Dive',
-    title: "How ArcelorMittal's Nimba Expansion Could Reshape Liberia's Fiscal Future",
-    excerpt: "The $120M expansion is more than a mining story — it's a test of whether Liberia can translate commodity booms into lasting public revenue. We model three scenarios.",
+    title: "ArcelorMittal's $120M Nimba Bet: Three Scenarios for Liberia's Fiscal Future",
+    excerpt: "This expansion is more than a mining story — it's a test of whether Liberia can finally translate a commodity boom into lasting public revenue. We model the optimistic case, the base case, and the scenario policymakers don't want to discuss.",
     author: 'TrueRate Analysis',
     readTime: '8 min read',
     time: '1d ago',
   },
   {
     category: 'Explainer',
-    title: "What the IMF's 5.1% Growth Upgrade Actually Means for Everyday Liberians",
-    excerpt: "GDP forecasts are abstract. We break down which sectors are driving growth, who benefits, and where the gains are unlikely to reach.",
+    title: "The IMF Said 5.1%. Here's What That Number Actually Means for the Average Liberian.",
+    excerpt: "GDP forecasts sound like good news. But the gains from mining-led growth have historically concentrated at the top. We map which sectors are driving the upgrade, who captures the upside — and where the economy is still failing most people.",
     author: 'TrueRate',
     readTime: '5 min read',
     time: '2d ago',
   },
   {
     category: 'Investigation',
-    title: "Inside Liberia's $50M Green Bond: Ambition, Risk, and the Road Ahead",
-    excerpt: "The debut ESG bond was oversubscribed 2.4x — but where will the money go, who is accountable, and what happens if targets are missed?",
+    title: "Liberia's $50M Green Bond Is Oversubscribed. Now We Need to Talk About Accountability.",
+    excerpt: "International investors want a piece of Liberian sovereign paper. But a debut ESG bond is only as credible as its accountability mechanisms. We review every project in the pipeline, the reporting obligations, and the gaps that could cost Liberia its next issuance.",
     author: 'TrueRate Investigation',
     readTime: '11 min read',
     time: '3d ago',
@@ -99,10 +99,10 @@ const EDITORS_PICKS = [
 ];
 
 const ARCHIVES = [
-  { title: "Why Liberia's Rubber Sector Has Never Reached Its Potential — A 30-Year Retrospective",     date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
-  { title: "The History of CBL Independence: From Post-War Reconstruction to Modern Monetary Policy",   date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
-  { title: 'Iron Ore, Timber, Rubber: How Liberia Became Dependent on Three Commodities',              date: 'Sep 2025', category: 'Mining',      readTime: '10 min read' },
-  { title: "Monrovia's Informal Economy: The Hidden Engine Powering Half of Urban Liberia",            date: 'Jul 2025', category: 'economy',     readTime: '9 min read' },
+  { title: "Thirty Years of Missed Opportunity: Why Liberia's Rubber Sector Has Never Matched Its Potential",   date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
+  { title: "From Post-War Reconstruction to Rate Decisions: The Long Road to CBL Independence",                  date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
+  { title: "Iron Ore, Timber, Rubber: The Three-Commodity Trap That Has Defined Liberia's Economy for 60 Years", date: 'Sep 2025', category: 'Mining',      readTime: '10 min read' },
+  { title: "The Invisible Economy: How Monrovia's Informal Sector Powers Half the City — and Gets None of the Credit", date: 'Jul 2025', category: 'economy', readTime: '9 min read' },
 ];
 
 const UPCOMING_EVENTS = [
@@ -118,41 +118,41 @@ const UPCOMING_EVENTS = [
 ];
 
 const VIDEOS = [
-  { title: 'CBL Governor on rate outlook and food inflation', duration: '2:48', category: 'policy', time: '55m ago' },
-  { title: 'ArcelorMittal expansion — what it means for Liberia GDP', duration: '1:52', category: 'Mining', time: '3h ago' },
-  { title: 'Diaspora remittances hit $680M — a new record', duration: '2:31', category: 'economy', time: '12h ago' },
-  { title: 'ECOWAS digital payment pilot: live from Lagos', duration: '3:14', category: 'Trade', time: '1d ago' },
-  { title: 'Bea Mountain gold discovery: what investors need to know', duration: '4:05', category: 'commodities', time: '2d ago' },
-  { title: 'Inside the Freeport expansion — Phase II complete', duration: '3:22', category: 'economy', time: '3d ago' },
+  { title: "CBL Governor: 'We're watching food prices. We're not ready to cut.'", duration: '2:48', category: 'policy', time: '55m ago' },
+  { title: "Inside ArcelorMittal's Nimba Expansion: The $120M Bet Explained in Under 2 Minutes", duration: '1:52', category: 'Mining', time: '3h ago' },
+  { title: "$680M and Counting: How the Liberian Diaspora Became the Country's Biggest Investor", duration: '2:31', category: 'economy', time: '12h ago' },
+  { title: "West Africa's Digital Payments Revolution — And Why Liberia Must Move Fast", duration: '3:14', category: 'Trade', time: '1d ago' },
+  { title: "1.4 Million Ounces: What Bea Mountain's Grand Cape Mount Discovery Means for Liberia", duration: '4:05', category: 'commodities', time: '2d ago' },
+  { title: "The Freeport Is Built. Now Who Captures the Trade?", duration: '3:22', category: 'economy', time: '3d ago' },
 ];
 
 const COMMUNITY_VOICES = [
   {
-    title: "We Need a Local Content Law With Teeth — Not Just Words",
-    excerpt: "Foreign contractors still dominate mining ancillary contracts. Without real enforcement, local business development remains a slogan.",
+    title: "Foreign Contractors Still Win Every Mining Ancillary Contract. Our Local Content Law Is a Fiction.",
+    excerpt: "We have the legislation. We have the rhetoric. What we don't have is enforcement. Until that changes, local business development in the mining sector will remain a line item in a press release.",
     author: 'Korto Williams',
-    role: 'Liberia Business Association',
+    role: 'President, Liberia Business Association',
     time: '3d ago',
   },
   {
-    title: "Digital Banking Is Transforming Rural Commerce — But Infrastructure Must Follow",
-    excerpt: "Mobile money adoption is accelerating outside Monrovia, but unreliable electricity and poor connectivity cap its impact on livelihoods.",
+    title: "Mobile Money Is Reaching Rural Liberia. Electricity and Connectivity Are Not.",
+    excerpt: "The adoption curve outside Monrovia is real — but every agent I've spoken to in Bong and Lofa tells the same story: generator costs are eating the margin, and data is unreliable. The infrastructure has to come before the fintech.",
     author: 'James T. Kollie',
-    role: 'Fintech Entrepreneur, Monrovia',
+    role: 'Co-Founder, PayLink Liberia',
     time: '4d ago',
   },
   {
-    title: "Agriculture Is Liberia's Quiet Growth Story — It Deserves the Headline",
-    excerpt: "While mining grabs the spotlight, smallholder farming and agro-processing have quietly grown 7% annually for three consecutive years.",
+    title: "Agriculture Has Grown 7% Annually for Three Years Running. When Does It Get the Headline?",
+    excerpt: "Mining is the story that foreign investors tell. But smallholder farming and agro-processing are the story that feeds Liberia. It's time the national economic narrative caught up with the reality on the ground.",
     author: 'Miatta Fallah',
     role: 'CEO, LiberAgro Ltd',
     time: '5d ago',
   },
   {
-    title: "The Lofa Corridor Is Liberia's Biggest Untapped Opportunity",
-    excerpt: "Connecting Lofa's rich agricultural belt to Monrovia with cold-chain logistics could generate $200M annually — yet the roads remain unpaved.",
+    title: "The Lofa Corridor Could Generate $200M a Year. The Roads Have Been Unpaved for Two Decades.",
+    excerpt: "Every study says the same thing: connect Lofa's agricultural belt to Monrovia with cold-chain logistics and you unlock one of West Africa's most underexploited food production corridors. Yet we keep writing the study instead of building the road.",
     author: 'David Tarr',
-    role: 'Supply Chain Analyst, USAID Liberia',
+    role: 'Supply Chain Adviser, USAID Liberia',
     time: '6d ago',
   },
 ];
@@ -161,8 +161,8 @@ const COMMUNITY_VOICES = [
 
 function TrendingPanel() {
   return (
-    <aside className="hidden lg:block w-[270px] shrink-0">
-      <div className="sticky top-[120px]">
+    <aside className="hidden lg:block w-[270px] shrink-0 sticky" style={{ top: 'calc(var(--header-h, 124px) + 16px)' }}>
+      <div>
         <div className="flex items-center gap-2 mb-3">
           <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -310,8 +310,8 @@ function FeedList({ tab }: { tab: string }) {
 
 function RightRail() {
   return (
-    <aside className="hidden xl:block w-[300px] shrink-0">
-      <div className="sticky top-[120px] flex flex-col gap-5">
+    <aside className="hidden xl:block w-[300px] shrink-0 sticky" style={{ top: 'calc(var(--header-h, 124px) + 16px)' }}>
+      <div className="flex flex-col gap-5">
 
         {/* Newsletter */}
         <div className="rounded-xl border border-gray-200 bg-white p-5">
@@ -504,13 +504,13 @@ function NewsPageInner() {
       </div>
 
       {/* Three-column layout */}
-      <div className="flex gap-6">
+      <div className="flex gap-6 items-start">
 
         {/* Left: Trending */}
         <TrendingPanel />
 
         {/* Center: main feed */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 pb-8">
 
           {/* Hero carousel */}
           <HeroCarousel />

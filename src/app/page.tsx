@@ -79,41 +79,41 @@ function VideoThumbnail({ category }: { category: string }) {
 }
 
 const LATEST_NEWS = [
-  { title: 'CBL signals readiness to intervene if LRD weakens past 195', source: 'Reuters', time: '16m ago', tags: ['Monetary Policy'], chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { title: 'Liberia Petroleum Refining Corp reports Q1 revenue rise of 12%', source: 'Daily Observer', time: '23m ago', tags: ['Energy'], chips: [{ label: 'Energy', pct: '+12%', up: true }] },
-  { title: 'ArcelorMittal Liberia ships first expanded-capacity iron ore batch', source: 'Bloomberg', time: '46m ago', tags: ['Mining'], chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
-  { title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago', tags: ['Development'], chips: [] },
-  { title: 'Ecobank Transnational raises dividend after strong West Africa quarter', source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
-  { title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { title: 'Firestone Liberia rubber output hits decade high on favorable weather', source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
-  { title: 'IMF praises Liberia fiscal consolidation, urges revenue reform', source: 'IMF', time: '5h ago', tags: ['Policy'], chips: [] },
+  { title: "CBL Ready to Defend the LRD If It Breaches 195 — Governor Signals Intervention Threshold", source: 'TrueRate', time: '16m ago', tags: ['Monetary Policy'], chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: "Liberia Petroleum Refining Corp Posts 12% Revenue Gain — First Quarterly Growth in Three Years", source: 'Daily Observer', time: '23m ago', tags: ['Energy'], chips: [{ label: 'Energy', pct: '+12%', up: true }] },
+  { title: "ArcelorMittal Ships First Expanded-Capacity Ore Batch — The Nimba Ramp-Up Has Officially Begun", source: 'Bloomberg', time: '46m ago', tags: ['Mining'], chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
+  { title: "World Bank Approves $45M Grant for Liberia — Here's Exactly Where the Money Will Go", source: 'World Bank', time: '59m ago', tags: ['Development'], chips: [] },
+  { title: "Ecobank Transnational Raises Its Dividend After the Strongest West Africa Quarter in Five Years", source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
+  { title: "Liberia Joins the ECOWAS Digital Payments Corridor — What It Means for Cross-Border Commerce", source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { title: "Firestone's Harbel Plantation Just Had Its Best Quarter in a Decade. The Replanting Strategy Worked.", source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
+  { title: "The IMF Praised Liberia's Fiscal Progress. It Also Left a Long List of Unfinished Business.", source: 'IMF / TrueRate', time: '5h ago', tags: ['Policy'], chips: [] },
 ];
 
 const MORE_NEWS = [
-  { category: 'Banking', title: 'Liberia\'s banking sector sees 14% deposit growth in Q1 2026', summary: 'Central Bank data shows rising household savings and business deposits, driven by mobile money adoption and renewed investor confidence.', source: 'FrontPage Africa', time: '2h ago' },
-  { category: 'Infrastructure', title: 'Government awards $120M contract for Monrovia ring road expansion', summary: 'The contract, funded by the African Development Bank, covers 48km of new road and is expected to cut freight costs by up to 25%.', source: 'Daily Observer', time: '3h ago' },
-  { category: 'Energy', title: 'Liberia Energy Authority approves two new solar projects totaling 40MW', summary: 'The projects, led by a consortium of West African investors, will serve Bong and Nimba counties and reduce reliance on diesel generators.', source: 'The New Dawn', time: '5h ago' },
-  { category: 'Agriculture', title: 'Palm oil exports up 18% — smallholders benefit from new pricing policy', summary: 'A revised farmgate pricing scheme introduced by the Ministry of Agriculture has boosted incomes for over 12,000 smallholder farmers.', source: 'Liberian Observer', time: '7h ago' },
-  { category: 'Trade', title: 'Liberia-EU trade deal talks advance as both sides agree on tariff framework', summary: 'Negotiations in Brussels produced a draft tariff schedule covering rubber, cocoa and timber exports, potentially boosting annual trade by $180M.', source: 'Reuters', time: '9h ago' },
-  { category: 'Mining', title: 'Gold exploration licenses issued for Grand Cape Mount region', summary: 'Three international mining firms have been granted exploration licenses covering 240 square kilometers in Grand Cape Mount County.', source: 'Bloomberg', time: '11h ago' },
-  { category: 'Tech', title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending', summary: 'PayLink Liberia plans to use the funding to reach 150,000 new borrowers across rural counties through its USSD-based lending platform.', source: 'TechCabal', time: '13h ago' },
-  { category: 'Policy', title: 'Finance Ministry tables revised budget with 12% increase in capital spending', summary: 'The supplementary budget allocates an additional $62M to infrastructure, health and education, funded partly by improved revenue collection.', source: 'Daily Observer', time: '15h ago' },
+  { category: 'Banking', title: "Liberia's Banking Sector Grew Deposits 14% in Q1 — The Mobile Money Effect Is Real", summary: "Central Bank data points to rising household savings and first-time account openings, driven by mobile money integration and renewed business confidence in the financial system's stability.", source: 'FrontPage Africa', time: '2h ago' },
+  { category: 'Infrastructure', title: "Government Awards $120M Monrovia Ring Road Contract — AfDB Calls It 'Transformative for Freight'", summary: "The 48km road contract, backed by the African Development Bank, is expected to cut logistics costs by up to 25% and open industrial zones north of Monrovia that have been effectively inaccessible to heavy cargo.", source: 'Daily Observer', time: '3h ago' },
+  { category: 'Energy', title: "40MW of New Solar Just Got Approved for Bong and Nimba — Without a Single Dollar from LEC", summary: "The Liberia Energy Authority has cleared two privately financed solar projects that will serve the two counties simultaneously. It's a model the government should be replicating across every underserved county.", source: 'The New Dawn', time: '5h ago' },
+  { category: 'Agriculture', title: "Palm Oil Exports Up 18% After Liberia Finally Fixed Its Farmgate Pricing. Here's the Policy That Did It.", summary: "A revised pricing scheme from the Ministry of Agriculture has moved an additional $8M annually into the hands of 12,000 smallholder farmers — and demonstrated that getting the incentives right works better than subsidies.", source: 'Liberian Observer', time: '7h ago' },
+  { category: 'Trade', title: "Liberia-EU Tariff Framework Is Agreed. A $180M Annual Trade Boost Hangs on the Final Signature.", summary: "Negotiators in Brussels reached consensus on rubber, cocoa, and timber export schedules. The deal would be transformative for Liberia's export economy — but it has been 'almost agreed' before.", source: 'Reuters', time: '9h ago' },
+  { category: 'Mining', title: "Three International Firms Just Got Grand Cape Mount Exploration Licenses. The Gold Rush Is On.", summary: "240 square kilometres of prospective territory now has foreign capital behind it. Combined with Bea Mountain's 1.4M oz discovery, Grand Cape Mount County is becoming Liberia's most competitive mining frontier.", source: 'Bloomberg', time: '11h ago' },
+  { category: 'Tech', title: "PayLink Liberia Raised $4.2M to Reach 150,000 Rural Borrowers. Monrovia's Fintech Scene Is No Longer a Joke.", summary: "The Series A, led by a pan-African VC, will fund USSD-based credit expansion into Bong, Lofa, and Nimba counties — populations that traditional banks have written off for decades.", source: 'TechCabal', time: '13h ago' },
+  { category: 'Policy', title: "The Finance Ministry's Revised Budget Has $62M More for Capital Spending — and Nobody Is Asking Where It Came From", summary: "A 12% uplift in capital expenditure sounds like good news. But the supplementary budget's revenue assumptions rely on customs projections that are tracking below target. Analysts are concerned.", source: 'Daily Observer', time: '15h ago' },
 ];
 
 const QUICK_READS = [
-  { tag: 'FOREX', headline: 'Dollar steady at 192.50 — CBL watching closely', time: '30m' },
-  { tag: 'MINING', headline: 'Nimba ships 2.1M tonnes of iron ore in Q1, best quarter since 2019', time: '1h' },
-  { tag: 'BANKING', headline: 'Ecobank pushes into Lofa and Grand Bassa with two new branches', time: '2h' },
-  { tag: 'TRADE', headline: 'Freeport of Monrovia posts strongest quarter in five years', time: '3h' },
-  { tag: 'ENERGY', headline: 'Power cuts in Paynesville ease after LEC completes grid repairs', time: '4h' },
-  { tag: 'AGRI', headline: 'Cocoa farmers push for $2.80/kg floor price ahead of harvest season', time: '6h' },
+  { tag: 'FOREX', headline: 'LRD/USD anchored at 192.50 — CBL has intervened twice this week to defend the floor', time: '30m' },
+  { tag: 'MINING', headline: "Nimba ships 2.1M tonnes of iron ore in Q1 — ArcelorMittal's best quarter since 2019", time: '1h' },
+  { tag: 'BANKING', headline: "Ecobank opens two new branches in Lofa and Grand Bassa — the bank is going where others won't", time: '2h' },
+  { tag: 'TRADE', headline: 'Freeport throughput at a five-year high — Phase II expansion is already delivering results', time: '3h' },
+  { tag: 'ENERGY', headline: 'Paynesville power cuts eased after LEC completes long-delayed grid repair. Residents are cautiously relieved.', time: '4h' },
+  { tag: 'AGRI', headline: "Cocoa farmers are pushing for a $2.80/kg floor price. The ministry hasn't responded. Harvest is in six weeks.", time: '6h' },
 ];
 
 const VIDEOS = [
-  { title: "CBL Governor on rate outlook: 'We're watching food prices closely'", duration: '2:48', category: 'policy',   source: 'TrueRate', time: '55m ago' },
-  { title: 'ArcelorMittal Nimba expansion — what it means for Liberia GDP',     duration: '1:52', category: 'Mining',    source: 'TrueRate', time: '3h ago' },
-  { title: 'Rubber prices surge: how Liberia benefits from record output',       duration: '3:14', category: 'commodities', source: 'TrueRate', time: '8h ago' },
-  { title: 'Diaspora remittances hit $680M — a new record for Liberia',          duration: '2:31', category: 'economy',   source: 'TrueRate', time: '3h ago' },
+  { title: "CBL Governor: 'We're Not Ready to Cut Rates. Here's What We're Waiting For.'", duration: '2:48', category: 'policy',   source: 'TrueRate', time: '55m ago' },
+  { title: "ArcelorMittal's Nimba Expansion, Explained: What $120M Buys Liberia — and What It Doesn't",  duration: '1:52', category: 'Mining',    source: 'TrueRate', time: '3h ago' },
+  { title: "Rubber at a Decade High: Why Liberia Is Winning — and How Long It Can Last",                  duration: '3:14', category: 'commodities', source: 'TrueRate', time: '8h ago' },
+  { title: "$680M and Rising: Inside the Liberian Diaspora's Outsized Role in the National Economy",      duration: '2:31', category: 'economy',   source: 'TrueRate', time: '3h ago' },
 ];
 
 
@@ -194,63 +194,68 @@ function IndicatorsStrip() {
 
 function FeaturedColumn() {
   const featured = newsItems[0];
-  const sub1 = newsItems[1];
-  const sub2 = newsItems[2];
+  const subs = [newsItems[1], newsItems[2], newsItems[3], newsItems[4]];
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* Hero article */}
-      <article className="group cursor-pointer">
-        {/* Edge-to-edge image on mobile, rounded on desktop */}
-        <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl">
+    <div className="flex flex-col gap-0">
+
+      {/* ── Cover Story Hero ── */}
+      <Link href={`/news/${featured.id}`} className="group block no-underline">
+        {/* Visual */}
+        <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl mb-4">
           <HeroVisual category={featured.category} />
         </div>
-        <div className="mt-3">
-          <h2 className="font-poppins text-[24px] sm:text-[26px] font-black leading-tight text-white text-center group-hover:text-white/80 transition-colors mb-2 tracking-tight">
-            <Link href={`/news/${featured.id}`} className="no-underline">{featured.title}</Link>
-          </h2>
-          <p className="font-montserrat line-clamp-2 text-[15px] leading-relaxed text-gray-400 text-center">{featured.summary}</p>
-          <div className="font-montserrat flex items-center justify-center gap-1.5 mt-2">
-            <span className="text-[13px] text-gray-500">{featured.source}</span>
-            <span className="text-gray-500">·</span>
-            <span className="text-[13px] text-gray-500">{timeAgo(featured.date)}</span>
-          </div>
+
+        {/* Kicker */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest bg-brand-accent text-[#050d11]">
+            Cover Story
+          </span>
+          <span className={`text-[11px] font-bold uppercase tracking-widest ${getCatColor(featured.category)}`}>
+            {featured.category}
+          </span>
         </div>
-      </article>
 
-      {/* Two sub-articles */}
-      <div className="border-t border-white/[0.06] pt-5 flex flex-col sm:grid sm:grid-cols-2 gap-4">
-        {[sub1, sub2].map((item) => (
-          <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
-            <div className="flex-1 min-w-0 order-1 sm:order-none">
-              <h3 className="font-poppins sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
-                <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
+        {/* Headline */}
+        <h2 className="text-[22px] sm:text-[26px] font-black leading-tight text-white group-hover:text-white/80 transition-colors mb-2.5 tracking-tight">
+          {featured.title}
+        </h2>
+
+        {/* Deck */}
+        <p className="font-montserrat line-clamp-3 text-[14px] leading-relaxed text-gray-400 mb-3">
+          {featured.summary}
+        </p>
+
+        {/* Byline */}
+        <div className="flex items-center gap-2 text-[12px] text-gray-500">
+          <span className="font-semibold text-gray-400">{featured.source}</span>
+          <span>·</span>
+          <span>{timeAgo(featured.date)}</span>
+          <span>·</span>
+          <span>8 min read</span>
+        </div>
+      </Link>
+
+      {/* ── Sub-stories grid ── */}
+      <div className="mt-6 border-t border-white/[0.06] pt-5 flex flex-col divide-y divide-white/[0.06]">
+        {subs.map((item) => (
+          <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
+            <div className="shrink-0 overflow-hidden rounded-lg">
+              <NewsThumbnail category={item.category} className="h-[72px] w-[108px]" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1 block`}>
+                {item.category}
+              </span>
+              <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">
+                {item.title}
               </h3>
-              <div className="font-montserrat mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
+              <div className="mt-1.5 text-[11px] text-gray-500">{item.source} · {timeAgo(item.date)}</div>
             </div>
-            <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
-              <NewsThumbnail category={item.category} className="h-[76px] w-[100px] sm:w-full sm:h-[100px]" />
-            </div>
-          </article>
+          </Link>
         ))}
       </div>
 
-      {/* More sub-articles */}
-      <div className="border-t border-white/[0.06] pt-5 flex flex-col sm:grid sm:grid-cols-2 gap-4">
-        {[newsItems[3], newsItems[4]].map((item) => (
-          <article key={item.id} className="group cursor-pointer flex gap-3.5 sm:block">
-            <div className="flex-1 min-w-0 order-1 sm:order-none">
-              <h3 className="font-poppins sm:mt-2.5 line-clamp-3 text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors">
-                <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
-              </h3>
-              <div className="font-montserrat mt-1.5 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
-            </div>
-            <div className="shrink-0 overflow-hidden rounded-lg order-2 sm:order-none sm:mb-2.5">
-              <NewsThumbnail category={item.category} className="h-[76px] w-[100px] sm:w-full sm:h-[100px]" />
-            </div>
-          </article>
-        ))}
-      </div>
     </div>
   );
 }
@@ -507,21 +512,21 @@ function VideosSection() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 const DEEP_READS = [
-  { category: 'Analysis',     title: 'Why Liberia\'s 4.5% GDP growth rate may be hiding structural weakness', summary: 'Strong headline numbers mask an economy still heavily dependent on two export commodities. Economists warn that without services sector diversification, growth remains fragile.', source: 'TrueRate Analysis', time: '1h ago', large: true },
-  { category: 'Policy',       title: 'CBL\'s rate hold: prudent caution or missed opportunity?', summary: 'With inflation easing to 10.2%, some economists argue the Central Bank has room to cut. Others say the LRD remains too vulnerable.', source: 'Daily Observer', time: '3h ago', large: false },
-  { category: 'Trade',        title: 'ECOWAS payments integration could unlock $2B in cross-border commerce', summary: 'A new digital payments corridor linking six West African nations stands to benefit Liberian exporters the most, according to a World Bank assessment.', source: 'World Bank', time: '6h ago', large: false },
-  { category: 'Mining',       title: 'ArcelorMittal\'s Nimba expansion: Liberia\'s biggest industrial moment in a decade', summary: 'The expanded iron ore operation could add $320M annually to export revenues and create 1,800 permanent jobs in the region.', source: 'Bloomberg', time: '8h ago', large: false },
-  { category: 'Banking',      title: 'Mobile money is reshaping how Liberians save, borrow, and invest', summary: 'With smartphone penetration rising above 60%, mobile-first financial services are pulling millions of unbanked Liberians into the formal economy.', source: 'FrontPage Africa', time: '10h ago', large: false },
-  { category: 'Agriculture',  title: 'Can Liberia become West Africa\'s next rubber powerhouse?', summary: 'Record Firestone output and favorable global prices are creating an opening. But analysts say infrastructure bottlenecks could cap the opportunity.', source: 'TrueRate Analysis', time: '12h ago', large: false },
-  { category: 'Development',  title: 'IMF program review: what the next tranche means for Liberia\'s fiscal path', summary: 'The Fund praised revenue reforms but flagged risks around public wage bills and off-budget spending ahead of the $38M disbursement.', source: 'IMF', time: '1d ago', large: false },
+  { category: 'Analysis',     title: "4.5% Growth Is the Headline. The Structural Weakness Underneath It Is the Story.", summary: "Liberia's GDP numbers look good on paper — but the economy is still running on two commodities. Economists say that without a services and manufacturing base, every growth forecast comes with an asterisk.", source: 'TrueRate Analysis', time: '1h ago', large: true },
+  { category: 'Policy',       title: "The CBL Held Rates Again. Was That the Right Call?", summary: "Inflation is falling and reserves are at a 13-year high. The case for an easing cycle is getting harder to ignore — but the CBL Governor is watching the LRD and the food price index more closely than the headline CPI.", source: 'Daily Observer', time: '3h ago', large: false },
+  { category: 'Trade',        title: "ECOWAS Payments Integration Could Unlock $2B in Trade. Liberia Has the Most to Gain.", summary: "A World Bank assessment puts Liberian cross-border exporters at the top of the beneficiary list. The corridor is live — the question is whether Liberian businesses are ready to use it.", source: 'World Bank', time: '6h ago', large: false },
+  { category: 'Mining',       title: "The $320M Annual Revenue Case for ArcelorMittal's Nimba Expansion", summary: "Full ramp-up at the expanded Nimba operation would add $320M to Liberia's export ledger and create 1,800 permanent jobs. The caveat: it depends on iron ore staying above $100/t.", source: 'Bloomberg', time: '8h ago', large: false },
+  { category: 'Banking',      title: "How Mobile Money Is Quietly Rebuilding Liberia's Financial System From the Ground Up", summary: "Smartphone penetration above 60%. Orange Money at 1M users. LiberBank's fintech pivot. The unbanked population is shrinking — faster than any policy has achieved.", source: 'FrontPage Africa', time: '10h ago', large: false },
+  { category: 'Agriculture',  title: "Liberia Has Everything It Takes to Be West Africa's Rubber Leader. Here's What's Stopping It.", summary: "Record Firestone output, rising global prices, a replanting fund. The ingredients are there. But port delays, land tenure disputes, and aging infrastructure keep the ceiling lower than it should be.", source: 'TrueRate Analysis', time: '12h ago', large: false },
+  { category: 'Development',  title: "The Next IMF Tranche Is Coming. What Liberia Promised — and What It Still Owes.", summary: "The Fund praised revenue reforms. It also flagged public wage bill creep, off-budget spending, and a procurement regime that still has too many loopholes. The $38M disbursement comes with conditions.", source: 'IMF / TrueRate', time: '1d ago', large: false },
 ];
 
 const MOST_READ = [
-  { rank: 1, title: 'CBL holds rate at 17.5% for third consecutive quarter', source: 'Reuters', time: '2h ago' },
-  { rank: 2, title: 'ArcelorMittal ships first expanded-capacity iron ore batch from Nimba', source: 'Bloomberg', time: '46m ago' },
-  { rank: 3, title: 'Rubber output hits decade high — what it means for Liberia GDP', source: 'TrueRate', time: '8h ago' },
-  { rank: 4, title: 'World Bank approves $45M grant for Liberia infrastructure bonds', source: 'World Bank', time: '59m ago' },
-  { rank: 5, title: 'Liberia joins ECOWAS digital payments pilot with 5 other nations', source: 'Liberian Observer', time: '1h ago' },
+  { rank: 1, title: "The Man Who Holds Liberia's Interest Rates — And Why He's Not Moving Them", source: 'TrueRate Analysis', time: '2h ago' },
+  { rank: 2, title: "ArcelorMittal's Nimba Ramp-Up Has Officially Begun — First Expanded-Capacity Batch Shipped", source: 'Bloomberg', time: '46m ago' },
+  { rank: 3, title: "How Firestone Turned Harbel Into Africa's Most Productive Rubber Estate", source: 'TrueRate', time: '8h ago' },
+  { rank: 4, title: "The World Bank Is Pouring $45M Into Liberia's Roads. Here's Exactly Where It Goes.", source: 'World Bank', time: '59m ago' },
+  { rank: 5, title: "West Africa's Cross-Border Payment Revolution Is Live — And Liberia Has a Seat at the Table", source: 'Liberian Observer', time: '1h ago' },
 ];
 
 const UPCOMING_EVENTS = [
@@ -599,14 +604,14 @@ function MoreNewsColumn() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 const SIDEBAR_LATEST = [
-  { time: '2h',  headline: 'CBL signals readiness to intervene if LRD weakens past 195' },
-  { time: '4h',  headline: 'ArcelorMittal ships first expanded-capacity iron ore batch from Nimba' },
-  { time: '6h',  headline: 'World Bank approves $45M grant for Liberia road infrastructure' },
-  { time: '8h',  headline: 'Firestone rubber output hits decade high on favorable weather conditions' },
-  { time: '10h', headline: 'Ecobank raises dividend after strong West Africa quarter earnings' },
-  { time: '12h', headline: 'Liberia joins ECOWAS digital payments pilot with five other nations' },
-  { time: '14h', headline: 'IMF praises Liberia fiscal consolidation, urges revenue reform plan' },
-  { time: '21h', headline: 'Palm oil prices dip on Southeast Asia supply chain recovery' },
+  { time: '2h',  headline: "CBL Governor signals intervention if LRD breaches 195 — the threshold that matters" },
+  { time: '4h',  headline: "ArcelorMittal's first expanded-capacity Nimba shipment is out — the ramp-up is real" },
+  { time: '6h',  headline: "$45M World Bank road grant approved — 320km of feeder roads connecting farm to market" },
+  { time: '8h',  headline: "Firestone's decade-best quarter: the replanting strategy that took 10 years to pay off" },
+  { time: '10h', headline: "Ecobank raises its dividend — the bank's best West Africa result in five years" },
+  { time: '12h', headline: "Liberia is live on the ECOWAS payments corridor — what cross-border traders need to know" },
+  { time: '14h', headline: "The IMF's Liberia review: what it praised, what it flagged, and what it left unsaid" },
+  { time: '21h', headline: "Palm oil margins squeezed by Southeast Asian supply — Liberian smallholders absorb the shock" },
 ];
 
 const IN_FOCUS_TOPICS = [
@@ -797,10 +802,10 @@ export default function Home() {
           <SectionHeading title="West Africa in Focus" action="/news" actionLabel="More regional news" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { country: 'Ghana',         headline: 'Cedi hits 6-month high after IMF tranche release', stat: 'GHS/USD 14.82', time: '4h ago', cat: 'forex' },
-              { country: 'Nigeria',       headline: 'NSE posts best month in 18 years as oil rebounds', stat: 'Brent $84.20/bbl', time: '6h ago', cat: 'commodities' },
-              { country: 'Sierra Leone',  headline: 'Freetown port expansion fast-tracked with $80M loan', stat: 'SLL/USD 22,100', time: '8h ago', cat: 'Development' },
-              { country: "Côte d'Ivoire", headline: "Abidjan bourse outperforms regional peers in Q1", stat: 'BRVM Index +3.4%', time: '10h ago', cat: 'economy' },
+              { country: 'Ghana',         headline: "Ghana cedi at a six-month high — and the IMF tranche is only part of the story", stat: 'GHS/USD 14.82', time: '4h ago', cat: 'forex' },
+              { country: 'Nigeria',       headline: "Nigeria's bourse just had its best month in 18 years. Here's who captured the gains.", stat: 'Brent $84.20/bbl', time: '6h ago', cat: 'commodities' },
+              { country: 'Sierra Leone',  headline: "Freetown's $80M port expansion is a direct challenge to Monrovia's trade lead", stat: 'SLL/USD 22,100', time: '8h ago', cat: 'Development' },
+              { country: "Côte d'Ivoire", headline: "The Abidjan bourse outperformed every regional peer in Q1. These are the stocks that led.", stat: 'BRVM Index +3.4%', time: '10h ago', cat: 'economy' },
             ].map((r, i) => (
               <Link key={i} href="/news" className="group flex flex-col no-underline overflow-hidden rounded-xl border border-white/[0.07] bg-brand-card hover:border-white/20 transition-colors">
                 <div className="overflow-hidden">
@@ -815,26 +820,6 @@ export default function Home() {
                     <span className="text-[11px] font-bold text-white/50 tabular-nums">{r.stat}</span>
                     <span className="text-[10px] text-gray-400">{r.time}</span>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-
-        {/* More Stories */}
-        <div className="mt-10 border-t border-white/[0.05] pt-8">
-          <SectionHeading title="More Stories" action="/news" actionLabel="All stories" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 divide-y sm:divide-y-0 divide-white/[0.05] rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-            {newsItems.slice(8, 16).map((item, i) => (
-              <Link key={item.id} href={`/news/${item.id}`} className={`group flex gap-3 p-4 no-underline hover:bg-white/[0.02] transition-colors ${i > 0 ? 'sm:border-l border-white/[0.05]' : ''} ${i >= 4 ? 'border-t border-white/[0.05]' : ''}`}>
-                <div className="shrink-0 overflow-hidden rounded-lg">
-                  <NewsThumbnail category={item.category} className="h-[64px] w-[80px]" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1`}>{item.category}</div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3">{item.title}</h3>
-                  <div className="mt-1.5 text-[10px] text-gray-400">{item.source} · {timeAgo(item.date)}</div>
                 </div>
               </Link>
             ))}

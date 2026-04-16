@@ -59,43 +59,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           <h1 className="text-[26px] sm:text-[30px] font-black leading-tight text-white mb-3">{item.title}</h1>
 
           <div className="flex items-center gap-3 text-[13px] text-[#555] mb-6 border-b border-white/[0.06] pb-5">
+            {item.author && <span className="text-gray-400 font-semibold">{item.author}</span>}
+            {item.author && <span>·</span>}
             <span>{item.source}</span>
             <span>·</span>
             <span>{timeAgo(item.date)}</span>
+            {item.readTime && <><span>·</span><span>{item.readTime}</span></>}
           </div>
 
           <HeroVisual category={item.category} className="w-full rounded-xl h-[280px] sm:h-[360px] mb-8" />
 
-          <div className="text-[15px] leading-[1.75] text-[#c0c0c8] space-y-5 mb-8">
+          <div className="text-[15px] leading-[1.75] text-[#c0c0c8] space-y-5 mb-8 font-montserrat">
             <p className="text-[16px] font-medium text-[#d4d4dc] leading-relaxed">{item.summary}</p>
-            <p>
-              Liberia&apos;s financial markets continue to respond to this development, with analysts closely monitoring
-              the Central Bank of Liberia&apos;s policy stance. Investors have shown heightened attention to macroeconomic
-              signals from both domestic and regional sources, particularly given the broader West African economic context
-              and ongoing IMF programme review.
-            </p>
-            <p>
-              The Central Bank of Liberia has maintained open communication with market participants, issuing regular
-              guidance on liquidity conditions and the LRD exchange rate corridor. Officials note that foreign reserve
-              levels — currently at $502M — provide adequate buffer for near-term stability, though continued vigilance
-              is warranted given global commodity price movements.
-            </p>
-            <p>
-              Market participants note that the longer-term implications depend on several factors, including global
-              commodity prices — particularly iron ore and rubber — diaspora remittance flows, and fiscal measures
-              introduced by the government. Regional bodies such as the IMF and World Bank continue to provide
-              technical guidance and programme oversight through 2026.
-            </p>
-            <p>
-              Analysts from FrontPage Africa and the Daily Observer have noted that domestic investor sentiment
-              remains cautiously optimistic, supported by the recent upgrade of Liberia&apos;s growth forecast to 5.1%
-              by the IMF. The mining sector, led by ArcelorMittal&apos;s Nimba operations and Bea Mountain Mining,
-              is expected to be the primary driver of outperformance in the near term.
-            </p>
-            <p>
-              TrueRate will continue to track this story as more information becomes available from official sources,
-              including the Ministry of Finance, CBL, and international partners.
-            </p>
+            {item.body?.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
           </div>
 
           {/* Tags */}
