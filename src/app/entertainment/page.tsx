@@ -80,7 +80,7 @@ export default function EntertainmentPage() {
       {/* Breadcrumb + header */}
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Culture' }]} />
-        <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-0 border-b border-white/[0.07] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {['All', ...SUB_NAV].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`whitespace-nowrap px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
@@ -99,7 +99,7 @@ export default function EntertainmentPage() {
         <div className="flex-1 min-w-0">
 
           {/* Hero */}
-          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-white/[0.07] bg-brand-card no-underline mb-6">
+          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 overflow-hidden no-underline mb-6">
             <div className="w-full lg:w-[55%] shrink-0">
               <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
@@ -120,34 +120,36 @@ export default function EntertainmentPage() {
           </Link>
 
           {/* Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+          <div className="flex flex-col divide-y divide-white/[0.06] mb-8">
             {STRIP_CARDS.map((card, i) => (
-              <Link key={i} href="/news" className="group flex flex-col no-underline">
-                <div className="overflow-hidden mb-2.5">
-                  <NewsThumbnail category={card.category} className="w-full h-[120px]" />
+              <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
+                <div className="shrink-0 overflow-hidden">
+                  <NewsThumbnail category={card.category} className="h-[72px] w-[108px]" />
                 </div>
-                <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS_FN(card.category)}`}>
-                  {card.category}
-                </span>
-                <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 flex-1">
-                  {card.title}
-                </h3>
-                <div className="mt-1.5 text-[11px] text-gray-400">{card.source} · {card.time}</div>
+                <div className="min-w-0 flex-1">
+                  <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 block ${CATEGORY_COLORS_FN(card.category)}`}>
+                    {card.category}
+                  </span>
+                  <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">
+                    {card.title}
+                  </h3>
+                  <div className="mt-1 text-[11px] text-gray-400">{card.source} · {card.time}</div>
+                </div>
               </Link>
             ))}
           </div>
 
           {/* Box Office */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Box Office</h2>
+          <div className="mb-8">
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Box Office</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">West Africa Weekend</span>
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <table className="w-full min-w-[420px] text-[13px]">
                 <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
-                    <th className="px-5 py-3 text-left w-6">#</th>
+                    <th className="pr-5 py-3 text-left w-6">#</th>
                     <th className="px-5 py-3 text-left">Title</th>
                     <th className="px-5 py-3 text-right">Cumulative Gross</th>
                     <th className="px-5 py-3 text-right">Wk Change</th>
@@ -158,7 +160,7 @@ export default function EntertainmentPage() {
                 <tbody className="divide-y divide-white/[0.04]">
                   {BOX_OFFICE.map(film => (
                     <tr key={film.rank} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 text-[18px] font-black text-white/10 tabular-nums">{film.rank}</td>
+                      <td className="pr-5 py-3 text-[18px] font-black text-white/10 tabular-nums">{film.rank}</td>
                       <td className="px-5 py-3 font-semibold text-white">{film.title}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{film.gross}</td>
                       <td className={`tabular-nums px-5 py-3 text-right font-semibold ${film.up ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -174,16 +176,16 @@ export default function EntertainmentPage() {
           </div>
 
           {/* Streaming platforms */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Streaming Platform Performance</h2>
+          <div className="mb-8">
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Streaming Platform Performance</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Q1 2026</span>
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <table className="w-full min-w-[440px] text-[13px]">
                 <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
-                    <th className="px-5 py-3 text-left">Platform</th>
+                    <th className="py-3 text-left">Platform</th>
                     <th className="px-5 py-3 text-right">Subscribers</th>
                     <th className="px-5 py-3 text-right">Qtr Change</th>
                     <th className="px-5 py-3 text-right">Est. Revenue</th>
@@ -193,7 +195,7 @@ export default function EntertainmentPage() {
                 <tbody className="divide-y divide-white/[0.04]">
                   {STREAMING.map((s, i) => (
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 font-bold text-white">{s.platform}</td>
+                      <td className="py-3 font-bold text-white">{s.platform}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{s.subscribers}</td>
                       <td className={`tabular-nums px-5 py-3 text-right font-semibold ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>
                         {s.up ? '+' : ''}{s.qChange}
@@ -209,7 +211,12 @@ export default function EntertainmentPage() {
 
           {/* Stories */}
           <div className="mb-8">
-            <h2 className="text-[17px] font-bold text-white mb-5">Industry Analysis</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Industry Analysis</h2>
+              </div>
+            </div>
             <div className="flex flex-col divide-y divide-white/[0.05]">
               {FEED.map((item, i) => (
                 <Link key={i} href="/news" className="group flex gap-4 py-5 first:pt-0 no-underline">
@@ -236,16 +243,16 @@ export default function EntertainmentPage() {
           </div>
 
           {/* Music streaming revenue */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Music Streaming Revenue</h2>
+          <div className="mb-8">
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Music Streaming Revenue</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Est. 2025 earnings</span>
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <table className="w-full min-w-[400px] text-[13px]">
                 <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
-                    <th className="px-5 py-3 text-left">Artist</th>
+                    <th className="py-3 text-left">Artist</th>
                     <th className="px-5 py-3 text-right">Streams</th>
                     <th className="px-5 py-3 text-right">Est. Royalty</th>
                     <th className="hidden sm:table-cell px-5 py-3 text-left">Label</th>
@@ -255,7 +262,7 @@ export default function EntertainmentPage() {
                 <tbody className="divide-y divide-white/[0.04]">
                   {MUSIC_REVENUE.map((row, i) => (
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 font-bold text-white">{row.artist}</td>
+                      <td className="py-3 font-bold text-white">{row.artist}</td>
                       <td className="tabular-nums px-5 py-3 text-right text-gray-300">{row.streams}</td>
                       <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{row.estRoyalty}</td>
                       <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{row.label}</td>
@@ -265,19 +272,17 @@ export default function EntertainmentPage() {
                 </tbody>
               </table>
             </div>
-            <div className="border-t border-white/[0.05] px-5 py-2 text-[11px] text-gray-500">
-              Estimated based on Spotify/Apple Music stream counts at ~$0.004/stream average · Not audited figures
-            </div>
+            <p className="text-[10px] text-gray-600 mt-2">Estimated based on Spotify/Apple Music stream counts at ~$0.004/stream average · Not audited figures</p>
           </div>
 
           {/* Deals */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden mb-2">
-            <div className="px-5 py-4 border-b border-white/[0.05]">
-              <h2 className="text-[15px] font-bold text-white">Recent Deals</h2>
+          <div className="mb-2">
+            <div className="border-b border-white/[0.07] pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Recent Deals</h2>
             </div>
             <div className="divide-y divide-white/[0.04]">
               {DEALS.map((deal, i) => (
-                <Link key={i} href="/news" className="group flex items-start gap-4 px-5 py-4 no-underline hover:bg-white/[0.02] transition-colors">
+                <Link key={i} href="/news" className="group flex items-start gap-4 py-4 no-underline hover:bg-white/[0.02] transition-colors">
                   <div className="shrink-0 text-right w-14">
                     <span className="text-[11px] text-gray-400">{deal.date}</span>
                   </div>
@@ -297,16 +302,14 @@ export default function EntertainmentPage() {
 
         {/* Right rail */}
         <aside className="hidden xl:block w-[280px] shrink-0">
-          <div className="sticky top-[120px] flex flex-col gap-5">
+          <div className="sticky top-[120px] flex flex-col gap-8">
 
             {/* Industry snapshot */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Industry Snapshot</h3>
-              </div>
+            <div>
+              <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Industry Snapshot</h3>
               <div className="divide-y divide-white/[0.04]">
                 {INDUSTRY_METRICS.map((m, i) => (
-                  <div key={i} className="flex items-center justify-between px-4 py-3">
+                  <div key={i} className="flex items-center justify-between py-3">
                     <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
                     <div className="text-right shrink-0">
                       <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
@@ -318,10 +321,8 @@ export default function EntertainmentPage() {
             </div>
 
             {/* Trending */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Most Read</h3>
-              </div>
+            <div>
+              <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Most Read</h3>
               <div className="divide-y divide-white/[0.04]">
                 {[
                   { rank: 1, title: "MultiChoice Showmax losses widen to $41M",     tag: 'Streaming' },
@@ -330,7 +331,7 @@ export default function EntertainmentPage() {
                   { rank: 4, title: "Nollywood's 80% flop rate explained",           tag: 'Film Finance' },
                   { rank: 5, title: "MTN acquires Afrostream stake for $22M",        tag: 'Deals' },
                 ].map(t => (
-                  <Link key={t.rank} href="/news" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
+                  <Link key={t.rank} href="/news" className="flex items-center gap-3 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
                     <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
                       <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors line-clamp-2 leading-snug">{t.title}</p>
@@ -342,10 +343,8 @@ export default function EntertainmentPage() {
             </div>
 
             {/* Key dates */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Industry Calendar</h3>
-              </div>
+            <div>
+              <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Industry Calendar</h3>
               <div className="divide-y divide-white/[0.04]">
                 {[
                   { date: 'Apr 14', event: 'MultiChoice Q2 earnings call' },
@@ -354,7 +353,7 @@ export default function EntertainmentPage() {
                   { date: 'May 24', event: 'AFRIMA Awards 2026 — broadcast rights auction' },
                   { date: 'Jun 14', event: 'Africa Movie Academy Awards — box office retrospective' },
                 ].map((ev, i) => (
-                  <div key={i} className="flex items-start gap-3 px-4 py-3">
+                  <div key={i} className="flex items-start gap-3 py-3">
                     <span className="shrink-0 text-[11px] font-bold text-gray-400 w-12">{ev.date}</span>
                     <p className="text-[12px] text-gray-400 leading-snug">{ev.event}</p>
                   </div>

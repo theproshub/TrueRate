@@ -2,48 +2,67 @@
 
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { useState } from 'react';
 import { VideoThumbnail, NewsThumbnail } from '@/components/NewsThumbnail';
 
 /* ── data ── */
 const HERO = {
-  title: "CBL Governor on rate outlook: 'We're watching food prices closely'",
-  desc: 'The Central Bank of Liberia Governor addresses concerns around food inflation and its impact on monetary policy decisions.',
-  duration: '2:48',
-  category: 'Monetary Policy',
-  source: 'TrueRate Video',
-  time: '55m ago',
-  tags: ['LRD=X', 'CBL'],
+  title: "From Zero to $4M: How Sandra Kollie Built Liberia's Fastest-Growing Logistics Company",
+  desc: "TrueRate sits down with founder Sandra Kollie to talk grit, capital access, and what it really takes to scale a business in Monrovia's emerging market.",
+  duration: '24:18',
+  category: 'Entrepreneurship',
+  source: 'TrueRate Interviews',
+  time: '2h ago',
+  badge: 'Featured Interview',
 };
 
 const LATEST = [
-  { title: 'ArcelorMittal Nimba expansion — what it means for Liberia GDP', duration: '1:52', category: 'Mining', time: '3h ago', tags: ['MT'] },
-  { title: 'Rubber prices surge: Firestone investors react to record output', duration: '3:14', category: 'Agriculture', time: '8h ago', tags: ['RUB'] },
-  { title: 'Diaspora remittances hit $680M — a new record for Liberia', duration: '2:31', category: 'economy', time: '12h ago', tags: ['USD'] },
-  { title: 'Ecobank West Africa Q1 earnings: What analysts are saying', duration: '4:05', category: 'Banking', time: '1d ago', tags: ['ETI'] },
+  { title: "Marcus Doe: Why I Left Wall Street to Build a Fintech in Monrovia", duration: '18:44', category: 'Technology', time: '4h ago' },
+  { title: "5 Investing Mistakes Every Liberian First-Timer Makes — And How to Avoid Them", duration: '11:02', category: 'Investing', time: '7h ago' },
+  { title: "ArcelorMittal CFO on Why They're Doubling Down on Liberia Through 2030", duration: '14:30', category: 'Business', time: '1d ago' },
+  { title: "Orange Money's Record Quarter — VP of Digital Finance on What Comes Next", duration: '9:55', category: 'Technology', time: '1d ago' },
 ];
 
 const ORIGINALS = [
-  { show: 'Morning Brief', title: 'Markets Open — Liberia Edition', category: 'economy', duration: '18:22', ep: 'Ep. 214' },
-  { show: 'Market Catalysts', title: 'Iron Ore Prices and the West Africa Mining Boom', category: 'Mining', duration: '24:15', ep: 'Ep. 88' },
-  { show: 'Opening Bid', title: "Liberia's 2026 Budget: Winners and Losers", category: 'policy', duration: '31:07', ep: 'Ep. 52' },
+  { show: 'The Founders Lab', title: "Building in Liberia: Three Entrepreneurs on Capital, Risk & the Long Game", category: 'Entrepreneurship', duration: '42:11', ep: 'Ep. 31' },
+  { show: 'Invest Liberia', title: "Where to Put Your Money in 2026 — Equities, Real Estate, or Commodities?", category: 'Investing', duration: '28:47', ep: 'Ep. 19' },
+  { show: 'The Leadership Circle', title: "Ecobank West Africa CEO on Leading Through Uncertainty in Emerging Markets", category: 'Leadership', duration: '35:22', ep: 'Ep. 14' },
 ];
 
-const EDITORS_PICKS = [
-  { title: 'Liberia infrastructure bonds — who\'s buying?', duration: '2:19', category: 'Infrastructure', source: 'TrueRate Video', time: '2d ago' },
-  { title: 'Port of Monrovia expansion: $200M project breaks ground', duration: '3:44', category: 'Infrastructure', source: 'Reuters Africa', time: '3d ago' },
-  { title: 'Rice import tariffs: a breakdown for consumers and traders', duration: '2:07', category: 'Trade', source: 'TrueRate Video', time: '4d ago' },
-  { title: 'ECOWAS trade deal — what Liberian exporters need to know', duration: '5:11', category: 'Trade', source: 'Bloomberg Africa', time: '5d ago' },
+const ENTREPRENEUR_SPOTLIGHTS = [
+  { title: "How James Tarr Turned a $500 Idea into Liberia's Top Catering Brand", duration: '16:05', category: 'Entrepreneurship', source: 'TrueRate Interviews', time: '3d ago' },
+  { title: "The Woman Digitising Liberia's Informal Market — One Receipt at a Time", duration: '20:33', category: 'Technology', source: 'TrueRate Interviews', time: '4d ago' },
+  { title: "From Farming to Exporting: How One Bong County Family Built a $1M Agribusiness", duration: '13:48', category: 'Business', source: 'TrueRate Video', time: '5d ago' },
+  { title: "Leadership Lessons from Liberia's Most Decorated Female CEO", duration: '22:10', category: 'Leadership', source: 'TrueRate Interviews', time: '6d ago' },
 ];
 
-const MARKET_INSIGHTS = [
-  { title: 'Gold rally continues: Liberian miners positioned to benefit', duration: '2:55', category: 'commodities', source: 'TrueRate Video', time: '6h ago' },
-  { title: 'African Development Bank raises Liberia growth forecast to 5.8%', duration: '1:47', category: 'economy', source: 'AfDB', time: '1d ago' },
-  { title: 'Palm oil markets: West Africa supply update', duration: '3:22', category: 'commodities', source: 'TrueRate Video', time: '2d ago' },
-  { title: "Mobile money in Liberia: Orange Money's record Q1 numbers", duration: '2:40', category: 'Tech', source: 'Pulse Africa', time: '3d ago' },
+const INVESTING_INSIGHTS = [
+  { title: "How to Build a Portfolio on the Liberia Stock Exchange With Under $500", duration: '17:20', category: 'Investing', source: 'TrueRate Video', time: '1d ago' },
+  { title: "Gold, Rubber & Iron Ore: Which Commodity Play Makes Sense in 2026?", duration: '12:44', category: 'Investing', source: 'TrueRate Video', time: '2d ago' },
+  { title: "AfDB Upgrades Liberia to 5.8% Growth — What It Means for Your Investments", duration: '8:55', category: 'Business', source: 'TrueRate Analysis', time: '3d ago' },
+  { title: "Real Estate vs Equities in Monrovia: A Practical Guide for New Investors", duration: '19:07', category: 'Investing', source: 'TrueRate Video', time: '4d ago' },
 ];
 
-const TABS = ['Latest', 'Originals', "Editor's Picks", 'Market Insights', 'Economy', 'Policy'];
+const PODCASTS = [
+  { title: 'The Monrovia Entrepreneur', ep: 'Ep. 88', duration: '44:02', category: 'Entrepreneurship', desc: "This week: bootstrapping vs. venture capital — which path is right for Liberian founders?" },
+  { title: 'Founders & Funders', ep: 'Ep. 34', duration: '51:30', category: 'Technology', desc: "Three investors share what they're looking for in West Africa's startup ecosystem right now." },
+  { title: 'West Africa Investor Weekly', ep: 'Ep. 112', duration: '38:14', category: 'Investing', desc: "LRD watch, equity picks, and the sectors TrueRate analysts are watching this quarter." },
+  { title: 'The Leadership Brief', ep: 'Ep. 22', duration: '27:55', category: 'Leadership', desc: "Executive coach Dr. Pewu on the mindset shifts that separate good managers from great ones." },
+  { title: 'Tech Disruptors: West Africa', ep: 'Ep. 17', duration: '33:20', category: 'Technology', desc: "Mobile money, AI adoption, and the infrastructure gap — Liberia's tech moment is now." },
+];
+
+
+const CAT_COLORS: Record<string, string> = {
+  'Entrepreneurship': 'text-violet-400',
+  'Technology':       'text-sky-400',
+  'Investing':        'text-brand-accent',
+  'Leadership':       'text-amber-400',
+  'Business':         'text-rose-400',
+  'Mining':           'text-orange-400',
+};
+
+function catColor(c: string) {
+  return CAT_COLORS[c] ?? 'text-gray-400';
+}
 
 function PlayButton({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const dim = size === 'lg' ? 'h-14 w-14' : size === 'sm' ? 'h-8 w-8' : 'h-11 w-11';
@@ -57,90 +76,95 @@ function PlayButton({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   );
 }
 
-function Duration({ label }: { label: string }) {
+function SectionHeader({ title, sub, href, label = 'View all ›' }: { title: string; sub?: string; href?: string; label?: string }) {
   return (
-    <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">
-      {label}
-    </span>
+    <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+        <div>
+          <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">{title}</h2>
+          {sub && <p className="text-[12px] text-gray-500 mt-0.5">{sub}</p>}
+        </div>
+      </div>
+      {href !== undefined && (
+        <Link href={href || '/videos'} className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline shrink-0">{label}</Link>
+      )}
+    </div>
   );
 }
 
 function VideoCard({ title, duration, category, source, time }: { title: string; duration: string; category: string; source?: string; time: string }) {
   return (
-    <Link href="/videos" className="group flex flex-col no-underline">
-      <div className="relative overflow-hidden rounded-xl mb-2.5">
-        <VideoThumbnail category={category} duration={duration} className="w-full h-[140px]" />
+    <Link href="/videos" className="group flex gap-3.5 py-3.5 first:pt-0 no-underline">
+      <div className="relative shrink-0 overflow-hidden rounded-lg">
+        <VideoThumbnail category={category} duration={duration} className="h-[68px] w-[104px]" />
       </div>
-      <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1.5">{title}</h3>
-      <div className="text-[11px] text-gray-400">{source ? `${source} · ` : ''}{time}</div>
+      <div className="min-w-0 flex-1">
+        <div className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${catColor(category)}`}>{category}</div>
+        <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{title}</h3>
+        <div className="text-[11px] text-gray-500">{source ? `${source} · ` : ''}{time}</div>
+      </div>
     </Link>
   );
 }
 
 export default function VideosPage() {
-  const [activeTab, setActiveTab] = useState('Latest');
-
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
-      {/* Page title + tabs */}
+      {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
-        <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {TABS.map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
-                activeTab === tab
-                  ? 'border-white text-white'
-                  : 'border-transparent text-gray-500 hover:text-gray-300'
-              }`}>
-              {tab}
-            </button>
-          ))}
-        </div>
       </div>
 
-      {/* Hero + Latest list */}
-      <div className="flex flex-col lg:flex-row gap-5 mb-10">
+      {/* ── Hero + Latest ── */}
+      <div className="flex flex-col lg:flex-row gap-6 mb-12">
 
-        {/* Hero video */}
-        <Link href="/videos" className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 no-underline">
-          <VideoThumbnail category={HERO.category} duration={HERO.duration} className="w-full aspect-video" />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          {/* Play button */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <PlayButton size="lg" />
-          </div>
-          <Duration label={HERO.duration} />
-          {/* Text overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <div className="flex items-center gap-2 mb-2">
-              {HERO.tags.map(t => (
-                <span key={t} className="text-[10px] font-bold text-white/50 uppercase tracking-wide">{t}</span>
-              ))}
+        {/* Hero */}
+        <Link href="/videos" className="group flex-1 min-w-0 rounded-2xl no-underline block overflow-hidden">
+          <div className="relative w-full" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
+            <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <PlayButton size="lg" />
             </div>
-            <h2 className="text-[20px] font-bold leading-snug text-white mb-2 line-clamp-2">{HERO.title}</h2>
-            <p className="text-[13px] text-white/60 line-clamp-2 mb-3">{HERO.desc}</p>
-            <div className="text-[12px] text-white/50">{HERO.source} · {HERO.time}</div>
+            {/* Badge */}
+            <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-brand-dark">
+              {HERO.badge}
+            </span>
+            {/* Duration */}
+            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">
+              {HERO.duration}
+            </span>
+            {/* Text overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+              <h2 className="text-[18px] sm:text-[24px] font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+              <p className="text-[13px] text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+              <div className="flex items-center gap-2 text-[12px]">
+                <span className="font-semibold text-white/70">{HERO.source}</span>
+                <span className="text-white/30">·</span>
+                <span className="text-white/40">{HERO.time}</span>
+              </div>
+            </div>
           </div>
         </Link>
 
-        {/* Latest list */}
-        <div className="w-full lg:w-[300px] shrink-0 flex flex-col">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[13px] font-bold text-white uppercase tracking-wide">Latest</h3>
-            <Link href="/videos" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">View more ›</Link>
+        {/* Latest sidebar */}
+        <div className="w-full lg:w-[280px] shrink-0 flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-[11px] font-black uppercase tracking-widest text-white/40">Latest</span>
+            <Link href="/videos" className="text-[11px] text-gray-500 hover:text-white transition-colors no-underline">View more ›</Link>
           </div>
           <div className="flex flex-col divide-y divide-white/[0.05] flex-1">
             {LATEST.map((v, i) => (
               <Link key={i} href="/videos" className="group flex gap-3 py-3 first:pt-0 no-underline">
-                <div className="relative shrink-0 overflow-hidden w-[110px]">
-                  <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[62px]" />
+                <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
+                  <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[58px]" />
                 </div>
                 <div className="min-w-0 flex-1">
+                  <div className={`text-[10px] font-bold uppercase tracking-wide mb-0.5 ${catColor(v.category)}`}>{v.category}</div>
                   <h4 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{v.title}</h4>
-                  <div className="text-[11px] text-gray-400">{v.time}</div>
+                  <div className="text-[11px] text-gray-500">{v.time}</div>
                 </div>
               </Link>
             ))}
@@ -148,23 +172,20 @@ export default function VideosPage() {
         </div>
       </div>
 
-      {/* TrueRate Originals */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[17px] font-bold text-white">TrueRate Original Shows</h2>
-          <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View all ›</Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* ── TrueRate Originals ── */}
+      <section className="mb-12">
+        <SectionHeader title="TrueRate Originals" sub="Exclusive series on business, entrepreneurship & investing" href="/videos" />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {ORIGINALS.map((v, i) => (
-            <Link key={i} href="/videos" className="group relative overflow-hidden no-underline">
+            <Link key={i} href="/videos" className="group relative overflow-hidden rounded-2xl no-underline block">
               <VideoThumbnail category={v.category} duration={v.duration} className="w-full aspect-video" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <PlayButton size="md" />
               </div>
-              <Duration label={v.duration} />
+              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">{v.duration}</span>
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">{v.show} · {v.ep}</div>
+                <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${catColor(v.category)}`}>{v.show} · {v.ep}</div>
                 <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-2">{v.title}</h3>
               </div>
             </Link>
@@ -172,156 +193,111 @@ export default function VideosPage() {
         </div>
       </section>
 
-      {/* Editor's Picks */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[17px] font-bold text-white">Editor&apos;s Picks</h2>
-          <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View more ›</Link>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {EDITORS_PICKS.map((v, i) => (
-            <VideoCard key={i} {...v} />
-          ))}
+      {/* ── TrueRate Finance Network ── */}
+      <section className="mb-12 -mx-4 px-4 py-8 bg-white/[0.02] border-y border-white/[0.05]">
+        <div className="max-w-[1320px]">
+          <SectionHeader title="TrueRate Finance Network" sub="Podcasts on entrepreneurship, investing, leadership & technology" href="/videos" label="All episodes ›" />
+          <div className="divide-y divide-white/[0.06]">
+            {PODCASTS.map((pod, i) => (
+              <Link key={i} href="/videos" className="group flex gap-4 py-4 first:pt-0 no-underline">
+                <div className="relative shrink-0 overflow-hidden w-[80px]">
+                  <NewsThumbnail category={pod.category} className="w-full aspect-square" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <PlayButton size="sm" />
+                  </div>
+                  <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-0.5 text-[10px] font-semibold text-white tabular-nums">{pod.duration}</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className={`text-[10px] font-black uppercase tracking-wide mb-0.5 ${catColor(pod.category)}`}>{pod.ep}</div>
+                  <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{pod.title}</h3>
+                  <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">{pod.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Investing & Market Insights */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[17px] font-bold text-white">Investing &amp; Market Insights</h2>
-          <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View more ›</Link>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {MARKET_INSIGHTS.map((v, i) => (
-            <VideoCard key={i} {...v} />
-          ))}
-        </div>
-      </section>
+      {/* ── Entrepreneur Spotlights + Investing Insights ── */}
+      <div className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <section>
+          <SectionHeader title="Entrepreneur Spotlights" href="/videos" label="View more ›" />
+          <div className="flex flex-col divide-y divide-white/[0.05]">
+            {ENTREPRENEUR_SPOTLIGHTS.map((v, i) => (
+              <VideoCard key={i} {...v} />
+            ))}
+          </div>
+        </section>
+        <section>
+          <SectionHeader title="Investing Insights" href="/videos" label="View more ›" />
+          <div className="flex flex-col divide-y divide-white/[0.05]">
+            {INVESTING_INSIGHTS.map((v, i) => (
+              <VideoCard key={i} {...v} />
+            ))}
+          </div>
+        </section>
+      </div>
 
-      {/* Live & Upcoming */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[17px] font-bold text-white">Live &amp; Upcoming</h2>
-          <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View schedule ›</Link>
-        </div>
+      {/* ── Live & Upcoming ── */}
+      <section className="mb-12">
+        <SectionHeader title="Live & Upcoming" href="/videos" label="View schedule ›" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { title: 'CBL Press Conference: Q2 Monetary Policy Decision', channel: 'TrueRate Live', time: '10:00 AM', date: 'Apr 7', category: 'Monetary Policy', badge: 'LIVE TODAY' },
-            { title: 'ECOWAS Finance Ministers Summit — Opening Remarks', channel: 'TrueRate Live', time: '2:30 PM', date: 'Apr 7', category: 'policy', badge: 'UPCOMING' },
-            { title: "Liberia Stock Exchange: Opening Bell & Q1 Earnings Roundup", channel: 'LSE Channel', time: '9:00 AM', date: 'Apr 8', category: 'economy', badge: 'UPCOMING' },
-            { title: 'Iron Ore Investor Day — ArcelorMittal Nimba Expansion', channel: 'TrueRate Live', time: '11:00 AM', date: 'Apr 9', category: 'Mining', badge: 'UPCOMING' },
+            { title: 'Startup Pitch Live: Monrovia Edition — 8 Founders, One Stage', channel: 'TrueRate Live', time: '10:00 AM', date: 'Apr 7', category: 'Entrepreneurship', badge: 'LIVE NOW' },
+            { title: "Liberia's Small Business Summit 2026 — Opening Keynote", channel: 'TrueRate Live', time: '2:30 PM', date: 'Apr 7', category: 'Leadership', badge: 'UPCOMING' },
+            { title: 'CBL Governor Interview: Rates, Reserves & the Road Ahead', channel: 'TrueRate Interviews', time: '9:00 AM', date: 'Apr 8', category: 'Business', badge: 'UPCOMING' },
+            { title: 'West Africa Tech Summit — Liberia Delegation Panel', channel: 'TrueRate Live', time: '11:00 AM', date: 'Apr 9', category: 'Technology', badge: 'UPCOMING' },
           ].map((item, i) => (
-            <Link key={i} href="/videos" className="group block rounded-xl overflow-hidden border border-white/[0.07] bg-brand-card hover:border-white/[0.15] transition-colors no-underline">
-              <div className="relative overflow-hidden">
+            <Link key={i} href="/videos" className="group flex flex-col no-underline">
+              <div className="relative overflow-hidden mb-3">
                 <VideoThumbnail category={item.category} className="w-full aspect-video" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute top-2 left-2">
-                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${item.badge === 'LIVE TODAY' ? 'bg-red-600 text-white' : 'bg-black/60 text-white/70'}`}>
+                <div className="absolute top-2.5 left-2.5">
+                  <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-white' : 'bg-black/70 text-white/60 border border-white/10'}`}>
                     {item.badge}
                   </span>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <PlayButton size="md" />
+                  <PlayButton size="sm" />
                 </div>
               </div>
-              <div className="p-3">
-                <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{item.title}</h3>
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-gray-400 font-semibold">{item.channel}</span>
-                  <span className="text-[11px] text-gray-500 tabular-nums">{item.time} · {item.date}</span>
-                </div>
+              <div className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${catColor(item.category)}`}>{item.category}</div>
+              <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{item.title}</h3>
+              <div className="flex items-center gap-2 text-[11px] text-gray-500 mt-0.5">
+                <span>{item.channel}</span>
+                <span>·</span>
+                <span>{item.time} · {item.date}</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Business Explainers */}
+      {/* ── Growth Playbook ── */}
       <section className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[17px] font-bold text-white">Business Explainers</h2>
-          <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">View all ›</Link>
-        </div>
+        <SectionHeader title="Growth Playbook" sub="Practical guides on building, investing & leading in Liberia" href="/videos" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {[
-            {
-              title: 'How the CBL Sets Interest Rates — A Plain-English Guide',
-              duration: '14:32',
-              desc: 'Walk through the full monetary policy transmission mechanism, from the MPC vote to the impact on your savings account and business loan rates.',
-              category: 'Monetary Policy',
-              label: 'Explainer',
-            },
-            {
-              title: "Liberia's Balance of Payments: Why Exports & Remittances Matter",
-              duration: '18:07',
-              desc: 'An accessible breakdown of current account dynamics — who sends money in, who spends it on imports, and what that means for the LRD exchange rate.',
-              category: 'economy',
-              label: 'Deep Dive',
-            },
-            {
-              title: 'Understanding the Liberia Stock Exchange — From IPO to Trading',
-              duration: '22:45',
-              desc: 'Everything a first-time investor needs to know: how shares are listed, how prices are set, and how to place your first trade on the LSE.',
-              category: 'economy',
-              label: 'Beginner Guide',
-            },
+            { title: 'How to Register & Structure Your Business in Liberia — Step by Step', duration: '14:32', desc: 'From business registration at the Liberia Business Registry to choosing the right legal structure — a complete guide for first-time founders.', category: 'Entrepreneurship', label: 'Starter Guide' },
+            { title: "Your First Investment in Liberia: Stocks, Bonds & Real Estate Explained", duration: '18:07', desc: "A plain-English breakdown of every asset class available to Liberian investors today — with honest risk assessments and where to start.", category: 'Investing', label: 'Beginner Guide' },
+            { title: 'Leadership Fundamentals for Liberian Business Owners — Manage, Motivate & Scale', duration: '22:45', desc: 'Practical leadership frameworks adapted for West African business culture — from managing your first hire to running a team of 50.', category: 'Leadership', label: 'Deep Dive' },
           ].map((item, i) => (
-            <Link key={i} href="/videos" className="group flex flex-col rounded-xl overflow-hidden border border-white/[0.07] bg-brand-card hover:border-white/[0.15] transition-colors no-underline">
-              <div className="relative overflow-hidden shrink-0">
+            <Link key={i} href="/videos" className="group flex flex-col no-underline">
+              <div className="relative overflow-hidden mb-4">
                 <VideoThumbnail category={item.category} duration={item.duration} className="w-full aspect-video" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <PlayButton size="md" />
                 </div>
-                <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">{item.duration}</span>
+                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
               </div>
-              <div className="flex flex-col flex-1 p-4">
-                <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2 line-clamp-2">{item.title}</h3>
-                <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-3 flex-1">{item.desc}</p>
-              </div>
+              <div className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
+              <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2 line-clamp-2">{item.title}</h3>
+              <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-3">{item.desc}</p>
             </Link>
           ))}
         </div>
       </section>
-
-      {/* Podcasts */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[17px] font-bold text-white">Podcasts</h2>
-          <Link href="/videos" className="text-[13px] text-gray-500 hover:text-white transition-colors no-underline">All episodes ›</Link>
-        </div>
-        <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {[
-            { title: 'The Monrovia Money Show', ep: 'Ep. 112', duration: '38:14', category: 'economy', desc: 'Rates, rubber, and the road to fiscal balance — this week\'s deep dive with the FM.' },
-            { title: 'West Africa Markets Weekly', ep: 'Ep. 67',  duration: '44:02', category: 'economy', desc: 'Regional macro wrap: Nigeria\'s fiscal deficit, Ghana\'s IMF review, and LRD watch.' },
-            { title: 'The Liberia Investor Podcast', ep: 'Ep. 29', duration: '51:30', category: 'Analysis', desc: 'Venture capital in Monrovia: three founders share how they\'re raising in 2026.' },
-            { title: 'CBL Conversations', ep: 'Ep. 18', duration: '27:55', category: 'Monetary Policy', desc: 'Official commentary from Central Bank economists on monetary policy and FX reserves.' },
-            { title: 'Trade Winds: Africa', ep: 'Ep. 44',  duration: '33:20', category: 'Trade', desc: 'ECOWAS trade flows, port congestion at Monrovia, and iron ore shipping trends.' },
-          ].map((pod, i) => (
-            <Link key={i} href="/videos" className="group shrink-0 w-[200px] flex flex-col rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden hover:border-white/[0.15] transition-colors no-underline">
-              <div className="relative overflow-hidden">
-                <NewsThumbnail category={pod.category} className="w-full aspect-square" />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <PlayButton size="md" />
-                </div>
-                <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">{pod.duration}</span>
-              </div>
-              <div className="flex flex-col flex-1 p-3">
-                <div className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">{pod.ep}</div>
-                <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1.5">{pod.title}</h3>
-                <p className="text-[11px] text-gray-500 line-clamp-3 leading-relaxed flex-1">{pod.desc}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Browse all CTA */}
-      <div className="flex justify-center py-8">
-        <Link href="/videos" className="rounded-lg border border-white/20 px-8 py-3 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
-          Browse all videos ›
-        </Link>
-      </div>
 
     </main>
   );

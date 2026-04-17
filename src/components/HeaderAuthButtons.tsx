@@ -38,7 +38,7 @@ function StaticAuthButtons({ isLight }: { isLight: boolean }) {
             : 'bg-white text-[#0a0a0d] shadow-lg shadow-white/10 hover:brightness-110'
         }`}
       >
-        Subscribe
+        Sign up
       </Link>
     </>
   );
@@ -65,7 +65,7 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
         </Link>
       </Show>
 
-      {/* Signed-out: Sign in + Subscribe */}
+      {/* Signed-out: Sign in + Sign up */}
       <Show when="signed-out">
         <Link
           href="/sign-in"
@@ -85,7 +85,7 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
               : 'bg-white text-[#0a0a0d] shadow-lg shadow-white/10 hover:brightness-110'
           }`}
         >
-          Subscribe
+          Sign up
         </Link>
       </Show>
 

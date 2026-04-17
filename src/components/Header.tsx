@@ -5,6 +5,17 @@ import { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import HeaderAuthButtons from './HeaderAuthButtons';
 
+const NEWS_TICKER = [
+  { category: 'Forex',           headline: 'LRD/USD holds at 192.50 — CBL intervenes to anchor exchange rate ahead of budget review' },
+  { category: 'Markets',         headline: 'Iron ore drops 2.1% on weak Chinese demand data — ArcelorMittal Liberia watching closely' },
+  { category: 'Policy',          headline: 'Finance Ministry sets Apr 14 for mid-year budget review as revenue shortfall widens' },
+  { category: 'Trade',           headline: 'Freeport of Monrovia posts strongest weekly throughput since 2021 following Phase II completion' },
+  { category: 'Mining',          headline: 'Bea Mountain confirms 1.4M oz high-grade deposit — Grand Cape Mount gold rush accelerates' },
+  { category: 'Economy',         headline: 'CBL gross reserves reach $642M, covering 4.3 months of imports — highest since 2013' },
+  { category: 'Energy',          headline: 'Private mini-grids add 48MW of solar capacity, powering 190,000 homes outside the national grid' },
+  { category: 'Capital Markets', headline: 'LiberAgro raises $12M in West Africa first cross-border IPO on Ghana Stock Exchange' },
+];
+
 const SEED_TICKER = [
   { pair: 'USD/LRD', rate: 192.50, change: 0.35 },
   { pair: 'EUR/LRD', rate: 209.85, change: -0.21 },
@@ -49,35 +60,35 @@ function RateTicker({ isLight }: { isLight: boolean }) {
 
 const MOBILE_NAV: { label: string; sub?: string[] }[] = [
   { label: 'Business',         sub: ['Top Stories', 'Companies', 'Economy', 'Banking & Finance', 'Infrastructure'] },
-  { label: 'Investing',        sub: ['Markets', 'Forex & Rates', 'Research', 'Commodities', 'Watchlist'] },
+  { label: 'Investing',        sub: ['Markets', 'Forex & Rates', 'Watchlist'] },
   { label: 'Technology',       sub: ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'] },
   { label: 'Entrepreneurship', sub: ['Founders', 'Funding', 'SMEs', 'Growth Stories'] },
   { label: 'Lifestyle',        sub: ['Culture', 'Sports', 'Health & Wellness', 'Travel'] },
 ];
 
-const SUB_HAS_ARROW = new Set(['News', 'Markets', 'Research', 'Videos']);
+const SUB_HAS_ARROW = new Set(['News', 'Markets', 'Videos']);
 
 const MORE_SECTIONS: Record<string, string[]> = {
   'Business':         ['Top Stories', 'Companies', 'Economy', 'Banking & Finance', 'Infrastructure'],
-  'Investing':        ['Markets', 'Forex & Rates', 'Research', 'Commodities', 'Watchlist'],
+  'Investing':        ['Markets', 'Forex & Rates', 'Watchlist'],
   'Technology':       ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'],
   'Entrepreneurship': ['Founders', 'Funding', 'SMEs', 'Growth Stories'],
 };
 
 
 const MORE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
-  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/commodities', 'Watchlist': '/watchlist' },
-  'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
-  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
+  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/economy' },
+  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Watchlist': '/watchlist' },
+  'Technology':       { 'Startups': '/technology', 'AI & Innovation': '/technology', 'Digital Economy': '/technology', 'Fintech': '/technology' },
+  'Entrepreneurship': { 'Founders': '/entrepreneurship', 'Funding': '/entrepreneurship', 'SMEs': '/entrepreneurship', 'Growth Stories': '/entrepreneurship' },
 };
 
 const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/news' },
-  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Research': '/research', 'Commodities': '/commodities', 'Watchlist': '/watchlist' },
-  'Technology':       { 'Startups': '/news', 'AI & Innovation': '/news', 'Digital Economy': '/news', 'Fintech': '/news' },
-  'Entrepreneurship': { 'Founders': '/news', 'Funding': '/news', 'SMEs': '/directory', 'Growth Stories': '/news' },
-  'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/news', 'Travel': '/news' },
+  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/economy' },
+  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Watchlist': '/watchlist' },
+  'Technology':       { 'Startups': '/technology', 'AI & Innovation': '/technology', 'Digital Economy': '/technology', 'Fintech': '/technology' },
+  'Entrepreneurship': { 'Founders': '/entrepreneurship', 'Funding': '/entrepreneurship', 'SMEs': '/entrepreneurship', 'Growth Stories': '/entrepreneurship' },
+  'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/entertainment', 'Travel': '/entertainment' },
 };
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
@@ -161,7 +172,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports');
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname === '/about' || pathname === '/help';
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -243,12 +254,12 @@ export default function Header() {
             { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
             { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
           ] as { label: string; href: string; active: boolean }[]).map(item => (
-            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-emerald-500' : isLight ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-white'}`}>
+            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-brand-accent' : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'}`}>
               {item.label}
             </Link>
           ))}
           <div className="relative" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
-            <button className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap ${isLight ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-white'}`}>
+            <button className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap ${isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'}`}>
               More
               <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -339,13 +350,41 @@ export default function Header() {
                 );
               })}
             </>
+          ) : pathname === '/about' ? (
+            /* About-specific links */
+            <>
+              {[
+                { label: 'Help',                  href: '/help' },
+                { label: 'Feedback',              href: '/feedback' },
+                { label: 'Terms & Privacy Policy',href: '/about' },
+                { label: 'About Our Ads',         href: '/about' },
+              ].map(({ label, href }) => (
+                <Link key={label} href={href}
+                  className="flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors no-underline">
+                  {label}
+                </Link>
+              ))}
+              <div className="ml-auto pl-4 border-l border-gray-200 py-2">
+                <RateTicker isLight={true} />
+              </div>
+            </>
+          ) : pathname.startsWith('/videos') ? (
+            /* Videos-specific tabs */
+            <>
+              {['Latest', 'Interviews', 'Entrepreneurship', 'Investing', 'Technology', 'Leadership'].map(label => (
+                <Link key={label} href="/videos"
+                  className="flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline border-transparent text-white/70 hover:text-brand-accent">
+                  {label}
+                </Link>
+              ))}
+            </>
           ) : (
             /* Default global nav items */
             <>
               {[
-                { label: 'Markets',     href: '/forex' },
-                { label: 'Commodities', href: '/commodities' },
-                { label: 'Companies',   href: '/directory' },
+                { label: 'Markets',   href: '/forex' },
+                { label: 'Economy',   href: '/economy' },
+                { label: 'Companies', href: '/directory' },
                 { label: 'Lifestyle',   href: '/entertainment' },
                 { label: 'Watch Now',   href: '/videos' },
               ].map(({ label, href }) => {
@@ -354,8 +393,8 @@ export default function Header() {
                   <Link key={label} href={href}
                     className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
                       isActive
-                        ? 'border-emerald-400 text-emerald-400'
-                        : isLight ? 'border-transparent text-gray-500 hover:text-gray-900' : 'border-transparent text-white/70 hover:text-white'
+                        ? 'border-brand-accent text-brand-accent'
+                        : isLight ? 'border-transparent text-gray-500 hover:text-brand-accent' : 'border-transparent text-white/70 hover:text-brand-accent'
                     }`}>
                     {label}
                   </Link>

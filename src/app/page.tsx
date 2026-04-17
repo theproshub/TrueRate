@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { newsItems } from '@/data/news';
 import { getCatColor } from '@/lib/category-colors';
 
@@ -10,16 +10,18 @@ import { getCatColor } from '@/lib/category-colors';
 ───────────────────────────────────────────────────────────────────────────── */
 
 
-const INDICATORS = [
-  { label: 'GDP Growth',  value: '4.5%',      change: '+0.2pp', pct: 'YoY',    up: true,  group: 'economy', spark: [3.2,3.4,3.5,3.7,3.8,3.9,4.0,4.1,4.2,4.3,4.4,4.5] },
-  { label: 'Inflation',   value: '10.2%',     change: '-0.8pp', pct: 'YoY',    up: true,  group: 'economy', spark: [12.5,12.2,11.8,11.5,11.2,11.0,10.8,10.6,10.5,10.4,10.3,10.2] },
-  { label: 'CBL Rate',    value: '17.50%',    change: '0.00',   pct: 'Steady', up: true,  group: 'economy', spark: [17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5,17.5] },
-  { label: 'LRD/USD',    value: '192.50',    change: '+1.25',  pct: '+0.65%', up: true,  group: 'fx',      spark: [186,188,187,190,189,191,190,192,191,193,192,192.5] },
-  { label: 'LRD/EUR',    value: '209.85',    change: '-0.92',  pct: '-0.44%', up: false, group: 'fx',      spark: [212,211,210,211,209,210,209,210,208,209,210,209.85] },
-  { label: 'LRD/GBP',    value: '243.15',    change: '+2.10',  pct: '+0.87%', up: true,  group: 'fx',      spark: [238,240,239,241,240,242,241,243,242,244,243,243.15] },
-  { label: 'Iron Ore',    value: '108.50',    change: '-2.30',  pct: '-2.08%', up: false, group: 'commodity', spark: [115,114,113,112,111,110,109,109,108,108,108,108.5] },
-  { label: 'Rubber',      value: '1.72',      change: '+0.04',  pct: '+2.38%', up: true,  group: 'commodity', spark: [1.60,1.62,1.63,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.72] },
-  { label: 'Gold',        value: '2,285.40',  change: '+18.60', pct: '+0.82%', up: true,  group: 'commodity', spark: [2240,2255,2250,2265,2260,2270,2268,2278,2275,2282,2284,2285] },
+type TickerItem = { label: string; value: string; pct: string; up: boolean };
+
+const SEED_INDICATORS: TickerItem[] = [
+  { label: 'GDP Growth', value: '4.5%',     pct: 'YoY',    up: true  },
+  { label: 'Inflation',  value: '10.2%',    pct: 'YoY',    up: false },
+  { label: 'CBL Rate',   value: '17.50%',   pct: 'Steady', up: true  },
+  { label: 'LRD/USD',   value: '192.50',   pct: '+0.65%', up: true  },
+  { label: 'LRD/EUR',   value: '209.85',   pct: '-0.44%', up: false },
+  { label: 'LRD/GBP',   value: '243.15',   pct: '+0.87%', up: true  },
+  { label: 'Iron Ore',   value: '108.50',   pct: '-2.08%', up: false },
+  { label: 'Rubber',     value: '1.72',     pct: '+2.38%', up: true  },
+  { label: 'Gold',       value: '2,285.40', pct: '+0.82%', up: true  },
 ];
 
 
@@ -131,9 +133,12 @@ function timeAgo(d: string) {
 
 function SectionHeading({ title, action, actionLabel = 'View all' }: { title: string; action?: string; actionLabel?: string }) {
   return (
-    <div className="flex items-center justify-between mb-4">
-      <h2 className="text-[17px] font-bold text-white tracking-tight">{title}</h2>
-      {action && <a href={action} className="text-[12px] font-medium text-white hover:text-white/70 hover:underline transition-colors">{actionLabel} ›</a>}
+    <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+      <div className="flex items-center gap-3">
+        <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">{title}</h2>
+      </div>
+      {action && <a href={action} className="text-[12px] font-medium text-gray-400 hover:text-white transition-colors no-underline">{actionLabel} ›</a>}
     </div>
   );
 }
@@ -145,44 +150,90 @@ function SectionHeading({ title, action, actionLabel = 'View all' }: { title: st
 
 
 function IndicatorsStrip() {
-  return (
-    <div className="bg-brand-dark border-b border-white/[0.05]">
-      <div className="mx-auto max-w-[1320px]">
+  const [items, setItems] = useState<TickerItem[]>(SEED_INDICATORS);
 
-        {/* Mobile: auto-scrolling marquee ticker */}
+  useEffect(() => {
+    // Fetch live rates + indicators in parallel
+    Promise.all([
+      fetch('/api/rates').then(r => r.json()).catch(() => null),
+      fetch('/api/indicators').then(r => r.json()).catch(() => null),
+    ]).then(([ratesData, indicatorsData]) => {
+      const next: TickerItem[] = [...SEED_INDICATORS];
+
+      // Patch FX from /api/rates
+      if (ratesData?.rates?.length) {
+        const rMap: Record<string, { rate: number; changePercent: number }> = {};
+        for (const r of ratesData.rates) rMap[r.from] = r;
+
+        const fxMap: Record<string, string> = { USD: 'LRD/USD', EUR: 'LRD/EUR', GBP: 'LRD/GBP' };
+        for (const [from, label] of Object.entries(fxMap)) {
+          const r = rMap[from];
+          if (!r) continue;
+          const idx = next.findIndex(x => x.label === label);
+          if (idx === -1) continue;
+          const pct = r.changePercent;
+          next[idx] = {
+            label,
+            value: r.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+            pct: `${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            up: pct >= 0,
+          };
+        }
+      }
+
+      // Patch macro indicators from /api/indicators
+      if (indicatorsData?.indicators?.length) {
+        const iMap: Record<string, { value: number; changePercent: number | null }> = {};
+        for (const ind of indicatorsData.indicators) iMap[ind.key] = ind;
+
+        const macroMap: Record<string, { label: string; fmt: (v: number) => string; pctLabel: string }> = {
+          GDP_GROWTH: { label: 'GDP Growth', fmt: v => `${v.toFixed(1)}%`,  pctLabel: 'YoY' },
+          INFLATION:  { label: 'Inflation',  fmt: v => `${v.toFixed(1)}%`,  pctLabel: 'YoY' },
+        };
+        for (const [key, meta] of Object.entries(macroMap)) {
+          const ind = iMap[key];
+          if (!ind) continue;
+          const idx = next.findIndex(x => x.label === meta.label);
+          if (idx === -1) continue;
+          const cp = ind.changePercent;
+          next[idx] = {
+            label: meta.label,
+            value: meta.fmt(ind.value),
+            pct: meta.pctLabel,
+            up: cp !== null ? cp >= 0 : true,
+          };
+        }
+      }
+
+      setItems(next);
+    });
+  }, []);
+
+  const Tile = ({ item, size }: { item: TickerItem; size: 'sm' | 'lg' }) => (
+    <div className={`shrink-0 flex flex-col border-r border-white/[0.07] ${size === 'lg' ? 'px-5 py-2.5' : 'px-4 py-2.5'}`}>
+      <span className={`font-semibold text-white whitespace-nowrap ${size === 'lg' ? 'text-[13px]' : 'text-[12px]'}`}>{item.label}</span>
+      <div className="flex items-center gap-1.5 mt-0.5">
+        <span className={`tabular-nums text-gray-400 whitespace-nowrap ${size === 'lg' ? 'text-[13px]' : 'text-[12px]'}`}>{item.value}</span>
+        <span className={`tabular-nums font-bold whitespace-nowrap ${size === 'lg' ? 'text-[12px]' : 'text-[11px]'} ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+          {size === 'lg' && (item.up ? '▲' : '▼')}{item.pct}
+        </span>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="bg-[#040c10] border-b border-white/[0.05]">
+      <div className="mx-auto max-w-[1320px]">
         <div className="sm:hidden overflow-hidden">
           <div className="ticker-scroll flex">
-            {[...INDICATORS, ...INDICATORS].map((item, i) => (
-              <div key={i} className="shrink-0 flex flex-col px-4 py-2.5 border-r border-white/[0.07]">
-                <span className="text-[12px] font-semibold text-white whitespace-nowrap">{item.label}</span>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="tabular-nums text-[12px] text-gray-400 whitespace-nowrap">{item.value}</span>
-                  <span className={`tabular-nums text-[11px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {item.pct}
-                  </span>
-                </div>
-              </div>
-            ))}
+            {[...items, ...items].map((item, i) => <Tile key={i} item={item} size="sm" />)}
           </div>
         </div>
-
-        {/* Desktop: same scrolling marquee as mobile */}
         <div className="hidden sm:block overflow-hidden">
           <div className="ticker-scroll flex">
-            {[...INDICATORS, ...INDICATORS].map((item, i) => (
-              <div key={i} className="shrink-0 flex flex-col px-5 py-2.5 border-r border-white/[0.07]">
-                <span className="text-[13px] font-semibold text-white whitespace-nowrap">{item.label}</span>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="tabular-nums text-[13px] text-gray-400 whitespace-nowrap">{item.value}</span>
-                  <span className={`flex items-center gap-0.5 tabular-nums text-[12px] font-bold whitespace-nowrap ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {item.up ? '▲' : '▼'}{item.pct}
-                  </span>
-                </div>
-              </div>
-            ))}
+            {[...items, ...items].map((item, i) => <Tile key={i} item={item} size="lg" />)}
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -293,10 +344,12 @@ function NewsListColumn() {
 function LatestColumn() {
   return (
     <div>
-      <h2 className="mb-3 flex items-center gap-2 text-[14px] font-bold text-white">
-        <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
-        Latest
-      </h2>
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
+        <div className="flex items-center gap-3">
+          <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
+          <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Latest</h2>
+        </div>
+      </div>
 
       {/* Large-card style — all viewports */}
       <div className="flex flex-col divide-y divide-white/[0.05]">
@@ -347,17 +400,17 @@ const FX_RATES = [
 
 function ForexWidget() {
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
+    <div>
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
         <div>
-          <h2 className="text-[15px] font-bold text-white">Exchange Rates</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Liberian Dollar (LRD) · CBL · Apr 3, 2026</p>
+          <h2 className="text-[13px] font-bold text-white">Exchange Rates</h2>
+          <p className="text-[11px] text-gray-400 mt-0.5">LRD · CBL · Apr 3, 2026</p>
         </div>
         <Link href="/forex" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">Converter ›</Link>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {FX_RATES.map(r => (
-          <Link key={r.pair} href="/forex" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
+          <Link key={r.pair} href="/forex" className="flex items-start gap-3 py-3.5 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-bold text-white tabular-nums">{r.pair}</div>
               <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{r.note}</div>
@@ -387,17 +440,17 @@ const COMMODITIES_WITH_CONTEXT = [
 
 function CommoditiesWidget() {
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
+    <div>
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
         <div>
-          <h2 className="text-[15px] font-bold text-white">Commodities</h2>
+          <h2 className="text-[13px] font-bold text-white">Commodities</h2>
           <p className="text-[11px] text-gray-400 mt-0.5">Liberia-relevant · Apr 3, 2026</p>
         </div>
         <Link href="/commodities" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {COMMODITIES_WITH_CONTEXT.map(c => (
-          <Link key={c.name} href="/commodities" className="flex items-start gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors no-underline group">
+          <Link key={c.name} href="/commodities" className="flex items-start gap-3 py-3.5 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-400">{c.unit}</span></div>
               <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{c.note}</div>
@@ -427,16 +480,14 @@ function EconomicWidget() {
     { label: 'Debt / GDP',    value: '55.4%',   pct: '+2.2pp', up: false, note: 'IMF urges fiscal discipline' },
   ];
   return (
-    <div className="rounded-xl border border-white/[0.06] bg-brand-card overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-4">
-        <div>
-          <h2 className="text-[15px] font-bold text-white">Liberia at a Glance</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Key indicators · Sources: CBL, World Bank, IMF</p>
-        </div>
+    <div>
+      <div className="border-b border-white/[0.07] pb-3 mb-0">
+        <h2 className="text-[13px] font-bold text-white">Liberia at a Glance</h2>
+        <p className="text-[11px] text-gray-400 mt-0.5">Key indicators · CBL, World Bank, IMF</p>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {rows.map(r => (
-          <Link key={r.label} href="/economy" className="flex items-start gap-3 px-5 py-3 hover:bg-white/[0.02] transition-colors no-underline group">
+          <Link key={r.label} href="/economy" className="flex items-start gap-3 py-3 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-semibold text-white">{r.label}</div>
               <div className="text-[11px] text-gray-400 mt-0.5">{r.note}</div>
@@ -461,12 +512,12 @@ function VideosSection() {
   const v = VIDEOS[active];
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-[17px] font-bold text-white tracking-tight">Today&apos;s Videos</h2>
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
+        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Today&apos;s Videos</h2>
         <Link href="/videos" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">Explore More</Link>
       </div>
-      {/* Card */}
-      <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-brand-card">
+      {/* Video player */}
+      <div className="border-t border-white/[0.06] pt-4">
         {/* Thumbnail */}
         <div className="relative cursor-pointer group">
           <VideoThumbnail category={v.category} />
@@ -541,8 +592,8 @@ function DeepReadsColumn() {
   const [lead, ...rest] = DEEP_READS;
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-[15px] font-bold text-white">In Depth</h2>
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
+        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">In Depth</h2>
         <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">More ›</Link>
       </div>
       {/* Lead story */}
@@ -625,7 +676,7 @@ function LatestSidebar() {
       {/* Latest news list */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-[15px] font-bold text-white">Latest</h2>
+          <h2 className="text-[12px] font-bold text-white uppercase tracking-[0.12em]">Latest</h2>
           <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">See all latest ›</Link>
         </div>
         <div className="flex flex-col divide-y divide-white/[0.05]">
@@ -640,7 +691,7 @@ function LatestSidebar() {
 
       {/* In Focus */}
       <div className="border-t border-white/[0.05] pt-5">
-        <h2 className="text-[15px] font-bold text-white mb-3">In Focus</h2>
+        <h2 className="text-[12px] font-bold text-white uppercase tracking-[0.12em] mb-3">In Focus</h2>
         <div className="flex flex-wrap gap-2">
           {IN_FOCUS_TOPICS.map(t => (
             <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
@@ -673,8 +724,8 @@ function LatestSidebar() {
 function QuickReadsColumn() {
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-[17px] font-bold text-white tracking-tight">In Brief</h2>
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
+        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">In Brief</h2>
         <Link href="/news" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">More ›</Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
@@ -702,7 +753,7 @@ function MostReadWidget() {
   return (
     <div className="border-t border-white/[0.05] pt-5">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-[15px] font-bold text-white">Most Read</h2>
+        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Most Read</h2>
         <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">See all ›</Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
@@ -723,7 +774,7 @@ function MostReadWidget() {
 function UpcomingEventsWidget() {
   return (
     <div className="border-t border-white/[0.05] pt-5">
-      <h2 className="text-[15px] font-bold text-white mb-3">Upcoming Events</h2>
+      <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em] mb-3">Upcoming Events</h2>
       <div className="flex flex-col gap-2.5">
         {UPCOMING_EVENTS.map((ev, i) => (
           <Link key={i} href="/economy" className="flex items-start gap-3 no-underline group">
@@ -757,10 +808,10 @@ export default function Home() {
     <div className="min-h-screen">
       <IndicatorsStrip />
 
-      <main className="mx-auto max-w-[1320px] px-5 py-6 pb-14 sm:pb-6">
+      <main className="mx-auto max-w-[1320px] px-5 py-8 pb-14 sm:pb-8">
 
         {/* Three-column layout */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-5">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-6">
 
           {/* LEFT: Featured video + video list — col 1-5 */}
           <div className="order-1 lg:col-span-5 flex flex-col gap-5">
@@ -798,7 +849,7 @@ export default function Home() {
 
 
         {/* Regional Spotlight */}
-        <div className="mt-10 border-t border-white/[0.05] pt-8">
+        <div className="mt-14 border-t border-white/[0.05] pt-8">
           <SectionHeading title="West Africa in Focus" action="/news" actionLabel="More regional news" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -807,19 +858,15 @@ export default function Home() {
               { country: 'Sierra Leone',  headline: "Freetown's $80M port expansion is a direct challenge to Monrovia's trade lead", stat: 'SLL/USD 22,100', time: '8h ago', cat: 'Development' },
               { country: "Côte d'Ivoire", headline: "The Abidjan bourse outperformed every regional peer in Q1. These are the stocks that led.", stat: 'BRVM Index +3.4%', time: '10h ago', cat: 'economy' },
             ].map((r, i) => (
-              <Link key={i} href="/news" className="group flex flex-col no-underline overflow-hidden rounded-xl border border-white/[0.07] bg-brand-card hover:border-white/20 transition-colors">
-                <div className="overflow-hidden">
-                  <NewsThumbnail category={r.cat} className="w-full h-[120px]" />
+              <Link key={i} href="/news" className="group flex flex-col no-underline border-t border-white/[0.07] pt-4 hover:border-white/20 transition-colors">
+                <div className="overflow-hidden mb-3">
+                  <NewsThumbnail category={r.cat} className="w-full h-[120px] rounded-lg" />
                 </div>
-                <div className="p-3 flex-1">
-                  <div className="mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wide text-white/50">{r.country}</span>
-                  </div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{r.headline}</h3>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-white/50 tabular-nums">{r.stat}</span>
-                    <span className="text-[10px] text-gray-400">{r.time}</span>
-                  </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-brand-accent mb-1.5 block">{r.country}</span>
+                <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors mb-2">{r.headline}</h3>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="text-[11px] font-bold text-white/40 tabular-nums">{r.stat}</span>
+                  <span className="text-[11px] text-gray-500">{r.time}</span>
                 </div>
               </Link>
             ))}
@@ -828,8 +875,11 @@ export default function Home() {
 
 
         {/* Trending Topics */}
-        <div className="mt-8 border-t border-white/[0.05] pt-8 pb-4">
-          <h2 className="text-[15px] font-bold text-white mb-3">Topics</h2>
+        <div className="mt-14 border-t border-white/[0.05] pt-8 pb-4">
+          <div className="flex items-center gap-3 border-b border-white/[0.07] pb-3 mb-4">
+            <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+            <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Topics</h2>
+          </div>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'CBL Rate', 'Rubber Prices', 'ECOWAS Trade', 'Liberia GDP', 'Diaspora Remittances', 'Mining Policy', 'Inflation', 'Gold Prices', 'Firestone', 'ArcelorMittal', 'World Bank', 'IMF Program', 'Port of Monrovia', 'Ecobank', 'Mobile Money'].map(t => (
               <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">{t}</Link>

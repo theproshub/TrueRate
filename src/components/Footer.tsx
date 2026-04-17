@@ -6,16 +6,12 @@ const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
   'Business': [
     { label: 'Economy',           href: '/economy' },
     { label: 'Companies',         href: '/directory' },
-    { label: 'Research',          href: '/research' },
     { label: 'Videos',            href: '/videos' },
-    { label: 'Community',         href: '/community' },
   ],
   'Investing': [
     { label: 'Markets',           href: '/forex' },
     { label: 'Forex & Rates',     href: '/forex' },
-    { label: 'Commodities',       href: '/economy' },
     { label: 'Watchlist',         href: '/watchlist' },
-    { label: 'Research',          href: '/research' },
   ],
   'Editorial': [
     { label: 'Technology',        href: '/news' },
@@ -73,7 +69,7 @@ export default function Footer() {
               className="flex-1 rounded-lg bg-white/[0.05] border border-white/[0.08] px-4 py-3 text-[13px] text-white placeholder:text-gray-400 outline-none focus:border-white/40 transition-colors"
             />
             <button className="shrink-0 rounded-lg bg-white px-6 py-3 text-[13px] font-semibold text-[#0a0a0d] hover:brightness-90 transition">
-              Subscribe
+              Sign up free
             </button>
           </div>
         </div>

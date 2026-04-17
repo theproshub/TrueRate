@@ -54,11 +54,23 @@ export function NewsThumbnail({ category, className }: { category: string; class
 export function HeroVisual({ category, className = '' }: { category: string; className?: string }) {
   const s = getCatStyle(category);
   return (
-    <div className={`w-full relative overflow-hidden flex items-end ${s.bg} ${className}`}>
+    <div className={`w-full relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
+      {/* Dot grid */}
       <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+        className="absolute inset-0 opacity-[0.08]"
+        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
       />
+      {/* Diagonal lines */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{ backgroundImage: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 32px)' }}
+      />
+      {/* Category watermark */}
+      <span className={`relative z-10 select-none text-[clamp(48px,10vw,96px)] font-black uppercase tracking-widest opacity-[0.07] ${s.accent}`}>
+        {s.label}
+      </span>
+      {/* Edge vignette */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
     </div>
   );
 }

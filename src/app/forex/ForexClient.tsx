@@ -74,9 +74,9 @@ function ForexChart() {
   const gradientId = `forex-grad-${activePair.replace('/', '')}`;
 
   return (
-    <div className="mb-6 rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+    <div className="mb-6">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-5 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] pb-3 mb-0">
         <div className="flex items-center gap-2 flex-wrap">
           {CHART_PAIRS.map(p => (
             <button
@@ -237,8 +237,8 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* ── Converter ── */}
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-          <h2 className="mb-4 text-[15px] font-bold text-white">Currency Converter</h2>
+        <div className="border-t border-white/[0.07] pt-5">
+          <h2 className="mb-4 text-[13px] font-bold text-white uppercase tracking-[0.12em]">Currency Converter</h2>
           <div className="space-y-3">
             {/* Amount + From */}
             <div>
@@ -303,9 +303,9 @@ export default function ForexClient({ seedRates, seedDate }: Props) {
         </div>
 
         {/* ── Rate table ── */}
-        <div className="lg:col-span-2 rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-          <div className="border-b border-white/[0.06] px-5 py-3 flex items-center justify-between">
-            <h2 className="text-[15px] font-bold text-white">Exchange Rate Table</h2>
+        <div className="lg:col-span-2 border-t border-white/[0.07] pt-5">
+          <div className="border-b border-white/[0.07] pb-3 mb-0 flex items-center justify-between">
+            <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Exchange Rate Table</h2>
             {isLive && (
               <span className="flex items-center gap-1.5 text-[11px] text-emerald-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />

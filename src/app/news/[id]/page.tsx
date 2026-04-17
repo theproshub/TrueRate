@@ -4,24 +4,7 @@ import { newsItems } from '@/data/news';
 import { notFound } from 'next/navigation';
 import { HeroVisual, NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
-
-const LATEST_HEADLINES = [
-  { category: 'Forex',   title: 'CBL signals readiness to intervene if LRD weakens past 195',              time: '16m ago' },
-  { category: 'Mining',  title: 'ArcelorMittal ships first expanded-capacity iron ore batch from Nimba',   time: '46m ago' },
-  { category: 'Energy',  title: 'LPRC reports Q1 revenue rise of 12% on improved distribution margins',    time: '1h ago' },
-  { category: 'Banking', title: 'Ecobank raises dividend after strong West Africa quarter',                 time: '2h ago' },
-  { category: 'Trade',   title: 'Freeport of Monrovia posts strongest quarter in five years',              time: '3h ago' },
-  { category: 'Policy',  title: 'Finance Ministry tables revised budget with 12% capital spending increase', time: '4h ago' },
-  { category: 'Agri',    title: 'Firestone rubber output hits decade high on favorable weather conditions', time: '5h ago' },
-  { category: 'IMF',     title: 'IMF praises Liberia fiscal consolidation, urges further revenue reform',  time: '6h ago' },
-];
-
-const MARKET_RATES = [
-  { label: 'LRD/USD',  value: '192.50', pct: '+0.65%', up: true  },
-  { label: 'Iron Ore', value: '$108.50', pct: '-2.08%', up: false },
-  { label: 'Rubber',   value: '$1.72/kg', pct: '+2.38%', up: true },
-  { label: 'Gold',     value: '$3,108',  pct: '+1.12%', up: true  },
-];
+import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
 
 function timeAgo(d: string) {
   const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
@@ -40,155 +23,110 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   if (!item) notFound();
 
   const related = newsItems.filter(n => n.id !== id && n.category === item.category).slice(0, 3);
-  const moreStories = newsItems.filter(n => n.id !== id).slice(0, 8);
+  const relatedIds = new Set(related.map(r => r.id));
+  const moreStories = newsItems.filter(n => n.id !== id && !relatedIds.has(n.id)).slice(0, 8);
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-8">
+    <div className="bg-[#f8f9fa] min-h-screen">
+      <main className="mx-auto max-w-[1320px] px-4 py-6">
 
-      {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category, color: getCatColor(item.category) }]} />
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category.charAt(0).toUpperCase() + item.category.slice(1), color: getCatColor(item.category) }]} light />
 
-      <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex gap-6 items-start">
 
-        {/* ── Main article ── */}
-        <main className="flex-1 min-w-0">
-          <div className={`text-[11px] font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
-            <span>{item.category}</span>
-          </div>
+          {/* ── Left: Trending + Markets + In Focus ── */}
+          <TrendingPanel />
 
-          <h1 className="text-[26px] sm:text-[30px] font-black leading-tight text-white mb-3">{item.title}</h1>
+          {/* ── Centre: article ── */}
+          <div className="flex-1 min-w-0 pb-8">
 
-          <div className="flex items-center gap-3 text-[13px] text-[#555] mb-6 border-b border-white/[0.06] pb-5">
-            {item.author && <span className="text-gray-400 font-semibold">{item.author}</span>}
-            {item.author && <span>·</span>}
-            <span>{item.source}</span>
-            <span>·</span>
-            <span>{timeAgo(item.date)}</span>
-            {item.readTime && <><span>·</span><span>{item.readTime}</span></>}
-          </div>
-
-          <HeroVisual category={item.category} className="w-full rounded-xl h-[280px] sm:h-[360px] mb-8" />
-
-          <div className="text-[15px] leading-[1.75] text-[#c0c0c8] space-y-5 mb-8 font-montserrat">
-            <p className="text-[16px] font-medium text-[#d4d4dc] leading-relaxed">{item.summary}</p>
-            {item.body?.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 py-5 border-t border-b border-white/[0.06] mb-8">
-            {[item.category, 'Liberia', 'West Africa', 'Economy'].map(tag => (
-              <Link key={tag} href="/news" className="rounded-lg border border-white/[0.15] px-3 py-1 text-[12px] text-gray-400 hover:text-white hover:border-white/30 transition-colors no-underline">
-                {tag}
-              </Link>
-            ))}
-          </div>
-
-          {/* Related Articles */}
-          {related.length > 0 && (
-            <div className="mb-10">
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-[16px] font-bold text-white">Related</h2>
-                <Link href="/news" className="text-[12px] text-gray-400 hover:text-white transition-colors no-underline">More ›</Link>
+            {/* Article header */}
+            <div className="pb-8 mb-8 border-b border-gray-100">
+              <div className={`text-[11px] font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
+                {item.category}
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {related.map(r => (
-                  <Link key={r.id} href={`/news/${r.id}`} className="group no-underline">
-                    <div className="overflow-hidden rounded-xl mb-2.5">
-                      <NewsThumbnail category={r.category} className="w-full h-[110px]" />
-                    </div>
-                    <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
-                    <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{r.title}</h3>
-                    <div className="text-[11px] text-[#555]">{r.source} · {timeAgo(r.date)}</div>
+
+              <h1 className="text-[26px] sm:text-[32px] font-black leading-tight text-gray-900 mb-4">{item.title}</h1>
+
+              <div className="flex flex-wrap items-center gap-2 text-[13px] text-gray-500 pb-5 border-b border-gray-100 mb-6">
+                {item.author && <span className="font-semibold text-gray-700">{item.author}</span>}
+                {item.author && <span>·</span>}
+                <span>{item.source}</span>
+                <span>·</span>
+                <span>{timeAgo(item.date)}</span>
+                {item.readTime && <><span>·</span><span>{item.readTime}</span></>}
+              </div>
+
+              <HeroVisual category={item.category} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
+
+              <div className="text-[15px] leading-[1.8] text-gray-600 space-y-5 mb-8">
+                <p className="text-[16px] font-medium text-gray-800 leading-relaxed">{item.summary}</p>
+                {item.body?.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 pt-5 border-t border-gray-100">
+                {[item.category, 'Liberia', 'West Africa', 'Economy'].map(tag => (
+                  <Link key={tag} href="/news" className="rounded-lg border border-gray-200 px-3 py-1 text-[12px] text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors no-underline">
+                    {tag}
                   </Link>
                 ))}
               </div>
             </div>
-          )}
 
-          {/* More Stories */}
-          <div>
-            <div className="flex items-center justify-between mb-4 border-t border-white/[0.06] pt-8">
-              <h2 className="text-[16px] font-bold text-white">More Stories</h2>
-              <Link href="/news" className="text-[12px] text-gray-400 hover:text-white transition-colors no-underline">All news ›</Link>
-            </div>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
-              {moreStories.map(s => (
-                <Link key={s.id} href={`/news/${s.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
-                  <div className="shrink-0 overflow-hidden rounded-lg">
-                    <NewsThumbnail category={s.category} className="h-[70px] w-[105px]" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
-                    <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{s.title}</h3>
-                    <p className="text-[12px] text-gray-400">{s.source} · {timeAgo(s.date)}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </main>
-
-        {/* ── Sidebar ── */}
-        <aside className="w-full lg:w-[260px] shrink-0">
-          <div className="lg:sticky flex flex-col gap-6 lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ top: 'calc(var(--header-h, 124px) + 16px)', maxHeight: 'calc(100vh - var(--header-h, 124px) - 32px)' }}>
-
-            {/* Latest Headlines */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-white/[0.05]">
-                <h3 className="text-[13px] font-bold text-white">Latest Headlines</h3>
+            {/* Related Articles */}
+            {related.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Related</h2>
+                  <Link href="/news" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {related.map(r => (
+                    <Link key={r.id} href={`/news/${r.id}`} className="group no-underline">
+                      <div className="overflow-hidden rounded-xl mb-2.5">
+                        <NewsThumbnail category={r.category} className="w-full h-[110px]" />
+                      </div>
+                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
+                      <h3 className="text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</h3>
+                      <div className="text-[11px] text-gray-400">{r.source} · {timeAgo(r.date)}</div>
+                    </Link>
+                  ))}
+                </div>
               </div>
-              <div className="divide-y divide-white/[0.04]">
-                {LATEST_HEADLINES.map((h, i) => (
-                  <Link key={i} href="/news" className="group flex items-start gap-3 px-4 py-3 no-underline hover:bg-white/[0.02] transition-colors">
-                    <span className="shrink-0 tabular-nums text-[18px] font-black text-white/[0.08] leading-none w-5 mt-0.5">{i + 1}</span>
-                    <div className="min-w-0">
-                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(h.category)} mb-0.5`}>{h.category}</div>
-                      <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{h.title}</p>
-                      <p className="mt-1 text-[10px] text-gray-400">{h.time}</p>
+            )}
+
+            {/* More Stories */}
+            <div>
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">More Stories</h2>
+                <Link href="/news" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
+              </div>
+              <div className="flex flex-col divide-y divide-gray-100">
+                {moreStories.map(s => (
+                  <Link key={s.id} href={`/news/${s.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
+                    <div className="shrink-0 overflow-hidden rounded-lg">
+                      <NewsThumbnail category={s.category} className="h-[70px] w-[105px]" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
+                      <h3 className="text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</h3>
+                      <p className="text-[12px] text-gray-400">{s.source} · {timeAgo(s.date)}</p>
                     </div>
                   </Link>
                 ))}
               </div>
-              <div className="px-4 py-3 border-t border-white/[0.04]">
-                <Link href="/news" className="text-[12px] text-gray-400 hover:text-white transition-colors no-underline">See all headlines ›</Link>
-              </div>
-            </div>
-
-            {/* Market Rates */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-[13px] font-bold text-white">Markets</h3>
-                <Link href="/forex" className="text-[11px] text-gray-400 hover:text-white transition-colors no-underline">Full view ›</Link>
-              </div>
-              <div className="space-y-3">
-                {MARKET_RATES.map(r => (
-                  <div key={r.label} className="flex items-center justify-between">
-                    <span className="text-[12px] font-semibold text-white">{r.label}</span>
-                    <div className="text-right">
-                      <div className="text-[12px] tabular-nums font-bold text-white">{r.value}</div>
-                      <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* In Focus topics */}
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card p-4">
-              <h3 className="text-[13px] font-bold text-white mb-3">In Focus</h3>
-              <div className="flex flex-wrap gap-2">
-                {['Iron Ore', 'LRD/USD', 'CBL Rate', 'Rubber', 'Remittances', 'ECOWAS', 'Mining Policy', 'Gold'].map(t => (
-                  <Link key={t} href="/news" className="rounded-lg border border-white/[0.15] px-3 py-1 text-[12px] text-gray-400 hover:text-white hover:border-white/30 transition-colors no-underline">{t}</Link>
-                ))}
-              </div>
             </div>
 
           </div>
-        </aside>
 
-      </div>
+          {/* ── Right: Newsletter + Events + Most Read + Premium ── */}
+          <RightRail />
+
+        </div>
+      </main>
     </div>
   );
 }

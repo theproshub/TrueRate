@@ -4,7 +4,7 @@ export default function FeedbackPage() {
       <h1 className="mb-1 text-[26px] font-bold text-white">Feedback</h1>
       <p className="mb-8 text-[13px] text-gray-500">Help us improve TrueRate. All feedback is read by our team.</p>
 
-      <div className="rounded-xl border border-white/[0.07] bg-brand-card p-6">
+      <div>
         <div className="space-y-4">
           <div>
             <label className="mb-1.5 block text-[12px] font-semibold text-gray-400">Type</label>

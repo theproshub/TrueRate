@@ -216,7 +216,7 @@ export default function EconomyPage() {
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Economy' }]} />
 
       {/* Topic filter */}
-      <div className="mb-6 pb-4 border-b border-white/[0.06]">
+      <div className="mb-6 pb-4 border-b border-white/[0.07]">
         <div className="flex items-center gap-2 flex-wrap">
           {TOPICS.map((t, i) => (
             <button key={t} className={`px-5 py-2 rounded-lg text-[13px] font-semibold transition-colors ${i === 0 ? 'bg-white text-[#0a0a0d]' : 'text-white border border-white/20 hover:bg-white/[0.06]'}`}>
@@ -291,8 +291,11 @@ export default function EconomyPage() {
 
           {/* Liberia Economy */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Liberia Economy</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Liberia Economy</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -302,17 +305,20 @@ export default function EconomyPage() {
 
           {/* Analysis & Opinion */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-white pl-3">Analysis &amp; Opinion</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Analysis &amp; Opinion</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {ANALYSIS.map((a, i) => (
-                <Link key={i} href={a.href ?? '/economy'} className="group flex flex-col no-underline rounded-2xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href={a.href ?? '/economy'} className="group flex flex-col no-underline overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={a.category} className="w-full h-[180px]" />
                   </div>
-                  <div className="p-5">
+                  <div className="pt-4">
                     <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400 mb-2 block">{a.label}</span>
                     <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2">{a.title}</h3>
                     <p className="text-[12px] text-gray-500 line-clamp-2 mb-3">{a.desc}</p>
@@ -325,8 +331,11 @@ export default function EconomyPage() {
 
           {/* West Africa */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">West Africa</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">West Africa</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -336,8 +345,11 @@ export default function EconomyPage() {
 
           {/* Central Bank */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Central Bank</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Central Bank</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -347,17 +359,20 @@ export default function EconomyPage() {
 
           {/* Global Macro Impact */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Global Macro Impact</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Global Macro Impact</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {GLOBAL_MACRO.map((s, i) => (
-                <Link key={i} href={s.href} className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href={s.href} className="group flex flex-col no-underline overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
-                  <div className="p-4">
+                  <div className="pt-3">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{s.category}</span>
                     <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-2">{s.title}</h3>
                     <p className="text-[12px] text-gray-500 line-clamp-3">{s.summary}</p>
@@ -369,13 +384,16 @@ export default function EconomyPage() {
 
           {/* Policy Tracker */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Policy Tracker</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Policy Tracker</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">Full timeline ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
+            <div className="divide-y divide-white/[0.05]">
               {POLICY_TIMELINE.map((item, i) => (
-                <Link key={i} href="/economy" className="group flex items-center gap-4 px-5 py-4 no-underline hover:bg-white/[0.03] transition-colors">
+                <Link key={i} href="/economy" className="group flex items-center gap-4 py-4 no-underline hover:bg-white/[0.03] transition-colors">
                   <div className="shrink-0 w-[90px]">
                     <span className="text-[11px] text-gray-400">{item.date}</span>
                   </div>
@@ -394,17 +412,20 @@ export default function EconomyPage() {
 
           {/* Infrastructure & Investment */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Infrastructure &amp; Investment</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Infrastructure &amp; Investment</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {INFRA_STORIES.map((s, i) => (
-                <Link key={i} href={s.href} className="group flex flex-col no-underline rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+                <Link key={i} href={s.href} className="group flex flex-col no-underline overflow-hidden">
                   <div className="relative overflow-hidden">
                     <NewsThumbnail category={s.displayCategory} className="w-full h-[150px]" />
                   </div>
-                  <div className="p-4">
+                  <div className="pt-3">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-1.5 block">{s.category}</span>
                     <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-[11px] text-gray-400">{s.time}</span>
@@ -416,11 +437,14 @@ export default function EconomyPage() {
 
           {/* More Stories */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">More Stories</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">More Stories</h2>
+              </div>
               <Link href="/news" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">All stories ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden divide-y divide-white/[0.05]">
+            <div className="divide-y divide-white/[0.05]">
               {[
                 { href: '/news/33', cat: 'Banking',     title: "Liberia's banking sector sees 14% deposit growth in Q1 2026",                  src: 'FrontPage Africa',  time: '2h ago'  },
                 { href: '/news/30', cat: 'Energy',      title: 'Liberia Energy Authority approves two new solar projects totaling 40MW',       src: 'The New Dawn',      time: '5h ago'  },
@@ -429,7 +453,7 @@ export default function EconomyPage() {
                 { href: '/news/15', cat: 'Tech',        title: 'Monrovia fintech startup raises $4.2M Series A to expand mobile lending',      src: 'TechCabal',         time: '13h ago' },
                 { href: '/news/31', cat: 'Policy',      title: 'Finance Ministry tables revised budget with 12% increase in capital spending', src: 'Daily Observer',    time: '15h ago' },
               ].map((s, i) => (
-                <Link key={i} href={s.href} className="group flex items-start gap-4 px-5 py-3.5 no-underline hover:bg-white/[0.02] transition-colors">
+                <Link key={i} href={s.href} className="group flex items-start gap-4 py-3.5 no-underline hover:bg-white/[0.02] transition-colors">
                   <div className="shrink-0 overflow-hidden rounded-lg">
                     <NewsThumbnail category={s.cat} className="h-[64px] w-[90px]" />
                   </div>
@@ -445,11 +469,14 @@ export default function EconomyPage() {
 
           {/* Data Focus: Liberia's Exports */}
           <section>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[17px] font-black text-white border-l-[3px] border-emerald-400 pl-3">Data Focus: Liberia&apos;s Exports</h2>
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Data Focus: Liberia&apos;s Exports</h2>
+              </div>
               <Link href="/economy" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">Full data ›</Link>
             </div>
-            <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
+            <div className="overflow-x-auto">
               <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y divide-white/[0.05]">
                 {EXPORT_STATS.map((stat, i) => (
                   <div key={i} className="p-5 flex flex-col gap-1">
@@ -464,7 +491,7 @@ export default function EconomyPage() {
                   </div>
                 ))}
               </div>
-              <p className="px-5 py-3 text-[10px] text-gray-500 border-t border-white/[0.05]">Sources: Ministry of Commerce · CBL · ArcelorMittal · Apr 2026</p>
+              <p className="text-[10px] text-gray-600 mt-2">Sources: Ministry of Commerce · CBL · ArcelorMittal · Apr 2026</p>
             </div>
           </section>
 
@@ -474,8 +501,8 @@ export default function EconomyPage() {
         <aside className="w-full sm:w-[260px] shrink-0 space-y-8">
 
           {/* Most Read */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-            <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-4">Most Read</h3>
+          <div>
+            <h3 className="text-[13px] font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">Most Read</h3>
             <ol className="space-y-4">
               {MOST_READ.map((item, i) => (
                 <li key={i} className="flex gap-3">
@@ -487,10 +514,8 @@ export default function EconomyPage() {
           </div>
 
           {/* Latest Updates */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-            <div className="px-4 py-3.5 border-b border-white/[0.05]">
-              <h3 className="text-[13px] font-bold text-white">Latest Updates</h3>
-            </div>
+          <div>
+            <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Latest Updates</h3>
             <div className="divide-y divide-white/[0.04]">
               {[
                 { href: '/news/1',  time: '16m', headline: 'CBL signals readiness to intervene if LRD weakens past 195' },
@@ -500,20 +525,20 @@ export default function EconomyPage() {
                 { href: '/news/12', time: '3h',  headline: 'Ecobank raises dividend after strong West Africa quarter' },
                 { href: '/news/8',  time: '5h',  headline: 'IMF praises Liberia fiscal consolidation, urges revenue reform' },
               ].map((item, i) => (
-                <Link key={i} href={item.href} className="group flex items-start gap-3 px-4 py-3 no-underline hover:bg-white/[0.02] transition-colors">
+                <Link key={i} href={item.href} className="group flex items-start gap-3 py-3 no-underline hover:bg-white/[0.02] transition-colors">
                   <span className="shrink-0 tabular-nums text-[11px] text-gray-400 w-7 pt-0.5">{item.time}</span>
                   <span className="text-[12px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.headline}</span>
                 </Link>
               ))}
             </div>
-            <div className="px-4 py-3 border-t border-white/[0.04]">
+            <div className="pt-3 border-t border-white/[0.04]">
               <Link href="/news" className="text-[12px] text-gray-400 hover:text-white transition-colors no-underline">See all updates ›</Link>
             </div>
           </div>
 
           {/* Data snapshot */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-            <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-4">Data Snapshot</h3>
+          <div>
+            <h3 className="text-[13px] font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">Data Snapshot</h3>
             <div className="space-y-3">
               {indicators.map(ind => (
                 <div key={ind.label} className="flex items-center justify-between">
@@ -525,27 +550,25 @@ export default function EconomyPage() {
                 </div>
               ))}
             </div>
-            <p className="text-[10px] text-gray-500 mt-4">Sources: CBL · World Bank · IMF · Apr 2026</p>
+            <p className="text-[10px] text-gray-600 mt-4">Sources: CBL · World Bank · IMF · Apr 2026</p>
           </div>
 
           {/* Newsletter */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-            <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-1">Economy Brief</h3>
+          <div>
+            <h3 className="text-[13px] font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">Economy Brief</h3>
             <p className="text-[12px] text-gray-500 mb-4">The week&apos;s key economic stories from Liberia and West Africa, every Friday.</p>
             <input type="email" placeholder="Your email" className="w-full rounded-lg bg-white/[0.06] border border-white/[0.08] px-3 py-2 text-[13px] text-white placeholder:text-gray-400 outline-none focus:border-white/30 mb-2" />
             <button className="w-full rounded-lg bg-white py-2 text-[13px] font-bold text-[#0a0a0d] hover:brightness-90 transition-all">
-              Subscribe
+              Sign up free
             </button>
           </div>
 
           {/* Policy Calendar */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-            <div className="px-4 py-3.5 border-b border-white/[0.05]">
-              <h3 className="text-[13px] font-black text-white uppercase tracking-wide">Policy Calendar</h3>
-            </div>
+          <div>
+            <h3 className="text-[13px] font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-0">Policy Calendar</h3>
             <div className="divide-y divide-white/[0.04]">
               {POLICY_CALENDAR.map((ev, i) => (
-                <Link key={i} href="/economy" className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
+                <Link key={i} href="/economy" className="flex items-start gap-3 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
                   <div className="shrink-0 rounded-lg bg-white/[0.05] border border-white/[0.06] px-2 py-1 text-center min-w-[40px]">
                     <p className="text-[9px] font-bold uppercase tracking-wide text-gray-400">{ev.month}</p>
                     <p className="text-[14px] font-black text-white leading-none">{ev.day}</p>
@@ -560,8 +583,8 @@ export default function EconomyPage() {
           </div>
 
           {/* IMF Program Status */}
-          <div className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-            <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-3">IMF Program Status</h3>
+          <div>
+            <h3 className="text-[13px] font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">IMF Program Status</h3>
             <div className="flex items-center justify-between mb-3">
               <span className="text-[12px] text-gray-500">Program</span>
               <span className="text-[12px] font-semibold text-white">ECF — $270M</span>
@@ -570,7 +593,7 @@ export default function EconomyPage() {
               <span className="text-[12px] text-gray-500">Current Tranche</span>
               <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">3rd — Approved</span>
             </div>
-            <div className="rounded-lg bg-white/[0.04] border border-white/[0.05] p-3 space-y-2">
+            <div className="space-y-2">
               {[
                 { tranche: '1st', amount: '$45M', status: 'Disbursed', up: true },
                 { tranche: '2nd', amount: '$45M', status: 'Disbursed', up: true },
@@ -583,7 +606,7 @@ export default function EconomyPage() {
                 </div>
               ))}
             </div>
-            <p className="text-[10px] text-gray-500 mt-3">Next review: May 2026 · Source: IMF</p>
+            <p className="text-[10px] text-gray-600 mt-3">Next review: May 2026 · Source: IMF</p>
           </div>
 
         </aside>

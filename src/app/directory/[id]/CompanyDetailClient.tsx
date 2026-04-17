@@ -196,7 +196,7 @@ function RelatedTab({ company }: { company: Company }) {
           <Link
             key={c.id}
             href={`/directory/${c.id}`}
-            className="group block rounded-xl border border-white/[0.07] bg-brand-card p-5 hover:border-white/[0.14] hover:bg-white/[0.03] transition-colors no-underline"
+            className="group block border-t border-white/[0.07] pt-4 hover:opacity-75 transition-opacity no-underline"
           >
             <h3 className="text-[14px] font-bold text-white group-hover:text-white/80 transition-colors mb-1">{c.name}</h3>
             {c.shortName && c.shortName !== c.name && (

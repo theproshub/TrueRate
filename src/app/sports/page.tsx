@@ -155,7 +155,7 @@ function SportsPageInner() {
       <div className="mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex gap-3 min-w-max">
           {SCORES.map((s, i) => (
-            <Link key={i} href="/sports" className="group flex flex-col items-center border border-gray-200 bg-white px-4 py-3 no-underline hover:border-gray-400 transition-colors min-w-[170px]">
+            <Link key={i} href="/sports" className="group flex flex-col items-center border border-gray-200 px-4 py-3 no-underline hover:border-gray-400 transition-colors min-w-[170px]">
               <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-2">{s.competition}</div>
               <div className="flex items-center gap-3 w-full">
                 <div className="flex-1 min-w-0">
@@ -219,9 +219,9 @@ function SportsPageInner() {
           </div>
 
           {/* Transfer table */}
-          {(activeTab === 'All' || activeTab === 'Transfers & Deals') && <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-              <h2 className="text-[15px] font-bold text-gray-900">Transfer Tracker</h2>
+          {(activeTab === 'All' || activeTab === 'Transfers & Deals') && <div className="mb-8">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Transfer Tracker</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Deal values · Apr 2026</span>
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -253,9 +253,9 @@ function SportsPageInner() {
           </div>}
 
           {/* Broadcast rights */}
-          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-              <h2 className="text-[15px] font-bold text-gray-900">Broadcast Rights</h2>
+          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-8">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Broadcast Rights</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Current deals</span>
             </div>
             <div className="overflow-x-auto">
@@ -286,7 +286,12 @@ function SportsPageInner() {
 
           {/* Feed */}
           {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-8">
-            <h2 className="text-[17px] font-bold text-gray-900 mb-5">Analysis</h2>
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Analysis</h2>
+              </div>
+            </div>
             <div className="flex flex-col divide-y divide-gray-100">
               {FEED.map((item, i) => (
                 <Link key={i} href="/sports" className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
@@ -309,9 +314,9 @@ function SportsPageInner() {
           </div>}
 
           {/* Sponsorship */}
-          {(activeTab === 'All' || activeTab === 'Sponsorship') && <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-              <h2 className="text-[15px] font-bold text-gray-900">Major Sponsorship Deals</h2>
+          {(activeTab === 'All' || activeTab === 'Sponsorship') && <div className="mb-8">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
+              <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Major Sponsorship Deals</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Liberia &amp; West Africa</span>
             </div>
             <div className="overflow-x-auto">
@@ -342,12 +347,17 @@ function SportsPageInner() {
 
           {/* Player Spotlight */}
           <div className="mb-8">
-            <h2 className="text-[17px] font-bold text-gray-900 mb-4">Player Spotlight</h2>
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden flex flex-col sm:flex-row">
-              <div className="w-full sm:w-[220px] shrink-0">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Player Spotlight</h2>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-0 border-t border-gray-200">
+              <div className="w-full sm:w-[220px] shrink-0 mt-5">
                 <NewsThumbnail category={PLAYER_SPOTLIGHT.sport} className="w-full h-[200px] sm:h-full" />
               </div>
-              <div className="p-6 flex flex-col justify-between flex-1">
+              <div className="py-5 sm:pl-6 flex flex-col justify-between flex-1">
                 <div>
                   <span className={`text-[10px] font-bold uppercase tracking-widest mb-2 block ${CATEGORY_COLORS_FN(PLAYER_SPOTLIGHT.sport)}`}>{PLAYER_SPOTLIGHT.sport} · {PLAYER_SPOTLIGHT.nationality}</span>
                   <h3 className="text-[22px] font-black text-gray-900 mb-1">{PLAYER_SPOTLIGHT.name}</h3>
@@ -372,8 +382,13 @@ function SportsPageInner() {
 
           {/* Top Performers */}
           {(activeTab === 'All' || activeTab === 'Club Finance') && <div className="mb-8">
-            <h2 className="text-[17px] font-bold text-gray-900 mb-4">Top Performers</h2>
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Top Performers</h2>
+              </div>
+            </div>
+            <div>
               <table className="w-full text-[13px]">
                 <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                   <tr>
@@ -399,16 +414,18 @@ function SportsPageInner() {
 
           {/* WAFU Cup Group Standings */}
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-[17px] font-bold text-gray-900">WAFU Cup 2026</h2>
-                <p className="text-[12px] text-gray-500">Group Stage Standings</p>
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <div>
+                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">WAFU Cup 2026</h2>
+                  <p className="text-[12px] text-gray-500">Group Stage Standings</p>
+                </div>
               </div>
               <span className="rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-bold text-emerald-600">Live</span>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <table className="w-full text-[13px] min-w-[280px] sm:min-w-[400px]">
+            <div className="overflow-x-auto -mx-4 px-4">
+              <table className="w-full text-[13px] min-w-[280px] sm:min-w-[400px]">
                   <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                     <tr>
                       <th className="px-3 sm:px-5 py-3 text-left">#</th>
@@ -439,13 +456,15 @@ function SportsPageInner() {
                   </tbody>
                 </table>
               </div>
-            </div>
           </div>
 
           {/* Videos */}
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[17px] font-bold text-gray-900">Videos</h2>
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Videos</h2>
+              </div>
               <Link href="/videos" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">View all ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -463,17 +482,15 @@ function SportsPageInner() {
         </div>
 
         {/* Right rail */}
-        <aside className="hidden xl:block w-[290px] shrink-0">
-          <div className="sticky top-[120px] flex flex-col gap-5">
+        <aside className="hidden xl:block w-[290px] shrink-0 sticky self-end" style={{ bottom: '16px' }}>
+          <div className="flex flex-col gap-5">
 
             {/* Business snapshot */}
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-gray-100">
-                <h3 className="text-[13px] font-bold text-gray-900">Sports Business Snapshot</h3>
-              </div>
+            <div>
+              <h3 className="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Sports Business Snapshot</h3>
               <div className="divide-y divide-gray-100">
                 {BUSINESS_METRICS.map((m, i) => (
-                  <div key={i} className="flex items-center justify-between px-4 py-3">
+                  <div key={i} className="flex items-center justify-between py-3">
                     <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
                     <div className="text-right shrink-0">
                       <div className="text-[14px] font-bold text-gray-900 tabular-nums">{m.value}</div>
@@ -485,15 +502,15 @@ function SportsPageInner() {
             </div>
 
             {/* LFA Standings */}
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-100">
+            <div>
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-2">
                 <div>
                   <h3 className="text-[13px] font-bold text-gray-900">LFA League</h3>
                   <p className="text-[10px] text-gray-400">Week 22</p>
                 </div>
                 <Link href="/sports" className="text-[11px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full table ›</Link>
               </div>
-              <div className="px-4 py-2">
+              <div className="py-2">
                 <div className="flex text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1 gap-0">
                   <span className="w-5 shrink-0">#</span>
                   <span className="flex-1">Team</span>
@@ -518,10 +535,8 @@ function SportsPageInner() {
             </div>
 
             {/* Upcoming fixtures */}
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-100">
-                <h3 className="text-[13px] font-bold text-gray-900">Upcoming Fixtures</h3>
-              </div>
+            <div>
+              <h3 className="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Upcoming Fixtures</h3>
               <div className="divide-y divide-gray-100">
                 {[
                   { home: 'Liberia',        away: 'Guinea',           date: 'Apr 8',  time: '18:00', competition: 'WAFU Cup SF' },
@@ -531,7 +546,7 @@ function SportsPageInner() {
                   { home: 'Liberia',        away: 'Nigeria',           date: 'Apr 14', time: '20:00', competition: 'WAFU Cup Final' },
                   { home: 'Barrack Young',  away: 'Gbarpolu FC',       date: 'Apr 16', time: '15:00', competition: 'LFA League' },
                 ].map((f, i) => (
-                  <Link key={i} href="/sports" className="flex flex-col px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+                  <Link key={i} href="/sports" className="flex flex-col py-3 no-underline group hover:opacity-75 transition-opacity">
                     <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">{f.competition}</div>
                     <div className="text-[12px] font-semibold text-gray-900 group-hover:text-gray-700">{f.home} <span className="text-gray-400 font-normal">vs</span> {f.away}</div>
                     <div className="text-[11px] text-gray-400 mt-0.5">{f.date} · {f.time} WAT</div>
@@ -541,10 +556,8 @@ function SportsPageInner() {
             </div>
 
             {/* Most read */}
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-              <div className="px-4 py-3.5 border-b border-gray-100">
-                <h3 className="text-[13px] font-bold text-gray-900">Most Read</h3>
-              </div>
+            <div>
+              <h3 className="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Most Read</h3>
               <div className="divide-y divide-gray-100">
                 {[
                   { rank: 1, title: "AFCON 2027 broadcast rights: the $340M deal",          tag: 'Football' },
@@ -555,7 +568,7 @@ function SportsPageInner() {
                   { rank: 6, title: "WAFU Cup semi-final: Liberia vs Guinea preview",        tag: 'Football' },
                   { rank: 7, title: "Monrovia FC stadium PPP: the $18M deal breakdown",      tag: 'Football' },
                 ].map(t => (
-                  <Link key={t.rank} href="/sports" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+                  <Link key={t.rank} href="/sports" className="flex items-center gap-3 py-3 no-underline group hover:opacity-75 transition-opacity">
                     <span className="shrink-0 text-[20px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
                       <p className="text-[12px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-2 leading-snug">{t.title}</p>

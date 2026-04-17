@@ -1,201 +1,226 @@
 /**
- * Forex page — Server Component.
+ * Markets page — Liberian physical markets, sectors, and daily commerce.
  */
 
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import ForexClient from './ForexClient';
-import { NewsThumbnail } from '@/components/NewsThumbnail';
-import { exchangeRates } from '@/data/exchangeRates';
-import type { NormalizedRate } from '@/app/api/rates/route';
 
 export const revalidate = 3600;
 
-function seedToNormalized(): NormalizedRate[] {
-  return exchangeRates.map(r => ({
-    pair: r.pair,
-    from: r.from,
-    to: r.to,
-    rate: r.rate,
-    change: r.change,
-    changePercent: r.changePercent,
-    high52w: r.high52w,
-    low52w: r.low52w,
-  }));
-}
-
-export default function ForexPage() {
-  const seedRates = seedToNormalized();
-
+export default function MarketsPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-8">
-      {/* Breadcrumb */}
-      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Forex' }]} />
+    <main className="mx-auto max-w-[1320px] px-4 py-8 pb-24">
 
-      <ForexClient seedRates={seedRates} seedDate={null} />
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Markets' }]} />
 
-      {/* CBL Policy Updates */}
-      <section className="mt-8">
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-          <div className="border-b border-white/[0.06] px-5 py-3 flex items-center justify-between">
-            <h2 className="text-[15px] font-bold text-white">CBL Policy Updates</h2>
-            <span className="text-[11px] text-gray-500">Central Bank of Liberia</span>
-          </div>
-          <ul className="divide-y divide-white/[0.05]">
-            {[
-              {
-                title: 'CBL intervenes with $4.2M in open-market operations to stabilise LRD',
-                desc: 'The Central Bank of Liberia conducted its second forex intervention of Q2 2026, injecting US dollars into the interbank market to curb LRD depreciation pressure.',
-                tag: 'Forex Intervention',
-                date: 'Apr 2, 2026',
-              },
-              {
-                title: 'Monetary Policy Committee holds benchmark rate at 20% amid inflation watch',
-                desc: 'The MPC voted unanimously to maintain the policy rate, citing stabilising food prices and a gradual improvement in the current account balance.',
-                tag: 'Policy Statement',
-                date: 'Mar 28, 2026',
-              },
-              {
-                title: 'CBL issues new guidelines on foreign-currency lending by commercial banks',
-                desc: 'New prudential rules cap USD-denominated loans at 60% of a bank\'s total loan book, aiming to reduce dollarisation and support LRD circulation.',
-                tag: 'Regulation',
-                date: 'Mar 20, 2026',
-              },
-            ].map((item, i) => (
-              <li key={i}>
-                <Link href="/forex" className="group flex items-start gap-4 px-5 py-4 hover:bg-white/[0.03] transition-colors no-underline">
-                  <NewsThumbnail
-                    category="forex"
-                    className="shrink-0 w-[110px] h-[62px]"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[11px] font-semibold uppercase tracking-wide text-gray-500">{item.tag}</span>
-                      <span className="text-gray-500">·</span>
-                      <span className="text-[11px] text-gray-400">{item.date}</span>
-                    </div>
-                    <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{item.title}</h3>
-                    <p className="text-[12px] text-gray-500 line-clamp-2">{item.desc}</p>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-x-16">
+
+        {/* ── MAIN CONTENT ── */}
+        <div>
+
+          {/* ── Major Markets ── */}
+          <section className="mb-16">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-0">Liberia&apos;s Major Markets</h2>
+
+            <div className="mt-0 divide-y divide-white/[0.07]">
+              {[
+                {
+                  name: 'Duala Market',
+                  location: 'Congo Town, Monrovia',
+                  note: 'Largest market in Liberia',
+                  desc: "Duala is where you go when you need something and don't know where else to look. The market runs in zones — Chinese shops selling electronics and household goods on one side, fabric vendors and market women on the other, spare parts dealers in between. Prices are in LRD and USD depending on who you're buying from. Everything is negotiable. It opens early and it closes late.",
+                  goods: 'Electronics, fabrics, food, household goods, spare parts, clothing, building materials',
+                },
+                {
+                  name: 'Redlight Market',
+                  location: 'Paynesville, Monrovia',
+                  note: 'Busiest junction market',
+                  desc: "Redlight is a junction, not just a market — but the trading never stops. Keke line up, taxis drop off, and vendors sell from tables, carts, and their hands. You can buy a used phone, a bag of pepper, a school uniform, and a SIM card without walking more than 100 meters. Most transactions are cash. Most sellers know their regulars by name.",
+                  goods: 'Secondhand clothing, produce, mobile accessories, cosmetics, food, household goods',
+                },
+                {
+                  name: 'Waterside Market',
+                  location: 'Broad Street, Monrovia',
+                  note: 'Oldest market in Monrovia',
+                  desc: "Waterside sits just off Broad Street, close enough to the port that you can tell when a container ship has come in — the goods show up in the stalls within days. Lebanese traders have been here for generations. You'll find fresh fish brought in from the waterfront, fabric sellers side by side, and traders from Guinea and Sierra Leone who come regularly for the prices.",
+                  goods: 'Imports, fresh produce, fabrics, port goods, cross-border West African trade',
+                },
+              ].map((m, i) => (
+                <div key={i} className="py-8">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
+                    <h3 className="text-[22px] font-black text-white">{m.name}</h3>
+                    <span className="text-[12px] text-gray-500">{m.location}</span>
                   </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Market Commentary */}
-      <section className="mt-8">
-        <h2 className="mb-4 text-[17px] font-bold text-white">Market Commentary</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            {
-              quote: 'The LRD has shown remarkable resilience in Q1 despite mounting import costs. CBL\'s proactive interventions are building credibility with the market.',
-              analyst: 'Dr. Amara Koroma',
-              role: 'Chief Economist, Ecobank Liberia',
-              date: 'Apr 1, 2026',
-            },
-            {
-              quote: 'Watch the rubber export window closely. Any positive surprise in Malaysian demand will translate directly into LRD strength — probably 1–2% appreciation.',
-              analyst: 'Fatima Kollie',
-              role: 'FX Strategist, GT Bank West Africa',
-              date: 'Mar 31, 2026',
-            },
-            {
-              quote: 'Remittance inflows are the unsung hero of Liberian FX stability. The diaspora corridor from the US continues to outperform every forecast.',
-              analyst: 'James Tweh',
-              role: 'Senior Analyst, Liberia Financial Intelligence Unit',
-              date: 'Mar 29, 2026',
-            },
-            {
-              quote: 'Dollarisation remains the structural risk. Until LRD is used for more domestic transactions, the CBL will keep fighting an uphill battle on volatility.',
-              analyst: 'Bintu Massaquoi',
-              role: 'Director of Research, AfDB West Africa Desk',
-              date: 'Mar 27, 2026',
-            },
-          ].map((card, i) => (
-            <div key={i} className="rounded-xl border border-white/[0.07] bg-brand-card p-5">
-              <p className="mb-4 text-[13px] leading-relaxed text-gray-300 line-clamp-4 border-l-2 border-white/[0.10] pl-4">{card.quote}</p>
-              <div className="border-t border-white/[0.06] pt-3">
-                <div className="text-[13px] font-semibold text-white">{card.analyst}</div>
-                <div className="text-[11px] text-gray-500">{card.role} · {card.date}</div>
-              </div>
+                  <p className="text-[11px] text-brand-accent font-semibold uppercase tracking-wide mb-4">{m.note}</p>
+                  <p className="text-[15px] text-gray-300 leading-[1.85] mb-4">{m.desc}</p>
+                  <p className="text-[12px] text-gray-500"><span className="text-gray-400 font-medium">Primary goods:</span> {m.goods}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
 
-      {/* Commodity-Linked FX */}
-      <section className="mt-8">
-        <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-          <div className="border-b border-white/[0.06] px-5 py-3">
-            <h2 className="text-[15px] font-bold text-white">Commodity-Linked FX</h2>
-            <p className="mt-0.5 text-[11px] text-gray-400">How Liberia&apos;s commodity export performance influences LRD strength</p>
-          </div>
-          <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <table className="w-full min-w-[320px] sm:min-w-[580px] text-[13px]">
-              <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                <tr>
-                  <th className="px-3 sm:px-5 py-3 text-left">Commodity</th>
-                  <th className="px-3 sm:px-5 py-3 text-right">Export Value</th>
-                  <th className="hidden sm:table-cell px-5 py-3 text-right">% of Total</th>
-                  <th className="px-3 sm:px-5 py-3 text-right">Sensitivity</th>
-                  <th className="hidden md:table-cell px-5 py-3 text-left">Impact Note</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/[0.05]">
-                {[
-                  { commodity: 'Rubber',    value: '$312M', share: '28.4%', sensitivity: 'High',     up: true,  note: 'Every 10% rise in global rubber prices correlates with ~1.8% LRD appreciation over 60 days.' },
-                  { commodity: 'Iron Ore',  value: '$278M', share: '25.3%', sensitivity: 'High',     up: true,  note: 'ArcelorMittal Nimba shipments drive the largest single FX inflow per export season.' },
-                  { commodity: 'Gold',      value: '$196M', share: '17.8%', sensitivity: 'Moderate', up: true,  note: 'Artisanal and industrial mining proceeds; USD-denominated, providing partial natural hedge.' },
-                  { commodity: 'Palm Oil',  value: '$143M', share: '13.0%', sensitivity: 'Moderate', up: false, note: 'Declining global prices in 2025 exerted mild downward pressure on Q3 LRD performance.' },
-                ].map((row, i) => (
-                  <tr key={i} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="px-3 sm:px-5 py-3 font-bold text-white">{row.commodity}</td>
-                    <td className="tabular-nums px-3 sm:px-5 py-3 text-right font-semibold text-white">{row.value}</td>
-                    <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-400">{row.share}</td>
-                    <td className={`px-3 sm:px-5 py-3 text-right text-[13px] font-semibold ${row.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {row.sensitivity}
-                    </td>
-                    <td className="hidden md:table-cell px-5 py-3 text-[12px] text-gray-500 max-w-[320px]">{row.note}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="border-t border-white/[0.05] px-5 py-2 text-[11px] text-gray-500">
-            Source: Liberia Revenue Authority · National Bureau of Statistics · 2025
-          </div>
-        </div>
-      </section>
+          {/* ── Sectors ── */}
+          <section className="mb-16">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-6">Sectors Driving Daily Commerce</h2>
 
-      {/* West Africa FX Comparison */}
-      <section className="mt-8 mb-2">
-        <h2 className="mb-4 text-[17px] font-bold text-white">West Africa FX Comparison</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { country: 'Liberia',      currency: 'LRD', name: 'Liberian Dollar',        rateVsUSD: '192.50',    change30d: '+0.42%', up: true  },
-            { country: 'Nigeria',      currency: 'NGN', name: 'Nigerian Naira',          rateVsUSD: '1,605.30',  change30d: '-3.12%', up: false },
-            { country: 'Ghana',        currency: 'GHS', name: 'Ghanaian Cedi',           rateVsUSD: '15.84',     change30d: '-1.07%', up: false },
-            { country: 'Sierra Leone', currency: 'SLL', name: 'Sierra Leonean Leone',    rateVsUSD: '22,750',    change30d: '+0.18%', up: true  },
-          ].map((item, i) => (
-            <Link key={i} href="/forex" className="group block rounded-xl border border-white/[0.07] bg-brand-card p-5 hover:border-white/[0.14] transition-colors no-underline">
-              <div className="mb-3">
-                <div className="text-[13px] font-bold text-white">{item.country}</div>
-                <div className="text-[11px] text-gray-500">{item.name}</div>
-              </div>
-              <div className="mb-1 text-[11px] font-bold uppercase tracking-widest text-gray-400">Rate vs USD</div>
-              <div className="tabular-nums mb-3 text-[22px] font-bold text-white leading-none">
-                {item.rateVsUSD}
-                <span className="ml-1.5 text-[12px] font-semibold text-gray-500">{item.currency}</span>
-              </div>
-              <span className={`tabular-nums text-[12px] font-semibold ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                {item.up ? '▲' : '▼'} {item.change30d} 30d
-              </span>
-            </Link>
-          ))}
+            <div className="divide-y divide-white/[0.07]">
+              {[
+                {
+                  sector: 'Fashion & Textiles',
+                  stat: '~$180M annual sector value',
+                  desc: "From Lappa fabric vendors at Duala and Waterside to secondhand bale importers supplying Redlight, fashion is one of Liberia's most active informal sectors. Thousands of market tailors, Chinese fabric importers, and local designers work across every market in Monrovia.",
+                },
+                {
+                  sector: 'Technology & Mobile',
+                  stat: '68% mobile money adoption',
+                  desc: "Mobile phones, accessories, and repair shops are everywhere. Airtime resellers, data bundle hawkers, and used electronics stalls stretch from Carey Street to Redlight. Mobile money has changed how traders receive payments and manage cash.",
+                },
+                {
+                  sector: 'Agriculture & Food',
+                  stat: '~40% of informal employment',
+                  desc: "Cassava, pepper, palm butter, and rice — Liberia's staple food economy runs through its markets every day. Produce flows from Bong, Lofa, Nimba, and Margibi into Monrovia's central markets. Prices shift with the rains, Guinea border trade, and the cost of transport.",
+                },
+                {
+                  sector: 'Transportation',
+                  stat: '15,000+ keke operators in Monrovia',
+                  desc: "Yellow taxis, keke (motorbikes), and minibuses connect traders to markets and markets to customers. Without them, goods don't move. Fuel prices, road conditions, and permit costs all feed directly into what vendors charge at the stall.",
+                },
+                {
+                  sector: 'Trading & Import',
+                  stat: '$600M+ goods cleared annually',
+                  desc: "Chinese, Lebanese, Indian, and Liberian traders import through Freeport of Monrovia. What lands at the port hits Waterside, Duala, and Chicken Soup Factory within days. Import duties, container costs, and LRD/USD rates determine what traders pay.",
+                },
+                {
+                  sector: 'Services & Finance',
+                  stat: 'LRD 2.1B in daily mobile transfers',
+                  desc: "Mobile money, informal moneylenders, and market-side credit have become part of how trade works at every major market. Most transactions are cash or mobile money — the formal banking system is rarely part of the picture at the stall level.",
+                },
+              ].map(({ sector, stat, desc }, i) => (
+                <div key={i} className="py-6 grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-4">
+                  <div className="pt-0.5">
+                    <p className="text-[14px] font-bold text-white mb-1">{sector}</p>
+                    <p className="text-[11px] text-gray-500">{stat}</p>
+                  </div>
+                  <p className="text-[14px] text-gray-400 leading-[1.8]">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── What Moves Market Prices ── */}
+          <section className="mb-16">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-6">What Moves Market Prices</h2>
+
+            <div className="divide-y divide-white/[0.07]">
+              {[
+                { factor: 'LRD / USD Rate',      impact: 'Direct',      desc: 'Most imported goods are priced in USD. When the LRD weakens, market prices rise almost immediately — traders adjust within days, sometimes hours.' },
+                { factor: 'Fuel & Transport',    impact: 'Direct',      desc: 'Petrol prices affect keke fares, truck freight, and delivery costs. A fuel price increase reaches market stall prices within a week across Monrovia.' },
+                { factor: 'Guinea Border Trade', impact: 'Significant', desc: 'Vegetables, palm oil, and staples cross from Guinea daily. Border closures, rain, or security issues in Lofa and Nimba rapidly tighten Monrovia supply.' },
+                { factor: 'Freeport Throughput', impact: 'Significant', desc: 'Container backlogs delay Chinese and Asian imports by 1–3 weeks, creating shortages and price spikes at Duala and Waterside.' },
+                { factor: 'Rainy Season',        impact: 'Seasonal',    desc: 'June–October rains flood market stalls, damage roads, and cut upcountry supply. Produce prices rise sharply in this period every year.' },
+                { factor: 'School Calendar',     impact: 'Seasonal',    desc: 'Back-to-school months drive uniform, fabric, and stationery demand. Fashion and textile sectors peak in August and January.' },
+                { factor: 'Government Payroll',  impact: 'Cyclical',    desc: 'Civil servant payday (end of month) creates a predictable surge in spending. Traders at Duala and Redlight report their highest single-day sales on pay weeks.' },
+                { factor: 'Mobile Money Float',  impact: 'Systemic',    desc: 'When Orange Money or Lonestar Cash go down, market trade slows immediately. Many traders no longer carry large amounts of physical cash.' },
+              ].map((f, i) => (
+                <div key={i} className="py-5 grid grid-cols-1 sm:grid-cols-[180px_90px_1fr] gap-x-6 gap-y-1">
+                  <p className="text-[14px] font-semibold text-white">{f.factor}</p>
+                  <p className={`text-[11px] font-bold uppercase tracking-wide self-center ${
+                    f.impact === 'Direct'      ? 'text-red-400' :
+                    f.impact === 'Significant' ? 'text-orange-400' :
+                    f.impact === 'Seasonal'    ? 'text-sky-400' :
+                    'text-purple-400'
+                  }`}>{f.impact}</p>
+                  <p className="text-[13px] text-gray-500 leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Market News ── */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent">Market News</h2>
+              <Link href="/news" className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline">All stories →</Link>
+            </div>
+
+            <div className="divide-y divide-white/[0.07]">
+              {[
+                { tag: 'Trade Policy',    date: 'Apr 14',  title: 'Fashion import tariffs are reshaping how traders source fabric at Waterside and Duala',                             desc: 'New CBL guidelines on foreign currency and revised import duties are pushing fabric traders toward local sourcing. Lappa demand is up 22% year-on-year.' },
+                { tag: 'Electronics',    date: 'Apr 12',  title: 'Redlight vendors report 20% drop in electronics sales as Chinese imports slow through the Freeport',             desc: 'Port congestion and a weaker Yuan-LRD spread are extending restock timelines by 3–4 weeks. Stall owners say prices are up but inventory is thin.' },
+                { tag: 'Transportation', date: 'Apr 10',  title: "Keke riders push for formal recognition and licensing reform across Greater Monrovia",                            desc: 'An estimated 15,000 keke operators are calling for a unified registration system, third-party insurance, and protection from police harassment.' },
+                { tag: 'Mobile Finance', date: 'Apr 8',   title: 'Mobile money adoption reaches 68% among Duala market traders, new CBL survey shows',                             desc: 'Orange Money and Lonestar Cash now handle the majority of wholesale transactions at Duala. Cash is still dominant at retail stalls, but the shift is accelerating.' },
+                { tag: 'Agriculture',    date: 'Apr 6',   title: 'Produce prices spike at Waterside as cross-border supply from Guinea slows',                                      desc: 'Pepper, cassava leaf, and bitter ball prices rose 15–30% in two weeks. Guinea border crossing volumes are down 18% compared to the same period last year.' },
+                { tag: 'Infrastructure', date: 'Apr 4',   title: 'Duala traders petition government for covered stalls ahead of rainy season — again',                             desc: 'Hundreds of traders lose goods every rainy season to flooding. A 2022 covered market pledge remains unfulfilled. Traders say the losses are unsustainable.' },
+              ].map((item, i) => (
+                <Link key={i} href="/news" className="group block py-5 hover:opacity-75 transition-opacity no-underline">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wide text-brand-accent">{item.tag}</span>
+                    <span className="text-gray-600">·</span>
+                    <span className="text-[11px] text-gray-500">{item.date}</span>
+                  </div>
+                  <h3 className="text-[15px] font-semibold text-white leading-snug mb-1.5">{item.title}</h3>
+                  <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-2">{item.desc}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
         </div>
-      </section>
+
+        {/* ── SIDEBAR ── */}
+        <aside className="mt-0 space-y-12 lg:border-l lg:border-white/[0.06] lg:pl-10">
+
+          {/* Exchange Rates */}
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-0">LRD Exchange Rates</h2>
+            <p className="text-[11px] text-gray-500 mt-1 mb-4 leading-relaxed">Prices at Liberian markets are quoted in both LRD and USD. Rate movements affect every transaction.</p>
+            <div className="divide-y divide-white/[0.07]">
+              {[
+                { pair: 'USD / LRD', rate: '192.50', change: '+0.65%', up: true  },
+                { pair: 'EUR / LRD', rate: '209.85', change: '-0.44%', up: false },
+                { pair: 'GBP / LRD', rate: '243.15', change: '+0.87%', up: true  },
+                { pair: 'GHS / LRD', rate: '13.20',  change: '-1.78%', up: false },
+              ].map((r, i) => (
+                <div key={i} className="flex items-center justify-between py-3">
+                  <p className="text-[13px] font-semibold text-white">{r.pair}</p>
+                  <div className="text-right">
+                    <p className="text-[15px] font-black text-white tabular-nums">{r.rate}</p>
+                    <p className={`text-[11px] font-semibold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.up ? '▲' : '▼'} {r.change}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* More Markets */}
+          <div>
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">More Markets</h2>
+            <div className="divide-y divide-white/[0.07]">
+              {[
+                { name: 'Carey Street',         location: 'Central Monrovia',     note: 'Electronics, phones, laptops, TVs — new and used. Stock comes through the Freeport from China and Dubai. Buy, sell, or repair on the same block.' },
+                { name: 'Clara Town',           location: 'Clara Town, Monrovia', note: 'Auto parts, mechanics, and used components. Tyres, engines, batteries — mostly imported, some pulled from wrecked vehicles.' },
+                { name: 'Chicken Soup Factory', location: 'Central Monrovia',     note: 'Electronics, Chinese goods, wholesale trade. Smaller traders stock up here before selling at Duala or Redlight.' },
+                { name: 'Gardnesville Market',  location: 'Gardnesville',         note: 'Produce from Margibi and Montserrado farms. Much of the cassava and greens sold in Monrovia passes through here first.' },
+                { name: 'Kakata Market',        location: 'Margibi County',       note: 'Main market town between Monrovia and the interior. Rubber workers, farmers, and traders all mix.' },
+                { name: 'Gbarnga Market',       location: 'Bong County',          note: "Central Liberia's busiest market town. Agricultural goods and supplies heading to the mining counties all pass through." },
+                { name: 'Buchanan Market',      location: 'Grand Bassa County',   note: 'Port city. Fresh fish, timber, imported goods. ArcelorMittal workers and supply vendors are regulars.' },
+                { name: 'Voinjama Market',      location: 'Lofa County',          note: "Borders Guinea. Cross-border traders from Macenta and N'Zérékoré. Cocoa, coffee, and rice move both ways." },
+                { name: 'Harper Market',        location: 'Maryland County',      note: "Southeast corner, near Côte d'Ivoire. Fish is the main trade. Palm oil and Ivorian cross-border goods also move regularly." },
+                { name: 'Sanniquellie Market',  location: 'Nimba County',         note: 'Mining country. Market shaped by ArcelorMittal workers and contractors. Guinea and Côte d\'Ivoire both nearby.' },
+              ].map((m, i) => (
+                <div key={i} className="py-4">
+                  <p className="text-[13px] font-bold text-white">{m.name}</p>
+                  <p className="text-[11px] text-brand-accent mb-1">{m.location}</p>
+                  <p className="text-[12px] text-gray-500 leading-relaxed">{m.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
     </main>
   );
 }
