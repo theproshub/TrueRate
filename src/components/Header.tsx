@@ -58,7 +58,23 @@ function RateTicker({ isLight }: { isLight: boolean }) {
   );
 }
 
-/** Single source of truth for all nav — matches real routes and page breadcrumbs */
+/** Compact pills shown next to the search bar — top super-nav */
+const TOP_NAV: { label: string; href: string }[] = [
+  { label: 'Home',   href: '/' },
+  { label: 'News',   href: '/news' },
+  { label: 'Sports', href: '/sports' },
+];
+
+/** Bloomberg-style section tabs on the secondary row */
+const SECTIONS_NAV: { label: string; href: string }[] = [
+  { label: 'Markets',    href: '/forex' },
+  { label: 'Economy',    href: '/economy' },
+  { label: 'Companies',  href: '/directory' },
+  { label: 'Technology', href: '/technology' },
+  { label: 'Videos',     href: '/videos' },
+];
+
+/** Full nav used by mobile menu — everything in one flat list, no hidden items */
 const PRIMARY_NAV: { label: string; href: string }[] = [
   { label: 'Home',       href: '/' },
   { label: 'News',       href: '/news' },
@@ -233,6 +249,72 @@ export default function Header() {
           </button>
         </div>
 
+        {/* Top super-nav — compact pills next to the search bar */}
+        <div className="hidden sm:flex items-center gap-0.5 shrink-0">
+          {TOP_NAV.map(({ label, href }) => {
+            const active = isActive(pathname, href);
+            return (
+              <Link
+                key={label}
+                href={href}
+                className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${
+                  active
+                    ? 'text-brand-accent'
+                    : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'
+                }`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+          <div
+            className="relative"
+            onMouseEnter={() => setMoreOpen(true)}
+            onMouseLeave={() => setMoreOpen(false)}
+          >
+            <button
+              className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap ${
+                moreOpen
+                  ? 'text-brand-accent'
+                  : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'
+              }`}
+            >
+              More
+              <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {moreOpen && (
+              <div
+                className={`absolute right-0 top-full z-50 min-w-[280px] border shadow-2xl rounded-b-lg overflow-hidden ${
+                  isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
+                }`}
+              >
+                <div className="py-2">
+                  {MORE_NAV.map(({ label, href, desc }) => {
+                    const active = isActive(pathname, href);
+                    return (
+                      <Link
+                        key={label}
+                        href={href}
+                        onClick={() => setMoreOpen(false)}
+                        className={`block px-4 py-2.5 no-underline transition-colors ${
+                          active
+                            ? isLight ? 'bg-gray-50' : 'bg-white/[0.04]'
+                            : isLight ? 'hover:bg-gray-50' : 'hover:bg-white/[0.04]'
+                        }`}
+                      >
+                        <div className={`text-[14px] font-semibold ${active ? 'text-brand-accent' : isLight ? 'text-gray-900' : 'text-white'}`}>{label}</div>
+                        <div className={`text-[12px] mt-0.5 ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{desc}</div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Right: watchlist + auth */}
         <div className="flex items-center gap-2 z-10 shrink-0 ml-auto sm:ml-0">
           <HeaderAuthButtons />
@@ -322,9 +404,9 @@ export default function Header() {
               ))}
             </>
           ) : (
-            /* Primary site nav — one row, honest labels, real routes */
+            /* Section tabs — Bloomberg-style secondary row */
             <>
-              {PRIMARY_NAV.map(({ label, href }) => {
+              {SECTIONS_NAV.map(({ label, href }) => {
                 const active = isActive(pathname, href);
                 return (
                   <Link key={label} href={href}
@@ -337,54 +419,6 @@ export default function Header() {
                   </Link>
                 );
               })}
-
-              {/* More dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setMoreOpen(true)}
-                onMouseLeave={() => setMoreOpen(false)}
-              >
-                <button
-                  className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 border-transparent transition-colors ${
-                    moreOpen
-                      ? 'text-brand-accent'
-                      : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-white/70 hover:text-brand-accent'
-                  }`}
-                >
-                  More
-                  <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {moreOpen && (
-                  <div
-                    className={`absolute left-0 top-full z-50 min-w-[260px] border shadow-2xl rounded-b-lg overflow-hidden ${
-                      isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
-                    }`}
-                  >
-                    <div className="py-2">
-                      {MORE_NAV.map(({ label, href, desc }) => {
-                        const active = isActive(pathname, href);
-                        return (
-                          <Link
-                            key={label}
-                            href={href}
-                            onClick={() => setMoreOpen(false)}
-                            className={`block px-4 py-2.5 no-underline transition-colors ${
-                              active
-                                ? isLight ? 'bg-gray-50' : 'bg-white/[0.04]'
-                                : isLight ? 'hover:bg-gray-50' : 'hover:bg-white/[0.04]'
-                            }`}
-                          >
-                            <div className={`text-[14px] font-semibold ${active ? 'text-brand-accent' : isLight ? 'text-gray-900' : 'text-white'}`}>{label}</div>
-                            <div className={`text-[12px] mt-0.5 ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{desc}</div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
 
               {/* Rate ticker — right-aligned */}
               <div className={`ml-auto pl-4 border-l py-2 ${isLight ? 'border-gray-200' : 'border-white/[0.06]'}`}>
