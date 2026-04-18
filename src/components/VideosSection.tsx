@@ -3,27 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { Video } from '@/data/todays-videos';
-
-const CAT_BG: Record<string, string> = {
-  policy:         'bg-gradient-to-br from-slate-800 to-[#0d0d12]',
-  Mining:         'bg-gradient-to-br from-orange-950 to-[#100700]',
-  commodities:    'bg-gradient-to-br from-orange-950 to-[#100700]',
-  economy:        'bg-gradient-to-br from-blue-950 to-[#04060f]',
-};
-
-function VideoThumbnail({ category }: { category: string }) {
-  const bg = CAT_BG[category] ?? CAT_BG.economy;
-  return (
-    <div className={`relative w-full h-[220px] overflow-hidden flex items-center justify-center ${bg}`}>
-      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-      <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-2xl">
-        <svg className="h-5 w-5 translate-x-0.5 text-[#0a0a0d]" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </div>
-    </div>
-  );
-}
+import { VideoThumbnail } from '@/components/NewsThumbnail';
 
 export default function VideosSection({ videos }: { videos: Video[] }) {
   const [active, setActive] = useState(0);

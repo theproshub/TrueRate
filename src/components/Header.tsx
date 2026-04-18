@@ -58,90 +58,79 @@ function RateTicker({ isLight }: { isLight: boolean }) {
   );
 }
 
-const MOBILE_NAV: { label: string; sub?: string[] }[] = [
-  { label: 'Business',         sub: ['Top Stories', 'Companies', 'Economy', 'Banking & Finance', 'Infrastructure'] },
-  { label: 'Investing',        sub: ['Markets', 'Forex & Rates', 'Watchlist'] },
-  { label: 'Technology',       sub: ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'] },
-  { label: 'Entrepreneurship', sub: ['Founders', 'Funding', 'SMEs', 'Growth Stories'] },
-  { label: 'Lifestyle',        sub: ['Culture', 'Sports', 'Health & Wellness', 'Travel'] },
+/** Single source of truth for all nav — matches real routes and page breadcrumbs */
+const PRIMARY_NAV: { label: string; href: string }[] = [
+  { label: 'Home',       href: '/' },
+  { label: 'News',       href: '/news' },
+  { label: 'Markets',    href: '/forex' },
+  { label: 'Economy',    href: '/economy' },
+  { label: 'Companies',  href: '/directory' },
+  { label: 'Technology', href: '/technology' },
+  { label: 'Sports',     href: '/sports' },
 ];
 
-const SUB_HAS_ARROW = new Set(['News', 'Markets', 'Videos']);
+const MORE_NAV: { label: string; href: string; desc: string }[] = [
+  { label: 'Culture',          href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
+  { label: 'Entrepreneurship', href: '/entrepreneurship', desc: 'Founders, funding and SMEs' },
+  { label: 'Videos',           href: '/videos',           desc: 'Interviews, explainers, podcasts' },
+  { label: 'Watchlist',        href: '/watchlist',        desc: 'Track your tickers and stories' },
+  { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
+];
 
-const MORE_SECTIONS: Record<string, string[]> = {
-  'Business':         ['Top Stories', 'Companies', 'Economy', 'Banking & Finance', 'Infrastructure'],
-  'Investing':        ['Markets', 'Forex & Rates', 'Watchlist'],
-  'Technology':       ['Startups', 'AI & Innovation', 'Digital Economy', 'Fintech'],
-  'Entrepreneurship': ['Founders', 'Funding', 'SMEs', 'Growth Stories'],
-};
+function isActive(pathname: string, href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href + '/');
+}
 
-
-const MORE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/economy' },
-  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Watchlist': '/watchlist' },
-  'Technology':       { 'Startups': '/technology', 'AI & Innovation': '/technology', 'Digital Economy': '/technology', 'Fintech': '/technology' },
-  'Entrepreneurship': { 'Founders': '/entrepreneurship', 'Funding': '/entrepreneurship', 'SMEs': '/entrepreneurship', 'Growth Stories': '/entrepreneurship' },
-};
-
-const MOBILE_LINK_MAP: Record<string, Record<string, string>> = {
-  'Business':         { 'Top Stories': '/news', 'Companies': '/directory', 'Economy': '/economy', 'Banking & Finance': '/economy', 'Infrastructure': '/economy' },
-  'Investing':        { 'Markets': '/forex', 'Forex & Rates': '/forex', 'Watchlist': '/watchlist' },
-  'Technology':       { 'Startups': '/technology', 'AI & Innovation': '/technology', 'Digital Economy': '/technology', 'Fintech': '/technology' },
-  'Entrepreneurship': { 'Founders': '/entrepreneurship', 'Funding': '/entrepreneurship', 'SMEs': '/entrepreneurship', 'Growth Stories': '/entrepreneurship' },
-  'Lifestyle':        { 'Culture': '/entertainment', 'Sports': '/sports', 'Health & Wellness': '/entertainment', 'Travel': '/entertainment' },
-};
-
-function MobileMenu({ onClose }: { onClose: () => void }) {
-  const [expanded, setExpanded] = useState<string | null>(null);
+function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: string }) {
   return (
     <div className="sm:hidden fixed inset-0 z-50 flex">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div className="relative flex flex-col w-[82vw] max-w-[340px] bg-brand-dark h-full shadow-2xl">
         <div className="flex-1 overflow-y-auto">
-          <nav className="pt-3">
-            {MOBILE_NAV.map(item => (
-              <div key={item.label}>
-                <button
-                  onClick={() => setExpanded(e => e === item.label ? null : item.label)}
-                  className={`flex w-full items-center justify-between px-5 py-2.5 border-l-[3px] transition-colors ${expanded === item.label ? 'border-emerald-400' : 'border-transparent'}`}
+          <nav className="pt-3 pb-2">
+            <p className="px-5 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">Sections</p>
+            {PRIMARY_NAV.map(({ label, href }) => {
+              const active = isActive(pathname, href);
+              return (
+                <Link
+                  key={label}
+                  href={href}
+                  onClick={onClose}
+                  className={`flex w-full items-center px-5 py-3 border-l-[3px] transition-colors no-underline ${active ? 'border-brand-accent bg-white/[0.03]' : 'border-transparent'}`}
                 >
-                  <span className="text-[17px] font-bold text-white">{item.label}</span>
-                  {item.sub && (
-                    <svg className={`h-4 w-4 shrink-0 text-gray-500 transition-transform duration-200 ${expanded === item.label ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </button>
-                {item.sub && expanded === item.label && (
-                  <div className="pb-1">
-                    {item.sub.map(sub => (
-                      <Link key={sub} href={MOBILE_LINK_MAP[item.label]?.[sub] ?? '/'} onClick={onClose}
-                        className="flex items-center justify-between px-6 py-3 text-[15px] text-gray-400 hover:text-white transition-colors no-underline">
-                        <span>{sub}</span>
-                        {SUB_HAS_ARROW.has(sub) && (
-                          <svg className="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                          </svg>
-                        )}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                  <span className={`text-[16px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
+                </Link>
+              );
+            })}
           </nav>
-          <div className="px-5 pt-5 border-t border-white/[0.06] mt-3">
-            {[{ label: 'Terms', href: '/about' }, { label: 'Privacy', href: '/about' }, { label: 'Feedback', href: '/feedback' }].map(({ label, href }) => (
-              <Link key={label} href={href} className="block py-3 text-[15px] text-gray-400 hover:text-white transition-colors no-underline">{label}</Link>
+          <div className="border-t border-white/[0.06] pt-2 pb-2">
+            <p className="px-5 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">More</p>
+            {MORE_NAV.map(({ label, href }) => {
+              const active = isActive(pathname, href);
+              return (
+                <Link
+                  key={label}
+                  href={href}
+                  onClick={onClose}
+                  className={`flex w-full items-center px-5 py-3 border-l-[3px] transition-colors no-underline ${active ? 'border-brand-accent bg-white/[0.03]' : 'border-transparent'}`}
+                >
+                  <span className={`text-[16px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="px-5 pt-5 border-t border-white/[0.06] mt-2">
+            {[
+              { label: 'Help',     href: '/help' },
+              { label: 'Feedback', href: '/feedback' },
+              { label: 'Terms & Privacy', href: '/about' },
+            ].map(({ label, href }) => (
+              <Link key={label} href={href} onClick={onClose} className="block py-3 text-[14px] text-gray-400 hover:text-white transition-colors no-underline">{label}</Link>
             ))}
           </div>
           <div className="px-5 pt-4 pb-8">
-            <p className="text-[13px] text-gray-400">© 2026 <span className="font-bold text-gray-500">TrueRate</span> All rights reserved.</p>
-            <div className="flex items-center gap-4 flex-wrap mt-2">
-              {['About our ads', 'Advertising', 'Careers'].map(link => (
-                <Link key={link} href="/about" className="text-[13px] text-gray-400 hover:text-white transition-colors no-underline">{link}</Link>
-              ))}
-            </div>
+            <p className="text-[12px] text-gray-500">© 2026 <span className="font-bold">TrueRate</span> · Not investment advice</p>
           </div>
         </div>
       </div>
@@ -154,9 +143,6 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
         <Link href="/sign-in" onClick={onClose} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white whitespace-nowrap no-underline">
           Sign in
         </Link>
-        <Link href="/watchlist" onClick={onClose} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white whitespace-nowrap no-underline hidden">
-            Watchlist
-          </Link>
       </div>
     </div>
   );
@@ -245,49 +231,6 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
-        </div>
-
-        {/* Super nav + More dropdown */}
-        <div className="hidden sm:flex items-center gap-0.5">
-          {([
-            { label: 'Business',      href: '/',              active: !pathname.startsWith('/entertainment') && !pathname.startsWith('/sports') && !pathname.startsWith('/news') && !pathname.startsWith('/commodities') && !pathname.startsWith('/forex') },
-            { label: 'News',          href: '/news',          active: pathname.startsWith('/news') },
-            { label: 'Sports',        href: '/sports',        active: pathname.startsWith('/sports') },
-          ] as { label: string; href: string; active: boolean }[]).map(item => (
-            <Link key={item.label} href={item.href} className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${item.active ? 'text-brand-accent' : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'}`}>
-              {item.label}
-            </Link>
-          ))}
-          <div className="relative" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
-            <button className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap ${isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'}`}>
-              More
-              <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            {moreOpen && (
-              <div className={`fixed left-0 right-0 top-[var(--header-h,56px)] z-50 border-t border-b shadow-2xl ${isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.06] shadow-black/60'}`} onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
-                <div className="mx-auto max-w-[1320px] px-6 py-8">
-                  <div className="grid grid-cols-5 gap-x-8">
-                    {Object.entries(MORE_SECTIONS).map(([section, links]) => (
-                      <div key={section}>
-                        <h4 className={`mb-4 text-[14px] font-bold ${isLight ? 'text-gray-900' : 'text-white'}`}>{section}</h4>
-                        <ul className="space-y-3">
-                          {links.map(link => (
-                            <li key={link}>
-                              <Link href={MORE_LINK_MAP[section]?.[link] ?? '/'} onClick={() => setMoreOpen(false)} className={`text-[14px] transition-colors no-underline ${isLight ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-white'}`}>
-                                {link}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Right: watchlist + auth */}
@@ -379,20 +322,14 @@ export default function Header() {
               ))}
             </>
           ) : (
-            /* Default global nav items */
+            /* Primary site nav — one row, honest labels, real routes */
             <>
-              {[
-                { label: 'Markets',   href: '/forex' },
-                { label: 'Economy',   href: '/economy' },
-                { label: 'Companies', href: '/directory' },
-                { label: 'Lifestyle',   href: '/entertainment' },
-                { label: 'Watch Now',   href: '/videos' },
-              ].map(({ label, href }) => {
-                const isActive = pathname.startsWith(href);
+              {PRIMARY_NAV.map(({ label, href }) => {
+                const active = isActive(pathname, href);
                 return (
                   <Link key={label} href={href}
-                    className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
-                      isActive
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                      active
                         ? 'border-brand-accent text-brand-accent'
                         : isLight ? 'border-transparent text-gray-500 hover:text-brand-accent' : 'border-transparent text-white/70 hover:text-brand-accent'
                     }`}>
@@ -400,6 +337,54 @@ export default function Header() {
                   </Link>
                 );
               })}
+
+              {/* More dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setMoreOpen(true)}
+                onMouseLeave={() => setMoreOpen(false)}
+              >
+                <button
+                  className={`flex items-center gap-1 whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 border-transparent transition-colors ${
+                    moreOpen
+                      ? 'text-brand-accent'
+                      : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-white/70 hover:text-brand-accent'
+                  }`}
+                >
+                  More
+                  <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {moreOpen && (
+                  <div
+                    className={`absolute left-0 top-full z-50 min-w-[260px] border shadow-2xl rounded-b-lg overflow-hidden ${
+                      isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
+                    }`}
+                  >
+                    <div className="py-2">
+                      {MORE_NAV.map(({ label, href, desc }) => {
+                        const active = isActive(pathname, href);
+                        return (
+                          <Link
+                            key={label}
+                            href={href}
+                            onClick={() => setMoreOpen(false)}
+                            className={`block px-4 py-2.5 no-underline transition-colors ${
+                              active
+                                ? isLight ? 'bg-gray-50' : 'bg-white/[0.04]'
+                                : isLight ? 'hover:bg-gray-50' : 'hover:bg-white/[0.04]'
+                            }`}
+                          >
+                            <div className={`text-[14px] font-semibold ${active ? 'text-brand-accent' : isLight ? 'text-gray-900' : 'text-white'}`}>{label}</div>
+                            <div className={`text-[12px] mt-0.5 ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{desc}</div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Rate ticker — right-aligned */}
               <div className={`ml-auto pl-4 border-l py-2 ${isLight ? 'border-gray-200' : 'border-white/[0.06]'}`}>
@@ -411,7 +396,7 @@ export default function Header() {
         </div>
       </div>
 
-      {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
+      {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} pathname={pathname} />}
     </header>
   );
 }

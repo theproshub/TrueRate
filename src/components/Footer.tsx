@@ -3,42 +3,41 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
-  'Business': [
+  'Sections': [
+    { label: 'News',              href: '/news' },
+    { label: 'Markets',           href: '/forex' },
     { label: 'Economy',           href: '/economy' },
     { label: 'Companies',         href: '/directory' },
+    { label: 'Technology',        href: '/technology' },
+  ],
+  'Life & Culture': [
+    { label: 'Culture',           href: '/entertainment' },
+    { label: 'Sports',            href: '/sports' },
+    { label: 'Entrepreneurship',  href: '/entrepreneurship' },
     { label: 'Videos',            href: '/videos' },
   ],
-  'Investing': [
-    { label: 'Markets',           href: '/forex' },
-    { label: 'Forex & Rates',     href: '/forex' },
+  'Tools': [
     { label: 'Watchlist',         href: '/watchlist' },
-  ],
-  'Editorial': [
-    { label: 'Technology',        href: '/news' },
-    { label: 'Entrepreneurship',  href: '/news' },
-    { label: 'Leadership',        href: '/news' },
-    { label: 'Lifestyle',         href: '/entertainment' },
-    { label: 'Sports',            href: '/sports' },
+    { label: 'Forex & Rates',     href: '/forex' },
   ],
   'Company': [
     { label: 'About TrueRate',    href: '/about' },
     { label: 'Help',              href: '/help' },
     { label: 'Feedback',          href: '/feedback' },
-    { label: 'Licensing',         href: '/about' },
   ],
 };
 
 const TRENDING_LINKS = [
-  { label: 'Entrepreneurship',  href: '/news' },
-  { label: 'Startups',          href: '/news' },
-  { label: 'AI & Innovation',   href: '/news' },
-  { label: 'Investing',         href: '/forex' },
-  { label: 'Leadership',        href: '/news' },
-  { label: 'Forex & Rates',     href: '/forex' },
+  { label: 'News',              href: '/news' },
   { label: 'Economy',           href: '/economy' },
+  { label: 'Markets',           href: '/forex' },
   { label: 'Companies',         href: '/directory' },
-  { label: 'Technology',        href: '/news' },
-  { label: 'Lifestyle',         href: '/entertainment' },
+  { label: 'Technology',        href: '/technology' },
+  { label: 'Entrepreneurship',  href: '/entrepreneurship' },
+  { label: 'Culture',           href: '/entertainment' },
+  { label: 'Sports',            href: '/sports' },
+  { label: 'Videos',            href: '/videos' },
+  { label: 'Watchlist',         href: '/watchlist' },
 ];
 
 const LEGAL_LINKS = [
@@ -62,7 +61,7 @@ export default function Footer() {
             <h3 className="text-[18px] font-bold text-white">TrueRate Daily Brief</h3>
             <p className="mt-1 text-[14px] text-gray-500">Business, investing, and technology — delivered daily</p>
           </div>
-          <div className="flex w-full max-w-[420px] gap-2.5">
+          <div className="flex flex-col min-[400px]:flex-row w-full max-w-[420px] gap-2.5">
             <input
               type="email"
               placeholder="Email address"

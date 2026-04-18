@@ -8,11 +8,14 @@ export { getCatStyle };
 export function NewsThumbnail({ category, className }: { category: string; className: string }) {
   const s = getCatStyle(category);
   return (
-    <div className={`relative overflow-hidden ${s.bg} ${className}`}>
+    <div className={`relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
       <div
-        className="absolute inset-0 opacity-[0.07]"
-        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '18px 18px' }}
+        className="absolute inset-0 opacity-[0.12]"
+        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '14px 14px' }}
       />
+      <span className={`relative z-10 select-none text-center text-[10px] font-black uppercase tracking-[0.15em] px-1.5 ${s.accent}`}>
+        {s.label}
+      </span>
     </div>
   );
 }
@@ -24,16 +27,16 @@ export function HeroVisual({ category, className = '' }: { category: string; cla
     <div className={`w-full relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
       {/* Dot grid */}
       <div
-        className="absolute inset-0 opacity-[0.08]"
+        className="absolute inset-0 opacity-[0.14]"
         style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
       />
       {/* Diagonal lines */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.07]"
         style={{ backgroundImage: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 32px)' }}
       />
       {/* Category watermark */}
-      <span className={`relative z-10 select-none text-[clamp(48px,10vw,96px)] font-black uppercase tracking-widest opacity-[0.07] ${s.accent}`}>
+      <span className={`relative z-10 select-none text-[clamp(48px,10vw,96px)] font-black uppercase tracking-widest opacity-[0.22] ${s.accent}`}>
         {s.label}
       </span>
       {/* Edge vignette */}

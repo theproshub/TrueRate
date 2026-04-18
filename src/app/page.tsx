@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { newsItems } from '@/data/news';
-import { getCatColor, getCatStyle } from '@/lib/category-colors';
+import { getCatColor } from '@/lib/category-colors';
 import { getNews, newsFeed, timeAgo } from '@/lib/utils';
 import IndicatorsStrip from '@/components/IndicatorsStrip';
 import VideosSection from '@/components/VideosSection';
+import { NewsThumbnail, HeroVisual as SharedHeroVisual } from '@/components/NewsThumbnail';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
 
@@ -11,25 +12,9 @@ import { TODAYS_VIDEOS } from '@/data/todays-videos';
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
 
-
-// ── Category visuals imported from shared component ───────────────────────────
-/** Replaces random stock photo thumbnails with intentional category treatments */
-function NewsThumbnail({ category, className }: { category: string; className: string }) {
-  const s = getCatStyle(category);
-  return (
-    <div className={`relative overflow-hidden ${s.bg} ${className}`}>
-      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '18px 18px' }} />
-    </div>
-  );
-}
-/** Large hero visual — replaces the big top-of-page stock photo */
+/** Homepage hero size wrapper around shared HeroVisual */
 function HeroVisual({ category }: { category: string }) {
-  const s = getCatStyle(category);
-  return (
-    <div className={`w-full h-[200px] sm:h-[260px] relative overflow-hidden ${s.bg}`}>
-      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-    </div>
-  );
+  return <SharedHeroVisual category={category} className="h-[200px] sm:h-[260px]" />;
 }
 type Chip = { label: string; pct: string; up: boolean };
 
@@ -149,7 +134,7 @@ function NewsListColumn() {
       {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
           <div className="overflow-hidden rounded-xl shrink-0">
-            <NewsThumbnail category={item.category} className="h-[90px] w-[130px]" />
+            <NewsThumbnail category={item.category} className="h-[72px] w-[108px] sm:h-[90px] sm:w-[130px]" />
           </div>
           <div className="min-w-0 flex-1">
             {item.category && <p className={`mb-1 text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</p>}
@@ -184,7 +169,7 @@ function LatestColumn() {
           return (
             <Link key={id} href={`/news/${item.id}`} className="flex gap-3.5 py-4 first:pt-0 no-underline group">
               <div className="shrink-0 overflow-hidden rounded-xl">
-                <NewsThumbnail category={item.category} className="h-[90px] w-[130px]" />
+                <NewsThumbnail category={item.category} className="h-[72px] w-[108px] sm:h-[90px] sm:w-[130px]" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
