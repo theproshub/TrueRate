@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Feedback — TrueRate',
+  description: 'Help us improve TrueRate. Share bug reports, data corrections, or feature ideas.',
+};
+
 export default function FeedbackPage() {
   return (
     <main className="mx-auto max-w-[600px] px-4 py-12">

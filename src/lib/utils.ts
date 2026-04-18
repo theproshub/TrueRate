@@ -1,9 +1,32 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { HistoricalDataPoint, TimeRange } from './types';
+import { HistoricalDataPoint, NewsItem, TimeRange } from './types';
+import { newsItems } from '@/data/news';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function getNews(id: string): NewsItem | undefined {
+  return newsItems.find(n => n.id === id);
+}
+
+export function newsFeed(ids: string[]): NewsItem[] {
+  return ids
+    .map(id => newsItems.find(n => n.id === id))
+    .filter((n): n is NewsItem => n !== undefined);
+}
+
+export function timeAgo(dateStr: string, now: number = Date.now()): string {
+  const ms = now - new Date(dateStr).getTime();
+  const mins = Math.floor(ms / 60_000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days === 1) return '1 day ago';
+  return `${days} days ago`;
 }
 
 export function formatCurrency(value: number, currency = 'USD'): string {

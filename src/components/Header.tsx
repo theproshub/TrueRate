@@ -146,7 +146,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
         </div>
       </div>
       <div className="relative flex flex-col items-center pt-3 pl-3 gap-2.5">
-        <button onClick={onClose} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.12] text-white shrink-0">
+        <button onClick={onClose} aria-label="Close menu" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.12] text-white shrink-0">
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>

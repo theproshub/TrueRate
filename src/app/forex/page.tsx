@@ -2,10 +2,16 @@
  * Markets page — Liberian physical markets, sectors, and daily commerce.
  */
 
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: 'Markets — TrueRate',
+  description: "Liberia's physical markets, the sectors driving daily commerce, and what moves prices at Duala, Redlight, Waterside and beyond.",
+};
 
 export default function MarketsPage() {
   return (

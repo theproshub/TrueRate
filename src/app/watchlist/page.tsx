@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import WatchlistClient from './WatchlistClient';
 import Breadcrumb from '@/components/Breadcrumb';
+
+export const metadata: Metadata = {
+  title: 'Watchlist — TrueRate',
+  description: 'Your personal watchlist of Liberian indicators, forex pairs, and commodities.',
+};
 
 export default function WatchlistPage() {
   return (

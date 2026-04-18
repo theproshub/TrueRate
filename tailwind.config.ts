@@ -33,10 +33,9 @@ const config: Config = {
         't3':   '#64748b',
       },
       fontFamily: {
-        // Inter = main brand font (headings/UI), Montserrat = body copy
-        sans:       ['Inter', 'sans-serif'],
-        inter:      ['Inter', 'sans-serif'],
-        montserrat: ['Montserrat', 'sans-serif'],
+        sans:       ['var(--font-inter)', 'Inter', 'sans-serif'],
+        inter:      ['var(--font-inter)', 'Inter', 'sans-serif'],
+        montserrat: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
       },
     },
   },

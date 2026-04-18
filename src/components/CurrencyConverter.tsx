@@ -113,6 +113,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
 
           <button
             onClick={swap}
+            aria-label="Swap currencies"
             title="Swap currencies"
             className="shrink-0 mb-0.5 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.1] bg-white/[0.05] text-gray-400 hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition"
           >

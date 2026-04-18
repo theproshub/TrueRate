@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Help & FAQ — TrueRate',
+  description: 'Answers to common questions about TrueRate — data sources, pricing, mobile access, and more.',
+};
+
 const FAQS = [
   { q: 'Is TrueRate free to use?', a: 'Yes. TrueRate is completely free. All features including news, market data, the currency converter, and research are open to everyone at no cost.' },
   { q: 'Where does TrueRate get its data?', a: 'Data is sourced from the Central Bank of Liberia, World Bank, IMF, Ghana Stock Exchange, BRVM, and licensed market data providers.' },

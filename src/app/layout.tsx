@@ -1,8 +1,24 @@
 import type { Metadata } from 'next';
+import { Inter, Montserrat } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+  variable: '--font-montserrat',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'TrueRate — Business, Investing & Technology',
@@ -15,7 +31,7 @@ const isClerkConfigured =
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const content = (
-    <body style={{ background: '#050d11' }}>
+    <body className={inter.className} style={{ background: '#050d11' }}>
       <Header />
       {children}
       <Footer />
@@ -23,15 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
       {isClerkConfigured ? <ClerkProvider>{content}</ClerkProvider> : content}
     </html>
   );

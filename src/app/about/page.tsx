@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'About — TrueRate',
+  description: "Why we built TrueRate: covering business, investing, technology, entrepreneurship, leadership and lifestyle across Liberia.",
+};
 
 export default function AboutPage() {
   return (

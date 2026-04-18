@@ -1,52 +1,18 @@
-'use client';
-
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { newsItems } from '@/data/news';
-import { getCatColor } from '@/lib/category-colors';
+import { getCatColor, getCatStyle } from '@/lib/category-colors';
+import { getNews, newsFeed, timeAgo } from '@/lib/utils';
+import IndicatorsStrip from '@/components/IndicatorsStrip';
+import VideosSection from '@/components/VideosSection';
+import { SEED_INDICATORS } from '@/data/ticker-seed';
+import { TODAYS_VIDEOS } from '@/data/todays-videos';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
 
 
-type TickerItem = { label: string; value: string; pct: string; up: boolean };
-
-const SEED_INDICATORS: TickerItem[] = [
-  { label: 'GDP Growth', value: '4.5%',     pct: 'YoY',    up: true  },
-  { label: 'Inflation',  value: '10.2%',    pct: 'YoY',    up: false },
-  { label: 'CBL Rate',   value: '17.50%',   pct: 'Steady', up: true  },
-  { label: 'LRD/USD',   value: '192.50',   pct: '+0.65%', up: true  },
-  { label: 'LRD/EUR',   value: '209.85',   pct: '-0.44%', up: false },
-  { label: 'LRD/GBP',   value: '243.15',   pct: '+0.87%', up: true  },
-  { label: 'Iron Ore',   value: '108.50',   pct: '-2.08%', up: false },
-  { label: 'Rubber',     value: '1.72',     pct: '+2.38%', up: true  },
-  { label: 'Gold',       value: '2,285.40', pct: '+0.82%', up: true  },
-];
-
-
 // ── Category visuals imported from shared component ───────────────────────────
-const CAT_STYLE: Record<string, { bg: string; accent: string; label: string }> = {
-  policy:         { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Policy' },
-  forex:          { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Forex' },
-  economy:        { bg: 'bg-gradient-to-br from-blue-950 to-[#04060f]',    accent: 'text-blue-300',    label: 'Economy' },
-  commodities:    { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Commodities' },
-  Mining:         { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',  accent: 'text-orange-300',  label: 'Mining' },
-  Banking:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]', accent: 'text-emerald-400', label: 'Banking' },
-  Agriculture:    { bg: 'bg-gradient-to-br from-lime-950 to-[#060e00]',    accent: 'text-lime-400',    label: 'Agriculture' },
-  Energy:         { bg: 'bg-gradient-to-br from-yellow-950 to-[#0f0b00]',  accent: 'text-yellow-300',  label: 'Energy' },
-  Trade:          { bg: 'bg-gradient-to-br from-purple-950 to-[#07000f]',  accent: 'text-purple-300',  label: 'Trade' },
-  Tech:           { bg: 'bg-gradient-to-br from-sky-950 to-[#030a12]',     accent: 'text-sky-300',     label: 'Tech' },
-  Analysis:       { bg: 'bg-gradient-to-br from-indigo-950 to-[#04000f]',  accent: 'text-indigo-300',  label: 'Analysis' },
-  Development:    { bg: 'bg-gradient-to-br from-teal-950 to-[#030f0b]',    accent: 'text-teal-300',    label: 'Development' },
-  Infrastructure: { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Infrastructure' },
-  Policy:         { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',   accent: 'text-slate-300',   label: 'Policy' },
-  'Monetary Policy': { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]', accent: 'text-slate-300', label: 'Monetary Policy' },
-};
-function getCatStyle(cat: string) {
-  return CAT_STYLE[cat] ?? CAT_STYLE['economy'];
-}
-
 /** Replaces random stock photo thumbnails with intentional category treatments */
 function NewsThumbnail({ category, className }: { category: string; className: string }) {
   const s = getCatStyle(category);
@@ -65,66 +31,22 @@ function HeroVisual({ category }: { category: string }) {
     </div>
   );
 }
-/** Video thumbnail — category-gradient with centred play button */
-function VideoThumbnail({ category }: { category: string }) {
-  const s = getCatStyle(category);
-  return (
-    <div className={`relative w-full h-[220px] overflow-hidden flex items-center justify-center ${s.bg}`}>
-      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-      <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-2xl">
-        <svg className="h-5 w-5 translate-x-0.5 text-[#0a0a0d]" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </div>
-    </div>
-  );
-}
+type Chip = { label: string; pct: string; up: boolean };
 
-const LATEST_NEWS = [
-  { href: '/news/1',  title: "CBL Ready to Defend the LRD If It Breaches 195 — Governor Signals Intervention Threshold", source: 'TrueRate', time: '16m ago', tags: ['Monetary Policy'], chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { href: '/news/30', title: "Liberia Petroleum Refining Corp Posts 12% Revenue Gain — First Quarterly Growth in Three Years", source: 'Daily Observer', time: '23m ago', tags: ['Energy'], chips: [{ label: 'Energy', pct: '+12%', up: true }] },
-  { href: '/news/3',  title: "ArcelorMittal Ships First Expanded-Capacity Ore Batch — The Nimba Ramp-Up Has Officially Begun", source: 'Bloomberg', time: '46m ago', tags: ['Mining'], chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
-  { href: '/news/16', title: "World Bank Approves $45M Grant for Liberia — Here's Exactly Where the Money Will Go", source: 'World Bank', time: '59m ago', tags: ['Development'], chips: [] },
-  { href: '/news/12', title: "Ecobank Transnational Raises Its Dividend After the Strongest West Africa Quarter in Five Years", source: 'FrontPage Africa', time: '1h ago', tags: ['Banking'], chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
-  { href: '/news/11', title: "Liberia Joins the ECOWAS Digital Payments Corridor — What It Means for Cross-Border Commerce", source: 'Liberian Observer', time: '1h ago', tags: ['Trade'], chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
-  { href: '/news/5',  title: "Firestone's Harbel Plantation Just Had Its Best Quarter in a Decade. The Replanting Strategy Worked.", source: 'The New Dawn', time: '3h ago', tags: ['Agriculture'], chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
-  { href: '/news/8',  title: "The IMF Praised Liberia's Fiscal Progress. It Also Left a Long List of Unfinished Business.", source: 'IMF / TrueRate', time: '5h ago', tags: ['Policy'], chips: [] },
+const LATEST_NEWS_IDS: { id: string; chips?: Chip[] }[] = [
+  { id: '1',  chips: [{ label: 'CBL Rate', pct: 'Steady', up: true }, { label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { id: '30', chips: [{ label: 'Energy', pct: '+12%', up: true }] },
+  { id: '3',  chips: [{ label: 'Iron Ore', pct: '-2.08%', up: false }, { label: 'Gold', pct: '+0.82%', up: true }] },
+  { id: '16' },
+  { id: '12', chips: [{ label: 'Ecobank', pct: '+3.1%', up: true }] },
+  { id: '11', chips: [{ label: 'LRD/USD', pct: '+0.65%', up: true }] },
+  { id: '5',  chips: [{ label: 'Rubber', pct: '+2.38%', up: true }] },
+  { id: '8' },
 ];
 
-const MORE_NEWS = [
-  { href: '/news/33', category: 'Banking',        title: "Liberia's Banking Sector Grew Deposits 14% in Q1 — The Mobile Money Effect Is Real", summary: "Central Bank data points to rising household savings and first-time account openings, driven by mobile money integration and renewed business confidence in the financial system's stability.", source: 'FrontPage Africa', time: '2h ago' },
-  { href: '/news/16', category: 'Infrastructure',  title: "Government Awards $120M Monrovia Ring Road Contract — AfDB Calls It 'Transformative for Freight'", summary: "The 48km road contract, backed by the African Development Bank, is expected to cut logistics costs by up to 25% and open industrial zones north of Monrovia that have been effectively inaccessible to heavy cargo.", source: 'Daily Observer', time: '3h ago' },
-  { href: '/news/30', category: 'Energy',          title: "40MW of New Solar Just Got Approved for Bong and Nimba — Without a Single Dollar from LEC", summary: "The Liberia Energy Authority has cleared two privately financed solar projects that will serve the two counties simultaneously. It's a model the government should be replicating across every underserved county.", source: 'The New Dawn', time: '5h ago' },
-  { href: '/news/7',  category: 'Agriculture',     title: "Palm Oil Exports Up 18% After Liberia Finally Fixed Its Farmgate Pricing. Here's the Policy That Did It.", summary: "A revised pricing scheme from the Ministry of Agriculture has moved an additional $8M annually into the hands of 12,000 smallholder farmers — and demonstrated that getting the incentives right works better than subsidies.", source: 'Liberian Observer', time: '7h ago' },
-  { href: '/news/29', category: 'Trade',           title: "Liberia-EU Tariff Framework Is Agreed. A $180M Annual Trade Boost Hangs on the Final Signature.", summary: "Negotiators in Brussels reached consensus on rubber, cocoa, and timber export schedules. The deal would be transformative for Liberia's export economy — but it has been 'almost agreed' before.", source: 'Reuters', time: '9h ago' },
-  { href: '/news/22', category: 'Mining',          title: "Three International Firms Just Got Grand Cape Mount Exploration Licenses. The Gold Rush Is On.", summary: "240 square kilometres of prospective territory now has foreign capital behind it. Combined with Bea Mountain's 1.4M oz discovery, Grand Cape Mount County is becoming Liberia's most competitive mining frontier.", source: 'Bloomberg', time: '11h ago' },
-  { href: '/news/15', category: 'Tech',            title: "PayLink Liberia Raised $4.2M to Reach 150,000 Rural Borrowers. Monrovia's Fintech Scene Is No Longer a Joke.", summary: "The Series A, led by a pan-African VC, will fund USSD-based credit expansion into Bong, Lofa, and Nimba counties — populations that traditional banks have written off for decades.", source: 'TechCabal', time: '13h ago' },
-  { href: '/news/31', category: 'Policy',          title: "The Finance Ministry's Revised Budget Has $62M More for Capital Spending — and Nobody Is Asking Where It Came From", summary: "A 12% uplift in capital expenditure sounds like good news. But the supplementary budget's revenue assumptions rely on customs projections that are tracking below target. Analysts are concerned.", source: 'Daily Observer', time: '15h ago' },
-];
+const MORE_NEWS_IDS = ['33', '16', '30', '7', '29', '22', '15', '31'];
 
-const QUICK_READS = [
-  { href: '/news/2',  tag: 'FOREX',   headline: 'LRD/USD anchored at 192.50 — CBL has intervened twice this week to defend the floor', time: '30m' },
-  { href: '/news/35', tag: 'MINING',  headline: "Nimba ships 2.1M tonnes of iron ore in Q1 — ArcelorMittal's best quarter since 2019", time: '1h' },
-  { href: '/news/12', tag: 'BANKING', headline: "Ecobank opens two new branches in Lofa and Grand Bassa — the bank is going where others won't", time: '2h' },
-  { href: '/news/26', tag: 'TRADE',   headline: 'Freeport throughput at a five-year high — Phase II expansion is already delivering results', time: '3h' },
-  { href: '/news/30', tag: 'ENERGY',  headline: 'Paynesville power cuts eased after LEC completes long-delayed grid repair. Residents are cautiously relieved.', time: '4h' },
-  { href: '/news/32', tag: 'AGRI',    headline: "Cocoa farmers are pushing for a $2.80/kg floor price. The ministry hasn't responded. Harvest is in six weeks.", time: '6h' },
-];
-
-const VIDEOS = [
-  { title: "CBL Governor: 'We're Not Ready to Cut Rates. Here's What We're Waiting For.'", duration: '2:48', category: 'policy',   source: 'TrueRate', time: '55m ago' },
-  { title: "ArcelorMittal's Nimba Expansion, Explained: What $120M Buys Liberia — and What It Doesn't",  duration: '1:52', category: 'Mining',    source: 'TrueRate', time: '3h ago' },
-  { title: "Rubber at a Decade High: Why Liberia Is Winning — and How Long It Can Last",                  duration: '3:14', category: 'commodities', source: 'TrueRate', time: '8h ago' },
-  { title: "$680M and Rising: Inside the Liberian Diaspora's Outsized Role in the National Economy",      duration: '2:31', category: 'economy',   source: 'TrueRate', time: '3h ago' },
-];
-
-
-function timeAgo(d: string) {
-  const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
-  if (days === 0) return 'Today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
-}
+const QUICK_READS_IDS = ['2', '35', '12', '26', '30', '32'];
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MICRO COMPONENTS
@@ -143,101 +65,6 @@ function SectionHeading({ title, action, actionLabel = 'View all' }: { title: st
   );
 }
 
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   ECONOMIC INDICATORS STRIP
-───────────────────────────────────────────────────────────────────────────── */
-
-
-function IndicatorsStrip() {
-  const [items, setItems] = useState<TickerItem[]>(SEED_INDICATORS);
-
-  useEffect(() => {
-    // Fetch live rates + indicators in parallel
-    Promise.all([
-      fetch('/api/rates').then(r => r.json()).catch(() => null),
-      fetch('/api/indicators').then(r => r.json()).catch(() => null),
-    ]).then(([ratesData, indicatorsData]) => {
-      const next: TickerItem[] = [...SEED_INDICATORS];
-
-      // Patch FX from /api/rates
-      if (ratesData?.rates?.length) {
-        const rMap: Record<string, { rate: number; changePercent: number }> = {};
-        for (const r of ratesData.rates) rMap[r.from] = r;
-
-        const fxMap: Record<string, string> = { USD: 'LRD/USD', EUR: 'LRD/EUR', GBP: 'LRD/GBP' };
-        for (const [from, label] of Object.entries(fxMap)) {
-          const r = rMap[from];
-          if (!r) continue;
-          const idx = next.findIndex(x => x.label === label);
-          if (idx === -1) continue;
-          const pct = r.changePercent;
-          next[idx] = {
-            label,
-            value: r.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-            pct: `${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%`,
-            up: pct >= 0,
-          };
-        }
-      }
-
-      // Patch macro indicators from /api/indicators
-      if (indicatorsData?.indicators?.length) {
-        const iMap: Record<string, { value: number; changePercent: number | null }> = {};
-        for (const ind of indicatorsData.indicators) iMap[ind.key] = ind;
-
-        const macroMap: Record<string, { label: string; fmt: (v: number) => string; pctLabel: string }> = {
-          GDP_GROWTH: { label: 'GDP Growth', fmt: v => `${v.toFixed(1)}%`,  pctLabel: 'YoY' },
-          INFLATION:  { label: 'Inflation',  fmt: v => `${v.toFixed(1)}%`,  pctLabel: 'YoY' },
-        };
-        for (const [key, meta] of Object.entries(macroMap)) {
-          const ind = iMap[key];
-          if (!ind) continue;
-          const idx = next.findIndex(x => x.label === meta.label);
-          if (idx === -1) continue;
-          const cp = ind.changePercent;
-          next[idx] = {
-            label: meta.label,
-            value: meta.fmt(ind.value),
-            pct: meta.pctLabel,
-            up: cp !== null ? cp >= 0 : true,
-          };
-        }
-      }
-
-      setItems(next);
-    });
-  }, []);
-
-  const Tile = ({ item, size }: { item: TickerItem; size: 'sm' | 'lg' }) => (
-    <div className={`shrink-0 flex flex-col border-r border-white/[0.07] ${size === 'lg' ? 'px-5 py-2.5' : 'px-4 py-2.5'}`}>
-      <span className={`font-semibold text-white whitespace-nowrap ${size === 'lg' ? 'text-[13px]' : 'text-[12px]'}`}>{item.label}</span>
-      <div className="flex items-center gap-1.5 mt-0.5">
-        <span className={`tabular-nums text-gray-400 whitespace-nowrap ${size === 'lg' ? 'text-[13px]' : 'text-[12px]'}`}>{item.value}</span>
-        <span className={`tabular-nums font-bold whitespace-nowrap ${size === 'lg' ? 'text-[12px]' : 'text-[11px]'} ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-          {size === 'lg' && (item.up ? '▲' : '▼')}{item.pct}
-        </span>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="bg-[#040c10] border-b border-white/[0.05]">
-      <div className="mx-auto max-w-[1320px]">
-        <div className="sm:hidden overflow-hidden">
-          <div className="ticker-scroll flex">
-            {[...items, ...items].map((item, i) => <Tile key={i} item={item} size="sm" />)}
-          </div>
-        </div>
-        <div className="hidden sm:block overflow-hidden">
-          <div className="ticker-scroll flex">
-            {[...items, ...items].map((item, i) => <Tile key={i} item={item} size="lg" />)}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    FEATURED ARTICLE
@@ -320,18 +147,16 @@ function NewsListColumn() {
   return (
     <div className="flex flex-col divide-y divide-white/[0.05]">
       {items.map((item) => (
-        <article key={item.id} className="group flex gap-3.5 py-4 first:pt-0 cursor-pointer">
+        <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
           <div className="overflow-hidden rounded-xl shrink-0">
             <NewsThumbnail category={item.category} className="h-[90px] w-[130px]" />
           </div>
           <div className="min-w-0 flex-1">
             {item.category && <p className={`mb-1 text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</p>}
-            <h3 className="line-clamp-3 text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">
-              <Link href={`/news/${item.id}`} className="no-underline">{item.title}</Link>
-            </h3>
+            <h3 className="line-clamp-3 text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors">{item.title}</h3>
             <p className="mt-1 text-[12px] text-gray-500">{item.source} · {timeAgo(item.date)}</p>
           </div>
-        </article>
+        </Link>
       ))}
     </div>
   );
@@ -353,28 +178,30 @@ function LatestColumn() {
 
       {/* Large-card style — all viewports */}
       <div className="flex flex-col divide-y divide-white/[0.05]">
-        {LATEST_NEWS.map((item, i) => (
-          <Link key={i} href={item.href} className="flex gap-3.5 py-4 first:pt-0 no-underline group">
-            {/* Thumbnail */}
-            <div className="shrink-0 overflow-hidden rounded-xl">
-              <NewsThumbnail category={item.tags?.[0] ?? 'economy'} className="h-[90px] w-[130px]" />
-            </div>
-            {/* Content */}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
-              <p className="mt-1 text-[12px] text-gray-500">{item.source} · {item.time}</p>
-              {item.chips.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
-                  {item.chips.map(chip => (
-                    <span key={chip.label} className="text-[11px] text-gray-400">
-                      {chip.label} <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </Link>
-        ))}
+        {LATEST_NEWS_IDS.map(({ id, chips }) => {
+          const item = getNews(id);
+          if (!item) return null;
+          return (
+            <Link key={id} href={`/news/${item.id}`} className="flex gap-3.5 py-4 first:pt-0 no-underline group">
+              <div className="shrink-0 overflow-hidden rounded-xl">
+                <NewsThumbnail category={item.category} className="h-[90px] w-[130px]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
+                <p className="mt-1 text-[12px] text-gray-500">{item.source} · {timeAgo(item.date)}</p>
+                {chips && chips.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                    {chips.map(chip => (
+                      <span key={chip.label} className="text-[11px] text-gray-400">
+                        {chip.label} <span className={chip.up ? 'text-emerald-400' : 'text-red-400'}>{chip.pct}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
@@ -503,82 +330,15 @@ function EconomicWidget() {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   VIDEOS
-───────────────────────────────────────────────────────────────────────────── */
-
-function VideosSection() {
-  const [active, setActive] = useState(0);
-  const v = VIDEOS[active];
-  return (
-    <div>
-      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
-        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Today&apos;s Videos</h2>
-        <Link href="/videos" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">Explore More</Link>
-      </div>
-      {/* Video player */}
-      <div className="border-t border-white/[0.06] pt-4">
-        {/* Thumbnail */}
-        <div className="relative cursor-pointer group">
-          <VideoThumbnail category={v.category} />
-          <div className="absolute bottom-4 left-4 flex items-center gap-3">
-            <span className="tabular-nums text-[14px] font-bold text-white/80 drop-shadow">{v.duration}</span>
-          </div>
-        </div>
-        {/* Title */}
-        <div className="px-5 py-4">
-          <h3 className="text-[15px] font-bold leading-snug text-white">{v.title}</h3>
-        </div>
-        {/* Dots + arrows */}
-        <div className="flex items-center justify-between px-5 pb-4">
-          <div className="flex items-center gap-2">
-            {VIDEOS.map((_, i) => (
-              <button key={i} onClick={() => setActive(i)}
-                className={`h-2 w-2 rounded-full transition-colors ${i === active ? 'bg-white' : 'bg-white/25'}`} />
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <button onClick={() => setActive(i => (i - 1 + VIDEOS.length) % VIDEOS.length)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-            </button>
-            <button onClick={() => setActive(i => (i + 1) % VIDEOS.length)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   FOOTER
-───────────────────────────────────────────────────────────────────────────── */
-
+/* Videos section moved to @/components/VideosSection (client island) */
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DEEP READS (center column filler)
 ───────────────────────────────────────────────────────────────────────────── */
 
-const DEEP_READS = [
-  { href: '/news/4',  category: 'Analysis',     title: "4.5% Growth Is the Headline. The Structural Weakness Underneath It Is the Story.", summary: "Liberia's GDP numbers look good on paper — but the economy is still running on two commodities. Economists say that without a services and manufacturing base, every growth forecast comes with an asterisk.", source: 'TrueRate Analysis', time: '1h ago', large: true },
-  { href: '/news/1',  category: 'Policy',       title: "The CBL Held Rates Again. Was That the Right Call?", summary: "Inflation is falling and reserves are at a 13-year high. The case for an easing cycle is getting harder to ignore — but the CBL Governor is watching the LRD and the food price index more closely than the headline CPI.", source: 'Daily Observer', time: '3h ago', large: false },
-  { href: '/news/11', category: 'Trade',        title: "ECOWAS Payments Integration Could Unlock $2B in Trade. Liberia Has the Most to Gain.", summary: "A World Bank assessment puts Liberian cross-border exporters at the top of the beneficiary list. The corridor is live — the question is whether Liberian businesses are ready to use it.", source: 'World Bank', time: '6h ago', large: false },
-  { href: '/news/35', category: 'Mining',       title: "The $320M Annual Revenue Case for ArcelorMittal's Nimba Expansion", summary: "Full ramp-up at the expanded Nimba operation would add $320M to Liberia's export ledger and create 1,800 permanent jobs. The caveat: it depends on iron ore staying above $100/t.", source: 'Bloomberg', time: '8h ago', large: false },
-  { href: '/news/15', category: 'Banking',      title: "How Mobile Money Is Quietly Rebuilding Liberia's Financial System From the Ground Up", summary: "Smartphone penetration above 60%. Orange Money at 1M users. LiberBank's fintech pivot. The unbanked population is shrinking — faster than any policy has achieved.", source: 'FrontPage Africa', time: '10h ago', large: false },
-  { href: '/news/27', category: 'Agriculture',  title: "Liberia Has Everything It Takes to Be West Africa's Rubber Leader. Here's What's Stopping It.", summary: "Record Firestone output, rising global prices, a replanting fund. The ingredients are there. But port delays, land tenure disputes, and aging infrastructure keep the ceiling lower than it should be.", source: 'TrueRate Analysis', time: '12h ago', large: false },
-  { href: '/news/8',  category: 'Development',  title: "The Next IMF Tranche Is Coming. What Liberia Promised — and What It Still Owes.", summary: "The Fund praised revenue reforms. It also flagged public wage bill creep, off-budget spending, and a procurement regime that still has too many loopholes. The $38M disbursement comes with conditions.", source: 'IMF / TrueRate', time: '1d ago', large: false },
-];
+const DEEP_READS_IDS = ['4', '1', '11', '35', '15', '27', '8'];
 
-const MOST_READ = [
-  { rank: 1, href: '/news/1',  title: "The Man Who Holds Liberia's Interest Rates — And Why He's Not Moving Them", source: 'TrueRate Analysis', time: '2h ago' },
-  { rank: 2, href: '/news/3',  title: "ArcelorMittal's Nimba Ramp-Up Has Officially Begun — First Expanded-Capacity Batch Shipped", source: 'Bloomberg', time: '46m ago' },
-  { rank: 3, href: '/news/5',  title: "How Firestone Turned Harbel Into Africa's Most Productive Rubber Estate", source: 'TrueRate', time: '8h ago' },
-  { rank: 4, href: '/news/16', title: "The World Bank Is Pouring $45M Into Liberia's Roads. Here's Exactly Where It Goes.", source: 'World Bank', time: '59m ago' },
-  { rank: 5, href: '/news/11', title: "West Africa's Cross-Border Payment Revolution Is Live — And Liberia Has a Seat at the Table", source: 'Liberian Observer', time: '1h ago' },
-];
+const MOST_READ_IDS = ['1', '3', '5', '16', '11'];
 
 const UPCOMING_EVENTS = [
   { date: 'Apr 7', label: 'CBL Monetary Policy Meeting', type: 'Policy' },
@@ -589,32 +349,31 @@ const UPCOMING_EVENTS = [
 ];
 
 function DeepReadsColumn() {
-  const [lead, ...rest] = DEEP_READS;
+  const [lead, ...rest] = newsFeed(DEEP_READS_IDS);
+  if (!lead) return null;
   return (
     <div>
       <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
         <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">In Depth</h2>
         <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">More ›</Link>
       </div>
-      {/* Lead story */}
-      <Link href={lead.href} className="group block no-underline mb-5">
+      <Link href={`/news/${lead.id}`} className="group block no-underline mb-5">
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.category} className="w-full h-[180px]" />
         </div>
         <div className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
         <h3 className="text-[15px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-2">{lead.title}</h3>
         <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-3">{lead.summary}</p>
-        <div className="mt-2 text-[11px] text-gray-500">{lead.source} · {lead.time}</div>
+        <div className="mt-2 text-[11px] text-gray-500">{lead.source} · {timeAgo(lead.date)}</div>
       </Link>
-      {/* Remaining stories */}
       <div className="flex flex-col divide-y divide-white/[0.05]">
-        {rest.map((item, i) => (
-          <Link key={i} href={item.href} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
+        {rest.map(item => (
+          <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
             <div className="min-w-0 flex-1">
               <div className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1`}>{item.category}</div>
               <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
               <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-              <div className="mt-1.5 text-[11px] text-gray-500">{item.source} · {item.time}</div>
+              <div className="mt-1.5 text-[11px] text-gray-500">{item.source} · {timeAgo(item.date)}</div>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg">
               <NewsThumbnail category={item.category} className="h-[72px] w-[108px]" />
@@ -631,15 +390,16 @@ function DeepReadsColumn() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 function MoreNewsColumn() {
+  const items = newsFeed(MORE_NEWS_IDS);
   return (
     <div className="flex flex-col divide-y divide-white/[0.05]">
-      {MORE_NEWS.map((item, i) => (
-        <Link key={i} href={item.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
+      {items.map(item => (
+        <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
           <div className="min-w-0 flex-1">
             <div className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)} mb-1`}>{item.category}</div>
             <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5">{item.title}</h3>
             <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-            <div className="mt-2 text-[11px] text-gray-500">{item.source} · {item.time}</div>
+            <div className="mt-2 text-[11px] text-gray-500">{item.source} · {timeAgo(item.date)}</div>
           </div>
           <div className="shrink-0 overflow-hidden rounded-lg">
             <NewsThumbnail category={item.category} className="h-[72px] w-[108px]" />
@@ -654,16 +414,7 @@ function MoreNewsColumn() {
    SIDEBAR: LATEST + IN FOCUS
 ───────────────────────────────────────────────────────────────────────────── */
 
-const SIDEBAR_LATEST = [
-  { href: '/news/1',  time: '2h',  headline: "CBL Governor signals intervention if LRD breaches 195 — the threshold that matters" },
-  { href: '/news/3',  time: '4h',  headline: "ArcelorMittal's first expanded-capacity Nimba shipment is out — the ramp-up is real" },
-  { href: '/news/16', time: '6h',  headline: "$45M World Bank road grant approved — 320km of feeder roads connecting farm to market" },
-  { href: '/news/5',  time: '8h',  headline: "Firestone's decade-best quarter: the replanting strategy that took 10 years to pay off" },
-  { href: '/news/12', time: '10h', headline: "Ecobank raises its dividend — the bank's best West Africa result in five years" },
-  { href: '/news/11', time: '12h', headline: "Liberia is live on the ECOWAS payments corridor — what cross-border traders need to know" },
-  { href: '/news/8',  time: '14h', headline: "The IMF's Liberia review: what it praised, what it flagged, and what it left unsaid" },
-  { href: '/news/7',  time: '21h', headline: "Palm oil margins squeezed by Southeast Asian supply — Liberian smallholders absorb the shock" },
-];
+const SIDEBAR_LATEST_IDS = ['1', '3', '16', '5', '12', '11', '8', '7'];
 
 const IN_FOCUS_TOPICS = [
   'Iron Ore', 'LRD/USD', 'Rubber Prices', 'CBL Rate',
@@ -671,6 +422,7 @@ const IN_FOCUS_TOPICS = [
 ];
 
 function LatestSidebar() {
+  const items = newsFeed(SIDEBAR_LATEST_IDS);
   return (
     <div className="flex flex-col gap-6">
       {/* Latest news list */}
@@ -680,10 +432,10 @@ function LatestSidebar() {
           <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">See all latest ›</Link>
         </div>
         <div className="flex flex-col divide-y divide-white/[0.05]">
-          {SIDEBAR_LATEST.map((item, i) => (
-            <Link key={i} href={item.href} className="flex gap-3 py-3 first:pt-0 no-underline group">
-              <span className="shrink-0 tabular-nums text-[12px] text-gray-400 w-8 pt-0.5">{item.time}</span>
-              <span className="text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.headline}</span>
+          {items.map((item) => (
+            <Link key={item.id} href={`/news/${item.id}`} className="flex gap-3 py-3 first:pt-0 no-underline group">
+              <span className="shrink-0 tabular-nums text-[12px] text-gray-400 w-10 pt-0.5">{timeAgo(item.date)}</span>
+              <span className="text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.title}</span>
             </Link>
           ))}
         </div>
@@ -722,6 +474,7 @@ function LatestSidebar() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 function QuickReadsColumn() {
+  const items = newsFeed(QUICK_READS_IDS);
   return (
     <div>
       <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
@@ -729,15 +482,15 @@ function QuickReadsColumn() {
         <Link href="/news" className="text-[12px] font-medium text-white/50 hover:text-white transition-colors no-underline">More ›</Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
-        {QUICK_READS.map((item, i) => (
-          <Link key={i} href={item.href} className="flex items-start gap-3 py-3.5 first:pt-0 no-underline group">
-            <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getCatColor(item.tag)}`}>
-              {item.tag}
+        {items.map(item => (
+          <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 py-3.5 first:pt-0 no-underline group">
+            <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getCatColor(item.category)}`}>
+              {item.category}
             </span>
             <span className="flex-1 text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">
-              {item.headline}
+              {item.title}
             </span>
-            <span className="shrink-0 tabular-nums text-[11px] text-gray-400 pt-0.5">{item.time}</span>
+            <span className="shrink-0 tabular-nums text-[11px] text-gray-400 pt-0.5">{timeAgo(item.date)}</span>
           </Link>
         ))}
       </div>
@@ -750,6 +503,7 @@ function QuickReadsColumn() {
 ───────────────────────────────────────────────────────────────────────────── */
 
 function MostReadWidget() {
+  const items = newsFeed(MOST_READ_IDS);
   return (
     <div className="border-t border-white/[0.05] pt-5">
       <div className="flex items-center justify-between mb-3">
@@ -757,12 +511,12 @@ function MostReadWidget() {
         <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">See all ›</Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
-        {MOST_READ.map(item => (
-          <Link key={item.rank} href={item.href} className="flex items-start gap-3.5 py-3 first:pt-0 no-underline group">
-            <span className="shrink-0 tabular-nums text-[22px] font-black text-white/10 leading-none w-6 pt-0.5">{item.rank}</span>
+        {items.map((item, i) => (
+          <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3.5 py-3 first:pt-0 no-underline group">
+            <span className="shrink-0 tabular-nums text-[22px] font-black text-white/10 leading-none w-6 pt-0.5">{i + 1}</span>
             <div className="min-w-0">
               <p className="text-[13px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{item.title}</p>
-              <p className="mt-1 text-[11px] text-gray-400">{item.source} · {item.time}</p>
+              <p className="mt-1 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</p>
             </div>
           </Link>
         ))}
@@ -806,7 +560,7 @@ function UpcomingEventsWidget() {
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <IndicatorsStrip />
+      <IndicatorsStrip initial={SEED_INDICATORS} />
 
       <main className="mx-auto max-w-[1320px] px-5 py-8 pb-14 sm:pb-8">
 
@@ -817,7 +571,7 @@ export default function Home() {
           <div className="order-1 lg:col-span-5 flex flex-col gap-5">
             <FeaturedColumn />
             <div className="border-t border-white/[0.05] pt-5">
-              <VideosSection />
+              <VideosSection videos={TODAYS_VIDEOS} />
             </div>
             <div className="border-t border-white/[0.05] pt-5">
               <MoreNewsColumn />

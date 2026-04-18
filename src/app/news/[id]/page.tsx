@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { newsItems } from '@/data/news';
@@ -15,6 +16,30 @@ function timeAgo(d: string) {
 
 export function generateStaticParams() {
   return newsItems.map(item => ({ id: item.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const item = newsItems.find(n => n.id === id);
+  if (!item) return { title: 'Article Not Found — TrueRate' };
+  const description = item.summary.length > 160 ? item.summary.slice(0, 157) + '…' : item.summary;
+  return {
+    title: `${item.title} — TrueRate`,
+    description,
+    openGraph: {
+      title: item.title,
+      description,
+      type: 'article',
+      publishedTime: item.date,
+      authors: item.author ? [item.author] : undefined,
+      siteName: 'TrueRate',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: item.title,
+      description,
+    },
+  };
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
