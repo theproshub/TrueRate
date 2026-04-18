@@ -15,23 +15,12 @@ import {
   WBDataPoint,
 } from '@/lib/api/worldbank';
 import { economicIndicators } from '@/data/economicIndicators';
+import type { NormalizedIndicator } from '@/lib/types/indicators';
 
 // ISR: Vercel caches this route for 24 hours then revalidates in the background
 export const revalidate = 86400;
 
-export interface NormalizedIndicator {
-  key: string;
-  name: string;
-  value: number;
-  previousValue: number | null;
-  change: number | null;
-  changePercent: number | null;
-  unit: string;
-  period: string;
-  source: string;
-  /** Annual data points, newest first, for sparkline/chart use */
-  history: { date: string; value: number }[];
-}
+export type { NormalizedIndicator };
 
 const META: Record<
   string,

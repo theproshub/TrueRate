@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { useState, useEffect } from 'react';
-import type { NormalizedIndicator } from '@/app/api/indicators/route';
+import type { NormalizedIndicator } from '@/lib/types/indicators';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 
