@@ -175,6 +175,7 @@ export default function EconomyPage() {
   const [indicators, setIndicators] = useState(SEED_INDICATORS);
   const [isLive, setIsLive] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+  const [activeTopic, setActiveTopic] = useState('All');
 
   useEffect(() => {
     fetch('/api/indicators')
@@ -216,41 +217,43 @@ export default function EconomyPage() {
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Economy' }]} />
 
       {/* Topic filter */}
-      <div className="mb-6 pb-4 border-b border-white/[0.07]">
-        <div className="flex items-center gap-2 flex-wrap">
-          {TOPICS.map((t, i) => (
-            <button key={t} className={`px-5 py-2 rounded-lg text-[13px] font-semibold transition-colors ${i === 0 ? 'bg-white text-[#0a0a0d]' : 'text-white border border-white/20 hover:bg-white/[0.06]'}`}>
-              {t}
-            </button>
-          ))}
-        </div>
+      <div className="mb-6 flex items-center gap-2 flex-wrap border-b border-white/[0.06] pb-4">
+        {TOPICS.map(t => (
+          <button key={t} onClick={() => setActiveTopic(t)}
+            className={`px-4 py-1.5 text-[13px] font-semibold transition-colors rounded-full ${
+              activeTopic === t
+                ? 'bg-white text-[#0a0a0d]'
+                : 'text-gray-400 hover:text-white'
+            }`}>
+            {t}
+          </button>
+        ))}
       </div>
 
       {/* Indicators strip */}
-      <div className="mb-8 flex flex-wrap gap-2 items-center">
-        {isLive && (
-          <span className="flex items-center gap-1.5 mr-1 text-[11px] text-emerald-400">
+      <div className="mb-8 flex flex-wrap gap-x-6 gap-y-2 items-baseline border-b border-white/[0.06] pb-5">
+        {isLive ? (
+          <span className="flex items-center gap-1.5 text-[11px] text-emerald-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Live
           </span>
-        )}
-        {!isLive && (
-          <span className="flex items-center gap-1.5 mr-1 text-[11px] text-gray-500">
+        ) : (
+          <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
             <span className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
             Seed data
           </span>
         )}
         {updatedAt && (
-          <span className="text-[11px] text-gray-500 mr-1">
+          <span className="text-[11px] text-gray-500">
             · Updated {new Date(updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </span>
         )}
         {indicators.map(ind => (
-          <span key={ind.label} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-white/[0.06] transition-colors cursor-default flex items-center gap-1.5">
-            <span className="text-gray-500">{ind.label}</span>
-            <span className={ind.up ? 'text-emerald-400' : 'text-red-400'}>{ind.value}</span>
-            <span className={`text-[10px] ${ind.up ? 'text-emerald-400' : 'text-red-500'}`}>{ind.change}</span>
-          </span>
+          <div key={ind.label} className="flex items-baseline gap-1.5">
+            <span className="text-[11px] text-gray-500 uppercase tracking-wide">{ind.label}</span>
+            <span className={`text-[13px] font-bold tabular-nums ${ind.up ? 'text-white' : 'text-red-400'}`}>{ind.value}</span>
+            <span className={`text-[11px] ${ind.up ? 'text-emerald-400' : 'text-red-400'}`}>{ind.change}</span>
+          </div>
         ))}
       </div>
 
