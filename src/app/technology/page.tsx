@@ -18,10 +18,15 @@ const SUB_NAV = ['Startups', 'Fintech', 'AI & Innovation', 'Digital Economy', 'I
 
 const STRIP_CARDS = [
   { category: 'Fintech',    title: 'Monrovia startup Ducor Pay raises $4.2M Series A to expand USSD lending across West Africa', source: 'TechCabal',      time: '2h ago' },
-  { category: 'AI',         title: 'Liberia joins AU AI Task Force — plans national AI policy framework by Q3 2026',             source: 'The New Dawn',   time: '3h ago' },
-  { category: 'Telecom',    title: 'Lonestar MTN rolls out 4G to 8 new counties, bringing coverage to 74% of the population',    source: 'FrontPage Africa', time: '5h ago' },
-  { category: 'Startups',   title: "Liberia's first tech hub, iCampus, secures $1.5M from USAID to expand coding bootcamps",     source: 'Liberian Observer', time: '7h ago' },
-  { category: 'E-Commerce', title: "Jumia Liberia's GMV rises 28% YoY as smartphone penetration crosses 40% threshold",          source: 'Reuters',        time: '9h ago' },
+  { category: 'Hardware',   title: 'iPhone 16 demand surges in Monrovia, but Randall Street retailers pull units as import duty hike bites margins', source: 'FrontPage Africa', time: '4h ago' },
+  { category: 'Startups',   title: 'Orange Digital Center Liberia opens DevOps sandbox — first cohort of 120 engineers begin 6-month residency',      source: 'TrueRate Tech',    time: '5h ago' },
+  { category: 'Education',  title: 'BlueCrest University to graduate 340 new CS and software engineering students in June — biggest class to date',   source: 'Liberian Observer', time: '6h ago' },
+  { category: 'Government', title: 'Audit finds 4 ministry offices still running Windows 7; cybersecurity team warns of patch exposure',              source: 'The New Dawn',     time: '8h ago' },
+  { category: 'Government', title: 'National registry database crashes for third time this quarter — MoICT pledges full infrastructure audit',        source: 'FrontPage Africa', time: '10h ago' },
+  { category: 'AI',         title: 'Liberia joins AU AI Task Force — plans national AI policy framework by Q3 2026',                                   source: 'The New Dawn',     time: '12h ago' },
+  { category: 'Telecom',    title: 'Lonestar MTN rolls out 4G to 8 new counties, bringing coverage to 74% of the population',                          source: 'FrontPage Africa', time: '14h ago' },
+  { category: 'Startups',   title: "Liberia's first tech hub, iCampus, secures $1.5M from USAID to expand coding bootcamps",                           source: 'Liberian Observer', time: '16h ago' },
+  { category: 'E-Commerce', title: "Jumia Liberia's GMV rises 28% YoY as smartphone penetration crosses 40% threshold",                                source: 'Reuters',          time: '1 day ago' },
 ];
 
 const STARTUP_TRACKER = [
@@ -32,26 +37,18 @@ const STARTUP_TRACKER = [
   { name: 'LernerAI',        sector: 'EdTech',        raise: '$350K',    stage: 'Pre-seed', investors: 'MEST Africa',                        date: 'Jan 2026'  },
 ];
 
-const MOBILE_MONEY = [
-  { operator: 'Orange Money',    users: '2.4M', txVolume: '$1.1B', qChange: '+22%', up: true  },
-  { operator: 'Lonestar M-Pesa', users: '1.8M', txVolume: '$710M', qChange: '+14%', up: true  },
-  { operator: 'EcoBank Mobile',  users: '620K', txVolume: '$290M', qChange: '+9%',  up: true  },
-];
-
 const FEED = [
-  { category: 'AI',         title: "Can Liberia leapfrog traditional banking with AI credit scoring?",                         summary: 'Three Monrovia fintechs are deploying machine-learning models trained on mobile money data to extend micro-loans to unbanked Liberians in under 90 seconds.',  source: 'TrueRate',         time: '8 min read' },
-  { category: 'Startups',   title: "The iCampus generation: how Liberia's first tech hub is producing founders",               summary: 'Since 2020, iCampus Monrovia has trained 1,400 developers and seen 38 startups emerge. A look at what is — and isn\'t — working.',                         source: 'TechCabal',        time: '10 min read' },
-  { category: 'Fintech',    title: "Orange Money Liberia's billion-dollar quarter: inside the numbers",                        summary: 'An in-depth breakdown of transaction volumes, merchant acceptance rates, and the rural rollout strategy that put Liberia\'s mobile money market in focus.',   source: 'TrueRate',         time: '7 min read' },
-  { category: 'Telecom',    title: "4G coverage hits 74%: what it means for Liberia's digital economy",                       summary: 'Lonestar MTN\'s latest rural expansion is reshaping access. But data costs remain among the highest in West Africa, limiting actual usage growth.',             source: 'The New Dawn',     time: '6 min read' },
-  { category: 'E-Commerce', title: "Jumia Liberia vs. local platforms: who is winning the last-mile battle?",                  summary: 'Despite Jumia\'s GMV growth, local logistics startup TruckersPro claims faster last-mile delivery in Margibi and Bong counties.',                              source: 'FrontPage Africa', time: '5 min read' },
-  { category: 'AI',         title: "AI in Liberia's classrooms: USAID pilots adaptive learning tools in 40 public schools",   summary: 'An $800K pilot in Montserrado County is testing AI-adaptive reading software. Early results show a 1.4-grade-level improvement in 6 months.',                source: 'Liberian Observer', time: '9 min read' },
-];
-
-const TECH_METRICS = [
-  { label: 'Internet Penetration',    value: '38%',   change: '+6pp YoY',   up: true  },
-  { label: 'Mobile Money Tx (Q1)',    value: '$2.1B',  change: '+19% YoY',  up: true  },
-  { label: 'Active Mobile Subs',      value: '4.9M',   change: '+11% YoY',  up: true  },
-  { label: 'Tech Startup Funding',    value: '$7.1M',  change: '+63% YoY',  up: true  },
+  { category: 'Government', title: "Inside Liberia's database crisis: why government records keep going offline",               summary: "From the National Identification Registry to Ministry of Finance payroll systems, legacy Oracle installations with no failover have cost the state an estimated 430 working hours in downtime this year alone. Engineers say the problem is architectural, not budgetary.", source: 'TrueRate',         time: '11 min read' },
+  { category: 'Hardware',   title: "Why iPhones are flying off Monrovia streets but disappearing from formal retailers",         summary: 'A 35% import duty hike has pushed authorized resellers to pull iPhone 16 units from display, even as grey-market volumes on Randall Street hit record highs. Inside the split market and what it signals for the formal tech economy.',                                source: 'FrontPage Africa', time: '9 min read' },
+  { category: 'Startups',   title: "Orange Digital Center Liberia is quietly building the country's first real DevOps pipeline", summary: 'Its new sandbox environment — funded by Orange Foundation and MEST — gives 120 Liberian engineers access to CI/CD tooling, Kubernetes clusters, and cloud credits. The long-term bet: a local talent pool that enterprises can actually hire from.',                  source: 'TrueRate Tech',    time: '10 min read' },
+  { category: 'Education',  title: "BlueCrest's class of 2026: 340 new CS grads hit the market — but will the market hire them?", summary: "The country's biggest tech-adjacent graduating class enters a market where only 14% of local software jobs offer structured onboarding. A look at the pipeline gap between classrooms and production codebases.",                                                       source: 'Liberian Observer', time: '8 min read' },
+  { category: 'AI',         title: "Can Liberia leapfrog traditional banking with AI credit scoring?",                           summary: 'Three Monrovia fintechs are deploying machine-learning models trained on mobile money data to extend micro-loans to unbanked Liberians in under 90 seconds.',                                                                                                         source: 'TrueRate',         time: '8 min read' },
+  { category: 'Government', title: "Windows 7 in the ministries: how outdated OS installs became a national security risk",      summary: 'An internal cybersecurity review found unpatched Windows 7 machines at four ministries, some handling procurement and civil service records. The cost of migration: roughly $2.8M. The cost of not migrating: harder to calculate.',                                   source: 'The New Dawn',     time: '7 min read' },
+  { category: 'Startups',   title: "The iCampus generation: how Liberia's first tech hub is producing founders",                 summary: 'Since 2020, iCampus Monrovia has trained 1,400 developers and seen 38 startups emerge. A look at what is — and isn\'t — working.',                                                                                                                                   source: 'TechCabal',        time: '10 min read' },
+  { category: 'Fintech',    title: "Orange Money Liberia's billion-dollar quarter: inside the numbers",                          summary: 'An in-depth breakdown of transaction volumes, merchant acceptance rates, and the rural rollout strategy that put Liberia\'s mobile money market in focus.',                                                                                                         source: 'TrueRate',         time: '7 min read' },
+  { category: 'Telecom',    title: "4G coverage hits 74%: what it means for Liberia's digital economy",                          summary: 'Lonestar MTN\'s latest rural expansion is reshaping access. But data costs remain among the highest in West Africa, limiting actual usage growth.',                                                                                                                   source: 'The New Dawn',     time: '6 min read' },
+  { category: 'E-Commerce', title: "Jumia Liberia vs. local platforms: who is winning the last-mile battle?",                    summary: 'Despite Jumia\'s GMV growth, local logistics startup TruckersPro claims faster last-mile delivery in Margibi and Bong counties.',                                                                                                                                  source: 'FrontPage Africa', time: '5 min read' },
+  { category: 'AI',         title: "AI in Liberia's classrooms: USAID pilots adaptive learning tools in 40 public schools",     summary: 'An $800K pilot in Montserrado County is testing AI-adaptive reading software. Early results show a 1.4-grade-level improvement in 6 months.',                                                                                                                        source: 'Liberian Observer', time: '9 min read' },
 ];
 
 const UPCOMING = [
@@ -82,19 +79,6 @@ export default function TechnologyPage() {
             </button>
           ))}
         </div>
-      </div>
-
-      {/* KPI strip */}
-      <div className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 border-b border-white/[0.06] pb-6">
-        {TECH_METRICS.map((m, i) => (
-          <div key={i}>
-            <p className="text-[10px] text-gray-500 uppercase tracking-[0.15em] mb-1.5">{m.label}</p>
-            <p className="text-[22px] sm:text-[26px] font-black tabular-nums text-white leading-none mb-1">{m.value}</p>
-            <p className={`text-[11px] font-semibold tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>
-              {m.up ? '▲' : '▼'} {m.change}
-            </p>
-          </div>
-        ))}
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -185,32 +169,6 @@ export default function TechnologyPage() {
             </div>
           </section>
 
-          {/* Mobile Money — operator cards */}
-          <section className="mb-10">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
-              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Mobile Money Market</h2>
-              <span className="text-[11px] text-gray-500 uppercase tracking-wide font-bold">Q1 2026</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {MOBILE_MONEY.map((m, i) => (
-                <div key={i} className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 hover:bg-white/[0.04] transition-colors">
-                  <div className="flex items-start justify-between mb-3">
-                    <p className="text-[13px] font-bold text-white">{m.operator}</p>
-                    <span className={`text-[11px] font-bold tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {m.up ? '▲' : '▼'} {m.qChange}
-                    </span>
-                  </div>
-                  <p className="text-[28px] font-black text-white tabular-nums leading-none mb-2">{m.txVolume}</p>
-                  <div className="flex items-baseline gap-1.5">
-                    <p className="text-[11px] text-gray-500 uppercase tracking-wide">Active Users</p>
-                    <p className="text-[12px] font-bold text-gray-300 tabular-nums">{m.users}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="text-[11px] text-gray-600 mt-3">Source: CBL Financial Inclusion Report · Apr 2026</p>
-          </section>
-
           {/* Analysis feed */}
           <div className="mb-8">
             <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
@@ -221,22 +179,22 @@ export default function TechnologyPage() {
             </div>
             <div className="flex flex-col divide-y divide-white/[0.05]">
               {FEED.map((item, i) => (
-                <Link key={i} href="/news" className="group flex gap-4 py-5 first:pt-0 no-underline">
-                  <div className="shrink-0 overflow-hidden">
-                    <NewsThumbnail category={item.category} className="h-[90px] w-[140px]" />
+                <Link key={i} href="/news" className="group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline">
+                  <div className="shrink-0 overflow-hidden rounded-lg">
+                    <NewsThumbnail category={item.category} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${getCatColor(item.category)}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
                       {item.category}
                     </span>
-                    <h3 className="text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1.5 line-clamp-2">
+                    <h3 className="text-[13.5px] sm:text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                       {item.title}
                     </h3>
-                    <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
-                    <div className="flex items-center gap-2 text-[12px] text-gray-400">
-                      <span className="text-gray-500">{item.source}</span>
+                    <p className="hidden sm:block text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-[12px] text-gray-400">
+                      <span className="text-gray-500 truncate">{item.source}</span>
                       <span>·</span>
-                      <span>{item.time}</span>
+                      <span className="whitespace-nowrap">{item.time}</span>
                     </div>
                   </div>
                 </Link>
