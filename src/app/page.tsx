@@ -321,7 +321,7 @@ function EconomicWidget() {
    DEEP READS (center column filler)
 ───────────────────────────────────────────────────────────────────────────── */
 
-const DEEP_READS_IDS = ['4', '1', '11', '35', '15', '27', '8'];
+const DEEP_READS_IDS = ['4', '11', '35', '15', '27', '8'];
 
 const MOST_READ_IDS = ['1', '3', '5', '16', '11'];
 
