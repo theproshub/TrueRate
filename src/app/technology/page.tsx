@@ -109,20 +109,19 @@ export default function TechnologyPage() {
             </div>
           </Link>
 
-          {/* Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+          {/* Strip — single column list */}
+          <div className="flex flex-col divide-y divide-white/[0.05] mb-8 border-b border-white/[0.06] pb-2">
             {STRIP_CARDS.map((card, i) => (
-              <Link key={i} href="/news" className="group flex flex-col no-underline">
-                <div className="overflow-hidden mb-2.5">
-                  <NewsThumbnail category={card.category} className="w-full h-[120px]" />
+              <Link key={i} href="/news" className="group flex items-center gap-2 py-3 first:pt-0 no-underline">
+                <div className="min-w-0 flex-1">
+                  <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 block ${getCatColor(card.category)}`}>
+                    {card.category}
+                  </span>
+                  <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors">
+                    {card.title}
+                  </h3>
+                  <div className="mt-1 text-[11px] text-gray-500">{card.source} · {card.time}</div>
                 </div>
-                <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${getCatColor(card.category)}`}>
-                  {card.category}
-                </span>
-                <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 flex-1">
-                  {card.title}
-                </h3>
-                <div className="mt-1.5 text-[11px] text-gray-400">{card.source} · {card.time}</div>
               </Link>
             ))}
           </div>
