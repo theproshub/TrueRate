@@ -29,7 +29,7 @@ const LATEST_NEWS_IDS: { id: string; chips?: Chip[] }[] = [
   { id: '8' },
 ];
 
-const MORE_NEWS_IDS = ['33', '16', '30', '7', '29', '22', '15', '31'];
+const MORE_NEWS_IDS = ['33', '9', '10', '7', '29', '22', '13', '31'];
 
 const QUICK_READS_IDS = ['2', '35', '12', '26', '30', '32'];
 

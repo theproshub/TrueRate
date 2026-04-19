@@ -85,7 +85,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
               <HeroVisual category={item.category} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
 
               <div className="text-[15px] leading-[1.8] text-gray-600 space-y-5 mb-8">
-                <p className="text-[16px] font-medium text-gray-800 leading-relaxed">{item.summary}</p>
                 {item.body?.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
