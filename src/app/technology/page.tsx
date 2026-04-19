@@ -73,10 +73,10 @@ export default function TechnologyPage() {
         <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {['All', ...SUB_NAV].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
+              className={`whitespace-nowrap px-4 sm:px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
                 activeTab === tab
-                  ? 'border-white text-white'
-                  : 'border-transparent text-gray-500 hover:text-gray-300'
+                  ? 'border-brand-accent text-brand-accent'
+                  : 'border-transparent text-gray-500 hover:text-gray-200'
               }`}>
               {tab}
             </button>
@@ -84,25 +84,41 @@ export default function TechnologyPage() {
         </div>
       </div>
 
-      <div className="flex gap-6">
+      {/* KPI strip */}
+      <div className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 border-b border-white/[0.06] pb-6">
+        {TECH_METRICS.map((m, i) => (
+          <div key={i}>
+            <p className="text-[10px] text-gray-500 uppercase tracking-[0.15em] mb-1.5">{m.label}</p>
+            <p className="text-[22px] sm:text-[26px] font-black tabular-nums text-white leading-none mb-1">{m.value}</p>
+            <p className={`text-[11px] font-semibold tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>
+              {m.up ? '▲' : '▼'} {m.change}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
         {/* Main column */}
         <div className="flex-1 min-w-0">
 
           {/* Hero */}
-          <Link href="/news" className="group flex flex-col lg:flex-row gap-6 no-underline mb-8 pb-8 border-b border-white/[0.07]">
-            <div className="w-full lg:w-[55%] shrink-0">
-              <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[280px]" />
+          <Link href="/news" className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-10 pb-10 border-b border-white/[0.07]">
+            <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
+              <HeroVisual category={HERO.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
             </div>
-            <div className="flex flex-col justify-center flex-1">
-              <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${getCatColor(HERO.category)}`}>
-                {HERO.category}
-              </span>
-              <h2 className="text-[22px] sm:text-[26px] font-black leading-tight text-white group-hover:text-white/80 transition-colors mb-3">
+            <div className="flex flex-col justify-center flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest bg-brand-accent text-[#050d11]">Top Story</span>
+                <span className={`text-[11px] font-bold uppercase tracking-widest ${getCatColor(HERO.category)}`}>
+                  {HERO.category}
+                </span>
+              </div>
+              <h2 className="text-[22px] sm:text-[28px] lg:text-[32px] font-black leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
                 {HERO.title}
               </h2>
               <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
               <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
-                <span>{HERO.source}</span>
+                <span className="font-semibold text-gray-400">{HERO.source}</span>
                 <span>·</span>
                 <span>{HERO.time}</span>
               </div>
@@ -110,21 +126,30 @@ export default function TechnologyPage() {
           </Link>
 
           {/* Strip — single column list */}
-          <div className="flex flex-col divide-y divide-white/[0.05] mb-8 border-b border-white/[0.06] pb-2">
-            {STRIP_CARDS.map((card, i) => (
-              <Link key={i} href="/news" className="group flex items-center gap-2 py-3 first:pt-0 no-underline">
-                <div className="min-w-0 flex-1">
-                  <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 block ${getCatColor(card.category)}`}>
+          <section className="mb-10">
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-2">
+              <div className="flex items-center gap-3">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
+                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Latest Signals</h2>
+              </div>
+              <Link href="/news" className="text-[12px] text-gray-400 hover:text-white transition-colors no-underline">More ›</Link>
+            </div>
+            <div className="flex flex-col divide-y divide-white/[0.05]">
+              {STRIP_CARDS.map((card, i) => (
+                <Link key={i} href="/news" className="group flex items-start gap-3 py-3.5 first:pt-3.5 no-underline">
+                  <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wide rounded bg-white/[0.04] px-2 py-1 mt-0.5 ${getCatColor(card.category)}`}>
                     {card.category}
                   </span>
-                  <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors">
-                    {card.title}
-                  </h3>
-                  <div className="mt-1 text-[11px] text-gray-500">{card.source} · {card.time}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors">
+                      {card.title}
+                    </h3>
+                    <div className="mt-1 text-[11px] text-gray-500">{card.source} · {card.time}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
 
           {/* Startup Tracker */}
           <section className="mb-10">
@@ -160,35 +185,28 @@ export default function TechnologyPage() {
             </div>
           </section>
 
-          {/* Mobile Money */}
+          {/* Mobile Money — operator cards */}
           <section className="mb-10">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
+            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
               <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Mobile Money Market</h2>
               <span className="text-[11px] text-gray-500 uppercase tracking-wide font-bold">Q1 2026</span>
             </div>
-            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4">
-              <table className="w-full min-w-[380px] text-[13px]">
-                <thead className="border-b border-white/[0.07] text-[11px] font-bold uppercase tracking-wide text-gray-500">
-                  <tr>
-                    <th className="pb-3 text-left pr-4">Operator</th>
-                    <th className="pb-3 text-right pr-4">Active Users</th>
-                    <th className="pb-3 text-right pr-4">Tx Volume (Annual)</th>
-                    <th className="pb-3 text-right">Qtr Growth</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/[0.04]">
-                  {MOBILE_MONEY.map((m, i) => (
-                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3 font-bold text-white pr-4">{m.operator}</td>
-                      <td className="tabular-nums py-3 text-right text-gray-300 pr-4">{m.users}</td>
-                      <td className="tabular-nums py-3 text-right font-bold text-white pr-4">{m.txVolume}</td>
-                      <td className={`tabular-nums py-3 text-right font-semibold ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {m.qChange}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {MOBILE_MONEY.map((m, i) => (
+                <div key={i} className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 hover:bg-white/[0.04] transition-colors">
+                  <div className="flex items-start justify-between mb-3">
+                    <p className="text-[13px] font-bold text-white">{m.operator}</p>
+                    <span className={`text-[11px] font-bold tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {m.up ? '▲' : '▼'} {m.qChange}
+                    </span>
+                  </div>
+                  <p className="text-[28px] font-black text-white tabular-nums leading-none mb-2">{m.txVolume}</p>
+                  <div className="flex items-baseline gap-1.5">
+                    <p className="text-[11px] text-gray-500 uppercase tracking-wide">Active Users</p>
+                    <p className="text-[12px] font-bold text-gray-300 tabular-nums">{m.users}</p>
+                  </div>
+                </div>
+              ))}
             </div>
             <p className="text-[11px] text-gray-600 mt-3">Source: CBL Financial Inclusion Report · Apr 2026</p>
           </section>
@@ -229,25 +247,8 @@ export default function TechnologyPage() {
         </div>
 
         {/* Right rail */}
-        <aside className="hidden xl:block w-[260px] shrink-0">
+        <aside className="hidden lg:block w-full lg:w-[280px] shrink-0">
           <div className="sticky top-[120px] flex flex-col gap-8">
-
-            {/* Digital snapshot */}
-            <div>
-              <h3 className="text-[12px] font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">Digital Economy Snapshot</h3>
-              <div className="space-y-3">
-                {TECH_METRICS.map((m, i) => (
-                  <div key={i} className="flex items-center justify-between">
-                    <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
-                    <div className="text-right shrink-0">
-                      <div className="text-[13px] font-bold text-white tabular-nums">{m.value}</div>
-                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="text-[10px] text-gray-600 mt-3">Sources: CBL · LRDC · Apr 2026</p>
-            </div>
 
             {/* Most Read */}
             <div>
