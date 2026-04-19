@@ -99,66 +99,176 @@ function isActive(pathname: string, href: string): boolean {
 }
 
 function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: string }) {
+  const router = useRouter();
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  function handleSearch() {
+    const q = query.trim();
+    if (!q) return;
+    router.push(`/news?q=${encodeURIComponent(q)}`);
+    setQuery('');
+    onClose();
+  }
+
+  const supportLinks = [
+    { label: 'Help',            href: '/help' },
+    { label: 'Feedback',        href: '/feedback' },
+    { label: 'Terms & Privacy', href: '/about' },
+  ];
+
   return (
-    <div className="sm:hidden fixed inset-0 z-50 flex">
-      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative flex flex-col w-[82vw] max-w-[340px] bg-brand-dark h-full shadow-2xl">
-        <div className="flex-1 overflow-y-auto">
-          <nav className="pt-3 pb-2">
-            <p className="px-5 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">Sections</p>
-            {PRIMARY_NAV.map(({ label, href }) => {
-              const active = isActive(pathname, href);
-              return (
-                <Link
-                  key={label}
-                  href={href}
-                  onClick={onClose}
-                  className={`flex w-full items-center px-5 py-3 border-l-[3px] transition-colors no-underline ${active ? 'border-brand-accent bg-white/[0.03]' : 'border-transparent'}`}
-                >
-                  <span className={`text-[16px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-          <div className="border-t border-white/[0.06] pt-2 pb-2">
-            <p className="px-5 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">More</p>
-            {MORE_NAV.map(({ label, href }) => {
-              const active = isActive(pathname, href);
-              return (
-                <Link
-                  key={label}
-                  href={href}
-                  onClick={onClose}
-                  className={`flex w-full items-center px-5 py-3 border-l-[3px] transition-colors no-underline ${active ? 'border-brand-accent bg-white/[0.03]' : 'border-transparent'}`}
-                >
-                  <span className={`text-[16px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
-                </Link>
-              );
-            })}
-          </div>
-          <div className="px-5 pt-5 border-t border-white/[0.06] mt-2">
-            {[
-              { label: 'Help',     href: '/help' },
-              { label: 'Feedback', href: '/feedback' },
-              { label: 'Terms & Privacy', href: '/about' },
-            ].map(({ label, href }) => (
-              <Link key={label} href={href} onClick={onClose} className="block py-3 text-[14px] text-gray-400 hover:text-white transition-colors no-underline">{label}</Link>
-            ))}
-          </div>
-          <div className="px-5 pt-4 pb-8">
-            <p className="text-[12px] text-gray-500">© 2026 <span className="font-bold">TrueRate</span> · Not investment advice</p>
+    <div className="sm:hidden fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Main menu">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]" onClick={onClose} />
+      <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-brand-dark h-full shadow-2xl animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
+
+        {/* Header: logo + close */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] shrink-0">
+          <Link href="/" onClick={onClose} className="inline-block no-underline">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="TrueRate" style={{ height: '44px', width: 'auto' }} />
+          </Link>
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="px-5 pt-4 pb-4 border-b border-white/[0.06] shrink-0">
+          <div className="flex items-center rounded-xl bg-white/[0.06] border border-white/[0.08] focus-within:bg-white/[0.1] focus-within:border-white/25 transition overflow-hidden">
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSearch()}
+              placeholder="Search stories, topics…"
+              className="flex-1 bg-transparent px-3.5 py-2.5 text-[14px] text-white placeholder:text-gray-500 outline-none min-w-0"
+            />
+            <button
+              onClick={handleSearch}
+              aria-label="Search"
+              className="shrink-0 flex items-center justify-center h-9 w-10 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg"
+            >
+              <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
           </div>
         </div>
-      </div>
-      <div className="relative flex flex-col items-center pt-3 pl-3 gap-2.5">
-        <button onClick={onClose} aria-label="Close menu" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.12] text-white shrink-0">
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <Link href="/sign-in" onClick={onClose} className="rounded-lg border border-white/20 px-3 py-1.5 text-[12px] font-semibold text-white whitespace-nowrap no-underline">
-          Sign in
-        </Link>
+
+        {/* Scrollable nav */}
+        <div className="flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+
+          <nav className="pt-3 pb-1">
+            <p className="px-5 pt-2 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Browse</p>
+            <div className="px-2">
+              {PRIMARY_NAV.map(({ label, href }) => {
+                const active = isActive(pathname, href);
+                return (
+                  <Link
+                    key={label}
+                    href={href}
+                    onClick={onClose}
+                    className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors no-underline ${
+                      active ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
+                    }`}
+                  >
+                    <span className={`text-[15px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
+                    <svg className={`h-4 w-4 transition-colors ${active ? 'text-brand-accent' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+
+          <div className="border-t border-white/[0.06] mt-3 pt-1 pb-1">
+            <p className="px-5 pt-3 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">More</p>
+            <div className="px-2">
+              {MORE_NAV.map(({ label, href, desc }) => {
+                const active = isActive(pathname, href);
+                return (
+                  <Link
+                    key={label}
+                    href={href}
+                    onClick={onClose}
+                    className={`block px-3 py-2.5 rounded-lg transition-colors no-underline ${
+                      active ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
+                    }`}
+                  >
+                    <div className={`text-[14px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</div>
+                    <div className="text-[12px] text-gray-500 mt-0.5 leading-snug">{desc}</div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="border-t border-white/[0.06] mt-3 pt-1 pb-4">
+            <p className="px-5 pt-3 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Support</p>
+            <div className="px-2">
+              {supportLinks.map(({ label, href }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  onClick={onClose}
+                  className="block px-3 py-2 rounded-lg hover:bg-white/[0.03] text-[13px] text-gray-300 hover:text-white transition-colors no-underline"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer: Sign-in CTA + socials */}
+        <div className="border-t border-white/[0.06] px-5 pt-4 pb-5 shrink-0 bg-[#030a0e]">
+          <Link
+            href="/sign-in"
+            onClick={onClose}
+            className="flex w-full items-center justify-center rounded-lg bg-brand-accent px-4 py-3 text-[14px] font-bold text-brand-dark hover:brightness-90 transition no-underline"
+          >
+            Sign in
+          </Link>
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.857L1.479 2.25H8.08l4.259 5.63 5.905-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+          </div>
+          <p className="mt-3 text-center text-[11px] text-gray-500">© 2026 <span className="font-bold text-white/70">TrueRate</span></p>
+        </div>
       </div>
     </div>
   );

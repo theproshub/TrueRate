@@ -39,6 +39,16 @@
   0%   { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
 .ticker-scroll {
   animation: ticker-move 80s linear infinite;
 }
