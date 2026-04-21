@@ -41,11 +41,12 @@ const TRENDING_LINKS = [
 ];
 
 const LEGAL_LINKS = [
-  { label: 'Data Disclaimer',        href: '/about' },
-  { label: 'Help',                   href: '/help' },
-  { label: 'Feedback',               href: '/feedback' },
-  { label: 'Terms & Privacy Policy', href: '/about' },
-  { label: 'About Our Ads',          href: '/about' },
+  { label: 'Data Disclaimer',  href: '/about/data-disclaimer' },
+  { label: 'Help',             href: '/help' },
+  { label: 'Feedback',         href: '/feedback' },
+  { label: 'Terms of Service', href: '/about/terms' },
+  { label: 'Privacy Policy',   href: '/about/privacy' },
+  { label: 'About Our Ads',    href: '/about/ads' },
 ];
 
 export default function Footer() {

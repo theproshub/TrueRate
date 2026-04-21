@@ -258,11 +258,11 @@ function CommoditiesWidget() {
           <h2 className="text-[13px] font-bold text-white">Commodities</h2>
           <p className="text-[11px] text-gray-400 mt-0.5">Liberia-relevant · Apr 3, 2026</p>
         </div>
-        <Link href="/commodities" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
+        <Link href="/news?q=Commodities" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
       </div>
       <div className="divide-y divide-white/[0.04]">
         {COMMODITIES_WITH_CONTEXT.map(c => (
-          <Link key={c.name} href="/commodities" className="flex items-start gap-3 py-3.5 hover:opacity-75 transition-opacity no-underline group">
+          <Link key={c.name} href={`/news?q=${encodeURIComponent(c.name)}`} className="flex items-start gap-3 py-3.5 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-400">{c.unit}</span></div>
               <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{c.note}</div>
@@ -431,7 +431,7 @@ function LatestSidebar() {
         <h2 className="text-[12px] font-bold text-white uppercase tracking-[0.12em] mb-3">In Focus</h2>
         <div className="flex flex-wrap gap-2">
           {IN_FOCUS_TOPICS.map(t => (
-            <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
+            <Link key={t} href={`/news?q=${encodeURIComponent(t)}`} className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
               {t}
             </Link>
           ))}
@@ -597,7 +597,7 @@ export default function Home() {
               { country: 'Sierra Leone',  headline: "Freetown's $80M port expansion is a direct challenge to Monrovia's trade lead", stat: 'SLL/USD 22,100', time: '8h ago', cat: 'Development' },
               { country: "Côte d'Ivoire", headline: "The Abidjan bourse outperformed every regional peer in Q1. These are the stocks that led.", stat: 'BRVM Index +3.4%', time: '10h ago', cat: 'economy' },
             ].map((r, i) => (
-              <Link key={i} href="/news" className="group flex flex-col no-underline border-t border-white/[0.07] pt-4 hover:border-white/20 transition-colors">
+              <Link key={i} href={`/news?q=${encodeURIComponent(r.country)}`} className="group flex flex-col no-underline border-t border-white/[0.07] pt-4 hover:border-white/20 transition-colors">
                 <div className="overflow-hidden mb-3">
                   <NewsThumbnail category={r.cat} className="w-full h-[120px] rounded-lg" />
                 </div>
@@ -621,7 +621,7 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'CBL Rate', 'Rubber Prices', 'ECOWAS Trade', 'Liberia GDP', 'Diaspora Remittances', 'Mining Policy', 'Inflation', 'Gold Prices', 'Firestone', 'ArcelorMittal', 'World Bank', 'IMF Program', 'Port of Monrovia', 'Ecobank', 'Mobile Money'].map(t => (
-              <Link key={t} href="/news" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">{t}</Link>
+              <Link key={t} href={`/news?q=${encodeURIComponent(t)}`} className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">{t}</Link>
             ))}
           </div>
         </div>

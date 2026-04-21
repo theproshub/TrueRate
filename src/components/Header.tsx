@@ -74,21 +74,41 @@ const SECTIONS_NAV: { label: string; href: string }[] = [
   { label: 'Videos',     href: '/videos' },
 ];
 
+type PrimaryNavItem = { label: string; href: string; children?: { label: string; href: string }[] };
+
 /** Full nav used by mobile menu — everything in one flat list, no hidden items */
-const PRIMARY_NAV: { label: string; href: string }[] = [
-  { label: 'Home',       href: '/' },
-  { label: 'News',       href: '/news' },
-  { label: 'Markets',    href: '/forex' },
-  { label: 'Economy',    href: '/economy' },
-  { label: 'Companies',  href: '/directory' },
-  { label: 'Technology', href: '/technology' },
-  { label: 'Sports',     href: '/sports' },
+const PRIMARY_NAV: PrimaryNavItem[] = [
+  { label: 'Home',        href: '/' },
+  { label: 'News',        href: '/news' },
+  { label: 'Markets',     href: '/forex' },
+  { label: 'Deals',       href: '/deals' },
+  { label: 'Economy',     href: '/economy' },
+  { label: 'Companies',   href: '/directory' },
+  { label: 'Technology',  href: '/technology' },
+  {
+    label: 'Sports', href: '/sports',
+    children: [
+      { label: 'Transfers & Deals', href: '/sports/transfers-deals' },
+      { label: 'Broadcast Rights',  href: '/sports/broadcast-rights' },
+      { label: 'Club Finance',      href: '/sports/club-finance' },
+      { label: 'Sponsorship',       href: '/sports/sponsorship' },
+    ],
+  },
+  {
+    label: 'Videos', href: '/videos',
+    children: [
+      { label: 'Interviews',       href: '/videos/interviews' },
+      { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
+      { label: 'Investing',        href: '/videos/investing' },
+      { label: 'Technology',       href: '/videos/technology' },
+      { label: 'Leadership',       href: '/videos/leadership' },
+    ],
+  },
 ];
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
   { label: 'Culture',          href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
   { label: 'Entrepreneurship', href: '/entrepreneurship', desc: 'Founders, funding and SMEs' },
-  { label: 'Videos',           href: '/videos',           desc: 'Interviews, explainers, podcasts' },
   { label: 'Watchlist',        href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
 ];
@@ -122,9 +142,12 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
   }
 
   const supportLinks = [
-    { label: 'Help',            href: '/help' },
-    { label: 'Feedback',        href: '/feedback' },
-    { label: 'Terms & Privacy', href: '/about' },
+    { label: 'Help',             href: '/help' },
+    { label: 'Feedback',         href: '/feedback' },
+    { label: 'Data Disclaimer',  href: '/about/data-disclaimer' },
+    { label: 'Terms of Service', href: '/about/terms' },
+    { label: 'Privacy Policy',   href: '/about/privacy' },
+    { label: 'About Our Ads',    href: '/about/ads' },
   ];
 
   return (
@@ -178,22 +201,42 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
           <nav className="pt-3 pb-1">
             <p className="px-5 pt-2 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Browse</p>
             <div className="px-2">
-              {PRIMARY_NAV.map(({ label, href }) => {
+              {PRIMARY_NAV.map(({ label, href, children }) => {
                 const active = isActive(pathname, href);
                 return (
-                  <Link
-                    key={label}
-                    href={href}
-                    onClick={onClose}
-                    className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors no-underline ${
-                      active ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
-                    }`}
-                  >
-                    <span className={`text-[15px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
-                    <svg className={`h-4 w-4 transition-colors ${active ? 'text-brand-accent' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
+                  <div key={label}>
+                    <Link
+                      href={href}
+                      onClick={onClose}
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors no-underline ${
+                        active ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
+                      }`}
+                    >
+                      <span className={`text-[15px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
+                      <svg className={`h-4 w-4 transition-colors ${active ? 'text-brand-accent' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                    {children && (
+                      <div className="ml-4 mb-1 border-l border-white/[0.08] pl-3">
+                        {children.map(c => {
+                          const subActive = pathname === c.href;
+                          return (
+                            <Link
+                              key={c.href}
+                              href={c.href}
+                              onClick={onClose}
+                              className={`block px-3 py-2 rounded-lg transition-colors no-underline text-[13px] ${
+                                subActive ? 'text-brand-accent' : 'text-gray-400 hover:text-white'
+                              }`}
+                            >
+                              {c.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -284,7 +327,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname === '/about' || pathname === '/help';
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname.startsWith('/about') || pathname.startsWith('/help');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -465,14 +508,12 @@ export default function Header() {
             <>
               {[
                 { label: 'All',               href: '/sports' },
-                { label: 'Transfers & Deals', href: '/sports?tab=transfers-deals' },
-                { label: 'Broadcast Rights',  href: '/sports?tab=broadcast-rights' },
-                { label: 'Club Finance',      href: '/sports?tab=club-finance' },
-                { label: 'Sponsorship',       href: '/sports?tab=sponsorship' },
+                { label: 'Transfers & Deals', href: '/sports/transfers-deals' },
+                { label: 'Broadcast Rights',  href: '/sports/broadcast-rights' },
+                { label: 'Club Finance',      href: '/sports/club-finance' },
+                { label: 'Sponsorship',       href: '/sports/sponsorship' },
               ].map(({ label, href }) => {
-                const tabParam = href.includes('?tab=') ? href.split('?tab=')[1] : '';
-                const currentTab = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('tab') ?? '' : '';
-                const isActive = tabParam ? currentTab === tabParam : !currentTab;
+                const isActive = href === '/sports' ? pathname === '/sports' : pathname === href;
                 return (
                   <Link key={label} href={href}
                     className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
@@ -485,20 +526,30 @@ export default function Header() {
                 );
               })}
             </>
-          ) : pathname === '/about' ? (
+          ) : pathname.startsWith('/about') ? (
             /* About-specific links */
             <>
               {[
+                { label: 'About',                 href: '/about' },
+                { label: 'Data Disclaimer',       href: '/about/data-disclaimer' },
+                { label: 'Terms',                 href: '/about/terms' },
+                { label: 'Privacy',               href: '/about/privacy' },
+                { label: 'About Our Ads',         href: '/about/ads' },
                 { label: 'Help',                  href: '/help' },
                 { label: 'Feedback',              href: '/feedback' },
-                { label: 'Terms & Privacy Policy',href: '/about' },
-                { label: 'About Our Ads',         href: '/about' },
-              ].map(({ label, href }) => (
-                <Link key={label} href={href}
-                  className="flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors no-underline">
-                  {label}
-                </Link>
-              ))}
+              ].map(({ label, href }) => {
+                const isActive = pathname === href;
+                return (
+                  <Link key={label} href={href}
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                      isActive
+                        ? 'border-gray-900 text-gray-900'
+                        : 'border-transparent text-gray-500 hover:text-gray-900'
+                    }`}>
+                    {label}
+                  </Link>
+                );
+              })}
               <div className="ml-auto pl-4 border-l border-gray-200 py-2">
                 <RateTicker isLight={true} />
               </div>
@@ -506,12 +557,26 @@ export default function Header() {
           ) : pathname.startsWith('/videos') ? (
             /* Videos-specific tabs */
             <>
-              {['Latest', 'Interviews', 'Entrepreneurship', 'Investing', 'Technology', 'Leadership'].map(label => (
-                <Link key={label} href="/videos"
-                  className="flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline border-transparent text-white/70 hover:text-brand-accent">
-                  {label}
-                </Link>
-              ))}
+              {[
+                { label: 'Latest',           href: '/videos' },
+                { label: 'Interviews',       href: '/videos/interviews' },
+                { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
+                { label: 'Investing',        href: '/videos/investing' },
+                { label: 'Technology',       href: '/videos/technology' },
+                { label: 'Leadership',       href: '/videos/leadership' },
+              ].map(({ label, href }) => {
+                const isActive = href === '/videos' ? pathname === '/videos' : pathname === href;
+                return (
+                  <Link key={label} href={href}
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                      isActive
+                        ? 'border-brand-accent text-brand-accent'
+                        : 'border-transparent text-white/70 hover:text-brand-accent'
+                    }`}>
+                    {label}
+                  </Link>
+                );
+              })}
             </>
           ) : (
             /* Section tabs — Bloomberg-style secondary row */
