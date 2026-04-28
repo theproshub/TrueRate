@@ -111,6 +111,11 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
 
 export default function HeaderAuthButtons() {
   const pathname = usePathname();
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports');
+  const isLight =
+    pathname.startsWith('/news') ||
+    pathname.startsWith('/sports') ||
+    pathname.startsWith('/entertainment') ||
+    pathname.startsWith('/about') ||
+    pathname.startsWith('/help');
   return isClerkConfigured ? <ClerkAuthButtons isLight={isLight} /> : <StaticAuthButtons isLight={isLight} />;
 }

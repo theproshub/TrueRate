@@ -48,10 +48,10 @@ export default function DataDisclaimerPage() {
 
         <div className="border-b border-gray-200 pb-10 mb-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Data</p>
-          <h1 className="text-[32px] sm:text-[44px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Data disclaimer
           </h1>
-          <p className="text-[15px] text-gray-500 leading-[1.8] max-w-[640px]">
+          <p className="text-[14px] text-gray-500 leading-[1.8] max-w-[640px]">
             Where the numbers come from, how often they update, and what they should &mdash; and should not &mdash; be used for.
           </p>
           <p className="mt-6 text-[12px] text-gray-400">Last updated: April 1, 2026</p>
@@ -75,14 +75,14 @@ export default function DataDisclaimerPage() {
 
           <div className="max-w-[780px]">
             <section id="sources" className="mb-14">
-              <h2 className="text-[20px] font-black text-gray-900 mb-4">Where our data comes from</h2>
-              <p className="text-[15px] text-gray-700 leading-[1.9] mb-6">
+              <h2 className="text-[18px] font-black text-gray-900 mb-4">Where our data comes from</h2>
+              <p className="text-[14px] text-gray-700 leading-[1.9] mb-6">
                 TrueRate aggregates market and economic data from a handful of primary and licensed sources. This table lists what we use and how often each series refreshes.
               </p>
               <div className="overflow-x-auto rounded-xl border border-gray-200">
                 <table className="w-full text-[13px]">
                   <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr className="text-left text-[11px] font-bold uppercase tracking-wide text-gray-500">
+                    <tr className="text-left text-[10px] font-bold uppercase tracking-wide text-gray-500">
                       <th className="px-4 py-3">Source</th>
                       <th className="px-4 py-3">What we use</th>
                       <th className="px-4 py-3">Freshness</th>
@@ -102,11 +102,11 @@ export default function DataDisclaimerPage() {
             </section>
 
             <section id="notes" className="mb-10">
-              <h2 className="text-[20px] font-black text-gray-900 mb-4">Important notes</h2>
+              <h2 className="text-[18px] font-black text-gray-900 mb-4">Important notes</h2>
               <div className="divide-y divide-gray-100">
                 {NOTES.map(n => (
                   <div key={n.title} className="py-5">
-                    <h3 className="text-[15px] font-bold text-gray-900 mb-2">{n.title}</h3>
+                    <h3 className="text-[12px] font-bold text-gray-900 mb-2">{n.title}</h3>
                     <p className="text-[14px] text-gray-600 leading-[1.85]">{n.body}</p>
                   </div>
                 ))}

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import VideosMobileTabs from '@/components/VideosMobileTabs';
 
 export const metadata: Metadata = {
   title: 'Videos — TrueRate',
@@ -6,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function VideosLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <VideosMobileTabs />
+      {children}
+    </>
+  );
 }

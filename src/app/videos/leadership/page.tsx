@@ -65,7 +65,7 @@ export default function VideosLeadershipPage() {
             <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
             <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">{HERO.duration}</span>
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h2 className="text-[18px] sm:text-[24px] font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+              <h2 className="text-[12px] sm:text-[22px] font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
               <p className="text-[13px] text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
               <div className="flex items-center gap-2 text-[12px]">
                 <span className="font-semibold text-white/70">{HERO.source}</span>
@@ -109,7 +109,7 @@ export default function VideosLeadershipPage() {
                 <VideoThumbnail category={p.category} duration={p.duration} className="w-full aspect-video" />
                 <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{p.label}</span>
               </div>
-              <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 mb-2 line-clamp-2">{p.title}</h3>
+              <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 mb-2 line-clamp-2">{p.title}</h3>
               <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-3">{p.desc}</p>
             </Link>
           ))}
@@ -128,7 +128,7 @@ export default function VideosLeadershipPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-[10px] font-bold uppercase tracking-wide text-gray-400 mb-1">{v.category}</div>
-                <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 line-clamp-2 mb-1">{v.title}</h3>
+                <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 line-clamp-2 mb-1">{v.title}</h3>
                 <div className="text-[11px] text-gray-500">{v.time}</div>
               </div>
             </Link>

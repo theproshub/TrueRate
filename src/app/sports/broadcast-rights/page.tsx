@@ -56,7 +56,7 @@ export default function BroadcastRightsPage() {
 
         <div className="mb-6">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Sports Business</p>
-          <h1 className="text-[28px] sm:text-[36px] font-black leading-tight tracking-tight text-gray-900 mb-2">Broadcast Rights</h1>
+          <h1 className="text-[32px] sm:text-[32px] font-black leading-tight tracking-tight text-gray-900 mb-2">Broadcast Rights</h1>
           <p className="text-[14px] text-gray-500 max-w-[720px] leading-relaxed">Who&rsquo;s paying for African sport on TV and streaming, what each deal is worth, and when the next auctions happen.</p>
         </div>
 
@@ -64,7 +64,7 @@ export default function BroadcastRightsPage() {
           {DEALS_AT_A_GLANCE.map(s => (
             <div key={s.label} className="rounded-xl border border-gray-200 bg-white p-4">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-1.5">{s.label}</p>
-              <p className="text-[20px] font-black text-gray-900 tabular-nums">{s.value}</p>
+              <p className="text-[18px] font-black text-gray-900 tabular-nums">{s.value}</p>
               <p className="text-[11px] font-semibold tabular-nums mt-0.5 text-emerald-500">{s.delta}</p>
             </div>
           ))}
@@ -75,7 +75,7 @@ export default function BroadcastRightsPage() {
             <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
           </div>
           <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
-            <span className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-500">{HERO.category}</span>
+            <span className="mb-3 text-[10px] font-bold uppercase tracking-widest text-gray-500">{HERO.category}</span>
             <h2 className="text-[22px] font-black leading-snug text-gray-900 group-hover:text-gray-700 mb-3">{HERO.title}</h2>
             <p className="text-[14px] leading-relaxed text-gray-500 line-clamp-3 mb-4">{HERO.summary}</p>
             <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
@@ -132,7 +132,7 @@ export default function BroadcastRightsPage() {
                     <div className="shrink-0 overflow-hidden"><NewsThumbnail category={s.category} className="h-[80px] w-[100px] sm:h-[90px] sm:w-[140px]" /></div>
                     <div className="min-w-0 flex-1">
                       <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1.5 block">{s.category}</span>
-                      <h3 className="text-[15px] font-black leading-snug text-gray-900 group-hover:text-gray-700 mb-1.5 line-clamp-2">{s.title}</h3>
+                      <h3 className="text-[12px] font-black leading-snug text-gray-900 group-hover:text-gray-700 mb-1.5 line-clamp-2">{s.title}</h3>
                       <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{s.summary}</p>
                       <div className="text-[12px] text-gray-400">{s.source} · {s.time}</div>
                     </div>
@@ -144,7 +144,7 @@ export default function BroadcastRightsPage() {
 
           <aside className="flex flex-col gap-5">
             <div className="rounded-xl border border-gray-200 bg-white p-4">
-              <h3 className="text-[13px] font-bold text-gray-900 mb-3">Upcoming auctions</h3>
+              <h3 className="text-[12px] font-bold text-gray-900 mb-3">Upcoming auctions</h3>
               <div className="divide-y divide-gray-100">
                 {UPCOMING_AUCTIONS.map(a => (
                   <div key={a.comp} className="py-3">
@@ -156,7 +156,7 @@ export default function BroadcastRightsPage() {
               </div>
             </div>
             <Link href="/sports/sponsorship" className="rounded-xl border border-gray-200 bg-white p-4 no-underline hover:border-gray-400 transition-colors">
-              <p className="text-[11px] font-bold uppercase tracking-wide text-gray-500 mb-1">Next: Sponsorship →</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Next: Sponsorship →</p>
               <p className="text-[13px] text-gray-700 leading-relaxed">Shirt, kit, and federation sponsorships across West Africa.</p>
             </Link>
           </aside>

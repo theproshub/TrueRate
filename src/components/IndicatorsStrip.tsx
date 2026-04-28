@@ -60,30 +60,40 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
     });
   }, [initial]);
 
-  const Tile = ({ item, size }: { item: TickerItem; size: 'sm' | 'lg' }) => (
-    <div className={`shrink-0 flex flex-col border-r border-white/[0.07] ${size === 'lg' ? 'px-5 py-2.5' : 'px-4 py-2.5'}`}>
-      <span className={`font-semibold text-white whitespace-nowrap ${size === 'lg' ? 'text-[13px]' : 'text-[12px]'}`}>{item.label}</span>
-      <div className="flex items-center gap-1.5 mt-0.5">
-        <span className={`tabular-nums text-gray-400 whitespace-nowrap ${size === 'lg' ? 'text-[13px]' : 'text-[12px]'}`}>{item.value}</span>
-        <span className={`tabular-nums font-bold whitespace-nowrap ${size === 'lg' ? 'text-[12px]' : 'text-[11px]'} ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-          {size === 'lg' && (item.up ? '▲' : '▼')}{item.pct}
+  const Item = ({ item }: { item: TickerItem }) => {
+    const isDirectional = item.pct.startsWith('+') || item.pct.startsWith('-');
+    const changeColor = item.up ? 'text-emerald-400' : 'text-red-400';
+    const arrow = isDirectional ? (item.up ? '▲' : '▼') : '';
+    return (
+      <span className="shrink-0 inline-flex items-baseline gap-1.5 px-4 whitespace-nowrap">
+        <span className="text-[12px] font-semibold text-white">{item.label}</span>
+        <span className="text-[12px] tabular-nums text-gray-300">{item.value}</span>
+        <span className={`text-[11px] tabular-nums font-semibold ${changeColor}`}>
+          {arrow && <span className="mr-0.5">{arrow}</span>}
+          {item.pct}
         </span>
-      </div>
-    </div>
+      </span>
+    );
+  };
+
+  const Separator = () => (
+    <span aria-hidden="true" className="shrink-0 self-center h-3 w-px bg-white/10" />
   );
 
   return (
-    <div className="bg-[#040c10] border-b border-white/[0.05]">
-      <div className="mx-auto max-w-[1320px]">
-        <div className="sm:hidden overflow-hidden">
-          <div className="ticker-scroll flex">
-            {[...items, ...items].map((item, i) => <Tile key={i} item={item} size="sm" />)}
-          </div>
-        </div>
-        <div className="hidden sm:block overflow-hidden">
-          <div className="ticker-scroll flex">
-            {[...items, ...items].map((item, i) => <Tile key={i} item={item} size="lg" />)}
-          </div>
+    <div
+      role="region"
+      aria-label="Live Liberian markets ticker"
+      className="bg-[#040c10] border-b border-white/[0.05]"
+    >
+      <div className="mx-auto max-w-[1320px] overflow-hidden">
+        <div className="ticker-scroll flex items-center h-9">
+          {[...items, ...items].map((item, i) => (
+            <span key={i} className="flex items-center">
+              <Item item={item} />
+              <Separator />
+            </span>
+          ))}
         </div>
       </div>
     </div>

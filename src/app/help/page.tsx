@@ -16,13 +16,13 @@ const FAQS = [
 export default function HelpPage() {
   return (
     <main className="mx-auto max-w-[860px] px-4 py-12">
-      <h1 className="mb-1 text-[26px] font-bold text-white">Help Center</h1>
+      <h1 className="mb-1 text-[22px] font-bold text-white">Help Center</h1>
       <p className="mb-8 text-[13px] text-gray-500">Answers to common questions about TrueRate</p>
 
       <div className="divide-y divide-white/[0.07]">
         {FAQS.map(faq => (
           <div key={faq.q} className="py-5">
-            <h3 className="mb-2 text-[14px] font-bold text-white">{faq.q}</h3>
+            <h3 className="mb-2 text-[12px] font-bold text-white">{faq.q}</h3>
             <p className="text-[13px] leading-relaxed text-gray-500">{faq.a}</p>
           </div>
         ))}

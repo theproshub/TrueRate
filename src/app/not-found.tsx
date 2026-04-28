@@ -4,10 +4,10 @@ export default function NotFound() {
   return (
     <main className="mx-auto max-w-[720px] px-4 py-24 text-center">
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">404 — Page Not Found</p>
-      <h1 className="text-[32px] sm:text-[44px] font-black leading-tight text-white mb-4">
+      <h1 className="text-[32px] sm:text-[32px] font-black leading-tight text-white mb-4">
         We couldn&apos;t find that page.
       </h1>
-      <p className="text-[15px] text-gray-400 leading-relaxed mb-8 max-w-[520px] mx-auto">
+      <p className="text-[14px] text-gray-400 leading-relaxed mb-8 max-w-[520px] mx-auto">
         The page may have been moved, renamed, or never existed. Try one of these instead:
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
@@ -20,8 +20,8 @@ export default function NotFound() {
         <Link href="/economy" className="rounded-lg border border-white/20 px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
           Economy
         </Link>
-        <Link href="/directory" className="rounded-lg border border-white/20 px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
-          Business directory
+        <Link href="/markets" className="rounded-lg border border-white/20 px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">
+          Live markets
         </Link>
       </div>
     </main>

@@ -57,7 +57,7 @@ export default function ClubFinancePage() {
         {/* Hero / tombstone */}
         <header className="mb-10 border-b border-gray-200 pb-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gray-500 mb-3">Club Finance &middot; FY 2024/25 review</p>
-          <h1 className="text-[32px] sm:text-[44px] font-black leading-[1.08] tracking-[-0.015em] text-gray-900 mb-5 max-w-[820px]">
+          <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.08] tracking-[-0.015em] text-gray-900 mb-5 max-w-[820px]">
             Five of Liberia&rsquo;s eight top-flight clubs filed on time. Three of them made money.
           </h1>
           <p className="text-[16px] leading-[1.55] text-gray-700 max-w-[680px] mb-6">
@@ -78,7 +78,7 @@ export default function ClubFinancePage() {
         <section className="mb-12 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">What the numbers say</p>
-            <ul className="space-y-3 text-[15px] leading-[1.55] text-gray-800">
+            <ul className="space-y-3 text-[14px] leading-[1.55] text-gray-800">
               <li className="flex gap-3">
                 <span className="shrink-0 mt-2 h-1 w-5 bg-gray-900" />
                 <span>Only Monrovia FC, Rivers Hoopers and LISCR FC posted a full-year operating surplus. Rivers Hoopers&rsquo; $0.48M is the largest since the BAL-era figures began in 2021.</span>
@@ -117,7 +117,7 @@ export default function ClubFinancePage() {
           <div className="flex items-baseline justify-between border-t border-gray-900 pt-4 mb-6">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500">Figure 1</p>
-              <h2 className="text-[20px] font-black text-gray-900 mt-1">Top-line revenue, FY 2024/25</h2>
+              <h2 className="text-[18px] font-black text-gray-900 mt-1">Top-line revenue, FY 2024/25</h2>
             </div>
             <span className="text-[11px] text-gray-500">USD millions</span>
           </div>
@@ -148,7 +148,7 @@ export default function ClubFinancePage() {
           <div className="flex items-baseline justify-between border-t border-gray-900 pt-4 mb-4">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500">Table 1</p>
-              <h2 className="text-[20px] font-black text-gray-900 mt-1">Club P&amp;L, FY 2024/25</h2>
+              <h2 className="text-[18px] font-black text-gray-900 mt-1">Club P&amp;L, FY 2024/25</h2>
             </div>
             <span className="text-[11px] text-gray-500">USD millions unless stated</span>
           </div>
@@ -213,7 +213,7 @@ export default function ClubFinancePage() {
           <div className="flex items-baseline justify-between border-t border-gray-900 pt-4 mb-4">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500">Figure 2</p>
-              <h2 className="text-[20px] font-black text-gray-900 mt-1">LFA revenue mix, six-year view</h2>
+              <h2 className="text-[18px] font-black text-gray-900 mt-1">LFA revenue mix, six-year view</h2>
             </div>
             <span className="text-[11px] text-gray-500">% of total league revenue</span>
           </div>
@@ -254,7 +254,7 @@ export default function ClubFinancePage() {
           <div className="flex items-baseline justify-between border-t border-gray-900 pt-4 mb-4">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500">Table 2</p>
-              <h2 className="text-[20px] font-black text-gray-900 mt-1">How Liberia compares</h2>
+              <h2 className="text-[18px] font-black text-gray-900 mt-1">How Liberia compares</h2>
             </div>
             <span className="text-[11px] text-gray-500">Top-flight leagues, 2023/24 &middot; most recent comparable</span>
           </div>
@@ -294,7 +294,7 @@ export default function ClubFinancePage() {
               { title: "Six-year view: the slow, uneven recovery of matchday in West Africa.",                by: 'CAF Research',   src: 'CAF',         date: 'Feb 2026' },
             ].map((s, i) => (
               <Link key={i} href="/sports" className="group flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6 py-4 no-underline">
-                <h3 className="text-[15px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 flex-1">{s.title}</h3>
+                <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 flex-1">{s.title}</h3>
                 <div className="flex items-center gap-2 text-[12px] text-gray-500 tabular-nums whitespace-nowrap">
                   <span className="font-semibold text-gray-700">{s.by}</span>
                   <span className="text-gray-300">&middot;</span>

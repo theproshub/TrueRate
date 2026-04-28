@@ -1,368 +1,251 @@
-'use client';
-
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { useState } from 'react';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
-import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
+import { getCatColor } from '@/lib/category-colors';
+import EntertainmentTopicTabs from '@/components/EntertainmentTopicTabs';
 
-/* ── data ── */
 const HERO = {
   category: 'Movies',
-  title: "'Lagos After Midnight' crosses $14M — the economics behind West Africa's biggest box office hit",
-  summary: "The Nigerian thriller has outgrossed every African film in history outside South Africa. We break down the production budget, distributor split, and what the returns mean for Nollywood financing.",
+  title: "Nollywood-Liberia co-production 'Sundown in Sinkor' opens to record diaspora pre-sales — biggest Liberian film launch in five years",
+  summary: "The $1.4M feature, shot in Monrovia and Lagos and produced by Filmhouse Group with Liberian co-producer Patrice Juah, has crossed 38,000 pre-sale tickets across the U.S., U.K., and West African corridor ahead of its May 2 theatrical release.",
   source: 'TrueRate Culture',
-  time: '2h ago',
+  time: '1h ago',
 };
 
-const SUB_NAV = ['Box Office', 'Streaming', 'Music Industry', 'Film Finance', 'Deals'];
-
 const STRIP_CARDS = [
-  { category: 'Movies',    title: "Africa Magic parent MultiChoice posts 8% revenue decline as streaming competition bites", source: 'Reuters', time: '45m ago' },
-  { category: 'Music',     title: "Universal Music Group signs five West African artists in $30M regional expansion push", source: 'Billboard', time: '1h ago' },
-  { category: 'TV',        title: "Netflix Africa content spend hits $180M in 2025 — Liberia among targeted markets", source: 'The Guardian', time: '3h ago' },
-  { category: 'Movies',    title: "Cannes co-production market: African projects attract record European investment in 2026", source: 'Variety', time: '5h ago' },
-  { category: 'Music',     title: "Spotify streams from West Africa up 34% YoY — but royalty payouts remain under $0.001 per play", source: 'Pulse Africa', time: '6h ago' },
+  { category: 'Music',     title: "Hipco star Bucky Raw lines up Madison Square Garden warm-up date — first Liberian artist to play the Garden as a billed act",       source: 'TrueRate Culture',  time: '2h ago' },
+  { category: 'TV',        title: "Showmax orders second season of Monrovia-set crime drama 'Bassa Avenue' after 4.1M streams in opening month",                       source: 'FrontPage Africa', time: '3h ago' },
+  { category: 'Celebrity', title: "George Weah's son Timothy makes surprise cameo at Liberian Music Awards — performs an unreleased verse with MC Caro",               source: 'Liberian Observer', time: '5h ago' },
+  { category: 'Movies',    title: "Cannes Marché du Film accepts three Liberian shorts — first time more than one Liberian title has been picked in a single edition", source: 'TrueRate Culture',  time: '6h ago' },
+  { category: 'Music',     title: "Afrobeats festival 'Lib Wave' confirms Davido, Tems, and Stonebwoy headliners for Antoinette Tubman Stadium July 27",               source: 'The New Dawn',     time: '7h ago' },
+  { category: 'TV',        title: "Liberia Broadcasting System overhauls primetime slate — drops 9pm news for a 30-minute Kolokwa magazine show",                      source: 'FrontPage Africa', time: '9h ago' },
+  { category: 'Celebrity', title: "Liberian-American actress Wayétu Moore optioned by A24 for a memoir adaptation she'll co-produce",                                  source: 'Variety',          time: '10h ago' },
+  { category: 'Movies',    title: "Boakai administration approves 15% rebate for foreign productions shooting on Liberian soil — Lagos studios already inquiring",      source: 'TrueRate',         time: '12h ago' },
+  { category: 'Music',     title: "Streaming royalties from Liberian artists hit $2.3M in 2025 — up 64% YoY as Spotify expands MTN-bundled plans",                     source: 'TrueRate Culture',  time: '14h ago' },
+  { category: 'TV',        title: "Netflix Africa scouts a Monrovia office — sources say first slate of Liberian originals could land Q4 2026",                        source: 'TechCabal',        time: '18h ago' },
 ];
 
-const BOX_OFFICE = [
-  { rank: 1, title: 'Lagos After Midnight',    gross: '$14.2M', weeklyChange: '+18%', weeks: 3,  screens: 420, up: true  },
-  { rank: 2, title: 'The Monrovia Files',      gross: '$6.8M',  weeklyChange: '-9%',  weeks: 5,  screens: 180, up: false },
-  { rank: 3, title: 'Pepper Coast: The Movie', gross: '$4.1M',  weeklyChange: '+4%',  weeks: 2,  screens: 210, up: true  },
-  { rank: 4, title: 'Accra Nights',            gross: '$3.3M',  weeklyChange: '-14%', weeks: 4,  screens: 155, up: false },
-  { rank: 5, title: 'Sacred Ground (Liberia)', gross: '$1.9M',  weeklyChange: '-21%', weeks: 7,  screens: 80,  up: false },
-];
-
-const STREAMING = [
-  { platform: 'Netflix Africa',  subscribers: '4.2M',  qChange: '+310K', revenue: '$38M', market: 'Sub-Saharan Africa', up: true  },
-  { platform: 'Showmax',         subscribers: '2.8M',  qChange: '-90K',  revenue: '$19M', market: 'Pan-Africa',         up: false },
-  { platform: 'Africa Magic',    subscribers: '6.1M',  qChange: '+40K',  revenue: '$54M', market: 'Pan-Africa',         up: true  },
-  { platform: 'Prime Video',     subscribers: '1.1M',  qChange: '+180K', revenue: '$12M', market: 'Nigeria + Ghana',    up: true  },
-];
-
-const DEALS = [
-  { date: 'Apr 8',  type: 'Acquisition', headline: 'MTN Group acquires 40% stake in Afrostream for $22M', value: '$22M',  up: true  },
-  { date: 'Apr 5',  type: 'Label Deal',  headline: 'Sony Music West Africa signs Liberian artist Mamy Victory in multi-album deal', value: 'Undisclosed', up: true },
-  { date: 'Mar 30', type: 'Co-Production', headline: 'France 24 and TrueRate partner on West Africa documentary series', value: '$4.5M', up: true },
-  { date: 'Mar 25', type: 'Rights Sale', headline: "'Pepper Coast' Season 2 global rights sold to Apple TV+ for estimated $8M", value: '$8M', up: true },
-  { date: 'Mar 20', type: 'Funding',     headline: 'Monrovia-based production house Ducor Films raises $3M seed round', value: '$3M', up: true },
+const RELEASES = [
+  { title: 'Sundown in Sinkor',         type: 'Movie',   creator: 'Patrice Juah · Filmhouse',     release: 'May 2',  platform: 'Theatrical · Diaspora' },
+  { title: 'Mama Salone (Season 2)',    type: 'TV',      creator: 'Showmax Originals',            release: 'May 9',  platform: 'Showmax'                },
+  { title: 'Kolokwa Love Songs',        type: 'Album',   creator: 'Soul Fresh',                   release: 'May 14', platform: 'Spotify · Apple Music'  },
+  { title: 'Bassa Avenue (Season 2)',   type: 'TV',      creator: 'Showmax Originals',            release: 'Jun 6',  platform: 'Showmax'                },
+  { title: 'Lib Wave 2026',             type: 'Concert', creator: 'Lib Wave Live',                release: 'Jul 27', platform: 'Antoinette Tubman Stadium' },
+  { title: 'Hipco Anthology Vol. III',  type: 'Album',   creator: 'Christoph the Change',         release: 'Aug 11', platform: 'YouTube · Audiomack'    },
 ];
 
 const FEED = [
-  { category: 'Music',      title: "The hidden economics of Afrobeats: how much do Liberian artists actually earn?",       summary: "Streaming royalties, live revenue splits, and sync licensing fees — a breakdown of where the money goes in West Africa's fastest-growing music export.",               source: 'TrueRate', time: '12 min read' },
-  { category: 'Movies',     title: "Nollywood's budget problem: why most films never recoup their production costs",        summary: "Despite record box office headlines, fewer than 20% of Nigerian films turn a profit. We examine the financing models, distribution costs, and piracy losses.",    source: 'Variety Africa', time: '9 min read' },
-  { category: 'TV',         title: "'Pepper Coast' said no to Netflix — and the numbers suggest it was the right call",    summary: "Showrunner James Dahn explains how a regional Africa Magic deal delivered better per-episode margins than the streamer's standard offer structure.",                   source: 'TrueRate', time: '6 min read' },
-  { category: 'Music',      title: "Liberia's gospel streaming surge: 210% growth but artists see little of the revenue",  summary: "The data shows Liberian gospel acts growing rapidly on Spotify and Apple Music. But the royalty structure means most artists earn under $500/month.",             source: 'Pulse Africa', time: '7 min read' },
-  { category: 'Movies',     title: "Film incentives: how Ghana and Nigeria lure productions — and why Liberia is losing out", summary: "Ghana offers a 25% production rebate. Nigeria has state studio infrastructure. Liberia has neither — and the investment gap is widening.",                    source: 'The New Dawn', time: '8 min read' },
-  { category: 'TV',         title: "MultiChoice Q1 results: Showmax losses widen as Netflix gains West African ground",    summary: "MultiChoice reported a $41M operating loss for Showmax in Q1 2026, up from $28M a year earlier, as Netflix's African subscriber base accelerates.",             source: 'FrontPage Africa', time: '5 min read' },
+  { category: 'Movies',    title: "Inside the financing of 'Sundown in Sinkor': how a $1.4M Nollywood-Liberia co-pro got made",       summary: "From a Lagos completion-bond facility to a Monrovia tax rebate that didn't yet exist when production started, a behind-the-scenes look at the deal stack that put Liberia back on the West African film map.",                source: 'TrueRate Culture',  time: '11 min read' },
+  { category: 'Music',     title: "Bucky Raw at the Garden: how Liberia's hipco generation finally crossed over",                     summary: 'A decade after Takun J brought Kolokwa rap into the Liberian mainstream, an MSG-warm-up booking signals the genre has crossed the diaspora threshold. We trace the streaming numbers, the tour math, and what comes next.', source: 'TrueRate Culture',  time: '9 min read'  },
+  { category: 'TV',        title: "'Bassa Avenue' and the streaming math: 4.1M streams, but is it actually profitable for Showmax?", summary: 'Streaming hits in West Africa rarely translate to franchise economics the way they do in Lagos or Nairobi. We break down the per-stream payout, production cost, and renewal calculus.',                                source: 'FrontPage Africa', time: '8 min read'  },
+  { category: 'Celebrity', title: "Wayétu Moore's A24 deal isn't just a book sale — it's a foothold for Liberian voices in U.S. prestige TV", summary: 'The novelist-turned-co-producer is the most senior Liberian creator inside an American studio system right now. Why that matters for the next ten years of the diaspora pipeline.',                                source: 'Variety',          time: '7 min read'  },
+  { category: 'Movies',    title: "The 15% rebate: what Liberia's new film incentive actually does — and what it leaves out",        summary: 'Below-the-line crew, post-production, and music licensing are still excluded. A pragmatic read on whether the new policy attracts real productions or just paperwork.',                                                source: 'TrueRate',         time: '8 min read'  },
+  { category: 'Music',     title: "Streaming royalties cleared $2M for Liberian artists in 2025 — but distribution is brutally uneven", summary: 'Top-decile artists captured 78% of total payouts. We pulled DistroKid and Audiomack data and compared it with Nigeria and Ghana to show how concentrated Liberia\'s streaming market still is.',                       source: 'TrueRate Culture',  time: '10 min read' },
+  { category: 'TV',        title: "Why Netflix scouting Monrovia matters more than the headlines suggest",                            summary: 'The platform has cooled on African originals after the 2024 reorganisation. A Liberia office — even a small one — would signal a recommitment that goes well beyond Lagos and Cape Town.',                                source: 'TechCabal',        time: '6 min read'  },
+  { category: 'Celebrity', title: "Liberian Music Awards 2026: the winners, the snubs, and the power shift no one's writing about",   summary: "A new generation of female hipco and gospel artists swept the night. The boardroom story behind the votes is more interesting than the trophies.",                                                                          source: 'Liberian Observer', time: '7 min read'  },
+  { category: 'Music',     title: "Lib Wave's logistics gamble: putting Davido, Tems, and Stonebwoy on the same Monrovia stage",       summary: 'Tour-routing, hotel inventory, and stadium upgrades that still don\'t exist. Inside the operational risk a Liberian promoter is taking with a single July date.',                                                          source: 'The New Dawn',     time: '8 min read'  },
+  { category: 'Movies',    title: "Cannes' 2026 Liberian shorts: full breakdown of the three films and what each is selling",         summary: 'A documentary on the LRD, a coming-of-age set in Paynesville, and a horror short shot in Bong County. We watched all three.',                                                                                            source: 'TrueRate Culture',  time: '9 min read'  },
 ];
 
-const MUSIC_REVENUE = [
-  { artist: 'Burna Boy',      streams: '4.2B',  estRoyalty: '$4.1M',  label: 'Atlantic / Warner', territory: 'Global'     },
-  { artist: 'Davido',         streams: '3.8B',  estRoyalty: '$3.7M',  label: 'Sony Music Africa', territory: 'Global'     },
-  { artist: 'Tiwa Savage',    streams: '2.9B',  estRoyalty: '$2.8M',  label: 'Universal Music',   territory: 'Global'     },
-  { artist: 'Mamy Victory',   streams: '310M',  estRoyalty: '$290K',  label: 'Sony Music WA',     territory: 'West Africa' },
-];
-
-const INDUSTRY_METRICS = [
-  { label: 'W. Africa Box Office (Q1 2026)', value: '$84M',   change: '+22% YoY', up: true  },
-  { label: 'Nollywood Avg. Production Cost', value: '$420K',  change: '+8% YoY',  up: false },
-  { label: 'Africa Streaming Revenue (2025)', value: '$1.4B', change: '+31% YoY', up: true  },
-  { label: 'Music Export Value (Liberia)',    value: '$18M',   change: '+41% YoY', up: true  },
+const UPCOMING = [
+  { date: 'May 2',  event: "'Sundown in Sinkor' theatrical release — Monrovia, NYC, London" },
+  { date: 'May 9',  event: "'Mama Salone' Season 2 drops — Showmax" },
+  { date: 'May 14', event: 'Soul Fresh — Kolokwa Love Songs album release' },
+  { date: 'Jul 27', event: 'Lib Wave 2026 — Antoinette Tubman Stadium' },
 ];
 
 export default function EntertainmentPage() {
-  const [activeTab, setActiveTab] = useState('All');
-
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="bg-white min-h-screen">
+      <div className="mx-auto max-w-[1320px] px-4 py-6">
 
-      {/* Breadcrumb + header */}
-      <div className="mb-6">
-        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Culture' }]} />
-        <div className="flex gap-0 border-b border-white/[0.07] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {['All', ...SUB_NAV].map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
-                activeTab === tab
-                  ? 'border-white text-white'
-                  : 'border-transparent text-gray-500 hover:text-gray-300'
-              }`}>
-              {tab}
-            </button>
-          ))}
+        {/* Breadcrumb + tabs */}
+        <div className="mb-6">
+          <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Entertainment' }]} />
+          <EntertainmentTopicTabs activeSlug="all" />
         </div>
-      </div>
 
-      <div className="flex gap-6">
-        {/* Main column */}
-        <div className="flex-1 min-w-0">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+          {/* Main column */}
+          <div className="flex-1 min-w-0">
 
-          {/* Hero */}
-          <Link href="/news" className="group flex flex-col lg:flex-row gap-0 overflow-hidden no-underline mb-6">
-            <div className="w-full lg:w-[55%] shrink-0">
-              <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
-            </div>
-            <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
-              <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS_FN(HERO.category)}`}>
-                {HERO.category}
-              </span>
-              <h2 className="text-[24px] font-black leading-snug text-white group-hover:text-white/80 transition-colors mb-4">
-                {HERO.title}
-              </h2>
-              <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
-              <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
-                <span>{HERO.source}</span>
-                <span className="text-gray-500">·</span>
-                <span>{HERO.time}</span>
+            {/* Hero */}
+            <Link href="/news" className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-10 pb-10 border-b border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-4 rounded">
+              <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
+                <HeroVisual category={HERO.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
               </div>
-            </div>
-          </Link>
-
-          {/* Strip */}
-          <div className="flex flex-col divide-y divide-white/[0.06] mb-8">
-            {STRIP_CARDS.map((card, i) => (
-              <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
-                <div className="shrink-0 overflow-hidden">
-                  <NewsThumbnail category={card.category} className="h-[72px] w-[108px]" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 block ${CATEGORY_COLORS_FN(card.category)}`}>
-                    {card.category}
+              <div className="flex flex-col justify-center flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest bg-brand-accent text-[#050d11]">Top Story</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                    {HERO.category}
                   </span>
-                  <h3 className="text-[13px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2">
-                    {card.title}
-                  </h3>
-                  <div className="mt-1 text-[11px] text-gray-400">{card.source} · {card.time}</div>
                 </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Box Office */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
-              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Box Office</h2>
-              <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">West Africa Weekend</span>
-            </div>
-            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <table className="w-full min-w-[420px] text-[13px]">
-                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                  <tr>
-                    <th className="pr-5 py-3 text-left w-6">#</th>
-                    <th className="px-5 py-3 text-left">Title</th>
-                    <th className="px-5 py-3 text-right">Cumulative Gross</th>
-                    <th className="px-5 py-3 text-right">Wk Change</th>
-                    <th className="hidden sm:table-cell px-5 py-3 text-right">Screens</th>
-                    <th className="hidden sm:table-cell px-5 py-3 text-right">Week</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/[0.04]">
-                  {BOX_OFFICE.map(film => (
-                    <tr key={film.rank} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="pr-5 py-3 text-[18px] font-black text-white/10 tabular-nums">{film.rank}</td>
-                      <td className="px-5 py-3 font-semibold text-white">{film.title}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{film.gross}</td>
-                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${film.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {film.weeklyChange}
-                      </td>
-                      <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-500">{film.screens}</td>
-                      <td className="hidden sm:table-cell px-5 py-3 text-right text-gray-400">{film.weeks}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Streaming platforms */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
-              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Streaming Platform Performance</h2>
-              <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Q1 2026</span>
-            </div>
-            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <table className="w-full min-w-[440px] text-[13px]">
-                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                  <tr>
-                    <th className="py-3 text-left">Platform</th>
-                    <th className="px-5 py-3 text-right">Subscribers</th>
-                    <th className="px-5 py-3 text-right">Qtr Change</th>
-                    <th className="px-5 py-3 text-right">Est. Revenue</th>
-                    <th className="hidden sm:table-cell px-5 py-3 text-left">Market</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/[0.04]">
-                  {STREAMING.map((s, i) => (
-                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3 font-bold text-white">{s.platform}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-semibold text-white">{s.subscribers}</td>
-                      <td className={`tabular-nums px-5 py-3 text-right font-semibold ${s.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {s.up ? '+' : ''}{s.qChange}
-                      </td>
-                      <td className="tabular-nums px-5 py-3 text-right text-gray-300">{s.revenue}</td>
-                      <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{s.market}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Stories */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Industry Analysis</h2>
+                <h1 className="text-[22px] sm:text-[32px] lg:text-[32px] font-black leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
+                  {HERO.title}
+                </h1>
+                <p className="text-[14px] leading-relaxed text-gray-600 line-clamp-3 mb-4">{HERO.summary}</p>
+                <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
+                  <span className="font-semibold text-gray-600">{HERO.source}</span>
+                  <span aria-hidden>·</span>
+                  <span>{HERO.time}</span>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
-              {FEED.map((item, i) => (
-                <Link key={i} href="/news" className="group flex gap-4 py-5 first:pt-0 no-underline">
-                  <div className="shrink-0 overflow-hidden">
-                    <NewsThumbnail category={item.category} className="h-[90px] w-[140px]" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS_FN(item.category)}`}>
-                      {item.category}
-                    </span>
-                    <h3 className="text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1.5 line-clamp-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
-                    <div className="flex items-center gap-2 text-[12px] text-gray-400">
-                      <span className="text-gray-500">{item.source}</span>
-                      <span>·</span>
-                      <span>{item.time}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
+            </Link>
 
-          {/* Music streaming revenue */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
-              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Music Streaming Revenue</h2>
-              <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Est. 2025 earnings</span>
-            </div>
-            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <table className="w-full min-w-[400px] text-[13px]">
-                <thead className="border-b border-white/[0.05] text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                  <tr>
-                    <th className="py-3 text-left">Artist</th>
-                    <th className="px-5 py-3 text-right">Streams</th>
-                    <th className="px-5 py-3 text-right">Est. Royalty</th>
-                    <th className="hidden sm:table-cell px-5 py-3 text-left">Label</th>
-                    <th className="hidden sm:table-cell px-5 py-3 text-left">Territory</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/[0.04]">
-                  {MUSIC_REVENUE.map((row, i) => (
-                    <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3 font-bold text-white">{row.artist}</td>
-                      <td className="tabular-nums px-5 py-3 text-right text-gray-300">{row.streams}</td>
-                      <td className="tabular-nums px-5 py-3 text-right font-bold text-white">{row.estRoyalty}</td>
-                      <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{row.label}</td>
-                      <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{row.territory}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="text-[10px] text-gray-600 mt-2">Estimated based on Spotify/Apple Music stream counts at ~$0.004/stream average · Not audited figures</p>
-          </div>
-
-          {/* Deals */}
-          <div className="mb-2">
-            <div className="border-b border-white/[0.07] pb-3 mb-0">
-              <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Recent Deals</h2>
-            </div>
-            <div className="divide-y divide-white/[0.04]">
-              {DEALS.map((deal, i) => (
-                <Link key={i} href="/news" className="group flex items-start gap-4 py-4 no-underline hover:bg-white/[0.02] transition-colors">
-                  <div className="shrink-0 text-right w-14">
-                    <span className="text-[11px] text-gray-400">{deal.date}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1 block">{deal.type}</span>
-                    <p className="text-[13px] font-semibold text-white group-hover:text-white/75 transition-colors leading-snug">{deal.headline}</p>
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <span className="text-[13px] font-bold text-white tabular-nums">{deal.value}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-        </div>
-
-        {/* Right rail */}
-        <aside className="hidden xl:block w-[280px] shrink-0">
-          <div className="sticky top-[120px] flex flex-col gap-8">
-
-            {/* Industry snapshot */}
-            <div>
-              <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Industry Snapshot</h3>
-              <div className="divide-y divide-white/[0.04]">
-                {INDUSTRY_METRICS.map((m, i) => (
-                  <div key={i} className="flex items-center justify-between py-3">
-                    <span className="text-[12px] text-gray-500 pr-3">{m.label}</span>
-                    <div className="text-right shrink-0">
-                      <div className="text-[14px] font-bold text-white tabular-nums">{m.value}</div>
-                      <div className={`text-[11px] tabular-nums ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</div>
-                    </div>
-                  </div>
+            {/* Strip — single column list */}
+            <section className="mb-10" aria-labelledby="latest-signals-heading">
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-2">
+                <div className="flex items-center gap-3">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
+                  <h2 id="latest-signals-heading" className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Stories For You</h2>
+                </div>
+                <Link href="/news" className="text-[12px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
+              </div>
+              <ul className="flex flex-col divide-y divide-gray-200 list-none p-0 m-0">
+                {STRIP_CARDS.map((card, i) => (
+                  <li key={i}>
+                    <Link href="/news" className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-gray-50 -mx-2 px-2 rounded">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1.5 text-gray-500">
+                        {card.category}
+                      </p>
+                      <h3 className="text-[12px] sm:text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors text-pretty">
+                        {card.title}
+                      </h3>
+                      <p className="mt-1.5 text-[11px] text-gray-500 truncate">
+                        <span className="text-gray-600">{card.source}</span>
+                        <span aria-hidden className="mx-1.5 text-gray-300">·</span>
+                        <time>{card.time}</time>
+                      </p>
+                    </Link>
+                  </li>
                 ))}
-              </div>
-            </div>
+              </ul>
+            </section>
 
-            {/* Trending */}
-            <div>
-              <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Most Read</h3>
-              <div className="divide-y divide-white/[0.04]">
-                {[
-                  { rank: 1, title: "MultiChoice Showmax losses widen to $41M",     tag: 'Streaming' },
-                  { rank: 2, title: "UMG's $30M West Africa signing spree",          tag: 'Music' },
-                  { rank: 3, title: "'Pepper Coast' Apple TV+ rights deal",          tag: 'TV' },
-                  { rank: 4, title: "Nollywood's 80% flop rate explained",           tag: 'Film Finance' },
-                  { rank: 5, title: "MTN acquires Afrostream stake for $22M",        tag: 'Deals' },
-                ].map(t => (
-                  <Link key={t.rank} href="/news" className="flex items-center gap-3 py-3 no-underline group hover:bg-white/[0.02] transition-colors">
-                    <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
-                    <div className="min-w-0">
-                      <p className="text-[12px] font-semibold text-white/80 group-hover:text-white transition-colors line-clamp-2 leading-snug">{t.title}</p>
-                      <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS_FN(t.tag)}`}>{t.tag}</span>
+            {/* Releases tracker */}
+            <section className="mb-10" aria-labelledby="releases-heading">
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+                <h2 id="releases-heading" className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Releases This Quarter</h2>
+                <span className="text-[11px] text-gray-500 uppercase tracking-wide font-bold">Q2–Q3 2026</span>
+              </div>
+              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4">
+                <table className="w-full min-w-[500px] text-[13px]">
+                  <caption className="sr-only">Upcoming Liberian and West African entertainment releases</caption>
+                  <thead className="border-b border-gray-200 text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                    <tr>
+                      <th scope="col" className="pb-3 text-left pr-4">Title</th>
+                      <th scope="col" className="pb-3 text-left pr-4">Type</th>
+                      <th scope="col" className="pb-3 text-left pr-4">Creator</th>
+                      <th scope="col" className="pb-3 text-right pr-4">Release</th>
+                      <th scope="col" className="hidden sm:table-cell pb-3 text-left">Platform</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {RELEASES.map((r, i) => (
+                      <tr key={i} className="hover:bg-gray-50 transition-colors">
+                        <td className="py-3 font-bold text-gray-900 pr-4">{r.title}</td>
+                        <td className="py-3 text-[10px] font-bold uppercase tracking-wide text-gray-500 pr-4">{r.type}</td>
+                        <td className="py-3 text-gray-600 pr-4">{r.creator}</td>
+                        <td className="tabular-nums py-3 text-right font-bold text-emerald-600 pr-4">{r.release}</td>
+                        <td className="hidden sm:table-cell py-3 text-gray-500 text-[12px]">{r.platform}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            {/* Analysis feed */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">In-Depth</h2>
+                </div>
+              </div>
+              <div className="flex flex-col divide-y divide-gray-200">
+                {FEED.map((item, i) => (
+                  <Link key={i} href="/news" className="group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline">
+                    <div className="shrink-0 overflow-hidden rounded-lg">
+                      <NewsThumbnail category={item.category} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
+                        {item.category}
+                      </span>
+                      <h3 className="text-[13.5px] sm:text-[12px] font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <p className="hidden sm:block text-[13px] leading-relaxed text-gray-600 line-clamp-2 mb-2">{item.summary}</p>
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-[12px] text-gray-500">
+                        <span className="text-gray-500 truncate">{item.source}</span>
+                        <span aria-hidden>·</span>
+                        <span className="whitespace-nowrap">{item.time}</span>
+                      </div>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Key dates */}
-            <div>
-              <h3 className="text-[13px] font-bold text-white border-b border-white/[0.07] pb-3 mb-0">Industry Calendar</h3>
-              <div className="divide-y divide-white/[0.04]">
-                {[
-                  { date: 'Apr 14', event: 'MultiChoice Q2 earnings call' },
-                  { date: 'Apr 19', event: 'Afrobeats Fest — sponsorship revenue data released' },
-                  { date: 'May 3',  event: 'Cannes Film Market opens — African co-production sessions' },
-                  { date: 'May 24', event: 'AFRIMA Awards 2026 — broadcast rights auction' },
-                  { date: 'Jun 14', event: 'Africa Movie Academy Awards — box office retrospective' },
-                ].map((ev, i) => (
-                  <div key={i} className="flex items-start gap-3 py-3">
-                    <span className="shrink-0 text-[11px] font-bold text-gray-400 w-12">{ev.date}</span>
-                    <p className="text-[12px] text-gray-400 leading-snug">{ev.event}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
-        </aside>
+
+          {/* Right rail */}
+          <aside className="hidden lg:block w-full lg:w-[280px] shrink-0">
+            <div className="sticky top-[120px] flex flex-col gap-8">
+
+              {/* Most Read */}
+              <div>
+                <h3 className="text-[12px] font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-4">Most Read</h3>
+                <ol className="space-y-4">
+                  {[
+                    { rank: 1, title: "'Sundown in Sinkor' pre-sales blow past 38,000 — diaspora theaters add screens", tag: 'Movies' },
+                    { rank: 2, title: "Bucky Raw books MSG warm-up — first Liberian artist on the bill",                tag: 'Music' },
+                    { rank: 3, title: "Showmax greenlights 'Bassa Avenue' Season 2 after 4.1M streams",                  tag: 'TV' },
+                    { rank: 4, title: "Wayétu Moore signs A24 memoir option — co-producer credit attached",              tag: 'Celebrity' },
+                    { rank: 5, title: "Lib Wave confirms Davido, Tems, Stonebwoy for July 27",                            tag: 'Music' },
+                  ].map(t => (
+                    <li key={t.rank} className="flex gap-3">
+                      <span aria-hidden className="shrink-0 text-[18px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
+                      <div className="min-w-0">
+                        <Link href="/news" className="text-[12px] font-semibold text-gray-700 hover:text-gray-900 transition-colors no-underline line-clamp-2 leading-snug block">{t.title}</Link>
+                        <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500">{t.tag}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              {/* Calendar */}
+              <div>
+                <h3 className="text-[12px] font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-4">Culture Calendar</h3>
+                <div className="space-y-3">
+                  {UPCOMING.map((ev, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="shrink-0 text-[11px] font-bold text-gray-700 w-12 tabular-nums">{ev.date}</span>
+                      <p className="text-[12px] text-gray-600 leading-snug">{ev.event}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Newsletter */}
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-[12px] font-black text-gray-900 uppercase tracking-wide mb-1">Entertainment Brief</h3>
+                <p className="text-[12px] text-gray-500 mb-4">Liberian film, music, and culture stories — weekly in your inbox.</p>
+                <form aria-label="Sign up for the Entertainment Brief newsletter">
+                  <label htmlFor="ent-email" className="sr-only">Email address</label>
+                  <input id="ent-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-300 px-0 py-2 text-[13px] text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 transition-colors mb-3" />
+                  <button type="submit" className="w-full rounded-lg bg-gray-900 py-2 text-[13px] font-bold text-white hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2">
+                    Sign up free
+                  </button>
+                </form>
+              </div>
+
+            </div>
+          </aside>
+        </div>
       </div>
     </main>
   );

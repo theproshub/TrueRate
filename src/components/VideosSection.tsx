@@ -22,7 +22,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
           </div>
         </div>
         <div className="px-5 py-4">
-          <h3 className="text-[15px] font-bold leading-snug text-white">{v.title}</h3>
+          <h3 className="text-[12px] font-bold leading-snug text-white">{v.title}</h3>
         </div>
         <div className="flex items-center justify-between px-5 pb-4">
           <div className="flex items-center gap-2">

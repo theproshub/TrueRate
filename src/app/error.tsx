@@ -11,10 +11,10 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
   return (
     <main className="mx-auto max-w-[720px] px-4 py-24 text-center">
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-red-400 mb-4">Something went wrong</p>
-      <h1 className="text-[32px] sm:text-[44px] font-black leading-tight text-white mb-4">
+      <h1 className="text-[32px] sm:text-[32px] font-black leading-tight text-white mb-4">
         We hit an error loading this page.
       </h1>
-      <p className="text-[15px] text-gray-400 leading-relaxed mb-8 max-w-[520px] mx-auto">
+      <p className="text-[14px] text-gray-400 leading-relaxed mb-8 max-w-[520px] mx-auto">
         Try again, or head back to the homepage. If this keeps happening, please let us know from the feedback page.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">

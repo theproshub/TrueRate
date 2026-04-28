@@ -71,7 +71,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
     <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
         <div>
-          <h2 className="text-[15px] font-bold text-white">Currency Converter</h2>
+          <h2 className="text-[14px] font-bold text-white">Currency Converter</h2>
           <p className="text-[11px] text-gray-400 mt-0.5">LRD-based · rates from CBL / open market</p>
         </div>
         {loading && (
@@ -141,9 +141,9 @@ export default function CurrencyConverter({ initialLookup }: Props) {
           <p className="text-[13px] text-gray-400 mb-1">
             {amount || '1'} {from} =
           </p>
-          <p className="text-[28px] font-black text-white tabular-nums leading-tight">
+          <p className="text-[32px] font-black text-white tabular-nums leading-tight">
             {result !== null ? fmt(result) : '—'}{' '}
-            <span className="text-[20px] text-emerald-400">{to}</span>
+            <span className="text-[18px] text-emerald-400">{to}</span>
           </p>
           {result !== null && (
             <p className="text-[12px] text-gray-500 mt-1.5">

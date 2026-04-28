@@ -67,11 +67,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
             {/* Article header */}
             <div className="pb-8 mb-8 border-b border-gray-100">
-              <div className={`text-[11px] font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
+              <div className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
                 {item.category}
               </div>
 
-              <h1 className="text-[26px] sm:text-[32px] font-black leading-tight text-gray-900 mb-4">{item.title}</h1>
+              <h1 className="text-[22px] sm:text-[32px] font-black leading-tight text-gray-900 mb-4">{item.title}</h1>
 
               <div className="flex flex-wrap items-center gap-2 text-[13px] text-gray-500 pb-5 border-b border-gray-100 mb-6">
                 {item.author && <span className="font-semibold text-gray-700">{item.author}</span>}
@@ -84,7 +84,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
               <HeroVisual category={item.category} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
 
-              <div className="text-[15px] leading-[1.8] text-gray-600 space-y-5 mb-8">
+              <div className="text-[14px] leading-[1.8] text-gray-600 space-y-5 mb-8">
                 {item.body?.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
@@ -114,7 +114,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                         <NewsThumbnail category={r.category} className="w-full h-[110px]" />
                       </div>
                       <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
-                      <h3 className="text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</h3>
+                      <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</h3>
                       <div className="text-[11px] text-gray-400">{r.source} · {timeAgo(r.date)}</div>
                     </Link>
                   ))}
@@ -136,7 +136,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
-                      <h3 className="text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</h3>
+                      <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</h3>
                       <p className="text-[12px] text-gray-400">{s.source} · {timeAgo(s.date)}</p>
                     </div>
                   </Link>

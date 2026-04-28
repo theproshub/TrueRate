@@ -161,7 +161,7 @@ function HeroCarousel() {
       <NewsThumbnail category={item.category} className="w-full h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className={`text-[11px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+        <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
       </div>
       <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
         {idx + 1} / {slides.length}
@@ -201,7 +201,7 @@ function SubStoryRow() {
           </div>
           <div className="mt-2.5">
             <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <h3 className="mt-0.5 text-[13px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
+            <h3 className="mt-0.5 text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
             <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-400">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
             </div>
@@ -224,7 +224,7 @@ function FeedList({ tab }: { tab: string }) {
           <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">{item.title}</h3>
+            <h3 className="mt-0.5 text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">{item.title}</h3>
             <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
             <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
               <span className="font-medium text-gray-500">{item.source}</span>
@@ -301,7 +301,7 @@ function NewsPageInner() {
                       <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <h3 className="mt-0.5 text-[15px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">
+                      <h3 className="mt-0.5 text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">
                         {item.title}
                       </h3>
                       <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
@@ -469,7 +469,7 @@ function NewsPageInner() {
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{op.title}</h3>
+                    <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{op.title}</h3>
                     <div className="text-[12px] text-gray-500">{op.author} · <span className="text-gray-400">{op.role}</span> · <span className="text-gray-400">{op.time}</span></div>
                   </div>
                   <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -495,7 +495,7 @@ function NewsPageInner() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{w.country}</span>
-                    <h3 className="mt-0.5 text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{w.title}</h3>
+                    <h3 className="mt-0.5 text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{w.title}</h3>
                     <div className="text-[11px] text-gray-400">{w.source} · {w.time}</div>
                   </div>
                 </Link>
@@ -547,7 +547,7 @@ function NewsPageInner() {
                     <NewsThumbnail category={a.category} className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1.5">{a.title}</h3>
+                    <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1.5">{a.title}</h3>
                     <div className="flex items-center gap-2 text-[11px] text-gray-400">
                       <span>{a.date}</span>
                       <span>·</span>
@@ -572,7 +572,7 @@ function NewsPageInner() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {COMMUNITY_VOICES.map((cv, i) => (
                 <Link key={i} href="/news" className="group flex flex-col no-underline border-t border-gray-100 pt-4">
-                  <h3 className="text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-2">{cv.title}</h3>
+                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-2">{cv.title}</h3>
                   <p className="text-[12px] text-gray-500 line-clamp-3 mb-3 flex-1">{cv.excerpt}</p>
                   <div className="flex items-center gap-3">
                     <div className="shrink-0 overflow-hidden rounded-full">

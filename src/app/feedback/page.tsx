@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function FeedbackPage() {
   return (
     <main className="mx-auto max-w-[600px] px-4 py-12">
-      <h1 className="mb-1 text-[26px] font-bold text-white">Feedback</h1>
+      <h1 className="mb-1 text-[22px] font-bold text-white">Feedback</h1>
       <p className="mb-8 text-[13px] text-gray-500">Help us improve TrueRate. All feedback is read by our team.</p>
 
       <div>

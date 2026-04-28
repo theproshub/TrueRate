@@ -14,7 +14,7 @@ export default function AboutPage() {
       <div className="border-b border-gray-200">
         <div className="mx-auto max-w-[1100px] px-6 sm:px-10 pt-14 pb-16">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">About TrueRate</p>
-          <h1 className="text-[32px] sm:text-[48px] font-black leading-[1.05] tracking-tight text-gray-900 max-w-[780px] mb-6">
+          <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.05] tracking-tight text-gray-900 max-w-[780px] mb-6">
             We built TrueRate because Liberia&apos;s business story wasn&apos;t being told.
           </h1>
           <p className="text-[16px] text-gray-500 leading-[1.8] max-w-[600px] mb-8">
@@ -85,13 +85,13 @@ export default function AboutPage() {
 
           <section id="our-story" className="mb-16">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-6">Our Story</p>
-            <p className="text-[17px] text-gray-800 leading-[1.9] mb-5">
+            <p className="text-[16px] text-gray-800 leading-[1.9] mb-5">
               TrueRate was founded by <span className="font-bold text-gray-900">Moses Julian Sackey</span> with one conviction: Liberia&apos;s economy deserves serious, independent coverage. Companies are raising capital, deals are closing, markets are moving — and most of it goes unreported.
             </p>
-            <p className="text-[17px] text-gray-700 leading-[1.9] mb-5">
+            <p className="text-[16px] text-gray-700 leading-[1.9] mb-5">
               There is no shortage of things happening in Liberia. Entrepreneurs are building businesses. Investors are looking at the region. Policymakers are making decisions that affect millions of people. What has been missing is a media organisation willing to cover it properly — not press releases, not wire copy, not aggregated headlines from international outlets that barely know Liberia exists.
             </p>
-            <p className="text-[17px] text-gray-700 leading-[1.9]">
+            <p className="text-[16px] text-gray-700 leading-[1.9]">
               We built TrueRate to close that gap. Original journalism. Real-time market data. Coverage built for people who have something at stake in how Liberia&apos;s economy develops.
             </p>
           </section>
@@ -135,13 +135,13 @@ export default function AboutPage() {
 
           <section id="standards" className="mb-16">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-6">Our Standards</p>
-            <p className="text-[17px] text-gray-700 leading-[1.9] mb-5">
+            <p className="text-[16px] text-gray-700 leading-[1.9] mb-5">
               Market data is sourced from the Central Bank of Liberia, World Bank, IMF, Ghana Stock Exchange, BRVM, and licensed data providers. Where data is estimated, we say so.
             </p>
-            <p className="text-[17px] text-gray-700 leading-[1.9] mb-5">
+            <p className="text-[16px] text-gray-700 leading-[1.9] mb-5">
               Our editorial operation is independent. Advertisers have no influence over what we report or how we report it. When we get something wrong, we correct it publicly and explain what happened.
             </p>
-            <p className="text-[17px] text-gray-700 leading-[1.9]">
+            <p className="text-[16px] text-gray-700 leading-[1.9]">
               We follow the West Africa Journalists Association code of ethics. Sources are protected without exception. We do not publish unverified claims, and we do not accept payment for coverage.
             </p>
           </section>

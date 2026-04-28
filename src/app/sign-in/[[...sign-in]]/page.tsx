@@ -6,7 +6,7 @@ export default function SignInPage() {
       <div className="w-full max-w-md">
         {/* Context above the Clerk widget */}
         <div className="mb-8 text-center">
-          <h1 className="text-[26px] font-black text-white tracking-tight">
+          <h1 className="text-[22px] font-black text-white tracking-tight">
             Welcome back to TrueRate
           </h1>
           <p className="mt-2 text-[14px] text-gray-500">

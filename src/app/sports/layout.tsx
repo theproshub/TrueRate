@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import SportsMobileTabs from '@/components/SportsMobileTabs';
 
 export const metadata: Metadata = {
   title: 'Sports — TrueRate',
@@ -6,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function SportsLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <SportsMobileTabs />
+      {children}
+    </>
+  );
 }

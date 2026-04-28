@@ -1,10 +1,8 @@
-'use client';
-
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { useState } from 'react';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
+import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 
 const HERO = {
   category: 'Fintech',
@@ -13,8 +11,6 @@ const HERO = {
   source: 'TrueRate Tech',
   time: '1h ago',
 };
-
-const SUB_NAV = ['Startups', 'Fintech', 'AI & Innovation', 'Digital Economy', 'Infrastructure'];
 
 const STRIP_CARDS = [
   { category: 'Fintech',    title: 'Monrovia startup Ducor Pay raises $4.2M Series A to expand USSD lending across West Africa', source: 'TechCabal',      time: '2h ago' },
@@ -59,26 +55,13 @@ const UPCOMING = [
 ];
 
 export default function TechnologyPage() {
-  const [activeTab, setActiveTab] = useState('All');
-
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
       {/* Breadcrumb + tabs */}
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Technology' }]} />
-        <div className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {['All', ...SUB_NAV].map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap px-4 sm:px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px transition-colors ${
-                activeTab === tab
-                  ? 'border-brand-accent text-brand-accent'
-                  : 'border-transparent text-gray-500 hover:text-gray-200'
-              }`}>
-              {tab}
-            </button>
-          ))}
-        </div>
+        <TechnologyTopicTabs activeSlug="all" />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -93,11 +76,11 @@ export default function TechnologyPage() {
             <div className="flex flex-col justify-center flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-3">
                 <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest bg-brand-accent text-[#050d11]">Top Story</span>
-                <span className={`text-[11px] font-bold uppercase tracking-widest ${getCatColor(HERO.category)}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-widest ${getCatColor(HERO.category)}`}>
                   {HERO.category}
                 </span>
               </div>
-              <h2 className="text-[22px] sm:text-[28px] lg:text-[32px] font-black leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
+              <h2 className="text-[22px] sm:text-[32px] lg:text-[32px] font-black leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
                 {HERO.title}
               </h2>
               <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
@@ -110,29 +93,33 @@ export default function TechnologyPage() {
           </Link>
 
           {/* Strip — single column list */}
-          <section className="mb-10">
+          <section className="mb-10" aria-labelledby="latest-signals-heading">
             <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-2">
               <div className="flex items-center gap-3">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
-                <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Latest Signals</h2>
+                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
+                <h2 id="latest-signals-heading" className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Latest Signals</h2>
               </div>
               <Link href="/news" className="text-[12px] text-gray-400 hover:text-white transition-colors no-underline">More ›</Link>
             </div>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
+            <ul className="flex flex-col divide-y divide-white/[0.05] list-none p-0 m-0">
               {STRIP_CARDS.map((card, i) => (
-                <Link key={i} href="/news" className="group flex items-start gap-3 py-3.5 first:pt-3.5 no-underline">
-                  <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wide rounded bg-white/[0.04] px-2 py-1 mt-0.5 ${getCatColor(card.category)}`}>
-                    {card.category}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-[14px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors">
+                <li key={i}>
+                  <Link href="/news" className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-white/[0.03] -mx-2 px-2 rounded">
+                    <p className={`text-[10px] font-bold uppercase tracking-[0.12em] mb-1.5 ${getCatColor(card.category)}`}>
+                      {card.category}
+                    </p>
+                    <h3 className="text-[12px] sm:text-[14px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors text-pretty">
                       {card.title}
                     </h3>
-                    <div className="mt-1 text-[11px] text-gray-500">{card.source} · {card.time}</div>
-                  </div>
-                </Link>
+                    <p className="mt-1.5 text-[11px] text-gray-500 truncate">
+                      <span className="text-gray-400">{card.source}</span>
+                      <span aria-hidden className="mx-1.5 text-gray-700">·</span>
+                      <time>{card.time}</time>
+                    </p>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
 
           {/* Startup Tracker */}
@@ -143,7 +130,7 @@ export default function TechnologyPage() {
             </div>
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4">
               <table className="w-full min-w-[500px] text-[13px]">
-                <thead className="border-b border-white/[0.07] text-[11px] font-bold uppercase tracking-wide text-gray-500">
+                <thead className="border-b border-white/[0.07] text-[10px] font-bold uppercase tracking-wide text-gray-500">
                   <tr>
                     <th className="pb-3 text-left pr-4">Company</th>
                     <th className="pb-3 text-left pr-4">Sector</th>
@@ -157,7 +144,7 @@ export default function TechnologyPage() {
                   {STARTUP_TRACKER.map((s, i) => (
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-3 font-bold text-white pr-4">{s.name}</td>
-                      <td className={`py-3 text-[11px] font-bold uppercase tracking-wide pr-4 ${getCatColor(s.sector)}`}>{s.sector}</td>
+                      <td className={`py-3 text-[10px] font-bold uppercase tracking-wide pr-4 ${getCatColor(s.sector)}`}>{s.sector}</td>
                       <td className="tabular-nums py-3 text-right font-bold text-emerald-400 pr-4">{s.raise}</td>
                       <td className="py-3 text-gray-400 pr-4">{s.stage}</td>
                       <td className="hidden sm:table-cell py-3 text-gray-500 text-[12px] pr-4">{s.investors}</td>
@@ -187,7 +174,7 @@ export default function TechnologyPage() {
                     <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
                       {item.category}
                     </span>
-                    <h3 className="text-[13.5px] sm:text-[15px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                    <h3 className="text-[13.5px] sm:text-[12px] font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                       {item.title}
                     </h3>
                     <p className="hidden sm:block text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
@@ -220,7 +207,7 @@ export default function TechnologyPage() {
                   { rank: 5, title: "Liberia's AI policy framework: what's proposed",             tag: 'AI' },
                 ].map(t => (
                   <li key={t.rank} className="flex gap-3">
-                    <span className="shrink-0 text-[20px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
+                    <span className="shrink-0 text-[18px] font-black text-white/10 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
                       <Link href="/news" className="text-[12px] font-semibold text-gray-400 hover:text-white transition-colors no-underline line-clamp-2 leading-snug block">{t.title}</Link>
                       <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(t.tag)}`}>{t.tag}</span>
@@ -245,7 +232,7 @@ export default function TechnologyPage() {
 
             {/* Newsletter */}
             <div className="border-t border-white/[0.07] pt-6">
-              <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-1">Tech Brief</h3>
+              <h3 className="text-[12px] font-black text-white uppercase tracking-wide mb-1">Tech Brief</h3>
               <p className="text-[12px] text-gray-500 mb-4">Liberia&apos;s digital economy stories, weekly in your inbox.</p>
               <input type="email" placeholder="Your email" className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-[13px] text-white placeholder:text-gray-500 outline-none focus:border-white/60 transition-colors mb-3" />
               <button className="w-full rounded-lg bg-white py-2 text-[13px] font-bold text-[#0a0a0d] hover:brightness-90 transition-all">

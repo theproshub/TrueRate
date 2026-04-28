@@ -38,6 +38,21 @@ const config: Config = {
         inter:      ['var(--font-inter)', 'Inter', 'sans-serif'],
         montserrat: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
       },
+      // Yahoo Finance discrete typography scale — every text size in the app
+      // resolves to one of these tiers. Aliased pixel utilities (text-[13px], etc.)
+      // already match this scale; the named tokens below cover any text-xs/sm/base/etc. usage.
+      fontSize: {
+        'xs':   ['11px', { lineHeight: '1.35' }],   // tiny meta / eyebrow
+        'sm':   ['12px', { lineHeight: '1.35' }],   // small meta
+        'base': ['13px', { lineHeight: '1.385' }],  // body
+        'md':   ['14px', { lineHeight: '1.4' }],    // body emphasis
+        'lg':   ['16px', { lineHeight: '1.4' }],    // h4 / sub-heading
+        'xl':   ['18px', { lineHeight: '1.3' }],    // h3 / card title
+        '2xl':  ['22px', { lineHeight: '1.2' }],    // h2 / section heading
+        '3xl':  ['32px', { lineHeight: '1.125' }],  // h1 / hero
+        '4xl':  ['32px', { lineHeight: '1.125' }],  // capped at hero scale
+        '5xl':  ['32px', { lineHeight: '1.125' }],  // capped at hero scale
+      },
     },
   },
   plugins: [],

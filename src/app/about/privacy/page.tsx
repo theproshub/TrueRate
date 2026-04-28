@@ -95,10 +95,10 @@ export default function PrivacyPage() {
 
         <div className="border-b border-gray-200 pb-10 mb-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Legal</p>
-          <h1 className="text-[32px] sm:text-[44px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Privacy Policy
           </h1>
-          <p className="text-[15px] text-gray-500 leading-[1.8] max-w-[640px]">
+          <p className="text-[14px] text-gray-500 leading-[1.8] max-w-[640px]">
             Plainly: what we collect, what we do with it, and the controls you have. We take the protection of your data seriously and try to keep this policy readable.
           </p>
           <p className="mt-6 text-[12px] text-gray-400">Effective: April 1, 2026</p>
@@ -131,7 +131,7 @@ export default function PrivacyPage() {
               <section key={s.id} id={s.id} className="mb-10">
                 <h2 className="text-[18px] font-black text-gray-900 mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
-                  <p key={i} className="text-[15px] text-gray-700 leading-[1.9] mb-3">{p}</p>
+                  <p key={i} className="text-[14px] text-gray-700 leading-[1.9] mb-3">{p}</p>
                 ))}
               </section>
             ))}

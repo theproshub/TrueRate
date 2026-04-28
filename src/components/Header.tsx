@@ -16,41 +16,28 @@ const NEWS_TICKER = [
   { category: 'Capital Markets', headline: 'LiberAgro raises $12M in West Africa first cross-border IPO on Ghana Stock Exchange' },
 ];
 
-const SEED_TICKER = [
-  { pair: 'USD/LRD', rate: 192.50, change: 0.35 },
-  { pair: 'EUR/LRD', rate: 209.85, change: -0.21 },
-  { pair: 'GBP/LRD', rate: 245.30, change: 0.18 },
-  { pair: 'GHS/LRD', rate: 13.20,  change: -0.08 },
+/**
+ * Cross-section tickers — figures sourced from live page content
+ * (sports / technology / entertainment), each linking back to the page that owns the number.
+ */
+const CROSS_SECTION_TICKERS: { label: string; value: string; delta: string; up: boolean; href: string }[] = [
+  { label: 'Top Transfer', value: '$840K', delta: 'Pewee → Rivers', up: true,  href: '/sports/transfers-deals' },
+  { label: 'Mobile Money', value: '$2.1B', delta: '+28% YoY',       up: true,  href: '/technology' },
+  { label: 'Streaming',    value: '$2.3M', delta: '+64% YoY',       up: true,  href: '/entertainment' },
+  { label: '4G Coverage',  value: '74%',   delta: '+8pp YoY',       up: true,  href: '/technology' },
 ];
 
 function RateTicker({ isLight }: { isLight: boolean }) {
-  const [tickers, setTickers] = useState(SEED_TICKER);
-
-  useEffect(() => {
-    fetch('/api/rates')
-      .then(r => r.json())
-      .then(data => {
-        if (!data.rates?.length) return;
-        const mapped = data.rates.slice(0, 4).map((r: { pair: string; rate: number; change: number }) => ({
-          pair: r.pair,
-          rate: r.rate,
-          change: r.change,
-        }));
-        if (mapped.length) setTickers(mapped);
-      })
-      .catch(() => {/* keep seed */});
-  }, []);
-
   return (
     <div className="hidden sm:flex items-center gap-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0">
-      {tickers.map(t => (
-        <Link key={t.pair} href="/forex" className="flex items-center gap-1.5 no-underline group shrink-0">
-          <span className={`text-[11px] font-semibold transition-colors ${isLight ? 'text-gray-500 group-hover:text-gray-700' : 'text-gray-400 group-hover:text-gray-200'}`}>{t.pair}</span>
+      {CROSS_SECTION_TICKERS.map(t => (
+        <Link key={t.label} href={t.href} className="flex items-center gap-1.5 no-underline group shrink-0">
+          <span className={`text-[11px] font-semibold transition-colors ${isLight ? 'text-gray-500 group-hover:text-gray-700' : 'text-gray-400 group-hover:text-gray-200'}`}>{t.label}</span>
           <span className={`text-[11px] font-bold tabular-nums transition-colors ${isLight ? 'text-gray-900 group-hover:text-gray-700' : 'text-white group-hover:text-gray-100'}`}>
-            {t.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {t.value}
           </span>
-          <span className={`text-[10px] font-semibold tabular-nums ${t.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-            {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}
+          <span className={`text-[10px] font-semibold ${t.up ? 'text-emerald-400' : 'text-red-400'}`}>
+            {t.delta}
           </span>
         </Link>
       ))}
@@ -60,16 +47,15 @@ function RateTicker({ isLight }: { isLight: boolean }) {
 
 /** Compact pills shown next to the search bar — top super-nav */
 const TOP_NAV: { label: string; href: string }[] = [
-  { label: 'Home',   href: '/' },
-  { label: 'News',   href: '/news' },
-  { label: 'Sports', href: '/sports' },
+  { label: 'News',    href: '/news' },
+  { label: 'Finance', href: '/' },
+  { label: 'Sports',  href: '/sports' },
 ];
 
 /** Bloomberg-style section tabs on the secondary row */
 const SECTIONS_NAV: { label: string; href: string }[] = [
-  { label: 'Markets',    href: '/forex' },
+  { label: 'Markets',    href: '/markets' },
   { label: 'Economy',    href: '/economy' },
-  { label: 'Companies',  href: '/directory' },
   { label: 'Technology', href: '/technology' },
   { label: 'Videos',     href: '/videos' },
 ];
@@ -78,13 +64,7 @@ type PrimaryNavItem = { label: string; href: string; children?: { label: string;
 
 /** Full nav used by mobile menu — everything in one flat list, no hidden items */
 const PRIMARY_NAV: PrimaryNavItem[] = [
-  { label: 'Home',        href: '/' },
-  { label: 'News',        href: '/news' },
-  { label: 'Markets',     href: '/forex' },
-  { label: 'Deals',       href: '/deals' },
-  { label: 'Economy',     href: '/economy' },
-  { label: 'Companies',   href: '/directory' },
-  { label: 'Technology',  href: '/technology' },
+  { label: 'News',  href: '/news' },
   {
     label: 'Sports', href: '/sports',
     children: [
@@ -92,6 +72,14 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
       { label: 'Broadcast Rights',  href: '/sports/broadcast-rights' },
       { label: 'Club Finance',      href: '/sports/club-finance' },
       { label: 'Sponsorship',       href: '/sports/sponsorship' },
+    ],
+  },
+  {
+    label: 'Finance', href: '/',
+    children: [
+      { label: 'Markets',    href: '/markets' },
+      { label: 'Economy',    href: '/economy' },
+      { label: 'Technology', href: '/technology' },
     ],
   },
   {
@@ -107,11 +95,28 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 ];
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
-  { label: 'Culture',          href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
+  { label: 'Entertainment',    href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
   { label: 'Entrepreneurship', href: '/entrepreneurship', desc: 'Founders, funding and SMEs' },
   { label: 'Watchlist',        href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
 ];
+
+/**
+ * Mobile drawer accordion items — flat, Yahoo-style top level. Computed once at module load.
+ * The explicit order below is mobile-only; desktop nav uses PRIMARY_NAV / MORE_NAV directly.
+ * Entrepreneurship is intentionally hidden from the mobile drawer.
+ */
+const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
+  const lookup = new Map<string, PrimaryNavItem>();
+  for (const item of PRIMARY_NAV) lookup.set(item.label, item);
+  for (const { label, href } of MORE_NAV) {
+    if (!lookup.has(label)) lookup.set(label, { label, href });
+  }
+  const MOBILE_ORDER = ['News', 'Entertainment', 'Sports', 'Finance', 'Videos'];
+  return MOBILE_ORDER
+    .map(label => lookup.get(label))
+    .filter((item): item is PrimaryNavItem => Boolean(item));
+})();
 
 function isActive(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
@@ -119,10 +124,31 @@ function isActive(pathname: string, href: string): boolean {
 }
 
 function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: string }) {
-  const router = useRouter();
-  const [query, setQuery] = useState('');
+  // Only Finance auto-expands on the homepage ('/'). Every other accordion
+  // (News, Sports, Videos, Entertainment, Watchlist, About TrueRate)
+  // stays collapsed until the user taps to open it.
+  const [expanded, setExpanded] = useState<Set<string>>(() => {
+    const initial = new Set<string>();
+    if (pathname === '/') {
+      const finance = ACCORDION_ITEMS.find(it => it.href === '/' && it.children && it.children.length > 0);
+      if (finance) initial.add(finance.label);
+    }
+    return initial;
+  });
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  function toggleExpanded(label: string) {
+    setExpanded(prev => {
+      const next = new Set(prev);
+      if (next.has(label)) next.delete(label);
+      else next.add(label);
+      return next;
+    });
+  }
 
   useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    closeButtonRef.current?.focus();
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
     const prevOverflow = document.body.style.overflow;
@@ -130,18 +156,12 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
+      previouslyFocused?.focus?.();
     };
   }, [onClose]);
 
-  function handleSearch() {
-    const q = query.trim();
-    if (!q) return;
-    router.push(`/news?q=${encodeURIComponent(q)}`);
-    setQuery('');
-    onClose();
-  }
-
   const supportLinks = [
+    { label: 'About TrueRate',   href: '/about' },
     { label: 'Help',             href: '/help' },
     { label: 'Feedback',         href: '/feedback' },
     { label: 'Data Disclaimer',  href: '/about/data-disclaimer' },
@@ -151,7 +171,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
   ];
 
   return (
-    <div className="sm:hidden fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Main menu">
+    <div id="mobile-menu" className="sm:hidden fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Main menu">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]" onClick={onClose} />
       <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-brand-dark h-full shadow-2xl animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
 
@@ -162,9 +182,11 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
             <img src="/logo.png" alt="TrueRate" style={{ height: '44px', width: 'auto' }} />
           </Link>
           <button
+            ref={closeButtonRef}
+            type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -172,125 +194,107 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
           </button>
         </div>
 
-        {/* Search */}
-        <div className="px-5 pt-4 pb-4 border-b border-white/[0.06] shrink-0">
-          <div className="flex items-center rounded-xl bg-white/[0.06] border border-white/[0.08] focus-within:bg-white/[0.1] focus-within:border-white/25 transition overflow-hidden">
-            <input
-              type="text"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSearch()}
-              placeholder="Search stories, topics…"
-              className="flex-1 bg-transparent px-3.5 py-2.5 text-[14px] text-white placeholder:text-gray-500 outline-none min-w-0"
-            />
-            <button
-              onClick={handleSearch}
-              aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-9 w-10 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg"
-            >
-              <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Scrollable nav */}
+        {/* Scrollable Yahoo-style accordion nav */}
         <div className="flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <nav className="py-1">
+            {ACCORDION_ITEMS.map(({ label, href, children }) => {
+              const active = isActive(pathname, href);
+              const hasChildren = Boolean(children && children.length > 0);
+              const isOpen = expanded.has(label);
 
-          <nav className="pt-3 pb-1">
-            <p className="px-5 pt-2 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Browse</p>
-            <div className="px-2">
-              {PRIMARY_NAV.map(({ label, href, children }) => {
-                const active = isActive(pathname, href);
-                return (
-                  <div key={label}>
+              return (
+                <div key={label} className="relative">
+                  {/* Active section indicator — green left bar (Yahoo-style) */}
+                  {active ? (
+                    <span aria-hidden className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-sm bg-brand-accent" />
+                  ) : null}
+
+                  {hasChildren ? (
+                    <button
+                      type="button"
+                      onClick={() => toggleExpanded(label)}
+                      aria-expanded={isOpen}
+                      aria-controls={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`}
+                      className="w-full flex items-center justify-between px-5 py-3 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline-none focus-visible:bg-white/[0.06]"
+                    >
+                      <span className="text-[14px] font-bold text-white">{label}</span>
+                      <svg
+                        className={`h-4 w-4 text-white/60 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  ) : (
                     <Link
                       href={href}
                       onClick={onClose}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors no-underline ${
-                        active ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
-                      }`}
+                      className="flex items-center justify-between px-5 py-2.5 no-underline transition-colors hover:bg-white/[0.03]"
                     >
-                      <span className={`text-[15px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
-                      <svg className={`h-4 w-4 transition-colors ${active ? 'text-brand-accent' : 'text-gray-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <span className="text-[14px] font-bold text-white">{label}</span>
+                      <svg
+                        className="h-4 w-4 text-white/60"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
-                    {children && (
-                      <div className="ml-4 mb-1 border-l border-white/[0.08] pl-3">
-                        {children.map(c => {
-                          const subActive = pathname === c.href;
-                          return (
-                            <Link
-                              key={c.href}
-                              href={c.href}
-                              onClick={onClose}
-                              className={`block px-3 py-2 rounded-lg transition-colors no-underline text-[13px] ${
-                                subActive ? 'text-brand-accent' : 'text-gray-400 hover:text-white'
-                              }`}
-                            >
-                              {c.label}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+                  )}
+
+                  {hasChildren && isOpen ? (
+                    <div id={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`} className="pb-1.5">
+                      <Link
+                        href={href}
+                        onClick={onClose}
+                        className={`flex items-center px-9 py-2 text-[13px] no-underline transition-colors ${
+                          active ? 'text-white' : 'text-white/85 hover:text-white'
+                        }`}
+                      >
+                        {label}
+                      </Link>
+                      {children!.map(c => {
+                        const subActive = pathname === c.href;
+                        return (
+                          <Link
+                            key={c.href}
+                            href={c.href}
+                            onClick={onClose}
+                            className={`flex items-center justify-between px-9 py-2 text-[13px] no-underline transition-colors ${
+                              subActive ? 'text-brand-accent' : 'text-white/85 hover:text-white'
+                            }`}
+                          >
+                            <span>{c.label}</span>
+                            <svg className="h-3.5 w-3.5 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </nav>
 
-          <div className="border-t border-white/[0.06] mt-3 pt-1 pb-1">
-            <p className="px-5 pt-3 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">More</p>
-            <div className="px-2">
-              {MORE_NAV.map(({ label, href, desc }) => {
-                const active = isActive(pathname, href);
-                return (
-                  <Link
-                    key={label}
-                    href={href}
-                    onClick={onClose}
-                    className={`block px-3 py-2.5 rounded-lg transition-colors no-underline ${
-                      active ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
-                    }`}
-                  >
-                    <div className={`text-[14px] font-semibold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</div>
-                    <div className="text-[12px] text-gray-500 mt-0.5 leading-snug">{desc}</div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="border-t border-white/[0.06] mt-3 pt-1 pb-4">
-            <p className="px-5 pt-3 pb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Support</p>
-            <div className="px-2">
-              {supportLinks.map(({ label, href }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  onClick={onClose}
-                  className="block px-3 py-2 rounded-lg hover:bg-white/[0.03] text-[13px] text-gray-300 hover:text-white transition-colors no-underline"
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
+          {/* Quiet legal/support footer block */}
+          <div className="border-t border-white/[0.06] mt-2 pt-3 pb-5 px-5">
+            {supportLinks.map(({ label, href }) => (
+              <Link
+                key={label}
+                href={href}
+                onClick={onClose}
+                className="block py-1.5 text-[12px] text-white/60 hover:text-white no-underline transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
           </div>
         </div>
 
-        {/* Footer: Sign-in CTA + socials */}
+        {/* Footer: socials */}
         <div className="border-t border-white/[0.06] px-5 pt-4 pb-5 shrink-0 bg-[#030a0e]">
-          <Link
-            href="/sign-in"
-            onClick={onClose}
-            className="flex w-full items-center justify-center rounded-lg bg-brand-accent px-4 py-3 text-[14px] font-bold text-brand-dark hover:brightness-90 transition no-underline"
-          >
-            Sign in
-          </Link>
-          <div className="mt-4 flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3">
             <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
               className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -327,7 +331,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname.startsWith('/about') || pathname.startsWith('/help');
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname.startsWith('/about') || pathname.startsWith('/help') || pathname.startsWith('/entertainment');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -364,43 +368,56 @@ export default function Header() {
       {/* Top bar */}
       <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
-        <button className="sm:hidden flex shrink-0 flex-col justify-center gap-[4px] p-0.5 z-10" onClick={() => setMenuOpen(o => !o)} aria-label="Open menu">
-          <span className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`} />
-          <span className={`block h-[2px] w-4 transition-opacity ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
+        <button
+          type="button"
+          className="sm:hidden flex shrink-0 flex-col justify-center items-center gap-[4px] h-11 w-11 -ml-2 z-10 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+        >
+          <span aria-hidden className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`} />
+          <span aria-hidden className={`block h-[2px] w-4 transition-opacity ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? 'opacity-0' : ''}`} />
+          <span aria-hidden className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
         {/* Logo */}
-        <a href="/" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline">
+        <Link href="/" aria-label="TrueRate home" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
-            alt="TrueRate"
+            alt=""
+            aria-hidden="true"
             className="shrink-0"
             style={{ height: '64px', width: 'auto', filter: isLight ? 'brightness(0)' : 'none' }}
           />
-        </a>
+        </Link>
 
         {/* Search */}
-        <div className={`hidden sm:flex flex-1 items-center rounded-xl border transition overflow-hidden ml-4 mr-2 ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}>
+        <form
+          role="search"
+          onSubmit={e => { e.preventDefault(); handleSearch(); }}
+          className={`hidden sm:flex flex-1 items-center rounded-xl border transition overflow-hidden ml-4 mr-2 ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}
+        >
+          <label htmlFor="site-search" className="sr-only">Search stories, companies, or topics</label>
           <input
-            type="text"
+            id="site-search"
+            type="search"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleSearch()}
             placeholder="Search stories, companies, or topics"
-            className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-400' : 'text-white placeholder:text-gray-500'}`}
+            className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
           />
           <button
-            onClick={handleSearch}
+            type="submit"
             aria-label="Search"
-            className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg"
+            className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
           >
-            <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
-        </div>
+        </form>
 
         {/* Top super-nav — compact pills next to the search bar */}
         <div className="hidden sm:flex items-center gap-0.5 shrink-0">
@@ -424,21 +441,30 @@ export default function Header() {
             className="relative"
             onMouseEnter={() => setMoreOpen(true)}
             onMouseLeave={() => setMoreOpen(false)}
+            onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setMoreOpen(false); }}
+            onKeyDown={e => { if (e.key === 'Escape') setMoreOpen(false); }}
           >
             <button
-              className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap ${
+              type="button"
+              onClick={() => setMoreOpen(o => !o)}
+              aria-expanded={moreOpen}
+              aria-haspopup="menu"
+              aria-controls="more-menu"
+              className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
                 moreOpen
                   ? 'text-brand-accent'
-                  : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'
+                  : isLight ? 'text-gray-600 hover:text-brand-accent' : 'text-gray-300 hover:text-brand-accent'
               }`}
             >
               More
-              <svg className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg aria-hidden="true" className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             {moreOpen && (
               <div
+                id="more-menu"
+                role="menu"
                 className={`absolute right-0 top-full z-50 min-w-[280px] border shadow-2xl rounded-b-lg overflow-hidden ${
                   isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
                 }`}
@@ -475,32 +501,37 @@ export default function Header() {
       </div>
 
       {/* Mobile search — collapses on scroll */}
-      <div className={`sm:hidden overflow-hidden transition-all duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`}>
+      <div className={`sm:hidden overflow-hidden transition-all motion-safe:duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
-            <div className={`flex items-center rounded-xl border overflow-hidden transition ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}>
+          <form
+            role="search"
+            onSubmit={e => { e.preventDefault(); handleSearch(); }}
+            className={`flex items-center rounded-xl border overflow-hidden transition ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}
+          >
+            <label htmlFor="site-search-mobile" className="sr-only">Search stories, companies, or topics</label>
             <input
-              type="text"
+              id="site-search-mobile"
+              type="search"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSearch()}
               placeholder="Search stories, companies, or topics"
-              className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-400' : 'text-white placeholder:text-gray-500'}`}
+              className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
             />
             <button
-              onClick={handleSearch}
+              type="submit"
               aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg"
+              className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
-              <svg className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
-          </div>
+          </form>
         </div>
       </div>
 
       {/* Bloomberg-style secondary nav */}
-      <div className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
+      <nav aria-label="Sections" className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
         <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
 
           {pathname.startsWith('/sports') ? (
@@ -603,7 +634,7 @@ export default function Header() {
           )}
 
         </div>
-      </div>
+      </nav>
 
       {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} pathname={pathname} />}
     </header>

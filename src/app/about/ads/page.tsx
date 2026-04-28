@@ -73,10 +73,10 @@ export default function AdsPage() {
 
         <div className="border-b border-gray-200 pb-10 mb-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Commercial</p>
-          <h1 className="text-[32px] sm:text-[44px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             About our ads
           </h1>
-          <p className="text-[15px] text-gray-500 leading-[1.8] max-w-[640px]">
+          <p className="text-[14px] text-gray-500 leading-[1.8] max-w-[640px]">
             Advertising keeps TrueRate free. Here&apos;s how we run commercial relationships, where the lines between editorial and ads sit, and what you can control.
           </p>
           <p className="mt-6 text-[12px] text-gray-400">Last updated: April 1, 2026</p>
@@ -109,14 +109,14 @@ export default function AdsPage() {
               <section key={s.id} id={s.id} className="mb-10">
                 <h2 className="text-[18px] font-black text-gray-900 mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
-                  <p key={i} className="text-[15px] text-gray-700 leading-[1.9] mb-3">{p}</p>
+                  <p key={i} className="text-[14px] text-gray-700 leading-[1.9] mb-3">{p}</p>
                 ))}
               </section>
             ))}
 
             <div className="mt-2 rounded-xl border border-gray-200 bg-gray-50 p-6">
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Advertise with us</p>
-              <p className="text-[15px] text-gray-900 mb-3">Reach business decision-makers across Liberia and West Africa.</p>
+              <p className="text-[14px] text-gray-900 mb-3">Reach business decision-makers across Liberia and West Africa.</p>
               <a href="mailto:advertise@truerate.com" className="inline-block rounded-lg bg-gray-900 text-white px-4 py-2 text-[13px] font-semibold no-underline hover:bg-gray-800 transition-colors">advertise@truerate.com</a>
             </div>
 

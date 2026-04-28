@@ -101,7 +101,7 @@ function VideoCard({ title, duration, category, source, time }: { title: string;
       </div>
       <div className="min-w-0 flex-1">
         <div className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${catColor(category)}`}>{category}</div>
-        <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{title}</h3>
+        <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{title}</h3>
         <div className="text-[11px] text-gray-500">{source ? `${source} · ` : ''}{time}</div>
       </div>
     </Link>
@@ -138,7 +138,7 @@ export default function VideosPage() {
             </span>
             {/* Text overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h2 className="text-[18px] sm:text-[24px] font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+              <h2 className="text-[12px] sm:text-[22px] font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
               <p className="text-[13px] text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
               <div className="flex items-center gap-2 text-[12px]">
                 <span className="font-semibold text-white/70">{HERO.source}</span>
@@ -186,7 +186,7 @@ export default function VideosPage() {
               <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">{v.duration}</span>
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${catColor(v.category)}`}>{v.show} · {v.ep}</div>
-                <h3 className="text-[14px] font-bold leading-snug text-white line-clamp-2">{v.title}</h3>
+                <h3 className="text-[12px] font-bold leading-snug text-white line-clamp-2">{v.title}</h3>
               </div>
             </Link>
           ))}
@@ -209,7 +209,7 @@ export default function VideosPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className={`text-[10px] font-black uppercase tracking-wide mb-0.5 ${catColor(pod.category)}`}>{pod.ep}</div>
-                  <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{pod.title}</h3>
+                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{pod.title}</h3>
                   <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">{pod.desc}</p>
                 </div>
               </Link>
@@ -262,7 +262,7 @@ export default function VideosPage() {
                 </div>
               </div>
               <div className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{item.title}</h3>
+              <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{item.title}</h3>
               <div className="flex items-center gap-2 text-[11px] text-gray-500 mt-0.5">
                 <span>{item.channel}</span>
                 <span>·</span>
@@ -292,7 +292,7 @@ export default function VideosPage() {
                 <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
               </div>
               <div className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2 line-clamp-2">{item.title}</h3>
+              <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2 line-clamp-2">{item.title}</h3>
               <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-3">{item.desc}</p>
             </Link>
           ))}

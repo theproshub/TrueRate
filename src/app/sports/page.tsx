@@ -193,8 +193,8 @@ function SportsPageInner() {
               <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
             <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
-              <span className={`mb-3 text-[11px] font-bold uppercase tracking-widest ${CATEGORY_COLORS_FN(HERO.category)}`}>{HERO.category}</span>
-              <h2 className="text-[24px] font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-4">{HERO.title}</h2>
+              <span className={`mb-3 text-[10px] font-bold uppercase tracking-widest ${CATEGORY_COLORS_FN(HERO.category)}`}>{HERO.category}</span>
+              <h2 className="text-[22px] font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-4">{HERO.title}</h2>
               <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
               <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
                 <span>{HERO.source}</span>
@@ -212,7 +212,7 @@ function SportsPageInner() {
                   <NewsThumbnail category={s.category} className="w-full h-[130px]" />
                 </div>
                 <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${CATEGORY_COLORS_FN(s.category)}`}>{s.category}</span>
-                <h3 className="text-[13px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 flex-1 mb-1.5">{s.title}</h3>
+                <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 flex-1 mb-1.5">{s.title}</h3>
                 <div className="text-[11px] text-gray-400">{s.source} · {s.time}</div>
               </Link>
             ))}
@@ -300,7 +300,7 @@ function SportsPageInner() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <span className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 block ${CATEGORY_COLORS_FN(item.category)}`}>{item.category}</span>
-                    <h3 className="text-[15px] font-black leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-1.5 line-clamp-2">{item.title}</h3>
+                    <h3 className="text-[12px] font-black leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-1.5 line-clamp-2">{item.title}</h3>
                     <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
                     <div className="flex items-center gap-2 text-[12px] text-gray-400">
                       <span className="text-gray-500">{item.source}</span>
@@ -363,8 +363,8 @@ function SportsPageInner() {
                   <h3 className="text-[22px] font-black text-gray-900 mb-1">{PLAYER_SPOTLIGHT.name}</h3>
                   <p className="text-[12px] text-gray-500 mb-3">{PLAYER_SPOTLIGHT.achievement}</p>
                   <div className="flex items-baseline gap-2 mb-4">
-                    <span className="text-[40px] font-black text-gray-900 tabular-nums leading-none">{PLAYER_SPOTLIGHT.stat}</span>
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400">{PLAYER_SPOTLIGHT.statLabel}</span>
+                    <span className="text-[32px] font-black text-gray-900 tabular-nums leading-none">{PLAYER_SPOTLIGHT.stat}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">{PLAYER_SPOTLIGHT.statLabel}</span>
                   </div>
                   <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-3 mb-4">{PLAYER_SPOTLIGHT.summary}</p>
                 </div>
@@ -487,7 +487,7 @@ function SportsPageInner() {
 
             {/* Business snapshot */}
             <div>
-              <h3 className="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Sports Business Snapshot</h3>
+              <h3 className="text-[12px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Sports Business Snapshot</h3>
               <div className="divide-y divide-gray-100">
                 {BUSINESS_METRICS.map((m, i) => (
                   <div key={i} className="flex items-center justify-between py-3">
@@ -505,7 +505,7 @@ function SportsPageInner() {
             <div>
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-2">
                 <div>
-                  <h3 className="text-[13px] font-bold text-gray-900">LFA League</h3>
+                  <h3 className="text-[12px] font-bold text-gray-900">LFA League</h3>
                   <p className="text-[10px] text-gray-400">Week 22</p>
                 </div>
                 <Link href="/sports" className="text-[11px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full table ›</Link>
@@ -536,7 +536,7 @@ function SportsPageInner() {
 
             {/* Upcoming fixtures */}
             <div>
-              <h3 className="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Upcoming Fixtures</h3>
+              <h3 className="text-[12px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Upcoming Fixtures</h3>
               <div className="divide-y divide-gray-100">
                 {[
                   { home: 'Liberia',        away: 'Guinea',           date: 'Apr 8',  time: '18:00', competition: 'WAFU Cup SF' },
@@ -557,7 +557,7 @@ function SportsPageInner() {
 
             {/* Most read */}
             <div>
-              <h3 className="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Most Read</h3>
+              <h3 className="text-[12px] font-bold text-gray-900 border-b border-gray-200 pb-3 mb-0">Most Read</h3>
               <div className="divide-y divide-gray-100">
                 {[
                   { rank: 1, title: "AFCON 2027 broadcast rights: the $340M deal",          tag: 'Football' },
@@ -569,7 +569,7 @@ function SportsPageInner() {
                   { rank: 7, title: "Monrovia FC stadium PPP: the $18M deal breakdown",      tag: 'Football' },
                 ].map(t => (
                   <Link key={t.rank} href="/sports" className="flex items-center gap-3 py-3 no-underline group hover:opacity-75 transition-opacity">
-                    <span className="shrink-0 text-[20px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
+                    <span className="shrink-0 text-[18px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
                     <div className="min-w-0">
                       <p className="text-[12px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-2 leading-snug">{t.title}</p>
                       <span className={`text-[10px] font-bold uppercase tracking-wide ${CATEGORY_COLORS_FN(t.tag)}`}>{t.tag}</span>

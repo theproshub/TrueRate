@@ -190,8 +190,8 @@ export default function EntrepreneurshipPage() {
         {/* Hero */}
         <Link href={HERO.href} className="group flex-1 min-w-0 no-underline block">
           <HeroVisual category={HERO.category} className="w-full h-[220px] sm:h-[300px] mb-4" />
-          <span className={`text-[11px] font-bold uppercase tracking-widest mb-2 block ${getCatColor(HERO.category)}`}>{HERO.category}</span>
-          <h2 className="text-[22px] sm:text-[26px] font-black leading-tight text-white group-hover:text-white/80 transition-colors mb-3">{HERO.title}</h2>
+          <span className={`text-[10px] font-bold uppercase tracking-widest mb-2 block ${getCatColor(HERO.category)}`}>{HERO.category}</span>
+          <h2 className="text-[22px] sm:text-[22px] font-black leading-tight text-white group-hover:text-white/80 transition-colors mb-3">{HERO.title}</h2>
           <p className="text-[14px] leading-relaxed text-gray-400 mb-3 hidden sm:block">{HERO.desc}</p>
           <div className="text-[12px] text-gray-500">{HERO.author} · {HERO.time}</div>
         </Link>
@@ -223,7 +223,7 @@ export default function EntrepreneurshipPage() {
                 <Link key={i} href={s.href} className="group no-underline flex flex-col">
                   <NewsThumbnail category={s.category} className="w-full h-[160px] mb-3" />
                   <span className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${getCatColor(s.category)}`}>{s.category}</span>
-                  <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
+                  <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                   <span className="text-[11px] text-gray-500">{s.time}</span>
                 </Link>
               ))}
@@ -251,7 +251,7 @@ export default function EntrepreneurshipPage() {
             <SectionHeader title="Funding Tracker" href="/entrepreneurship" label="Full database ›" />
             <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4">
               <table className="w-full min-w-[480px] text-[13px]">
-                <thead className="border-b border-white/[0.07] text-[11px] font-bold uppercase tracking-wide text-gray-500">
+                <thead className="border-b border-white/[0.07] text-[10px] font-bold uppercase tracking-wide text-gray-500">
                   <tr>
                     <th className="pb-3 text-left pr-4">Date</th>
                     <th className="pb-3 text-left pr-4">Company</th>
@@ -266,7 +266,7 @@ export default function EntrepreneurshipPage() {
                     <tr key={i} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-3 text-[11px] text-gray-500 tabular-nums pr-4">{deal.date}</td>
                       <td className="py-3 font-bold text-white pr-4">{deal.company}</td>
-                      <td className={`py-3 text-[11px] font-bold uppercase tracking-wide pr-4 ${getCatColor(deal.sector)}`}>{deal.sector}</td>
+                      <td className={`py-3 text-[10px] font-bold uppercase tracking-wide pr-4 ${getCatColor(deal.sector)}`}>{deal.sector}</td>
                       <td className="py-3 text-right font-bold text-emerald-400 tabular-nums pr-4">{deal.amount}</td>
                       <td className="py-3 text-gray-500 text-[12px] hidden sm:table-cell pr-4">{deal.investors}</td>
                       <td className="py-3 text-gray-400 hidden sm:table-cell">{deal.type}</td>
@@ -286,7 +286,7 @@ export default function EntrepreneurshipPage() {
                 <Link key={i} href={s.href} className="group no-underline flex flex-col">
                   <NewsThumbnail category={s.category} className="w-full h-[160px] mb-3" />
                   <span className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${getCatColor(s.category)}`}>{s.category}</span>
-                  <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
+                  <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                   <span className="text-[11px] text-gray-500">{s.time}</span>
                 </Link>
               ))}
@@ -296,7 +296,7 @@ export default function EntrepreneurshipPage() {
               {ECOSYSTEM_DATA.map((stat, i) => (
                 <div key={i}>
                   <p className="text-[11px] text-gray-500 uppercase tracking-wide mb-1">{stat.label}</p>
-                  <p className={`text-[26px] font-black tabular-nums leading-none mb-1 ${stat.up ? 'text-white' : 'text-red-400'}`}>{stat.value}</p>
+                  <p className={`text-[22px] font-black tabular-nums leading-none mb-1 ${stat.up ? 'text-white' : 'text-red-400'}`}>{stat.value}</p>
                   <p className={`text-[12px] font-semibold ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>{stat.up ? '▲' : '▼'} {stat.change}</p>
                   <p className="text-[10px] text-gray-600 mt-0.5">{stat.period}</p>
                 </div>
@@ -313,7 +313,7 @@ export default function EntrepreneurshipPage() {
                 <Link key={i} href={s.href} className="group no-underline flex flex-col">
                   <NewsThumbnail category={s.category} className="w-full h-[160px] mb-4" />
                   <span className="text-[10px] font-bold uppercase tracking-widest text-pink-400 mb-2">{s.category}</span>
-                  <h3 className="text-[15px] font-black leading-snug text-white group-hover:text-white/70 transition-colors mb-2">{s.title}</h3>
+                  <h3 className="text-[12px] font-black leading-snug text-white group-hover:text-white/70 transition-colors mb-2">{s.title}</h3>
                   <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-2">{s.summary}</p>
                   <span className="text-[11px] text-gray-500 mt-auto">{s.author} · {s.time}</span>
                 </Link>
@@ -329,7 +329,7 @@ export default function EntrepreneurshipPage() {
                 <Link key={i} href={s.href} className="group no-underline flex flex-col">
                   <NewsThumbnail category={s.category} className="w-full h-[160px] mb-3" />
                   <span className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${getCatColor(s.category)}`}>{s.category}</span>
-                  <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
+                  <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
                   <span className="text-[11px] text-gray-500">{s.time}</span>
                 </Link>
               ))}
@@ -345,7 +345,7 @@ export default function EntrepreneurshipPage() {
                   <NewsThumbnail category={s.cat} className="h-[60px] w-[88px] shrink-0" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.cat)} mb-0.5 block`}>{s.cat}</span>
-                    <h3 className="text-[13px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{s.title}</h3>
+                    <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{s.title}</h3>
                     <span className="text-[11px] text-gray-500">{s.src} · {s.time}</span>
                   </div>
                 </Link>
@@ -364,7 +364,7 @@ export default function EntrepreneurshipPage() {
             <ol className="space-y-4">
               {MOST_READ.map((item, i) => (
                 <li key={i} className="flex gap-3">
-                  <span className="text-[20px] font-black text-white/10 tabular-nums leading-none shrink-0 w-5">{i + 1}</span>
+                  <span className="text-[18px] font-black text-white/10 tabular-nums leading-none shrink-0 w-5">{i + 1}</span>
                   <Link href={item.href} className="text-[13px] font-semibold text-gray-400 hover:text-white transition-colors no-underline leading-snug">{item.title}</Link>
                 </li>
               ))}
@@ -411,7 +411,7 @@ export default function EntrepreneurshipPage() {
               {EVENTS.map((ev, i) => (
                 <div key={i} className="flex gap-3">
                   <div className="shrink-0 text-center w-10">
-                    <p className="text-[9px] font-bold uppercase tracking-wide text-gray-500">{ev.month}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">{ev.month}</p>
                     <p className="text-[18px] font-black text-white leading-none">{ev.day}</p>
                   </div>
                   <div>
@@ -425,7 +425,7 @@ export default function EntrepreneurshipPage() {
 
           {/* Newsletter */}
           <div className="border-t border-white/[0.07] pt-6">
-            <h3 className="text-[13px] font-black text-white uppercase tracking-wide mb-1">Founder Brief</h3>
+            <h3 className="text-[12px] font-black text-white uppercase tracking-wide mb-1">Founder Brief</h3>
             <p className="text-[12px] text-gray-500 mb-4">Liberia&apos;s startup and SME stories, every Friday.</p>
             <input type="email" placeholder="Your email" className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-[13px] text-white placeholder:text-gray-500 outline-none focus:border-white/60 transition-colors mb-3" />
             <button className="w-full rounded-lg bg-white py-2 text-[13px] font-bold text-[#0a0a0d] hover:brightness-90 transition-all">

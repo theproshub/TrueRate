@@ -154,7 +154,7 @@ export default function WatchlistClient() {
                 {watchedRates.map(r => r && (
                   <div key={r.pair} className="flex items-center justify-between py-4">
                     <div>
-                      <div className="text-[15px] font-bold text-white">{r.pair}</div>
+                      <div className="text-[14px] font-bold text-white">{r.pair}</div>
                       <div className="text-[11px] text-gray-500">LRD-denominated</div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -179,7 +179,7 @@ export default function WatchlistClient() {
                 {watchedIndicators.map(ind => ind && (
                   <div key={ind.name} className="flex items-center justify-between py-4">
                     <div>
-                      <div className="text-[15px] font-bold text-white">{ind.name}</div>
+                      <div className="text-[14px] font-bold text-white">{ind.name}</div>
                       <div className="text-[11px] text-gray-500">{ind.period} · {ind.source}</div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -204,7 +204,7 @@ export default function WatchlistClient() {
                 {watchedCommodities.map(c => c && (
                   <div key={c.name} className="flex items-center justify-between py-4">
                     <div>
-                      <div className="text-[15px] font-bold text-white">{c.name}</div>
+                      <div className="text-[14px] font-bold text-white">{c.name}</div>
                       <div className="text-[11px] text-gray-500">per {c.unit} · {c.currency}</div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -235,7 +235,7 @@ export default function WatchlistClient() {
             <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">Quick links</h3>
             <div className="divide-y divide-white/[0.05]">
               {[
-                { href: '/forex',   label: 'Markets' },
+                { href: '/markets', label: 'Markets' },
                 { href: '/economy', label: 'Economy Dashboard' },
                 { href: '/news',    label: 'Latest News' },
               ].map(l => (
