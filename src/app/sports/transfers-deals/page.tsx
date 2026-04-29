@@ -2,19 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
+import { sportsHero, sportsStoriesBySection } from "@/data/sports-stories";
 
 export const metadata: Metadata = {
   title: 'Transfers & Deals — TrueRate Sports',
   description: 'Player moves, fees, contract lengths, and the business behind West African football and basketball transfers.',
 };
 
-const HERO = {
-  title: "Marcus Pewee\u2019s $840K deal is the biggest Liberian basketball contract ever. Here\u2019s how it happened.",
-  summary: "A forensic breakdown of the negotiation that took Rivers Hoopers\u2019 newest star from free agent to the highest-earning Liberian athlete in active competition \u2014 and what it signals for the NBL Africa market.",
-  category: 'Basketball',
-  source: 'TrueRate Sports Business',
-  time: '2h ago',
-};
+const HERO = sportsHero("transfers");
+const STORIES = sportsStoriesBySection("transfers");
 
 const DEALS = [
   { player: 'Marcus Pewee',    pos: 'SF',  from: 'Free Agent',      to: 'Rivers Hoopers',        fee: '$840K / 2yr', status: 'Done',        confirmed: true },
@@ -27,19 +23,6 @@ const DEALS = [
   { player: 'George Flomo',    pos: 'LB',  from: 'Free Agent',      to: 'BYC FC',               fee: '$22K',        status: 'Done',        confirmed: true },
 ];
 
-const WINDOW_STATS = [
-  { label: 'Total transfer volume (Q1 2026)', value: '$3.42M', delta: '+18% YoY', up: true },
-  { label: 'Confirmed deals',                  value: '34',    delta: '+9 vs Q1 25', up: true },
-  { label: 'Highest fee',                      value: '$840K', delta: 'Pewee → Rivers', up: true },
-  { label: 'Deals to overseas clubs',          value: '9',     delta: '+4 YoY',   up: true },
-];
-
-const STORIES = [
-  { category: 'Basketball', title: "Why Rivers Hoopers were willing to pay record money for Pewee",          summary: "The Nigerian club\u2019s scouting file, the counter-offers, and the playmaking metrics that closed the deal.", source: 'TrueRate Sports', time: '3h ago' },
-  { category: 'Football',   title: "Monrovia FC\u2019s summer plan: three outgoing, two incoming \u2014 and a new CFO",   summary: "With budget tightening and a league title push, the club\u2019s sporting director explains the trade-offs.",             source: 'TrueRate Sports', time: '6h ago' },
-  { category: 'Football',   title: "How West African clubs price players: the hidden factors",             summary: "Age, position, international appearances \u2014 and the big one nobody names: social media following.",               source: 'Sportcal',        time: '1d ago' },
-  { category: 'Football',   title: "Agent commissions in Liberia: unregulated, opaque, and growing",        summary: "A survey of 22 recent deals finds median commissions of 12% \u2014 well above FIFA guidance.",                       source: 'TrueRate Sports', time: '1d ago' },
-];
 
 const TOP_SIGNINGS = [
   { pos: 1, name: 'Marcus Pewee',     club: 'Rivers Hoopers',    fee: '$840K', sport: 'Basketball' },
@@ -57,23 +40,9 @@ export default function TransfersDealsPage() {
           <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Transfers & Deals' }]} />
         </div>
 
-        <div className="mb-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Sports Business</p>
-          <h1 className="text-[32px] sm:text-[32px] font-black leading-tight tracking-tight text-gray-900 mb-2">Transfers & Deals</h1>
-          <p className="text-[14px] text-gray-500 max-w-[720px] leading-relaxed">Player moves, fees, contract lengths, and the business behind West African football and basketball transfers \u2014 with the numbers verified.</p>
-        </div>
+        <h1 className="sr-only">Transfers & Deals \u2014 Sports Business</h1>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-          {WINDOW_STATS.map(s => (
-            <div key={s.label} className="rounded-xl border border-gray-200 bg-white p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-1.5">{s.label}</p>
-              <p className="text-[18px] font-black text-gray-900 tabular-nums">{s.value}</p>
-              <p className={`text-[11px] font-semibold tabular-nums mt-0.5 ${s.up ? 'text-emerald-500' : 'text-red-500'}`}>{s.delta}</p>
-            </div>
-          ))}
-        </div>
-
-        <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-8">
+        <Link href={`/sports/story/${HERO.slug}`} className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-8">
           <div className="w-full lg:w-[55%] shrink-0">
             <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
           </div>
@@ -130,8 +99,8 @@ export default function TransfersDealsPage() {
                 </div>
               </div>
               <div className="flex flex-col divide-y divide-gray-100">
-                {STORIES.map((s, i) => (
-                  <Link key={i} href="/sports" className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
+                {STORIES.map(s => (
+                  <Link key={s.slug} href={`/sports/story/${s.slug}`} className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
                     <div className="shrink-0 overflow-hidden"><NewsThumbnail category={s.category} className="h-[80px] w-[100px] sm:h-[90px] sm:w-[140px]" /></div>
                     <div className="min-w-0 flex-1">
                       <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1.5 block">{s.category}</span>

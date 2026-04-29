@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { NewsThumbnail, HeroVisual, VideoThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor as CATEGORY_COLORS_FN } from '@/lib/category-colors';
+import { SPORTS_STORIES, sportsHero, sportsStoriesBySection } from '@/data/sports-stories';
 
 /* ── data ── */
 
@@ -20,32 +21,18 @@ const SCORES = [
   { home: 'Monrovia Ballers', away: 'Accra Lions',     homeScore: 62, awayScore: 71, status: 'FT',   competition: 'NBL Africa' },
 ];
 
-const HERO = {
-  category: 'Football',
-  title: "AFCON 2027 broadcast rights: who's paying — and what Liberia's qualification is worth to CAF",
-  summary: "Liberia's historic qualification has boosted regional viewership projections for AFCON 2027 by an estimated 12%. We break down the $340M broadcast deal, CAF's prize money structure, and what the Lone Star stands to earn.",
-  source: 'TrueRate Sports Business',
-  time: '1h ago',
-};
+const HERO = sportsHero('main');
 
-const TOP_STORIES = [
-  { category: 'Football',   title: "Premier League Africa TV rights renewal: beIN Sports vs SuperSport bidding war nears $180M", source: 'Reuters', time: '2h ago' },
-  { category: 'Basketball', title: "NBA Africa Series 2026 confirmed for Monrovia — estimated $4.2M economic impact", source: 'NBA Africa', time: '4h ago' },
-  { category: 'Athletics',  title: "World Athletics signs $80M West Africa development sponsorship with MTN Group", source: 'World Athletics', time: '6h ago' },
+const TOP_STORY_SLUGS = [
+  'premier-league-africa-tv-rights-renewal',
+  'nba-africa-series-2026-monrovia',
+  'world-athletics-mtn-80m-development',
 ];
+const TOP_STORIES = TOP_STORY_SLUGS
+  .map(slug => SPORTS_STORIES.find(s => s.slug === slug))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
-const FEED = [
-  { category: 'Football',   title: "Monrovia FC's new stadium deal: $18M PPP project explained",                                    summary: "The club's groundbreaking public-private partnership with the Liberian government and a Ghanaian construction firm could transform club revenues within three seasons.",    source: 'TrueRate Sports', time: '3h ago' },
-  { category: 'Football',   title: "LFA commercial revenue up 31% — but the league still runs at a $2.1M annual deficit",           summary: "Growing sponsorship and gate receipts mask a structural funding gap that the Football Association has yet to close with broadcast income.",                          source: 'LFA / TrueRate', time: '5h ago' },
-  { category: 'Basketball', title: "NBL Africa franchise expansion: what a Monrovia team would cost and generate",                   summary: "A new NBA Africa-backed franchise report estimates $6M entry fee and $2.8M annual operating costs against projected $4.1M in revenue by year three.",               source: 'NBA Africa', time: '7h ago' },
-  { category: 'Football',   title: "How Marcus Pewee became the most valuable Liberian player since Weah — the numbers",            summary: "Rivers Hoopers' $840K contract and pre-draft NBA valuation make Pewee the highest-earning Liberian athlete in active competition.",                               source: 'TrueRate Sports', time: '9h ago' },
-  { category: 'Football',   title: "Shirt sponsorship in West African football: deals, values, and the brands that pay the most",  summary: "A survey of 40 top-flight clubs finds median jersey deal values of $120K/year — with Monrovia FC's Orange partnership among the region's top 10.",            source: 'Sportcal', time: '1d ago' },
-  { category: 'Athletics',  title: "Comfort Brown's commercial value: sponsorship worth $220K — and growing fast",                  summary: "After breaking the West African 100m record, the sprinter has attracted Puma, MTN, and Liberia Petroleum as sponsors in a six-month window.",                    source: 'TrueRate Sports', time: '1d ago' },
-  { category: 'Football',   title: "WAFU Cup semi-final preview: Liberia vs Guinea — tactical and financial breakdown",              summary: "Liberia's Lone Star faces Guinea in the WAFU Cup semi-final. We break down the prize money at stake, the tactics, and what a final appearance would mean commercially.", source: 'TrueRate Sports', time: '2d ago' },
-  { category: 'Basketball', title: "NBA Africa Monrovia 2026: venue, ticket revenue, and the long-term legacy",                     summary: "With a venue confirmed and ticket sales open, we model the $4.2M economic impact — and ask whether a permanent NBA Africa franchise in Liberia is now realistic.",    source: 'TrueRate Sports', time: '2d ago' },
-  { category: 'Football',   title: "Liberia's youth football pipeline: how the U20 system could become a commercial asset",        summary: "With four Liberian under-20s attracting European scout interest, the LFA is exploring a $500K academy partnership model with a Premier League club.",             source: 'TrueRate Sports', time: '3d ago' },
-  { category: 'Athletics',  title: "West Africa Athletics Grand Prix returns to Monrovia — $180K prize pool announced",             summary: "The continental circuit event returns after a two-year absence, with prize money up 60% and broadcast coverage confirmed on SuperSport.",                       source: 'World Athletics', time: '3d ago' },
-];
+const FEED = sportsStoriesBySection("main").filter(s => !TOP_STORY_SLUGS.includes(s.slug));
 
 const TRANSFERS = [
   { player: 'Emmanuel Kollie', from: 'Monrovia FC',   to: 'LISCR FC',              fee: '$280K',       status: 'Rumour',    confirmed: false },
@@ -188,7 +175,7 @@ function SportsPageInner() {
         <div className="flex-1 min-w-0">
 
           {/* Hero */}
-          <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-6">
+          <Link href={`/sports/story/${HERO.slug}`} className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-6">
             <div className="w-full lg:w-[55%] shrink-0">
               <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
@@ -206,8 +193,8 @@ function SportsPageInner() {
 
           {/* Top stories */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            {TOP_STORIES.map((s, i) => (
-              <Link key={i} href="/sports" className="group flex flex-col no-underline">
+            {TOP_STORIES.map(s => (
+              <Link key={s.slug} href={`/sports/story/${s.slug}`} className="group flex flex-col no-underline">
                 <div className="overflow-hidden mb-2.5">
                   <NewsThumbnail category={s.category} className="w-full h-[130px]" />
                 </div>
@@ -293,8 +280,8 @@ function SportsPageInner() {
               </div>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {FEED.map((item, i) => (
-                <Link key={i} href="/sports" className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
+              {FEED.map(item => (
+                <Link key={item.slug} href={`/sports/story/${item.slug}`} className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden">
                     <NewsThumbnail category={item.category} className="h-[80px] w-[100px] sm:h-[90px] sm:w-[140px]" />
                   </div>

@@ -2,19 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
+import { sportsHero, sportsStoriesBySection } from '@/data/sports-stories';
 
 export const metadata: Metadata = {
   title: 'Sponsorship — TrueRate Sports',
   description: 'Shirt, kit, federation, and athlete sponsorship deals across Liberia and West African sport \u2014 values, terms, and what\u2019s next.',
 };
 
-const HERO = {
-  title: "Shirt sponsorship in West African football: the 10 biggest deals, ranked",
-  summary: "A survey of 40 top-flight clubs finds median jersey deal values of $120K/yr \u2014 with Monrovia FC\u2019s Orange partnership among the region\u2019s top 10. Here are the full numbers.",
-  category: 'Football',
-  source: 'TrueRate Sports Business',
-  time: '3h ago',
-};
+const HERO = sportsHero("sponsorship");
 
 const SPONSORSHIP = [
   { entity: 'Monrovia FC',  sponsor: 'Orange Liberia',      type: 'Shirt',      value: '$320K/yr', since: '2023', expiry: '2026' },
@@ -32,19 +27,7 @@ const ATHLETES = [
   { name: 'Emmanuel Kollie', sport: 'Football',   sponsors: ['Cemenco'],                           value: '$40K/yr',  note: 'Local-only deal, under review' },
 ];
 
-const STATS = [
-  { label: 'Top 40 clubs\u2019 total sponsorship (W. Africa)', value: '$48M/yr', delta: '+22% YoY',  up: true },
-  { label: 'Median top-flight shirt deal',                    value: '$120K/yr', delta: '+8% YoY',   up: true },
-  { label: 'Telco share of sponsorship spend',                value: '38%',     delta: '+5pp',      up: true },
-  { label: 'Deals expiring in 2026',                          value: '9',       delta: '~$2.4M at stake', up: true },
-];
-
-const STORIES = [
-  { category: 'Football',   title: "Orange vs MTN: the Liberian telco sponsorship arms race",          summary: "Both carriers are expanding football portfolios to reach young male subscribers.",    source: 'TrueRate Sports', time: '5h ago' },
-  { category: 'Athletics',  title: "How Comfort Brown\u2019s brand value tripled in six months",       summary: "A record run, a US agent, and the first Liberian athlete to clear $200K in sponsorships.", source: 'TrueRate Sports', time: '1d ago' },
-  { category: 'Football',   title: "The LFA\u2019s federation sponsorship up for renewal \u2014 bidders lining up", summary: "CBL, Orange, and a new entrant have all signalled interest.",                      source: 'TrueRate Sports', time: '2d ago' },
-  { category: 'Basketball', title: "NBA Africa\u2019s SAP title deal: what comes next at $8M/yr",      summary: "Three options on the table, including a pivot to a consumer brand.",                    source: 'TrueRate Sports', time: '2d ago' },
-];
+const STORIES = sportsStoriesBySection("sponsorship");
 
 export default function SponsorshipPage() {
   return (
@@ -54,23 +37,9 @@ export default function SponsorshipPage() {
           <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Sponsorship' }]} />
         </div>
 
-        <div className="mb-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Sports Business</p>
-          <h1 className="text-[32px] sm:text-[32px] font-black leading-tight tracking-tight text-gray-900 mb-2">Sponsorship</h1>
-          <p className="text-[14px] text-gray-500 max-w-[720px] leading-relaxed">Shirt, kit, federation, and athlete sponsorship deals across Liberia and West Africa \u2014 values, terms, and who&rsquo;s bidding next.</p>
-        </div>
+        <h1 className="sr-only">Sponsorship \u2014 Sports Business</h1>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-          {STATS.map(s => (
-            <div key={s.label} className="rounded-xl border border-gray-200 bg-white p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-1.5">{s.label}</p>
-              <p className="text-[18px] font-black text-gray-900 tabular-nums">{s.value}</p>
-              <p className="text-[11px] font-semibold tabular-nums mt-0.5 text-emerald-500">{s.delta}</p>
-            </div>
-          ))}
-        </div>
-
-        <Link href="/sports" className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-8">
+        <Link href={`/sports/story/${HERO.slug}`} className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-8">
           <div className="w-full lg:w-[55%] shrink-0">
             <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
           </div>
@@ -151,8 +120,8 @@ export default function SponsorshipPage() {
                 </div>
               </div>
               <div className="flex flex-col divide-y divide-gray-100">
-                {STORIES.map((s, i) => (
-                  <Link key={i} href="/sports" className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
+                {STORIES.map(s => (
+                  <Link key={s.slug} href={`/sports/story/${s.slug}`} className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
                     <div className="shrink-0 overflow-hidden"><NewsThumbnail category={s.category} className="h-[80px] w-[100px] sm:h-[90px] sm:w-[140px]" /></div>
                     <div className="min-w-0 flex-1">
                       <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1.5 block">{s.category}</span>
