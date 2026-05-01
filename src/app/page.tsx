@@ -654,7 +654,7 @@ export default function Home() {
     <div className="min-h-screen">
       <IndicatorsStrip initial={SEED_INDICATORS} />
 
-      <main className="mx-auto max-w-[1320px] px-5 py-8 pb-14 sm:pb-8">
+      <main className="mx-auto max-w-[1320px] px-5 py-8 pb-4 sm:pb-8">
 
         {/* Three-column layout */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-6">
