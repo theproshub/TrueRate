@@ -41,7 +41,7 @@
   small { font-size: 12px; line-height: 1.35; }
 
   a { color: white; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  a:hover { text-decoration: none; }
 }
 
 .tabular-nums { font-variant-numeric: tabular-nums; }
