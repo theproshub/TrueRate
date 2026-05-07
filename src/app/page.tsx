@@ -12,8 +12,27 @@ import { TODAYS_VIDEOS } from '@/data/todays-videos';
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
 
-/** Homepage hero size wrapper around shared HeroVisual */
-function HeroVisual({ category }: { category: string }) {
+/** Per-story real photography, keyed by news item id */
+const STORY_PHOTOS: Record<string, string> = {
+  '1': '/images/cbl-governor-tarlue.jpg',
+};
+
+/** Homepage hero size wrapper — uses real photo when available, falls back to gradient tile */
+function HeroVisual({ category, storyId }: { category: string; storyId?: string }) {
+  const photo = storyId ? STORY_PHOTOS[storyId] : undefined;
+  if (photo) {
+    return (
+      <div className="h-[200px] sm:h-[260px] w-full overflow-hidden bg-gray-900">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={photo}
+          alt=""
+          className="w-full h-full object-cover object-top"
+          aria-hidden="true"
+        />
+      </div>
+    );
+  }
   return <SharedHeroVisual category={category} className="h-[200px] sm:h-[260px]" />;
 }
 type ChipDir = 'up' | 'down' | 'flat';
@@ -86,7 +105,7 @@ function FeaturedColumn() {
       <Link href={`/news/${featured.id}`} className="group block no-underline">
         {/* Visual */}
         <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl mb-4">
-          <HeroVisual category={featured.category} />
+          <HeroVisual category={featured.category} storyId={featured.id} />
         </div>
 
         {/* Tombstone: centered kicker / headline / deck / byline */}
