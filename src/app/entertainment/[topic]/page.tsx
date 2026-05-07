@@ -79,7 +79,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
         )}
 
         {!content ? (
-          <section className="border-t border-gray-200 pt-10 pb-16 text-center">
+          <section className="border-t border-gray-200 pt-6 pb-10 text-center">
             <p className="text-[14px] text-gray-700 mb-2">Coverage in progress for this topic.</p>
             <p className="text-[13px] text-gray-500 mb-6">Browse the full newsroom while we build this section out.</p>
             <Link href="/news" className="inline-block rounded-lg bg-gray-900 px-5 py-2.5 text-[13px] font-bold text-white hover:bg-gray-700 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2">
@@ -87,13 +87,13 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
             </Link>
           </section>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
             {/* Main column */}
             <div className="flex-1 min-w-0">
 
               {/* Hero — editorial layout with stat panel */}
               <article className="mb-10 pb-10 border-b border-gray-200">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8 items-start">
                   <div className="md:col-span-7 min-w-0">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest bg-brand-accent text-[#050d11]">Top Story</span>

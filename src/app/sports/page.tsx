@@ -179,7 +179,7 @@ function SportsPageInner() {
             <div className="w-full lg:w-[55%] shrink-0">
               <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
             </div>
-            <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
+            <div className="flex flex-col justify-center px-4 py-4 lg:px-6 lg:py-5 flex-1">
               <span className={`mb-3 text-[10px] font-bold uppercase tracking-widest ${CATEGORY_COLORS_FN(HERO.category)}`}>{HERO.category}</span>
               <h2 className="text-[22px] font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-4">{HERO.title}</h2>
               <p className="text-[14px] leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
@@ -206,7 +206,7 @@ function SportsPageInner() {
           </div>
 
           {/* Transfer table */}
-          {(activeTab === 'All' || activeTab === 'Transfers & Deals') && <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Transfers & Deals') && <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
               <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Transfer Tracker</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Deal values · Apr 2026</span>
@@ -240,7 +240,7 @@ function SportsPageInner() {
           </div>}
 
           {/* Broadcast rights */}
-          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
               <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Broadcast Rights</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Current deals</span>
@@ -272,7 +272,7 @@ function SportsPageInner() {
           </div>}
 
           {/* Feed */}
-          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Broadcast Rights') && <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -301,7 +301,7 @@ function SportsPageInner() {
           </div>}
 
           {/* Sponsorship */}
-          {(activeTab === 'All' || activeTab === 'Sponsorship') && <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Sponsorship') && <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
               <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Major Sponsorship Deals</h2>
               <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Liberia &amp; West Africa</span>
@@ -333,7 +333,7 @@ function SportsPageInner() {
           </div>}
 
           {/* Player Spotlight */}
-          <div className="mb-8">
+          <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -368,7 +368,7 @@ function SportsPageInner() {
           </div>
 
           {/* Top Performers */}
-          {(activeTab === 'All' || activeTab === 'Club Finance') && <div className="mb-8">
+          {(activeTab === 'All' || activeTab === 'Club Finance') && <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -400,7 +400,7 @@ function SportsPageInner() {
           </div>}
 
           {/* WAFU Cup Group Standings */}
-          <div className="mb-8">
+          <div className="mb-5">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />

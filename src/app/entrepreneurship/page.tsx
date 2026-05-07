@@ -186,7 +186,7 @@ export default function EntrepreneurshipPage() {
       </div>
 
       {/* Hero + Top Stories */}
-      <div className="flex flex-col sm:flex-row gap-8 mb-12 border-b border-white/[0.06] pb-10">
+      <div className="flex flex-col sm:flex-row gap-6 mb-6 border-b border-white/[0.06] pb-6">
         {/* Hero */}
         <Link href={HERO.href} className="group flex-1 min-w-0 no-underline block">
           <HeroVisual category={HERO.category} className="w-full h-[220px] sm:h-[300px] mb-4" />
@@ -212,8 +212,8 @@ export default function EntrepreneurshipPage() {
       </div>
 
       {/* Main content + right rail */}
-      <div className="flex flex-col sm:flex-row gap-12">
-        <div className="flex-1 min-w-0 space-y-12">
+      <div className="flex flex-col sm:flex-row gap-8">
+        <div className="flex-1 min-w-0 space-y-8">
 
           {/* Liberia Startup Ecosystem */}
           <section>
@@ -233,7 +233,7 @@ export default function EntrepreneurshipPage() {
           {/* Founder Spotlights */}
           <section>
             <SectionHeader title="Founder Spotlights" href="/entrepreneurship" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {FOUNDER_SPOTLIGHTS.map((a, i) => (
                 <Link key={i} href={a.href} className="group no-underline flex flex-col">
                   <NewsThumbnail category={a.category} className="w-full h-[180px] mb-4" />
@@ -308,7 +308,7 @@ export default function EntrepreneurshipPage() {
           {/* Women in Business */}
           <section>
             <SectionHeader title="Women in Business" href="/entrepreneurship" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {WOMEN_STORIES.map((s, i) => (
                 <Link key={i} href={s.href} className="group no-underline flex flex-col">
                   <NewsThumbnail category={s.category} className="w-full h-[160px] mb-4" />
@@ -356,7 +356,7 @@ export default function EntrepreneurshipPage() {
         </div>
 
         {/* Right rail */}
-        <aside className="w-full sm:w-[240px] shrink-0 space-y-8">
+        <aside className="w-full sm:w-[240px] shrink-0 space-y-5">
 
           {/* Most Read */}
           <div>

@@ -57,7 +57,7 @@ export default function VideosLeadershipPage() {
         <p className="text-[13px] text-gray-400">Executives, ministers, and decision-makers shaping Liberia&rsquo;s economy.</p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 mb-12">
+      <div className="flex flex-col lg:flex-row gap-6 mb-8">
         <Link href="/videos" className="group flex-1 min-w-0 no-underline block overflow-hidden rounded-2xl">
           <div className="relative w-full" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
             <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
@@ -95,7 +95,7 @@ export default function VideosLeadershipPage() {
         </div>
       </div>
 
-      <section className="mb-12">
+      <section className="mb-8">
         <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
           <div className="flex items-center gap-3">
             <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />

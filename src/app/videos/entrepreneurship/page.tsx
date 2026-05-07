@@ -59,7 +59,7 @@ export default function VideosEntrepreneurshipPage() {
         <p className="text-[13px] text-gray-400">Founder stories, bootstrapping playbooks, and capital access explained.</p>
       </div>
 
-      <div className="mb-12">
+      <div className="mb-8">
         <Link href="/videos" className="group block no-underline overflow-hidden rounded-2xl">
           <div className="relative w-full" style={{ aspectRatio: '16/9', maxHeight: '460px' }}>
             <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
@@ -79,7 +79,7 @@ export default function VideosEntrepreneurshipPage() {
         </Link>
       </div>
 
-      <section className="mb-12">
+      <section className="mb-8">
         <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
           <div className="flex items-center gap-3">
             <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -100,7 +100,7 @@ export default function VideosEntrepreneurshipPage() {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <section>
           <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
             <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Founder spotlights</h2>

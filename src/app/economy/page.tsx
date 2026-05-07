@@ -249,7 +249,7 @@ export default function EconomyPage() {
       </div>
 
       {/* Main content + right rail */}
-      <div className="flex flex-col sm:flex-row gap-8">
+      <div className="flex flex-col sm:flex-row gap-6">
         <div className="flex-1 min-w-0 space-y-10">
 
           {/* Liberia Economy */}
@@ -461,7 +461,7 @@ export default function EconomyPage() {
         </div>
 
         {/* Right rail */}
-        <aside className="w-full sm:w-[260px] shrink-0 space-y-8">
+        <aside className="w-full sm:w-[260px] shrink-0 space-y-5">
 
           {/* Most Read */}
           <div>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function ArticleNotFound() {
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
-      <main className="mx-auto max-w-[720px] px-4 py-24 text-center">
+      <main className="mx-auto max-w-[720px] px-4 py-12 text-center">
         <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500 mb-4">404 — Article Not Found</p>
         <h1 className="text-[32px] sm:text-[32px] font-black leading-tight text-gray-900 mb-4">
           This article doesn&apos;t exist.

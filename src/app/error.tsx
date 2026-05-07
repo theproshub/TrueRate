@@ -9,7 +9,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
   }, [error]);
 
   return (
-    <main className="mx-auto max-w-[720px] px-4 py-24 text-center">
+    <main className="mx-auto max-w-[720px] px-4 py-12 text-center">
       <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-red-400 mb-4">Something went wrong</p>
       <h1 className="text-[32px] sm:text-[32px] font-black leading-tight text-white mb-4">
         We hit an error loading this page.

@@ -129,13 +129,13 @@ export default function WatchlistClient() {
     <>
       {showModal && <AddModal onAdd={addItem} existing={watched} onClose={() => setShowModal(false)} />}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
         {/* Main */}
         <div className="lg:col-span-2 space-y-6">
 
           {isEmpty && (
-            <div className="rounded-2xl border border-dashed border-white/[0.10] bg-white/[0.02] p-12 text-center">
+            <div className="rounded-2xl border border-dashed border-white/[0.10] bg-white/[0.02] p-8 text-center">
               <div className="mb-3 text-5xl">📊</div>
               <h2 className="mb-1 text-[16px] font-bold text-white">Your watchlist is empty</h2>
               <p className="mb-6 text-[13px] text-gray-500">Add exchange rates, economic indicators, or commodities to track them here.</p>

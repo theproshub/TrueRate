@@ -173,7 +173,7 @@ export default function VideosPage() {
       </div>
 
       {/* ── TrueRate Originals ── */}
-      <section className="mb-12">
+      <section className="mb-8">
         <SectionHeader title="TrueRate Originals" sub="Exclusive series on business, entrepreneurship & investing" href="/videos" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {ORIGINALS.map((v, i) => (
@@ -219,7 +219,7 @@ export default function VideosPage() {
       </section>
 
       {/* ── Entrepreneur Spotlights + Investing Insights ── */}
-      <div className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         <section>
           <SectionHeader title="Entrepreneur Spotlights" href="/videos" label="View more ›" />
           <div className="flex flex-col divide-y divide-white/[0.05]">
@@ -239,7 +239,7 @@ export default function VideosPage() {
       </div>
 
       {/* ── Live & Upcoming ── */}
-      <section className="mb-12">
+      <section className="mb-8">
         <SectionHeader title="Live & Upcoming" href="/videos" label="View schedule ›" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[

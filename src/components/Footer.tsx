@@ -54,7 +54,7 @@ export default function Footer() {
     <footer className="mt-4 sm:mt-10 border-t border-white/[0.06] bg-brand-dark">
 
       <div className="mx-auto max-w-[1320px] px-4 py-5">
-        <div className="flex flex-col gap-5 sm:flex-row sm:gap-16">
+        <div className="flex flex-col gap-5 sm:flex-row sm:gap-8">
 
           {/* Left: logo + copyright + socials (column 1 of the footer grid) */}
           <div className="shrink-0 flex flex-col sm:w-[220px]">
@@ -115,7 +115,7 @@ export default function Footer() {
         </div>
 
         {/* Trending topics */}
-        <div className="mt-10 border-t border-white/[0.05] pt-6">
+        <div className="mt-6 border-t border-white/[0.05] pt-4">
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-400">Trending topics</p>
           <div className="flex flex-wrap gap-2">
             {TRENDING_LINKS.map(({ label, href }) => (

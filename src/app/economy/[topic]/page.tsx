@@ -48,7 +48,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
       </header>
 
       {items.length === 0 ? (
-        <section className="border-t border-white/[0.06] pt-10 pb-16 text-center">
+        <section className="border-t border-white/[0.06] pt-6 pb-10 text-center">
           <p className="text-[14px] text-gray-300 mb-2">No published stories tagged for this topic yet.</p>
           <p className="text-[13px] text-gray-500 mb-6">Browse the newsroom or check back as coverage develops.</p>
           <Link href="/news" className="inline-block rounded-lg bg-brand-accent px-5 py-2.5 text-[13px] font-bold text-brand-dark hover:bg-[#a8d42a] transition-colors no-underline">

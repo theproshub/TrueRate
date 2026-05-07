@@ -68,7 +68,7 @@ const SECTIONS = [
 export default function AdsPage() {
   return (
     <div className="bg-white min-h-screen">
-      <div className="mx-auto max-w-[1100px] px-6 sm:px-10 pt-8 pb-16">
+      <div className="mx-auto max-w-[1100px] px-6 sm:px-10 pt-8 pb-10">
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'About Our Ads' }]} />
 
         <div className="border-b border-gray-200 pb-10 mb-10">
@@ -82,7 +82,7 @@ export default function AdsPage() {
           <p className="mt-6 text-[12px] text-gray-400">Last updated: April 1, 2026</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
             <div className="sticky top-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>

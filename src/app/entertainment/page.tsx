@@ -65,12 +65,12 @@ export default function EntertainmentPage() {
           <EntertainmentTopicTabs activeSlug="all" />
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-5">
           {/* Main column */}
           <div className="flex-1 min-w-0">
 
             {/* Hero */}
-            <Link href="/news" className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-10 pb-10 border-b border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-4 rounded">
+            <Link href="/news" className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-4 rounded">
               <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
                 <HeroVisual category={HERO.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
               </div>
@@ -94,7 +94,7 @@ export default function EntertainmentPage() {
             </Link>
 
             {/* Strip — single column list */}
-            <section className="mb-10" aria-labelledby="latest-signals-heading">
+            <section className="mb-6" aria-labelledby="latest-signals-heading">
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-2">
                 <div className="flex items-center gap-3">
                   <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
@@ -124,7 +124,7 @@ export default function EntertainmentPage() {
             </section>
 
             {/* Releases tracker */}
-            <section className="mb-10" aria-labelledby="releases-heading">
+            <section className="mb-6" aria-labelledby="releases-heading">
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
                 <h2 id="releases-heading" className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Releases This Quarter</h2>
                 <span className="text-[11px] text-gray-500 uppercase tracking-wide font-bold">Q2–Q3 2026</span>
@@ -157,7 +157,7 @@ export default function EntertainmentPage() {
             </section>
 
             {/* Analysis feed */}
-            <div className="mb-8">
+            <div className="mb-5">
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -193,7 +193,7 @@ export default function EntertainmentPage() {
 
           {/* Right rail */}
           <aside className="hidden lg:block w-full lg:w-[280px] shrink-0">
-            <div className="sticky top-[120px] flex flex-col gap-8">
+            <div className="sticky top-[120px] flex flex-col gap-5">
 
               {/* Most Read */}
               <div>

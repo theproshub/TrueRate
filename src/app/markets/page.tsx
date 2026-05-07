@@ -171,13 +171,13 @@ export default async function MarketsPage() {
     .filter((n): n is NonNullable<typeof n> => !!n);
 
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6 pb-20">
+    <main className="mx-auto max-w-[1320px] px-4 py-6 pb-10">
       <h1 className="sr-only">Markets &amp; Finance</h1>
 
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Markets & Finance' }]} />
 
       {/* ── Top Movers + Today's Markets ── */}
-      <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]" aria-labelledby="movers-heading">
+      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]" aria-labelledby="movers-heading">
         {/* Top Movers — Leaders / Laggards */}
         <div className="lg:col-span-2">
           <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
@@ -294,7 +294,7 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── Lead + What's News ── */}
-      <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
         {/* Lead feature */}
         <div className="lg:col-span-2">
           {/* Sub-features — vertical card style with large thumbnail */}
@@ -324,7 +324,7 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── Three-column section grid: Heard / Banking / Investing ── */}
-      <section className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
         <div>
           <SectionHeader title="Heard on the Street" href="/news" />
           <ul className="m-0 p-0 list-none">
@@ -346,7 +346,7 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── Three-column section grid: Macro / Commodities / Currencies ── */}
-      <section className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
         <div>
           <SectionHeader title="Macro &amp; Growth" href="/economy" />
           <ul className="m-0 p-0 list-none">
@@ -368,7 +368,7 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── Regulation + Most Recent Desks + Related Topics ── */}
-      <section className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
         <div>
           <SectionHeader title="Regulation &amp; Policy" href="/news" />
           <ul className="m-0 p-0 list-none">
@@ -433,7 +433,7 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── More in Markets & Finance ── */}
-      <section className="mb-12">
+      <section className="mb-8">
         <div className="flex items-baseline justify-between border-b-2 border-white/30 pb-2 mb-5">
           <h2 className="text-[14px] font-bold text-white">More in Markets &amp; Finance</h2>
           <Link href="/news" className="text-[11px] uppercase tracking-wider text-brand-accent hover:underline no-underline">All news ›</Link>
@@ -459,7 +459,7 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── Methodology ── */}
-      <section className="mt-12 border-t border-white/[0.08] pt-6" aria-labelledby="method-heading">
+      <section className="mt-8 border-t border-white/[0.08] pt-5" aria-labelledby="method-heading">
         <h2 id="method-heading" className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
         <ul className="space-y-2 text-[13px] text-gray-300 leading-relaxed max-w-[760px]">
           <li>· FX rates refresh every 60 minutes from a free CDN feed; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>

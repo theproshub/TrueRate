@@ -268,7 +268,7 @@ function NewsPageInner() {
 
       {/* ── Search results view ── */}
       {query && (
-        <div className="mb-8">
+        <div className="mb-5">
           <div className="mb-5 flex items-center justify-between">
             <div>
               <h1 className="text-[22px] font-bold text-gray-900">
@@ -381,7 +381,7 @@ function NewsPageInner() {
           <FeedList tab={activeTab} />
 
           {/* Editor's Picks */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -409,7 +409,7 @@ function NewsPageInner() {
           </div>
 
           {/* More Stories grid */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -432,7 +432,7 @@ function NewsPageInner() {
           </div>
 
           {/* Videos strip */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -454,7 +454,7 @@ function NewsPageInner() {
           </div>
 
           {/* Analysis & Opinion */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -479,7 +479,7 @@ function NewsPageInner() {
           </div>
 
           {/* West Africa section */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -504,7 +504,7 @@ function NewsPageInner() {
           </div>
 
           {/* Data Stories */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -532,7 +532,7 @@ function NewsPageInner() {
           </div>
 
           {/* From the Archives */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
@@ -561,7 +561,7 @@ function NewsPageInner() {
           </div>
 
           {/* Community Voices */}
-          <div className="mt-10">
+          <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />

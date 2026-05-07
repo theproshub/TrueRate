@@ -12,7 +12,7 @@ export default function AboutPage() {
 
       {/* Hero */}
       <div className="border-b border-gray-200">
-        <div className="mx-auto max-w-[1100px] px-6 sm:px-10 pt-14 pb-16">
+        <div className="mx-auto max-w-[1100px] px-6 sm:px-10 pt-8 pb-10">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">About TrueRate</p>
           <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.05] tracking-tight text-gray-900 max-w-[780px] mb-6">
             We built TrueRate because Liberia&apos;s business story wasn&apos;t being told.
@@ -38,11 +38,11 @@ export default function AboutPage() {
       </div>
 
       {/* Body */}
-      <div className="mx-auto max-w-[1100px] px-6 sm:px-10 py-14 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-16">
+      <div className="mx-auto max-w-[1100px] px-6 sm:px-10 py-8 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10">
 
         {/* Sticky sidebar */}
         <aside className="hidden lg:block">
-          <div className="sticky top-6 space-y-8">
+          <div className="sticky top-6 space-y-5">
 
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
@@ -63,14 +63,14 @@ export default function AboutPage() {
               </ul>
             </div>
 
-            <div className="border-t border-gray-100 pt-8">
+            <div className="border-t border-gray-100 pt-5">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-4">Get in touch</p>
               <Link href="/feedback" className="block text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Send feedback →</Link>
               <Link href="/help" className="block text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Help center →</Link>
               <Link href="/about" className="block text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Advertise with us →</Link>
             </div>
 
-            <div className="border-t border-gray-100 pt-8">
+            <div className="border-t border-gray-100 pt-5">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">Data sources</p>
               {['Central Bank of Liberia', 'World Bank', 'IMF', 'Ghana Stock Exchange', 'BRVM', 'Reuters'].map(s => (
                 <p key={s} className="text-[12px] text-gray-400 mb-1.5">{s}</p>
@@ -83,7 +83,7 @@ export default function AboutPage() {
         {/* Content */}
         <div className="max-w-[680px]">
 
-          <section id="our-story" className="mb-16">
+          <section id="our-story" className="mb-10">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-6">Our Story</p>
             <p className="text-[16px] text-gray-800 leading-[1.9] mb-5">
               TrueRate was founded by <span className="font-bold text-gray-900">Moses Julian Sackey</span> with one conviction: Liberia&apos;s economy deserves serious, independent coverage. Companies are raising capital, deals are closing, markets are moving — and most of it goes unreported.
@@ -96,7 +96,7 @@ export default function AboutPage() {
             </p>
           </section>
 
-          <section id="coverage" className="mb-16">
+          <section id="coverage" className="mb-10">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-8">What We Cover</p>
             <div className="divide-y divide-gray-100">
               {[
@@ -133,7 +133,7 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <section id="standards" className="mb-16">
+          <section id="standards" className="mb-10">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-6">Our Standards</p>
             <p className="text-[16px] text-gray-700 leading-[1.9] mb-5">
               Market data is sourced from the Central Bank of Liberia, World Bank, IMF, Ghana Stock Exchange, BRVM, and licensed data providers. Where data is estimated, we say so.
@@ -146,14 +146,14 @@ export default function AboutPage() {
             </p>
           </section>
 
-          <section id="disclaimer" className="mb-16">
+          <section id="disclaimer" className="mb-10">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Disclaimer</p>
             <p className="text-[14px] text-gray-400 leading-[1.85]">
               TrueRate publishes financial and market information for informational purposes only. Nothing on this platform constitutes investment advice, financial advice, or a recommendation to buy or sell any asset. Always consult a licensed financial adviser before making any investment decision. TrueRate is not responsible for decisions made based on content published on this platform.
             </p>
           </section>
 
-          <div className="border-t border-gray-100 pt-8 flex flex-wrap gap-x-8 gap-y-3">
+          <div className="border-t border-gray-100 pt-5 flex flex-wrap gap-x-8 gap-y-3">
             {[
               { label: 'Help Center',      href: '/help' },
               { label: 'Send Feedback',    href: '/feedback' },
