@@ -64,6 +64,8 @@ const NEWS_COLORS: Record<string, string> = {
   tech:             'text-sky-400',
   analysis:         'text-purple-400',
   development:      'text-teal-400',
+  investing:        'text-emerald-400',
+  banking:          'text-emerald-400',
 };
 
 export function getNewsCatColor(cat: string): string {

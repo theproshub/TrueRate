@@ -64,7 +64,25 @@ type PrimaryNavItem = { label: string; href: string; children?: { label: string;
 
 /** Full nav used by mobile menu — everything in one flat list, no hidden items */
 const PRIMARY_NAV: PrimaryNavItem[] = [
-  { label: 'News',  href: '/news' },
+  {
+    label: 'News', href: '/news',
+    children: [
+      { label: 'Policy',     href: '/economy/monetary-policy' },
+      { label: 'Mining',     href: '/economy/fiscal' },
+      { label: 'Trade',      href: '/economy/trade' },
+      { label: 'Deep Dives', href: '/news' },
+    ],
+  },
+  {
+    label: 'Entertainment', href: '/entertainment',
+    children: [
+      { label: 'Movies',       href: '/entertainment/movies' },
+      { label: 'TV',           href: '/entertainment/tv' },
+      { label: 'Music',        href: '/entertainment/music' },
+      { label: 'Celebrity',    href: '/entertainment/celebrity' },
+      { label: 'How To Watch', href: '/entertainment/how-to-watch' },
+    ],
+  },
   {
     label: 'Sports', href: '/sports',
     children: [
@@ -77,9 +95,11 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'Finance', href: '/',
     children: [
+      { label: 'News',       href: '/news' },
       { label: 'Markets',    href: '/markets' },
       { label: 'Economy',    href: '/economy' },
       { label: 'Technology', href: '/technology' },
+      { label: 'Videos',     href: '/videos' },
     ],
   },
   {
@@ -112,7 +132,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
   for (const { label, href } of MORE_NAV) {
     if (!lookup.has(label)) lookup.set(label, { label, href });
   }
-  const MOBILE_ORDER = ['News', 'Entertainment', 'Sports', 'Finance', 'Videos'];
+  const MOBILE_ORDER = ['News', 'Entertainment', 'Sports', 'Finance'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -175,28 +195,22 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]" onClick={onClose} />
       <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-brand-dark h-full shadow-2xl animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
 
-        {/* Header: logo + close */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] shrink-0">
-          <Link href="/" onClick={onClose} className="inline-block no-underline">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="TrueRate" style={{ height: '44px', width: 'auto' }} />
-          </Link>
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={onClose}
-            aria-label="Close menu"
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+        {/* Close button — floated top-right, no dedicated row */}
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={onClose}
+          aria-label="Close menu"
+          className="absolute top-3 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent z-10"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
         {/* Scrollable Yahoo-style accordion nav */}
         <div className="flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <nav className="py-1">
+          <nav className="pt-12 pb-1">
             {ACCORDION_ITEMS.map(({ label, href, children }) => {
               const active = isActive(pathname, href);
               const hasChildren = Boolean(children && children.length > 0);
@@ -243,15 +257,6 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
 
                   {hasChildren && isOpen ? (
                     <div id={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`} className="pb-1.5">
-                      <Link
-                        href={href}
-                        onClick={onClose}
-                        className={`flex items-center px-9 py-2 text-[13px] no-underline transition-colors ${
-                          active ? 'text-white' : 'text-white/85 hover:text-white'
-                        }`}
-                      >
-                        {label}
-                      </Link>
                       {children!.map(c => {
                         const subActive = pathname === c.href;
                         return (
@@ -293,28 +298,28 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
         </div>
 
         {/* Footer: socials */}
-        <div className="border-t border-white/[0.06] px-5 pt-4 pb-5 shrink-0 bg-[#030a0e]">
-          <div className="flex items-center justify-center gap-3">
+        <div className="border-t border-white/[0.06] px-5 pt-2.5 pb-3 shrink-0 bg-[#030a0e]">
+          <div className="flex items-center justify-center gap-2">
             <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.857L1.479 2.25H8.08l4.259 5.63 5.905-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
             </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </a>
           </div>
-          <p className="mt-3 text-center text-[11px] text-gray-500">© 2026 <span className="font-bold text-white/70">TrueRate</span></p>
+          <p className="mt-1.5 text-center text-[10px] text-gray-500">© 2026 <span className="font-bold text-white/70">TrueRate</span></p>
         </div>
       </div>
     </div>

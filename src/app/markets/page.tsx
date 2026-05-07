@@ -1,39 +1,33 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
+import { NewsThumbnail } from '@/components/NewsThumbnail';
+import { getNewsCatColor } from '@/lib/category-colors';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
 import { fetchCommodities } from '@/lib/api/stooq';
 import {
   fetchLiberiaIndicators,
   latestValue,
-  previousValue,
   WB_INDICATORS,
 } from '@/lib/api/worldbank';
+import { newsItems } from '@/data/news';
+import type { NewsItem } from '@/lib/types';
 
 export const revalidate = 900; // 15 min
 
 export const metadata: Metadata = {
-  title: 'Markets — Live FX, commodities & Liberia macro | TrueRate',
+  title: 'Markets & Finance — Liberia | TrueRate',
   description:
-    "Live exchange rates, commodity prices, and World Bank macro indicators for Liberia. Sourced from open feeds — every datapoint timestamped.",
+    "Liberia’s markets and finance hub: live FX, commodities, macro indicators, and TrueRate desks’ coverage of forex, commodities, banking, and policy.",
 };
 
 const FX_DISPLAY: { from: string; label: string; note: string }[] = [
-  { from: 'USD', label: 'USD / LRD', note: 'Anchor pair. Most imports priced in USD.' },
-  { from: 'EUR', label: 'EUR / LRD', note: 'Largest non-USD invoice currency for EU goods.' },
-  { from: 'GBP', label: 'GBP / LRD', note: 'Diaspora remittance corridor.' },
-  { from: 'CNY', label: 'CNY / LRD', note: 'Drives wholesale at Duala and Carey Street.' },
-  { from: 'GHS', label: 'GHS / LRD', note: 'Cross-border trade with Ghana.' },
-  { from: 'NGN', label: 'NGN / LRD', note: 'Regional benchmark; Nigeria capital flows.' },
-];
-
-const MACRO_DISPLAY: { key: keyof typeof WB_INDICATORS; label: string; unit: string; format: 'pct' | 'usd' | 'num' }[] = [
-  { key: 'GDP',          label: 'GDP',                       unit: 'current US$', format: 'usd' },
-  { key: 'GDP_GROWTH',   label: 'GDP growth',                unit: 'annual %',    format: 'pct' },
-  { key: 'INFLATION',    label: 'Inflation (CPI)',           unit: 'annual %',    format: 'pct' },
-  { key: 'UNEMPLOYMENT', label: 'Unemployment',              unit: '% labor force', format: 'pct' },
-  { key: 'RESERVES',     label: 'Total reserves (incl. gold)', unit: 'current US$', format: 'usd' },
-  { key: 'GOVT_DEBT',    label: 'Central govt debt',         unit: '% of GDP',    format: 'pct' },
+  { from: 'USD', label: 'USD/LRD', note: 'Anchor pair' },
+  { from: 'EUR', label: 'EUR/LRD', note: 'EU goods invoicing' },
+  { from: 'GBP', label: 'GBP/LRD', note: 'Diaspora corridor' },
+  { from: 'CNY', label: 'CNY/LRD', note: 'Wholesale imports' },
+  { from: 'GHS', label: 'GHS/LRD', note: 'Ghana cross-border' },
+  { from: 'NGN', label: 'NGN/LRD', note: 'Nigeria capital flows' },
 ];
 
 function formatUSD(n: number): string {
@@ -54,11 +48,64 @@ function deltaClass(delta: number | null): string {
   return 'text-gray-400';
 }
 
+function deltaArrow(delta: number | null): string {
+  if (delta === null || delta === 0) return '';
+  return delta > 0 ? '▲' : '▼';
+}
+
 function deltaSign(delta: number | null): string {
   if (delta === null) return '';
   if (delta > 0) return '+';
   return '';
 }
+
+function timeAgo(d: string) {
+  const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
+  if (days <= 0) return 'Today';
+  if (days === 1) return '1 day ago';
+  return `${days} days ago`;
+}
+
+const byCategory = (cat: string) =>
+  newsItems.filter(n => n.category.toLowerCase() === cat.toLowerCase());
+
+// ── small story card / row helpers ──────────────────────────────────────────
+
+/** Horizontal card: thumbnail left, category+title+meta right */
+function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolean }) {
+  return (
+    <li className="border-b border-white/[0.06] last:border-0 pb-3.5 mb-3.5 last:pb-0 last:mb-0">
+      <Link href={`/news/${n.id}`} className="group flex items-start gap-3 no-underline">
+        <div className="shrink-0 overflow-hidden rounded-lg">
+          <NewsThumbnail category={n.category} className="h-[60px] w-[88px]" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className={`text-[10px] font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
+          <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3">{n.title}</h3>
+          <p className="text-[11px] leading-relaxed text-gray-500 mt-1">
+            {withByline && n.author ? <><span className="font-semibold text-gray-400">{n.author}</span><span className="mx-1 text-gray-700">·</span></> : null}
+            {timeAgo(n.date)}
+          </p>
+        </div>
+      </Link>
+    </li>
+  );
+}
+
+function SectionHeader({ title, href }: { title: string; href?: string }) {
+  return (
+    <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
+      <h2 className="text-[14px] font-bold text-white">{title}</h2>
+      {href && (
+        <Link href={href} className="text-[10px] uppercase tracking-wider text-brand-accent hover:underline no-underline">
+          View all ›
+        </Link>
+      )}
+    </div>
+  );
+}
+
+// ── page ────────────────────────────────────────────────────────────────────
 
 export default async function MarketsPage() {
   const [liveRates, commodities, indicators] = await Promise.all([
@@ -69,194 +116,357 @@ export default async function MarketsPage() {
 
   const lrdRates = toLRDRates(liveRates);
 
-  const lastUpdated = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+  // ── Top Movers (commodities sorted by intraday change) ──
+  const movers = commodities
+    .filter(c => c.changePercent !== null)
+    .map(c => ({ ...c, change: c.changePercent as number }));
+  const leaders = [...movers].sort((a, b) => b.change - a.change).slice(0, 5);
+  const laggards = [...movers].sort((a, b) => a.change - b.change).slice(0, 5);
+
+  // ── News by category ──
+  const forexNews       = byCategory('forex');
+  const commoditiesNews = byCategory('commodities');
+  const economyNews     = byCategory('economy');
+  const policyNews      = byCategory('policy');
+  const analysisNews    = byCategory('analysis');
+  const bankingNews     = byCategory('banking');
+  const investingNews   = byCategory('investing');
+
+  // Lead block — pinned to FT-style flagship stories
+  const findById = (id: string) => newsItems.find(n => n.id === id)!;
+  const lead        = findById('36');  // CBL rate dilemma — analysis lead
+  const subFeatures = ['51', '41'].map(findById);
+  const whatsNews   = ['42', '46', '52', '38', '47', '43'].map(findById);
+
+  // Section feeds — FT-style thematic desks
+  const heardOnTheStreet   = analysisNews.slice(0, 5);
+  const banking            = bankingNews.slice(0, 5);
+  const investing          = investingNews.slice(0, 5);
+  const stocks             = economyNews.slice(0, 5);
+  const commoditiesStories = commoditiesNews.slice(0, 5);
+  const currenciesStories  = forexNews.slice(0, 5);
+  const regulation         = policyNews.slice(0, 4);
+
+  // Most recent desks (top authors by article count)
+  const authorCounts: Record<string, { count: number; latest: NewsItem }> = {};
+  for (const item of newsItems) {
+    if (!item.author) continue;
+    const existing = authorCounts[item.author];
+    if (existing) {
+      existing.count += 1;
+      if (new Date(item.date) > new Date(existing.latest.date)) existing.latest = item;
+    } else {
+      authorCounts[item.author] = { count: 1, latest: item };
+    }
+  }
+  const topAuthors = Object.entries(authorCounts)
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 3)
+    .map(([author, info]) => ({ author, ...info }));
+
+  // Pull "More in Markets" from the new FT-style desks for variety
+  const morePickIds = ['36', '41', '46', '51', '38', '42', '47', '52'];
+  const morePicks = morePickIds
+    .map(id => newsItems.find(n => n.id === id))
+    .filter((n): n is NonNullable<typeof n> => !!n);
 
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-8 pb-20" aria-labelledby="markets-heading">
+    <main className="mx-auto max-w-[1320px] px-4 py-6 pb-20">
+      <h1 className="sr-only">Markets &amp; Finance</h1>
 
-      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Markets' }]} />
+      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Markets & Finance' }]} />
 
-      {/* ── Hero ── */}
-      <header className="mt-4 mb-10 border-b border-white/[0.08] pb-8">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-accent mb-3">Live markets</p>
-        <h1 id="markets-heading" className="text-[32px] sm:text-[32px] font-black leading-[1.08] text-white tracking-tight mb-3 max-w-[820px]">
-          Liberia&rsquo;s real-time financial dashboard
-        </h1>
-        <p className="text-[14px] sm:text-[16px] text-gray-300 leading-relaxed max-w-[760px]">
-          Exchange rates against the LRD, end-of-day commodity prices that move Liberia&rsquo;s books, and the latest
-          World Bank macro indicators &mdash; pulled from open data feeds, timestamped, and cached for 15 minutes.
-        </p>
-        <p className="mt-4 text-[12px] text-gray-500 tabular-nums" aria-live="polite">
-          Updated {lastUpdated} &middot; FX: {liveRates.date} &middot; Sources listed below each table.
-        </p>
-      </header>
-
-      {/* ── FX rates ── */}
-      <section className="mb-14" aria-labelledby="fx-heading">
-        <div className="flex items-baseline justify-between border-t border-white/20 pt-4 mb-5">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400">Section 1</p>
-            <h2 id="fx-heading" className="text-[18px] font-black text-white mt-1">Exchange rates</h2>
+      {/* ── Top Movers + Today's Markets ── */}
+      <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]" aria-labelledby="movers-heading">
+        {/* Top Movers — Leaders / Laggards */}
+        <div className="lg:col-span-2">
+          <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
+            <h2 id="movers-heading" className="text-[14px] font-bold text-white">Top Movers · Commodities</h2>
+            <span className="text-[10px] uppercase tracking-wider text-gray-500">latest close · intraday change</span>
           </div>
-          <span className="text-[11px] text-gray-500 tabular-nums">vs. Liberian dollar &middot; mid-market</span>
-        </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-[14px] border-t border-white/[0.06]">
-            <caption className="sr-only">Live exchange rates against the Liberian dollar, sourced from the fawazahmed0 currency API.</caption>
-            <thead>
-              <tr className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-                <th scope="col" className="py-3 pr-3 text-left">Pair</th>
-                <th scope="col" className="py-3 px-3 text-right">Rate (LRD)</th>
-                <th scope="col" className="py-3 px-3 text-left hidden sm:table-cell">Why it matters</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/[0.05]">
-              {FX_DISPLAY.map(({ from, label, note }) => {
-                const rate = lrdRates[from];
-                return (
-                  <tr key={from} className="hover:bg-white/[0.02]">
-                    <td className="py-3 pr-3 align-top">
-                      <p className="font-bold text-white">{label}</p>
-                      <p className="text-[11px] text-gray-500 mt-0.5 sm:hidden">{note}</p>
-                    </td>
-                    <td className="py-3 px-3 text-right tabular-nums align-top">
-                      <span className="font-bold text-white">
-                        {rate ? rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 }) : '—'}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 text-gray-400 hidden sm:table-cell align-top">{note}</td>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            {/* Leaders */}
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 mb-2">Leaders</p>
+              <table className="w-full text-[13px] tabular-nums">
+                <caption className="sr-only">Commodities leading by intraday percent change.</caption>
+                <thead>
+                  <tr className="text-[9px] uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                    <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
+                    <th scope="col" className="py-1.5 text-right font-semibold">Last</th>
+                    <th scope="col" className="py-1.5 pl-2 text-right font-semibold">Chg</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-3 text-[11px] text-gray-500 leading-relaxed">
-          Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">@fawazahmed0/currency-api</a> via jsDelivr CDN. Mid-market reference rates; not a dealing rate. Cached 60 min.
-        </p>
-      </section>
+                </thead>
+                <tbody className="divide-y divide-white/[0.06]">
+                  {leaders.map(c => (
+                    <tr key={c.symbol} className="hover:bg-white/[0.02]">
+                      <td className="py-2 pr-2 font-bold text-white">{c.name}</td>
+                      <td className="py-2 text-right font-bold text-white">
+                        {c.price !== null ? c.price.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'}
+                      </td>
+                      <td className={`py-2 pl-2 text-right font-semibold ${deltaClass(c.change)}`}>
+                        {deltaArrow(c.change)} {deltaSign(c.change)}{c.change.toFixed(2)}%
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-      {/* ── Commodities ── */}
-      <section className="mb-14" aria-labelledby="commodities-heading">
-        <div className="flex items-baseline justify-between border-t border-white/20 pt-4 mb-5">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400">Section 2</p>
-            <h2 id="commodities-heading" className="text-[18px] font-black text-white mt-1">Commodities</h2>
-          </div>
-          <span className="text-[11px] text-gray-500 tabular-nums">latest close &middot; intraday change</span>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-[14px] border-t border-white/[0.06]">
-            <caption className="sr-only">End-of-day commodity prices from Stooq, with change vs. prior session.</caption>
-            <thead>
-              <tr className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-                <th scope="col" className="py-3 pr-3 text-left">Commodity</th>
-                <th scope="col" className="py-3 px-3 text-right whitespace-nowrap">Last</th>
-                <th scope="col" className="py-3 px-3 text-right whitespace-nowrap">Change</th>
-                <th scope="col" className="py-3 px-3 text-left hidden md:table-cell">Liberia angle</th>
-                <th scope="col" className="py-3 pl-3 text-right hidden sm:table-cell whitespace-nowrap">As of</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/[0.05]">
-              {commodities.map(c => (
-                <tr key={c.symbol} className="hover:bg-white/[0.02]">
-                  <td className="py-3 pr-3 align-top">
-                    <p className="font-bold text-white">{c.name}</p>
-                    <p className="text-[11px] text-gray-500 mt-0.5">{c.unit} &middot; <span className="font-mono">{c.symbol}</span></p>
-                  </td>
-                  <td className="py-3 px-3 text-right tabular-nums align-top">
-                    {c.price !== null
-                      ? <span className="font-bold text-white">{c.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                      : <span className="text-gray-500">—</span>}
-                  </td>
-                  <td className={`py-3 px-3 text-right tabular-nums align-top font-semibold ${deltaClass(c.changePercent)}`}>
-                    {c.changePercent !== null
-                      ? `${deltaSign(c.changePercent)}${c.changePercent.toFixed(2)}%`
-                      : '—'}
-                  </td>
-                  <td className="py-3 px-3 text-gray-400 hidden md:table-cell align-top">{c.note}</td>
-                  <td className="py-3 pl-3 text-right text-gray-500 tabular-nums hidden sm:table-cell align-top">{c.date ?? '—'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-3 text-[11px] text-gray-500 leading-relaxed">
-          Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://stooq.com" target="_blank" rel="noopener noreferrer">Stooq</a> end-of-day CSV feed. Iron ore not on Stooq&rsquo;s free tier &mdash; BHP ADR shown as a directional proxy. Cached 15 min. Dashes indicate the upstream feed was unreachable.
-        </p>
-      </section>
-
-      {/* ── Liberia macro ── */}
-      <section className="mb-14" aria-labelledby="macro-heading">
-        <div className="flex items-baseline justify-between border-t border-white/20 pt-4 mb-5">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400">Section 3</p>
-            <h2 id="macro-heading" className="text-[18px] font-black text-white mt-1">Liberia &mdash; macro indicators</h2>
-          </div>
-          <span className="text-[11px] text-gray-500 tabular-nums">World Bank &middot; annual</span>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-[14px] border-t border-white/[0.06]">
-            <caption className="sr-only">Liberia macro indicators from the World Bank Open Data API.</caption>
-            <thead>
-              <tr className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-                <th scope="col" className="py-3 pr-3 text-left">Indicator</th>
-                <th scope="col" className="py-3 px-3 text-right whitespace-nowrap">Latest</th>
-                <th scope="col" className="py-3 px-3 text-right whitespace-nowrap">Year</th>
-                <th scope="col" className="py-3 pl-3 text-right whitespace-nowrap">y/y change</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/[0.05]">
-              {MACRO_DISPLAY.map(({ key, label, unit, format }) => {
-                const series = indicators[key] ?? [];
-                const latest = latestValue(series);
-                const prev = previousValue(series);
-                const year = series[0]?.date ?? null;
-                const change = latest !== null && prev !== null ? latest - prev : null;
-                const display =
-                  latest === null ? '—' :
-                  format === 'usd' ? formatUSD(latest) :
-                  format === 'pct' ? formatPct(latest) :
-                  latest.toLocaleString('en-US');
-                const changeDisplay =
-                  change === null ? '—' :
-                  format === 'pct' ? `${deltaSign(change)}${change.toFixed(2)} pp` :
-                  format === 'usd' ? `${deltaSign(change)}${formatUSD(Math.abs(change))}` :
-                  `${deltaSign(change)}${change.toLocaleString('en-US')}`;
-
-                return (
-                  <tr key={key} className="hover:bg-white/[0.02]">
-                    <td className="py-3 pr-3 align-top">
-                      <p className="font-bold text-white">{label}</p>
-                      <p className="text-[11px] text-gray-500 mt-0.5">{unit}</p>
-                    </td>
-                    <td className="py-3 px-3 text-right tabular-nums align-top font-bold text-white">{display}</td>
-                    <td className="py-3 px-3 text-right tabular-nums align-top text-gray-400">{year ?? '—'}</td>
-                    <td className={`py-3 pl-3 text-right tabular-nums align-top font-semibold ${deltaClass(change)}`}>
-                      {changeDisplay}
-                    </td>
+            {/* Laggards */}
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-red-400 mb-2">Laggards</p>
+              <table className="w-full text-[13px] tabular-nums">
+                <caption className="sr-only">Commodities lagging by intraday percent change.</caption>
+                <thead>
+                  <tr className="text-[9px] uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                    <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
+                    <th scope="col" className="py-1.5 text-right font-semibold">Last</th>
+                    <th scope="col" className="py-1.5 pl-2 text-right font-semibold">Chg</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody className="divide-y divide-white/[0.06]">
+                  {laggards.map(c => (
+                    <tr key={c.symbol} className="hover:bg-white/[0.02]">
+                      <td className="py-2 pr-2 font-bold text-white">{c.name}</td>
+                      <td className="py-2 text-right font-bold text-white">
+                        {c.price !== null ? c.price.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'}
+                      </td>
+                      <td className={`py-2 pl-2 text-right font-semibold ${deltaClass(c.change)}`}>
+                        {deltaArrow(c.change)} {deltaSign(c.change)}{c.change.toFixed(2)}%
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="mt-3 text-[10px] text-gray-500 leading-relaxed">
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://stooq.com" target="_blank" rel="noopener noreferrer">Stooq</a> EOD feed · cached 15 min · iron ore proxied via BHP ADR. Liberia-relevant futures only — no equities feed available for the LSE.
+          </p>
         </div>
-        <p className="mt-3 text-[11px] text-gray-500 leading-relaxed">
-          Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank Open Data</a> &mdash; country code LR. Indicators are annual; release lag is typically 6&ndash;18 months. Cached 24 hours.
-        </p>
+
+        {/* Today's Markets — FX + Macro side panel */}
+        <aside className="lg:border-l lg:border-white/[0.08] lg:pl-8">
+          <h2 className="text-[14px] font-bold text-white mb-3 pb-2 border-b-2 border-white/30">Today&rsquo;s Markets</h2>
+
+          {/* FX */}
+          <p className="text-[10px] font-bold uppercase tracking-wider text-brand-accent mb-2">FX · vs LRD</p>
+          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-[12px] tabular-nums mb-5">
+            {FX_DISPLAY.map(({ from, label }) => {
+              const r = lrdRates[from];
+              return (
+                <li key={from} className="flex items-baseline justify-between py-1.5">
+                  <span className="font-semibold text-white">{label}</span>
+                  <span className="font-bold text-white">{r ? r.toLocaleString('en-US', { maximumFractionDigits: 4 }) : '—'}</span>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Macro */}
+          <p className="text-[10px] font-bold uppercase tracking-wider text-brand-accent mb-2">Macro · World Bank</p>
+          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-[12px] tabular-nums">
+            {[
+              { key: WB_INDICATORS.GDP_GROWTH, label: 'GDP growth' },
+              { key: WB_INDICATORS.INFLATION,  label: 'Inflation (CPI)' },
+              { key: WB_INDICATORS.RESERVES,   label: 'Reserves' },
+              { key: WB_INDICATORS.UNEMPLOYMENT, label: 'Unemployment' },
+              { key: WB_INDICATORS.GDP,        label: 'GDP' },
+              { key: WB_INDICATORS.GOVT_DEBT,  label: 'Govt debt %GDP' },
+            ].map(({ key, label }) => {
+              const v = latestValue(indicators[key] ?? []);
+              const isUsd = key === WB_INDICATORS.GDP || key === WB_INDICATORS.RESERVES;
+              return (
+                <li key={key} className="flex items-baseline justify-between py-1.5">
+                  <span className="font-semibold text-white">{label}</span>
+                  <span className="font-bold text-white">{v != null ? (isUsd ? formatUSD(v) : formatPct(v)) : '—'}</span>
+                </li>
+              );
+            })}
+          </ul>
+
+          <p className="mt-4 text-[10px] text-gray-500 leading-relaxed">
+            FX from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">@fawazahmed0/currency-api</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
+          </p>
+        </aside>
       </section>
 
-      {/* ── How we source / methodology ── */}
+      {/* ── Lead + What's News ── */}
+      <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+        {/* Lead feature */}
+        <div className="lg:col-span-2">
+          {/* Sub-features — vertical card style with large thumbnail */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6 pt-6 border-t border-white/[0.06]">
+            {subFeatures.map(s => (
+              <Link key={s.id} href={`/news/${s.id}`} className="group block no-underline">
+                <div className="overflow-hidden rounded-xl mb-3">
+                  <NewsThumbnail category={s.category} className="w-full h-[180px] sm:h-[220px]" />
+                </div>
+                <p className={`text-[10px] font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(s.category)}`}>{s.category}</p>
+                <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                <p className="text-[11px] leading-relaxed text-gray-500">{timeAgo(s.date)}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* What's News sidebar — horizontal card list */}
+        <aside className="lg:border-l lg:border-white/[0.08] lg:pl-8">
+          <h2 className="text-[14px] font-bold text-white mb-3 pb-2 border-b-2 border-white/30">What&rsquo;s News</h2>
+          <ul className="m-0 p-0 list-none">
+            {whatsNews.map(n => (
+              <StoryCard key={n.id} n={n} />
+            ))}
+          </ul>
+        </aside>
+      </section>
+
+      {/* ── Three-column section grid: Heard / Banking / Investing ── */}
+      <section className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+        <div>
+          <SectionHeader title="Heard on the Street" href="/news" />
+          <ul className="m-0 p-0 list-none">
+            {heardOnTheStreet.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+        <div>
+          <SectionHeader title="Banking & Capital" href="/news" />
+          <ul className="m-0 p-0 list-none">
+            {banking.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+        <div>
+          <SectionHeader title="Investing" href="/news" />
+          <ul className="m-0 p-0 list-none">
+            {investing.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Three-column section grid: Macro / Commodities / Currencies ── */}
+      <section className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+        <div>
+          <SectionHeader title="Macro &amp; Growth" href="/economy" />
+          <ul className="m-0 p-0 list-none">
+            {stocks.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+        <div>
+          <SectionHeader title="Commodities &amp; Futures" href="/news" />
+          <ul className="m-0 p-0 list-none">
+            {commoditiesStories.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+        <div>
+          <SectionHeader title="Currencies" href="/news" />
+          <ul className="m-0 p-0 list-none">
+            {currenciesStories.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Regulation + Most Recent Desks + Related Topics ── */}
+      <section className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 border-b border-white/[0.08]">
+        <div>
+          <SectionHeader title="Regulation &amp; Policy" href="/news" />
+          <ul className="m-0 p-0 list-none">
+            {regulation.map(n => <StoryCard key={n.id} n={n} withByline />)}
+          </ul>
+        </div>
+        <div>
+          <SectionHeader title="Most Recent Desks" />
+          <ul className="m-0 p-0 list-none space-y-3">
+            {topAuthors.map(({ author, count, latest }) => (
+              <li key={author} className="flex gap-3 items-start border-b border-white/[0.06] pb-3 last:border-0">
+                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent text-[12px] font-black flex items-center justify-center shrink-0">
+                  {author.split(' ').map(w => w[0]).slice(0, 2).join('')}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-bold text-white">{author}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-gray-500 mb-1">{count} {count === 1 ? 'story' : 'stories'} this month</p>
+                  <Link href={`/news/${latest.id}`} className="text-[12px] text-gray-300 hover:text-white no-underline line-clamp-2">{latest.title}</Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <SectionHeader title="Related Topics" />
+          <div className="flex flex-wrap gap-2">
+            {[
+              { label: 'Forex',         href: '/news' },
+              { label: 'Commodities',   href: '/news' },
+              { label: 'Iron Ore',      href: '/news' },
+              { label: 'Rubber',        href: '/news' },
+              { label: 'CBL',           href: '/news' },
+              { label: 'World Bank',    href: '/news' },
+              { label: 'IMF',           href: '/news' },
+              { label: 'Diaspora',      href: '/news' },
+              { label: 'GDP',           href: '/news' },
+              { label: 'Inflation',     href: '/news' },
+              { label: 'Banking',       href: '/news' },
+              { label: 'Mining',        href: '/news' },
+              { label: 'Trade',         href: '/news' },
+              { label: 'Policy',        href: '/news' },
+            ].map(t => (
+              <Link
+                key={t.label}
+                href={t.href}
+                className="inline-block rounded-sm border border-white/15 px-2.5 py-1 text-[11px] font-semibold text-white/80 hover:bg-white/[0.06] hover:text-white no-underline transition-colors"
+              >
+                {t.label}
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-6 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2">TrueRate Desks</p>
+          <ul className="m-0 p-0 list-none flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-gray-400">
+            {Array.from(new Set(newsItems.map(n => n.author).filter(Boolean) as string[])).slice(0, 8).map(a => (
+              <li key={a}>
+                <span className="text-gray-300">{a}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── More in Markets & Finance ── */}
+      <section className="mb-12">
+        <div className="flex items-baseline justify-between border-b-2 border-white/30 pb-2 mb-5">
+          <h2 className="text-[14px] font-bold text-white">More in Markets &amp; Finance</h2>
+          <Link href="/news" className="text-[11px] uppercase tracking-wider text-brand-accent hover:underline no-underline">All news ›</Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
+          {morePicks.map(n => (
+            <Link key={n.id} href={`/news/${n.id}`} className="group block no-underline">
+              <div className="overflow-hidden rounded-xl mb-3">
+                <NewsThumbnail category={n.category} className="w-full h-[140px]" />
+              </div>
+              <article>
+                <p className={`text-[10px] font-semibold uppercase tracking-wide mb-1.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
+                <h3 className="text-[13px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-2">{n.title}</h3>
+                <p className="text-[12px] text-gray-400 leading-relaxed line-clamp-2 mb-2">{n.summary}</p>
+                <p className="text-[11px] text-gray-500">
+                  {n.author && <><span className="font-semibold text-gray-300">{n.author}</span><span className="mx-1 text-gray-700">·</span></>}
+                  {timeAgo(n.date)}
+                </p>
+              </article>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Methodology ── */}
       <section className="mt-12 border-t border-white/[0.08] pt-6" aria-labelledby="method-heading">
         <h2 id="method-heading" className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
         <ul className="space-y-2 text-[13px] text-gray-300 leading-relaxed max-w-[760px]">
-          <li>&middot; FX rates refresh every 60 minutes from a free CDN feed; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>
-          <li>&middot; If an upstream feed is unreachable, the affected row shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
-          <li>&middot; LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>
-          <li>&middot; For the converter and historical FX charts, see <Link href="/news?q=LRD" className="text-brand-accent hover:underline">recent FX coverage</Link>. Tip a deal or correction: <a className="text-brand-accent hover:underline" href="mailto:tips@truerate.com">tips@truerate.com</a>.</li>
+          <li>· FX rates refresh every 60 minutes from a free CDN feed; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>
+          <li>· If an upstream feed is unreachable, the affected card shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
+          <li>· LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>
+          <li>· No equities feed for the Liberian Stock Exchange is available; Top Movers is restricted to the commodities universe relevant to Liberia&rsquo;s export economy.</li>
+          <li>· Tip a deal or correction: <a className="text-brand-accent hover:underline" href="mailto:tips@truerate.com">tips@truerate.com</a></li>
         </ul>
       </section>
 

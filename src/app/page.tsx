@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { newsItems } from '@/data/news';
-import { getCatColor } from '@/lib/category-colors';
+import { getNewsCatColor } from '@/lib/category-colors';
 import { getNews, newsFeed, timeAgo } from '@/lib/utils';
 import IndicatorsStrip from '@/components/IndicatorsStrip';
 import VideosSection from '@/components/VideosSection';
@@ -95,7 +95,7 @@ function FeaturedColumn() {
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500 mb-3">
             <span>Lead story</span>
             <span className="mx-2 text-gray-700">·</span>
-            <span className={getCatColor(featured.category)}>{featured.category}</span>
+            <span className={getNewsCatColor(featured.category)}>{featured.category}</span>
           </p>
 
           {/* Headline — page's H1 */}
@@ -131,7 +131,7 @@ function FeaturedColumn() {
                   {item.title}
                 </h3>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                   <span className="mx-1.5 text-gray-700">·</span>
                   {i === 0 ? `By ${sbyline}` : sbyline}
                   <span className="mx-1.5 text-gray-700">·</span>
@@ -165,7 +165,7 @@ function NewsListColumn() {
             <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
               {item.category && (
                 <>
-                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                   <span className="mx-1.5 text-gray-700">·</span>
                 </>
               )}
@@ -208,7 +208,7 @@ function LatestColumn() {
               <div className="flex-1 min-w-0">
                 <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                   <span className="mx-1.5 text-gray-700">·</span>
                   {item.source}
                   <span className="mx-1.5 text-gray-700">·</span>
@@ -401,7 +401,7 @@ function DeepReadsColumn() {
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.category} className="w-full h-[180px]" />
         </div>
-        <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
+        <div className={`text-[10px] font-bold uppercase tracking-wide ${getNewsCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
         <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{lead.title}</h3>
         <div className="mt-2 text-[11px] text-gray-500">{lead.source} · {timeAgo(lead.date)}</div>
       </Link>
@@ -411,7 +411,7 @@ function DeepReadsColumn() {
             <div className="min-w-0 flex-1">
               <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3">{item.title}</h3>
               <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                <span className={`text-[10px] font-semibold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+                <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                 <span className="mx-1.5 text-gray-700">·</span>
                 {item.source}
                 <span className="mx-1.5 text-gray-700">·</span>
@@ -441,7 +441,7 @@ function MoreNewsColumn() {
           <div className="min-w-0 flex-1">
             <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3">{item.title}</h3>
             <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-              <span className={`text-[10px] font-semibold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+              <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
               <span className="mx-1.5 text-gray-700">·</span>
               {item.source}
               <span className="mx-1.5 text-gray-700">·</span>
@@ -575,7 +575,7 @@ function QuickReadsColumn() {
                 {compactAge(item.date)}
               </span>
               <div className="min-w-0 border-l border-white/[0.06] pl-3">
-                <p className={`text-[10px] font-bold uppercase tracking-[0.12em] mb-1 ${getCatColor(item.category)}`}>
+                <p className={`text-[10px] font-bold uppercase tracking-[0.12em] mb-1 ${getNewsCatColor(item.category)}`}>
                   {item.category}
                 </p>
                 <h3 className="text-[12px] font-semibold leading-snug text-white/85 group-hover:text-white transition-colors line-clamp-2 text-pretty">
@@ -630,7 +630,7 @@ function UpcomingEventsWidget() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors">{ev.label}</p>
-              <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getCatColor(ev.type)}`}>{ev.type}</span>
+              <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getNewsCatColor(ev.type)}`}>{ev.type}</span>
             </div>
           </Link>
         ))}

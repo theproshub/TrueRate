@@ -44,7 +44,7 @@ export interface NewsItem {
   summary: string;
   source: string;
   date: string;
-  category: 'economy' | 'forex' | 'commodities' | 'policy';
+  category: 'economy' | 'forex' | 'commodities' | 'policy' | 'analysis' | 'banking' | 'investing';
   body?: string[];          // Full article paragraphs
   readTime?: string;        // e.g. "6 min read"
   author?: string;          // Byline
