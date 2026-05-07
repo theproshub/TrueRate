@@ -142,13 +142,13 @@ function FeaturedColumn() {
             <time>{timeAgo(featured.date)}</time>
           </p>
 
-          {/* Related tickers — inline plain text row */}
+          {/* Related tickers — bordered square-edge chips */}
           {STORY_CHIPS[featured.id] && (
-            <div className="flex items-center justify-center gap-5 text-[11px]">
+            <div className="flex items-center justify-center gap-2 text-[11px]">
               {STORY_CHIPS[featured.id].map(chip => (
-                <span key={chip.label} className="text-gray-400">
-                  {chip.label}{' '}
-                  <span className={chip.up ? 'text-emerald-400' : 'text-gray-300'}>{chip.value}</span>
+                <span key={chip.label} className="inline-flex items-center gap-1.5 border border-white/[0.12] bg-white/[0.04] px-2 py-1 text-gray-400">
+                  {chip.label}
+                  <span className={chip.up ? 'text-emerald-400 font-semibold' : 'text-gray-300 font-semibold'}>{chip.value}</span>
                 </span>
               ))}
             </div>
