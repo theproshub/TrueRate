@@ -17,6 +17,14 @@ const STORY_PHOTOS: Record<string, string> = {
   '1': '/images/cbl-governor-tarlue.jpg',
 };
 
+/** Related ticker chips shown beneath the lead story byline */
+const STORY_CHIPS: Record<string, { label: string; value: string; up?: boolean }[]> = {
+  '1': [
+    { label: 'CBL Rate', value: '17.50%' },
+    { label: 'LRD/USD', value: '+0.65%', up: true },
+  ],
+};
+
 /** Homepage hero size wrapper — uses real photo when available, falls back to gradient tile */
 function HeroVisual({ category, storyId }: { category: string; storyId?: string }) {
   const photo = storyId ? STORY_PHOTOS[storyId] : undefined;
@@ -128,11 +136,23 @@ function FeaturedColumn() {
           </p>
 
           {/* Byline — Yahoo-style: source · time */}
-          <p className="text-[11px] text-gray-500">
+          <p className="text-[11px] text-gray-500 mb-2">
             <span>{featured.source}</span>
             <span aria-hidden className="mx-1.5">·</span>
             <time>{timeAgo(featured.date)}</time>
           </p>
+
+          {/* Related tickers — inline plain text row */}
+          {STORY_CHIPS[featured.id] && (
+            <div className="flex items-center justify-center gap-5 text-[11px]">
+              {STORY_CHIPS[featured.id].map(chip => (
+                <span key={chip.label} className="text-gray-400">
+                  {chip.label}{' '}
+                  <span className={chip.up ? 'text-emerald-400' : 'text-gray-300'}>{chip.value}</span>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </Link>
 
