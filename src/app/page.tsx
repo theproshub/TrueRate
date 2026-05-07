@@ -146,7 +146,7 @@ function FeaturedColumn() {
           {STORY_CHIPS[featured.id] && (
             <div className="flex items-center justify-center gap-2 text-[11px]">
               {STORY_CHIPS[featured.id].map(chip => (
-                <span key={chip.label} className="inline-flex items-center gap-1.5 border border-white/[0.12] bg-white/[0.04] px-2 py-1 text-gray-400">
+                <span key={chip.label} className="inline-flex items-center gap-1 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-[10px] text-gray-400">
                   {chip.label}
                   <span className={chip.up ? 'text-emerald-400 font-semibold' : 'text-gray-300 font-semibold'}>{chip.value}</span>
                 </span>
@@ -254,10 +254,10 @@ function LatestColumn() {
                   {timeAgo(item.date)}
                 </p>
                 {chips && chips.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                  <div className="mt-2 flex flex-wrap gap-1.5">
                     {chips.map(chip => (
-                      <span key={chip.label} className="text-[11px] text-gray-400 tabular-nums">
-                        {chip.label} <span className={CHIP_STYLE[chip.dir]}>{chip.pct}</span>
+                      <span key={chip.label} className="inline-flex items-center gap-1 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-[10px] text-gray-400 tabular-nums">
+                        {chip.label} <span className={`font-semibold ${CHIP_STYLE[chip.dir]}`}>{chip.pct}</span>
                       </span>
                     ))}
                   </div>

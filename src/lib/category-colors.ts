@@ -160,6 +160,15 @@ const CAT_MAP: Record<string, [keyof typeof STYLES, string]> = {
   'explainer':         ['analysis',      'Explainer'],
   'investigation':     ['investigation', 'Investigation'],
   'development':       ['development',   'Development'],
+  // Sports finance verticals
+  'sponsorship':       ['markets',       'Sponsorship'],
+  'broadcast':         ['tech',          'Broadcast'],
+  'broadcast rights':  ['tech',          'Broadcast Rights'],
+  'transfers':         ['trade',         'Transfers'],
+  'transfers & deals': ['trade',         'Transfers'],
+  'club finance':      ['banking',       'Club Finance'],
+  'sports finance':    ['banking',       'Sports Finance'],
+  'stadium':           ['development',   'Stadium'],
   // Sports
   'football':          ['sports',        'Football'],
   'basketball':        ['commodities',   'Basketball'],

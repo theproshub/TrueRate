@@ -363,7 +363,7 @@ export default function EconomyPage() {
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-semibold text-white group-hover:text-white/70 transition-colors leading-snug">{item.title}</p>
                   </div>
-                  <span className={`shrink-0 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                  <span className={`shrink-0 px-1.5 py-px text-[10px] font-bold uppercase tracking-wide ${
                     item.status === 'Active'    ? 'border border-emerald-400/30 bg-emerald-500/[0.08] text-emerald-400' :
                     item.status === 'Completed' ? 'border border-white/[0.10] bg-white/[0.04] text-gray-400'           :
                                                   'border border-blue-400/30 bg-blue-500/[0.08] text-blue-400'
@@ -554,7 +554,7 @@ export default function EconomyPage() {
             </div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-[12px] text-gray-500">Current Tranche</span>
-              <span className="border border-emerald-400/30 bg-emerald-500/[0.08] px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">3rd — Approved</span>
+              <span className="border border-emerald-400/30 bg-emerald-500/[0.08] px-1.5 py-px text-[10px] font-bold text-emerald-400">3rd — Approved</span>
             </div>
             <div className="space-y-2">
               {[
