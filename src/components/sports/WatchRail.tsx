@@ -11,17 +11,17 @@ export default function WatchRail({ videos }: { videos: VideoCard[] }) {
           <Link
             key={v.href}
             href={v.href}
-            className="group snap-start shrink-0 w-[260px] sm:w-[300px] no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-2"
+            className="group snap-start shrink-0 w-[260px] sm:w-[300px] no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
           >
             <div className="overflow-hidden mb-2">
               <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[170px] sm:h-[180px]" />
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-wide text-red-700 mb-1">{v.category}</p>
-            <h3 className="text-[14px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors line-clamp-2">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-red-400 mb-1">{v.category}</p>
+            <h3 className="text-[14px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors line-clamp-2">
               {v.title}
             </h3>
             <p className="mt-1 text-[11px] text-gray-500">
-              <span className="font-semibold text-gray-700">{v.source}</span>
+              <span className="font-semibold text-gray-400">{v.source}</span>
             </p>
           </Link>
         ))}

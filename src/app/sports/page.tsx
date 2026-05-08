@@ -42,13 +42,13 @@ export default function SportsPage() {
   const mostReadRight = MOST_READ.slice(5, 10);
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="min-h-screen text-gray-200">
       {/* 1. League nav strip — sits below SportsChrome (rendered by layout) */}
       <LeagueNavStrip />
 
       <main className="mx-auto max-w-[1320px] px-4 py-5">
         {/* 2. Breadcrumb */}
-        <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports' }]} />
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Sports' }]} />
 
         {/* 3. Live scoreboard rail */}
         <div className="mt-4">
@@ -65,18 +65,18 @@ export default function SportsPage() {
           {/* Main column */}
           <div className="lg:col-span-8 min-w-0">
             {/* Hero feature + 3 related */}
-            <section aria-labelledby="hero-feature" className="pb-8 border-b border-gray-300">
-              <Link href={HERO.href} className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-2">
+            <section aria-labelledby="hero-feature" className="pb-8 border-b border-white/[0.08]">
+              <Link href={HERO.href} className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]">
                 <div className="overflow-hidden mb-4">
                   <HeroVisual category={HERO.category} className="w-full h-[260px] sm:h-[380px]" />
                 </div>
-                <p className="text-[11px] font-bold uppercase tracking-wide text-red-700 mb-2">{HERO.category}</p>
-                <h1 id="hero-feature" className="text-[26px] sm:text-[32px] font-bold text-gray-900 leading-[1.15] tracking-tight group-hover:text-gray-700 transition-colors mb-3">
+                <p className="text-[11px] font-bold uppercase tracking-wide text-red-400 mb-2">{HERO.category}</p>
+                <h1 id="hero-feature" className="text-[26px] sm:text-[32px] font-bold text-white leading-[1.15] tracking-tight group-hover:text-gray-100 transition-colors mb-3">
                   {HERO.title}
                 </h1>
-                <p className="text-[14px] leading-relaxed text-gray-600 mb-3">{HERO.dek}</p>
+                <p className="text-[14px] leading-relaxed text-gray-300 mb-3">{HERO.dek}</p>
                 <p className="text-[12px] text-gray-500">
-                  <span className="font-semibold text-gray-700">{HERO.source}</span>
+                  <span className="font-semibold text-gray-400">{HERO.source}</span>
                   <span className="mx-1.5">·</span>
                   <time>{HERO.time}</time>
                 </p>
@@ -87,16 +87,16 @@ export default function SportsPage() {
                   <li key={s.href}>
                     <Link
                       href={s.href}
-                      className="group flex sm:flex-col items-start gap-3 sm:gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1"
+                      className="group flex sm:flex-col items-start gap-3 sm:gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
                     >
                       <div className="shrink-0 overflow-hidden">
                         <NewsThumbnail category={s.category} className="h-[72px] w-[108px] sm:w-full sm:h-[110px]" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-red-700 mb-1">{s.category}</p>
-                        <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors line-clamp-3">{s.title}</h3>
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-red-400 mb-1">{s.category}</p>
+                        <h3 className="text-[13px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors line-clamp-3">{s.title}</h3>
                         <p className="mt-1 text-[11px] text-gray-500">
-                          <span className="font-semibold text-gray-700">{s.source}</span>
+                          <span className="font-semibold text-gray-400">{s.source}</span>
                           <span className="mx-1">·</span>
                           {s.time}
                         </p>
@@ -144,17 +144,17 @@ export default function SportsPage() {
         <section aria-labelledby="most-read" className="mt-12">
           <SectionHead title="Trending in Sport" />
           <span id="most-read" className="sr-only">Most read sports stories</span>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 border-y border-gray-200">
-            <ol className="md:border-r md:border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 border-y border-white/[0.08]">
+            <ol className="md:border-r md:border-white/[0.06]">
               {mostReadLeft.map((s, i) => (
-                <li key={s.href} className="border-b border-gray-100 last:border-0">
-                  <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1">
-                    <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-700 leading-none w-7 tabular-nums">{i + 1}</span>
+                <li key={s.href} className="border-b border-white/[0.06] last:border-0">
+                  <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]">
+                    <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-400 leading-none w-7 tabular-nums">{i + 1}</span>
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</p>
-                      <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">{s.title}</h3>
+                      <h3 className="text-[13px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors">{s.title}</h3>
                       <p className="mt-1 text-[11px] text-gray-500">
-                        <span className="font-semibold text-gray-700">{s.source}</span>
+                        <span className="font-semibold text-gray-400">{s.source}</span>
                         <span className="mx-1">·</span>
                         {s.time}
                       </p>
@@ -165,14 +165,14 @@ export default function SportsPage() {
             </ol>
             <ol start={6}>
               {mostReadRight.map((s, i) => (
-                <li key={s.href} className="border-b border-gray-100 last:border-0">
-                  <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1">
-                    <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-700 leading-none w-7 tabular-nums">{i + 6}</span>
+                <li key={s.href} className="border-b border-white/[0.06] last:border-0">
+                  <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]">
+                    <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-400 leading-none w-7 tabular-nums">{i + 6}</span>
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</p>
-                      <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">{s.title}</h3>
+                      <h3 className="text-[13px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors">{s.title}</h3>
                       <p className="mt-1 text-[11px] text-gray-500">
-                        <span className="font-semibold text-gray-700">{s.source}</span>
+                        <span className="font-semibold text-gray-400">{s.source}</span>
                         <span className="mx-1">·</span>
                         {s.time}
                       </p>
