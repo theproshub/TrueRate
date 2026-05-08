@@ -9,13 +9,13 @@ export default function PlayerSpotlight({ player }: { player: Data }) {
   return (
     <Link
       href="#"
-      className="group block bg-white/[0.03] border border-white/[0.08] hover:border-white/20 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+      className="group block bg-white/[0.03] border border-white/[0.08] hover:border-white/20 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
     >
       <div className="overflow-hidden">
         <HeroVisual category={player.category} className="h-[180px]" />
       </div>
       <div className="px-4 py-3">
-        <p className="text-[10px] font-bold uppercase tracking-wide text-red-400 mb-1">Player Spotlight</p>
+        <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-400 mb-1">Player Spotlight</p>
         <h3 className="text-[16px] font-bold text-white leading-tight group-hover:text-gray-100 transition-colors">
           {player.name}
         </h3>

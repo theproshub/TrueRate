@@ -17,9 +17,9 @@ export default function SportsNetworkRail({ items }: { items: Story[] }) {
           <li key={s.href} className="border-b border-white/[0.06] last:border-0">
             <Link
               href={s.href}
-              className="group flex items-start gap-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-start gap-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
             >
-              <span aria-hidden className="shrink-0 text-[20px] font-bold text-red-400 leading-none w-6 tabular-nums pt-1">
+              <span aria-hidden className="shrink-0 text-[20px] font-bold text-emerald-400 leading-none w-6 tabular-nums pt-1">
                 {i + 1}
               </span>
               <div className="shrink-0 overflow-hidden">

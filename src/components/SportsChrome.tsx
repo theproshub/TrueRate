@@ -31,7 +31,7 @@ export default function SportsChrome() {
                   <span className="text-[11px] text-gray-500">{item.label}</span>
                   <span className="text-[12px] tabular-nums font-semibold text-white">{item.value}</span>
                   {item.delta && (
-                    <span className={`text-[11px] tabular-nums ${item.delta.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <span className={`text-[11px] tabular-nums ${item.delta.up ? 'text-emerald-400' : 'text-emerald-400'}`}>
                       {item.delta.up ? '+' : ''}{item.delta.text}
                     </span>
                   )}
@@ -59,10 +59,10 @@ export default function SportsChrome() {
                 key={t.href}
                 href={t.href}
                 aria-current={active ? 'page' : undefined}
-                className={`whitespace-nowrap px-3 sm:px-4 py-2.5 text-[12px] sm:text-[13px] font-semibold uppercase tracking-wide border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-red-400 ${
+                className={`whitespace-nowrap px-3 sm:px-4 py-2.5 text-[12px] sm:text-[13px] font-semibold uppercase tracking-wide border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-emerald-400 ${
                   active
-                    ? 'border-red-500 text-red-400'
-                    : 'border-transparent text-gray-300 hover:text-red-400'
+                    ? 'border-emerald-500 text-emerald-400'
+                    : 'border-transparent text-gray-300 hover:text-emerald-400'
                 }`}
               >
                 {t.label}

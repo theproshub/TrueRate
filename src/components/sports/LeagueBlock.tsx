@@ -19,13 +19,13 @@ export default function LeagueBlock({ data }: { data: LeagueBlockData }) {
         {/* Featured story (image left on desktop) */}
         <Link
           href={data.featured.href}
-          className="lg:col-span-8 group flex flex-col sm:flex-row gap-4 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+          className="lg:col-span-8 group flex flex-col sm:flex-row gap-4 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
         >
           <div className="overflow-hidden sm:shrink-0">
             <HeroVisual category={data.featured.category} className="w-full sm:w-[260px] h-[160px] sm:h-[176px]" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-red-400 mb-1.5">{data.featured.category}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-400 mb-1.5">{data.featured.category}</p>
             <h3 className="text-[18px] sm:text-[20px] font-bold text-white leading-snug group-hover:text-gray-100 transition-colors">
               {data.featured.title}
             </h3>
@@ -51,12 +51,12 @@ export default function LeagueBlock({ data }: { data: LeagueBlockData }) {
             <li key={s.href}>
               <Link
                 href={s.href}
-                className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+                className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
               >
                 <div className="overflow-hidden mb-2">
                   <NewsThumbnail category={s.category} className="w-full h-[110px]" />
                 </div>
-                <p className="text-[10px] font-bold uppercase tracking-wide text-red-400 mb-1">{s.category}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-400 mb-1">{s.category}</p>
                 <h4 className="text-[13px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors line-clamp-3">
                   {s.title}
                 </h4>

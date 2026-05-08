@@ -25,7 +25,7 @@ export default function TeamCrest({
       <path
         d="M4 4h24v14c0 6-4.5 9.5-12 12-7.5-2.5-12-6-12-12V4z"
         fill="#1a1f29"
-        stroke="#ef4444"
+        stroke="#10b981"
         strokeWidth="1.5"
       />
       <text
@@ -34,7 +34,7 @@ export default function TeamCrest({
         textAnchor="middle"
         fontSize={text.length > 2 ? 9 : 11}
         fontWeight="800"
-        fill="#fca5a5"
+        fill="#6ee7b7"
         fontFamily="ui-sans-serif,system-ui,sans-serif"
         letterSpacing="0.5"
       >

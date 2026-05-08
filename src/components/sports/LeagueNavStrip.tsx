@@ -16,7 +16,7 @@ export default function LeagueNavStrip() {
           <Link
             key={item.href}
             href={item.href}
-            className="whitespace-nowrap px-3 sm:px-4 py-2.5 text-[12px] sm:text-[13px] font-semibold text-gray-300 hover:text-red-400 transition-colors no-underline focus-visible:outline-none focus-visible:text-red-400 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#08151c]"
+            className="whitespace-nowrap px-3 sm:px-4 py-2.5 text-[12px] sm:text-[13px] font-semibold text-gray-300 hover:text-emerald-400 transition-colors no-underline focus-visible:outline-none focus-visible:text-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#08151c]"
           >
             {item.label}
           </Link>

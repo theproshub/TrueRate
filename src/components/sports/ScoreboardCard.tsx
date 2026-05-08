@@ -27,19 +27,19 @@ export default function ScoreboardCard({ match, compact = false }: { match: Matc
   return (
     <Link
       href={`/sports/match/${match.id}`}
-      className="group flex flex-col shrink-0 w-[210px] sm:w-[230px] bg-white/[0.04] border border-white/[0.08] hover:border-white/20 transition-colors no-underline overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+      className="group flex flex-col shrink-0 w-[210px] sm:w-[230px] bg-white/[0.04] border border-white/[0.08] hover:border-white/20 transition-colors no-underline overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
       aria-label={`${match.leagueLabel}: ${match.home.name} vs ${match.away.name}, ${STATUS_LABEL[match.status]}`}
     >
-      {/* Yahoo orange→red top stripe */}
-      <div aria-hidden className="h-1 w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600" />
+      {/* Yahoo-style top stripe — green theme */}
+      <div aria-hidden className="h-1 w-full bg-gradient-to-r from-lime-400 via-emerald-500 to-teal-600" />
 
       <div className="px-3 pt-2 pb-2.5">
         {/* Top row: time / status */}
         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wide mb-1.5">
           <span className="text-gray-400">
             {isUpcoming ? (match.when ?? 'UPCOMING') : isLive ? (
-              <span className="inline-flex items-center gap-1 text-red-400">
-                <span aria-hidden className="motion-safe:animate-pulse h-1.5 w-1.5 rounded-full bg-red-500" />
+              <span className="inline-flex items-center gap-1 text-emerald-400">
+                <span aria-hidden className="motion-safe:animate-pulse h-1.5 w-1.5 rounded-full bg-emerald-500" />
                 LIVE
               </span>
             ) : 'FINAL'}

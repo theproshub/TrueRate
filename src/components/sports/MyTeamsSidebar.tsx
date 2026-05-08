@@ -5,7 +5,7 @@ import SectionHead from './SectionHead';
 
 const RESULT_BG: Record<'W' | 'L' | 'D', string> = {
   W: 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30',
-  L: 'bg-red-500/15 text-red-300 border border-red-500/30',
+  L: 'bg-rose-500/15 text-rose-300 border border-rose-500/30',
   D: 'bg-white/[0.06] text-gray-300 border border-white/[0.12]',
 };
 
@@ -45,7 +45,7 @@ export default function MyTeamsSidebar() {
 
       <Link
         href="/sign-in"
-        className="mt-4 inline-flex w-full items-center justify-center bg-red-500 hover:bg-red-400 text-white text-[12px] font-bold uppercase tracking-wide px-4 py-2.5 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+        className="mt-4 inline-flex w-full items-center justify-center bg-emerald-500 hover:bg-emerald-400 text-white text-[12px] font-bold uppercase tracking-wide px-4 py-2.5 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
       >
         Sign in to personalize
       </Link>

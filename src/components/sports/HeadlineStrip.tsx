@@ -13,11 +13,11 @@ export default function HeadlineStrip({ items }: { items: Story[] }) {
           <li key={s.href} className="border-white/[0.06]">
             <Link
               href={s.href}
-              className="group flex items-start gap-3 px-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-start gap-3 px-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
             >
-              <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
+              <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-red-400 mb-1">{s.category}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-400 mb-1">{s.category}</p>
                 <h3 className="text-[13px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors">
                   {s.title}
                 </h3>
