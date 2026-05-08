@@ -441,6 +441,60 @@ export const VIDEOS: VideoCard[] = [
 ];
 
 /* ------------------------------------------------------------------ */
+/* 8b. Trending — left rail, league → sub-bullets (Yahoo-style)       */
+/* ------------------------------------------------------------------ */
+
+export type TrendingGroup = {
+  label: string;
+  short: string;          // 3-letter mark for the leading icon
+  href: string;
+  items: { label: string; href: string }[];
+};
+
+export const TRENDING_GROUPS: TrendingGroup[] = [
+  {
+    label: 'LPL', short: 'LPL', href: '/sports/lpl',
+    items: [
+      { label: 'Title race tightens to 3 clubs',  href: '/sports/story/lpl-title-three-way' },
+      { label: 'LFA 2026 calendar confirmed',     href: '/sports/story/lfa-2026-calendar'   },
+      { label: '5 LPL breakouts of 2026',         href: '/sports/story/lpl-breakout-five'    },
+    ],
+  },
+  {
+    label: 'LBA', short: 'LBA', href: '/sports/lba',
+    items: [
+      { label: 'Finals: Anchors vs Oilers',       href: '/sports/story/lba-finals-preview' },
+      { label: 'Free-to-air on LNTV',             href: '/sports/story/lba-tv-deal'        },
+      { label: "Women's bridging division",       href: '/sports/story/lba-women-bridging' },
+    ],
+  },
+  {
+    label: 'Lone Star', short: 'LBR', href: '/sports/national-team',
+    items: [
+      { label: 'WAFU win in Freetown',            href: '/sports/story/lonestar-sl-wafu'     },
+      { label: 'Diaspora call-ups expected',      href: '/sports/story/diaspora-call-ups-camp' },
+      { label: 'Orange shirt deal extension',     href: '/sports/story/lonestar-shirt'        },
+    ],
+  },
+  {
+    label: 'Athletics', short: 'LAF', href: '/sports/athletics',
+    items: [
+      { label: 'Two records on Day 1',            href: '/sports/story/national-trials-day1' },
+      { label: '2026 budget: +22% travel',        href: '/sports/story/laf-budget-2026'       },
+      { label: 'County Meet returns to Bong',     href: '/sports/story/county-meet-bong'      },
+    ],
+  },
+  {
+    label: 'Diaspora', short: 'DIA', href: '/sports/diaspora',
+    items: [
+      { label: "Williams's AS Marsa form",        href: '/sports/story/williams-tunis-form' },
+      { label: 'Two teens to Portugal',           href: '/sports/story/diaspora-portugal'   },
+      { label: 'Casa move on the cards',          href: '/sports/story/diaspora-morocco'    },
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /* 9. TrueRate Sports Network — numbered right-rail micro-headlines    */
 /* ------------------------------------------------------------------ */
 

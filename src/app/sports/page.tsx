@@ -10,6 +10,7 @@ import TopicHubBanner from '@/components/sports/TopicHubBanner';
 import WatchRail from '@/components/sports/WatchRail';
 import MyTeamsSidebar from '@/components/sports/MyTeamsSidebar';
 import SportsNetworkRail from '@/components/sports/SportsNetworkRail';
+import TrendingSidebar from '@/components/sports/TrendingSidebar';
 import SectionHead from '@/components/sports/SectionHead';
 import {
   SCOREBOARD,
@@ -60,10 +61,15 @@ export default function SportsPage() {
           <HeadlineStrip items={TOP_HEADLINES} />
         </div>
 
-        {/* 5. Two-column main grid */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10">
+        {/* 5. Three-column main grid: left rail · main · right rail */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-x-6 xl:gap-x-8 gap-y-10">
+          {/* Left rail — Trending (mobile: render last so main + right rail come first) */}
+          <aside aria-label="Trending sports" className="order-3 lg:order-1 lg:col-span-2">
+            <TrendingSidebar />
+          </aside>
+
           {/* Main column */}
-          <div className="lg:col-span-8 min-w-0">
+          <div className="order-1 lg:order-2 lg:col-span-7 min-w-0">
             {/* Hero feature + 3 related */}
             <section aria-labelledby="hero-feature" className="pb-8 border-b border-white/[0.08]">
               <Link href={HERO.href} className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]">
@@ -127,7 +133,7 @@ export default function SportsPage() {
           </div>
 
           {/* Right rail */}
-          <aside aria-label="Sports sidebar" className="lg:col-span-4 flex flex-col gap-10">
+          <aside aria-label="Sports sidebar" className="order-2 lg:order-3 lg:col-span-3 flex flex-col gap-10">
             <MyTeamsSidebar />
             <SportsNetworkRail items={SPORTS_NETWORK} />
           </aside>
