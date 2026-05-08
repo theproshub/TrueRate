@@ -3,9 +3,9 @@ import type { Match } from '@/lib/sports-data';
 import TeamCrest from './TeamCrest';
 
 const STATUS_LABEL: Record<Match['status'], string> = {
-  live:     'Live',
-  final:    'Final',
-  upcoming: 'Upcoming',
+  live:     'LIVE',
+  final:    'FINAL',
+  upcoming: 'UPCOMING',
 };
 
 /** Single match card — used inside the scoreboard rail and league mini-rails. */
@@ -19,16 +19,28 @@ export default function ScoreboardCard({ match, compact = false }: { match: Matc
       className="group flex flex-col shrink-0 w-[210px] sm:w-[230px] border border-gray-200 bg-white px-3 py-2.5 hover:border-gray-400 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1"
       aria-label={`${match.leagueLabel}: ${match.home.name} vs ${match.away.name}, ${STATUS_LABEL[match.status]}`}
     >
-      {/* Top: league + status */}
+      {/* Top: league + status chip */}
       <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wide mb-2">
         <span className="text-red-700">{match.leagueLabel}</span>
-        <span className="inline-flex items-center gap-1.5 text-gray-500">
-          {isLive && (
-            <span aria-hidden className="motion-safe:animate-pulse h-1.5 w-1.5 rounded-full bg-red-600" />
-          )}
-          {isUpcoming ? (match.when ?? 'Upcoming') : STATUS_LABEL[match.status]}
+        <span
+          className={
+            'inline-flex items-center gap-1.5 px-1.5 py-0.5 ' +
+            (isLive
+              ? 'bg-red-700 text-white'
+              : isUpcoming
+              ? 'bg-gray-100 text-gray-700'
+              : 'bg-gray-900 text-white')
+          }
+        >
+          {isLive && <span aria-hidden className="motion-safe:animate-pulse h-1.5 w-1.5 rounded-full bg-white" />}
+          {STATUS_LABEL[match.status]}
         </span>
       </div>
+
+      {/* Time / venue note for upcoming */}
+      {isUpcoming && (
+        <p className="text-[11px] font-semibold text-gray-700 mb-1">{match.when ?? 'TBD'}</p>
+      )}
 
       {/* Teams */}
       <div className="flex flex-col gap-1.5">

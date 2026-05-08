@@ -52,7 +52,6 @@ export const LEAGUE_NAV: LeagueNavItem[] = [
   { label: 'Athletics',     href: '/sports/athletics' },
   { label: 'Diaspora',      href: '/sports/diaspora' },
   { label: 'Transfers',     href: '/sports/transfers-deals' },
-  { label: 'County Meet',   href: '/sports/county-meet' },
   { label: 'Youth',         href: '/sports/youth' },
   { label: 'Watch',         href: '/sports/watch' },
   { label: 'More',          href: '/sports/more' },
@@ -97,7 +96,7 @@ export const SCOREBOARD: Match[] = [
     leagueLabel: 'LBA',
     status: 'final',
     venue: 'SKD Indoor',
-    home: { name: 'NPA Pythons', short: 'NPA', score: 78 },
+    home: { name: 'NPA Anchors', short: 'NPA', score: 78 },
     away: { name: 'LPRC Oilers', short: 'LPR', score: 72 },
   },
   {
@@ -139,7 +138,7 @@ export const SCOREBOARD: Match[] = [
 export const TOP_HEADLINES: Story[] = [
   { href: '/sports/story/lonestar-sl-wafu',     category: 'National', title: 'Lone Star edges Sierra Leone 2-1 in WAFU qualifier',         source: 'Daily Observer',   time: '2h ago' },
   { href: '/sports/story/barrolle-top-table',   category: 'LPL',      title: 'Mighty Barrolle reclaims top of LPL table after Watanga win',  source: 'FrontPage Africa', time: '4h ago' },
-  { href: '/sports/story/williams-tunis-goal',  category: 'Diaspora', title: 'Liberian winger Williams scores again for Tunisian side',      source: 'TrueRate Sports',  time: '5h ago' },
+  { href: '/sports/story/williams-tunis-goal',  category: 'Diaspora', title: 'Liberian winger Williams scores again for Tunisian side AS Marsa', source: 'TrueRate Sports',  time: '5h ago' },
   { href: '/sports/story/lba-finals-saturday',  category: 'LBA',      title: 'LBA finals tip-off Saturday at SKD Indoor',                    source: 'The New Dawn',     time: '6h ago' },
   { href: '/sports/story/determine-girls-9',    category: 'LWPL',     title: 'Determine Girls extend LWPL unbeaten run to 9',                source: 'Liberian Observer',time: '8h ago' },
   { href: '/sports/story/lfa-2026-calendar',    category: 'LPL',      title: 'LFA confirms 2026 league calendar with 16-team format',        source: 'TrueRate Sports',  time: '10h ago' },
@@ -180,7 +179,7 @@ export const MY_TEAMS: MyTeamCard[] = [
   { name: 'Lone Star',          short: 'LBR', league: 'National', next: 'Sat vs Sierra Leone',  last: { result: 'W', text: '2-1 vs SLE' } },
   { name: 'Mighty Barrolle',    short: 'BAR', league: 'LPL',      next: 'Sun vs LISCR',         last: { result: 'W', text: '1-0 vs IE'  } },
   { name: 'Invincible Eleven',  short: 'IE',  league: 'LPL',      next: 'Wed vs Nimba United',  last: { result: 'L', text: '0-1 vs BAR' } },
-  { name: 'NPA Pythons',        short: 'NPA', league: 'LBA',      next: 'Sat vs LPRC Oilers',   last: { result: 'W', text: '78-72 vs LPR' } },
+  { name: 'NPA Anchors',        short: 'NPA', league: 'LBA',      next: 'Sat vs LPRC Oilers',   last: { result: 'W', text: '78-72 vs LPR' } },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -248,7 +247,7 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       href: '/sports/story/lba-finals-preview',
       category: 'LBA',
       title: 'Pythons vs Oilers: the LBA finals matchup the league has wanted for three years',
-      dek: 'NPA Pythons enter the finals at full strength after dispatching Monrovia Club Breweries; LPRC Oilers arrive on a 9-game streak. Inside the tactical chess match.',
+      dek: 'NPA Anchors enter the finals at full strength after dispatching Monrovia Club Breweries; LPRC Oilers arrive on a 9-game streak. Inside the tactical chess match.',
       source: 'TrueRate Sports',
       time: '5h ago',
     },
@@ -258,13 +257,13 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       { href: '/sports/story/lba-women-bridging',   category: 'LBA', title: "Women's LBA bridging division gets approval for 2026",        source: 'Daily Observer',   time: '1d ago' },
     ],
     miniScores: [
-      { id: 'b1', league: 'LBA', leagueLabel: 'LBA', status: 'final',    venue: 'SKD Indoor', home: { name: 'NPA Pythons',  short: 'NPA', score: 78 }, away: { name: 'LPRC Oilers', short: 'LPR', score: 72 } },
-      { id: 'b2', league: 'LBA', leagueLabel: 'LBA', status: 'final',    venue: 'SKD Indoor', home: { name: 'MCB',          short: 'MCB', score: 65 }, away: { name: 'NPA Pythons', short: 'NPA', score: 81 } },
-      { id: 'b3', league: 'LBA', leagueLabel: 'LBA', status: 'upcoming', when: 'Sat 7:00 PM', venue: 'SKD Indoor', home: { name: 'NPA Pythons', short: 'NPA' }, away: { name: 'LPRC Oilers', short: 'LPR' } },
+      { id: 'b1', league: 'LBA', leagueLabel: 'LBA', status: 'final',    venue: 'SKD Indoor', home: { name: 'NPA Anchors',  short: 'NPA', score: 78 }, away: { name: 'LPRC Oilers', short: 'LPR', score: 72 } },
+      { id: 'b2', league: 'LBA', leagueLabel: 'LBA', status: 'final',    venue: 'SKD Indoor', home: { name: 'MCB',          short: 'MCB', score: 65 }, away: { name: 'NPA Anchors', short: 'NPA', score: 81 } },
+      { id: 'b3', league: 'LBA', leagueLabel: 'LBA', status: 'upcoming', when: 'Sat 7:00 PM', venue: 'SKD Indoor', home: { name: 'NPA Anchors', short: 'NPA' }, away: { name: 'LPRC Oilers', short: 'LPR' } },
     ],
     spotlight: {
       name: 'Patrick Konah',
-      team: 'NPA Pythons · Guard',
+      team: 'NPA Anchors · Guard',
       category: 'LBA',
       blurb: 'Veteran point guard leading the LBA in assists and steals heading into the finals.',
       stats: [
@@ -348,7 +347,7 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
     featured: {
       href: '/sports/story/williams-tunis-form',
       category: 'Diaspora',
-      title: "Williams's Tunis form: 6 in 8 and a Lone Star return that's reshaping the wing",
+      title: "Williams's AS Marsa form: 6 in 8 and a Lone Star return that's reshaping the wing",
       dek: 'A run of starts in the Tunisian top flight has put the 26-year-old back in international contention. Inside the system that\'s unlocked his finishing.',
       source: 'TrueRate Analysis',
       time: '5h ago',
@@ -359,13 +358,13 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       { href: '/sports/story/diaspora-morocco',    category: 'Diaspora', title: 'Casablanca move on the cards for an LPL-bred midfielder',                       source: 'Reuters',         time: '1d ago' },
     ],
     miniScores: [
-      { id: 'd1', league: 'DIASPORA', leagueLabel: 'Tunisia',  status: 'final', venue: 'Radès',  home: { name: 'ES Tunis',  short: 'EST', score: 2 }, away: { name: 'Sfaxien',   short: 'CSS', score: 0 } },
+      { id: 'd1', league: 'DIASPORA', leagueLabel: 'Tunisia',  status: 'final', venue: 'La Marsa',  home: { name: 'AS Marsa',  short: 'ASM', score: 2 }, away: { name: 'Sfaxien',   short: 'CSS', score: 0 } },
       { id: 'd2', league: 'DIASPORA', leagueLabel: 'Portugal', status: 'final', venue: 'Porto',  home: { name: 'Penafiel',  short: 'PEN', score: 1 }, away: { name: 'Académico', short: 'ACV', score: 1 } },
       { id: 'd3', league: 'DIASPORA', leagueLabel: 'Morocco',  status: 'final', venue: 'Casa',   home: { name: 'Raja',      short: 'RAJ', score: 3 }, away: { name: 'FUS Rabat', short: 'FUS', score: 2 } },
     ],
     spotlight: {
       name: 'Joseph Williams',
-      team: 'ES Tunis · Winger',
+      team: 'AS Marsa · Winger',
       category: 'Diaspora',
       blurb: 'Six goals in eight Tunisian top-flight appearances and back in the Lone Star squad.',
       stats: [
@@ -442,12 +441,27 @@ export const VIDEOS: VideoCard[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/* 9. Most read / trending                                             */
+/* 9. TrueRate Sports Network — numbered right-rail micro-headlines    */
+/* ------------------------------------------------------------------ */
+
+export const SPORTS_NETWORK: Story[] = [
+  { href: '/sports/story/lonestar-cell-ie',         category: 'Sponsorship', title: 'Lonestar Cell renews IE shirt deal — $240K/yr',         source: 'TrueRate Sports',   time: '1h' },
+  { href: '/sports/story/williams-training-week',   category: 'Diaspora',    title: "Inside Williams's training week in Tunis",               source: 'TrueRate Analysis', time: '3h' },
+  { href: '/sports/story/lpl-breakout-five',        category: 'LPL',         title: "Ranking the LPL's 5 breakout players of 2026",           source: 'TrueRate Sports',   time: '4h' },
+  { href: '/sports/story/lba-finals-keys',          category: 'LBA',         title: 'LBA finals: keys for Anchors vs Oilers',                 source: 'TrueRate Analysis', time: '6h' },
+  { href: '/sports/story/diaspora-call-ups-camp',   category: 'National',    title: 'Diaspora call-ups expected for next Lone Star camp',     source: 'FrontPage Africa',  time: '8h' },
+  { href: '/sports/story/lfa-licensing-rules',      category: 'LPL',         title: 'LFA tightens club licensing rules',                      source: 'Daily Observer',    time: '11h' },
+  { href: '/sports/story/athletics-trials-quals',   category: 'Athletics',   title: "Athletics trials: who's qualified for the championships",source: 'TrueRate Sports',   time: '14h' },
+  { href: '/sports/story/county-meet-bong',         category: 'Athletics',   title: 'County Meet returns to Bong this December',              source: 'The New Dawn',      time: '1d' },
+];
+
+/* ------------------------------------------------------------------ */
+/* 10. Most read / trending                                            */
 /* ------------------------------------------------------------------ */
 
 export const MOST_READ: Story[] = [
   { href: '/sports/story/lonestar-wafu-revival',  category: 'National', title: "Lone Star's WAFU revival: how a young squad is restoring belief", source: 'Daily Observer',    time: '1h' },
-  { href: '/sports/story/williams-tunis-form',    category: 'Diaspora', title: "Williams's Tunis form: 6 in 8 and a Lone Star return",            source: 'TrueRate Analysis', time: '5h' },
+  { href: '/sports/story/williams-tunis-form',    category: 'Diaspora', title: "Williams's AS Marsa form: 6 in 8 and a Lone Star return",            source: 'TrueRate Analysis', time: '5h' },
   { href: '/sports/story/lpl-title-three-way',    category: 'LPL',      title: 'LPL title race tightens to three clubs separated by a point',       source: 'TrueRate Sports',   time: '3h' },
   { href: '/sports/story/lba-finals-preview',     category: 'LBA',      title: 'Pythons vs Oilers: the LBA finals matchup the league wanted',       source: 'TrueRate Sports',   time: '5h' },
   { href: '/sports/story/national-trials-day1',   category: 'Athletics',title: 'Two national records fall on Day 1 of the National Trials',         source: 'TrueRate Sports',   time: '4h' },

@@ -9,6 +9,7 @@ import LeagueBlock from '@/components/sports/LeagueBlock';
 import TopicHubBanner from '@/components/sports/TopicHubBanner';
 import WatchRail from '@/components/sports/WatchRail';
 import MyTeamsSidebar from '@/components/sports/MyTeamsSidebar';
+import SportsNetworkRail from '@/components/sports/SportsNetworkRail';
 import SectionHead from '@/components/sports/SectionHead';
 import {
   SCOREBOARD,
@@ -19,6 +20,7 @@ import {
   TOPIC_HUBS,
   VIDEOS,
   MOST_READ,
+  SPORTS_NETWORK,
 } from '@/lib/sports-data';
 
 export const metadata: Metadata = {
@@ -122,64 +124,65 @@ export default function SportsPage() {
             <LeagueBlock data={nationalBlock} />
             <LeagueBlock data={lafBlock} />
             <LeagueBlock data={diasporaBlock} />
-
-            {/* Watch rail */}
-            <section aria-labelledby="watch" className="mt-12">
-              <SectionHead title="Watch" action="/sports/watch" actionLabel="More videos" />
-              <span id="watch" className="sr-only">Sports videos</span>
-              <WatchRail videos={VIDEOS} />
-            </section>
-
-            {/* Most read */}
-            <section aria-labelledby="most-read" className="mt-12">
-              <SectionHead title="Most Read in Sport" />
-              <span id="most-read" className="sr-only">Most read sports stories</span>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 border-y border-gray-200">
-                <ol className="md:border-r md:border-gray-100">
-                  {mostReadLeft.map((s, i) => (
-                    <li key={s.href} className="border-b border-gray-100 last:border-0">
-                      <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1">
-                        <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-700 leading-none w-7 tabular-nums">{i + 1}</span>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</p>
-                          <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">{s.title}</h3>
-                          <p className="mt-1 text-[11px] text-gray-500">
-                            <span className="font-semibold text-gray-700">{s.source}</span>
-                            <span className="mx-1">·</span>
-                            {s.time}
-                          </p>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ol>
-                <ol start={6}>
-                  {mostReadRight.map((s, i) => (
-                    <li key={s.href} className="border-b border-gray-100 last:border-0">
-                      <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1">
-                        <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-700 leading-none w-7 tabular-nums">{i + 6}</span>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</p>
-                          <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">{s.title}</h3>
-                          <p className="mt-1 text-[11px] text-gray-500">
-                            <span className="font-semibold text-gray-700">{s.source}</span>
-                            <span className="mx-1">·</span>
-                            {s.time}
-                          </p>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </section>
           </div>
 
           {/* Right rail */}
-          <aside aria-label="My teams" className="lg:col-span-4">
+          <aside aria-label="Sports sidebar" className="lg:col-span-4 flex flex-col gap-10">
             <MyTeamsSidebar />
+            <SportsNetworkRail items={SPORTS_NETWORK} />
           </aside>
         </div>
+
+        {/* 17. Watch rail — full width below the grid */}
+        <section aria-labelledby="watch" className="mt-12">
+          <SectionHead title="Watch" action="/sports/watch" actionLabel="More on TrueRate Sports" />
+          <span id="watch" className="sr-only">Sports videos</span>
+          <WatchRail videos={VIDEOS} />
+        </section>
+
+        {/* 18. Trending / Most Read — full width below Watch */}
+        <section aria-labelledby="most-read" className="mt-12">
+          <SectionHead title="Trending in Sport" />
+          <span id="most-read" className="sr-only">Most read sports stories</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 border-y border-gray-200">
+            <ol className="md:border-r md:border-gray-100">
+              {mostReadLeft.map((s, i) => (
+                <li key={s.href} className="border-b border-gray-100 last:border-0">
+                  <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1">
+                    <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-700 leading-none w-7 tabular-nums">{i + 1}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</p>
+                      <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">{s.title}</h3>
+                      <p className="mt-1 text-[11px] text-gray-500">
+                        <span className="font-semibold text-gray-700">{s.source}</span>
+                        <span className="mx-1">·</span>
+                        {s.time}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            <ol start={6}>
+              {mostReadRight.map((s, i) => (
+                <li key={s.href} className="border-b border-gray-100 last:border-0">
+                  <Link href={s.href} className="group flex items-start gap-3 py-3 pr-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-1">
+                    <span aria-hidden className="shrink-0 text-[24px] font-bold text-red-700 leading-none w-7 tabular-nums">{i + 6}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</p>
+                      <h3 className="text-[13px] font-semibold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">{s.title}</h3>
+                      <p className="mt-1 text-[11px] text-gray-500">
+                        <span className="font-semibold text-gray-700">{s.source}</span>
+                        <span className="mx-1">·</span>
+                        {s.time}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
       </main>
     </div>
   );

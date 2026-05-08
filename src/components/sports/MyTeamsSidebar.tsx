@@ -15,7 +15,7 @@ const RESULT_BG: Record<'W' | 'L' | 'D', string> = {
  */
 export default function MyTeamsSidebar() {
   return (
-    <div className="lg:sticky lg:top-4">
+    <div>
       <SectionHead title="My Teams" />
 
       <div className="border-y border-gray-200">
