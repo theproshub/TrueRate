@@ -9,17 +9,17 @@ import SectionHead from './SectionHead';
  */
 export default function TrendingSidebar() {
   return (
-    <section aria-label="Trending in Liberian sports">
-      <SectionHead title="Trending" />
+    <section aria-label="Local teams">
+      <SectionHead title="Local Teams" />
       <ul className="border-y border-white/[0.08]">
         {TRENDING_GROUPS.map(g => (
           <li key={g.label} className="border-b border-white/[0.06] last:border-0 py-3">
             <Link
               href={g.href}
-              className="group flex items-center gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-center gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
             >
               <TeamCrest short={g.short} size={22} />
-              <span className="text-[13px] font-bold text-white group-hover:text-emerald-300 transition-colors">
+              <span className="text-base font-bold text-white group-hover:text-lime-300 transition-colors">
                 {g.label}
               </span>
             </Link>
@@ -28,7 +28,7 @@ export default function TrendingSidebar() {
                 <li key={it.href}>
                   <Link
                     href={it.href}
-                    className="block text-[12px] text-gray-300 leading-snug hover:text-white transition-colors no-underline focus-visible:outline-none focus-visible:text-emerald-300"
+                    className="block text-base text-gray-300 leading-snug hover:text-white hover:underline hover:decoration-white/50 underline-offset-2 transition-colors no-underline focus-visible:outline-none focus-visible:text-lime-300"
                   >
                     {it.label}
                   </Link>

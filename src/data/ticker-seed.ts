@@ -3,7 +3,7 @@ export type TickerItem = { label: string; value: string; pct: string; up: boolea
 export const SEED_INDICATORS: TickerItem[] = [
   { label: 'GDP Growth', value: '4.5%',     pct: 'YoY',    up: true  },
   { label: 'Inflation',  value: '10.2%',    pct: 'YoY',    up: false },
-  { label: 'CBL Rate',   value: '17.50%',   pct: 'Steady', up: true  },
+  { label: 'CBL Rate',   value: '16.25%',   pct: 'Steady', up: true  },
   { label: 'LRD/USD',    value: '192.50',   pct: '+0.65%', up: true  },
   { label: 'LRD/EUR',    value: '209.85',   pct: '-0.44%', up: false },
   { label: 'LRD/GBP',    value: '243.15',   pct: '+0.87%', up: true  },

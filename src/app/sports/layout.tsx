@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
-import SportsMobileTabs from '@/components/SportsMobileTabs';
+import SportsChrome from '@/components/SportsChrome';
 
 export const metadata: Metadata = {
-  title: 'Sports — TrueRate',
-  description: 'Sports business, sponsorships, and athlete stories from Liberia and West Africa.',
+  title: 'Sports Finance — Liberia & West Africa | TrueRate',
+  description:
+    'The money behind Liberian sports — club finance, sponsorships, transfers, and broadcast rights across Liberia and West Africa.',
 };
 
 export default function SportsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SportsMobileTabs />
+      <SportsChrome />
       {children}
     </>
   );

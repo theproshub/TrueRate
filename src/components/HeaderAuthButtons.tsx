@@ -22,7 +22,7 @@ function StaticAuthButtons({ isLight }: { isLight: boolean }) {
     <>
       <Link
         href="/sign-in"
-        className={`rounded-lg border px-3 py-1.5 text-[12px] font-semibold transition no-underline whitespace-nowrap ${
+        className={`inline-flex items-center min-h-[44px] rounded-lg border px-3 py-1.5 text-sm font-semibold transition no-underline whitespace-nowrap ${
           isLight
             ? 'border-gray-300 text-gray-700 hover:bg-gray-100'
             : 'border-white/20 text-white hover:bg-white/[0.06]'
@@ -32,10 +32,10 @@ function StaticAuthButtons({ isLight }: { isLight: boolean }) {
       </Link>
       <Link
         href="/sign-up"
-        className={`hidden sm:block rounded-lg px-5 py-2 text-[13px] font-semibold transition no-underline whitespace-nowrap ${
+        className={`hidden sm:inline-flex items-center min-h-[44px] rounded-lg px-5 py-2 text-base font-semibold transition no-underline whitespace-nowrap ${
           isLight
             ? 'bg-gray-900 text-white hover:bg-gray-700'
-            : 'bg-white text-[#0a0a0d] shadow-lg shadow-white/10 hover:brightness-110'
+            : 'bg-white text-brand-ink shadow-lg shadow-white/10 hover:brightness-110'
         }`}
       >
         Sign up
@@ -52,7 +52,7 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
       <Show when="signed-in">
         <Link
           href="/watchlist"
-          className={`hidden sm:flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+          className={`hidden sm:flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
             isLight
               ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
               : 'text-gray-400 hover:text-white hover:bg-white/[0.06]'
@@ -69,7 +69,7 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
       <Show when="signed-out">
         <Link
           href="/sign-in"
-          className={`rounded-lg border px-3 py-1.5 text-[12px] font-semibold transition no-underline whitespace-nowrap ${
+          className={`inline-flex items-center min-h-[44px] rounded-lg border px-3 py-1.5 text-sm font-semibold transition no-underline whitespace-nowrap ${
             isLight
               ? 'border-gray-300 text-gray-700 hover:bg-gray-100'
               : 'border-white/20 text-white hover:bg-white/[0.06]'
@@ -79,10 +79,10 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
         </Link>
         <Link
           href="/sign-up"
-          className={`hidden sm:block rounded-lg px-5 py-2 text-[13px] font-semibold transition no-underline whitespace-nowrap ${
+          className={`hidden sm:inline-flex items-center min-h-[44px] rounded-lg px-5 py-2 text-base font-semibold transition no-underline whitespace-nowrap ${
             isLight
               ? 'bg-gray-900 text-white hover:bg-gray-700'
-              : 'bg-white text-[#0a0a0d] shadow-lg shadow-white/10 hover:brightness-110'
+              : 'bg-white text-brand-ink shadow-lg shadow-white/10 hover:brightness-110'
           }`}
         >
           Sign up
@@ -97,7 +97,7 @@ function ClerkAuthButtons({ isLight }: { isLight: boolean }) {
               avatarBox: 'h-8 w-8 rounded-full ring-2 ring-white/10 hover:ring-white/30 transition-all',
               userButtonPopoverCard: 'bg-brand-card border border-white/[0.08] shadow-2xl',
               userButtonPopoverActionButton: 'text-gray-300 hover:text-white hover:bg-white/[0.05]',
-              userButtonPopoverActionButtonText: 'text-[13px]',
+              userButtonPopoverActionButtonText: 'text-base',
               userButtonPopoverFooter: 'hidden',
             },
           }}

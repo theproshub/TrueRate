@@ -24,7 +24,7 @@ export default function EntertainmentTopicTabs({ activeSlug }: Props) {
             key={t.slug}
             href={t.href}
             aria-current={active ? 'page' : undefined}
-            className={`whitespace-nowrap px-4 sm:px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-gray-900 ${
+            className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-gray-900 ${
               active
                 ? 'border-gray-900 text-gray-900'
                 : 'border-transparent text-gray-500 hover:text-gray-800'

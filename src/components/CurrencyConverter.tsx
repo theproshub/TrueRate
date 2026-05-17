@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { Heading, Text } from '@/components/ui';
 
 const SUPPORTED = ['LRD', 'USD', 'EUR', 'GBP', 'GHS', 'NGN', 'SLL', 'XOF'];
 
@@ -71,27 +72,27 @@ export default function CurrencyConverter({ initialLookup }: Props) {
     <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
         <div>
-          <h2 className="text-[14px] font-bold text-white">Currency Converter</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">LRD-based · rates from CBL / open market</p>
+          <Heading level={5} as="h2" className="font-bold text-white">Currency Converter</Heading>
+          <Text variant="meta" className="mt-0.5">LRD-based · rates from CBL / open market</Text>
         </div>
         {loading && (
-          <span className="text-[11px] text-gray-500">Fetching rates…</span>
+          <span className="text-xs text-gray-500">Fetching rates…</span>
         )}
         {!loading && lastUpdated && (
-          <span className="text-[11px] text-gray-500">Updated {lastUpdated}</span>
+          <span className="text-xs text-gray-500">Updated {lastUpdated}</span>
         )}
       </div>
 
       <div className="px-5 py-5">
         {/* Amount input */}
         <div className="mb-4">
-          <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-1.5">Amount</label>
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">Amount</label>
           <input
             type="number"
             min="0"
             value={amount}
             onChange={e => setAmount(e.target.value)}
-            className="w-full rounded-lg border border-white/[0.1] bg-white/[0.05] px-4 py-2.5 text-[16px] font-bold text-white outline-none focus:border-emerald-400/50 focus:bg-white/[0.07] transition tabular-nums"
+            className="w-full rounded-lg border border-white/[0.1] bg-white/[0.05] px-4 py-2.5 text-lg font-bold text-white outline-none focus:border-emerald-700/50 focus:bg-white/[0.07] transition tabular-nums"
             placeholder="Enter amount"
           />
         </div>
@@ -99,11 +100,11 @@ export default function CurrencyConverter({ initialLookup }: Props) {
         {/* From / Swap / To row */}
         <div className="flex items-end gap-2 mb-5">
           <div className="flex-1">
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-1.5">From</label>
+            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">From</label>
             <select
               value={from}
               onChange={e => setFrom(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-[14px] font-semibold text-white outline-none focus:border-emerald-400/50 transition appearance-none cursor-pointer"
+              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-md font-semibold text-white outline-none focus:border-emerald-700/50 transition appearance-none cursor-pointer"
             >
               {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
                 <option key={c} value={c}>{c} — {LABELS[c]}</option>
@@ -123,11 +124,11 @@ export default function CurrencyConverter({ initialLookup }: Props) {
           </button>
 
           <div className="flex-1">
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-1.5">To</label>
+            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">To</label>
             <select
               value={to}
               onChange={e => setTo(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-[14px] font-semibold text-white outline-none focus:border-emerald-400/50 transition appearance-none cursor-pointer"
+              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-md font-semibold text-white outline-none focus:border-emerald-700/50 transition appearance-none cursor-pointer"
             >
               {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
                 <option key={c} value={c}>{c} — {LABELS[c]}</option>
@@ -138,21 +139,21 @@ export default function CurrencyConverter({ initialLookup }: Props) {
 
         {/* Result */}
         <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] px-4 py-4 text-center">
-          <p className="text-[13px] text-gray-400 mb-1">
+          <p className="text-base text-gray-400 mb-1">
             {amount || '1'} {from} =
           </p>
-          <p className="text-[32px] font-black text-white tabular-nums leading-tight">
+          <p className="text-3xl font-black text-white tabular-nums leading-tight">
             {result !== null ? fmt(result) : '—'}{' '}
-            <span className="text-[18px] text-emerald-400">{to}</span>
+            <span className="text-xl text-emerald-700">{to}</span>
           </p>
           {result !== null && (
-            <p className="text-[12px] text-gray-500 mt-1.5">
+            <p className="text-sm text-gray-500 mt-1.5">
               1 {from} = {fmt((lookup[from] ?? 1) / (lookup[to] ?? 1))} {to}
             </p>
           )}
         </div>
 
-        <p className="mt-3 text-[11px] text-gray-500 text-center">
+        <p className="mt-3 text-xs text-gray-500 text-center">
           Rates are indicative. For official CBL rates visit cbl.org.lr
         </p>
       </div>

@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { VideoThumbnail, NewsThumbnail } from '@/components/NewsThumbnail';
@@ -50,6 +48,18 @@ const PODCASTS = [
   { title: 'Tech Disruptors: West Africa', ep: 'Ep. 17', duration: '33:20', category: 'Technology', desc: "Mobile money, AI adoption, and the infrastructure gap — Liberia's tech moment is now." },
 ];
 
+const LIVE_UPCOMING = [
+  { title: 'Startup Pitch Live: Monrovia Edition — 8 Founders, One Stage', channel: 'TrueRate Live', time: '10:00 AM', date: 'Apr 7', category: 'Entrepreneurship', badge: 'LIVE NOW' },
+  { title: "Liberia's Small Business Summit 2026 — Opening Keynote", channel: 'TrueRate Live', time: '2:30 PM', date: 'Apr 7', category: 'Leadership', badge: 'UPCOMING' },
+  { title: 'CBL Governor Interview: Rates, Reserves & the Road Ahead', channel: 'TrueRate Interviews', time: '9:00 AM', date: 'Apr 8', category: 'Business', badge: 'UPCOMING' },
+  { title: 'West Africa Tech Summit — Liberia Delegation Panel', channel: 'TrueRate Live', time: '11:00 AM', date: 'Apr 9', category: 'Technology', badge: 'UPCOMING' },
+];
+
+const GROWTH_PLAYBOOK = [
+  { title: 'How to Register & Structure Your Business in Liberia — Step by Step', duration: '14:32', desc: 'From business registration at the Liberia Business Registry to choosing the right legal structure — a complete guide for first-time founders.', category: 'Entrepreneurship', label: 'Starter Guide' },
+  { title: "Your First Investment in Liberia: Stocks, Bonds & Real Estate Explained", duration: '18:07', desc: "A plain-English breakdown of every asset class available to Liberian investors today — with honest risk assessments and where to start.", category: 'Investing', label: 'Beginner Guide' },
+  { title: 'Leadership Fundamentals for Liberian Business Owners — Manage, Motivate & Scale', duration: '22:45', desc: 'Practical leadership frameworks adapted for West African business culture — from managing your first hire to running a team of 50.', category: 'Leadership', label: 'Deep Dive' },
+];
 
 const CAT_COLORS: Record<string, string> = {
   'Entrepreneurship': 'text-violet-400',
@@ -64,12 +74,12 @@ function catColor(c: string) {
   return CAT_COLORS[c] ?? 'text-gray-400';
 }
 
-function PlayButton({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
+function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const dim = size === 'lg' ? 'h-14 w-14' : size === 'sm' ? 'h-8 w-8' : 'h-11 w-11';
   const icon = size === 'lg' ? 'h-6 w-6' : size === 'sm' ? 'h-3.5 w-3.5' : 'h-5 w-5';
   return (
     <div className={`flex ${dim} items-center justify-center rounded-full bg-black/60 backdrop-blur-sm transition-transform duration-200 group-hover:scale-110 group-hover:bg-black/80`}>
-      <svg className={`${icon} translate-x-0.5 text-white`} fill="currentColor" viewBox="0 0 24 24">
+      <svg className={`${icon} translate-x-0.5 text-white`} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M8 5v14l11-7z" />
       </svg>
     </div>
@@ -78,16 +88,13 @@ function PlayButton({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
 
 function SectionHeader({ title, sub, href, label = 'View all ›' }: { title: string; sub?: string; href?: string; label?: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
-      <div className="flex items-center gap-3">
-        <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-        <div>
-          <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">{title}</h2>
-          {sub && <p className="text-[12px] text-gray-500 mt-0.5">{sub}</p>}
-        </div>
+    <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-5">
+      <div>
+        <h2 className="text-md font-bold text-white">{title}</h2>
+        {sub && <p className="text-xs text-gray-500 mt-0.5">{sub}</p>}
       </div>
       {href !== undefined && (
-        <Link href={href || '/videos'} className="text-[12px] text-gray-500 hover:text-white transition-colors no-underline shrink-0">{label}</Link>
+        <Link href={href} className="text-sm text-gray-500 hover:text-brand-accent transition-colors no-underline shrink-0 focus-visible:outline-none focus-visible:underline">{label}</Link>
       )}
     </div>
   );
@@ -95,14 +102,15 @@ function SectionHeader({ title, sub, href, label = 'View all ›' }: { title: st
 
 function VideoCard({ title, duration, category, source, time }: { title: string; duration: string; category: string; source?: string; time: string }) {
   return (
-    <Link href="/videos" className="group flex gap-3.5 py-3.5 first:pt-0 no-underline">
-      <div className="relative shrink-0 overflow-hidden rounded-lg">
-        <VideoThumbnail category={category} duration={duration} className="h-[68px] w-[104px]" />
+    <Link href="/videos" className="group flex gap-3.5 py-3 first:pt-0 no-underline">
+      {/* Thumbnail — no centered play button on small list cards */}
+      <div className="shrink-0 overflow-hidden rounded-lg w-[120px] h-[72px]">
+        <VideoThumbnail category={category} duration={duration} className="w-full h-full" />
       </div>
-      <div className="min-w-0 flex-1">
-        <div className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${catColor(category)}`}>{category}</div>
-        <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{title}</h3>
-        <div className="text-[11px] text-gray-500">{source ? `${source} · ` : ''}{time}</div>
+      {/* Text */}
+      <div className="min-w-0 flex-1 flex flex-col justify-center">
+        <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">{title}</h3>
+        <div className="text-xs text-gray-500">{source ? `${source} · ` : ''}{time}</div>
       </div>
     </Link>
   );
@@ -112,13 +120,12 @@ export default function VideosPage() {
   return (
     <main className="mx-auto max-w-[1320px] px-4 py-6">
 
-      {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
       </div>
 
       {/* ── Hero + Latest ── */}
-      <div className="flex flex-col lg:flex-row gap-6 mb-12">
+      <div className="flex flex-col lg:flex-row gap-6 mb-10">
 
         {/* Hero */}
         <Link href="/videos" className="group flex-1 min-w-0 rounded-2xl no-underline block overflow-hidden">
@@ -126,21 +133,18 @@ export default function VideosPage() {
             <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <PlayButton size="lg" />
+              <PlayIcon size="lg" />
             </div>
-            {/* Badge */}
-            <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-brand-dark">
+            <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-dark">
               {HERO.badge}
             </span>
-            {/* Duration */}
-            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">
+            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">
               {HERO.duration}
             </span>
-            {/* Text overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h2 className="text-[12px] sm:text-[22px] font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
-              <p className="text-[13px] text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
-              <div className="flex items-center gap-2 text-[12px]">
+              <h1 className="text-xl sm:text-2xl font-black leading-[1.2] tracking-tight text-white group-hover:text-brand-accent transition-colors mb-2 line-clamp-2">{HERO.title}</h1>
+              <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+              <div className="flex items-center gap-2 text-sm">
                 <span className="font-semibold text-white/70">{HERO.source}</span>
                 <span className="text-white/30">·</span>
                 <span className="text-white/40">{HERO.time}</span>
@@ -151,20 +155,19 @@ export default function VideosPage() {
 
         {/* Latest sidebar */}
         <div className="w-full lg:w-[280px] shrink-0 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-black uppercase tracking-widest text-white/40">Latest</span>
-            <Link href="/videos" className="text-[11px] text-gray-500 hover:text-white transition-colors no-underline">View more ›</Link>
+          <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
+            <span className="text-md font-bold text-white">Latest</span>
+            <Link href="/videos" className="text-sm text-gray-500 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline">View more ›</Link>
           </div>
           <div className="flex flex-col divide-y divide-white/[0.05] flex-1">
             {LATEST.map((v, i) => (
               <Link key={i} href="/videos" className="group flex gap-3 py-3 first:pt-0 no-underline">
-                <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
-                  <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[58px]" />
+                <div className="shrink-0 overflow-hidden rounded-lg w-[100px] h-[60px]">
+                  <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className={`text-[10px] font-bold uppercase tracking-wide mb-0.5 ${catColor(v.category)}`}>{v.category}</div>
-                  <h4 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{v.title}</h4>
-                  <div className="text-[11px] text-gray-500">{v.time}</div>
+                <div className="min-w-0 flex-1 flex flex-col justify-center">
+                  <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
+                  <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
               </Link>
             ))}
@@ -173,63 +176,38 @@ export default function VideosPage() {
       </div>
 
       {/* ── TrueRate Originals ── */}
-      <section className="mb-8">
+      <section className="mb-10" aria-labelledby="videos-originals">
         <SectionHeader title="TrueRate Originals" sub="Exclusive series on business, entrepreneurship & investing" href="/videos" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {ORIGINALS.map((v, i) => (
-            <Link key={i} href="/videos" className="group relative overflow-hidden rounded-2xl no-underline block">
+            <Link key={i} href="/videos" className="group relative overflow-hidden rounded-xl no-underline block">
               <VideoThumbnail category={v.category} duration={v.duration} className="w-full aspect-video" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <PlayButton size="md" />
+                <PlayIcon size="md" />
               </div>
-              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white tabular-nums">{v.duration}</span>
+              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{v.duration}</span>
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${catColor(v.category)}`}>{v.show} · {v.ep}</div>
-                <h3 className="text-[12px] font-bold leading-snug text-white line-clamp-2">{v.title}</h3>
+                <div className={`text-2xs font-black uppercase tracking-widest mb-1 ${catColor(v.category)}`}>{v.show} · {v.ep}</div>
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white line-clamp-2">{v.title}</h3>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* ── TrueRate Finance Network ── */}
-      <section className="mb-12 -mx-4 px-4 py-8 bg-white/[0.02] border-y border-white/[0.05]">
-        <div className="max-w-[1320px]">
-          <SectionHeader title="TrueRate Finance Network" sub="Podcasts on entrepreneurship, investing, leadership & technology" href="/videos" label="All episodes ›" />
-          <div className="divide-y divide-white/[0.06]">
-            {PODCASTS.map((pod, i) => (
-              <Link key={i} href="/videos" className="group flex gap-4 py-4 first:pt-0 no-underline">
-                <div className="relative shrink-0 overflow-hidden w-[80px]">
-                  <NewsThumbnail category={pod.category} className="w-full aspect-square" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <PlayButton size="sm" />
-                  </div>
-                  <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-0.5 text-[10px] font-semibold text-white tabular-nums">{pod.duration}</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className={`text-[10px] font-black uppercase tracking-wide mb-0.5 ${catColor(pod.category)}`}>{pod.ep}</div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{pod.title}</h3>
-                  <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">{pod.desc}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Entrepreneur Spotlights + Investing Insights ── */}
-      <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <section>
-          <SectionHeader title="Entrepreneur Spotlights" href="/videos" label="View more ›" />
+      <div className="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <section aria-labelledby="videos-spotlights">
+          <SectionHeader title="Entrepreneur Spotlights" href="/videos/entrepreneurship" label="View more ›" />
           <div className="flex flex-col divide-y divide-white/[0.05]">
             {ENTREPRENEUR_SPOTLIGHTS.map((v, i) => (
               <VideoCard key={i} {...v} />
             ))}
           </div>
         </section>
-        <section>
-          <SectionHeader title="Investing Insights" href="/videos" label="View more ›" />
+        <section aria-labelledby="videos-investing">
+          <SectionHeader title="Investing Insights" href="/videos/investing" label="View more ›" />
           <div className="flex flex-col divide-y divide-white/[0.05]">
             {INVESTING_INSIGHTS.map((v, i) => (
               <VideoCard key={i} {...v} />
@@ -238,32 +216,58 @@ export default function VideosPage() {
         </section>
       </div>
 
+      {/* ── TrueRate Finance Network (Podcasts) ── */}
+      <section className="mb-10 -mx-4 px-4 py-8 bg-white/[0.02] border-y border-white/[0.05]" aria-labelledby="videos-podcasts">
+        <div className="max-w-[1320px]">
+          <SectionHeader title="TrueRate Finance Network" sub="Podcasts on entrepreneurship, investing, leadership & technology" href="/videos" label="All episodes ›" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {PODCASTS.map((pod, i) => (
+              <Link key={i} href="/videos" className="group flex flex-col no-underline">
+                {/* Album art */}
+                <div className="relative overflow-hidden rounded-xl mb-3 aspect-square">
+                  <NewsThumbnail category={pod.category} className="w-full h-full" />
+                  {/* Hover play overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <PlayIcon size="md" />
+                  </div>
+                  {/* Duration pill */}
+                  <span className="absolute bottom-2 right-2 rounded-md bg-black/80 px-1.5 py-0.5 text-2xs font-semibold text-white tabular-nums backdrop-blur-sm">
+                    {pod.duration}
+                  </span>
+                </div>
+                {/* Meta */}
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className={`text-2xs font-black uppercase tracking-wide ${catColor(pod.category)}`}>{pod.ep}</span>
+                </div>
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1.5">{pod.title}</h3>
+                <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">{pod.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Live & Upcoming ── */}
-      <section className="mb-8">
+      <section className="mb-10" aria-labelledby="videos-live">
         <SectionHeader title="Live & Upcoming" href="/videos" label="View schedule ›" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { title: 'Startup Pitch Live: Monrovia Edition — 8 Founders, One Stage', channel: 'TrueRate Live', time: '10:00 AM', date: 'Apr 7', category: 'Entrepreneurship', badge: 'LIVE NOW' },
-            { title: "Liberia's Small Business Summit 2026 — Opening Keynote", channel: 'TrueRate Live', time: '2:30 PM', date: 'Apr 7', category: 'Leadership', badge: 'UPCOMING' },
-            { title: 'CBL Governor Interview: Rates, Reserves & the Road Ahead', channel: 'TrueRate Interviews', time: '9:00 AM', date: 'Apr 8', category: 'Business', badge: 'UPCOMING' },
-            { title: 'West Africa Tech Summit — Liberia Delegation Panel', channel: 'TrueRate Live', time: '11:00 AM', date: 'Apr 9', category: 'Technology', badge: 'UPCOMING' },
-          ].map((item, i) => (
+          {LIVE_UPCOMING.map((item, i) => (
             <Link key={i} href="/videos" className="group flex flex-col no-underline">
-              <div className="relative overflow-hidden mb-3">
+              <div className="relative overflow-hidden rounded-xl mb-3">
                 <VideoThumbnail category={item.category} className="w-full aspect-video" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute top-2.5 left-2.5">
-                  <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-white' : 'bg-black/70 text-white/60 border border-white/10'}`}>
+                  <span className={`rounded px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-white' : 'bg-black/70 text-white/60 border border-white/10'}`}>
                     {item.badge}
                   </span>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <PlayButton size="sm" />
+                  <PlayIcon size="sm" />
                 </div>
               </div>
-              <div className={`text-[10px] font-bold uppercase tracking-wide mb-1 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-2 mb-1">{item.title}</h3>
-              <div className="flex items-center gap-2 text-[11px] text-gray-500 mt-0.5">
+              <div className={`text-2xs font-bold uppercase tracking-wide mb-1 ${catColor(item.category)}`}>{item.category}</div>
+              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">{item.title}</h3>
+              <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
                 <span>{item.channel}</span>
                 <span>·</span>
                 <span>{item.time} · {item.date}</span>
@@ -274,26 +278,22 @@ export default function VideosPage() {
       </section>
 
       {/* ── Growth Playbook ── */}
-      <section className="mb-10">
+      <section className="mb-10" aria-labelledby="videos-playbook">
         <SectionHeader title="Growth Playbook" sub="Practical guides on building, investing & leading in Liberia" href="/videos" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {[
-            { title: 'How to Register & Structure Your Business in Liberia — Step by Step', duration: '14:32', desc: 'From business registration at the Liberia Business Registry to choosing the right legal structure — a complete guide for first-time founders.', category: 'Entrepreneurship', label: 'Starter Guide' },
-            { title: "Your First Investment in Liberia: Stocks, Bonds & Real Estate Explained", duration: '18:07', desc: "A plain-English breakdown of every asset class available to Liberian investors today — with honest risk assessments and where to start.", category: 'Investing', label: 'Beginner Guide' },
-            { title: 'Leadership Fundamentals for Liberian Business Owners — Manage, Motivate & Scale', duration: '22:45', desc: 'Practical leadership frameworks adapted for West African business culture — from managing your first hire to running a team of 50.', category: 'Leadership', label: 'Deep Dive' },
-          ].map((item, i) => (
+          {GROWTH_PLAYBOOK.map((item, i) => (
             <Link key={i} href="/videos" className="group flex flex-col no-underline">
-              <div className="relative overflow-hidden mb-4">
+              <div className="relative overflow-hidden rounded-xl mb-4">
                 <VideoThumbnail category={item.category} duration={item.duration} className="w-full aspect-video" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <PlayButton size="md" />
+                  <PlayIcon size="md" />
                 </div>
-                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
+                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
               </div>
-              <div className={`text-[10px] font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/70 transition-colors mb-2 line-clamp-2">{item.title}</h3>
-              <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-3">{item.desc}</p>
+              <div className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
+              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors mb-2 line-clamp-2">{item.title}</h3>
+              <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">{item.desc}</p>
             </Link>
           ))}
         </div>

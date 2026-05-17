@@ -1,75 +1,121 @@
-/** Canonical category → Tailwind text-color class.
- *  Neutral single-tone approach matching Yahoo Finance article tag style. */
-const COLORS: Record<string, string> = {
-  // News / Economy
-  policy:           'text-gray-400',
-  'monetary policy':'text-gray-400',
-  infrastructure:   'text-gray-400',
-  imf:              'text-gray-400',
-  forex:            'text-gray-400',
-  markets:          'text-gray-400',
-  economy:          'text-gray-400',
-  commodities:      'text-gray-400',
-  commodity:        'text-gray-400',
-  mining:           'text-gray-400',
-  banking:          'text-gray-400',
-  agriculture:      'text-gray-400',
-  agri:             'text-gray-400',
-  energy:           'text-gray-400',
-  trade:            'text-gray-400',
-  tech:             'text-gray-400',
-  analysis:         'text-gray-400',
-  development:      'text-gray-400',
-  // Entertainment
-  movies:           'text-gray-400',
-  tv:               'text-gray-400',
-  music:            'text-gray-400',
-  'film finance':   'text-gray-400',
-  deals:            'text-gray-400',
-  // Sports
-  football:         'text-gray-400',
-  basketball:       'text-gray-400',
-  athletics:        'text-gray-400',
-  cricket:          'text-gray-400',
-  tennis:           'text-gray-400',
-  golf:             'text-gray-400',
-  // Research
-  sector:           'text-gray-400',
-  equity:           'text-gray-400',
-  macro:            'text-gray-400',
-  'fixed income':   'text-gray-400',
+/** Unified per-category accent palette.
+ *  Every category gets its own Tailwind text-color class. Used everywhere a
+ *  category badge / tag is rendered — homepage, news, economy, technology,
+ *  entertainment, sports, markets, etc.
+ *
+ *  Color choice principle: stay in the -400 / -500 saturation band so the
+ *  same class reads well on both the dark site shell (bg-brand-dark) and
+ *  the light article shell (bg-brand-surface). Deeper -700 tones are reserved
+ *  for warm-tinted categories where -400 looks washed out on light bg.
+ */
+const ACCENT_COLORS: Record<string, string> = {
+  // ── Policy / macro ──────────────────────────────────────────────
+  policy:            'text-slate-400',
+  'monetary policy': 'text-slate-400',
+  fiscal:            'text-slate-400',
+  'us fed':          'text-slate-400',
+  imf:               'text-slate-400',
+  infrastructure:    'text-slate-400',
+  ports:             'text-slate-400',
+  roads:             'text-slate-400',
+  federation:        'text-slate-400',
+
+  // ── Forex / markets / finance ───────────────────────────────────
+  forex:             'text-sky-400',
+  markets:           'text-sky-400',
+  'capital markets': 'text-sky-400',
+  finance:           'text-sky-400',
+  investing:         'text-emerald-500',
+  banking:           'text-emerald-600',
+
+  // ── Economy / trade ─────────────────────────────────────────────
+  economy:           'text-blue-400',
+  business:          'text-blue-400',
+  trade:             'text-violet-400',
+  'eu trade':        'text-violet-400',
+  china:             'text-violet-400',
+
+  // ── Commodities / mining / agri / energy ────────────────────────
+  commodities:       'text-orange-400',
+  commodity:         'text-orange-400',
+  mining:            'text-orange-400',
+  agriculture:       'text-green-500',
+  agri:              'text-green-500',
+  agritech:          'text-green-500',
+  energy:            'text-yellow-500',
+
+  // ── Tech / AI / fintech / telecom ───────────────────────────────
+  tech:              'text-sky-400',
+  technology:        'text-sky-400',
+  ai:                'text-indigo-400',
+  fintech:           'text-sky-400',
+  telecom:           'text-sky-400',
+  'e-commerce':      'text-sky-400',
+
+  // ── Startups / entrepreneurship ─────────────────────────────────
+  startups:          'text-fuchsia-400',
+  entrepreneurship:  'text-fuchsia-400',
+  founders:          'text-fuchsia-400',
+  funding:           'text-fuchsia-400',
+  growth:            'text-fuchsia-400',
+  smes:              'text-fuchsia-400',
+
+  // ── Leadership / logistics / women ──────────────────────────────
+  leadership:        'text-slate-400',
+  logistics:         'text-amber-500',
+  women:             'text-pink-400',
+
+  // ── Analysis / explainer / investigation ────────────────────────
+  analysis:          'text-purple-400',
+  'deep dive':       'text-purple-400',
+  explainer:         'text-purple-400',
+  investigation:     'text-red-500',
+  development:       'text-teal-400',
+
+  // ── Entertainment ───────────────────────────────────────────────
+  movies:            'text-rose-400',
+  tv:                'text-cyan-400',
+  music:             'text-violet-400',
+  celebrity:         'text-pink-400',
+  'film finance':    'text-rose-400',
+  deals:             'text-orange-400',
+
+  // ── Sports ──────────────────────────────────────────────────────
+  sports:            'text-green-500',
+  football:          'text-green-500',
+  basketball:        'text-orange-500',
+  athletics:         'text-red-400',
+  cricket:           'text-lime-500',
+  tennis:            'text-amber-500',
+  golf:              'text-emerald-500',
+  kit:               'text-green-500',
+  shirt:             'text-green-500',
+  title:             'text-green-500',
+
+  // ── Sports-finance verticals ────────────────────────────────────
+  sponsorship:       'text-sky-400',
+  broadcast:         'text-sky-400',
+  'broadcast rights':'text-sky-400',
+  transfers:         'text-violet-400',
+  'transfers & deals':'text-violet-400',
+  'club finance':    'text-emerald-600',
+  'sports finance':  'text-emerald-600',
+  stadium:           'text-teal-400',
+
+  // ── Research ────────────────────────────────────────────────────
+  sector:            'text-blue-400',
+  equity:            'text-emerald-500',
+  macro:             'text-purple-400',
+  'fixed income':    'text-slate-400',
 };
 
 export function getCatColor(cat: string): string {
-  return COLORS[cat.toLowerCase()] ?? 'text-gray-400';
+  return ACCENT_COLORS[cat.toLowerCase()] ?? 'text-gray-400';
 }
 
-/** Yahoo Finance-style per-category accent colors — news page only. */
-const NEWS_COLORS: Record<string, string> = {
-  policy:           'text-slate-400',
-  'monetary policy':'text-slate-400',
-  infrastructure:   'text-slate-400',
-  imf:              'text-slate-400',
-  forex:            'text-sky-400',
-  markets:          'text-sky-400',
-  economy:          'text-blue-400',
-  commodities:      'text-orange-400',
-  commodity:        'text-orange-400',
-  mining:           'text-orange-400',
-  banking:          'text-emerald-400',
-  agriculture:      'text-green-400',
-  agri:             'text-green-400',
-  energy:           'text-yellow-400',
-  trade:            'text-violet-400',
-  tech:             'text-sky-400',
-  analysis:         'text-purple-400',
-  development:      'text-teal-400',
-  investing:        'text-emerald-400',
-};
-
-export function getNewsCatColor(cat: string): string {
-  return NEWS_COLORS[cat.toLowerCase()] ?? 'text-gray-400';
-}
+/** Back-compat alias — homepage and news page imported a separately-named
+ *  helper. Both now resolve to the same unified palette. */
+export const getNewsCatColor = getCatColor;
 
 /** Category thumbnail treatment — dark gradient + accent color + display label.
  *  Used by NewsThumbnail, HeroVisual, and VideoThumbnail to replace stock photos. */
@@ -77,10 +123,10 @@ export type CatStyle = { bg: string; accent: string; label: string };
 
 const STYLES = {
   policy:       { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',    accent: 'text-slate-300' },
-  forex:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-400' },
+  forex:        { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-700' },
   economy:      { bg: 'bg-gradient-to-br from-blue-950 to-[#04060f]',     accent: 'text-blue-300' },
   commodities:  { bg: 'bg-gradient-to-br from-orange-950 to-[#100700]',   accent: 'text-orange-300' },
-  banking:      { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-400' },
+  banking:      { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-700' },
   agriculture:  { bg: 'bg-gradient-to-br from-lime-950 to-[#060e00]',     accent: 'text-lime-400' },
   energy:       { bg: 'bg-gradient-to-br from-yellow-950 to-[#0f0b00]',   accent: 'text-yellow-300' },
   trade:        { bg: 'bg-gradient-to-br from-purple-950 to-[#07000f]',   accent: 'text-purple-300' },
@@ -94,11 +140,11 @@ const STYLES = {
   tv:           { bg: 'bg-gradient-to-br from-cyan-950 to-[#020c0f]',     accent: 'text-cyan-300' },
   startups:     { bg: 'bg-gradient-to-br from-fuchsia-950 to-[#0d000f]',  accent: 'text-fuchsia-300' },
   ai:           { bg: 'bg-gradient-to-br from-indigo-950 to-[#04000f]',   accent: 'text-indigo-300' },
-  markets:      { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-400' },
+  markets:      { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-700' },
   logistics:    { bg: 'bg-gradient-to-br from-amber-950 to-[#0f0900]',    accent: 'text-amber-300' },
   leadership:   { bg: 'bg-gradient-to-br from-slate-800 to-[#0d0d12]',    accent: 'text-slate-300' },
   investigation:{ bg: 'bg-gradient-to-br from-red-950 to-[#100202]',      accent: 'text-red-300' },
-  investing:    { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-400' },
+  investing:    { bg: 'bg-gradient-to-br from-emerald-950 to-[#050f08]',  accent: 'text-emerald-700' },
   fintech:      { bg: 'bg-gradient-to-br from-sky-950 to-[#030a12]',      accent: 'text-sky-300' },
   women:        { bg: 'bg-gradient-to-br from-pink-950 to-[#0f0006]',     accent: 'text-pink-300' },
 } as const;

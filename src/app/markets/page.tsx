@@ -12,6 +12,7 @@ import {
 } from '@/lib/api/worldbank';
 import { newsItems } from '@/data/news';
 import type { NewsItem } from '@/lib/types';
+import { Heading, Text } from '@/components/ui';
 
 export const revalidate = 900; // 15 min
 
@@ -43,7 +44,7 @@ function formatPct(n: number): string {
 
 function deltaClass(delta: number | null): string {
   if (delta === null) return 'text-gray-500';
-  if (delta > 0) return 'text-emerald-400';
+  if (delta > 0) return 'text-emerald-700';
   if (delta < 0) return 'text-red-400';
   return 'text-gray-400';
 }
@@ -80,12 +81,12 @@ function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolea
           <NewsThumbnail category={n.category} className="h-[60px] w-[88px]" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className={`text-[10px] font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
-          <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3">{n.title}</h3>
-          <p className="text-[11px] leading-relaxed text-gray-500 mt-1">
+          <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
+          <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3">{n.title}</h3>
+          <Text variant="meta" className="leading-relaxed text-gray-500 mt-1">
             {withByline && n.author ? <><span className="font-semibold text-gray-400">{n.author}</span><span className="mx-1 text-gray-700">·</span></> : null}
             {timeAgo(n.date)}
-          </p>
+          </Text>
         </div>
       </Link>
     </li>
@@ -95,9 +96,9 @@ function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolea
 function SectionHeader({ title, href }: { title: string; href?: string }) {
   return (
     <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
-      <h2 className="text-[14px] font-bold text-white">{title}</h2>
+      <Heading level={5} className="text-white">{title}</Heading>
       {href && (
-        <Link href={href} className="text-[10px] uppercase tracking-wider text-brand-accent hover:underline no-underline">
+        <Link href={href} className="text-2xs uppercase tracking-wider text-brand-accent hover:underline no-underline">
           View all ›
         </Link>
       )}
@@ -181,15 +182,15 @@ export default async function MarketsPage() {
         {/* Top Movers — Leaders / Laggards */}
         <div className="lg:col-span-2">
           <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
-            <h2 id="movers-heading" className="text-[14px] font-bold text-white">Top Movers · Commodities</h2>
-            <span className="text-[10px] uppercase tracking-wider text-gray-500">latest close · intraday change</span>
+            <h2 id="movers-heading" className="text-md font-bold text-white">Top Movers · Commodities</h2>
+            <span className="text-2xs uppercase tracking-wider text-gray-500">latest close · intraday change</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {/* Leaders */}
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 mb-2">Leaders</p>
-              <table className="w-full text-[13px] tabular-nums">
+              <Text variant="meta" className="font-bold uppercase tracking-wider text-emerald-700 mb-2">Leaders</Text>
+              <table className="w-full text-base tabular-nums">
                 <caption className="sr-only">Commodities leading by intraday percent change.</caption>
                 <thead>
                   <tr className="text-[9px] uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
@@ -216,8 +217,8 @@ export default async function MarketsPage() {
 
             {/* Laggards */}
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-red-400 mb-2">Laggards</p>
-              <table className="w-full text-[13px] tabular-nums">
+              <Text variant="meta" className="font-bold uppercase tracking-wider text-red-400 mb-2">Laggards</Text>
+              <table className="w-full text-base tabular-nums">
                 <caption className="sr-only">Commodities lagging by intraday percent change.</caption>
                 <thead>
                   <tr className="text-[9px] uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
@@ -242,18 +243,18 @@ export default async function MarketsPage() {
               </table>
             </div>
           </div>
-          <p className="mt-3 text-[10px] text-gray-500 leading-relaxed">
+          <Text variant="caption" className="mt-3 leading-relaxed">
             Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://stooq.com" target="_blank" rel="noopener noreferrer">Stooq</a> EOD feed · cached 15 min · iron ore proxied via BHP ADR. Liberia-relevant futures only — no equities feed available for the LSE.
-          </p>
+          </Text>
         </div>
 
         {/* Today's Markets — FX + Macro side panel */}
         <aside className="lg:border-l lg:border-white/[0.08] lg:pl-8">
-          <h2 className="text-[14px] font-bold text-white mb-3 pb-2 border-b-2 border-white/30">Today&rsquo;s Markets</h2>
+          <Heading level={5} className="text-white mb-3 pb-2 border-b-2 border-white/30">Today&rsquo;s Markets</Heading>
 
           {/* FX */}
-          <p className="text-[10px] font-bold uppercase tracking-wider text-brand-accent mb-2">FX · vs LRD</p>
-          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-[12px] tabular-nums mb-5">
+          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent mb-2">FX · vs LRD</Text>
+          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-sm tabular-nums mb-5">
             {FX_DISPLAY.map(({ from, label }) => {
               const r = lrdRates[from];
               return (
@@ -266,8 +267,8 @@ export default async function MarketsPage() {
           </ul>
 
           {/* Macro */}
-          <p className="text-[10px] font-bold uppercase tracking-wider text-brand-accent mb-2">Macro · World Bank</p>
-          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-[12px] tabular-nums">
+          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent mb-2">Macro · World Bank</Text>
+          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-sm tabular-nums">
             {[
               { key: WB_INDICATORS.GDP_GROWTH, label: 'GDP growth' },
               { key: WB_INDICATORS.INFLATION,  label: 'Inflation (CPI)' },
@@ -287,9 +288,9 @@ export default async function MarketsPage() {
             })}
           </ul>
 
-          <p className="mt-4 text-[10px] text-gray-500 leading-relaxed">
+          <Text variant="caption" className="mt-4 leading-relaxed">
             FX from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">@fawazahmed0/currency-api</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
-          </p>
+          </Text>
         </aside>
       </section>
 
@@ -297,6 +298,30 @@ export default async function MarketsPage() {
       <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
         {/* Lead feature */}
         <div className="lg:col-span-2">
+          {/* Flagship lead story — FT-style hero */}
+          <Link href={`/news/${lead.id}`} className="group block no-underline">
+            <div className="overflow-hidden rounded-xl mb-4">
+              <NewsThumbnail category={lead.category} className="w-full h-[280px] sm:h-[360px]" />
+            </div>
+            <Text variant="caption" className={`font-semibold uppercase tracking-[0.18em] mb-2 ${getNewsCatColor(lead.category)}`}>
+              <span>Markets lead</span>
+              <span className="mx-2 text-gray-700">·</span>
+              <span>{lead.category}</span>
+            </Text>
+            <h2 className="text-[20px] sm:text-[26px] font-black leading-[1.15] tracking-tight text-white group-hover:text-white/80 transition-colors mb-3 text-balance">
+              {lead.title}
+            </h2>
+            <p className="text-md leading-relaxed text-gray-400 mb-3 line-clamp-3 max-w-[680px]">
+              {lead.summary}
+            </p>
+            <Text variant="meta" className="text-gray-500">
+              {lead.author && <><span className="font-semibold text-gray-300">{lead.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
+              <span>{lead.source}</span>
+              <span className="mx-1.5 text-gray-700">·</span>
+              <time>{timeAgo(lead.date)}</time>
+            </Text>
+          </Link>
+
           {/* Sub-features — vertical card style with large thumbnail */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6 pt-6 border-t border-white/[0.06]">
             {subFeatures.map(s => (
@@ -304,9 +329,9 @@ export default async function MarketsPage() {
                 <div className="overflow-hidden rounded-xl mb-3">
                   <NewsThumbnail category={s.category} className="w-full h-[180px] sm:h-[220px]" />
                 </div>
-                <p className={`text-[10px] font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(s.category)}`}>{s.category}</p>
-                <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
-                <p className="text-[11px] leading-relaxed text-gray-500">{timeAgo(s.date)}</p>
+                <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(s.category)}`}>{s.category}</p>
+                <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                <Text variant="meta" className="leading-relaxed text-gray-500">{timeAgo(s.date)}</Text>
               </Link>
             ))}
           </div>
@@ -314,7 +339,7 @@ export default async function MarketsPage() {
 
         {/* What's News sidebar — horizontal card list */}
         <aside className="lg:border-l lg:border-white/[0.08] lg:pl-8">
-          <h2 className="text-[14px] font-bold text-white mb-3 pb-2 border-b-2 border-white/30">What&rsquo;s News</h2>
+          <Heading level={5} className="text-white mb-3 pb-2 border-b-2 border-white/30">What&rsquo;s News</Heading>
           <ul className="m-0 p-0 list-none">
             {whatsNews.map(n => (
               <StoryCard key={n.id} n={n} />
@@ -380,13 +405,13 @@ export default async function MarketsPage() {
           <ul className="m-0 p-0 list-none space-y-3">
             {topAuthors.map(({ author, count, latest }) => (
               <li key={author} className="flex gap-3 items-start border-b border-white/[0.06] pb-3 last:border-0">
-                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent text-[12px] font-black flex items-center justify-center shrink-0">
+                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent text-sm font-black flex items-center justify-center shrink-0">
                   {author.split(' ').map(w => w[0]).slice(0, 2).join('')}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[13px] font-bold text-white">{author}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-gray-500 mb-1">{count} {count === 1 ? 'story' : 'stories'} this month</p>
-                  <Link href={`/news/${latest.id}`} className="text-[12px] text-gray-300 hover:text-white no-underline line-clamp-2">{latest.title}</Link>
+                  <p className="text-base font-bold text-white">{author}</p>
+                  <Text variant="caption" className="uppercase tracking-wider mb-1">{count} {count === 1 ? 'story' : 'stories'} this month</Text>
+                  <Link href={`/news/${latest.id}`} className="text-sm text-gray-300 hover:text-white no-underline line-clamp-2">{latest.title}</Link>
                 </div>
               </li>
             ))}
@@ -414,15 +439,15 @@ export default async function MarketsPage() {
               <Link
                 key={t.label}
                 href={t.href}
-                className="inline-block rounded-sm border border-white/15 px-2.5 py-1 text-[11px] font-semibold text-white/80 hover:bg-white/[0.06] hover:text-white no-underline transition-colors"
+                className="inline-block rounded-sm border border-white/15 px-2.5 py-1 text-xs font-semibold text-white/80 hover:bg-white/[0.06] hover:text-white no-underline transition-colors"
               >
                 {t.label}
               </Link>
             ))}
           </div>
 
-          <p className="mt-6 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2">TrueRate Desks</p>
-          <ul className="m-0 p-0 list-none flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-gray-400">
+          <Text variant="caption" className="mt-6 font-bold uppercase tracking-wider mb-2">TrueRate Desks</Text>
+          <ul className="m-0 p-0 list-none flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400">
             {Array.from(new Set(newsItems.map(n => n.author).filter(Boolean) as string[])).slice(0, 8).map(a => (
               <li key={a}>
                 <span className="text-gray-300">{a}</span>
@@ -435,8 +460,8 @@ export default async function MarketsPage() {
       {/* ── More in Markets & Finance ── */}
       <section className="mb-8">
         <div className="flex items-baseline justify-between border-b-2 border-white/30 pb-2 mb-5">
-          <h2 className="text-[14px] font-bold text-white">More in Markets &amp; Finance</h2>
-          <Link href="/news" className="text-[11px] uppercase tracking-wider text-brand-accent hover:underline no-underline">All news ›</Link>
+          <Heading level={5} className="text-white">More in Markets &amp; Finance</Heading>
+          <Link href="/news" className="text-xs uppercase tracking-wider text-brand-accent hover:underline no-underline">All news ›</Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
           {morePicks.map(n => (
@@ -445,13 +470,13 @@ export default async function MarketsPage() {
                 <NewsThumbnail category={n.category} className="w-full h-[140px]" />
               </div>
               <article>
-                <p className={`text-[10px] font-semibold uppercase tracking-wide mb-1.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
-                <h3 className="text-[13px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-2">{n.title}</h3>
-                <p className="text-[12px] text-gray-400 leading-relaxed line-clamp-2 mb-2">{n.summary}</p>
-                <p className="text-[11px] text-gray-500">
+                <p className={`text-2xs font-semibold uppercase tracking-wide mb-1.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
+                <h3 className="text-base sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-2">{n.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed line-clamp-2 mb-2">{n.summary}</p>
+                <Text variant="meta" className="text-gray-500">
                   {n.author && <><span className="font-semibold text-gray-300">{n.author}</span><span className="mx-1 text-gray-700">·</span></>}
                   {timeAgo(n.date)}
-                </p>
+                </Text>
               </article>
             </Link>
           ))}
@@ -460,8 +485,8 @@ export default async function MarketsPage() {
 
       {/* ── Methodology ── */}
       <section className="mt-8 border-t border-white/[0.08] pt-5" aria-labelledby="method-heading">
-        <h2 id="method-heading" className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
-        <ul className="space-y-2 text-[13px] text-gray-300 leading-relaxed max-w-[760px]">
+        <h2 id="method-heading" className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
+        <ul className="space-y-2 text-base text-gray-300 leading-relaxed max-w-[760px]">
           <li>· FX rates refresh every 60 minutes from a free CDN feed; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>
           <li>· If an upstream feed is unreachable, the affected card shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
           <li>· LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>

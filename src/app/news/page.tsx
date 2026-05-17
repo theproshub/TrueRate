@@ -8,6 +8,7 @@ import { newsItems } from '@/data/news';
 import { NewsThumbnail, VideoThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
+import { Heading, Text } from '@/components/ui';
 
 /* ── helpers ── */
 function timeAgo(d: string) {
@@ -161,16 +162,16 @@ function HeroCarousel() {
       <NewsThumbnail category={item.category} className="w-full h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+        <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
       </div>
-      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white tabular-nums">
+      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-xs font-semibold text-white tabular-nums">
         {idx + 1} / {slides.length}
       </div>
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <Link href={`/news/${item.id}`} className="no-underline">
-          <h2 className="text-[22px] font-bold leading-snug text-white hover:text-white/80 transition-colors drop-shadow-lg line-clamp-3">{item.title}</h2>
+          <Heading level={2} className="leading-snug text-white hover:text-brand-accent transition-colors drop-shadow-lg line-clamp-3">{item.title}</Heading>
         </Link>
-        <p className="mt-1.5 text-[13px] text-white/70 line-clamp-1">{item.source} · {timeAgo(item.date)}</p>
+        <Text className="mt-1.5 text-base text-white/70 line-clamp-1">{item.source} · {timeAgo(item.date)}</Text>
       </div>
       <button onClick={() => setIdx(i => (i - 1 + slides.length) % slides.length)}
         className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors">
@@ -200,9 +201,9 @@ function SubStoryRow() {
             <NewsThumbnail category={item.category} className="w-full h-[130px]" />
           </div>
           <div className="mt-2.5">
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <h3 className="mt-0.5 text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
-            <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-gray-400">
+            <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-3">{item.title}</Heading>
+            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-gray-400">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
             </div>
           </div>
@@ -223,10 +224,10 @@ function FeedList({ tab }: { tab: string }) {
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
           <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
-            <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <h3 className="mt-0.5 text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">{item.title}</h3>
-            <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-            <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
+            <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2">{item.title}</Heading>
+            <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
+            <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
               <span className="font-medium text-gray-500">{item.source}</span>
               <span>·</span>
               <span>{timeAgo(item.date)}</span>
@@ -262,7 +263,7 @@ function NewsPageInner() {
     : [];
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-brand-surface min-h-screen">
       <main className="mx-auto max-w-[1320px] px-4 py-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News' }]} light />
 
@@ -271,25 +272,25 @@ function NewsPageInner() {
         <div className="mb-5">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <h1 className="text-[22px] font-bold text-gray-900">
+              <Heading level={2} as="h1" className="text-gray-900">
                 Search results for{' '}
-                <span className="text-emerald-400">&ldquo;{query}&rdquo;</span>
-              </h1>
-              <p className="mt-1 text-[13px] text-gray-500">
+                <span className="text-emerald-700">&ldquo;{query}&rdquo;</span>
+              </Heading>
+              <Text className="mt-1 text-base text-gray-500">
                 {searchResults.length} article{searchResults.length !== 1 ? 's' : ''} found
-              </p>
+              </Text>
             </div>
-            <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">
+            <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">
               ← All news
             </Link>
           </div>
 
           {searchResults.length === 0 ? (
             <div className="border-b border-gray-200 py-10 text-center">
-              <h2 className="mb-1 text-[16px] font-bold text-gray-900">No results found</h2>
-              <p className="text-[13px] text-gray-500">
+              <Heading level={4} as="h2" className="mb-1 font-bold text-gray-900">No results found</Heading>
+              <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500">
                 Try searching for &ldquo;inflation&rdquo;, &ldquo;forex&rdquo;, &ldquo;rubber&rdquo; or &ldquo;CBL&rdquo;.
-              </p>
+              </Text>
             </div>
           ) : (
             <div className="flex gap-6">
@@ -298,14 +299,14 @@ function NewsPageInner() {
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
                     <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
-                      <span className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
+                      <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <h3 className="mt-0.5 text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">
+                      <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2">
                         {item.title}
-                      </h3>
-                      <p className="mt-1 text-[13px] leading-relaxed text-gray-500 line-clamp-2">{item.summary}</p>
-                      <div className="mt-2 flex items-center gap-2 text-[12px] text-gray-400">
+                      </Heading>
+                      <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
+                      <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
                         <span className="font-medium text-gray-500">{item.source}</span>
                         <span>·</span>
                         <span>{timeAgo(item.date)}</span>
@@ -325,14 +326,14 @@ function NewsPageInner() {
       {/* Breaking ticker */}
       <div className="mb-5 flex items-center gap-0 border-b border-gray-200 overflow-hidden">
         <div className="shrink-0 bg-brand-accent px-3 py-2.5 z-10">
-          <span className="text-[10px] font-black uppercase tracking-widest text-brand-dark">Live</span>
+          <span className="text-2xs font-black uppercase tracking-widest text-brand-dark">Live</span>
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
             {[...BREAKING, ...BREAKING].map((b, i) => (
               <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
-                <span className="text-[10px] font-black uppercase tracking-widest text-brand-accent">{b.label}</span>
-                <span className="text-[13px] font-medium text-gray-700 group-hover:text-gray-950 transition-colors">{b.text}</span>
+                <span className="text-2xs font-black uppercase tracking-widest text-brand-accent">{b.label}</span>
+                <span className="text-base font-medium text-gray-700 group-hover:text-gray-950 transition-colors">{b.text}</span>
               </Link>
             ))}
           </div>
@@ -359,18 +360,18 @@ function NewsPageInner() {
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">For You</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">For You</Heading>
               </div>
               <div className="hidden sm:flex items-center gap-1 rounded-lg border border-gray-200 p-0.5">
                 {['Feed', 'Cards'].map(v => (
-                  <button key={v} className="px-3 py-1 rounded text-[12px] font-medium text-gray-500 hover:text-gray-900 transition-colors">{v}</button>
+                  <button key={v} className="px-3 py-1 rounded text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">{v}</button>
                 ))}
               </div>
             </div>
             <div className="flex gap-0 overflow-x-auto border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {TABS.map(tab => (
                 <button key={tab} onClick={() => setActiveTab(tab)}
-                  className={`whitespace-nowrap px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px ${
+                  className={`whitespace-nowrap px-4 py-2.5 text-base font-medium transition-colors border-b-2 -mb-px ${
                     activeTab === tab ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-800'
                   }`}>
                   {tab}
@@ -385,7 +386,7 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Editor&apos;s Picks</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Editor&apos;s Picks</Heading>
               </div>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
@@ -393,12 +394,12 @@ function NewsPageInner() {
                 <Link key={i} href={p.href} className="group flex gap-4 py-5 first:pt-0 no-underline hover:opacity-75 transition-opacity">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gray-500">{p.category}</span>
-                      <span className="text-[11px] text-gray-400">{p.readTime}</span>
+                      <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-2xs font-bold uppercase tracking-wide text-gray-500">{p.category}</span>
+                      <span className="text-xs text-gray-400">{p.readTime}</span>
                     </div>
-                    <h3 className="text-[16px] font-bold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-2">{p.title}</h3>
-                    <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3">{p.excerpt}</p>
-                    <div className="text-[12px] text-gray-400">{p.author} · {p.time}</div>
+                    <Heading level={4} as="h3" className="font-bold leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors mb-2">{p.title}</Heading>
+                    <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 leading-relaxed line-clamp-2 mb-3">{p.excerpt}</Text>
+                    <div className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400">{p.author} · {p.time}</div>
                   </div>
                   <div className="shrink-0 overflow-hidden rounded-xl">
                     <NewsThumbnail category={i === 0 ? 'Mining' : i === 1 ? 'economy' : 'policy'} className="h-[110px] w-[160px]" />
@@ -413,9 +414,9 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">More Stories</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">More Stories</Heading>
               </div>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">All stories ›</Link>
+              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">All stories ›</Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 divide-x divide-gray-100 border-t border-b border-gray-100">
               {newsItems.slice(20, 24).map((item) => (
@@ -423,9 +424,9 @@ function NewsPageInner() {
                   <div className="overflow-hidden rounded-lg">
                     <NewsThumbnail category={item.category} className="w-full h-[80px]" />
                   </div>
-                  <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
-                  <h3 className="text-[12px] font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{item.title}</h3>
-                  <div className="text-[10px] text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
+                  <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
+                  <Heading level={6} as="h3" className="text-sm font-bold leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-3">{item.title}</Heading>
+                  <div className="text-2xs text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
                 </Link>
               ))}
             </div>
@@ -436,9 +437,9 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Videos</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Videos</Heading>
               </div>
-              <Link href="/videos" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">View all ›</Link>
+              <Link href="/videos" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">View all ›</Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {VIDEOS.map((v, i) => (
@@ -446,8 +447,8 @@ function NewsPageInner() {
                   <div className="relative overflow-hidden rounded-xl mb-2">
                     <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[110px]" />
                   </div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{v.title}</h3>
-                  <span className="text-[11px] text-gray-400">{v.time}</span>
+                  <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-1">{v.title}</Heading>
+                  <span className="text-xs text-gray-400">{v.time}</span>
                 </Link>
               ))}
             </div>
@@ -458,9 +459,9 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Analysis &amp; Opinion</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Analysis &amp; Opinion</Heading>
               </div>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">View all ›</Link>
+              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">View all ›</Link>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
               {OPINION.map((op, i) => (
@@ -469,8 +470,8 @@ function NewsPageInner() {
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{op.title}</h3>
-                    <div className="text-[12px] text-gray-500">{op.author} · <span className="text-gray-400">{op.role}</span> · <span className="text-gray-400">{op.time}</span></div>
+                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-1">{op.title}</Heading>
+                    <div className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">{op.author} · <span className="text-gray-400">{op.role}</span> · <span className="text-gray-400">{op.time}</span></div>
                   </div>
                   <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </Link>
@@ -483,9 +484,9 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">From West Africa</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">From West Africa</Heading>
               </div>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More regional news ›</Link>
+              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">More regional news ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {WEST_AFRICA.map((w, i) => (
@@ -494,9 +495,9 @@ function NewsPageInner() {
                     <NewsThumbnail category="economy" className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">{w.country}</span>
-                    <h3 className="mt-0.5 text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{w.title}</h3>
-                    <div className="text-[11px] text-gray-400">{w.source} · {w.time}</div>
+                    <span className="text-2xs font-bold uppercase tracking-wide text-emerald-700">{w.country}</span>
+                    <Heading level={6} as="h3" className="mt-0.5 text-sm leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-3 mb-1">{w.title}</Heading>
+                    <div className="text-xs text-gray-400">{w.source} · {w.time}</div>
                   </div>
                 </Link>
               ))}
@@ -508,24 +509,19 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Data Stories</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Data Stories</Heading>
               </div>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
+              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">More ›</Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {DATA_STORIES.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex flex-col no-underline">
-                  <div className="relative overflow-hidden mb-3">
-                    <NewsThumbnail category={s.category} className="w-full h-[120px]" />
+                  <div className="overflow-hidden rounded-xl mb-3">
+                    <NewsThumbnail category={s.category} className="w-full h-[140px]" />
                   </div>
-                  <div>
-                    <div className="mb-2">
-                      <span className="text-[32px] font-black text-gray-900 tabular-nums leading-none">{s.stat}</span>
-                      <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400">{s.statLabel}</span>
-                    </div>
-                    <h3 className="text-[12px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
-                    <span className="text-[11px] text-gray-400">{s.time}</span>
-                  </div>
+                  <span className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${getCatColor(s.category)}`}>{s.category}</span>
+                  <Heading level={6} as="h3" className="leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-3 mb-2">{s.title}</Heading>
+                  <span className="text-xs text-gray-400 mt-auto">{s.time}</span>
                 </Link>
               ))}
             </div>
@@ -536,9 +532,9 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">From the Archives</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">From the Archives</Heading>
               </div>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Browse archive ›</Link>
+              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">Browse archive ›</Link>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
               {ARCHIVES.map((a, i) => (
@@ -547,8 +543,8 @@ function NewsPageInner() {
                     <NewsThumbnail category={a.category} className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1.5">{a.title}</h3>
-                    <div className="flex items-center gap-2 text-[11px] text-gray-400">
+                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-1.5">{a.title}</Heading>
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
                       <span>{a.date}</span>
                       <span>·</span>
                       <span>{a.readTime}</span>
@@ -565,22 +561,22 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Community Voices</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Community Voices</Heading>
               </div>
-              <Link href="/news" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
+              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {COMMUNITY_VOICES.map((cv, i) => (
                 <Link key={i} href="/news" className="group flex flex-col no-underline border-t border-gray-100 pt-4">
-                  <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-2">{cv.title}</h3>
-                  <p className="text-[12px] text-gray-500 line-clamp-3 mb-3 flex-1">{cv.excerpt}</p>
+                  <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-2">{cv.title}</Heading>
+                  <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 line-clamp-3 mb-3 flex-1">{cv.excerpt}</Text>
                   <div className="flex items-center gap-3">
                     <div className="shrink-0 overflow-hidden rounded-full">
                       <AuthorAvatar name={cv.author} className="h-8 w-8 rounded-full" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[12px] font-semibold text-gray-700 truncate">{cv.author}</p>
-                      <p className="text-[11px] text-gray-400 truncate">{cv.role} · {cv.time}</p>
+                      <Text className="text-sm font-semibold text-gray-700 truncate">{cv.author}</Text>
+                      <Text variant="meta" className="text-gray-400 truncate">{cv.role} · {cv.time}</Text>
                     </div>
                   </div>
                 </Link>
@@ -593,16 +589,16 @@ function NewsPageInner() {
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Upcoming Economic Events</h2>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Upcoming Economic Events</Heading>
               </div>
-              <Link href="/economy" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full calendar ›</Link>
+              <Link href="/economy" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-emerald-700 transition-colors no-underline">Full calendar ›</Link>
             </div>
             <div className="divide-y divide-gray-100">
               {UPCOMING_EVENTS.map((ev, i) => (
-                <Link key={i} href="/economy" className="group flex items-center gap-4 py-3.5 no-underline hover:opacity-75 transition-opacity">
-                  <span className="shrink-0 w-[52px] text-[12px] font-bold text-emerald-400 tabular-nums">{ev.date}</span>
-                  <p className="flex-1 text-[13px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors leading-snug">{ev.title}</p>
-                  <span className="shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase bg-gray-100 text-gray-500">{ev.type}</span>
+                <Link key={i} href="/economy" className="group flex items-center gap-4 py-3 no-underline">
+                  <span className="shrink-0 w-[52px] text-sm font-medium text-gray-400 tabular-nums">{ev.date}</span>
+                  <Text className="flex-1 text-base font-semibold text-gray-800 group-hover:text-emerald-700 transition-colors leading-snug">{ev.title}</Text>
+                  <span className="shrink-0 text-2xs font-medium text-gray-400 uppercase tracking-wide">{ev.type}</span>
                 </Link>
               ))}
             </div>

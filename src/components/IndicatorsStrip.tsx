@@ -66,9 +66,9 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
     const arrow = isDirectional ? (item.up ? '▲' : '▼') : '';
     return (
       <span className="shrink-0 inline-flex items-baseline gap-1.5 px-4 whitespace-nowrap">
-        <span className="text-[12px] font-semibold text-white">{item.label}</span>
-        <span className="text-[12px] tabular-nums text-gray-300">{item.value}</span>
-        <span className={`text-[11px] tabular-nums font-semibold ${changeColor}`}>
+        <span className="text-sm font-semibold text-white">{item.label}</span>
+        <span className="text-sm tabular-nums text-gray-300">{item.value}</span>
+        <span className={`text-xs tabular-nums font-semibold ${changeColor}`}>
           {arrow && <span className="mr-0.5">{arrow}</span>}
           {item.pct}
         </span>
@@ -84,7 +84,7 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
     <div
       role="region"
       aria-label="Live Liberian markets ticker"
-      className="bg-[#040c10] border-b border-white/[0.05]"
+      className="bg-brand-card border-b border-white/[0.05]"
     >
       <div className="mx-auto max-w-[1320px] overflow-hidden">
         <div className="ticker-scroll flex items-center h-9">

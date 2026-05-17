@@ -1,24 +1,33 @@
 import Link from 'next/link';
 
-/** Bold uppercase title with a red underline rule — site-wide section header. */
+/**
+ * Yahoo-style section header: lime left-bar accent + full-width bottom divider.
+ * Pass `id` when the parent section uses `aria-labelledby`.
+ */
 export default function SectionHead({
+  id,
   title,
   action,
   actionLabel = 'See more',
 }: {
+  id?: string;
   title: string;
   action?: string;
   actionLabel?: string;
 }) {
   return (
-    <div className="flex items-baseline justify-between mb-4">
-      <h2 className="relative text-[15px] font-bold uppercase tracking-wide text-white pb-2 border-b-2 border-emerald-500">
+    <div className="flex items-center justify-between pb-2.5 mb-5 border-b border-white/[0.08]">
+      <h2
+        id={id}
+        className="flex items-center gap-2.5 text-sm font-bold uppercase tracking-widest text-white"
+      >
+        <span aria-hidden="true" className="shrink-0 h-3.5 w-[3px] rounded-sm bg-lime-500" />
         {title}
       </h2>
       {action && (
         <Link
           href={action}
-          className="text-[12px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+          className="text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
         >
           {actionLabel} ›
         </Link>

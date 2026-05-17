@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Match } from '@/lib/sports-data';
 import TeamCrest from './TeamCrest';
+import { Text } from '@/components/ui';
 
 const STATUS_LABEL: Record<Match['status'], string> = {
   live:     'LIVE',
@@ -27,19 +28,19 @@ export default function ScoreboardCard({ match, compact = false }: { match: Matc
   return (
     <Link
       href={`/sports/match/${match.id}`}
-      className="group flex flex-col shrink-0 w-[210px] sm:w-[230px] bg-white/[0.04] border border-white/[0.08] hover:border-white/20 transition-colors no-underline overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+      className={`group flex flex-col bg-white/[0.04] border border-white/[0.08] hover:border-white/20 transition-colors no-underline overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11] ${compact ? 'w-full' : 'shrink-0 w-[210px] sm:w-[230px]'}`}
       aria-label={`${match.leagueLabel}: ${match.home.name} vs ${match.away.name}, ${STATUS_LABEL[match.status]}`}
     >
       {/* Yahoo-style top stripe — green theme */}
-      <div aria-hidden className="h-1 w-full bg-gradient-to-r from-lime-400 via-emerald-500 to-teal-600" />
+      <div aria-hidden className="h-1 w-full bg-gradient-to-r from-lime-400 via-lime-500 to-teal-600" />
 
       <div className="px-3 pt-2 pb-2.5">
         {/* Top row: time / status */}
-        <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wide mb-1.5">
+        <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wide mb-1">
           <span className="text-gray-400">
             {isUpcoming ? (match.when ?? 'UPCOMING') : isLive ? (
-              <span className="inline-flex items-center gap-1 text-emerald-400">
-                <span aria-hidden className="motion-safe:animate-pulse h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1 text-lime-400">
+                <span aria-hidden className="motion-safe:animate-pulse h-1.5 w-1.5 rounded-full bg-lime-500" />
                 LIVE
               </span>
             ) : 'FINAL'}
@@ -55,9 +56,9 @@ export default function ScoreboardCard({ match, compact = false }: { match: Matc
 
         {/* Bottom: venue / note */}
         {!compact && (
-          <p className="mt-2 text-[11px] text-gray-500 line-clamp-1 border-t border-white/[0.06] pt-1.5">
+          <Text variant="meta" className="mt-2 text-gray-500 line-clamp-1 border-t border-white/[0.06] pt-1.5">
             {match.note ? `${match.note} · ` : ''}{match.venue}
-          </p>
+          </Text>
         )}
       </div>
     </Link>
@@ -82,8 +83,8 @@ function Row({
   return (
     <div className="flex items-center gap-2">
       <TeamCrest short={short} size={20} />
-      <span className={`flex-1 truncate text-[13px] font-semibold ${nameColor}`}>{name}</span>
-      <span className={`tabular-nums text-[15px] font-bold w-7 text-right ${scoreColor}`}>
+      <span className={`flex-1 truncate text-base font-semibold ${nameColor}`}>{name}</span>
+      <span className={`tabular-nums text-md font-bold w-7 text-right ${scoreColor}`}>
         {isUpcoming || score === undefined ? '—' : score}
       </span>
     </div>

@@ -1,135 +1,159 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
-import { sportsHero, sportsStoriesBySection } from "@/data/sports-stories";
+import { NewsThumbnail } from '@/components/NewsThumbnail';
+import StatusPill from '@/components/sports/StatusPill';
+import LeagueTable from '@/components/sports/LeagueTable';
+import {
+  BROADCAST_HERO,
+  BROADCAST_DEALS,
+  BROADCAST_TENDER,
+  BROADCAST_REACH,
+  BROADCAST_ECONOMICS,
+  BROADCAST_EDITORIAL,
+} from '@/lib/sports-finance-data';
 
 export const metadata: Metadata = {
-  title: 'Broadcast Rights — TrueRate Sports',
-  description: 'The TV and streaming deals powering African football, basketball, and athletics \u2014 values, expiry dates, and who&rsquo;s bidding next.',
+  title: 'Broadcast Rights — Sports Finance | TrueRate',
+  description: 'Live broadcast deals, rights tenders, and the per-fixture economics of Liberian and West African sports media.',
 };
 
-const HERO = sportsHero("broadcast");
-const STORIES = sportsStoriesBySection("broadcast");
-
-const RIGHTS = [
-  { competition: 'AFCON 2027',         holder: 'SuperSport / beIN',    value: '$340M', territory: 'Global',      expiry: '2027', cagr: '+14%' },
-  { competition: 'Premier League',     holder: 'SuperSport',           value: '$180M', territory: 'Sub-Saharan', expiry: '2028', cagr: '+8%'  },
-  { competition: 'UEFA Champions League', holder: 'Canal+ / StarTimes', value: '$95M', territory: 'West Africa', expiry: '2027', cagr: '+6%'  },
-  { competition: 'NBA Africa / NBL',   holder: 'NBA Africa / DStv',    value: '$22M',  territory: 'Pan-Africa',  expiry: '2027', cagr: '+20%' },
-  { competition: 'WAFU Cup',           holder: 'CAF Media',            value: '$12M',  territory: 'West Africa', expiry: '2026', cagr: '+10%' },
-  { competition: 'LFA League',         holder: 'ELBC / Orange',        value: '$1.8M', territory: 'Liberia',     expiry: '2026', cagr: '+5%'  },
-];
-
-
-const UPCOMING_AUCTIONS = [
-  { comp: 'WAFU Cup (next cycle)',   date: 'Q3 2026', status: 'RFP open',    est: '$16M' },
-  { comp: 'LFA League renewal',       date: 'Q4 2026', status: 'Scoping',     est: '$2.4M' },
-  { comp: 'AFCON 2029 \u2014 early bids', date: 'Q1 2027', status: 'Pre-market',  est: '$380M' },
-  { comp: 'NBL Africa extension',     date: 'Q1 2027', status: 'Negotiating', est: '$28M' },
-];
+function H2({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-xl font-bold text-gray-900 border-b border-gray-300 pb-1.5 mb-4">
+      {children}
+    </h2>
+  );
+}
 
 export default function BroadcastRightsPage() {
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-white min-h-screen">
       <main className="mx-auto max-w-[1320px] px-4 py-6">
-        <div className="mb-6">
-          <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Broadcast Rights' }]} />
-        </div>
 
-        <h1 className="sr-only">Broadcast Rights — Sports Business</h1>
+        <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Broadcast Rights' }]} />
 
-        <Link href={`/sports/story/${HERO.slug}`} className="group flex flex-col lg:flex-row gap-0 overflow-hidden border border-gray-200 bg-white no-underline mb-8">
-          <div className="w-full lg:w-[55%] shrink-0">
-            <HeroVisual category={HERO.category} className="w-full h-[200px] sm:h-[260px] lg:h-full" />
-          </div>
-          <div className="flex flex-col justify-center px-5 py-6 lg:px-8 lg:py-8 flex-1">
-            <span className="mb-3 text-[10px] font-bold uppercase tracking-widest text-gray-500">{HERO.category}</span>
-            <h2 className="text-[22px] font-black leading-snug text-gray-900 group-hover:text-gray-700 mb-3">{HERO.title}</h2>
-            <p className="text-[14px] leading-relaxed text-gray-500 line-clamp-3 mb-4">{HERO.summary}</p>
-            <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
-              <span>{HERO.source}</span><span>·</span><span>{HERO.time}</span>
-            </div>
-          </div>
-        </Link>
+        {/* ── Hero ─────────────────────────────────────────────────── */}
+        <article className="mb-10 pb-8 border-b border-gray-300">
+          <p className="text-xs uppercase tracking-wide text-gray-500 mb-3">Latest deal</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-[1.15] tracking-tight mb-3 max-w-[820px]">
+            {BROADCAST_HERO.title}
+          </h1>
+          <p className="text-md leading-relaxed text-gray-600 max-w-[760px] mb-3">
+            {BROADCAST_HERO.dek}
+          </p>
+          <p className="text-sm text-gray-500">
+            <span className="font-semibold text-gray-700">{BROADCAST_HERO.source}</span>
+            <span className="mx-1.5">·</span>
+            <time>{BROADCAST_HERO.time}</time>
+          </p>
+        </article>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
+        {/* ── Deals table ─────────────────────────────────────────── */}
+        <section className="mb-12">
+          <H2>Active rights deals</H2>
+          <LeagueTable
+            columns={[
+              { key: 'comp',      label: 'Competition', align: 'left',  primary: true },
+              { key: 'rights',    label: 'Holder',      align: 'left',  hideOnMobile: true },
+              { key: 'value',     label: 'Total',       align: 'right', numeric: true, primary: true },
+              { key: 'perSeason', label: 'Per Year',    align: 'right', hideOnMobile: true,
+                render: r => <span className="text-sm text-gray-500 tabular-nums">{r.perSeason}</span> },
+              { key: 'territory', label: 'Territory',   align: 'left',  hideOnMobile: true,
+                render: r => <span className="text-sm text-gray-500">{r.territory}</span> },
+              { key: 'expiry',    label: 'Expires',     align: 'right',
+                render: r => <span className="text-sm text-gray-500 tabular-nums">{r.expiry}</span> },
+              { key: 'status',    label: 'Status',      align: 'right', render: r => <StatusPill status={r.status} /> },
+            ]}
+            rows={BROADCAST_DEALS}
+            caption="Active broadcast rights deals across Liberia and West Africa"
+          />
+        </section>
+
+        {/* ── Tender + Reach ──────────────────────────────────────── */}
+        <section className="mb-12 grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-10">
+
           <div>
-            <div className="mb-10">
-              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-0">
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Current rights deals</h2>
-                <span className="text-[11px] text-gray-400 uppercase tracking-wide font-bold">Live contracts</span>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-[13px]">
-                  <thead className="border-b border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                    <tr>
-                      <th className="px-5 py-3 text-left">Competition</th>
-                      <th className="px-5 py-3 text-left">Rights holder</th>
-                      <th className="px-5 py-3 text-right">Value</th>
-                      <th className="hidden sm:table-cell px-5 py-3 text-left">Territory</th>
-                      <th className="hidden sm:table-cell px-5 py-3 text-right">Expiry</th>
-                      <th className="hidden md:table-cell px-5 py-3 text-right">Growth</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {RIGHTS.map(r => (
-                      <tr key={r.competition} className="hover:bg-gray-50">
-                        <td className="px-5 py-3 font-bold text-gray-900">{r.competition}</td>
-                        <td className="px-5 py-3 text-gray-500">{r.holder}</td>
-                        <td className="tabular-nums px-5 py-3 text-right font-bold text-gray-900">{r.value}</td>
-                        <td className="hidden sm:table-cell px-5 py-3 text-gray-500">{r.territory}</td>
-                        <td className="hidden sm:table-cell tabular-nums px-5 py-3 text-right text-gray-500">{r.expiry}</td>
-                        <td className="hidden md:table-cell tabular-nums px-5 py-3 text-right text-emerald-500 font-semibold">{r.cagr}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <H2>Open tender</H2>
+            <p className="text-2xs uppercase tracking-wide text-red-700 mb-2">Opens in</p>
+            <p className="text-[44px] font-bold text-gray-900 tabular-nums leading-none">
+              {BROADCAST_TENDER.daysOut}<span className="text-xl font-semibold text-gray-500 ml-2">days</span>
+            </p>
+            <p className="text-sm text-gray-500 mt-1">{BROADCAST_TENDER.opensOn}</p>
 
-            <div>
-              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Analysis</h2>
-                </div>
+            <dl className="mt-4 pt-4 border-t border-gray-200 space-y-3">
+              <div>
+                <dt className="text-xs text-gray-500">Reserve price</dt>
+                <dd className="text-lg font-semibold text-gray-900 tabular-nums">{BROADCAST_TENDER.reservePrice}</dd>
               </div>
-              <div className="flex flex-col divide-y divide-gray-100">
-                {STORIES.map(s => (
-                  <Link key={s.slug} href={`/sports/story/${s.slug}`} className="group flex gap-3 sm:gap-4 py-5 first:pt-0 no-underline">
-                    <div className="shrink-0 overflow-hidden"><NewsThumbnail category={s.category} className="h-[80px] w-[100px] sm:h-[90px] sm:w-[140px]" /></div>
-                    <div className="min-w-0 flex-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1.5 block">{s.category}</span>
-                      <h3 className="text-[12px] font-black leading-snug text-gray-900 group-hover:text-gray-700 mb-1.5 line-clamp-2">{s.title}</h3>
-                      <p className="text-[13px] leading-relaxed text-gray-500 line-clamp-2 mb-2">{s.summary}</p>
-                      <div className="text-[12px] text-gray-400">{s.source} · {s.time}</div>
-                    </div>
-                  </Link>
-                ))}
+              <div>
+                <dt className="text-xs text-gray-500 mb-1">Expected bidders</dt>
+                <dd className="text-base text-gray-700">{BROADCAST_TENDER.expectedBidders.join(' · ')}</dd>
               </div>
-            </div>
+            </dl>
+            <p className="mt-4 text-sm text-gray-500 leading-relaxed border-t border-gray-200 pt-3">{BROADCAST_TENDER.note}</p>
           </div>
 
-          <aside className="flex flex-col gap-5">
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
-              <h3 className="text-[12px] font-bold text-gray-900 mb-3">Upcoming auctions</h3>
-              <div className="divide-y divide-gray-100">
-                {UPCOMING_AUCTIONS.map(a => (
-                  <div key={a.comp} className="py-3">
-                    <p className="text-[13px] font-bold text-gray-900">{a.comp}</p>
-                    <p className="text-[11px] text-gray-500 mb-1">{a.date} · {a.status}</p>
-                    <p className="text-[12px] font-semibold text-emerald-600 tabular-nums">Est. {a.est}</p>
-                  </div>
-                ))}
-              </div>
+          <div className="lg:col-span-2">
+            <H2>LPL broadcast reach</H2>
+            <dl className="grid grid-cols-2 sm:grid-cols-4 border-y border-gray-200 [&>*+*]:border-l [&>*+*]:border-gray-200 sm:[&>*:nth-child(odd)]:border-l-0 sm:[&>*:nth-child(3)]:border-l">
+              {[
+                { label: 'Households reached',   value: BROADCAST_REACH.households,                            delta: BROADCAST_REACH.households_yoy,    up: true  as boolean | null },
+                { label: 'Fixtures per season',  value: String(BROADCAST_REACH.fixtures_per_season),           delta: '',                                up: null  as boolean | null },
+                { label: 'Avg audience / match', value: BROADCAST_REACH.avg_audience_per_match,                delta: '',                                up: null  as boolean | null },
+                { label: 'Digital share',        value: BROADCAST_REACH.digital_share,                         delta: BROADCAST_REACH.digital_share_yoy, up: true  as boolean | null },
+              ].map(s => (
+                <div key={s.label} className="px-4 py-3">
+                  <dt className="text-xs text-gray-500 mb-1">{s.label}</dt>
+                  <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{s.value}</dd>
+                  {s.delta && <p className={`mt-0.5 text-sm tabular-nums ${s.up ? 'text-emerald-700' : 'text-gray-500'}`}>{s.up ? '+' : ''}{s.delta}</p>}
+                </div>
+              ))}
+            </dl>
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Flagship match</p>
+              <p className="text-md text-gray-700 mb-1">{BROADCAST_REACH.flagship_match}</p>
+              <p className="text-2xl font-bold text-gray-900 tabular-nums">{BROADCAST_REACH.flagship_audience}<span className="text-sm font-normal text-gray-500 ml-2">peak audience</span></p>
             </div>
-            <Link href="/sports/sponsorship" className="rounded-xl border border-gray-200 bg-white p-4 no-underline hover:border-gray-400 transition-colors">
-              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500 mb-1">Next: Sponsorship →</p>
-              <p className="text-[13px] text-gray-700 leading-relaxed">Shirt, kit, and federation sponsorships across West Africa.</p>
-            </Link>
-          </aside>
-        </div>
+          </div>
+        </section>
+
+        {/* ── Economics ────────────────────────────────────────────── */}
+        <section className="mb-12">
+          <H2>What a fixture actually costs</H2>
+          <dl className="grid grid-cols-2 sm:grid-cols-4 border-y border-gray-200 [&>*+*]:border-l [&>*+*]:border-gray-200 sm:[&>*:nth-child(odd)]:border-l-0 sm:[&>*:nth-child(3)]:border-l">
+            {BROADCAST_ECONOMICS.map(m => (
+              <div key={m.label} className="px-4 py-3">
+                <dt className="text-xs text-gray-500 mb-1">{m.label}</dt>
+                <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{m.value}</dd>
+                <p className="text-xs text-gray-400 mt-0.5">{m.sub}</p>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* ── Editorial ────────────────────────────────────────────── */}
+        <section>
+          <H2>In depth</H2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {BROADCAST_EDITORIAL.map(e => (
+              <Link key={e.title} href={e.href} className="group flex flex-col no-underline">
+                <div className="overflow-hidden mb-3">
+                  <NewsThumbnail category={e.category} className="w-full h-[160px]" />
+                </div>
+                <p className="text-xs uppercase tracking-wide text-gray-500 mb-1.5">{e.category}</p>
+                <h3 className="text-lg font-bold text-gray-900 leading-snug tracking-tight group-hover:text-gray-700 transition-colors mb-2">{e.title}</h3>
+                <p className="text-base text-gray-600 leading-relaxed line-clamp-3 mb-3">{e.dek}</p>
+                <p className="text-xs text-gray-500 mt-auto">
+                  <span className="font-semibold text-gray-700">{e.source}</span>
+                  <span className="mx-1.5">·</span>
+                  {e.time}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
       </main>
     </div>
   );

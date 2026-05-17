@@ -218,9 +218,11 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       time: '3h ago',
     },
     secondaries: [
-      { href: '/sports/story/lpl-watanga-defense',  category: 'LPL', title: "Watanga's back four is the league's most underrated story",  source: 'Daily Observer',    time: '6h ago' },
-      { href: '/sports/story/liscr-young-keeper',   category: 'LPL', title: "LISCR's 18-year-old keeper has yet to concede at home",       source: 'FrontPage Africa',  time: '8h ago' },
-      { href: '/sports/story/nimba-promotion-push', category: 'LPL', title: 'Nimba United climb into the Europa places after Bea draw',     source: 'TrueRate Sports',   time: '12h ago' },
+      { href: '/sports/story/lpl-watanga-defense',  category: 'LPL', title: "Watanga's back four is the league's most underrated story",         source: 'Daily Observer',    time: '6h ago' },
+      { href: '/sports/story/liscr-young-keeper',   category: 'LPL', title: "LISCR's 18-year-old keeper has yet to concede at home",              source: 'FrontPage Africa',  time: '8h ago' },
+      { href: '/sports/story/nimba-promotion-push', category: 'LPL', title: 'Nimba United climb into the Europa places after Bea draw',            source: 'TrueRate Sports',   time: '12h ago' },
+      { href: '/sports/story/lpl-barrolle-tactics', category: 'LPL', title: "Mighty Barrolle's high press is the most effective in the LPL this season", source: 'TrueRate Analysis', time: '15h ago' },
+      { href: '/sports/story/lpl-red-card-crisis',  category: 'LPL', title: 'Five red cards in three matchdays — the discipline problem that could cost the title', source: 'Daily Observer', time: '1d ago' },
     ],
     miniScores: [
       { id: 'm1', league: 'LPL', leagueLabel: 'LPL', status: 'final',    venue: 'ATS',          home: { name: 'Mighty Barrolle', short: 'BAR', score: 1 }, away: { name: 'Invincible Eleven', short: 'IE',  score: 0 } },
@@ -252,9 +254,11 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       time: '5h ago',
     },
     secondaries: [
-      { href: '/sports/story/lba-mvp-race',         category: 'LBA', title: 'The LBA MVP race comes down to two veterans and one rookie', source: 'The New Dawn',    time: '9h ago' },
-      { href: '/sports/story/lba-tv-deal',          category: 'LBA', title: 'LBA finals will be free-to-air on LNTV for the first time',  source: 'FrontPage Africa', time: '14h ago' },
-      { href: '/sports/story/lba-women-bridging',   category: 'LBA', title: "Women's LBA bridging division gets approval for 2026",        source: 'Daily Observer',   time: '1d ago' },
+      { href: '/sports/story/lba-mvp-race',         category: 'LBA', title: 'The LBA MVP race comes down to two veterans and one rookie',   source: 'The New Dawn',      time: '9h ago' },
+      { href: '/sports/story/lba-tv-deal',          category: 'LBA', title: 'LBA finals will be free-to-air on LNTV for the first time',    source: 'FrontPage Africa',  time: '14h ago' },
+      { href: '/sports/story/lba-women-bridging',   category: 'LBA', title: "Women's LBA bridging division gets approval for 2026",          source: 'Daily Observer',    time: '1d ago' },
+      { href: '/sports/story/lba-oilers-defense',   category: 'LBA', title: "LPRC Oilers held opponents under 60 points in seven straight — can NPA break them?", source: 'TrueRate Sports', time: '1d ago' },
+      { href: '/sports/story/lba-crowd-record',     category: 'LBA', title: 'SKD Indoor sells out for the first time since the 2019 finals', source: 'Daily Observer',    time: '2d ago' },
     ],
     miniScores: [
       { id: 'b1', league: 'LBA', leagueLabel: 'LBA', status: 'final',    venue: 'SKD Indoor', home: { name: 'NPA Anchors',  short: 'NPA', score: 78 }, away: { name: 'LPRC Oilers', short: 'LPR', score: 72 } },
@@ -286,9 +290,11 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       time: '6h ago',
     },
     secondaries: [
-      { href: '/sports/story/lonestar-women-camp', category: 'National', title: "Lone Star Women begin camp ahead of WAFU Zone A draw",      source: 'TrueRate Sports', time: '11h ago' },
-      { href: '/sports/story/lfa-stipends',        category: 'National', title: 'LFA confirms increased match-day stipends for both squads', source: 'Daily Observer',   time: '14h ago' },
-      { href: '/sports/story/lonestar-shirt',      category: 'National', title: 'New Lone Star shirt deal — what we know about the Orange extension', source: 'TrueRate Analysis', time: '1d ago' },
+      { href: '/sports/story/lonestar-women-camp',  category: 'National', title: "Lone Star Women begin camp ahead of WAFU Zone A draw",            source: 'TrueRate Sports',   time: '11h ago' },
+      { href: '/sports/story/lfa-stipends',         category: 'National', title: 'LFA confirms increased match-day stipends for both squads',        source: 'Daily Observer',    time: '14h ago' },
+      { href: '/sports/story/lonestar-shirt',       category: 'National', title: "New Lone Star shirt deal — what we know about the Orange extension", source: 'TrueRate Analysis', time: '1d ago' },
+      { href: '/sports/story/lonestar-capeverde',   category: 'National', title: "Cape Verde return leg: Lone Star's set-piece threat could be the difference", source: 'FrontPage Africa', time: '1d ago' },
+      { href: '/sports/story/lfa-u20-squad',        category: 'National', title: 'LFA names 20-player U-20 squad for WAFU Youth qualifiers in Abidjan', source: 'Daily Observer', time: '2d ago' },
     ],
     miniScores: [
       { id: 'n1', league: 'NATIONAL', leagueLabel: 'WAFU',   status: 'final',    venue: 'Freetown', home: { name: 'Sierra Leone', short: 'SLE', score: 1 }, away: { name: 'Lone Star',   short: 'LBR', score: 2 } },
@@ -320,9 +326,11 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       time: '4h ago',
     },
     secondaries: [
-      { href: '/sports/story/laf-budget-2026',    category: 'Athletics', title: 'LAF approves 2026 budget with 22% increase for senior travel', source: 'Daily Observer',  time: '7h ago' },
-      { href: '/sports/story/laf-coach-deal',     category: 'Athletics', title: 'New head coach for sprints group on a 2-year contract',          source: 'TrueRate Sports', time: '13h ago' },
-      { href: '/sports/story/laf-junior-squad',   category: 'Athletics', title: 'Junior squad of 12 named for West Africa Region 2 meet',         source: 'The New Dawn',     time: '1d ago' },
+      { href: '/sports/story/laf-budget-2026',    category: 'Athletics', title: 'LAF approves 2026 budget with 22% increase for senior travel',     source: 'Daily Observer',   time: '7h ago' },
+      { href: '/sports/story/laf-coach-deal',     category: 'Athletics', title: 'New head coach for sprints group on a 2-year contract',             source: 'TrueRate Sports',  time: '13h ago' },
+      { href: '/sports/story/laf-junior-squad',   category: 'Athletics', title: 'Junior squad of 12 named for West Africa Region 2 meet',            source: 'The New Dawn',     time: '1d ago' },
+      { href: '/sports/story/laf-jallah-goal',    category: 'Athletics', title: "Sarah Jallah's 400m record: the training block that made it happen", source: 'TrueRate Analysis', time: '1d ago' },
+      { href: '/sports/story/laf-county-meet',    category: 'Athletics', title: 'County Meet 2026 field results: surprise performances from four counties', source: 'Daily Observer', time: '2d ago' },
     ],
     miniScores: [
       { id: 'a1', league: 'LAF', leagueLabel: 'Trials', status: 'live',     venue: 'SKD Track', note: 'Day 2 in progress', home: { name: 'National Trials', short: 'NT' }, away: { name: 'Day 2', short: 'D2' } },
@@ -353,9 +361,11 @@ export const LEAGUE_BLOCKS: LeagueBlockData[] = [
       time: '5h ago',
     },
     secondaries: [
-      { href: '/sports/story/diaspora-portugal',   category: 'Diaspora', title: "Two Liberian-eligible teenagers signed by Portuguese second-division clubs", source: 'TrueRate Sports', time: '9h ago' },
-      { href: '/sports/story/diaspora-us-college', category: 'Diaspora', title: "US college pipeline: five Liberian-American forwards to watch",                source: 'FrontPage Africa', time: '14h ago' },
-      { href: '/sports/story/diaspora-morocco',    category: 'Diaspora', title: 'Casablanca move on the cards for an LPL-bred midfielder',                       source: 'Reuters',         time: '1d ago' },
+      { href: '/sports/story/diaspora-portugal',   category: 'Diaspora', title: "Two Liberian-eligible teenagers signed by Portuguese second-division clubs",    source: 'TrueRate Sports',  time: '9h ago' },
+      { href: '/sports/story/diaspora-us-college', category: 'Diaspora', title: "US college pipeline: five Liberian-American forwards to watch",                  source: 'FrontPage Africa', time: '14h ago' },
+      { href: '/sports/story/diaspora-morocco',    category: 'Diaspora', title: 'Casablanca move on the cards for an LPL-bred midfielder',                        source: 'Reuters',          time: '1d ago' },
+      { href: '/sports/story/diaspora-sweden',     category: 'Diaspora', title: 'Swedish Allsvenskan side signs 17-year-old Liberian goalkeeper on 3-year deal',  source: 'TrueRate Sports',  time: '1d ago' },
+      { href: '/sports/story/diaspora-mls',        category: 'Diaspora', title: "MLS academy path: how Liberian-American teenagers are breaking into first teams", source: 'TrueRate Analysis', time: '2d ago' },
     ],
     miniScores: [
       { id: 'd1', league: 'DIASPORA', leagueLabel: 'Tunisia',  status: 'final', venue: 'La Marsa',  home: { name: 'AS Marsa',  short: 'ASM', score: 2 }, away: { name: 'Sfaxien',   short: 'CSS', score: 0 } },

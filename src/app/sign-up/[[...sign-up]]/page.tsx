@@ -6,17 +6,17 @@ export default function SignUpPage() {
       <div className="w-full max-w-md">
         {/* Context above the Clerk widget */}
         <div className="mb-8 text-center">
-          <h1 className="text-[22px] font-black text-white tracking-tight">
+          <h1 className="text-2xl font-black text-white tracking-tight">
             Join TrueRate
           </h1>
-          <p className="mt-2 text-[14px] text-gray-500">
+          <p className="mt-2 text-md text-gray-500">
             Track LRD rates, save indicators, and get market alerts
           </p>
 
           {/* Value prop pills */}
           <div className="mt-4 flex flex-wrap justify-center gap-2">
             {['📊 Watchlists', '🔔 Rate Alerts', '📈 Economic Data', '🇱🇷 Liberia-focused'].map(pill => (
-              <span key={pill} className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[12px] font-medium text-gray-400">
+              <span key={pill} className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-sm font-medium text-gray-400">
                 {pill}
               </span>
             ))}
@@ -37,12 +37,12 @@ export default function SignUpPage() {
                 socialButtonsBlockButtonText: 'text-white font-medium',
                 dividerLine: 'bg-white/[0.08]',
                 dividerText: 'text-gray-400',
-                formFieldLabel: 'text-gray-400 text-[13px]',
+                formFieldLabel: 'text-gray-400 text-base',
                 formFieldInput:
-                  'bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-gray-400 rounded-lg focus:border-emerald-400/50 focus:ring-1 focus:ring-[#6001d2]/30',
+                  'bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-gray-400 rounded-lg focus:border-emerald-700/50 focus:ring-1 focus:ring-[#6001d2]/30',
                 formButtonPrimary:
                   'bg-[#6001d2] hover:bg-[#490099] text-white font-semibold rounded-lg transition-colors',
-                footerActionLink: 'text-emerald-400 hover:text-[#c4b5fd]',
+                footerActionLink: 'text-emerald-700 hover:text-[#c4b5fd]',
                 formFieldErrorText: 'text-red-400',
                 alertText: 'text-red-400',
               },

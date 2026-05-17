@@ -31,7 +31,7 @@ const isClerkConfigured =
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const content = (
-    <body className={inter.className} style={{ background: '#050d11' }}>
+    <body className={inter.className}>
       <Header />
       {children}
       <Footer />

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import HeaderAuthButtons from './HeaderAuthButtons';
+import { Text } from '@/components/ui';
 
 const NEWS_TICKER = [
   { category: 'Forex',           headline: 'LRD/USD holds at 192.50 — CBL intervenes to anchor exchange rate ahead of budget review' },
@@ -16,34 +17,6 @@ const NEWS_TICKER = [
   { category: 'Capital Markets', headline: 'LiberAgro raises $12M in West Africa first cross-border IPO on Ghana Stock Exchange' },
 ];
 
-/**
- * Cross-section tickers — figures sourced from live page content
- * (sports / technology / entertainment), each linking back to the page that owns the number.
- */
-const CROSS_SECTION_TICKERS: { label: string; value: string; delta: string; up: boolean; href: string }[] = [
-  { label: 'Top Transfer', value: '$840K', delta: 'Pewee → Rivers', up: true,  href: '/sports/transfers-deals' },
-  { label: 'Mobile Money', value: '$2.1B', delta: '+28% YoY',       up: true,  href: '/technology' },
-  { label: 'Streaming',    value: '$2.3M', delta: '+64% YoY',       up: true,  href: '/entertainment' },
-  { label: '4G Coverage',  value: '74%',   delta: '+8pp YoY',       up: true,  href: '/technology' },
-];
-
-function RateTicker({ isLight }: { isLight: boolean }) {
-  return (
-    <div className="hidden sm:flex items-center gap-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0">
-      {CROSS_SECTION_TICKERS.map(t => (
-        <Link key={t.label} href={t.href} className="flex items-center gap-1.5 no-underline group shrink-0">
-          <span className={`text-[11px] font-semibold transition-colors ${isLight ? 'text-gray-500 group-hover:text-gray-700' : 'text-gray-400 group-hover:text-gray-200'}`}>{t.label}</span>
-          <span className={`text-[11px] font-bold tabular-nums transition-colors ${isLight ? 'text-gray-900 group-hover:text-gray-700' : 'text-white group-hover:text-gray-100'}`}>
-            {t.value}
-          </span>
-          <span className={`text-[10px] font-semibold ${t.up ? 'text-emerald-400' : 'text-red-400'}`}>
-            {t.delta}
-          </span>
-        </Link>
-      ))}
-    </div>
-  );
-}
 
 /** Compact pills shown next to the search bar — top super-nav */
 const TOP_NAV: { label: string; href: string }[] = [
@@ -54,10 +27,12 @@ const TOP_NAV: { label: string; href: string }[] = [
 
 /** Bloomberg-style section tabs on the secondary row */
 const SECTIONS_NAV: { label: string; href: string }[] = [
-  { label: 'Markets',    href: '/markets' },
-  { label: 'Economy',    href: '/economy' },
-  { label: 'Technology', href: '/technology' },
-  { label: 'Videos',     href: '/videos' },
+  { label: 'News',             href: '/news' },
+  { label: 'Markets',          href: '/markets' },
+  { label: 'Economy',          href: '/economy' },
+  { label: 'Technology',       href: '/technology' },
+  { label: 'Entrepreneurship', href: '/small-business' },
+  { label: 'Videos',           href: '/videos' },
 ];
 
 type PrimaryNavItem = { label: string; href: string; children?: { label: string; href: string }[] };
@@ -67,44 +42,55 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'News', href: '/news',
     children: [
-      { label: 'Policy',     href: '/economy/monetary-policy' },
-      { label: 'Mining',     href: '/economy/fiscal' },
-      { label: 'Trade',      href: '/economy/trade' },
-      { label: 'Deep Dives', href: '/news' },
+      { label: 'All News',        href: '/news' },
+      { label: 'Markets',         href: '/markets' },
+      { label: 'Economy',         href: '/economy' },
+      { label: 'Technology',      href: '/technology' },
+      { label: 'Monetary Policy', href: '/economy/monetary-policy' },
+      { label: 'Trade',           href: '/economy/trade' },
+      { label: 'Fiscal',          href: '/economy/fiscal' },
     ],
   },
   {
     label: 'Entertainment', href: '/entertainment',
     children: [
-      { label: 'Movies',       href: '/entertainment/movies' },
-      { label: 'TV',           href: '/entertainment/tv' },
-      { label: 'Music',        href: '/entertainment/music' },
-      { label: 'Celebrity',    href: '/entertainment/celebrity' },
-      { label: 'How To Watch', href: '/entertainment/how-to-watch' },
+      { label: 'All Entertainment', href: '/entertainment' },
+      { label: 'Movies',            href: '/entertainment/movies' },
+      { label: 'TV',                href: '/entertainment/tv' },
+      { label: 'Music',             href: '/entertainment/music' },
+      { label: 'Celebrity',         href: '/entertainment/celebrity' },
+      { label: 'How To Watch',      href: '/entertainment/how-to-watch' },
     ],
   },
   {
     label: 'Sports', href: '/sports',
     children: [
-      { label: 'Transfers & Deals', href: '/sports/transfers-deals' },
-      { label: 'Broadcast Rights',  href: '/sports/broadcast-rights' },
-      { label: 'Club Finance',      href: '/sports/club-finance' },
-      { label: 'Sponsorship',       href: '/sports/sponsorship' },
+      { label: 'LPL',           href: '/sports' },
+      { label: 'LWPL',          href: '/sports' },
+      { label: 'LBA',           href: '/sports' },
+      { label: 'National Team', href: '/sports' },
+      { label: 'Athletics',     href: '/sports' },
+      { label: 'Diaspora',      href: '/sports' },
+      { label: 'Transfers',     href: '/sports/transfers-deals' },
+      { label: 'Youth',         href: '/sports' },
+      { label: 'Watch',         href: '/videos' },
     ],
   },
   {
     label: 'Finance', href: '/',
     children: [
-      { label: 'News',       href: '/news' },
-      { label: 'Markets',    href: '/markets' },
-      { label: 'Economy',    href: '/economy' },
-      { label: 'Technology', href: '/technology' },
-      { label: 'Videos',     href: '/videos' },
+      { label: 'News',             href: '/news' },
+      { label: 'Markets',          href: '/markets' },
+      { label: 'Economy',          href: '/economy' },
+      { label: 'Technology',       href: '/technology' },
+      { label: 'Entrepreneurship', href: '/small-business' },
+      { label: 'Videos',           href: '/videos' },
     ],
   },
   {
     label: 'Videos', href: '/videos',
     children: [
+      { label: 'All Videos',       href: '/videos' },
       { label: 'Interviews',       href: '/videos/interviews' },
       { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
       { label: 'Investing',        href: '/videos/investing' },
@@ -116,15 +102,80 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
   { label: 'Entertainment',    href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
-  { label: 'Entrepreneurship', href: '/entrepreneurship', desc: 'Founders, funding and SMEs' },
+  { label: 'Entrepreneurship', href: '/small-business',   desc: 'Liberian small business & founders' },
   { label: 'Watchlist',        href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
+];
+
+/** Yahoo-style mega-menu — the "More" dropdown's contents on desktop, grouped by section. */
+type MoreColumn = { title: string; items: { label: string; href: string }[] };
+
+const MORE_MENU: MoreColumn[] = [
+  {
+    title: 'News',
+    items: [
+      { label: 'All News',        href: '/news' },
+      { label: 'Markets',         href: '/markets' },
+      { label: 'Economy',         href: '/economy' },
+      { label: 'Technology',      href: '/technology' },
+      { label: 'Monetary Policy', href: '/economy/monetary-policy' },
+      { label: 'Trade',           href: '/economy/trade' },
+      { label: 'Fiscal',          href: '/economy/fiscal' },
+    ],
+  },
+  {
+    title: 'Sports',
+    items: [
+      { label: 'LPL',           href: '/sports' },
+      { label: 'LWPL',          href: '/sports' },
+      { label: 'LBA',           href: '/sports' },
+      { label: 'National Team', href: '/sports' },
+      { label: 'Athletics',     href: '/sports' },
+      { label: 'Diaspora',      href: '/sports' },
+      { label: 'Transfers',     href: '/sports/transfers-deals' },
+      { label: 'Youth',         href: '/sports' },
+      { label: 'Watch',         href: '/videos' },
+    ],
+  },
+  {
+    title: 'Entertainment',
+    items: [
+      { label: 'All Entertainment', href: '/entertainment' },
+      { label: 'Movies',            href: '/entertainment/movies' },
+      { label: 'TV',                href: '/entertainment/tv' },
+      { label: 'Music',             href: '/entertainment/music' },
+      { label: 'Celebrity',         href: '/entertainment/celebrity' },
+      { label: 'How To Watch',      href: '/entertainment/how-to-watch' },
+    ],
+  },
+  {
+    title: 'Videos',
+    items: [
+      { label: 'All Videos',       href: '/videos' },
+      { label: 'Interviews',       href: '/videos/interviews' },
+      { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
+      { label: 'Investing',        href: '/videos/investing' },
+      { label: 'Technology',       href: '/videos/technology' },
+      { label: 'Leadership',       href: '/videos/leadership' },
+    ],
+  },
+  {
+    title: 'More on TrueRate',
+    items: [
+      { label: 'Entrepreneurship', href: '/small-business' },
+      { label: 'Watchlist',        href: '/watchlist' },
+      { label: 'About TrueRate',   href: '/about' },
+      { label: 'Help',             href: '/help' },
+      { label: 'Feedback',         href: '/feedback' },
+      { label: 'Privacy',          href: '/about/privacy' },
+      { label: 'Terms',            href: '/about/terms' },
+    ],
+  },
 ];
 
 /**
  * Mobile drawer accordion items — flat, Yahoo-style top level. Computed once at module load.
  * The explicit order below is mobile-only; desktop nav uses PRIMARY_NAV / MORE_NAV directly.
- * Entrepreneurship is intentionally hidden from the mobile drawer.
  */
 const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
   const lookup = new Map<string, PrimaryNavItem>();
@@ -132,7 +183,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
   for (const { label, href } of MORE_NAV) {
     if (!lookup.has(label)) lookup.set(label, { label, href });
   }
-  const MOBILE_ORDER = ['News', 'Entertainment', 'Sports', 'Finance'];
+  const MOBILE_ORDER = ['News', 'Entertainment', 'Sports', 'Finance', 'Entrepreneurship'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -201,7 +252,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="absolute top-3 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent z-10"
+          className="absolute top-2 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent z-10"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -231,7 +282,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                       aria-controls={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`}
                       className="w-full flex items-center justify-between px-5 py-3 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline-none focus-visible:bg-white/[0.06]"
                     >
-                      <span className="text-[14px] font-bold text-white">{label}</span>
+                      <span className="text-md font-bold text-white">{label}</span>
                       <svg
                         className={`h-4 w-4 text-white/60 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                         fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
@@ -243,9 +294,9 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                     <Link
                       href={href}
                       onClick={onClose}
-                      className="flex items-center justify-between px-5 py-2.5 no-underline transition-colors hover:bg-white/[0.03]"
+                      className="flex items-center justify-between min-h-[44px] px-5 py-2.5 no-underline transition-colors hover:bg-white/[0.03]"
                     >
-                      <span className="text-[14px] font-bold text-white">{label}</span>
+                      <span className="text-md font-bold text-white">{label}</span>
                       <svg
                         className="h-4 w-4 text-white/60"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
@@ -264,7 +315,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                             key={c.href}
                             href={c.href}
                             onClick={onClose}
-                            className={`flex items-center justify-between px-9 py-2 text-[13px] no-underline transition-colors ${
+                            className={`flex items-center justify-between min-h-[44px] px-9 py-2 text-base no-underline transition-colors ${
                               subActive ? 'text-brand-accent' : 'text-white/85 hover:text-white'
                             }`}
                           >
@@ -289,7 +340,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                 key={label}
                 href={href}
                 onClick={onClose}
-                className="block py-1.5 text-[12px] text-white/60 hover:text-white no-underline transition-colors"
+                className="flex items-center min-h-[44px] py-1.5 text-sm text-white/60 hover:text-white no-underline transition-colors"
               >
                 {label}
               </Link>
@@ -298,28 +349,28 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
         </div>
 
         {/* Footer: socials */}
-        <div className="border-t border-white/[0.06] px-5 pt-2.5 pb-3 shrink-0 bg-[#030a0e]">
+        <div className="border-t border-white/[0.06] px-5 pt-2.5 pb-3 shrink-0 bg-brand-muted">
           <div className="flex items-center justify-center gap-2">
             <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X"
-              className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.857L1.479 2.25H8.08l4.259 5.63 5.905-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
             </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-              className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-              className="flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gray-400 hover:text-white hover:border-white/30 transition no-underline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </a>
           </div>
-          <p className="mt-1.5 text-center text-[10px] text-gray-500">© 2026 <span className="font-bold text-white/70">TrueRate</span></p>
+          <Text variant="caption" className="mt-1.5 text-center">© 2026 <span className="font-bold text-white/70">TrueRate</span></Text>
         </div>
       </div>
     </div>
@@ -336,7 +387,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname.startsWith('/about') || pathname.startsWith('/help') || pathname.startsWith('/entertainment');
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help') || pathname.startsWith('/entertainment');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -411,12 +462,12 @@ export default function Header() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search stories, companies, or topics"
-            className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
+            className={`flex-1 bg-transparent px-4 py-2.5 text-md outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
           />
           <button
             type="submit"
             aria-label="Search"
-            className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            className="shrink-0 flex items-center justify-center h-11 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
           >
             <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -432,10 +483,10 @@ export default function Header() {
               <Link
                 key={label}
                 href={href}
-                className={`px-3 py-1.5 rounded text-[13px] font-medium no-underline transition-colors whitespace-nowrap ${
+                className={`px-3 py-1.5 rounded text-base font-medium no-underline transition-colors whitespace-nowrap ${
                   active
                     ? 'text-brand-accent'
-                    : isLight ? 'text-gray-500 hover:text-brand-accent' : 'text-gray-400 hover:text-brand-accent'
+                    : isLight ? 'text-gray-500 hover:text-emerald-700' : 'text-gray-400 hover:text-brand-accent'
                 }`}
               >
                 {label}
@@ -455,10 +506,10 @@ export default function Header() {
               aria-expanded={moreOpen}
               aria-haspopup="menu"
               aria-controls="more-menu"
-              className={`flex items-center gap-1 px-3 py-1.5 rounded text-[13px] font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
+              className={`flex items-center gap-1 px-3 py-1.5 rounded text-base font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
                 moreOpen
                   ? 'text-brand-accent'
-                  : isLight ? 'text-gray-600 hover:text-brand-accent' : 'text-gray-300 hover:text-brand-accent'
+                  : isLight ? 'text-gray-600 hover:text-emerald-700' : 'text-gray-300 hover:text-brand-accent'
               }`}
             >
               More
@@ -470,29 +521,47 @@ export default function Header() {
               <div
                 id="more-menu"
                 role="menu"
-                className={`absolute right-0 top-full z-50 min-w-[280px] border shadow-2xl rounded-b-lg overflow-hidden ${
-                  isLight ? 'bg-white border-gray-200 shadow-gray-200/80' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
+                className={`absolute right-0 top-full z-50 mt-1 w-[min(960px,calc(100vw-2rem))] border rounded-b-lg overflow-hidden shadow-2xl ${
+                  isLight
+                    ? 'bg-white border-gray-200 shadow-gray-300/60'
+                    : 'bg-brand-dark border-white/[0.08] shadow-black/60'
                 }`}
               >
-                <div className="py-2">
-                  {MORE_NAV.map(({ label, href, desc }) => {
-                    const active = isActive(pathname, href);
-                    return (
-                      <Link
-                        key={label}
-                        href={href}
-                        onClick={() => setMoreOpen(false)}
-                        className={`block px-4 py-2.5 no-underline transition-colors ${
-                          active
-                            ? isLight ? 'bg-gray-50' : 'bg-white/[0.04]'
-                            : isLight ? 'hover:bg-gray-50' : 'hover:bg-white/[0.04]'
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-6 p-6">
+                  {MORE_MENU.map(column => (
+                    <div key={column.title} role="none">
+                      <h3
+                        className={`text-md font-bold mb-3 ${
+                          isLight ? 'text-gray-900' : 'text-white'
                         }`}
                       >
-                        <div className={`text-[14px] font-semibold ${active ? 'text-brand-accent' : isLight ? 'text-gray-900' : 'text-white'}`}>{label}</div>
-                        <div className={`text-[12px] mt-0.5 ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>{desc}</div>
-                      </Link>
-                    );
-                  })}
+                        {column.title}
+                      </h3>
+                      <ul className="space-y-2" role="none">
+                        {column.items.map(item => {
+                          const active = isActive(pathname, item.href);
+                          return (
+                            <li key={item.href} role="none">
+                              <Link
+                                href={item.href}
+                                role="menuitem"
+                                onClick={() => setMoreOpen(false)}
+                                className={`block text-base no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded ${
+                                  active
+                                    ? 'text-brand-accent font-semibold'
+                                    : isLight
+                                      ? 'text-gray-700 hover:text-emerald-700'
+                                      : 'text-gray-300 hover:text-brand-accent'
+                                }`}
+                              >
+                                {item.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
@@ -520,12 +589,12 @@ export default function Header() {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search stories, companies, or topics"
-              className={`flex-1 bg-transparent px-4 py-2.5 text-[14px] outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
+              className={`flex-1 bg-transparent px-4 py-2.5 text-md outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
             />
             <button
               type="submit"
               aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-9 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+              className="shrink-0 flex items-center justify-center h-11 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
               <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -535,34 +604,12 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Bloomberg-style secondary nav */}
+      {/* Bloomberg-style secondary nav — hidden on /sports/* (SportsChrome owns it there) */}
+      {!pathname.startsWith('/sports') && (
       <nav aria-label="Sections" className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
         <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
 
-          {pathname.startsWith('/sports') ? (
-            /* Sports-specific tabs */
-            <>
-              {[
-                { label: 'All',               href: '/sports' },
-                { label: 'Transfers & Deals', href: '/sports/transfers-deals' },
-                { label: 'Broadcast Rights',  href: '/sports/broadcast-rights' },
-                { label: 'Club Finance',      href: '/sports/club-finance' },
-                { label: 'Sponsorship',       href: '/sports/sponsorship' },
-              ].map(({ label, href }) => {
-                const isActive = href === '/sports' ? pathname === '/sports' : pathname === href;
-                return (
-                  <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
-                      isActive
-                        ? 'border-gray-900 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:text-gray-800'
-                    }`}>
-                    {label}
-                  </Link>
-                );
-              })}
-            </>
-          ) : pathname.startsWith('/about') ? (
+          {pathname.startsWith('/about') ? (
             /* About-specific links */
             <>
               {[
@@ -577,7 +624,7 @@ export default function Header() {
                 const isActive = pathname === href;
                 return (
                   <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
                       isActive
                         ? 'border-gray-900 text-gray-900'
                         : 'border-transparent text-gray-500 hover:text-gray-900'
@@ -586,25 +633,21 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <div className="ml-auto pl-4 border-l border-gray-200 py-2">
-                <RateTicker isLight={true} />
-              </div>
             </>
           ) : pathname.startsWith('/videos') ? (
             /* Videos-specific tabs */
             <>
               {[
-                { label: 'Latest',           href: '/videos' },
-                { label: 'Interviews',       href: '/videos/interviews' },
-                { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
-                { label: 'Investing',        href: '/videos/investing' },
-                { label: 'Technology',       href: '/videos/technology' },
-                { label: 'Leadership',       href: '/videos/leadership' },
+                { label: 'Markets',    href: '/markets' },
+                { label: 'Economy',    href: '/economy' },
+                { label: 'Technology', href: '/technology' },
+                { label: 'Entrepreneurship',   href: '/small-business' },
+                { label: 'Videos',     href: '/videos' },
               ].map(({ label, href }) => {
-                const isActive = href === '/videos' ? pathname === '/videos' : pathname === href;
+                const isActive = href === '/videos' ? pathname.startsWith('/videos') : pathname === href;
                 return (
                   <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
                       isActive
                         ? 'border-brand-accent text-brand-accent'
                         : 'border-transparent text-white/70 hover:text-brand-accent'
@@ -621,25 +664,22 @@ export default function Header() {
                 const active = isActive(pathname, href);
                 return (
                   <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors no-underline ${
+                    className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
                       active
                         ? 'border-brand-accent text-brand-accent'
-                        : isLight ? 'border-transparent text-gray-500 hover:text-brand-accent' : 'border-transparent text-white/70 hover:text-brand-accent'
+                        : isLight ? 'border-transparent text-gray-500 hover:text-emerald-700' : 'border-transparent text-white/70 hover:text-brand-accent'
                     }`}>
                     {label}
                   </Link>
                 );
               })}
 
-              {/* Rate ticker — right-aligned */}
-              <div className={`ml-auto pl-4 border-l py-2 ${isLight ? 'border-gray-200' : 'border-white/[0.06]'}`}>
-                <RateTicker isLight={isLight} />
-              </div>
             </>
           )}
 
         </div>
       </nav>
+      )}
 
       {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} pathname={pathname} />}
     </header>

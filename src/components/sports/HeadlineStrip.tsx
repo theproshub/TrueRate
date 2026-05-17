@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Story } from '@/lib/sports-data';
+import { Heading, Text } from '@/components/ui';
 
 /**
  * Six tight one-liner headlines as horizontal cards, no images.
@@ -13,19 +14,19 @@ export default function HeadlineStrip({ items }: { items: Story[] }) {
           <li key={s.href} className="border-white/[0.06]">
             <Link
               href={s.href}
-              className="group flex items-start gap-3 px-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-start gap-3 px-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
             >
-              <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+              <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-lime-500" />
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-400 mb-1">{s.category}</p>
-                <h3 className="text-[13px] font-semibold text-gray-100 leading-snug group-hover:text-white transition-colors">
+                <Text variant="caption" className="font-bold uppercase tracking-wide text-lime-400 mb-1">{s.category}</Text>
+                <Heading level={6} className="text-gray-100 leading-snug group-hover:text-white transition-colors">
                   {s.title}
-                </h3>
-                <p className="mt-1 text-[11px] text-gray-500">
+                </Heading>
+                <Text variant="meta" className="mt-1 text-gray-500">
                   <span className="font-semibold text-gray-400">{s.source}</span>
                   <span className="mx-1">·</span>
                   {s.time}
-                </p>
+                </Text>
               </div>
             </Link>
           </li>

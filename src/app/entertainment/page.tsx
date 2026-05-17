@@ -76,16 +76,16 @@ export default function EntertainmentPage() {
               </div>
               <div className="flex flex-col justify-center flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest bg-brand-accent text-[#050d11]">Top Story</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                  <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-dark">Top Story</span>
+                  <span className="text-2xs font-bold uppercase tracking-widest text-gray-500">
                     {HERO.category}
                   </span>
                 </div>
-                <h1 className="text-[22px] sm:text-[32px] lg:text-[32px] font-black leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
                   {HERO.title}
                 </h1>
-                <p className="text-[14px] leading-relaxed text-gray-600 line-clamp-3 mb-4">{HERO.summary}</p>
-                <div className="flex items-center gap-2 mt-auto text-[12px] text-gray-500">
+                <p className="text-md leading-relaxed text-gray-600 line-clamp-3 mb-4">{HERO.summary}</p>
+                <div className="flex items-center gap-2 mt-auto text-sm text-gray-500">
                   <span className="font-semibold text-gray-600">{HERO.source}</span>
                   <span aria-hidden>·</span>
                   <span>{HERO.time}</span>
@@ -98,21 +98,21 @@ export default function EntertainmentPage() {
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-2">
                 <div className="flex items-center gap-3">
                   <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
-                  <h2 id="latest-signals-heading" className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Stories For You</h2>
+                  <h2 id="latest-signals-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">Stories For You</h2>
                 </div>
-                <Link href="/news" className="text-[12px] text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
+                <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
               </div>
               <ul className="flex flex-col divide-y divide-gray-200 list-none p-0 m-0">
                 {STRIP_CARDS.map((card, i) => (
                   <li key={i}>
                     <Link href="/news" className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-gray-50 -mx-2 px-2 rounded">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1.5 text-gray-500">
+                      <p className="text-2xs font-bold uppercase tracking-[0.12em] mb-1.5 text-gray-500">
                         {card.category}
                       </p>
-                      <h3 className="text-[12px] sm:text-[14px] font-semibold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors text-pretty">
+                      <h3 className="text-sm sm:text-md font-semibold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors text-pretty">
                         {card.title}
                       </h3>
-                      <p className="mt-1.5 text-[11px] text-gray-500 truncate">
+                      <p className="mt-1.5 text-xs text-gray-500 truncate">
                         <span className="text-gray-600">{card.source}</span>
                         <span aria-hidden className="mx-1.5 text-gray-300">·</span>
                         <time>{card.time}</time>
@@ -126,13 +126,13 @@ export default function EntertainmentPage() {
             {/* Releases tracker */}
             <section className="mb-6" aria-labelledby="releases-heading">
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
-                <h2 id="releases-heading" className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Releases This Quarter</h2>
-                <span className="text-[11px] text-gray-500 uppercase tracking-wide font-bold">Q2–Q3 2026</span>
+                <h2 id="releases-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">Releases This Quarter</h2>
+                <span className="text-xs text-gray-500 uppercase tracking-wide font-bold">Q2–Q3 2026</span>
               </div>
               <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4">
-                <table className="w-full min-w-[500px] text-[13px]">
+                <table className="w-full min-w-[500px] text-base">
                   <caption className="sr-only">Upcoming Liberian and West African entertainment releases</caption>
-                  <thead className="border-b border-gray-200 text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                  <thead className="border-b border-gray-200 text-2xs font-bold uppercase tracking-wide text-gray-500">
                     <tr>
                       <th scope="col" className="pb-3 text-left pr-4">Title</th>
                       <th scope="col" className="pb-3 text-left pr-4">Type</th>
@@ -145,10 +145,10 @@ export default function EntertainmentPage() {
                     {RELEASES.map((r, i) => (
                       <tr key={i} className="hover:bg-gray-50 transition-colors">
                         <td className="py-3 font-bold text-gray-900 pr-4">{r.title}</td>
-                        <td className="py-3 text-[10px] font-bold uppercase tracking-wide text-gray-500 pr-4">{r.type}</td>
+                        <td className="py-3 text-2xs font-bold uppercase tracking-wide text-gray-500 pr-4">{r.type}</td>
                         <td className="py-3 text-gray-600 pr-4">{r.creator}</td>
-                        <td className="tabular-nums py-3 text-right font-bold text-emerald-600 pr-4">{r.release}</td>
-                        <td className="hidden sm:table-cell py-3 text-gray-500 text-[12px]">{r.platform}</td>
+                        <td className="tabular-nums py-3 text-right font-bold text-emerald-700 pr-4">{r.release}</td>
+                        <td className="hidden sm:table-cell py-3 text-gray-500 text-sm">{r.platform}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -161,7 +161,7 @@ export default function EntertainmentPage() {
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">In-Depth</h2>
+                  <h2 className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">In-Depth</h2>
                 </div>
               </div>
               <div className="flex flex-col divide-y divide-gray-200">
@@ -171,14 +171,14 @@ export default function EntertainmentPage() {
                       <NewsThumbnail category={item.category} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className={`text-[10px] font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
+                      <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <h3 className="text-[13.5px] sm:text-[12px] font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                      <h3 className="text-[13.5px] sm:text-sm font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                         {item.title}
                       </h3>
-                      <p className="hidden sm:block text-[13px] leading-relaxed text-gray-600 line-clamp-2 mb-2">{item.summary}</p>
-                      <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-[12px] text-gray-500">
+                      <p className="hidden sm:block text-base leading-relaxed text-gray-600 line-clamp-2 mb-2">{item.summary}</p>
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500">
                         <span className="text-gray-500 truncate">{item.source}</span>
                         <span aria-hidden>·</span>
                         <span className="whitespace-nowrap">{item.time}</span>
@@ -193,25 +193,24 @@ export default function EntertainmentPage() {
 
           {/* Right rail */}
           <aside className="hidden lg:block w-full lg:w-[280px] shrink-0">
-            <div className="sticky top-[120px] flex flex-col gap-5">
+            <div className="sticky top-header-lg flex flex-col gap-5">
 
               {/* Most Read */}
               <div>
-                <h3 className="text-[12px] font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-4">Most Read</h3>
-                <ol className="space-y-4">
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-4">Most Read</h3>
+                <ol className="flex flex-col divide-y divide-gray-100">
                   {[
-                    { rank: 1, title: "'Sundown in Sinkor' pre-sales blow past 38,000 — diaspora theaters add screens", tag: 'Movies' },
-                    { rank: 2, title: "Bucky Raw books MSG warm-up — first Liberian artist on the bill",                tag: 'Music' },
-                    { rank: 3, title: "Showmax greenlights 'Bassa Avenue' Season 2 after 4.1M streams",                  tag: 'TV' },
-                    { rank: 4, title: "Wayétu Moore signs A24 memoir option — co-producer credit attached",              tag: 'Celebrity' },
-                    { rank: 5, title: "Lib Wave confirms Davido, Tems, Stonebwoy for July 27",                            tag: 'Music' },
-                  ].map(t => (
-                    <li key={t.rank} className="flex gap-3">
-                      <span aria-hidden className="shrink-0 text-[18px] font-black text-gray-300 tabular-nums w-5 leading-none">{t.rank}</span>
-                      <div className="min-w-0">
-                        <Link href="/news" className="text-[12px] font-semibold text-gray-700 hover:text-gray-900 transition-colors no-underline line-clamp-2 leading-snug block">{t.title}</Link>
-                        <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500">{t.tag}</span>
-                      </div>
+                    { title: "'Sundown in Sinkor' pre-sales blow past 38,000 — diaspora theaters add screens", tag: 'Movies' },
+                    { title: "Bucky Raw books MSG warm-up — first Liberian artist on the bill",                tag: 'Music' },
+                    { title: "Showmax greenlights 'Bassa Avenue' Season 2 after 4.1M streams",                  tag: 'TV' },
+                    { title: "Wayétu Moore signs A24 memoir option — co-producer credit attached",              tag: 'Celebrity' },
+                    { title: "Lib Wave confirms Davido, Tems, Stonebwoy for July 27",                            tag: 'Music' },
+                  ].map((t, i) => (
+                    <li key={i} className="py-2.5 first:pt-0">
+                      <Link href="/news" className="text-sm font-medium text-gray-700 hover:text-emerald-700 transition-colors no-underline line-clamp-2 leading-snug block">
+                        <span className="font-bold uppercase text-2xs tracking-wide mr-1.5 text-gray-400">{t.tag}</span>
+                        {t.title}
+                      </Link>
                     </li>
                   ))}
                 </ol>
@@ -219,12 +218,12 @@ export default function EntertainmentPage() {
 
               {/* Calendar */}
               <div>
-                <h3 className="text-[12px] font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-4">Culture Calendar</h3>
-                <div className="space-y-3">
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-4">Culture Calendar</h3>
+                <div className="flex flex-col divide-y divide-gray-100">
                   {UPCOMING.map((ev, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <span className="shrink-0 text-[11px] font-bold text-gray-700 w-12 tabular-nums">{ev.date}</span>
-                      <p className="text-[12px] text-gray-600 leading-snug">{ev.event}</p>
+                    <div key={i} className="py-2.5 first:pt-0">
+                      <p className="text-xs font-semibold text-emerald-700 mb-0.5">{ev.date}</p>
+                      <p className="text-sm font-semibold text-gray-700 leading-snug">{ev.event}</p>
                     </div>
                   ))}
                 </div>
@@ -232,12 +231,12 @@ export default function EntertainmentPage() {
 
               {/* Newsletter */}
               <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-[12px] font-black text-gray-900 uppercase tracking-wide mb-1">Entertainment Brief</h3>
-                <p className="text-[12px] text-gray-500 mb-4">Liberian film, music, and culture stories — weekly in your inbox.</p>
+                <h3 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-1">Entertainment Brief</h3>
+                <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 mb-4">Liberian film, music, and culture stories — weekly in your inbox.</p>
                 <form aria-label="Sign up for the Entertainment Brief newsletter">
                   <label htmlFor="ent-email" className="sr-only">Email address</label>
-                  <input id="ent-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-300 px-0 py-2 text-[13px] text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 transition-colors mb-3" />
-                  <button type="submit" className="w-full rounded-lg bg-gray-900 py-2 text-[13px] font-bold text-white hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2">
+                  <input id="ent-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-300 px-0 py-2 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 transition-colors mb-3" />
+                  <button type="submit" className="w-full rounded-lg bg-gray-900 py-2 text-base font-bold text-white hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2">
                     Sign up free
                   </button>
                 </form>

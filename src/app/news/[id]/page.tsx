@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { HeroVisual, NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
+import { Heading, Text } from '@/components/ui';
 
 function timeAgo(d: string) {
   const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
@@ -52,7 +53,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   const moreStories = newsItems.filter(n => n.id !== id && !relatedIds.has(n.id)).slice(0, 8);
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-brand-surface min-h-screen">
       <main className="mx-auto max-w-[1320px] px-4 py-6">
 
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category.charAt(0).toUpperCase() + item.category.slice(1), color: getCatColor(item.category) }]} light />
@@ -67,13 +68,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
             {/* Article header */}
             <div className="pb-8 mb-8 border-b border-gray-100">
-              <div className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
+              <div className={`text-2xs font-bold uppercase tracking-widest mb-2 ${getCatColor(item.category)}`}>
                 {item.category}
               </div>
 
-              <h1 className="text-[22px] sm:text-[32px] font-black leading-tight text-gray-900 mb-4">{item.title}</h1>
+              <Heading level={2} as="h1" className="sm:text-3xl font-black leading-tight text-gray-900 mb-4">{item.title}</Heading>
 
-              <div className="flex flex-wrap items-center gap-2 text-[13px] text-gray-500 pb-5 border-b border-gray-100 mb-6">
+              <div className="flex flex-wrap items-center gap-2 text-base text-gray-500 pb-5 border-b border-gray-100 mb-6">
                 {item.author && <span className="font-semibold text-gray-700">{item.author}</span>}
                 {item.author && <span>·</span>}
                 <span>{item.source}</span>
@@ -84,7 +85,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
               <HeroVisual category={item.category} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
 
-              <div className="text-[14px] leading-[1.8] text-gray-600 space-y-5 mb-8">
+              <div className="text-md leading-[1.8] text-gray-600 space-y-5 mb-8">
                 {item.body?.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
@@ -93,7 +94,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
               {/* Tags */}
               <div className="flex flex-wrap gap-2 pt-5 border-t border-gray-100">
                 {[item.category, 'Liberia', 'West Africa', 'Economy'].map(tag => (
-                  <Link key={tag} href="/news" className="rounded-lg border border-gray-200 px-3 py-1 text-[12px] text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors no-underline">
+                  <Link key={tag} href="/news" className="rounded-lg border border-gray-200 px-3 py-1 text-sm text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors no-underline">
                     {tag}
                   </Link>
                 ))}
@@ -104,8 +105,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             {related.length > 0 && (
               <div className="mb-8">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
-                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Related</h2>
-                  <Link href="/news" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
+                  <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Related</Heading>
+                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {related.map(r => (
@@ -113,9 +114,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                       <div className="overflow-hidden rounded-xl mb-2.5">
                         <NewsThumbnail category={r.category} className="w-full h-[110px]" />
                       </div>
-                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
-                      <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</h3>
-                      <div className="text-[11px] text-gray-400">{r.source} · {timeAgo(r.date)}</div>
+                      <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
+                      <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</Heading>
+                      <div className="text-xs text-gray-400">{r.source} · {timeAgo(r.date)}</div>
                     </Link>
                   ))}
                 </div>
@@ -125,8 +126,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             {/* More Stories */}
             <div>
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">More Stories</h2>
-                <Link href="/news" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">More Stories</Heading>
+                <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
               </div>
               <div className="flex flex-col divide-y divide-gray-100">
                 {moreStories.map(s => (
@@ -135,9 +136,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                       <NewsThumbnail category={s.category} className="h-[70px] w-[105px]" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
-                      <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</h3>
-                      <p className="text-[12px] text-gray-400">{s.source} · {timeAgo(s.date)}</p>
+                      <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
+                      <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</Heading>
+                      <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400">{s.source} · {timeAgo(s.date)}</Text>
                     </div>
                   </Link>
                 ))}

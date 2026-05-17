@@ -94,24 +94,24 @@ export default function PrivacyPage() {
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Privacy Policy' }]} />
 
         <div className="border-b border-gray-200 pb-10 mb-10">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Legal</p>
-          <h1 className="text-[32px] sm:text-[32px] font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Legal</p>
+          <h1 className="text-3xl sm:text-3xl font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Privacy Policy
           </h1>
-          <p className="text-[14px] text-gray-500 leading-[1.8] max-w-[640px]">
+          <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             Plainly: what we collect, what we do with it, and the controls you have. We take the protection of your data seriously and try to keep this policy readable.
           </p>
-          <p className="mt-6 text-[12px] text-gray-400">Effective: April 1, 2026</p>
+          <p className="mt-6 text-sm text-gray-400">Effective: April 1, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
             <div className="sticky top-6">
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
+              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
               <ul className="space-y-1">
                 {SECTIONS.map(s => (
                   <li key={s.id}>
-                    <a href={`#${s.id}`} className="flex items-center gap-2 py-1.5 text-[13px] text-gray-400 hover:text-gray-900 transition-colors no-underline group">
+                    <a href={`#${s.id}`} className="flex items-center gap-2 py-1.5 text-base text-gray-400 hover:text-gray-900 transition-colors no-underline group">
                       <span className="w-3 h-px bg-gray-300 group-hover:bg-gray-900 group-hover:w-5 transition-all duration-200" />
                       {s.title.replace(/^\d+\.\s/, '')}
                     </a>
@@ -119,9 +119,9 @@ export default function PrivacyPage() {
                 ))}
               </ul>
               <div className="mt-8 pt-6 border-t border-gray-100">
-                <Link href="/about/terms" className="block text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Terms of Service →</Link>
-                <Link href="/about/data-disclaimer" className="block text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Data Disclaimer →</Link>
-                <Link href="/about/ads" className="block text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">About Our Ads →</Link>
+                <Link href="/about/terms" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Terms of Service →</Link>
+                <Link href="/about/data-disclaimer" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Data Disclaimer →</Link>
+                <Link href="/about/ads" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline">About Our Ads →</Link>
               </div>
             </div>
           </aside>
@@ -129,18 +129,18 @@ export default function PrivacyPage() {
           <div className="max-w-[680px]">
             {SECTIONS.map(s => (
               <section key={s.id} id={s.id} className="mb-10">
-                <h2 className="text-[18px] font-black text-gray-900 mb-4">{s.title}</h2>
+                <h2 className="text-xl font-black text-gray-900 mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
-                  <p key={i} className="text-[14px] text-gray-700 leading-[1.9] mb-3">{p}</p>
+                  <p key={i} className="text-md text-gray-700 leading-[1.9] mb-3">{p}</p>
                 ))}
               </section>
             ))}
 
             <div className="border-t border-gray-100 pt-8 mt-4 flex flex-wrap gap-x-8 gap-y-3">
-              <Link href="/about" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">About TrueRate</Link>
-              <Link href="/about/terms" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Terms of Service</Link>
-              <Link href="/about/ads" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">About Our Ads</Link>
-              <Link href="/feedback" className="text-[13px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Send Feedback</Link>
+              <Link href="/about" className="text-base text-gray-500 hover:text-gray-900 transition-colors no-underline">About TrueRate</Link>
+              <Link href="/about/terms" className="text-base text-gray-500 hover:text-gray-900 transition-colors no-underline">Terms of Service</Link>
+              <Link href="/about/ads" className="text-base text-gray-500 hover:text-gray-900 transition-colors no-underline">About Our Ads</Link>
+              <Link href="/feedback" className="text-base text-gray-500 hover:text-gray-900 transition-colors no-underline">Send Feedback</Link>
             </div>
           </div>
         </div>

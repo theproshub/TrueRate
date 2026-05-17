@@ -1,59 +1,68 @@
-'use client';
-
 import Link from 'next/link';
-import { useState } from 'react';
 import type { Video } from '@/data/todays-videos';
 import { VideoThumbnail } from '@/components/NewsThumbnail';
 
 export default function VideosSection({ videos }: { videos: Video[] }) {
-  const [active, setActive] = useState(0);
-  const v = videos[active];
+  const [featured, ...rest] = videos;
   return (
-    <div>
-      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-4">
-        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Today&apos;s Videos</h2>
-        <Link href="/videos" className="rounded-lg border border-white/20 px-4 py-1.5 text-[13px] font-semibold text-white hover:bg-white/[0.06] transition-colors no-underline">Explore More</Link>
+    <section aria-labelledby="todays-videos">
+      {/* Section header — matches homepage typography */}
+      <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-5">
+        <h2 id="todays-videos" className="text-md font-bold text-white">Today&apos;s Videos</h2>
+        <Link
+          href="/videos"
+          className="text-sm text-gray-300 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline"
+        >
+          Explore more ›
+        </Link>
       </div>
-      <div className="border-t border-white/[0.06] pt-4">
-        <div className="relative cursor-pointer group">
-          <VideoThumbnail category={v.category} />
-          <div className="absolute bottom-4 left-4 flex items-center gap-3">
-            <span className="tabular-nums text-[14px] font-bold text-white/80 drop-shadow">{v.duration}</span>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Featured */}
+        <Link href="/videos" className="group flex flex-col no-underline">
+          <div className="relative overflow-hidden rounded-xl mb-3">
+            <VideoThumbnail category={featured.category} className="w-full aspect-video" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+            <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums backdrop-blur-sm">
+              {featured.duration}
+            </span>
           </div>
-        </div>
-        <div className="px-5 py-4">
-          <h3 className="text-[12px] font-bold leading-snug text-white">{v.title}</h3>
-        </div>
-        <div className="flex items-center justify-between px-5 pb-4">
-          <div className="flex items-center gap-2">
-            {videos.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                aria-label={`Show video ${i + 1} of ${videos.length}`}
-                aria-current={i === active}
-                className={`h-2 w-2 rounded-full transition-colors ${i === active ? 'bg-white' : 'bg-white/25'}`}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setActive(i => (i - 1 + videos.length) % videos.length)}
-              aria-label="Previous video"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-            </button>
-            <button
-              onClick={() => setActive(i => (i + 1) % videos.length)}
-              aria-label="Next video"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-white/40 hover:text-white transition-colors"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-            </button>
-          </div>
+          <h3 className="text-md sm:text-lg font-black leading-[1.25] tracking-tight text-white group-hover:text-brand-accent transition-colors mb-2 line-clamp-2">
+            {featured.title}
+          </h3>
+          {featured.description && (
+            <p className="text-sm leading-relaxed text-gray-400 line-clamp-3 mb-3">
+              {featured.description}
+            </p>
+          )}
+          <p className="text-xs text-gray-500 mt-auto">
+            <span>{featured.source}</span>
+            <span aria-hidden className="mx-1.5">·</span>
+            <span>{featured.time}</span>
+          </p>
+        </Link>
+
+        {/* Right list */}
+        <div className="flex flex-col divide-y divide-white/[0.05]">
+          {rest.map((v, i) => (
+            <Link key={i} href="/videos" className="group flex gap-3 py-3 first:pt-0 no-underline">
+              <div className="shrink-0 overflow-hidden rounded-lg w-[120px] h-[72px]">
+                <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
+              </div>
+              <div className="min-w-0 flex-1 flex flex-col justify-center">
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">
+                  {v.title}
+                </h3>
+                <p className="text-xs text-gray-500">
+                  <span>{v.source}</span>
+                  <span aria-hidden className="mx-1.5">·</span>
+                  <span>{v.time}</span>
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

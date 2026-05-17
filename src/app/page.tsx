@@ -7,20 +7,19 @@ import VideosSection from '@/components/VideosSection';
 import { NewsThumbnail, HeroVisual as SharedHeroVisual } from '@/components/NewsThumbnail';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
+import { Heading, Text } from '@/components/ui';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
 
 /** Per-story real photography, keyed by news item id */
-const STORY_PHOTOS: Record<string, string> = {
-  '1': '/images/cbl-governor-tarlue.jpg',
-};
+const STORY_PHOTOS: Record<string, string> = {};
 
 /** Related ticker chips shown beneath the lead story byline */
 const STORY_CHIPS: Record<string, { label: string; value: string; up?: boolean }[]> = {
   '1': [
-    { label: 'CBL Rate', value: '17.50%' },
+    { label: 'CBL Rate', value: '16.25%' },
     { label: 'LRD/USD', value: '+0.65%', up: true },
   ],
 };
@@ -47,7 +46,7 @@ type ChipDir = 'up' | 'down' | 'flat';
 type Chip = { label: string; pct: string; dir: ChipDir };
 
 const LATEST_NEWS_IDS: { id: string; chips?: Chip[] }[] = [
-  { id: '1',  chips: [{ label: 'CBL Rate', pct: '17.50%', dir: 'flat' }, { label: 'LRD/USD', pct: '+0.65%', dir: 'up' }] },
+  { id: '1',  chips: [{ label: 'CBL Rate', pct: '16.25%', dir: 'flat' }, { label: 'LRD/USD', pct: '+0.65%', dir: 'up' }] },
   { id: '30', chips: [{ label: 'LEC tariff', pct: '+12%', dir: 'up' }, { label: 'Diesel gen.', pct: '-4%', dir: 'down' }] },
   { id: '3',  chips: [{ label: 'Iron Ore', pct: '-2.08%', dir: 'down' }, { label: 'Gold', pct: '+0.82%', dir: 'up' }] },
   { id: '16' },
@@ -76,10 +75,10 @@ function SectionHeading({ title, kicker, action, actionLabel = 'View all' }: { t
   return (
     <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-5">
       <div>
-        {kicker && <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500 mb-1">{kicker}</p>}
-        <h2 className="text-[14px] font-bold text-white">{title}</h2>
+        {kicker && <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-1">{kicker}</Text>}
+        <Heading level={5} className="text-white">{title}</Heading>
       </div>
-      {action && <Link href={action} className="text-[12px] text-gray-300 hover:text-white transition-colors no-underline focus-visible:outline-none focus-visible:underline">{actionLabel} ›</Link>}
+      {action && <Link href={action} className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-300 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline">{actionLabel} ›</Link>}
     </div>
   );
 }
@@ -119,34 +118,34 @@ function FeaturedColumn() {
         {/* Tombstone: centered kicker / headline / deck / byline */}
         <div className="text-center max-w-[640px] mx-auto px-1">
           {/* Kicker */}
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500 mb-3">
+          <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-3">
             <span>Lead story</span>
             <span className="mx-2 text-gray-700">·</span>
             <span className={getNewsCatColor(featured.category)}>{featured.category}</span>
-          </p>
+          </Text>
 
           {/* Headline — page's H1 */}
-          <h1 className="text-[18px] sm:text-[22px] font-black leading-[1.2] text-white group-hover:text-white/85 transition-colors mb-2 tracking-tight text-balance">
+          <h1 className="text-xl sm:text-2xl font-black leading-[1.2] text-white group-hover:text-brand-accent transition-colors mb-2 tracking-tight text-balance">
             {featured.title}
           </h1>
 
           {/* Deck — clamped so the hero stays tight */}
-          <p className="text-[14px] leading-snug text-gray-400 mb-2 text-pretty line-clamp-2">
+          <p className="text-md leading-snug text-gray-400 mb-2 text-pretty line-clamp-2">
             {featured.summary}
           </p>
 
           {/* Byline — Yahoo-style: source · time */}
-          <p className="text-[11px] text-gray-500 mb-2">
+          <Text variant="meta" className="text-gray-500 mb-2">
             <span>{featured.source}</span>
             <span aria-hidden className="mx-1.5">·</span>
             <time>{timeAgo(featured.date)}</time>
-          </p>
+          </Text>
 
           {/* Related tickers — bordered square-edge chips */}
           {STORY_CHIPS[featured.id] && (
-            <div className="flex items-center justify-center gap-2 text-[11px]">
+            <div className="flex items-center justify-center gap-2 text-xs">
               {STORY_CHIPS[featured.id].map(chip => (
-                <span key={chip.label} className="inline-flex items-center gap-1 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-[10px] text-gray-400">
+                <span key={chip.label} className="inline-flex items-center gap-1 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-2xs text-gray-400">
                   {chip.label}
                   <span className={chip.up ? 'text-emerald-400 font-semibold' : 'text-gray-300 font-semibold'}>{chip.value}</span>
                 </span>
@@ -166,16 +165,16 @@ function FeaturedColumn() {
                 <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3">
+                <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-3">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
+                <Text variant="meta" className="mt-2 leading-relaxed text-gray-500">
+                  <span className={`text-2xs font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                   <span className="mx-1.5 text-gray-700">·</span>
                   {i === 0 ? `By ${sbyline}` : sbyline}
                   <span className="mx-1.5 text-gray-700">·</span>
                   {timeAgo(item.date)}
-                </p>
+                </Text>
               </div>
             </Link>
           );
@@ -200,18 +199,18 @@ function NewsListColumn() {
             <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="line-clamp-3 text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/75 transition-colors">{item.title}</h3>
-            <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
+            <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-white group-hover:text-brand-accent transition-colors">{item.title}</h3>
+            <Text variant="meta" className="mt-2 leading-relaxed text-gray-500">
               {item.category && (
                 <>
-                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
+                  <span className={`text-2xs font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                   <span className="mx-1.5 text-gray-700">·</span>
                 </>
               )}
               {item.source}
               <span className="mx-1.5 text-gray-700">·</span>
               {timeAgo(item.date)}
-            </p>
+            </Text>
           </div>
         </Link>
       ))}
@@ -229,9 +228,9 @@ function LatestColumn() {
       <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
         <div className="flex items-center gap-3">
           <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-red-500 motion-safe:animate-pulse" />
-          <h2 id="live-feed-heading" className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Live feed</h2>
+          <h2 id="live-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Live feed</h2>
         </div>
-        <span className="text-[10px] text-gray-400 tabular-nums">Updated 2 min ago</span>
+        <span className="text-2xs text-gray-400 tabular-nums">Updated 2 min ago</span>
       </div>
 
       {/* Large-card style — all viewports */}
@@ -245,18 +244,18 @@ function LatestColumn() {
                 <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
-                <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
+                <h3 className="text-sm sm:text-md font-bold leading-snug text-white line-clamp-3 group-hover:text-brand-accent transition-colors">{item.title}</h3>
+                <Text variant="meta" className="mt-2 leading-relaxed text-gray-500">
+                  <span className={`text-2xs font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                   <span className="mx-1.5 text-gray-700">·</span>
                   {item.source}
                   <span className="mx-1.5 text-gray-700">·</span>
                   {timeAgo(item.date)}
-                </p>
+                </Text>
                 {chips && chips.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {chips.map(chip => (
-                      <span key={chip.label} className="inline-flex items-center gap-1 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-[10px] text-gray-400 tabular-nums">
+                      <span key={chip.label} className="inline-flex items-center gap-1 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-2xs text-gray-400 tabular-nums">
                         {chip.label} <span className={`font-semibold ${CHIP_STYLE[chip.dir]}`}>{chip.pct}</span>
                       </span>
                     ))}
@@ -292,30 +291,28 @@ const FX_RATES = [
 function ForexWidget() {
   return (
     <div>
-      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
-        <div>
-          <h2 className="text-[13px] font-bold text-white">Exchange rates</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Indicative mid · LRD</p>
-        </div>
-        <Link href="/markets" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">Converter ›</Link>
+      <div className="flex items-end justify-between mb-1">
+        <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Exchange rates</h2>
+        <Link href="/markets" className="text-2xs text-gray-500 hover:text-brand-accent transition-colors no-underline tabular-nums">Converter ›</Link>
       </div>
+      <Text variant="meta" className="text-gray-500 mb-3 pb-3 border-b border-white/[0.07]">Indicative mid · LRD</Text>
       <div className="divide-y divide-white/[0.04]">
         {FX_RATES.map(r => (
-          <Link key={r.pair} href="/markets" className="flex items-start gap-3 py-3.5 hover:opacity-75 transition-opacity no-underline group">
+          <Link key={r.pair} href="/markets" className="flex items-start gap-3 py-3 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-bold text-white tabular-nums">{r.pair}</div>
-              <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{r.note}</div>
+              <div className="text-sm font-semibold text-white/85 group-hover:text-brand-accent transition-colors tabular-nums">{r.pair}</div>
+              <div className="text-xs text-gray-500 mt-0.5 line-clamp-1">{r.note}</div>
             </div>
             <div className="shrink-0 text-right">
-              <div className="text-[14px] font-bold text-white tabular-nums">{r.rate}</div>
-              <div className={`text-[12px] font-semibold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.up ? '+' : ''}{r.change}</div>
+              <div className="text-base font-bold text-white tabular-nums">{r.rate}</div>
+              <div className={`text-xs font-semibold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.change}</div>
             </div>
           </Link>
         ))}
       </div>
-      <p className="mt-3 text-[10px] text-gray-500 leading-relaxed">
-        Source: Central Bank of Liberia reference rate, Apr 3 2026 · 15:00 GMT. Change vs prior session.
-      </p>
+      <Text variant="caption" className="mt-3 leading-relaxed">
+        Source: CBL reference rate, Apr 3 2026 · 15:00 GMT. Change vs prior session.
+      </Text>
     </div>
   );
 }
@@ -335,30 +332,28 @@ const COMMODITIES_WITH_CONTEXT = [
 function CommoditiesWidget() {
   return (
     <div>
-      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-0">
-        <div>
-          <h2 className="text-[13px] font-bold text-white">Commodities</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Exports that move Liberia&rsquo;s books</p>
-        </div>
-        <Link href="/news?q=Commodities" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">All ›</Link>
+      <div className="flex items-end justify-between mb-1">
+        <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Commodities</h2>
+        <Link href="/news?q=Commodities" className="text-2xs text-gray-500 hover:text-brand-accent transition-colors no-underline tabular-nums">All ›</Link>
       </div>
+      <Text variant="meta" className="text-gray-500 mb-3 pb-3 border-b border-white/[0.07]">Exports that move Liberia&rsquo;s books</Text>
       <div className="divide-y divide-white/[0.04]">
         {COMMODITIES_WITH_CONTEXT.map(c => (
-          <Link key={c.name} href={`/news?q=${encodeURIComponent(c.name)}`} className="flex items-start gap-3 py-3.5 hover:opacity-75 transition-opacity no-underline group">
+          <Link key={c.name} href={`/news?q=${encodeURIComponent(c.name)}`} className="flex items-start gap-3 py-3 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-bold text-white">{c.name} <span className="text-[11px] font-normal text-gray-400">{c.unit}</span></div>
-              <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{c.note}</div>
+              <div className="text-sm font-semibold text-white/85 group-hover:text-brand-accent transition-colors">{c.name} <span className="text-2xs font-normal text-gray-500">{c.unit}</span></div>
+              <div className="text-xs text-gray-500 mt-0.5 line-clamp-1">{c.note}</div>
             </div>
             <div className="shrink-0 text-right">
-              <div className="text-[13px] font-bold text-white tabular-nums">${c.price}</div>
-              <div className={`text-[12px] font-semibold tabular-nums ${c.up ? 'text-emerald-400' : 'text-red-400'}`}>{c.pct}</div>
+              <div className="text-base font-bold text-white tabular-nums">${c.price}</div>
+              <div className={`text-xs font-semibold tabular-nums ${c.up ? 'text-emerald-400' : 'text-red-400'}`}>{c.pct}</div>
             </div>
           </Link>
         ))}
       </div>
-      <p className="mt-3 text-[10px] text-gray-500 leading-relaxed">
+      <Text variant="caption" className="mt-3 leading-relaxed">
         Prices: LME / SGX / ICE close, Apr 2 2026. Not a dealing rate. Change vs prior close.
-      </p>
+      </Text>
     </div>
   );
 }
@@ -372,7 +367,7 @@ function EconomicWidget() {
   const rows: { label: string; value: string; pct: string; dir: EconDir; note: string; asOf: string }[] = [
     { label: 'GDP, 2025',        value: '$4.33B',  pct: '+4.3% y/y',    dir: 'up',   note: 'Fastest growth since 2018',        asOf: 'WB, Mar' },
     { label: 'Headline CPI',     value: '10.2%',   pct: '-0.8 pp m/m',  dir: 'up',   note: 'Still above CBL 8% target band',   asOf: 'LISGIS, Mar' },
-    { label: 'CBL policy rate',  value: '17.50%',  pct: 'unchanged',    dir: 'flat', note: 'Held for third consecutive quarter', asOf: 'CBL, Mar 28' },
+    { label: 'CBL policy rate',  value: '16.25%',  pct: 'unchanged',    dir: 'flat', note: 'Held with cautious tightening bias', asOf: 'CBL, Apr 27' },
     { label: 'Unemployment',     value: '3.6%',    pct: '-0.2 pp q/q',  dir: 'up',   note: 'Mining and construction hiring up', asOf: 'LISGIS, Q4&rsquo;25' },
     { label: 'Trade balance',    value: '-$0.82B', pct: '-$0.09B y/y',  dir: 'up',   note: 'Exports outpacing imports',        asOf: 'CBL, Feb' },
     { label: 'Public debt / GDP',value: '55.4%',   pct: '+2.2 pp y/y',  dir: 'down', note: 'IMF urges fiscal consolidation',   asOf: 'IMF Art IV' },
@@ -380,28 +375,29 @@ function EconomicWidget() {
   const style: Record<EconDir, string> = { up: 'text-emerald-400', down: 'text-red-400', flat: 'text-gray-400' };
   return (
     <div>
-      <div className="border-b border-white/[0.07] pb-3 mb-0">
-        <h2 className="text-[13px] font-bold text-white">Liberia at a glance</h2>
-        <p className="text-[11px] text-gray-400 mt-0.5">Six indicators, six sources</p>
+      <div className="flex items-end justify-between mb-1">
+        <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Liberia at a glance</h2>
+        <Link href="/economy" className="text-2xs text-gray-500 hover:text-brand-accent transition-colors no-underline tabular-nums">All ›</Link>
       </div>
+      <Text variant="meta" className="text-gray-500 mb-3 pb-3 border-b border-white/[0.07]">Six indicators, six sources</Text>
       <div className="divide-y divide-white/[0.04]">
         {rows.map(r => (
           <Link key={r.label} href="/economy" className="flex items-start gap-3 py-3 hover:opacity-75 transition-opacity no-underline group">
             <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-semibold text-white">{r.label}</div>
-              <div className="text-[11px] text-gray-400 mt-0.5">{r.note}</div>
-              <div className="text-[10px] text-gray-500 mt-0.5 tabular-nums">{r.asOf}</div>
+              <div className="text-sm font-semibold text-white/85 group-hover:text-brand-accent transition-colors">{r.label}</div>
+              <div className="text-xs text-gray-500 mt-0.5">{r.note}</div>
+              <div className="text-2xs text-gray-600 mt-0.5 tabular-nums">{r.asOf}</div>
             </div>
             <div className="shrink-0 text-right">
-              <div className="tabular-nums text-[13px] font-bold text-white">{r.value}</div>
-              <div className={`tabular-nums text-[12px] font-semibold ${style[r.dir]}`}>{r.pct}</div>
+              <div className="tabular-nums text-base font-bold text-white">{r.value}</div>
+              <div className={`tabular-nums text-xs font-semibold ${style[r.dir]}`}>{r.pct}</div>
             </div>
           </Link>
         ))}
       </div>
-      <p className="mt-3 text-[10px] text-gray-500 leading-relaxed">
+      <Text variant="caption" className="mt-3 leading-relaxed">
         Arrows reflect direction of policy/welfare improvement, not simple +/&minus;. Lower inflation &amp; unemployment = up.
-      </p>
+      </Text>
     </div>
   );
 }
@@ -431,31 +427,31 @@ function DeepReadsColumn() {
     <div>
       <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500 mb-0.5">Long reads</p>
-          <h2 className="text-[14px] font-bold text-white">In depth</h2>
+          <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Long reads</Text>
+          <Heading level={5} className="text-white">In depth</Heading>
         </div>
-        <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">More ›</Link>
+        <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">More ›</Link>
       </div>
       <Link href={`/news/${lead.id}`} className="group block no-underline mb-5">
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.category} className="w-full h-[180px]" />
         </div>
-        <div className={`text-[10px] font-bold uppercase tracking-wide ${getNewsCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
-        <h3 className="text-[12px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{lead.title}</h3>
-        <div className="mt-2 text-[11px] text-gray-500">{lead.source} · {timeAgo(lead.date)}</div>
+        <div className={`text-2xs font-bold uppercase tracking-wide ${getNewsCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
+        <h3 className="text-sm font-bold leading-snug text-white group-hover:text-brand-accent transition-colors">{lead.title}</h3>
+        <div className="mt-2 text-xs text-gray-500">{lead.source} · {timeAgo(lead.date)}</div>
       </Link>
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {rest.map(item => (
           <Link key={item.id} href={`/news/${item.id}`} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
             <div className="min-w-0 flex-1">
-              <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3">{item.title}</h3>
-              <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
+              <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-3">{item.title}</h3>
+              <Text variant="meta" className="mt-2 leading-relaxed text-gray-500">
+                <span className={`text-2xs font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
                 <span className="mx-1.5 text-gray-700">·</span>
                 {item.source}
                 <span className="mx-1.5 text-gray-700">·</span>
                 {timeAgo(item.date)}
-              </p>
+              </Text>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg">
               <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
@@ -478,14 +474,14 @@ function MoreNewsColumn() {
       {items.map(item => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
           <div className="min-w-0 flex-1">
-            <h3 className="text-[12px] sm:text-[14px] font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3">{item.title}</h3>
-            <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-              <span className={`text-[10px] font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
+            <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-3">{item.title}</h3>
+            <Text variant="meta" className="mt-2 leading-relaxed text-gray-500">
+              <span className={`text-2xs font-semibold uppercase tracking-wide ${getNewsCatColor(item.category)}`}>{item.category}</span>
               <span className="mx-1.5 text-gray-700">·</span>
               {item.source}
               <span className="mx-1.5 text-gray-700">·</span>
               {timeAgo(item.date)}
-            </p>
+            </Text>
           </div>
           <div className="shrink-0 overflow-hidden rounded-lg">
             <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
@@ -507,7 +503,7 @@ const TODAYS_SIGNAL: { label: string; value: string; delta: string; dir: SignalD
   { label: 'Iron ore, 62% Fe',    value: '$108.50 /t',  delta: '-2.08% today',  dir: 'down', source: 'SGX',   href: '/news?q=Iron%20Ore' },
   { label: 'LRD / USD mid',        value: '192.50',      delta: '+0.65% today',  dir: 'up',   source: 'CBL',   href: '/markets' },
   { label: 'Rubber, RSS3',         value: '$1.72 /kg',   delta: '+2.38% today',  dir: 'up',   source: 'SICOM', href: '/news?q=Rubber' },
-  { label: 'CBL policy rate',      value: '17.50%',      delta: 'unchanged, 3Q', dir: 'flat', source: 'CBL',   href: '/economy' },
+  { label: 'CBL policy rate',      value: '16.25%',      delta: 'unchanged · Apr 27', dir: 'flat', source: 'CBL',   href: '/economy' },
   { label: 'Brent crude',          value: '$84.20 /bbl', delta: '-0.4% today',   dir: 'down', source: 'ICE',   href: '/news?q=Brent' },
 ];
 
@@ -521,47 +517,54 @@ function LatestSidebar() {
   const items = newsFeed(SIDEBAR_LATEST_IDS);
   return (
     <div className="flex flex-col gap-6">
-      {/* Latest news list */}
+      {/* Today's Signal */}
       <div>
+        <div className="flex items-end justify-between mb-1">
+          <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Today&rsquo;s signal</h2>
+          <span className="text-2xs text-gray-500 tabular-nums">Apr 3 · 18:30 GMT</span>
+        </div>
+        <Text variant="meta" className="text-gray-500 mb-3 pb-3 border-b border-white/[0.07]">Five numbers we&rsquo;re watching</Text>
+        <div className="flex flex-col divide-y divide-white/[0.04]">
+          {TODAYS_SIGNAL.map(s => (
+            <Link key={s.label} href={s.href} className="flex items-start justify-between gap-3 py-3 first:pt-0 no-underline group">
+              <div className="min-w-0">
+                <div className="text-sm font-semibold text-white/85 group-hover:text-brand-accent transition-colors">{s.label}</div>
+                <div className={`text-xs tabular-nums ${SIGNAL_DELTA_STYLE[s.dir]}`}>{s.delta} <span className="text-gray-500">· {s.source}</span></div>
+              </div>
+              <div className="text-base font-bold text-white tabular-nums shrink-0">{s.value}</div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Exchange rates */}
+      <div className="border-t border-white/[0.05] pt-5">
+        <ForexWidget />
+      </div>
+
+      {/* Commodities */}
+      <div className="border-t border-white/[0.05] pt-5">
+        <CommoditiesWidget />
+      </div>
+
+      {/* Liberia at a glance */}
+      <div className="border-t border-white/[0.05] pt-5">
+        <EconomicWidget />
+      </div>
+
+      {/* Latest news list */}
+      <div className="border-t border-white/[0.05] pt-5">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-[12px] font-bold text-white uppercase tracking-[0.12em]">Latest</h2>
-          <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">See all ›</Link>
+          <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Latest</h2>
+          <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
         </div>
         <div className="flex flex-col divide-y divide-white/[0.05]">
           {items.map((item) => (
-            <Link key={item.id} href={`/news/${item.id}`} className="flex gap-3 py-3 first:pt-0 no-underline group">
-              <span className="shrink-0 tabular-nums text-[11px] text-gray-500 w-12 pt-0.5">{timeAgo(item.date)}</span>
-              <span className="text-[13px] font-medium leading-snug text-white/80 group-hover:text-white transition-colors">{item.title}</span>
+            <Link key={item.id} href={`/news/${item.id}`} className="block py-3 first:pt-0 no-underline group">
+              <span className="text-base font-medium leading-snug text-white/80 group-hover:text-brand-accent transition-colors">{item.title}</span>
             </Link>
           ))}
         </div>
-      </div>
-
-      {/* Today's Signal — replaces generic chip cloud */}
-      <div className="border-t border-white/[0.05] pt-5">
-        <div className="flex items-end justify-between mb-1">
-          <h2 className="text-[12px] font-bold text-white uppercase tracking-[0.12em]">Today&rsquo;s signal</h2>
-          <span className="text-[10px] text-gray-500 tabular-nums">Apr 3 · 18:30 GMT</span>
-        </div>
-        <p className="text-[11px] text-gray-500 mb-3">Five numbers we&rsquo;re watching</p>
-        <div className="flex flex-col divide-y divide-white/[0.05]">
-          {TODAYS_SIGNAL.map(s => (
-            <Link key={s.label} href={s.href} className="flex items-start justify-between gap-3 py-2.5 first:pt-0 no-underline group">
-              <div className="min-w-0">
-                <div className="text-[12px] font-semibold text-white/85 group-hover:text-white transition-colors">{s.label}</div>
-                <div className={`text-[11px] tabular-nums ${SIGNAL_DELTA_STYLE[s.dir]}`}>{s.delta} <span className="text-gray-500">· {s.source}</span></div>
-              </div>
-              <div className="text-[13px] font-bold text-white tabular-nums shrink-0">{s.value}</div>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Data widgets below — desktop sidebar only */}
-      <div className="hidden lg:flex flex-col gap-5 border-t border-white/[0.05] pt-5">
-        <ForexWidget />
-        <CommoditiesWidget />
-        <EconomicWidget />
       </div>
 
       {/* Most Read — all viewports */}
@@ -596,31 +599,20 @@ function QuickReadsColumn() {
       {/* Header: kicker + title left, live "Updated" pulse right */}
       <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500 mb-0.5">Desk notes</p>
-          <h2 className="text-[14px] font-bold text-white">In brief</h2>
+          <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Desk notes</Text>
+          <Heading level={5} className="text-white">In brief</Heading>
         </div>
-        <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">More ›</Link>
+        <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">More ›</Link>
       </div>
 
-      {/* Wire feed: age column · hairline rule · category kicker + headline */}
       <ol className="flex flex-col divide-y divide-white/[0.05]">
         {items.map(item => (
           <li key={item.id}>
-            <Link
-              href={`/news/${item.id}`}
-              className="grid grid-cols-[44px_1fr] items-start gap-3 py-3 first:pt-0 no-underline group"
-            >
-              <span className="text-[12px] tabular-nums font-semibold text-gray-500 group-hover:text-white/70 transition-colors pt-[3px]">
-                {compactAge(item.date)}
-              </span>
-              <div className="min-w-0 border-l border-white/[0.06] pl-3">
-                <p className={`text-[10px] font-bold uppercase tracking-[0.12em] mb-1 ${getNewsCatColor(item.category)}`}>
-                  {item.category}
-                </p>
-                <h3 className="text-[12px] font-semibold leading-snug text-white/85 group-hover:text-white transition-colors line-clamp-2 text-pretty">
-                  {item.title}
-                </h3>
-              </div>
+            <Link href={`/news/${item.id}`} className="block py-2.5 first:pt-0 no-underline group">
+              <h3 className="text-sm font-medium leading-snug text-white/80 group-hover:text-brand-accent transition-colors line-clamp-2 text-pretty">
+                <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getNewsCatColor(item.category)}`}>{item.category}</span>
+                {item.title}
+              </h3>
             </Link>
           </li>
         ))}
@@ -638,16 +630,15 @@ function MostReadWidget() {
   return (
     <div className="border-t border-white/[0.05] pt-5">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em]">Most Read</h2>
-        <Link href="/news" className="text-[12px] text-white/50 hover:text-white transition-colors no-underline">See all ›</Link>
+        <Heading level={6} className="text-white uppercase tracking-[0.12em]">Most Read</Heading>
+        <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {items.map((item, i) => (
           <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3.5 py-3 first:pt-0 no-underline group">
-            <span className="shrink-0 tabular-nums text-[22px] font-black text-white/10 leading-none w-6 pt-0.5">{i + 1}</span>
             <div className="min-w-0">
-              <p className="text-[13px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{item.title}</p>
-              <p className="mt-1 text-[11px] text-gray-400">{item.source} · {timeAgo(item.date)}</p>
+              <p className="text-base font-semibold leading-snug text-white/80 group-hover:text-brand-accent transition-colors line-clamp-2">{item.title}</p>
+              <Text variant="meta" className="mt-1">{item.source} · {timeAgo(item.date)}</Text>
             </div>
           </Link>
         ))}
@@ -659,17 +650,14 @@ function MostReadWidget() {
 function UpcomingEventsWidget() {
   return (
     <div className="border-t border-white/[0.05] pt-5">
-      <h2 className="text-[13px] font-bold text-white uppercase tracking-[0.12em] mb-3">Upcoming Events</h2>
+      <Heading level={6} className="text-white uppercase tracking-[0.12em] mb-3">Upcoming Events</Heading>
       <div className="flex flex-col gap-2.5">
         {UPCOMING_EVENTS.map((ev, i) => (
-          <Link key={i} href="/economy" className="flex items-start gap-3 no-underline group">
-            <div className="shrink-0 rounded-lg bg-white/[0.05] border border-white/[0.06] px-2 py-1.5 text-center min-w-[46px]">
-              <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">{ev.date.split(' ')[0]}</p>
-              <p className="text-[14px] font-black text-white leading-none">{ev.date.split(' ')[1]}</p>
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-[12px] font-semibold leading-snug text-white/80 group-hover:text-white transition-colors">{ev.label}</p>
-              <span className={`mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-white/[0.06] ${getNewsCatColor(ev.type)}`}>{ev.type}</span>
+          <Link key={i} href="/economy" className="flex items-start gap-3 py-2.5 first:pt-0 no-underline group">
+            <span className="shrink-0 w-[44px] text-xs font-medium text-gray-500 tabular-nums pt-px">{ev.date}</span>
+            <div className="min-w-0 flex-1 border-l border-white/[0.08] pl-3">
+              <p className="text-sm font-semibold leading-snug text-white/80 group-hover:text-brand-accent transition-colors">{ev.label}</p>
+              <span className="mt-0.5 inline-block text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
             </div>
           </Link>
         ))}
@@ -736,65 +724,66 @@ export default function Home() {
         {/* Regional Spotlight */}
         <div className="mt-14 border-t border-white/[0.05] pt-8">
           <SectionHeading kicker="West Africa" title="What's moving the region today" action="/news" actionLabel="More regional coverage" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] rounded-xl overflow-hidden">
             {[
               {
-                country: 'Accra',
-                dateline: 'ACCRA',
+                dateline: 'ACCRA', country: 'Ghana',
                 headline: "Ghana's cedi has clawed back 7.2% in three weeks. Traders credit the IMF tranche — and one quiet BoG dollar sale.",
-                stat: 'GHS / USD', value: '14.82', delta: '-7.2% 3w', dir: 'down' as const,
+                stat: 'GHS / USD', value: '14.82', delta: '−7.2%', note: '3-week', dir: 'down' as const,
                 byline: 'Adanna Okonkwo', time: '4h ago',
-                cat: 'forex',
                 href: '/news?q=Ghana',
               },
               {
-                country: 'Lagos',
-                dateline: 'LAGOS',
+                dateline: 'LAGOS', country: 'Nigeria',
                 headline: "NGX All-Share closed Q1 up 18.4% — its best quarter since 2008. Banks drove two-thirds of the gain.",
-                stat: 'NGX ASI Q1', value: '+18.4%', delta: 'banks: +24%', dir: 'up' as const,
+                stat: 'NGX ASI', value: '+18.4%', delta: 'Banks +24%', note: 'Q1', dir: 'up' as const,
                 byline: 'Tope Akande', time: '6h ago',
-                cat: 'economy',
                 href: '/news?q=Nigeria',
               },
               {
-                country: 'Freetown',
-                dateline: 'FREETOWN',
+                dateline: 'FREETOWN', country: 'Sierra Leone',
                 headline: "Freetown's $80M port expansion inked with DP World. Monrovia loses its regional tranship lead by 2028.",
-                stat: 'SLL / USD', value: '22,100', delta: 'flat on month', dir: 'flat' as const,
+                stat: 'SLL / USD', value: '22,100', delta: 'Flat', note: '1-month', dir: 'flat' as const,
                 byline: 'Sarah Kollie', time: '8h ago',
-                cat: 'Development',
                 href: '/news?q=Sierra%20Leone',
               },
               {
-                country: 'Abidjan',
-                dateline: 'ABIDJAN',
+                dateline: 'ABIDJAN', country: 'Côte d\'Ivoire',
                 headline: "BRVM Composite led every regional peer in Q1. Sonatel and Orange CI account for half the move.",
-                stat: 'BRVM Composite', value: '+3.4%', delta: 'YTD: +9.8%', dir: 'up' as const,
+                stat: 'BRVM Composite', value: '+3.4%', delta: 'YTD +9.8%', note: 'Q1', dir: 'up' as const,
                 byline: 'James Dweh', time: '10h ago',
-                cat: 'economy',
                 href: '/news?q=Ivory%20Coast',
               },
             ].map((r, i) => {
-              const deltaStyle = r.dir === 'up' ? 'text-emerald-400' : r.dir === 'down' ? 'text-red-400' : 'text-gray-400';
+              const valueColor = r.dir === 'up' ? 'text-emerald-400' : r.dir === 'down' ? 'text-red-400' : 'text-gray-300';
+              const deltaColor = r.dir === 'up' ? 'text-emerald-400' : r.dir === 'down' ? 'text-red-400' : 'text-gray-500';
               return (
-                <Link key={i} href={r.href} className="group flex flex-col no-underline border-t border-white/15 pt-4">
-                  <div className="overflow-hidden mb-3">
-                    <NewsThumbnail category={r.cat} className="w-full h-[120px] rounded-lg" />
+                <Link key={i} href={r.href} className="group flex flex-col no-underline bg-brand-dark p-5 hover:bg-white/[0.025] transition-colors">
+                  {/* City + country */}
+                  <div className="mb-3">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 mb-0.5">{r.dateline}</p>
+                    <Text variant="caption" className="text-gray-600 uppercase tracking-wide">{r.country}</Text>
                   </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500">{r.dateline}</span>
+
+                  {/* Headline */}
+                  <Heading level={6} as="h3" className="leading-snug text-white/90 group-hover:text-brand-accent transition-colors mb-4 flex-1">{r.headline}</Heading>
+
+                  {/* Key metric — same chip style as lead story tickers */}
+                  <div className="flex items-center gap-2 flex-wrap mb-3">
+                    <span className="inline-flex items-center gap-1.5 border border-white/[0.12] bg-white/[0.04] px-1.5 py-px text-2xs text-gray-400">
+                      {r.stat}
+                      <span className={`font-semibold tabular-nums ${valueColor}`}>{r.value}</span>
+                    </span>
+                    <span className={`inline-flex items-center border border-white/[0.08] bg-white/[0.02] px-1.5 py-px text-2xs font-semibold tabular-nums ${deltaColor}`}>
+                      {r.delta}
+                    </span>
+                    <span className="text-2xs text-gray-600">{r.note}</span>
                   </div>
-                  <h3 className="text-[12px] font-semibold leading-snug text-white group-hover:text-white/75 transition-colors mb-3">{r.headline}</h3>
-                  <div className="mt-auto border-t border-white/[0.06] pt-2.5">
-                    <div className="flex items-baseline justify-between gap-2 mb-1">
-                      <span className="text-[10px] uppercase tracking-wide text-gray-500">{r.stat}</span>
-                      <span className="text-[13px] font-bold text-white tabular-nums">{r.value}</span>
-                    </div>
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="text-[10px] text-gray-500">By {r.byline}</span>
-                      <span className={`text-[11px] font-semibold tabular-nums ${deltaStyle}`}>{r.delta}</span>
-                    </div>
-                    <div className="mt-1 text-[10px] text-gray-500">{r.time}</div>
+
+                  {/* Byline */}
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-500">By {r.byline}</span>
+                    <span className="text-gray-600">{r.time}</span>
                   </div>
                 </Link>
               );

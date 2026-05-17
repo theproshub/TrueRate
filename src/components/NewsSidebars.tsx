@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { newsItems } from '@/data/news';
+import { Heading, Text } from '@/components/ui';
 
 const TRENDING = [
   { rank: 1,  href: '/news/1',  title: "Why the CBL Governor isn't cutting rates — even as inflation falls" },
@@ -19,23 +20,22 @@ export function TrendingPanel() {
     <aside className="hidden lg:block w-[270px] shrink-0 sticky self-end" style={{ bottom: '16px' }}>
       <div>
         <div className="flex items-center gap-2 mb-3">
-          <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 text-emerald-700" fill="currentColor" viewBox="0 0 24 24">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
-          <h2 className="text-[14px] font-bold text-gray-900 uppercase tracking-wide">Trending</h2>
+          <Heading level={5} as="h2" className="font-bold text-gray-900 uppercase tracking-wide">Trending</Heading>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100">
           {TRENDING.map(item => (
             <Link key={item.rank} href={item.href} className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
-              <span className="shrink-0 tabular-nums text-[18px] font-black text-gray-300 leading-none w-5 pt-0.5">{item.rank}</span>
               <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-semibold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-2">{item.title}</p>
+                <p className="text-base font-semibold leading-snug text-gray-700 group-hover:text-emerald-700 transition-colors line-clamp-2">{item.title}</p>
               </div>
             </Link>
           ))}
           <Link href="/news" className="flex items-center justify-between px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-            <span className="text-[13px] text-gray-500 group-hover:text-gray-900 transition-colors">See more stories</span>
-            <svg className="h-4 w-4 text-gray-400 group-hover:text-gray-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <span className="text-base text-gray-500 group-hover:text-emerald-700 transition-colors">See more stories</span>
+            <svg className="h-4 w-4 text-gray-400 group-hover:text-emerald-700 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -43,7 +43,7 @@ export function TrendingPanel() {
 
         {/* Mini market widget */}
         <div className="mt-5 rounded-xl border border-gray-200 bg-white p-4">
-          <h3 className="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-3">Markets</h3>
+          <h3 className="text-xs font-bold uppercase tracking-[0.12em] text-gray-400 mb-3">Markets</h3>
           {[
             { label: 'LRD/USD',  value: '192.50',  pct: '+0.65%', up: true  },
             { label: 'Iron Ore', value: '$108.50', pct: '-2.08%', up: false },
@@ -52,22 +52,22 @@ export function TrendingPanel() {
             { label: 'Palm Oil', value: '$922/t',   pct: '-1.40%', up: false },
           ].map(r => (
             <div key={r.label} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-              <span className="text-[12px] font-semibold text-gray-900">{r.label}</span>
+              <span className="text-sm font-semibold text-gray-900">{r.label}</span>
               <div className="text-right">
-                <div className="text-[12px] tabular-nums text-gray-900">{r.value}</div>
-                <div className={`text-[11px] font-bold tabular-nums ${r.up ? 'text-emerald-400' : 'text-red-400'}`}>{r.pct}</div>
+                <div className="text-sm tabular-nums text-gray-900">{r.value}</div>
+                <div className={`text-xs font-bold tabular-nums ${r.up ? 'text-emerald-700' : 'text-red-400'}`}>{r.pct}</div>
               </div>
             </div>
           ))}
-          <Link href="/economy" className="mt-3 block text-center text-[12px] text-gray-500 hover:text-gray-900 transition-colors no-underline">Full markets ›</Link>
+          <Link href="/economy" className="mt-3 block text-center text-sm text-gray-500 hover:text-emerald-700 transition-colors no-underline">Full markets ›</Link>
         </div>
 
         {/* In Focus topics */}
         <div className="mt-5 rounded-xl border border-gray-200 bg-white p-4">
-          <h3 className="text-[12px] font-bold text-gray-900 mb-3">In Focus</h3>
+          <h3 className="text-sm font-bold text-gray-900 mb-3">In Focus</h3>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'Rubber', 'CBL Rate', 'Remittances', 'ECOWAS', 'Mining Policy', 'Inflation', 'Gold', 'ESG Bonds'].map(t => (
-              <Link key={t} href="/news" className="rounded-lg border border-gray-300 px-4 py-1.5 text-[13px] font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
+              <Link key={t} href="/news" className="rounded-lg border border-gray-300 px-4 py-1.5 text-base font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
             ))}
           </div>
         </div>
@@ -83,17 +83,17 @@ export function RightRail() {
 
         {/* Newsletter */}
         <div className="rounded-xl border border-gray-200 bg-white p-5">
-          <h3 className="text-[12px] font-bold text-gray-900 mb-1">TrueRate Daily Brief</h3>
-          <p className="text-[12px] text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
+          <h3 className="text-sm font-bold text-gray-900 mb-1">TrueRate Daily Brief</h3>
+          <p className="text-sm text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
           <input type="email" placeholder="Email address"
-            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-[13px] text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors mb-2" />
-          <button className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-[13px] font-semibold text-gray-900 hover:bg-gray-50 transition">Sign up free</button>
+            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors mb-2" />
+          <button className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition">Sign up free</button>
         </div>
 
         {/* Upcoming events */}
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
           <div className="px-4 py-3.5 border-b border-gray-100">
-            <h3 className="text-[12px] font-bold text-gray-900">Upcoming Events</h3>
+            <h3 className="text-sm font-bold text-gray-900">Upcoming Events</h3>
           </div>
           <div className="divide-y divide-gray-100">
             {[
@@ -104,14 +104,11 @@ export function RightRail() {
               { date: 'Apr 18', label: 'World Bank Country Dialogue',    type: 'Development' },
               { date: 'Apr 22', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets'     },
             ].map((ev, i) => (
-              <Link key={i} href="/economy" className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                <div className="shrink-0 rounded-lg bg-gray-100 border border-gray-200 px-2 py-1 text-center min-w-[40px]">
-                  <p className="text-[10px] font-bold uppercase tracking-wide text-gray-400">{ev.date.split(' ')[0]}</p>
-                  <p className="text-[14px] font-black text-gray-900 leading-none">{ev.date.split(' ')[1]}</p>
-                </div>
-                <div>
-                  <p className="text-[12px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors leading-snug">{ev.label}</p>
-                  <span className="mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase bg-gray-100 text-gray-500">{ev.type}</span>
+              <Link key={i} href="/economy" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+                <span className="shrink-0 w-[40px] text-xs font-medium text-gray-400 tabular-nums">{ev.date}</span>
+                <div className="min-w-0 flex-1 border-l border-gray-100 pl-3">
+                  <p className="text-sm font-semibold text-gray-700 group-hover:text-emerald-700 transition-colors leading-snug">{ev.label}</p>
+                  <span className="text-2xs font-medium text-gray-400 uppercase tracking-wide">{ev.type}</span>
                 </div>
               </Link>
             ))}
@@ -121,13 +118,12 @@ export function RightRail() {
         {/* Most read */}
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
           <div className="px-4 py-3.5 border-b border-gray-100">
-            <h3 className="text-[12px] font-bold text-gray-900">Most Read</h3>
+            <h3 className="text-sm font-bold text-gray-900">Most Read</h3>
           </div>
           <div className="divide-y divide-gray-100">
             {newsItems.slice(0, 5).map((item, i) => (
               <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                <span className="shrink-0 text-[18px] font-black text-gray-300 tabular-nums w-5 leading-none pt-0.5">{i + 1}</span>
-                <p className="text-[12px] font-bold leading-snug text-gray-700 group-hover:text-gray-900 transition-colors line-clamp-3">{item.title}</p>
+                <p className="text-sm font-bold leading-snug text-gray-700 group-hover:text-emerald-700 transition-colors line-clamp-3">{item.title}</p>
               </Link>
             ))}
           </div>
@@ -149,10 +145,10 @@ export function RightRail() {
           </div>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mb-2">
             {['About', 'Advertise', 'Careers', 'Help', 'Feedback', 'Privacy', 'Terms'].map(l => (
-              <Link key={l} href="/about" className="text-[11px] text-gray-400 hover:text-gray-700 transition-colors no-underline">{l}</Link>
+              <Link key={l} href="/about" className="text-xs text-gray-400 hover:text-gray-700 transition-colors no-underline">{l}</Link>
             ))}
           </div>
-          <p className="text-center text-[11px] text-gray-400">© 2026 TrueRate. All rights reserved.</p>
+          <Text variant="meta" className="text-center">© 2026 TrueRate. All rights reserved.</Text>
         </div>
 
       </div>

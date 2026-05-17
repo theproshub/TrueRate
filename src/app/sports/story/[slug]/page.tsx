@@ -58,7 +58,7 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
     .slice(0, 8);
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-brand-surface min-h-screen">
       <main className="mx-auto max-w-[1320px] px-4 py-6">
 
         <Breadcrumb
@@ -78,15 +78,15 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
           <article className="flex-1 min-w-0 pb-8">
 
             <div className="pb-8 mb-8 border-b border-gray-100">
-              <div className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${getCatColor(story.category)}`}>
+              <div className={`text-2xs font-bold uppercase tracking-widest mb-2 ${getCatColor(story.category)}`}>
                 {story.category}
               </div>
 
-              <h1 className="text-[22px] sm:text-[32px] font-black leading-tight text-gray-900 mb-4">
+              <h1 className="text-2xl sm:text-3xl font-black leading-tight text-gray-900 mb-4">
                 {story.title}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-2 text-[13px] text-gray-500 pb-5 border-b border-gray-100 mb-6">
+              <div className="flex flex-wrap items-center gap-2 text-base text-gray-500 pb-5 border-b border-gray-100 mb-6">
                 <span className="font-semibold text-gray-700">{story.source}</span>
                 <span>·</span>
                 <span>{story.time}</span>
@@ -94,7 +94,7 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
 
               <HeroVisual category={story.category} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
 
-              <div className="text-[14px] leading-[1.8] text-gray-600 space-y-5 mb-8">
+              <div className="text-md leading-[1.8] text-gray-600 space-y-5 mb-8">
                 {story.body.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
@@ -106,7 +106,7 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
                   <Link
                     key={tag}
                     href={section.href}
-                    className="rounded-lg border border-gray-200 px-3 py-1 text-[12px] text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors no-underline"
+                    className="rounded-lg border border-gray-200 px-3 py-1 text-sm text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors no-underline"
                   >
                     {tag}
                   </Link>
@@ -118,8 +118,8 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
             {related.length > 0 && (
               <div className="mb-8">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
-                  <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">Related</h2>
-                  <Link href={section.href} className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
+                  <h2 className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">Related</h2>
+                  <Link href={section.href} className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {related.map(r => (
@@ -127,9 +127,9 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
                       <div className="overflow-hidden rounded-xl mb-2.5">
                         <NewsThumbnail category={r.category} className="w-full h-[110px]" />
                       </div>
-                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
-                      <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</h3>
-                      <div className="text-[11px] text-gray-400">{r.source} · {r.time}</div>
+                      <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
+                      <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</h3>
+                      <div className="text-xs text-gray-400">{r.source} · {r.time}</div>
                     </Link>
                   ))}
                 </div>
@@ -139,8 +139,8 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
             {/* More stories */}
             <div>
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
-                <h2 className="text-[13px] font-bold text-gray-900 uppercase tracking-[0.12em]">More from TrueRate Sports</h2>
-                <Link href="/sports" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors no-underline">All sports ›</Link>
+                <h2 className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">More from TrueRate Sports</h2>
+                <Link href="/sports" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">All sports ›</Link>
               </div>
               <div className="flex flex-col divide-y divide-gray-100">
                 {moreStories.map(s => (
@@ -149,9 +149,9 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
                       <NewsThumbnail category={s.category} className="h-[70px] w-[105px]" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className={`text-[10px] font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
-                      <h3 className="text-[12px] font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</h3>
-                      <p className="text-[12px] text-gray-400">{s.source} · {s.time}</p>
+                      <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
+                      <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</h3>
+                      <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400">{s.source} · {s.time}</p>
                     </div>
                   </Link>
                 ))}

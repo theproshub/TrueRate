@@ -2,35 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — CSS custom properties that mirror tailwind.config.ts
+   Use Tailwind classes wherever possible; fall back to var() only for
+   properties Tailwind can't express (e.g. filter, background-image, calc).
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand palette */
+  --color-brand-accent:       #BFEA36;
+  --color-brand-accent-hover: #a8d42a;
+  --color-brand-dark:         #050d11;
+  --color-brand-muted:        #030a0e;
+  --color-brand-header:       #061520;
+  --color-brand-card:         #040f18;
+  --color-brand-azure:        #061E29;
+  --color-brand-light:        #F3F4F4;
+  --color-brand-surface:      #f8f9fa;
+  --color-brand-ink:          #0a0a0d;
+
+  /* Semantic */
+  --color-pos:     #00a757;
+  --color-neg:     #e11b22;
+  --color-warning: #f59e0b;
+  --color-info:    #3b82f6;
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-mono: 'Roboto Mono', 'Courier New', monospace;
+
+  /* Layout */
+  --header-height:    64px;
+  --container-max-w:  1320px;
+  --sidebar-w:        280px;
+  --content-max-w:    760px;
+
+  /* Scrollbar */
+  --scrollbar-thumb: #0d3248;
+  --scrollbar-thumb-hover: #1a4060;
+}
+
 @layer base {
   * { box-sizing: border-box; }
 
   html, body {
-    overflow-x: clip; /* clip ≠ hidden — doesn't create a scroll container, so position:sticky works */
+    overflow-x: clip; /* clip ≠ hidden — doesn't create scroll container, so sticky still works */
   }
 
   body {
-    font-family: 'Inter', sans-serif;
-    background: #050d11;
+    font-family: var(--font-sans);
+    background: var(--color-brand-dark);
     color: #e8e8e8;
-    /* Yahoo Finance typography scale: 13px base / 1.385 line-height */
     font-size: 13px;
     line-height: 1.385;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Brand typography: Inter = headings/UI, Montserrat = body copy */
+  /* Brand typography split: Inter = headings/UI, Montserrat = body copy */
   h1, h2, h3, h4, h5, h6,
   a, button,
   [role='button'] {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-sans);
   }
 
   p, li, small, label, input, textarea, select {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-body);
   }
 
-  /* Yahoo Finance heading scale */
+  /* Heading scale — mirrors tailwind.config.ts fontSize tokens */
   h1 { font-size: 32px; line-height: 1.125; font-weight: 700; }
   h2 { font-size: 22px; line-height: 1.2;   font-weight: 700; }
   h3 { font-size: 18px; line-height: 1.25;  font-weight: 600; }
@@ -44,8 +83,10 @@
   a:hover { text-decoration: none; }
 }
 
+/* ── Utility classes ───────────────────────────────────────────────────────── */
 .tabular-nums { font-variant-numeric: tabular-nums; }
 
+/* ── Animations ────────────────────────────────────────────────────────────── */
 @keyframes ticker-move {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-100%); }
@@ -60,6 +101,7 @@
   from { transform: translateX(-100%); }
   to   { transform: translateX(0); }
 }
+
 .ticker-scroll {
   animation: ticker-move 80s linear infinite;
 }
@@ -67,7 +109,8 @@
   animation-play-state: paused;
 }
 
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: #0d3248; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #1a4060; }
+::-webkit-scrollbar-thumb  { background: var(--scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }

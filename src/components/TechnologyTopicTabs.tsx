@@ -24,7 +24,7 @@ export default function TechnologyTopicTabs({ activeSlug }: Props) {
             key={t.slug}
             href={t.href}
             aria-current={active ? 'page' : undefined}
-            className={`whitespace-nowrap px-4 sm:px-5 py-2.5 text-[13px] font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-brand-accent ${
+            className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-brand-accent ${
               active
                 ? 'border-brand-accent text-brand-accent'
                 : 'border-transparent text-gray-400 hover:text-gray-200'

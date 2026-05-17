@@ -13,7 +13,7 @@ export function NewsThumbnail({ category, className }: { category: string; class
         className="absolute inset-0 opacity-[0.12]"
         style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '14px 14px' }}
       />
-      <span className={`relative z-10 select-none text-center text-[10px] font-black uppercase tracking-[0.15em] px-1.5 ${s.accent}`}>
+      <span className={`relative z-10 select-none text-center text-2xs font-black uppercase tracking-[0.15em] px-1.5 ${s.accent}`}>
         {s.label}
       </span>
     </div>
@@ -45,8 +45,8 @@ export function HeroVisual({ category, className = '' }: { category: string; cla
   );
 }
 
-/** Video thumbnail — category gradient with centred play button */
-export function VideoThumbnail({ category, duration, className = 'w-full h-[220px]' }: { category: string; duration?: string; className?: string }) {
+/** Video thumbnail — category gradient with optional centred play button */
+export function VideoThumbnail({ category, duration, className = 'w-full h-[220px]', showPlay = false }: { category: string; duration?: string; className?: string; showPlay?: boolean }) {
   const s = getCatStyle(category);
   return (
     <div className={`relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
@@ -54,13 +54,20 @@ export function VideoThumbnail({ category, duration, className = 'w-full h-[220p
         className="absolute inset-0 opacity-[0.06]"
         style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
       />
-      <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 shadow-2xl">
-        <svg className="h-4 w-4 translate-x-0.5 text-[#0a0a0d]" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </div>
+      {showPlay && (
+        <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 shadow-2xl">
+          <svg className="h-4 w-4 translate-x-0.5 text-brand-ink" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      )}
+      {!showPlay && (
+        <span className={`relative z-10 select-none text-center text-2xs font-black uppercase tracking-[0.15em] px-1.5 ${s.accent}`}>
+          {s.label}
+        </span>
+      )}
       {duration && (
-        <span className="absolute bottom-3 left-3 tabular-nums text-[12px] font-bold text-white/80">{duration}</span>
+        <span className="absolute bottom-2 right-2 tabular-nums text-2xs font-semibold text-white rounded bg-black/80 px-1.5 py-px backdrop-blur-sm">{duration}</span>
       )}
     </div>
   );
@@ -73,7 +80,7 @@ export function AuthorAvatar({ name, className = 'h-10 w-10' }: { name: string; 
   const color = colors[name.charCodeAt(0) % colors.length];
   return (
     <div className={`shrink-0 rounded-full bg-gradient-to-br ${color} to-[#111116] flex items-center justify-center ${className}`}>
-      <span className="text-[11px] font-bold text-white/80">{initials}</span>
+      <span className="text-xs font-bold text-white/80">{initials}</span>
     </div>
   );
 }
