@@ -20,9 +20,73 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
+const siteUrl = 'https://www.truerateliberia.com';
+
 export const metadata: Metadata = {
-  title: 'TrueRate — Business, Investing & Technology',
-  description: 'TrueRate is a national media company covering business, investing, technology, entrepreneurship, leadership, and lifestyle.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'TrueRate — Liberia Business, Markets & Economy',
+    template: '%s | TrueRate',
+  },
+  description:
+    'TrueRate is Liberia’s financial news source, covering markets, the economy, small business, technology, and policy that shapes the country.',
+  applicationName: 'TrueRate',
+  keywords: [
+    'Liberia',
+    'Liberia news',
+    'Liberia economy',
+    'West Africa markets',
+    'Liberia business',
+    'TrueRate',
+    'Liberian dollar',
+    'CBL',
+  ],
+  authors: [{ name: 'TrueRate' }],
+  creator: 'TrueRate',
+  publisher: 'TrueRate',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteUrl,
+    siteName: 'TrueRate',
+    title: 'TrueRate — Liberia Business, Markets & Economy',
+    description:
+      'Liberia’s financial news source: markets, the economy, small business, technology, and policy.',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'TrueRate',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TrueRate — Liberia Business, Markets & Economy',
+    description:
+      'Liberia’s financial news source: markets, the economy, small business, technology, and policy.',
+    images: ['/logo.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
+  category: 'news',
 };
 
 const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? '';
