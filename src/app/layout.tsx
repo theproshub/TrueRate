@@ -20,7 +20,7 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
-const siteUrl = 'https://www.truerateliberia.com';
+const siteUrl = 'https://truerateliberia.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

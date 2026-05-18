@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const SITE_URL = 'https://www.truerateliberia.com';
+const SITE_URL = 'https://truerateliberia.com';
 
 // Top-level routes that exist in src/app. Add new ones here when sections ship.
 const routes = [
