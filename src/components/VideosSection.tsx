@@ -27,7 +27,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
               {featured.duration}
             </span>
           </div>
-          <h3 className="text-md sm:text-lg font-black leading-[1.25] tracking-tight text-white group-hover:text-brand-accent transition-colors mb-2 line-clamp-2">
+          <h3 className="text-md sm:text-lg font-black leading-[1.25] tracking-tight text-white group-hover:text-white/80 transition-colors mb-2 line-clamp-2">
             {featured.title}
           </h3>
           {featured.description && (
@@ -50,7 +50,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
                 <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
               </div>
               <div className="min-w-0 flex-1 flex flex-col justify-center">
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">
                   {v.title}
                 </h3>
                 <p className="text-xs text-gray-500">

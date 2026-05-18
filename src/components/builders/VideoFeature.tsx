@@ -20,7 +20,7 @@ export default function VideoFeature() {
             duration={FEATURED_VIDEO.duration}
             className="w-full h-[200px] sm:h-[260px] rounded-lg mb-3"
           />
-          <h3 className="text-md sm:text-xl font-black leading-[1.2] tracking-tight text-white group-hover:text-brand-accent transition-colors mb-1.5">
+          <h3 className="text-md sm:text-xl font-black leading-[1.2] tracking-tight text-white group-hover:text-white/80 transition-colors mb-1.5">
             {FEATURED_VIDEO.title}
           </h3>
           {FEATURED_VIDEO.dek && (
@@ -44,7 +44,7 @@ export default function VideoFeature() {
                     Now playing
                   </span>
                 )}
-                <h4 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">{v.title}</h4>
+                <h4 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{v.title}</h4>
                 <span className="text-xs text-gray-500">{v.source}</span>
               </div>
             </Link>

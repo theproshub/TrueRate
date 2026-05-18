@@ -40,7 +40,7 @@ export default function SectionFourCards({ id, title, badge, subtitle, items }: 
         {items.map((c, i) => (
           <Link key={i} href={c.href} className="group no-underline flex flex-col">
             <NewsThumbnail category={c.category} className="w-full aspect-[16/10] rounded-lg mb-3" />
-            <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-3 mb-1.5 flex-1">
+            <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3 mb-1.5 flex-1">
               {c.title}
             </h3>
             <div className="flex items-center gap-2 flex-wrap">

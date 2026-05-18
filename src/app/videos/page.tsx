@@ -109,7 +109,7 @@ function VideoCard({ title, duration, category, source, time }: { title: string;
       </div>
       {/* Text */}
       <div className="min-w-0 flex-1 flex flex-col justify-center">
-        <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">{title}</h3>
+        <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{title}</h3>
         <div className="text-xs text-gray-500">{source ? `${source} · ` : ''}{time}</div>
       </div>
     </Link>
@@ -142,7 +142,7 @@ export default function VideosPage() {
               {HERO.duration}
             </span>
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h1 className="text-xl sm:text-2xl font-black leading-[1.2] tracking-tight text-white group-hover:text-brand-accent transition-colors mb-2 line-clamp-2">{HERO.title}</h1>
+              <h1 className="text-xl sm:text-2xl font-black leading-[1.2] tracking-tight text-white group-hover:text-white/80 transition-colors mb-2 line-clamp-2">{HERO.title}</h1>
               <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-semibold text-white/70">{HERO.source}</span>
@@ -166,7 +166,7 @@ export default function VideosPage() {
                   <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
                 </div>
                 <div className="min-w-0 flex-1 flex flex-col justify-center">
-                  <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
+                  <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
               </Link>
@@ -239,7 +239,7 @@ export default function VideosPage() {
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className={`text-2xs font-black uppercase tracking-wide ${catColor(pod.category)}`}>{pod.ep}</span>
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1.5">{pod.title}</h3>
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1.5">{pod.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">{pod.desc}</p>
               </Link>
             ))}
@@ -266,7 +266,7 @@ export default function VideosPage() {
                 </div>
               </div>
               <div className={`text-2xs font-bold uppercase tracking-wide mb-1 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors line-clamp-2 mb-1">{item.title}</h3>
+              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{item.title}</h3>
               <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
                 <span>{item.channel}</span>
                 <span>·</span>
@@ -292,7 +292,7 @@ export default function VideosPage() {
                 <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
               </div>
               <div className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-brand-accent transition-colors mb-2 line-clamp-2">{item.title}</h3>
+              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors mb-2 line-clamp-2">{item.title}</h3>
               <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">{item.desc}</p>
             </Link>
           ))}

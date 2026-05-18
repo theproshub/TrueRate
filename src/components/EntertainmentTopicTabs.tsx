@@ -1,9 +1,28 @@
-import Link from 'next/link';
+'use client';
+
+import Link, { useLinkStatus } from 'next/link';
 import { ENTERTAINMENT_TOPICS } from '@/lib/entertainment-topics';
 
 interface Props {
   /** Slug of the active topic. Use 'all' for the index page. */
   activeSlug: string;
+}
+
+/** Sits inside each <Link> so it can read the navigation pending state. */
+function TabLabel({ label, active }: { label: string; active: boolean }) {
+  const { pending } = useLinkStatus();
+  const highlighted = active || pending;
+  return (
+    <span
+      className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-[3px] -mb-px transition-colors ${
+        highlighted
+          ? 'border-gray-900 text-gray-900'
+          : 'border-transparent text-gray-500'
+      }`}
+    >
+      {label}
+    </span>
+  );
 }
 
 export default function EntertainmentTopicTabs({ activeSlug }: Props) {
@@ -23,14 +42,11 @@ export default function EntertainmentTopicTabs({ activeSlug }: Props) {
           <Link
             key={t.slug}
             href={t.href}
+            prefetch
             aria-current={active ? 'page' : undefined}
-            className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-gray-900 ${
-              active
-                ? 'border-gray-900 text-gray-900'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
-            }`}
+            className="no-underline focus-visible:outline-none"
           >
-            {t.label}
+            <TabLabel label={t.label} active={active} />
           </Link>
         );
       })}
