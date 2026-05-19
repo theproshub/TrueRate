@@ -14,7 +14,10 @@ import { Heading, Text } from '@/components/ui';
 ───────────────────────────────────────────────────────────────────────────── */
 
 /** Per-story real photography, keyed by news item id */
-const STORY_PHOTOS: Record<string, string> = {};
+const STORY_PHOTOS: Record<string, string> = {
+  // Story 1: CBL Governor Henry F. Saamoi — portrait headshot
+  '1': '/images/saamoi-cbl-governor.png',
+};
 
 /** Related ticker chips shown beneath the lead story byline */
 const STORY_CHIPS: Record<string, { label: string; value: string; up?: boolean }[]> = {
