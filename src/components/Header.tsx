@@ -541,7 +541,7 @@ export default function Header() {
                         {column.items.map(item => {
                           const active = isActive(pathname, item.href);
                           return (
-                            <li key={item.href} role="none">
+                            <li key={`${column.title}:${item.label}`} role="none">
                               <Link
                                 href={item.href}
                                 role="menuitem"

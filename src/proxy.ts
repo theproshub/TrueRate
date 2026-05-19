@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { updateSession } from '@/lib/supabase/proxy';
 
-// Local/dev-safe pass-through proxy (Next.js 16 rename of middleware.ts).
-// Re-enable `clerkMiddleware()` once protected route rules are defined.
-export default function proxy(_req: NextRequest) { // eslint-disable-line @typescript-eslint/no-unused-vars
-  return NextResponse.next();
+export default async function proxy(request: NextRequest) {
+  return updateSession(request);
 }
 
 export const config = {

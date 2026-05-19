@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter, Montserrat } from 'next/font/google';
-import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -89,22 +88,14 @@ export const metadata: Metadata = {
   category: 'news',
 };
 
-const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? '';
-const isClerkConfigured =
-  publishableKey.startsWith('pk_') && !publishableKey.includes('replace_me');
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const content = (
-    <body className={inter.className}>
-      <Header />
-      {children}
-      <Footer />
-    </body>
-  );
-
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
-      {isClerkConfigured ? <ClerkProvider>{content}</ClerkProvider> : content}
+      <body className={inter.className}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
