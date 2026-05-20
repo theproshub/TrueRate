@@ -6,12 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "hydrate:worldbank": "node --env-file=.env.local scripts/hydrate-worldbank.mjs",
+    "inventory": "node --env-file=.env.local scripts/inventory.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.0",
     "clsx": "^2.1.1",
+    "marked": "^18.0.4",
     "next": "16.2.4",
     "react": "19.2.5",
     "react-dom": "19.2.5",

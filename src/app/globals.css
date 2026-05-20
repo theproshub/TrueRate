@@ -86,6 +86,92 @@
 /* ── Utility classes ───────────────────────────────────────────────────────── */
 .tabular-nums { font-variant-numeric: tabular-nums; }
 
+/* ── Article body (Markdown → HTML rendering on light surface) ─────────────── */
+.article-body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: #4b5563; /* gray-600 */
+}
+.article-body > * + * { margin-top: 1.25em; }
+.article-body h2 {
+  font-family: var(--font-sans);
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #111827; /* gray-900 */
+  margin-top: 2em;
+  letter-spacing: -0.01em;
+}
+.article-body h3 {
+  font-family: var(--font-sans);
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 1.75em;
+}
+.article-body h4 {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 1.5em;
+}
+.article-body a {
+  color: #6001d2;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.article-body a:hover { text-decoration: none; }
+.article-body strong { color: #111827; font-weight: 700; }
+.article-body em { font-style: italic; }
+.article-body ul, .article-body ol {
+  padding-left: 1.5em;
+}
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
+.article-body li + li { margin-top: 0.5em; }
+.article-body blockquote {
+  border-left: 3px solid var(--color-brand-accent);
+  padding-left: 1.25em;
+  color: #374151; /* gray-700 */
+  font-style: italic;
+}
+.article-body code {
+  background: #f3f4f6;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+.article-body pre {
+  background: #111827;
+  color: #f9fafb;
+  padding: 1em 1.25em;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.article-body pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+.article-body hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 2em 0;
+}
+.article-body img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
 /* ── Animations ────────────────────────────────────────────────────────────── */
 @keyframes ticker-move {
   0%   { transform: translateX(0); }
