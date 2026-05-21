@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { updateArticle, deleteArticle } from '../../_actions';
 import ArticleForm, { type ArticleDefaults } from '../../_components/ArticleForm';
+import TagsEditor from './_TagsEditor';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -9,8 +10,9 @@ interface PageProps {
 }
 
 const NOTICE_FOR_OK: Record<string, string> = {
-  created: 'Article created.',
-  saved:   'Saved.',
+  created:    'Article created.',
+  saved:      'Saved.',
+  tags_saved: 'Tags saved.',
 };
 
 export default async function EditArticlePage({ params, searchParams }: PageProps) {
@@ -62,6 +64,17 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
         enableDelete
         deleteAction={boundDelete}
       />
+
+      <div className="my-10 border-t border-white/[0.07]" />
+
+      <header className="mb-6">
+        <h2 className="text-xl font-black tracking-tight text-white">Tags</h2>
+        <p className="mt-1 text-sm text-gray-400">
+          Link this article to the macro indicators and symbols it discusses. Tags drive
+          related-news widgets on indicator and symbol pages.
+        </p>
+      </header>
+      <TagsEditor articleId={id} />
     </section>
   );
 }

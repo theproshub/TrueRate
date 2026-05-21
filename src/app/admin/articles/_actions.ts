@@ -144,3 +144,82 @@ export async function deleteArticle(id: string) {
   revalidatePath('/admin/articles');
   redirect('/admin/articles?ok=deleted');
 }
+
+// ─────────────────────────────────────────────────────────────────────
+// Tag editors — replace-all semantics. The forms submit the full set of
+// currently-checked IDs each time; we delete all old rows and insert the
+// new set. Simpler than diffing and behaviorally identical for an admin UI.
+// ─────────────────────────────────────────────────────────────────────
+
+function uniqueIds(form: FormData, name: string): string[] {
+  const seen = new Set<string>();
+  for (const value of form.getAll(name)) {
+    const id = String(value).trim();
+    if (id.length > 0) seen.add(id);
+  }
+  return Array.from(seen);
+}
+
+export async function setArticleMacroTags(id: string, form: FormData) {
+  await requireAdmin(`/admin/articles/${id}/edit`);
+  const macroIds = uniqueIds(form, 'macro_id');
+
+  const supabase = await createClient();
+
+  const { error: deleteErr } = await supabase
+    .from('article_macros')
+    .delete()
+    .eq('article_id', id);
+  if (deleteErr) {
+    return redirect(
+      `/admin/articles/${id}/edit?error=${encodeURIComponent(deleteErr.message)}#tags`,
+    );
+  }
+
+  if (macroIds.length > 0) {
+    const rows = macroIds.map(series_id => ({ article_id: id, series_id }));
+    const { error: insertErr } = await supabase
+      .from('article_macros')
+      .insert(rows);
+    if (insertErr) {
+      return redirect(
+        `/admin/articles/${id}/edit?error=${encodeURIComponent(insertErr.message)}#tags`,
+      );
+    }
+  }
+
+  revalidatePath(`/admin/articles/${id}/edit`);
+  redirect(`/admin/articles/${id}/edit?ok=tags_saved#tags`);
+}
+
+export async function setArticleSymbolTags(id: string, form: FormData) {
+  await requireAdmin(`/admin/articles/${id}/edit`);
+  const symbolIds = uniqueIds(form, 'symbol_id');
+
+  const supabase = await createClient();
+
+  const { error: deleteErr } = await supabase
+    .from('article_symbols')
+    .delete()
+    .eq('article_id', id);
+  if (deleteErr) {
+    return redirect(
+      `/admin/articles/${id}/edit?error=${encodeURIComponent(deleteErr.message)}#tags`,
+    );
+  }
+
+  if (symbolIds.length > 0) {
+    const rows = symbolIds.map(symbol_id => ({ article_id: id, symbol_id }));
+    const { error: insertErr } = await supabase
+      .from('article_symbols')
+      .insert(rows);
+    if (insertErr) {
+      return redirect(
+        `/admin/articles/${id}/edit?error=${encodeURIComponent(insertErr.message)}#tags`,
+      );
+    }
+  }
+
+  revalidatePath(`/admin/articles/${id}/edit`);
+  redirect(`/admin/articles/${id}/edit?ok=tags_saved#tags`);
+}
