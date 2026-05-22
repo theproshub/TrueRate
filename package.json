@@ -13,6 +13,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.0",
+    "ai": "^6.0.190",
     "clsx": "^2.1.1",
     "marked": "^18.0.4",
     "next": "16.2.4",
@@ -20,7 +21,9 @@
     "react-dom": "19.2.5",
     "react-is": "19.2.5",
     "recharts": "^3.8.1",
-    "tailwind-merge": "^3.5.0"
+    "swr": "^2.4.1",
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20",
