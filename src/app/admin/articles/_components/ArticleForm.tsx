@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { renderMarkdown } from '@/lib/markdown';
+import { uploadArticleImage } from '../_upload';
 
 export interface AuthorOption {
   id: string;
@@ -77,6 +78,28 @@ export default function ArticleForm({
   const [slugTouched, setSlugTouched] = useState(Boolean(d.slug));
   const [body, setBody] = useState(d.body ?? '');
   const [tab, setTab] = useState<'write' | 'preview'>('write');
+
+  const [heroImage, setHeroImage] = useState(d.hero_image ?? '');
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploading, startUpload] = useTransition();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadError(null);
+    const fd = new FormData();
+    fd.set('file', file);
+    startUpload(async () => {
+      const result = await uploadArticleImage(fd);
+      if (result.error) {
+        setUploadError(result.error);
+      } else if (result.url) {
+        setHeroImage(result.url);
+      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    });
+  }
 
   const effectiveSlug = slugTouched ? slug : slugify(title);
 
@@ -196,9 +219,48 @@ export default function ArticleForm({
 
       <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">
         <div>
-          <label htmlFor="hero_image" className={LABEL}>Hero image URL</label>
-          <input id="hero_image" name="hero_image" type="url" defaultValue={d.hero_image ?? ''} placeholder="https://… or /governor.jpg" className={INPUT_BASE} />
-          <p className={HINT}>External URL or a path under <code className="text-gray-400">/public</code>. Leave blank for none.</p>
+          <label htmlFor="hero_image" className={LABEL}>Hero image</label>
+          <div className="mt-1 flex flex-wrap items-center gap-3">
+            <input
+              id="hero_image"
+              name="hero_image"
+              type="text"
+              value={heroImage}
+              onChange={(e) => setHeroImage(e.target.value)}
+              placeholder="https://… , /governor.jpg, or upload →"
+              className={`${INPUT_BASE} mt-0 flex-1`}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/[0.07] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            >
+              {uploading ? 'Uploading…' : 'Upload'}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+              onChange={onPickFile}
+              className="hidden"
+              aria-hidden="true"
+              tabIndex={-1}
+            />
+          </div>
+          {uploadError && (
+            <p role="alert" className="mt-1 text-xs text-red-400">{uploadError}</p>
+          )}
+          <p className={HINT}>
+            Paste an external URL / <code className="text-gray-400">/public</code> path, or upload to
+            Supabase Storage (max 10&nbsp;MB; JPEG, PNG, WebP, AVIF, GIF).
+          </p>
+          {heroImage && (
+            <div className="mt-3 overflow-hidden rounded-lg border border-white/[0.08] bg-black/20">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={heroImage} alt="" className="max-h-48 w-full object-cover" />
+            </div>
+          )}
         </div>
         <div>
           <label htmlFor="hero_alt" className={LABEL}>Hero alt text</label>
