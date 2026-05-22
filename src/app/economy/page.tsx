@@ -26,16 +26,18 @@ const TOP_STORIES = [
   { href: '/news/30', category: 'Energy',   title: 'Liberia Energy Authority Approves Two New 40MW Solar Projects',   author: 'FrontPage Africa', time: '1d ago'  },
 ];
 
-// Seed values — replaced with live World Bank data after mount
+// Fallback values shown only until live data loads (or if the fetch fails).
+// These mirror the most recent real DB values rather than invented figures,
+// and cover only the indicators /api/indicators actually serves — no fake
+// "CBL Rate" / "Trade Balance" / "Reserves" cards.
 const SEED_INDICATORS = [
-  { label: 'GDP',           value: '$4.27B', change: '+9.8%',  up: true  },
-  { label: 'GDP Growth',    value: '4.5%',   change: '+0.3pp', up: true  },
-  { label: 'Inflation',     value: '10.3%',  change: '+2.7pp', up: false },
-  { label: 'CBL Rate',      value: '16.25%', change: 'Steady', up: true  },
-  { label: 'LRD/USD',       value: '192.50', change: '+0.42%', up: false },
-  { label: 'Unemployment',  value: '2.7%',   change: '-0.3pp', up: true  },
-  { label: 'Trade Balance', value: '-$0.78B',change: '+4.9%',  up: true  },
-  { label: 'Reserves',      value: '$0.50B', change: '+2.5%',  up: true  },
+  { label: 'GDP',           value: '$4.78B', change: '—', up: true  },
+  { label: 'GDP Growth',    value: '4.0%',   change: '—', up: true  },
+  { label: 'Inflation',     value: '8.2%',   change: '—', up: false },
+  { label: 'Unemployment',  value: '2.9%',   change: '—', up: true  },
+  { label: 'External Debt', value: '$2.23B', change: '—', up: false },
+  { label: 'FDI Inflows',   value: '$472M',  change: '—', up: true  },
+  { label: 'Population',    value: '5.61M',  change: '—', up: true  },
 ];
 
 const LIBERIA_STORIES = [
@@ -146,6 +148,7 @@ function formatIndicatorValue(ind: NormalizedIndicator): string {
   const v = ind.value;
   const u = ind.unit;
   if (u === 'B USD') return `$${v.toFixed(2)}B`;
+  if (u === 'M USD') return `$${v.toFixed(0)}M`;
   if (u === 'M') return `${v.toFixed(2)}M`;
   if (u === '%') return `${v.toFixed(1)}%`;
   return `${v}`;
@@ -179,10 +182,10 @@ export default function EconomyPage() {
           GDP: 'GDP',
           GDP_GROWTH: 'GDP Growth',
           INFLATION: 'Inflation',
-          CBL_POLICY_RATE: 'CBL Rate',
           UNEMPLOYMENT: 'Unemployment',
-          TRADE_BALANCE: 'Trade Balance',
-          RESERVES: 'Reserves',
+          EXTERNAL_DEBT: 'External Debt',
+          FDI: 'FDI Inflows',
+          POPULATION: 'Population',
         };
         const updated = SEED_INDICATORS.map(seed => {
           const match = live.find(

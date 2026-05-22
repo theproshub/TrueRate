@@ -33,6 +33,7 @@ async function tryFetch(url: string): Promise<LiveRates | null> {
     const res = await fetch(url, {
       next: { revalidate: 3600 }, // cache 1 hour
       headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(5000), // don't let a hung CDN stall the function
     });
     if (!res.ok) return null;
     const json = await res.json();

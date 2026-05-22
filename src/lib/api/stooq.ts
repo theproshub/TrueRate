@@ -66,6 +66,7 @@ async function fetchStooqSnapshot(symbol: string): Promise<StooqRow | null> {
         // Stooq sometimes blocks default fetch UA strings
         'User-Agent': 'Mozilla/5.0 (compatible; TrueRate/1.0; +https://truerate.com)',
       },
+      signal: AbortSignal.timeout(5000), // don't let a hung upstream stall the function
     });
     if (!res.ok) return null;
     const text = await res.text();

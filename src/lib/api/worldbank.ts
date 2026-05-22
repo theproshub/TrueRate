@@ -50,6 +50,7 @@ async function fetchIndicator(
   const res = await fetch(url, {
     next: { revalidate: 86400 }, // cache 24 hours
     headers: { 'Accept': 'application/json' },
+    signal: AbortSignal.timeout(5000), // don't let a hung upstream stall the function
   });
 
   if (!res.ok) throw new Error(`World Bank API error: ${res.status} for ${indicator}`);
