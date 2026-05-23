@@ -4,10 +4,10 @@ import { useFeed, type FeedCard } from '@/hooks/useFeed';
 import { getCatColor } from '@/lib/category-colors';
 
 /* ── payload shapes (cast from FeedCard.payload) ── */
-interface BreakingPayload { headline: string; summary: string; category: string; source: string }
-interface ArticlePayload { headline: string; deck: string; readMinutes: number; category: string; tags: string[] }
-interface QuotePayload { quote: string; speakerName: string; speakerTitle: string; speakerOrg: string; context: string; topic: string }
-interface BigStatPayload { value: string; descriptor: string; context: string; source: string }
+interface BreakingPayload { headline: string; summary: string; category: string; topicTag?: string; source: string }
+interface ArticlePayload { headline: string; deck: string; readMinutes: number; category: string; topicTag?: string; tags: string[] }
+interface QuotePayload { quote: string; speakerName: string; speakerTitle: string; speakerOrg: string; context: string; topicTag?: string }
+interface BigStatPayload { value: string; descriptor: string; context: string; topicTag?: string; source: string }
 interface Ticker { symbol: string; name: string; assetClass: string; price: number; change: number | null; changePct: number | null; sparkline: number[] }
 interface MarketsPayload { tickers: Ticker[] }
 
@@ -17,6 +17,14 @@ function AiBadge({ card }: { card: FeedCard }) {
     <span className="rounded-full border border-amber-500/30 bg-amber-500/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-amber-400">
       AI-assisted
     </span>
+  );
+}
+
+/** Fine-grained topic badge, colored from the canonical palette. */
+function TopicBadge({ tag }: { tag?: string }) {
+  if (!tag) return null;
+  return (
+    <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(tag)}`}>{tag}</span>
   );
 }
 
@@ -99,6 +107,7 @@ export default function FeedClient() {
                   <div className="mb-1.5 flex flex-wrap items-center gap-2">
                     <span className="rounded bg-red-500/15 px-1.5 py-0.5 text-2xs font-bold uppercase tracking-wide text-red-400">Breaking</span>
                     {p.category && <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(p.category)}`}>{p.category}</span>}
+                    <TopicBadge tag={p.topicTag} />
                     <AiBadge card={card} />
                   </div>
                   <p className="font-bold leading-snug text-white">{p.headline}</p>
@@ -168,7 +177,10 @@ export default function FeedClient() {
               const p = card.payload as BigStatPayload;
               return (
                 <div key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
-                  <div className="mb-2"><AiBadge card={card} /></div>
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <TopicBadge tag={p.topicTag} />
+                    <AiBadge card={card} />
+                  </div>
                   <p className="text-3xl font-black text-white tabular-nums leading-none">{p.value}</p>
                   <p className="mt-2 text-sm font-medium text-gray-300">{p.descriptor}</p>
                   <p className="mt-1 text-xs text-gray-500">{p.context}</p>
@@ -191,6 +203,7 @@ export default function FeedClient() {
                 <article key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     {p.category && <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(p.category)}`}>{p.category}</span>}
+                    <TopicBadge tag={p.topicTag} />
                     <AiBadge card={card} />
                   </div>
                   <h3 className="font-bold leading-snug text-white">{p.headline}</h3>
@@ -214,7 +227,10 @@ export default function FeedClient() {
               const p = card.payload as QuotePayload;
               return (
                 <figure key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
-                  <div className="mb-2"><AiBadge card={card} /></div>
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <TopicBadge tag={p.topicTag} />
+                    <AiBadge card={card} />
+                  </div>
                   <blockquote className="text-lg font-medium leading-snug text-white">&ldquo;{p.quote}&rdquo;</blockquote>
                   <figcaption className="mt-3 text-sm text-gray-400">
                     — {p.speakerName}, {p.speakerTitle}, {p.speakerOrg}

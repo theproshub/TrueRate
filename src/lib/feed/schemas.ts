@@ -1,11 +1,15 @@
 import { z } from 'zod';
+import { TOPIC_TAGS } from '@/lib/category-colors';
 
 /**
  * Card payload schemas. These both (a) constrain the AI's structured output
  * via generateObject and (b) validate anything before it hits content_cards.
  * Keep the constraints tight — they encode the editorial rules (word caps,
- * allowed categories) so the model can't drift.
+ * allowed categories, topic tags) so the model can't drift.
  */
+
+/** Fine-grained badge — constrained to the canonical site vocabulary. */
+export const TopicTagEnum = z.enum(TOPIC_TAGS);
 
 // Matches TrueRate's real top-level sections (public.categories labels) so
 // generated cards color correctly via getCatColor and map to live sections.
@@ -30,7 +34,8 @@ const maxWords = (n: number) =>
 export const BreakingSchema = z.object({
   headline: maxWords(10),
   summary: maxWords(25),
-  category: CategoryEnum,
+  category: CategoryEnum,        // top-level section
+  topicTag: TopicTagEnum,        // fine-grained badge (required)
   source: z.string().trim().min(2), // attribution, e.g. "per league data"
 });
 export type Breaking = z.infer<typeof BreakingSchema>;
@@ -42,6 +47,7 @@ export const ArticleSchema = z.object({
   thumbnailPrompt: z.string().trim().min(4), // for image gen / stock lookup
   readMinutes: z.number().int().min(2).max(6),
   category: CategoryEnum,
+  topicTag: TopicTagEnum,
   tags: z.array(z.string().trim().min(2)).length(2),
 });
 export type Article = z.infer<typeof ArticleSchema>;
@@ -53,7 +59,7 @@ export const QuoteSchema = z.object({
   speakerTitle: z.string().trim().min(2),
   speakerOrg: z.string().trim().min(2),
   context: maxWords(15),
-  topic: z.string().trim().min(2),
+  topicTag: TopicTagEnum,        // replaces the old freeform `topic`
 });
 export type Quote = z.infer<typeof QuoteSchema>;
 
@@ -62,6 +68,7 @@ export const BigStatSchema = z.object({
   value: z.string().trim().min(1),      // pre-formatted, e.g. "$2.4T", "87.3%"
   descriptor: maxWords(12),
   context: maxWords(15),                // "highest since March 2020"
+  topicTag: TopicTagEnum,
   source: z.string().trim().min(2),
 });
 export type BigStat = z.infer<typeof BigStatSchema>;

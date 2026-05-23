@@ -107,6 +107,7 @@ const ACCENT_COLORS: Record<string, string> = {
   equity:            'text-emerald-500',
   macro:             'text-purple-400',
   'fixed income':    'text-slate-400',
+  general:           'text-gray-400',
 };
 
 export function getCatColor(cat: string): string {
@@ -242,3 +243,42 @@ export function getCatStyle(cat: string): CatStyle {
   // Unknown category — keep the raw label so it's visible, use economy palette
   return { ...STYLES.economy, label: raw || 'Story' };
 }
+
+/**
+ * Canonical fine-grained topic-tag vocabulary — the SINGLE SOURCE OF TRUTH for
+ * the badges shown on cards. Every value is a display label from CAT_MAP above
+ * and therefore has a color via getCatColor/getCatStyle. `General` is the
+ * required fallback so a card never ships with a missing or hallucinated tag.
+ *
+ * Auto-generated feed cards (lib/feed/schemas.ts) and the model prompts are
+ * both constrained to this list. If you add a tag here, add its color/CAT_MAP
+ * entry above too.
+ */
+export const TOPIC_TAGS = [
+  // Policy / macro
+  'Policy', 'Monetary Policy', 'Fiscal', 'US Fed', 'IMF', 'Infrastructure', 'Ports', 'Roads', 'Federation',
+  // Forex / markets / finance
+  'Forex', 'Markets', 'Capital Markets', 'Finance', 'Investing', 'Banking',
+  // Economy / trade
+  'Economy', 'Business', 'EU Trade', 'Trade', 'China',
+  // Commodities / mining / agri / energy
+  'Commodities', 'Mining', 'Agriculture', 'Agri', 'AgriTech', 'Energy',
+  // Tech / AI / fintech / telecom
+  'Tech', 'Technology', 'AI', 'Fintech', 'Telecom', 'E-Commerce',
+  // Startups / entrepreneurship
+  'Startups', 'Entrepreneurship', 'Founders', 'Funding', 'Growth', 'SMEs',
+  // Leadership / logistics / women
+  'Leadership', 'Logistics', 'Women',
+  // Analysis / explainer / investigation
+  'Analysis', 'Deep Dive', 'Explainer', 'Investigation', 'Development',
+  // Sports-finance verticals
+  'Sponsorship', 'Broadcast', 'Broadcast Rights', 'Transfers', 'Club Finance', 'Sports Finance', 'Stadium',
+  // Sports
+  'Football', 'Basketball', 'Athletics', 'Cricket', 'Tennis', 'Golf', 'Kit', 'Shirt', 'Title',
+  // Entertainment
+  'Celebrity', 'Music', 'TV', 'Movies',
+  // Required fallback
+  'General',
+] as const;
+
+export type TopicTag = (typeof TOPIC_TAGS)[number];
