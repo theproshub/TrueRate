@@ -48,6 +48,12 @@ export default async function AdminLayout({
             >
               Users
             </Link>
+            <Link
+              href="/admin/feed"
+              className="text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            >
+              Feed
+            </Link>
           </nav>
           <div className="ml-auto flex items-center gap-4 text-sm">
             <span className="text-gray-500">
