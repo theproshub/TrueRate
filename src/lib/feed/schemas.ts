@@ -7,7 +7,17 @@ import { z } from 'zod';
  * allowed categories) so the model can't drift.
  */
 
-export const CARD_CATEGORIES = ['Markets', 'Sports', 'Macro', 'Crypto', 'Earnings'] as const;
+// Matches TrueRate's real top-level sections (public.categories labels) so
+// generated cards color correctly via getCatColor and map to live sections.
+export const CARD_CATEGORIES = [
+  'Economy',
+  'Markets',
+  'Business',
+  'Technology',
+  'Sports',
+  'Entertainment',
+  'World',
+] as const;
 export const CategoryEnum = z.enum(CARD_CATEGORIES);
 
 /** ≤N words helper */
