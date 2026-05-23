@@ -134,13 +134,22 @@ export async function GET(request: NextRequest) {
     try {
       const tickers = await buildMarketsSnapshot();
       if (tickers.length > 0) {
+        // Supersede the previous markets card — only the latest is ever live.
+        // Done only now that we have a fresh snapshot, so a failed fetch never
+        // leaves the feed with no markets card.
+        await supabase
+          .from('content_cards')
+          .update({ status: 'expired', expires_at: new Date().toISOString() })
+          .eq('type', 'markets')
+          .eq('status', 'published');
+
         inserts.push({
           type: 'markets',
           category: 'Markets',
           payload: { tickers },
           status: 'published',
           is_ai_generated: false,
-          source_note: 'Stooq daily history + exchange API (live)',
+          source_note: 'Yahoo Finance chart API + exchange API (live)',
           published_at: new Date().toISOString(),
           expires_at: hoursFromNow(EXPIRES_HOURS.markets),
         });
