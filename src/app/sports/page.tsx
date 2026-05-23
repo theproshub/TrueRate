@@ -25,7 +25,8 @@ import {
 } from '@/lib/sports-data';
 
 export const metadata: Metadata = {
-  title: 'Sports — Liberian Football, Basketball & Athletics | TrueRate',
+  title: 'Sports — Liberian Football, Basketball & Athletics',
+  alternates: { canonical: '/sports' },
   description:
     'Liberian sports — LPL, LWPL, LBA, Lone Star, athletics and the diaspora. Live scores, headlines, and analysis from across Liberia and West Africa.',
 };

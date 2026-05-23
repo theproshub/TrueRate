@@ -58,8 +58,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (dbArticle) {
     const description = dbArticle.dek ?? dbArticle.title;
     return {
-      title: `${dbArticle.title} — TrueRate`,
+      title: dbArticle.title,
       description: description.length > 160 ? description.slice(0, 157) + '…' : description,
+      alternates: { canonical: `/news/${id}` },
       openGraph: {
         title: dbArticle.title,
         description,
@@ -78,11 +79,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 
   const item = newsItems.find(n => n.id === id);
-  if (!item) return { title: 'Article Not Found — TrueRate' };
+  if (!item) return { title: 'Article Not Found' };
   const description = item.summary.length > 160 ? item.summary.slice(0, 157) + '…' : item.summary;
   return {
-    title: `${item.title} — TrueRate`,
+    title: item.title,
     description,
+    alternates: { canonical: `/news/${id}` },
     openGraph: {
       title: item.title,
       description,

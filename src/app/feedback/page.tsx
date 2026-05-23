@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Heading } from '@/components/ui';
 
 export const metadata: Metadata = {
-  title: 'Feedback — TrueRate',
+  title: 'Feedback',
+  alternates: { canonical: '/feedback' },
   description: 'Help us improve TrueRate. Share bug reports, data corrections, or feature ideas.',
 };
 

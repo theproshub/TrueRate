@@ -15,6 +15,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'TrueRate Builders — Liberian Small Business & Entrepreneurship',
+  alternates: { canonical: '/small-business' },
   description:
     "News, capital, and ideas for Liberia's small business owners, founders, and operators — from Monrovia to the counties.",
 };

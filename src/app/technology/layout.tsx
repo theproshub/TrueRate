@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Technology — TrueRate',
+  title: 'Technology',
   description: "Fintech, mobile money, telecom, and the startup ecosystem shaping Liberia's tech economy.",
 };
 

@@ -4,6 +4,10 @@ import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 import EntertainmentTopicTabs from '@/components/EntertainmentTopicTabs';
 
+export const metadata = {
+  alternates: { canonical: '/entertainment' },
+};
+
 const HERO = {
   category: 'Movies',
   title: "Nollywood-Liberia co-production 'Sundown in Sinkor' opens to record diaspora pre-sales — biggest Liberian film launch in five years",

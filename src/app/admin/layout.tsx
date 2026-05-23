@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { requireAdmin } from '@/lib/auth/admin';
 
 export const metadata = {
-  title: 'Admin — TrueRate',
+  title: 'Admin',
   robots: { index: false, follow: false },
 };
 

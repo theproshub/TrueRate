@@ -17,7 +17,8 @@ import { Heading, Text } from '@/components/ui';
 export const revalidate = 900; // 15 min
 
 export const metadata: Metadata = {
-  title: 'Markets & Finance — Liberia | TrueRate',
+  title: 'Markets & Finance — Liberia',
+  alternates: { canonical: '/markets' },
   description:
     "Liberia’s markets and finance hub: live FX, commodities, macro indicators, and TrueRate desks’ coverage of forex, commodities, banking, and policy.",
 };

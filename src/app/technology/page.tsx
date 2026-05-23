@@ -4,6 +4,10 @@ import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 
+export const metadata = {
+  alternates: { canonical: '/technology' },
+};
+
 const HERO = {
   category: 'Fintech',
   title: "Liberia's mobile money market hits $2.1B in annual transactions as Orange Money leads expansion",

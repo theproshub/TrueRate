@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Economy — TrueRate',
+  title: 'Economy',
   description: "Liberia's macroeconomic indicators — GDP, inflation, reserves, the CBL policy rate and public debt, tracked against the region.",
 };
 

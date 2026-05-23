@@ -2,6 +2,10 @@ import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { VideoThumbnail, NewsThumbnail } from '@/components/NewsThumbnail';
 
+export const metadata = {
+  alternates: { canonical: '/videos' },
+};
+
 /* ── data ── */
 const HERO = {
   title: "From Zero to $4M: How Sandra Kollie Built Liberia's Fastest-Growing Logistics Company",

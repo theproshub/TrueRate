@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Heading } from '@/components/ui';
 
 export const metadata: Metadata = {
-  title: 'Help & FAQ — TrueRate',
+  title: 'Help & FAQ',
+  alternates: { canonical: '/help' },
   description: 'Answers to common questions about TrueRate — data sources, pricing, mobile access, and more.',
 };
 

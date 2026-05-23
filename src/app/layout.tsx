@@ -24,11 +24,11 @@ const siteUrl = 'https://truerateliberia.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'TrueRate — Liberia Business, Markets & Economy',
+    default: 'TrueRate — Liberia’s Financial Intelligence Platform',
     template: '%s | TrueRate',
   },
   description:
-    'TrueRate is Liberia’s financial news source, covering markets, the economy, small business, technology, and policy that shapes the country.',
+    'TrueRate is Liberia’s financial intelligence platform, covering markets, the economy, small business, technology, and policy that shapes the country.',
   applicationName: 'TrueRate',
   keywords: [
     'Liberia',
@@ -43,32 +43,22 @@ export const metadata: Metadata = {
   authors: [{ name: 'TrueRate' }],
   creator: 'TrueRate',
   publisher: 'TrueRate',
-  alternates: {
-    canonical: '/',
-  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
     siteName: 'TrueRate',
-    title: 'TrueRate — Liberia Business, Markets & Economy',
+    title: 'TrueRate — Liberia’s Financial Intelligence Platform',
     description:
-      'Liberia’s financial news source: markets, the economy, small business, technology, and policy.',
-    images: [
-      {
-        url: '/logo.png',
-        width: 1200,
-        height: 630,
-        alt: 'TrueRate',
-      },
-    ],
+      'Liberia’s financial intelligence platform: markets, the economy, small business, technology, and policy.',
+    // og:image is provided by app/opengraph-image.tsx (1200×630 branded card).
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TrueRate — Liberia Business, Markets & Economy',
+    title: 'TrueRate — Liberia’s Financial Intelligence Platform',
     description:
-      'Liberia’s financial news source: markets, the economy, small business, technology, and policy.',
-    images: ['/logo.png'],
+      'Liberia’s financial intelligence platform: markets, the economy, small business, technology, and policy.',
+    // twitter:image falls back to the Open Graph image (app/opengraph-image.tsx).
   },
   robots: {
     index: true,
@@ -82,8 +72,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
+    // favicon.ico (app/ convention) is the universal fallback.
+    // These swap with the user's browser / system appearance.
+    icon: [
+      { url: '/icon-light.png', type: 'image/png', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark.png', type: 'image/png', media: '(prefers-color-scheme: dark)' },
+    ],
   },
   category: 'news',
 };

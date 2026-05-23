@@ -3,7 +3,8 @@ import WatchlistClient from './WatchlistClient';
 import Breadcrumb from '@/components/Breadcrumb';
 
 export const metadata: Metadata = {
-  title: 'Watchlist — TrueRate',
+  title: 'Watchlist',
+  alternates: { canonical: '/watchlist' },
   description: 'Your personal watchlist of Liberian indicators, forex pairs, and commodities.',
 };
 

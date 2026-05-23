@@ -7,6 +7,10 @@ import { publicClient } from '@/lib/supabase/public';
 import { getDashboardIndicators } from '@/lib/data/indicators';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
 
+export const metadata = {
+  alternates: { canonical: '/economy' },
+};
+
 export const revalidate = 300; // refresh every 5 min
 
 // Categories that belong on the Economy front.

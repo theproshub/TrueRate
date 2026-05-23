@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Entertainment — TrueRate',
+  title: 'Entertainment',
   description: "Music, film, and the creative economy driving Liberian culture.",
 };
 

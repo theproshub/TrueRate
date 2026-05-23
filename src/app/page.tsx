@@ -9,6 +9,10 @@ import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
 import { Heading, Text } from '@/components/ui';
 
+export const metadata = {
+  alternates: { canonical: '/' },
+};
+
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────────────────────────────────────── */

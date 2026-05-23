@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About — TrueRate',
+  title: 'About',
+  alternates: { canonical: '/about' },
   description: "Why we built TrueRate: covering business, investing, technology, entrepreneurship, leadership and lifestyle across Liberia.",
 };
 
