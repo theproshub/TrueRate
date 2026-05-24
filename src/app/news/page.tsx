@@ -6,6 +6,7 @@ import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
 import { Heading, Text } from '@/components/ui';
 import { HeroCarousel, NewsFeedTabs } from './NewsClient';
+import PlayableVideo from '@/components/PlayableVideo';
 
 /* ── helpers ── */
 function timeAgo(d: string) {
@@ -106,12 +107,12 @@ const UPCOMING_EVENTS = [
 ];
 
 const VIDEOS = [
-  { title: "CBL Governor: 'We're watching food prices. We're not ready to cut.'", duration: '2:48', category: 'policy', time: '55m ago' },
-  { title: "Inside ArcelorMittal's Nimba Expansion: The $120M Bet Explained in Under 2 Minutes", duration: '1:52', category: 'Mining', time: '3h ago' },
-  { title: "$680M and Counting: How the Liberian Diaspora Became the Country's Biggest Investor", duration: '2:31', category: 'economy', time: '12h ago' },
-  { title: "West Africa's Digital Payments Revolution — And Why Liberia Must Move Fast", duration: '3:14', category: 'Trade', time: '1d ago' },
-  { title: "1.4 Million Ounces: What Bea Mountain's Grand Cape Mount Discovery Means for Liberia", duration: '4:05', category: 'commodities', time: '2d ago' },
-  { title: "The Freeport Is Built. Now Who Captures the Trade?", duration: '3:22', category: 'economy', time: '3d ago' },
+  { title: "CBL Governor: 'We're watching food prices. We're not ready to cut.'", duration: '2:48', category: 'policy', time: '55m ago', youtubeId: '' },
+  { title: "Inside ArcelorMittal's Nimba Expansion: The $120M Bet Explained in Under 2 Minutes", duration: '1:52', category: 'Mining', time: '3h ago', youtubeId: '' },
+  { title: "$680M and Counting: How the Liberian Diaspora Became the Country's Biggest Investor", duration: '2:31', category: 'economy', time: '12h ago', youtubeId: '' },
+  { title: "West Africa's Digital Payments Revolution — And Why Liberia Must Move Fast", duration: '3:14', category: 'Trade', time: '1d ago', youtubeId: '' },
+  { title: "1.4 Million Ounces: What Bea Mountain's Grand Cape Mount Discovery Means for Liberia", duration: '4:05', category: 'commodities', time: '2d ago', youtubeId: '' },
+  { title: "The Freeport Is Built. Now Who Captures the Trade?", duration: '3:22', category: 'economy', time: '3d ago', youtubeId: '' },
 ];
 
 const COMMUNITY_VOICES = [
@@ -349,13 +350,13 @@ export default async function NewsPage({
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:divide-y-0 divide-y divide-gray-100 border-t border-b sm:border-t-0 sm:border-b-0 border-gray-100">
               {VIDEOS.map((v, i) => (
-                <Link key={i} href="/videos" className="group flex flex-col no-underline py-4 sm:py-0">
-                  <div className="relative overflow-hidden rounded-xl mb-2">
-                    <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[140px] sm:h-[110px]" />
-                  </div>
-                  <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-1">{v.title}</Heading>
+                <div key={i} className="group flex flex-col py-4 sm:py-0">
+                  <PlayableVideo id={v.youtubeId} label={v.title} className="overflow-hidden rounded-xl mb-2 h-[140px] sm:h-[110px]">
+                    <VideoThumbnail category={v.category} duration={v.duration} className="absolute inset-0 w-full h-full" />
+                  </PlayableVideo>
+                  <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 line-clamp-2 mb-1">{v.title}</Heading>
                   <span className="text-xs text-gray-400">{v.time}</span>
-                </Link>
+                </div>
               ))}
             </div>
           </div>

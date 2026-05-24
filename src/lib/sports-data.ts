@@ -439,6 +439,8 @@ export type VideoCard = {
   title: string;
   duration: string;
   source: string;
+  /** YouTube video ID — set to embed the player inline. */
+  youtubeId?: string;
 };
 
 export const VIDEOS: VideoCard[] = [

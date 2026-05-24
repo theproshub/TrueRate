@@ -28,6 +28,8 @@ export type Video = {
   duration: string;
   category: string;
   dek?: string;
+  /** YouTube video ID — set to embed the player inline. */
+  youtubeId?: string;
 };
 
 export type MarketRow = { ticker: string; value: string; change: string; up: boolean };

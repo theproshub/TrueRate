@@ -2,45 +2,50 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { VideoThumbnail } from '@/components/NewsThumbnail';
+import PlayableVideo from '@/components/PlayableVideo';
+import { CHANNEL_URL } from '@/lib/youtube';
+
+const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
 export const metadata: Metadata = {
   title: 'Technology — TrueRate Videos',
-  description: 'Fintech, mobile money, AI, and digital infrastructure \u2014 the tech reshaping how Liberia transacts and builds.',
+  description: 'Fintech, mobile money, AI, and digital infrastructure — the tech reshaping how Liberia transacts and builds.',
 };
 
 const HERO = {
-  title: "Inside Orange Money\u2019s record quarter \u2014 the VP of digital finance explains",
+  title: "Inside Orange Money’s record quarter — the VP of digital finance explains",
   desc: "Mobile money transactions hit $1.8B in Q1. The exec behind the growth walks through product decisions, the agent network buildout, and what fintech will do to Liberian banks by 2028.",
   duration: '21:45',
   category: 'Fintech',
   source: 'TrueRate Interviews',
   time: '5h ago',
+  youtubeId: '',
 };
 
 const FEATURED = [
   { title: "The fintech map of West Africa in 2026", duration: '14:10', category: 'Fintech', time: '1d ago' },
-  { title: "AI for small business in Liberia \u2014 hype vs. reality", duration: '12:44', category: 'AI', time: '2d ago' },
-  { title: "How a cashier\u2019s terminal became Liberia\u2019s most-used app", duration: '9:55', category: 'Technology', time: '2d ago' },
-  { title: "Mobile infrastructure: what 5G will (and won\u2019t) change", duration: '16:30', category: 'Telecom', time: '3d ago' },
+  { title: "AI for small business in Liberia — hype vs. reality", duration: '12:44', category: 'AI', time: '2d ago' },
+  { title: "How a cashier’s terminal became Liberia’s most-used app", duration: '9:55', category: 'Technology', time: '2d ago' },
+  { title: "Mobile infrastructure: what 5G will (and won’t) change", duration: '16:30', category: 'Telecom', time: '3d ago' },
 ];
 
 const DEEP_DIVES = [
-  { title: "Open banking in Liberia: where it stands, where it's going", duration: '22:18', desc: "A regulatory walk-through of the CBL\u2019s proposed open-banking framework.", category: 'Fintech', label: 'Deep Dive' },
-  { title: "Building B2B SaaS for Monrovia\u2019s small businesses", duration: '18:20', desc: "Three founders on pricing, distribution, and the features that actually convert.", category: 'Startups', label: 'Playbook' },
-  { title: "Cybersecurity for Liberian SMEs \u2014 practical guide", duration: '15:40', desc: "Password managers, phishing, and the $2k worth of protection every business should have.", category: 'Technology', label: 'Starter Guide' },
+  { title: "Open banking in Liberia: where it stands, where it's going", duration: '22:18', desc: "A regulatory walk-through of the CBL’s proposed open-banking framework.", category: 'Fintech', label: 'Deep Dive', youtubeId: '' },
+  { title: "Building B2B SaaS for Monrovia’s small businesses", duration: '18:20', desc: "Three founders on pricing, distribution, and the features that actually convert.", category: 'Startups', label: 'Playbook', youtubeId: '' },
+  { title: "Cybersecurity for Liberian SMEs — practical guide", duration: '15:40', desc: "Password managers, phishing, and the $2k worth of protection every business should have.", category: 'Technology', label: 'Starter Guide', youtubeId: '' },
 ];
 
 const LAUNCHES = [
-  { title: "Paystack vs Flutterwave: how they\u2019re playing Liberia", duration: '13:12', category: 'Fintech', time: '4h ago' },
+  { title: "Paystack vs Flutterwave: how they’re playing Liberia", duration: '13:12', category: 'Fintech', time: '4h ago' },
   { title: "The new LiberAgro export platform, reviewed", duration: '11:05', category: 'AgriTech', time: '1d ago' },
-  { title: "Liberia\u2019s first e-commerce aggregator, inside look", duration: '10:28', category: 'E-Commerce', time: '2d ago' },
+  { title: "Liberia’s first e-commerce aggregator, inside look", duration: '10:28', category: 'E-Commerce', time: '2d ago' },
   { title: "Open-source tools we saw at WestAfricaHack 2026", duration: '8:15', category: 'Technology', time: '3d ago' },
 ];
 
 function PlayIcon() {
   return (
     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm">
-      <svg className="h-6 w-6 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+      <svg className="h-6 w-6 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
     </div>
   );
 }
@@ -58,29 +63,27 @@ export default function VideosTechnologyPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 mb-8">
-        <Link href="/videos" className="group flex-1 min-w-0 no-underline block overflow-hidden rounded-2xl">
-          <div className="relative w-full" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
-            <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
-            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
-            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h2 className="text-sm sm:text-2xl font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
-              <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
-              <div className="flex items-center gap-2 text-sm">
-                <span className="font-semibold text-white/70">{HERO.source}</span>
-                <span className="text-white/30">·</span>
-                <span className="text-white/40">{HERO.time}</span>
-              </div>
+        <PlayableVideo id={HERO.youtubeId} label={HERO.title} className="flex-1 min-w-0 overflow-hidden rounded-2xl" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
+          <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+          <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
+          <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
+          <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+            <h2 className="text-sm sm:text-2xl font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+            <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-semibold text-white/70">{HERO.source}</span>
+              <span className="text-white/30">·</span>
+              <span className="text-white/40">{HERO.time}</span>
             </div>
           </div>
-        </Link>
+        </PlayableVideo>
 
         <div className="w-full lg:w-[280px] shrink-0 flex flex-col">
           <span className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">Featured</span>
           <div className="flex flex-col divide-y divide-white/[0.05] flex-1">
             {FEATURED.map((v, i) => (
-              <Link key={i} href="/videos" className="group flex gap-3 py-3 first:pt-0 no-underline">
+              <a key={i} href={CHANNEL_URL} {...ext} className="group flex gap-3 py-3 first:pt-0 no-underline">
                 <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
                   <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[58px]" />
                 </div>
@@ -89,7 +92,7 @@ export default function VideosTechnologyPage() {
                   <h4 className="text-sm font-semibold leading-snug text-white group-hover:text-white/70 line-clamp-3 mb-1">{v.title}</h4>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -104,14 +107,14 @@ export default function VideosTechnologyPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {DEEP_DIVES.map((p, i) => (
-            <Link key={i} href="/videos" className="group flex flex-col no-underline">
-              <div className="relative overflow-hidden mb-4">
-                <VideoThumbnail category={p.category} duration={p.duration} className="w-full aspect-video" />
+            <div key={i} className="group flex flex-col">
+              <PlayableVideo id={p.youtubeId} label={p.title} className="overflow-hidden mb-4 aspect-video rounded-xl">
+                <VideoThumbnail category={p.category} duration={p.duration} className="absolute inset-0 w-full h-full" />
                 <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{p.label}</span>
-              </div>
-              <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/70 mb-2 line-clamp-2">{p.title}</h3>
+              </PlayableVideo>
+              <h3 className="text-sm font-bold leading-snug text-white mb-2 line-clamp-2">{p.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">{p.desc}</p>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -122,7 +125,7 @@ export default function VideosTechnologyPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 divide-y sm:divide-y-0 divide-white/[0.05]">
           {LAUNCHES.map((v, i) => (
-            <Link key={i} href="/videos" className="group flex gap-3.5 py-4 first:pt-0 no-underline">
+            <a key={i} href={CHANNEL_URL} {...ext} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
               <div className="relative shrink-0 overflow-hidden rounded-lg">
                 <VideoThumbnail category={v.category} duration={v.duration} className="h-[68px] w-[104px]" />
               </div>
@@ -131,7 +134,7 @@ export default function VideosTechnologyPage() {
                 <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-white/70 line-clamp-2 mb-1">{v.title}</h3>
                 <div className="text-xs text-gray-500">{v.time}</div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </section>
@@ -141,7 +144,7 @@ export default function VideosTechnologyPage() {
           <p className="text-xs font-black uppercase tracking-widest text-sky-300 mb-1">Tech Disruptors podcast</p>
           <p className="text-md text-white">A weekly deep-dive on mobile money, AI, and the builders to watch.</p>
         </div>
-        <Link href="/videos" className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-dark no-underline hover:brightness-90 transition">Browse episodes</Link>
+        <a href={CHANNEL_URL} {...ext} className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-dark no-underline hover:brightness-90 transition">Browse episodes</a>
       </section>
     </main>
   );

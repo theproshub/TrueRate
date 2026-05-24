@@ -1,46 +1,50 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { VideoThumbnail } from '@/components/NewsThumbnail';
+import PlayableVideo from '@/components/PlayableVideo';
+import { CHANNEL_URL } from '@/lib/youtube';
+
+const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
 export const metadata: Metadata = {
   title: 'Leadership — TrueRate Videos',
-  description: 'The executives, ministers, and decision-makers whose choices are shaping Liberia\u2019s economy \u2014 on the record.',
+  description: 'The executives, ministers, and decision-makers whose choices are shaping Liberia’s economy — on the record.',
 };
 
 const HERO = {
-  title: "CBL Governor: \u201cThe next 18 months will define Liberia\u2019s credit standing for a decade\u201d",
+  title: "CBL Governor: “The next 18 months will define Liberia’s credit standing for a decade”",
   desc: "In a rare 36-minute interview, the Central Bank of Liberia governor addresses rate policy, FX reserves, and the fiscal reforms the IMF wants to see.",
   duration: '35:22',
   category: 'Leadership',
   source: 'The Leadership Circle',
   time: '6h ago',
+  youtubeId: '',
 };
 
 const CONVERSATIONS = [
   { title: "Finance Minister on the mid-year budget review", duration: '28:55', category: 'Leadership', time: '1d ago' },
-  { title: "ArcelorMittal CFO: why we\u2019re doubling down on Liberia", duration: '14:30', category: 'Business', time: '2d ago' },
+  { title: "ArcelorMittal CFO: why we’re doubling down on Liberia", duration: '14:30', category: 'Business', time: '2d ago' },
   { title: "Ecobank West Africa CEO on leading through uncertainty", duration: '35:22', category: 'Banking', time: '3d ago' },
   { title: "Port of Monrovia MD on Phase II and the decade ahead", duration: '17:22', category: 'Infrastructure', time: '4d ago' },
 ];
 
 const MASTERCLASS = [
-  { title: "The first 90 days as CEO in a West African business", duration: '24:10', desc: "Practical frameworks for new leaders taking over in a mid-size company.", category: 'Leadership', label: 'Masterclass' },
-  { title: "Managing across generations in a Monrovia team", duration: '19:25', desc: "How to lead when your team spans three age brackets and two work styles.", category: 'Leadership', label: 'Playbook' },
-  { title: "Running a board: agendas, tempo, and decisions that ship", duration: '22:45', desc: "Board-meeting mechanics for SME leaders who have never done it before.", category: 'Leadership', label: 'Starter Guide' },
+  { title: "The first 90 days as CEO in a West African business", duration: '24:10', desc: "Practical frameworks for new leaders taking over in a mid-size company.", category: 'Leadership', label: 'Masterclass', youtubeId: '' },
+  { title: "Managing across generations in a Monrovia team", duration: '19:25', desc: "How to lead when your team spans three age brackets and two work styles.", category: 'Leadership', label: 'Playbook', youtubeId: '' },
+  { title: "Running a board: agendas, tempo, and decisions that ship", duration: '22:45', desc: "Board-meeting mechanics for SME leaders who have never done it before.", category: 'Leadership', label: 'Starter Guide', youtubeId: '' },
 ];
 
 const PROFILES = [
-  { title: "Liberia\u2019s most decorated female CEO on leadership lessons", duration: '22:10', category: 'Women', time: '4d ago' },
+  { title: "Liberia’s most decorated female CEO on leadership lessons", duration: '22:10', category: 'Women', time: '4d ago' },
   { title: "Three COOs on executing fast without breaking things", duration: '18:45', category: 'Leadership', time: '5d ago' },
   { title: "What a great board chair looks like in a West African SME", duration: '21:12', category: 'Governance', time: '6d ago' },
-  { title: "How two rival executives became co-CEOs \u2014 and made it work", duration: '27:05', category: 'Leadership', time: '1w ago' },
+  { title: "How two rival executives became co-CEOs — and made it work", duration: '27:05', category: 'Leadership', time: '1w ago' },
 ];
 
 function PlayIcon() {
   return (
     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm">
-      <svg className="h-6 w-6 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+      <svg className="h-6 w-6 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
     </div>
   );
 }
@@ -58,29 +62,27 @@ export default function VideosLeadershipPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 mb-8">
-        <Link href="/videos" className="group flex-1 min-w-0 no-underline block overflow-hidden rounded-2xl">
-          <div className="relative w-full" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
-            <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
-            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
-            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h2 className="text-sm sm:text-2xl font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
-              <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
-              <div className="flex items-center gap-2 text-sm">
-                <span className="font-semibold text-white/70">{HERO.source}</span>
-                <span className="text-white/30">·</span>
-                <span className="text-white/40">{HERO.time}</span>
-              </div>
+        <PlayableVideo id={HERO.youtubeId} label={HERO.title} className="flex-1 min-w-0 overflow-hidden rounded-2xl" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
+          <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+          <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
+          <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
+          <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+            <h2 className="text-sm sm:text-2xl font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+            <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-semibold text-white/70">{HERO.source}</span>
+              <span className="text-white/30">·</span>
+              <span className="text-white/40">{HERO.time}</span>
             </div>
           </div>
-        </Link>
+        </PlayableVideo>
 
         <div className="w-full lg:w-[280px] shrink-0 flex flex-col">
           <span className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">Boardroom conversations</span>
           <div className="flex flex-col divide-y divide-white/[0.05] flex-1">
             {CONVERSATIONS.map((v, i) => (
-              <Link key={i} href="/videos" className="group flex gap-3 py-3 first:pt-0 no-underline">
+              <a key={i} href={CHANNEL_URL} {...ext} className="group flex gap-3 py-3 first:pt-0 no-underline">
                 <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
                   <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-[58px]" />
                 </div>
@@ -89,7 +91,7 @@ export default function VideosLeadershipPage() {
                   <h4 className="text-sm font-semibold leading-snug text-white group-hover:text-white/70 line-clamp-3 mb-1">{v.title}</h4>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -104,14 +106,14 @@ export default function VideosLeadershipPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {MASTERCLASS.map((p, i) => (
-            <Link key={i} href="/videos" className="group flex flex-col no-underline">
-              <div className="relative overflow-hidden mb-4">
-                <VideoThumbnail category={p.category} duration={p.duration} className="w-full aspect-video" />
+            <div key={i} className="group flex flex-col">
+              <PlayableVideo id={p.youtubeId} label={p.title} className="overflow-hidden mb-4 aspect-video rounded-xl">
+                <VideoThumbnail category={p.category} duration={p.duration} className="absolute inset-0 w-full h-full" />
                 <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{p.label}</span>
-              </div>
-              <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/70 mb-2 line-clamp-2">{p.title}</h3>
+              </PlayableVideo>
+              <h3 className="text-sm font-bold leading-snug text-white mb-2 line-clamp-2">{p.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">{p.desc}</p>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -122,7 +124,7 @@ export default function VideosLeadershipPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 divide-y sm:divide-y-0 divide-white/[0.05]">
           {PROFILES.map((v, i) => (
-            <Link key={i} href="/videos" className="group flex gap-3.5 py-4 first:pt-0 no-underline">
+            <a key={i} href={CHANNEL_URL} {...ext} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
               <div className="relative shrink-0 overflow-hidden rounded-lg">
                 <VideoThumbnail category={v.category} duration={v.duration} className="h-[68px] w-[104px]" />
               </div>
@@ -131,7 +133,7 @@ export default function VideosLeadershipPage() {
                 <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-white/70 line-clamp-2 mb-1">{v.title}</h3>
                 <div className="text-xs text-gray-500">{v.time}</div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </section>
