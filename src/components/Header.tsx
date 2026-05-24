@@ -538,7 +538,7 @@ export default function Header() {
       {/* Mobile search — collapses on scroll */}
       <div className={`sm:hidden overflow-hidden transition-all motion-safe:duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
-          <SearchBox isLight={isLight} inputId="site-search-mobile" className="flex" />
+          <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
         </div>
       </div>
 

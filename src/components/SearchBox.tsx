@@ -17,10 +17,15 @@ export default function SearchBox({
   isLight,
   inputId,
   className = '',
+  variant = 'desktop',
 }: {
   isLight: boolean;
   inputId: string;
   className?: string;
+  /** 'mobile' renders the dropdown as a fixed panel so it escapes the
+   *  header's overflow-hidden collapse container; 'desktop' anchors it
+   *  absolutely under the input. */
+  variant?: 'desktop' | 'mobile';
 }) {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -151,7 +156,12 @@ export default function SearchBox({
           id={listId}
           role="listbox"
           aria-label="Search suggestions"
-          className={`absolute left-0 right-0 top-full z-50 mt-1.5 max-h-[70vh] overflow-auto rounded-xl border py-1 shadow-2xl ${
+          // Mobile: fixed panel anchored under the header so it escapes the
+          // header's overflow-hidden collapse container. Desktop: absolute.
+          style={variant === 'mobile' ? { top: 'calc(var(--header-h, 56px) - 4px)' } : undefined}
+          className={`z-50 max-h-[70vh] overflow-auto rounded-xl border py-1 shadow-2xl ${
+            variant === 'mobile' ? 'fixed left-4 right-4' : 'absolute left-0 right-0 top-full mt-1.5'
+          } ${
             isLight ? 'bg-white border-gray-200 shadow-gray-300/60' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
           }`}
         >
