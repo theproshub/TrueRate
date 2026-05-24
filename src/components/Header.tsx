@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import HeaderAuthButtons from './HeaderAuthButtons';
+import SearchBox from './SearchBox';
 import { Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
@@ -370,11 +371,9 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
 
 export default function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -392,12 +391,6 @@ export default function Header() {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  function handleSearch() {
-    const q = searchQuery.trim();
-    if (!q) return;
-    router.push(`/news?q=${encodeURIComponent(q)}`);
-    setSearchQuery('');
-  }
 
   useEffect(() => {
     const onScroll = () => {
@@ -441,30 +434,7 @@ export default function Header() {
         </Link>
 
         {/* Search */}
-        <form
-          role="search"
-          onSubmit={e => { e.preventDefault(); handleSearch(); }}
-          className={`hidden sm:flex flex-1 items-center rounded-xl border transition overflow-hidden ml-4 mr-2 ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}
-        >
-          <label htmlFor="site-search" className="sr-only">Search stories, companies, or topics</label>
-          <input
-            id="site-search"
-            type="search"
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Search stories, companies, or topics"
-            className={`flex-1 bg-transparent px-4 py-2.5 text-md outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
-          />
-          <button
-            type="submit"
-            aria-label="Search"
-            className="shrink-0 flex items-center justify-center h-11 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-          >
-            <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-        </form>
+        <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
 
         {/* Top super-nav — compact pills next to the search bar */}
         <div className="hidden sm:flex items-center gap-0.5 shrink-0">
@@ -568,30 +538,7 @@ export default function Header() {
       {/* Mobile search — collapses on scroll */}
       <div className={`sm:hidden overflow-hidden transition-all motion-safe:duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
-          <form
-            role="search"
-            onSubmit={e => { e.preventDefault(); handleSearch(); }}
-            className={`flex items-center rounded-xl border overflow-hidden transition ${isLight ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400' : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'}`}
-          >
-            <label htmlFor="site-search-mobile" className="sr-only">Search stories, companies, or topics</label>
-            <input
-              id="site-search-mobile"
-              type="search"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search stories, companies, or topics"
-              className={`flex-1 bg-transparent px-4 py-2.5 text-md outline-none min-w-0 ${isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'}`}
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              className="shrink-0 flex items-center justify-center h-11 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-            >
-              <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-          </form>
+          <SearchBox isLight={isLight} inputId="site-search-mobile" className="flex" />
         </div>
       </div>
 
