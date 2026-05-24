@@ -12,7 +12,6 @@ const routes = [
   '/sports',
   '/entertainment',
   '/videos',
-  '/watchlist',
   '/news',
   '/about',
   '/help',

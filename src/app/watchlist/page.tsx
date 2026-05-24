@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: 'Watchlist',
   alternates: { canonical: '/watchlist' },
   description: 'Your personal watchlist of Liberian indicators, forex pairs, and commodities.',
+  // Personal, logged-in tool with no public content — keep it out of the index.
+  robots: { index: false, follow: true },
 };
 
 export default function WatchlistPage() {
