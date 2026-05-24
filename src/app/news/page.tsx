@@ -154,7 +154,7 @@ function SubStoryRow() {
       {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group no-underline">
           <div className="overflow-hidden rounded-xl">
-            <NewsThumbnail category={item.category} className="w-full h-[130px]" />
+            <NewsThumbnail category={item.category} id={item.id} className="w-full h-[130px]" />
           </div>
           <div className="mt-2.5">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
@@ -225,7 +225,7 @@ export default async function NewsPage({
               <div className="flex-1 min-w-0 flex flex-col divide-y divide-gray-100">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
-                    <NewsThumbnail category={item.category} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
+                    <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
@@ -327,7 +327,7 @@ export default async function NewsPage({
               {newsItems.slice(20, 24).map((item) => (
                 <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-row sm:flex-col gap-3 sm:gap-2.5 p-4 no-underline hover:bg-gray-50 transition-colors">
                   <div className="shrink-0 sm:shrink overflow-hidden rounded-lg">
-                    <NewsThumbnail category={item.category} className="h-[80px] w-[110px] sm:w-full" />
+                    <NewsThumbnail category={item.category} id={item.id} className="h-[80px] w-[110px] sm:w-full" />
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col gap-1.5 sm:gap-2.5">
                     <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>

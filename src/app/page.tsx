@@ -8,6 +8,7 @@ import { NewsThumbnail, HeroVisual as SharedHeroVisual } from '@/components/News
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
 import { Heading, Text } from '@/components/ui';
+import { storyPhoto } from '@/lib/story-photos';
 
 export const metadata = {
   alternates: { canonical: '/' },
@@ -16,12 +17,6 @@ export const metadata = {
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
-
-/** Per-story real photography, keyed by news item id */
-const STORY_PHOTOS: Record<string, string> = {
-  // Story 1: CBL Governor Henry F. Saamoi — portrait headshot
-  '1': '/images/samoi.png',
-};
 
 /** Related ticker chips shown beneath the lead story byline */
 const STORY_CHIPS: Record<string, { label: string; value: string; up?: boolean }[]> = {
@@ -33,7 +28,7 @@ const STORY_CHIPS: Record<string, { label: string; value: string; up?: boolean }
 
 /** Homepage hero size wrapper — uses real photo when available, falls back to gradient tile */
 function HeroVisual({ category, storyId }: { category: string; storyId?: string }) {
-  const photo = storyId ? STORY_PHOTOS[storyId] : undefined;
+  const photo = storyPhoto(storyId);
   if (photo) {
     return (
       <div className="h-[200px] sm:h-[260px] w-full overflow-hidden bg-gray-900">
@@ -169,7 +164,7 @@ function FeaturedColumn() {
           return (
             <Link key={item.id} href={`/news/${item.id}`} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
               <div className="shrink-0 overflow-hidden rounded-lg">
-                <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
+                <NewsThumbnail category={item.category} id={item.id} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3">
@@ -203,7 +198,7 @@ function NewsListColumn() {
       {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
           <div className="overflow-hidden rounded-xl shrink-0">
-            <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
+            <NewsThumbnail category={item.category} id={item.id} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{item.title}</h3>
@@ -248,7 +243,7 @@ function LatestColumn() {
           return (
             <Link key={id} href={`/news/${item.id}`} className="flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline group">
               <div className="shrink-0 overflow-hidden rounded-xl">
-                <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
+                <NewsThumbnail category={item.category} id={item.id} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-sm sm:text-md font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{item.title}</h3>
@@ -441,7 +436,7 @@ function DeepReadsColumn() {
       </div>
       <Link href={`/news/${lead.id}`} className="group block no-underline mb-5">
         <div className="overflow-hidden rounded-xl mb-3">
-          <NewsThumbnail category={lead.category} className="w-full h-[180px]" />
+          <NewsThumbnail category={lead.category} id={lead.id} className="w-full h-[180px]" />
         </div>
         <div className={`text-2xs font-bold uppercase tracking-wide ${getNewsCatColor(lead.category)} mb-1.5`}>{lead.category}</div>
         <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{lead.title}</h3>
@@ -461,7 +456,7 @@ function DeepReadsColumn() {
               </Text>
             </div>
             <div className="shrink-0 overflow-hidden rounded-lg">
-              <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
+              <NewsThumbnail category={item.category} id={item.id} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
             </div>
           </Link>
         ))}
@@ -491,7 +486,7 @@ function MoreNewsColumn() {
             </Text>
           </div>
           <div className="shrink-0 overflow-hidden rounded-lg">
-            <NewsThumbnail category={item.category} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
+            <NewsThumbnail category={item.category} id={item.id} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
           </div>
         </Link>
       ))}

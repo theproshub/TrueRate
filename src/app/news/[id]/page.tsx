@@ -149,7 +149,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                 {item.readTime && <><span>·</span><span>{item.readTime}</span></>}
               </div>
 
-              <HeroVisual category={item.category} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
+              <HeroVisual category={item.category} id={item.id} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
 
               <div className="text-md leading-[1.8] text-gray-600 space-y-5 mb-8">
                 {item.body?.map((paragraph, i) => (
@@ -178,7 +178,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                   {related.map(r => (
                     <Link key={r.id} href={`/news/${r.id}`} className="group no-underline">
                       <div className="overflow-hidden rounded-xl mb-2.5">
-                        <NewsThumbnail category={r.category} className="w-full h-[110px]" />
+                        <NewsThumbnail category={r.category} id={r.id} className="w-full h-[110px]" />
                       </div>
                       <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
                       <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</Heading>
@@ -199,7 +199,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                 {moreStories.map(s => (
                   <Link key={s.id} href={`/news/${s.id}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
                     <div className="shrink-0 overflow-hidden rounded-lg">
-                      <NewsThumbnail category={s.category} className="h-[70px] w-[105px]" />
+                      <NewsThumbnail category={s.category} id={s.id} className="h-[70px] w-[105px]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>

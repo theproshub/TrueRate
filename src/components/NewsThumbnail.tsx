@@ -1,28 +1,51 @@
 'use client';
 
 import { getCatStyle } from '@/lib/category-colors';
+import { storyPhoto } from '@/lib/story-photos';
 
 export { getCatStyle };
 
-/** Small/medium news thumbnail — replaces picsum stock photos */
-export function NewsThumbnail({ category, className }: { category: string; className: string }) {
+/* eslint-disable @next/next/no-img-element */
+function StoryImage({ src }: { src: string }) {
+  return <img src={src} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-top" />;
+}
+/* eslint-enable @next/next/no-img-element */
+
+/** Small/medium news thumbnail — real photo when the story has one, else a category gradient */
+export function NewsThumbnail({ category, className, id }: { category: string; className: string; id?: string }) {
   const s = getCatStyle(category);
+  const photo = storyPhoto(id);
   return (
     <div className={`relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
-      <div
-        className="absolute inset-0 opacity-[0.12]"
-        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '14px 14px' }}
-      />
-      <span className={`relative z-10 select-none text-center text-2xs font-black uppercase tracking-[0.15em] px-1.5 ${s.accent}`}>
-        {s.label}
-      </span>
+      {photo ? (
+        <StoryImage src={photo} />
+      ) : (
+        <>
+          <div
+            className="absolute inset-0 opacity-[0.12]"
+            style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)', backgroundSize: '14px 14px' }}
+          />
+          <span className={`relative z-10 select-none text-center text-2xs font-black uppercase tracking-[0.15em] px-1.5 ${s.accent}`}>
+            {s.label}
+          </span>
+        </>
+      )}
     </div>
   );
 }
 
-/** Large hero visual (replaces big top-of-page stock photo) */
-export function HeroVisual({ category, className = '' }: { category: string; className?: string }) {
+/** Large hero visual — real photo when the story has one, else a category gradient */
+export function HeroVisual({ category, className = '', id }: { category: string; className?: string; id?: string }) {
   const s = getCatStyle(category);
+  const photo = storyPhoto(id);
+  if (photo) {
+    return (
+      <div className={`w-full relative overflow-hidden ${s.bg} ${className}`}>
+        <StoryImage src={photo} />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
+      </div>
+    );
+  }
   return (
     <div className={`w-full relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
       {/* Dot grid */}
