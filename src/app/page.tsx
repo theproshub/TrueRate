@@ -20,7 +20,7 @@ export const metadata = {
 /** Per-story real photography, keyed by news item id */
 const STORY_PHOTOS: Record<string, string> = {
   // Story 1: CBL Governor Henry F. Saamoi — portrait headshot
-  '1': '/images/saamoi-cbl-governor.png',
+  '1': '/images/samoi.png',
 };
 
 /** Related ticker chips shown beneath the lead story byline */
