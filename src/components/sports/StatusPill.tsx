@@ -1,8 +1,8 @@
 import type { DealStatus } from '@/lib/sports-finance-data';
 
 const STYLES: Record<DealStatus, { dot: string; text: string; label: string }> = {
-  done:        { dot: 'bg-lime-600', text: 'text-gray-700', label: 'Done'        },
-  active:      { dot: 'bg-lime-600', text: 'text-gray-700', label: 'Active'      },
+  done:        { dot: 'bg-pos', text: 'text-gray-700', label: 'Done'        },
+  active:      { dot: 'bg-pos', text: 'text-gray-700', label: 'Active'      },
   expiring:    { dot: 'bg-red-600',     text: 'text-gray-700', label: 'Expiring'    },
   hot:         { dot: 'bg-red-600',     text: 'text-gray-700', label: 'Hot'         },
   negotiating: { dot: 'bg-amber-500',   text: 'text-gray-700', label: 'Negotiating' },

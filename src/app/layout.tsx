@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Montserrat } from 'next/font/google';
+import { Inter, Montserrat, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -16,6 +16,14 @@ const montserrat = Montserrat({
   weight: ['400', '500', '600', '700', '800'],
   style: ['normal', 'italic'],
   variable: '--font-montserrat',
+  display: 'swap',
+});
+
+// Tabular figures for financial data (markets, analytics terminal).
+const robotoMono = Roboto_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-roboto-mono',
   display: 'swap',
 });
 
@@ -84,7 +92,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${inter.variable} ${montserrat.variable} ${robotoMono.variable}`}>
       <body className={inter.className}>
         <Header />
         {children}

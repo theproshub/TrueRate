@@ -96,7 +96,7 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
   if (error) {
     return (
       <section>
-        <h1 className="text-2xl font-black tracking-tight text-white">Content Feed</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-white">Content Feed</h1>
         <div role="alert" className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/[0.06] p-6 text-sm text-amber-200">
           Couldn&apos;t load feed cards: {error.message}
           <p className="mt-2 text-amber-300/80">
@@ -115,7 +115,7 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
   return (
     <section aria-labelledby="feed-heading">
       {sp.ok && OK_NOTICE[sp.ok] && (
-        <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/[0.06] p-3 text-sm text-emerald-300">
+        <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-pos/30 bg-pos/[0.06] p-3 text-sm text-pos">
           {OK_NOTICE[sp.ok]}
         </div>
       )}
@@ -126,7 +126,7 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
       )}
 
       <header className="mb-6">
-        <h1 id="feed-heading" className="text-2xl font-black tracking-tight text-white">Content Feed</h1>
+        <h1 id="feed-heading" className="text-2xl font-bold tracking-tight text-white">Content Feed</h1>
         <p className="mt-1 text-sm text-gray-400">
           Review AI-drafted cards before they go live. {drafts.length} pending · {published.length} live.
         </p>
@@ -157,7 +157,7 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
               {card.source_note && <p className="mt-2 text-xs text-gray-600">Source: {card.source_note}</p>}
               <div className="mt-4 flex items-center gap-2">
                 <form action={publishCard.bind(null, card.id)}>
-                  <button type="submit" className="rounded-lg bg-[#6001d2] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#490099] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+                  <button type="submit" className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
                     Publish
                   </button>
                 </form>
@@ -183,7 +183,7 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
           {published.map((card) => (
             <li key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
               <div className="mb-3 flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-emerald-400">
+                <span className="rounded-full border border-pos/30 bg-pos/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-pos">
                   {TYPE_LABEL[card.type]} · Live
                 </span>
                 {card.is_ai_generated && (

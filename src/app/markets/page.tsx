@@ -45,8 +45,8 @@ function formatPct(n: number): string {
 
 function deltaClass(delta: number | null): string {
   if (delta === null) return 'text-gray-500';
-  if (delta > 0) return 'text-emerald-700';
-  if (delta < 0) return 'text-red-400';
+  if (delta > 0) return 'text-pos';
+  if (delta < 0) return 'text-neg';
   return 'text-gray-400';
 }
 
@@ -103,6 +103,49 @@ function SectionHeader({ title, href }: { title: string; href?: string }) {
           View all ›
         </Link>
       )}
+    </div>
+  );
+}
+
+/**
+ * Yahoo-style desk column: a lead story with a large image, then a clean
+ * headline list (no thumbnails) with author · time meta.
+ */
+function DeskColumn({ title, href, items }: { title: string; href: string; items: NewsItem[] }) {
+  const [lead, ...rest] = items;
+  if (!lead) return null;
+  return (
+    <div>
+      <SectionHeader title={title} href={href} />
+
+      {/* Lead — large image + headline */}
+      <Link href={`/news/${lead.id}`} className="group block no-underline mb-4">
+        <div className="overflow-hidden rounded-xl mb-3">
+          <NewsThumbnail category={lead.category} className="w-full h-[200px]" />
+        </div>
+        <h3 className="text-md sm:text-lg font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5 text-balance">
+          {lead.title}
+        </h3>
+        <Text variant="meta" className="text-gray-500">
+          {lead.author && <><span className="text-gray-400">{lead.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
+          {timeAgo(lead.date)}
+        </Text>
+      </Link>
+
+      {/* Follow list — headline-only rows with hairline dividers */}
+      <div className="flex flex-col divide-y divide-white/[0.06] border-t border-white/[0.06]">
+        {rest.map(n => (
+          <Link key={n.id} href={`/news/${n.id}`} className="group block py-3 no-underline">
+            <h4 className="text-sm font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">
+              {n.title}
+            </h4>
+            <Text variant="meta" className="text-gray-500">
+              {n.author && <><span className="text-gray-400">{n.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
+              {timeAgo(n.date)}
+            </Text>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
@@ -173,7 +216,7 @@ export default async function MarketsPage() {
     .filter((n): n is NonNullable<typeof n> => !!n);
 
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6 pb-10">
+    <main className="mx-auto max-w-container px-4 py-6 pb-10">
       <h1 className="sr-only">Markets &amp; Finance</h1>
 
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Markets & Finance' }]} />
@@ -184,17 +227,19 @@ export default async function MarketsPage() {
         <div className="lg:col-span-2">
           <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
             <h2 id="movers-heading" className="text-md font-bold text-white">Top Movers · Commodities</h2>
-            <span className="text-2xs uppercase tracking-wider text-gray-500">latest close · intraday change</span>
+            <Link href="/analytics" className="text-2xs uppercase tracking-wider text-brand-accent hover:underline no-underline">
+              Trends &amp; Analytics ›
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             {/* Leaders */}
             <div>
-              <Text variant="meta" className="font-bold uppercase tracking-wider text-emerald-700 mb-2">Leaders</Text>
+              <Text variant="meta" className="font-bold uppercase tracking-wider text-pos mb-2">Leaders</Text>
               <table className="w-full text-base tabular-nums">
                 <caption className="sr-only">Commodities leading by intraday percent change.</caption>
                 <thead>
-                  <tr className="text-[9px] uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                  <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
                     <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
                     <th scope="col" className="py-1.5 text-right font-semibold">Last</th>
                     <th scope="col" className="py-1.5 pl-2 text-right font-semibold">Chg</th>
@@ -218,11 +263,11 @@ export default async function MarketsPage() {
 
             {/* Laggards */}
             <div>
-              <Text variant="meta" className="font-bold uppercase tracking-wider text-red-400 mb-2">Laggards</Text>
+              <Text variant="meta" className="font-bold uppercase tracking-wider text-neg mb-2">Laggards</Text>
               <table className="w-full text-base tabular-nums">
                 <caption className="sr-only">Commodities lagging by intraday percent change.</caption>
                 <thead>
-                  <tr className="text-[9px] uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                  <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
                     <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
                     <th scope="col" className="py-1.5 text-right font-semibold">Last</th>
                     <th scope="col" className="py-1.5 pl-2 text-right font-semibold">Chg</th>
@@ -309,7 +354,7 @@ export default async function MarketsPage() {
               <span className="mx-2 text-gray-700">·</span>
               <span>{lead.category}</span>
             </Text>
-            <h2 className="text-[20px] sm:text-[26px] font-black leading-[1.15] tracking-tight text-white group-hover:text-white/80 transition-colors mb-3 text-balance">
+            <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-white group-hover:text-white/80 transition-colors mb-3 text-balance">
               {lead.title}
             </h2>
             <p className="text-md leading-relaxed text-gray-400 mb-3 line-clamp-3 max-w-[680px]">
@@ -349,48 +394,18 @@ export default async function MarketsPage() {
         </aside>
       </section>
 
-      {/* ── Three-column section grid: Heard / Banking / Investing ── */}
-      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
-        <div>
-          <SectionHeader title="Heard on the Street" href="/news" />
-          <ul className="m-0 p-0 list-none">
-            {heardOnTheStreet.map(n => <StoryCard key={n.id} n={n} withByline />)}
-          </ul>
-        </div>
-        <div>
-          <SectionHeader title="Banking & Capital" href="/news" />
-          <ul className="m-0 p-0 list-none">
-            {banking.map(n => <StoryCard key={n.id} n={n} withByline />)}
-          </ul>
-        </div>
-        <div>
-          <SectionHeader title="Investing" href="/news" />
-          <ul className="m-0 p-0 list-none">
-            {investing.map(n => <StoryCard key={n.id} n={n} withByline />)}
-          </ul>
-        </div>
+      {/* ── Desk grid: Heard / Banking / Investing — Yahoo-style lead + list ── */}
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-6 border-b border-white/[0.08]">
+        <DeskColumn title="Heard on the Street" href="/news" items={heardOnTheStreet} />
+        <DeskColumn title="Banking & Capital" href="/news" items={banking} />
+        <DeskColumn title="Investing" href="/news" items={investing} />
       </section>
 
-      {/* ── Three-column section grid: Macro / Commodities / Currencies ── */}
-      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
-        <div>
-          <SectionHeader title="Macro &amp; Growth" href="/economy" />
-          <ul className="m-0 p-0 list-none">
-            {stocks.map(n => <StoryCard key={n.id} n={n} withByline />)}
-          </ul>
-        </div>
-        <div>
-          <SectionHeader title="Commodities &amp; Futures" href="/news" />
-          <ul className="m-0 p-0 list-none">
-            {commoditiesStories.map(n => <StoryCard key={n.id} n={n} withByline />)}
-          </ul>
-        </div>
-        <div>
-          <SectionHeader title="Currencies" href="/news" />
-          <ul className="m-0 p-0 list-none">
-            {currenciesStories.map(n => <StoryCard key={n.id} n={n} withByline />)}
-          </ul>
-        </div>
+      {/* ── Desk grid: Macro / Commodities / Currencies ── */}
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-6 border-b border-white/[0.08]">
+        <DeskColumn title="Macro & Growth" href="/economy" items={stocks} />
+        <DeskColumn title="Commodities & Futures" href="/news" items={commoditiesStories} />
+        <DeskColumn title="Currencies" href="/news" items={currenciesStories} />
       </section>
 
       {/* ── Regulation + Most Recent Desks + Related Topics ── */}
@@ -406,7 +421,7 @@ export default async function MarketsPage() {
           <ul className="m-0 p-0 list-none space-y-3">
             {topAuthors.map(({ author, count, latest }) => (
               <li key={author} className="flex gap-3 items-start border-b border-white/[0.06] pb-3 last:border-0">
-                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent text-sm font-black flex items-center justify-center shrink-0">
+                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent text-sm font-bold flex items-center justify-center shrink-0">
                   {author.split(' ').map(w => w[0]).slice(0, 2).join('')}
                 </div>
                 <div className="min-w-0">
@@ -492,7 +507,7 @@ export default async function MarketsPage() {
           <li>· If an upstream feed is unreachable, the affected card shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
           <li>· LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>
           <li>· No equities feed for the Liberian Stock Exchange is available; Top Movers is restricted to the commodities universe relevant to Liberia&rsquo;s export economy.</li>
-          <li>· Tip a deal or correction: <a className="text-brand-accent hover:underline" href="mailto:tips@truerate.com">tips@truerate.com</a></li>
+          <li>· Tip a deal or correction: <a className="text-brand-accent hover:underline" href="mailto:tips@truerateliberia.com">tips@truerateliberia.com</a></li>
         </ul>
       </section>
 

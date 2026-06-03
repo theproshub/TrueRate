@@ -33,7 +33,7 @@ const STATUS_LABEL: Record<ArticleRow['status'], string> = {
 };
 const STATUS_COLOR: Record<ArticleRow['status'], string> = {
   draft:     'text-gray-400',
-  published: 'text-emerald-400',
+  published: 'text-pos',
   archived:  'text-gray-500',
 };
 
@@ -105,7 +105,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
     <section aria-labelledby="articles-heading">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 id="articles-heading" className="text-2xl font-black tracking-tight text-white">
+          <h1 id="articles-heading" className="text-2xl font-bold tracking-tight text-white">
             Articles
           </h1>
           <p className="mt-1 text-sm text-gray-400">
@@ -118,7 +118,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/admin/articles/new"
-          className="rounded-lg bg-[#6001d2] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#490099] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
         >
           New article
         </Link>
@@ -202,7 +202,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
               <p className="text-base text-gray-400">No articles match these filters.</p>
               <Link
                 href="/admin/articles"
-                className="mt-3 inline-block text-sm text-emerald-400 no-underline hover:text-emerald-300"
+                className="mt-3 inline-block text-sm text-brand-accent no-underline hover:text-brand-accent-hover"
               >
                 Clear filters
               </Link>
@@ -256,7 +256,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
                   <td className="px-5 py-3 text-right">
                     <Link
                       href={`/admin/articles/${a.id}/edit`}
-                      className="text-emerald-400 no-underline transition-colors hover:text-emerald-300 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                      className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                     >
                       Edit
                     </Link>

@@ -29,7 +29,7 @@ function H2({ children }: { children: React.ReactNode }) {
 export default function SponsorshipPage() {
   return (
     <div className="bg-white min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Sponsorship' }]} />
 

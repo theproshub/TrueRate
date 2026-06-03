@@ -8,13 +8,14 @@ export const metadata: Metadata = {
 };
 
 const SOURCES = [
-  { source: 'Central Bank of Liberia (CBL)', data: 'Indicative LRD/USD, LRD/EUR, LRD/GBP rates; CBL policy rate; gross reserves', freshness: 'Daily, 10:30 GMT' },
-  { source: 'World Bank Open Data',           data: 'GDP, inflation, debt-to-GDP, employment, trade balance',                   freshness: 'Quarterly' },
-  { source: 'International Monetary Fund',    data: 'Fiscal data, WEO projections, Article IV reports',                         freshness: 'Semi-annual' },
-  { source: 'Ghana Stock Exchange (GSE)',     data: 'GSE Composite Index, regional equity quotes',                               freshness: 'End-of-day' },
-  { source: 'BRVM (Abidjan)',                 data: 'BRVM Composite Index, CFA franc equities',                                  freshness: 'End-of-day' },
-  { source: 'Reuters / LSEG',                 data: 'Major FX crosses, commodity futures (Brent, WTI, gold, iron ore)',          freshness: '15-min delayed' },
-  { source: 'TrueRate Research',              data: 'Proprietary estimates, company valuations, survey data',                    freshness: 'As published' },
+  { source: 'Open currency-rate feed (CDN)',  data: 'Live USD-base FX rates; LRD cross-rates computed (mid-market reference, not a dealing rate)', freshness: 'Hourly' },
+  { source: 'Stooq',                          data: 'Commodity prices relevant to Liberia’s export economy (gold, oil, and others)', freshness: '~15 min' },
+  { source: 'Central Bank of Liberia (CBL)',  data: 'Policy rate, gross reserves, and official reference data cited in reporting', freshness: 'As published' },
+  { source: 'LISGIS',                         data: 'Consumer price index (inflation), population, national statistics',          freshness: 'As published' },
+  { source: 'Ministry of Finance (MFDP)',     data: 'National budget, fiscal data, public debt',                                 freshness: 'As published' },
+  { source: 'World Bank Open Data',           data: 'GDP, inflation, debt-to-GDP, employment, trade balance',                    freshness: 'Annual / quarterly' },
+  { source: 'International Monetary Fund',     data: 'Fiscal data, WEO projections, Article IV reports',                          freshness: 'Semi-annual' },
+  { source: 'TrueRate Research',              data: 'Proprietary estimates, company profiles, survey data',                      freshness: 'As published' },
 ];
 
 const NOTES = [
@@ -24,7 +25,7 @@ const NOTES = [
   },
   {
     title: 'Delays and gaps',
-    body: "Much of what you see is delayed by 15 minutes or more. Some data series are published quarterly or annually and may lag by several weeks. We label freshness where we can; when in doubt, check the source.",
+    body: "Live market rates refresh frequently from our data providers, but quoted levels can still lag the market and some feeds are delayed. Economic series from institutions like the World Bank, IMF, CBL, and LISGIS are published quarterly or annually and may lag by weeks. We label freshness where we can; when in doubt, check the source.",
   },
   {
     title: 'Estimates are flagged',
@@ -48,7 +49,7 @@ export default function DataDisclaimerPage() {
 
         <div className="border-b border-gray-200 pb-10 mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Data</p>
-          <h1 className="text-3xl sm:text-3xl font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <h1 className="text-3xl sm:text-3xl font-bold leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Data disclaimer
           </h1>
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
@@ -59,7 +60,7 @@ export default function DataDisclaimerPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
-            <div className="sticky top-6">
+            <div className="sticky top-36">
               <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
               <ul className="space-y-1">
                 <li><a href="#sources" className="block py-1.5 text-base text-gray-400 hover:text-gray-900 no-underline">Data sources</a></li>
@@ -74,8 +75,8 @@ export default function DataDisclaimerPage() {
           </aside>
 
           <div className="max-w-[780px]">
-            <section id="sources" className="mb-14">
-              <h2 className="text-xl font-black text-gray-900 mb-4">Where our data comes from</h2>
+            <section id="sources" className="mb-14 scroll-mt-36">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Where our data comes from</h2>
               <p className="text-md text-gray-700 leading-[1.9] mb-6">
                 TrueRate aggregates market and economic data from a handful of primary and licensed sources. This table lists what we use and how often each series refreshes.
               </p>
@@ -101,8 +102,8 @@ export default function DataDisclaimerPage() {
               </div>
             </section>
 
-            <section id="notes" className="mb-10">
-              <h2 className="text-xl font-black text-gray-900 mb-4">Important notes</h2>
+            <section id="notes" className="mb-10 scroll-mt-36">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Important notes</h2>
               <div className="divide-y divide-gray-100">
                 {NOTES.map(n => (
                   <div key={n.title} className="py-5">

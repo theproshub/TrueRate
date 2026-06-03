@@ -23,7 +23,7 @@ export default function VideosTopicTabs() {
   )?.href ?? '/videos';
 
   return (
-    <div className="mx-auto max-w-[1320px] px-4 pt-4">
+    <div className="mx-auto max-w-container px-4 pt-4">
       <nav
         aria-label="Videos topics"
         className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"

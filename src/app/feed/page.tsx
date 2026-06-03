@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function FeedPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Feed' }]} />
-      <h1 className="mb-1 text-2xl font-black tracking-tight text-white">Live Feed</h1>
+      <h1 className="mb-1 text-2xl font-bold tracking-tight text-white">Live Feed</h1>
       <p className="mb-6 text-sm text-gray-400">
         Markets update daily from live sources. Editorial cards are reviewed before publishing.
       </p>

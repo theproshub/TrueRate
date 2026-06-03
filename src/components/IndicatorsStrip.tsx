@@ -62,7 +62,7 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
 
   const Item = ({ item }: { item: TickerItem }) => {
     const isDirectional = item.pct.startsWith('+') || item.pct.startsWith('-');
-    const changeColor = item.up ? 'text-emerald-400' : 'text-red-400';
+    const changeColor = item.up ? 'text-pos' : 'text-neg';
     const arrow = isDirectional ? (item.up ? '▲' : '▼') : '';
     return (
       <span className="shrink-0 inline-flex items-baseline gap-1.5 px-4 whitespace-nowrap">
@@ -84,9 +84,9 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
     <div
       role="region"
       aria-label="Live Liberian markets ticker"
-      className="bg-brand-card border-b border-white/[0.05]"
+      className="bg-brand-muted border-b border-white/[0.05]"
     >
-      <div className="mx-auto max-w-[1320px] overflow-hidden">
+      <div className="mx-auto max-w-container overflow-hidden">
         <div className="ticker-scroll flex items-center h-9">
           {[...items, ...items].map((item, i) => (
             <span key={i} className="flex items-center">

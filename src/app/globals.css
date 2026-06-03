@@ -11,6 +11,7 @@
   /* Brand palette */
   --color-brand-accent:       #BFEA36;
   --color-brand-accent-hover: #a8d42a;
+  --color-brand-accent-ink:   #4d7c0f;
   --color-brand-dark:         #050d11;
   --color-brand-muted:        #030a0e;
   --color-brand-header:       #061520;
@@ -29,7 +30,7 @@
   /* Typography */
   --font-sans: 'Inter', sans-serif;
   --font-body: 'Montserrat', sans-serif;
-  --font-mono: 'Roboto Mono', 'Courier New', monospace;
+  --font-mono: var(--font-roboto-mono), 'Roboto Mono', 'Courier New', monospace;
 
   /* Layout */
   --header-height:    64px;
@@ -120,7 +121,7 @@
   margin-top: 1.5em;
 }
 .article-body a {
-  color: #6001d2;
+  color: var(--color-brand-accent-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
 }

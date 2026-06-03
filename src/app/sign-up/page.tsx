@@ -46,7 +46,7 @@ export default function SignUpPage() {
     <main className="flex min-h-[calc(100vh-140px)] items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-black text-white tracking-tight">Join TrueRate</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Join TrueRate</h1>
           <p className="mt-2 text-md text-gray-400">
             Track LRD rates, save indicators, and get market alerts
           </p>
@@ -111,21 +111,21 @@ export default function SignUpPage() {
               </p>
             )}
             {info && (
-              <p role="status" className="text-sm text-emerald-400">
+              <p role="status" className="text-sm text-pos">
                 {info}
               </p>
             )}
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-lg bg-[#6001d2] px-4 py-2.5 font-semibold text-white transition-colors hover:bg-[#490099] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="w-full rounded-lg bg-brand-accent px-4 py-2.5 font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             >
               {submitting ? 'Creating account…' : 'Sign up'}
             </button>
           </div>
           <p className="mt-6 text-center text-sm text-gray-400">
             Already have an account?{' '}
-            <Link href="/sign-in" className="text-emerald-500 hover:underline">
+            <Link href="/sign-in" className="text-brand-accent hover:underline">
               Sign in
             </Link>
           </p>

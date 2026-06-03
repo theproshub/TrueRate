@@ -9,6 +9,8 @@ import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
 import { Heading, Text } from '@/components/ui';
 import { publicClient } from '@/lib/supabase/public';
 import { renderMarkdown } from '@/lib/markdown';
+import { isArticleSaved } from '@/lib/saved-articles';
+import SaveArticleButton from '@/components/SaveArticleButton';
 
 function timeAgo(d: string) {
   const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
@@ -120,7 +122,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="bg-brand-surface min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category.charAt(0).toUpperCase() + item.category.slice(1), color: getCatColor(item.category) }]} light />
 
@@ -138,7 +140,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                 {item.category}
               </div>
 
-              <Heading level={2} as="h1" className="sm:text-3xl font-black leading-tight text-gray-900 mb-4">{item.title}</Heading>
+              <Heading level={2} as="h1" className="sm:text-3xl font-bold leading-tight text-gray-900 mb-4">{item.title}</Heading>
 
               <div className="flex flex-wrap items-center gap-2 text-base text-gray-500 pb-5 border-b border-gray-100 mb-6">
                 {item.author && <span className="font-semibold text-gray-700">{item.author}</span>}
@@ -286,9 +288,13 @@ async function DbArticleView({ article }: { article: DbArticle }) {
     8,
   );
 
+  // Session-aware saved state (cookie client). Only DB articles can be saved,
+  // since saved_articles.article_id is a FK to articles.id.
+  const { authed, saved } = await isArticleSaved(article.id);
+
   return (
     <div className="bg-brand-surface min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb
           items={[
@@ -313,7 +319,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
               <Heading
                 level={2}
                 as="h1"
-                className="sm:text-3xl font-black leading-tight text-gray-900 mb-4"
+                className="sm:text-3xl font-bold leading-tight text-gray-900 mb-4"
               >
                 {article.title}
               </Heading>
@@ -334,6 +340,15 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                 <span>TrueRate</span>
                 <span>·</span>
                 <span>{timeAgo(dateIso)}</span>
+              </div>
+
+              <div className="mb-6">
+                <SaveArticleButton
+                  articleId={article.id}
+                  initialSaved={saved}
+                  authed={authed}
+                  returnTo={`/news/${article.slug}`}
+                />
               </div>
 
               {article.hero_image ? (

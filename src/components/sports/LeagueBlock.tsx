@@ -31,7 +31,7 @@ export default function LeagueBlock({ data }: { data: LeagueBlockData }) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <Link
           href={data.featured.href}
-          className="lg:col-span-8 group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+          className="lg:col-span-8 group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark"
         >
           <div className="overflow-hidden mb-3">
             <HeroVisual category={data.featured.category} className="w-full h-[200px] sm:h-[240px]" />
@@ -39,7 +39,7 @@ export default function LeagueBlock({ data }: { data: LeagueBlockData }) {
           <Text variant="meta" className="font-bold uppercase tracking-wide text-gray-400 mb-1.5">
             {data.featured.category}
           </Text>
-          <Heading level={3} className="sm:text-[20px] text-white leading-snug group-hover:text-gray-100 group-hover:underline group-hover:decoration-white/50 underline-offset-2 transition-colors">
+          <Heading level={3} className="text-white leading-snug group-hover:text-gray-100 group-hover:underline group-hover:decoration-white/50 underline-offset-2 transition-colors">
             {data.featured.title}
           </Heading>
           <Text className="mt-2 text-md text-gray-300 leading-relaxed line-clamp-3">
@@ -63,7 +63,7 @@ export default function LeagueBlock({ data }: { data: LeagueBlockData }) {
           <li key={s.href}>
             <Link
               href={s.href}
-              className="group flex items-start gap-4 py-4 first:pt-0 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-start gap-4 py-4 first:pt-0 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
             >
               <div className="shrink-0 overflow-hidden">
                 <NewsThumbnail category={s.category} className="w-[240px] h-[160px]" />

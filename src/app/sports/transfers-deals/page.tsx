@@ -31,7 +31,7 @@ export default function TransfersDealsPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Transfers & Deals' }]} />
 
@@ -84,7 +84,7 @@ export default function TransfersDealsPage() {
             ].map((f, i) => (
               <div key={f.key} className={`px-4 py-4 ${i > 0 ? 'border-l border-gray-200' : ''}`}>
                 <dt className="text-xs text-gray-500 mb-1">{f.label}</dt>
-                <dd className="text-[24px] font-bold text-gray-900 tabular-nums">{f.value}</dd>
+                <dd className="text-stat-md font-bold text-gray-900 tabular-nums">{f.value}</dd>
                 <p className="text-sm text-gray-500 tabular-nums mt-1">{f.count} deals</p>
               </div>
             ))}
@@ -118,7 +118,7 @@ export default function TransfersDealsPage() {
         <section className="mb-12 grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-10">
           <div>
             <H2>Diaspora earnings</H2>
-            <p className="text-[44px] font-bold text-gray-900 tabular-nums leading-[0.95]">
+            <p className="text-stat-xl font-bold text-gray-900 tabular-nums leading-[0.95]">
               {DIASPORA_PIPELINE.totalEarnings}
             </p>
             <p className="mt-2 text-base text-gray-600 leading-relaxed">

@@ -1,11 +1,10 @@
-import Link from 'next/link';
 import { MY_TEAMS } from '@/lib/sports-data';
 import TeamCrest from './TeamCrest';
 import SectionHead from './SectionHead';
 import { Text } from '@/components/ui';
 
 const RESULT_BG: Record<'W' | 'L' | 'D', string> = {
-  W: 'bg-lime-500/15 text-lime-300 border border-lime-500/30',
+  W: 'bg-brand-accent/15 text-brand-accent border border-brand-accent/30',
   L: 'bg-rose-500/15 text-rose-300 border border-rose-500/30',
   D: 'bg-white/[0.06] text-gray-300 border border-white/[0.12]',
 };

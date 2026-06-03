@@ -31,7 +31,7 @@ export default function ClubFinancePage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Club Finance' }]} />
 
@@ -60,7 +60,7 @@ export default function ClubFinancePage() {
               { key: 'club',     label: 'Club',       align: 'left',  primary: true },
               { key: 'estValue', label: 'Est. Value', align: 'right', numeric: true, primary: true },
               { key: 'yoy',      label: 'YoY',        align: 'right', render: r => (
-                <span className={`text-sm tabular-nums ${r.up ? 'text-emerald-700' : 'text-red-700'}`}>
+                <span className={`text-sm tabular-nums ${r.up ? 'text-pos' : 'text-neg'}`}>
                   {r.up ? '+' : ''}{r.yoy}
                 </span>
               ) },
@@ -85,14 +85,14 @@ export default function ClubFinancePage() {
                 render: r => <span className="text-sm tabular-nums text-gray-700">{r.wages}</span> },
               { key: 'profit',  label: 'P&L',      align: 'right',
                 render: r => (
-                  <span className={`text-base font-semibold tabular-nums ${r.profitable ? 'text-emerald-700' : 'text-red-700'}`}>
+                  <span className={`text-base font-semibold tabular-nums ${r.profitable ? 'text-pos' : 'text-neg'}`}>
                     {r.profit}
                   </span>
                 )
               },
               { key: 'margin',  label: 'Margin',   align: 'right', hideOnMobile: true,
                 render: r => (
-                  <span className={`text-sm tabular-nums ${r.profitable ? 'text-emerald-700' : 'text-red-700'}`}>
+                  <span className={`text-sm tabular-nums ${r.profitable ? 'text-pos' : 'text-neg'}`}>
                     {r.margin}
                   </span>
                 )
@@ -111,11 +111,11 @@ export default function ClubFinancePage() {
             <dl className="grid grid-cols-2 border-y border-gray-200 [&>*+*]:border-l [&>*+*]:border-gray-200 [&>*:nth-child(n+3)]:border-t [&>*:nth-child(odd)]:border-l-0 [&>*:nth-child(3)]:border-l-0">
               <div className="px-4 py-3">
                 <dt className="text-xs text-gray-500 mb-1">Capacity</dt>
-                <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.capacity}</dd>
+                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.capacity}</dd>
               </div>
               <div className="px-4 py-3">
                 <dt className="text-xs text-gray-500 mb-1">Utilisation</dt>
-                <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.utilisation}</dd>
+                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.utilisation}</dd>
               </div>
               <div className="px-4 py-3">
                 <dt className="text-xs text-gray-500 mb-1">Renovation</dt>
@@ -123,7 +123,7 @@ export default function ClubFinancePage() {
               </div>
               <div className="px-4 py-3">
                 <dt className="text-xs text-gray-500 mb-1">Break-even</dt>
-                <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.break_even_year}</dd>
+                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.break_even_year}</dd>
               </div>
             </dl>
             <ul className="mt-4 space-y-2.5">
@@ -145,7 +145,7 @@ export default function ClubFinancePage() {
                   <div
                     key={d.club}
                     title={`${d.club}: $${d.spend}K wages · ${d.perf} pts`}
-                    className={`absolute h-2.5 w-2.5 rounded-full -translate-x-1/2 translate-y-1/2 ${d.profitable ? 'bg-emerald-700' : 'bg-red-700'}`}
+                    className={`absolute h-2.5 w-2.5 rounded-full -translate-x-1/2 translate-y-1/2 ${d.profitable ? 'bg-pos' : 'bg-neg'}`}
                     style={{ left: `${x}%`, bottom: `${y}%` }}
                   />
                 );
@@ -154,8 +154,8 @@ export default function ClubFinancePage() {
               <span className="absolute -bottom-6 right-0 text-2xs uppercase tracking-wide text-gray-500">Wages →</span>
             </div>
             <div className="flex items-center gap-5 text-sm text-gray-500">
-              <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-emerald-700" /> Profitable</span>
-              <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-red-700" /> Loss-making</span>
+              <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-pos" /> Profitable</span>
+              <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-neg" /> Loss-making</span>
             </div>
           </div>
 

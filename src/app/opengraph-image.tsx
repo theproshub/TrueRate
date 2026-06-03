@@ -27,7 +27,6 @@ export default async function Image() {
         }}
       >
         {/* Logo 3 is 3750×2409 (~1.557:1); 720×462 keeps the aspect ratio. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={logoSrc} width={720} height={462} alt="" />
       </div>
     ),

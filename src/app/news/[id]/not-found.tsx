@@ -6,7 +6,7 @@ export default function ArticleNotFound() {
     <div className="bg-brand-surface min-h-screen">
       <main className="mx-auto max-w-[720px] px-4 py-12 text-center">
         <Text variant="meta" className="font-bold uppercase tracking-[0.18em] text-gray-500 mb-4">404 — Article Not Found</Text>
-        <Heading level={1} className="font-black leading-tight text-gray-900 mb-4">
+        <Heading level={1} className="font-bold leading-tight text-gray-900 mb-4">
           This article doesn&apos;t exist.
         </Heading>
         <Text className="text-md text-gray-500 leading-relaxed mb-8 max-w-[480px] mx-auto">

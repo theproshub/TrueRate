@@ -16,10 +16,10 @@ export default function TrendingSidebar() {
           <li key={g.label} className="border-b border-white/[0.06] last:border-0 py-3">
             <Link
               href={g.href}
-              className="group flex items-center gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-center gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
             >
               <TeamCrest short={g.short} size={22} />
-              <span className="text-base font-bold text-white group-hover:text-lime-300 transition-colors">
+              <span className="text-base font-bold text-white group-hover:text-brand-accent transition-colors">
                 {g.label}
               </span>
             </Link>
@@ -28,7 +28,7 @@ export default function TrendingSidebar() {
                 <li key={it.href}>
                   <Link
                     href={it.href}
-                    className="block text-base text-gray-300 leading-snug hover:text-white hover:underline hover:decoration-white/50 underline-offset-2 transition-colors no-underline focus-visible:outline-none focus-visible:text-lime-300"
+                    className="block text-base text-gray-300 leading-snug hover:text-white hover:underline hover:decoration-white/50 underline-offset-2 transition-colors no-underline focus-visible:outline-none focus-visible:text-brand-accent"
                   >
                     {it.label}
                   </Link>

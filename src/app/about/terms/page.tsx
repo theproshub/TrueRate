@@ -4,7 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'Terms of Service — TrueRate',
-  description: 'The terms that govern your use of TrueRate.com and related products.',
+  description: 'The terms that govern your use of truerateliberia.com and related products.',
 };
 
 const SECTIONS = [
@@ -12,7 +12,7 @@ const SECTIONS = [
     id: 'acceptance',
     title: '1. Acceptance of terms',
     body: [
-      "By accessing or using TrueRate.com, our mobile experiences, newsletters, or any service we operate (\u201cthe Service\u201d), you agree to these Terms of Service. If you do not agree, do not use the Service.",
+      "By accessing or using truerateliberia.com, our mobile experiences, newsletters, or any service we operate (\u201cthe Service\u201d), you agree to these Terms of Service. If you do not agree, do not use the Service.",
       "We may update these terms from time to time. When we do, we will update the effective date below. Material changes will be announced on the site. Continued use of the Service after a change constitutes acceptance of the revised terms.",
     ],
   },
@@ -36,7 +36,7 @@ const SECTIONS = [
     id: 'content',
     title: '4. Our content',
     body: [
-      "All editorial content, market data, charts, images, and analysis published on TrueRate are owned by TrueRate Media or licensed from our data partners (including the Central Bank of Liberia, World Bank, IMF, Ghana Stock Exchange, BRVM, and Reuters).",
+      "All editorial content, market data, charts, images, and analysis published on TrueRate are owned by TrueRate or sourced from third-party data feeds and public institutions (including the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF).",
       "You may share individual articles for personal, non-commercial use with proper attribution. You may not republish, scrape, syndicate, or build derivative products on top of our content without written permission.",
     ],
   },
@@ -44,7 +44,7 @@ const SECTIONS = [
     id: 'not-advice',
     title: '5. Not investment advice',
     body: [
-      "TrueRate publishes journalism and market information. Nothing on the Service \u2014 not prices, charts, articles, newsletters, nor commentary \u2014 constitutes investment, legal, tax, or financial advice.",
+      "TrueRate publishes reporting and market information. Nothing on the Service \u2014 not prices, charts, articles, newsletters, nor commentary \u2014 constitutes investment, legal, tax, or financial advice.",
       "Do your own research. Consult a licensed adviser before making any investment decision. TrueRate is not responsible for losses resulting from decisions based on information published on the Service.",
     ],
   },
@@ -81,7 +81,7 @@ const SECTIONS = [
     id: 'contact',
     title: '10. Contact',
     body: [
-      "Questions about these terms? Reach us via the Feedback page or email legal@truerate.com.",
+      "Questions about these terms? Reach us via the Feedback page or email legal@truerateliberia.com.",
     ],
   },
 ];
@@ -94,7 +94,7 @@ export default function TermsPage() {
 
         <div className="border-b border-gray-200 pb-10 mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Legal</p>
-          <h1 className="text-3xl sm:text-3xl font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <h1 className="text-3xl sm:text-3xl font-bold leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Terms of Service
           </h1>
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
@@ -105,7 +105,7 @@ export default function TermsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
-            <div className="sticky top-6">
+            <div className="sticky top-36">
               <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
               <ul className="space-y-1">
                 {SECTIONS.map(s => (
@@ -127,8 +127,8 @@ export default function TermsPage() {
 
           <div className="max-w-[680px]">
             {SECTIONS.map(s => (
-              <section key={s.id} id={s.id} className="mb-10">
-                <h2 className="text-xl font-black text-gray-900 mb-4">{s.title}</h2>
+              <section key={s.id} id={s.id} className="mb-10 scroll-mt-36">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
                   <p key={i} className="text-md text-gray-700 leading-[1.9] mb-3">{p}</p>
                 ))}

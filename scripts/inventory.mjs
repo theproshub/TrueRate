@@ -68,7 +68,7 @@ async function main() {
   } else {
     const stats = await Promise.all(
       (series ?? []).map(async (s) => {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('macro_values')
           .select('date', { count: 'exact' })
           .eq('series_id', s.id)

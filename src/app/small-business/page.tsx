@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function SmallBusinessPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Entrepreneurship' }]} />
 
       {/* Two-column layout */}

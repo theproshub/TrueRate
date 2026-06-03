@@ -18,7 +18,7 @@ export default function SportsNetworkRail({ items }: { items: Story[] }) {
           <li key={s.href} className="border-b border-white/[0.06] last:border-0">
             <Link
               href={s.href}
-              className="group flex items-start gap-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-start gap-3 py-3 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
             >
 <div className="shrink-0 overflow-hidden">
                 <NewsThumbnail category={s.category} className="h-[56px] w-[80px]" />

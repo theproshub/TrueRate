@@ -29,7 +29,7 @@ function H2({ children }: { children: React.ReactNode }) {
 export default function BroadcastRightsPage() {
   return (
     <div className="bg-white min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Broadcast Rights' }]} />
 
@@ -76,7 +76,7 @@ export default function BroadcastRightsPage() {
           <div>
             <H2>Open tender</H2>
             <p className="text-2xs uppercase tracking-wide text-red-700 mb-2">Opens in</p>
-            <p className="text-[44px] font-bold text-gray-900 tabular-nums leading-none">
+            <p className="text-stat-xl font-bold text-gray-900 tabular-nums leading-none">
               {BROADCAST_TENDER.daysOut}<span className="text-xl font-semibold text-gray-500 ml-2">days</span>
             </p>
             <p className="text-sm text-gray-500 mt-1">{BROADCAST_TENDER.opensOn}</p>
@@ -105,8 +105,8 @@ export default function BroadcastRightsPage() {
               ].map(s => (
                 <div key={s.label} className="px-4 py-3">
                   <dt className="text-xs text-gray-500 mb-1">{s.label}</dt>
-                  <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{s.value}</dd>
-                  {s.delta && <p className={`mt-0.5 text-sm tabular-nums ${s.up ? 'text-emerald-700' : 'text-gray-500'}`}>{s.up ? '+' : ''}{s.delta}</p>}
+                  <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{s.value}</dd>
+                  {s.delta && <p className={`mt-0.5 text-sm tabular-nums ${s.up ? 'text-pos' : 'text-gray-500'}`}>{s.up ? '+' : ''}{s.delta}</p>}
                 </div>
               ))}
             </dl>
@@ -125,7 +125,7 @@ export default function BroadcastRightsPage() {
             {BROADCAST_ECONOMICS.map(m => (
               <div key={m.label} className="px-4 py-3">
                 <dt className="text-xs text-gray-500 mb-1">{m.label}</dt>
-                <dd className="text-[20px] font-bold text-gray-900 tabular-nums">{m.value}</dd>
+                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{m.value}</dd>
                 <p className="text-xs text-gray-400 mt-0.5">{m.sub}</p>
               </div>
             ))}

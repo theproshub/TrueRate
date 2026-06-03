@@ -11,12 +11,12 @@ export default function LeagueNavStrip() {
       aria-label="Sport leagues"
       className="bg-brand-dark border-b border-white/[0.08] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
-      <div className="mx-auto max-w-[1320px] px-2 sm:px-4 flex items-center gap-0">
+      <div className="mx-auto max-w-container px-2 sm:px-4 flex items-center gap-0">
         {LEAGUE_NAV.map(item => (
           <Link
             key={item.href}
             href={item.href}
-            className="whitespace-nowrap px-3 sm:px-4 py-2.5 text-sm sm:text-base font-semibold text-gray-300 hover:text-lime-400 transition-colors no-underline focus-visible:outline-none focus-visible:text-lime-400 focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+            className="whitespace-nowrap px-3 sm:px-4 py-2.5 text-sm sm:text-base font-semibold text-gray-300 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:text-brand-accent focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
           >
             {item.label}
           </Link>

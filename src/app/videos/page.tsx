@@ -127,7 +127,7 @@ function VideoCard({ title, duration, category, source, time, youtubeId }: { tit
 
 export default function VideosPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
 
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
@@ -151,7 +151,7 @@ export default function VideosPage() {
               {HERO.duration}
             </span>
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h1 className="text-xl sm:text-2xl font-black leading-[1.2] tracking-tight text-white mb-2 line-clamp-2">{HERO.title}</h1>
+              <h1 className="text-xl sm:text-2xl font-bold leading-[1.2] tracking-tight text-white mb-2 line-clamp-2">{HERO.title}</h1>
               <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-semibold text-white/70">{HERO.source}</span>
@@ -227,7 +227,7 @@ export default function VideosPage() {
 
       {/* ── TrueRate Finance Network (Podcasts) — play inline ── */}
       <section className="mb-10 -mx-4 px-4 py-8 bg-white/[0.02] border-y border-white/[0.05]" aria-labelledby="videos-podcasts">
-        <div className="max-w-[1320px]">
+        <div className="max-w-container">
           <SectionHeader title="TrueRate Finance Network" sub="Podcasts on entrepreneurship, investing, leadership & technology" href={CHANNEL_URL} label="All episodes ›" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {PODCASTS.map((pod, i) => (

@@ -38,7 +38,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
               {featured.duration}
             </span>
           </PlayableVideo>
-          <h3 className="text-md lg:text-2xl font-black leading-[1.25] lg:leading-[1.2] tracking-tight text-white mb-2 lg:mb-3 line-clamp-2">
+          <h3 className="text-md lg:text-2xl font-bold leading-[1.25] lg:leading-[1.2] tracking-tight text-white mb-2 lg:mb-3 line-clamp-2">
             {featured.title}
           </h3>
           {featured.description && (

@@ -29,7 +29,7 @@ const CHECKBOX_LABEL =
 const CHECKBOX =
   'mt-0.5 h-4 w-4 shrink-0 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
 const SAVE_BUTTON =
-  'rounded-lg bg-[#6001d2] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#490099] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
 
 export default async function TagsEditor({ articleId }: TagsEditorProps) {
   const supabase = await createClient();

@@ -212,7 +212,7 @@ export default function SearchBox({
                   <span className={`text-sm font-medium ${isLight ? 'text-gray-900' : 'text-white'}`}>{m.label}</span>
                   <span className="flex items-center gap-2 tabular-nums">
                     <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-gray-300'}`}>{m.value}</span>
-                    <span className={`text-2xs font-semibold ${m.up ? 'text-emerald-500' : 'text-red-500'}`}>{m.pct}</span>
+                    <span className={`text-2xs font-semibold ${m.up ? 'text-pos' : 'text-neg'}`}>{m.pct}</span>
                   </span>
                 </button>
               ))}
@@ -224,7 +224,7 @@ export default function SearchBox({
             type="button"
             onClick={submit}
             className={`flex w-full items-center gap-2 border-t mt-1 px-4 py-2.5 text-left text-sm font-medium transition-colors ${
-              isLight ? 'border-gray-100 text-emerald-700 hover:bg-gray-100' : 'border-white/[0.06] text-brand-accent hover:bg-white/[0.06]'
+              isLight ? 'border-gray-100 text-brand-accent-ink hover:bg-gray-100' : 'border-white/[0.06] text-brand-accent hover:bg-white/[0.06]'
             }`}
           >
             Search for &ldquo;{query.trim()}&rdquo; →

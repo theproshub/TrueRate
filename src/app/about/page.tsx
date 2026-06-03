@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import TableOfContents from './_TableOfContents';
 
 export const metadata: Metadata = {
   title: 'About',
   alternates: { canonical: '/about' },
-  description: "Why we built TrueRate: covering business, investing, technology, entrepreneurship, leadership and lifestyle across Liberia.",
+  description: "Why we built TrueRate: trusted financial news, market data, and economic intelligence for Liberia — covering markets, the economy, business, banking, personal finance, and technology.",
 };
+
+const focusRing =
+  'focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none focus-visible:rounded-sm';
 
 export default function AboutPage() {
   return (
@@ -14,27 +18,27 @@ export default function AboutPage() {
       {/* Hero */}
       <div className="border-b border-gray-200">
         <div className="mx-auto max-w-[1100px] px-6 sm:px-10 pt-8 pb-10">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">About TrueRate</p>
-          <h1 className="text-3xl sm:text-3xl font-black leading-[1.05] tracking-tight text-gray-900 max-w-[780px] mb-6">
-            We built TrueRate because Liberia&apos;s business story wasn&apos;t being told.
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">About TrueRate</p>
+          <h1 className="text-3xl sm:text-4xl font-bold leading-[1.05] tracking-tight text-gray-900 max-w-[780px] mb-6">
+            We built TrueRate because Liberia&apos;s economy deserves financial data it can trust.
           </h1>
-          <p className="text-lg text-gray-500 leading-[1.8] max-w-[600px] mb-8">
-            Every day, deals close, markets move, and companies grow — and most of it goes unreported. TrueRate covers business, investing, technology, entrepreneurship, leadership, and lifestyle across Liberia.
+          <p className="text-lg text-gray-600 leading-[1.8] max-w-[600px] mb-8">
+            TrueRate is a financial news, markets, and economic intelligence platform for Liberia. We bring together reporting, live market data, and economic analysis to help people make better-informed decisions — and to build the country&apos;s most trusted source for financial information.
           </p>
-          <div className="flex flex-wrap gap-x-10 gap-y-4 border-t border-gray-100 pt-7">
+          <dl className="flex flex-wrap gap-x-10 gap-y-4 border-t border-gray-100 pt-7">
             {[
               { label: 'Founded',  value: '2026' },
               { label: 'Based in', value: 'Monrovia, Liberia' },
-              { label: 'Coverage', value: '6 verticals' },
-              { label: 'Access',   value: 'Free, always' },
+              { label: 'Coverage', value: '7 sections' },
+              { label: 'Access',   value: 'Free to read' },
               { label: 'Founder',  value: 'Moses Julian Sackey' },
             ].map(({ label, value }) => (
               <div key={label}>
-                <p className="text-xs text-gray-400 mb-0.5 uppercase tracking-wide">{label}</p>
-                <p className="text-md font-bold text-gray-900">{value}</p>
+                <dt className="text-xs text-gray-500 mb-0.5 uppercase tracking-wide">{label}</dt>
+                <dd className="text-md font-bold text-gray-900">{value}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       </div>
 
@@ -43,39 +47,24 @@ export default function AboutPage() {
 
         {/* Sticky sidebar */}
         <aside className="hidden lg:block">
-          <div className="sticky top-6 space-y-5">
+          <div className="sticky top-36 space-y-5">
 
-            <div>
-              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
-              <ul className="space-y-1">
-                {[
-                  { label: 'Our Story',      id: 'our-story'  },
-                  { label: 'What We Cover',  id: 'coverage'   },
-                  { label: 'Our Standards',  id: 'standards'  },
-                  { label: 'Disclaimer',     id: 'disclaimer' },
-                ].map(({ label, id }) => (
-                  <li key={id}>
-                    <a href={`#${id}`} className="flex items-center gap-2 py-1.5 text-base text-gray-400 hover:text-gray-900 transition-colors no-underline group">
-                      <span className="w-3 h-px bg-gray-300 group-hover:bg-gray-900 group-hover:w-5 transition-all duration-200" />
-                      {label}
-                    </a>
-                  </li>
+            <TableOfContents />
+
+            <div className="border-t border-gray-100 pt-5">
+              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-4">Get in touch</p>
+              <Link href="/feedback" className={`block text-base text-gray-600 hover:text-brand-accent-ink transition-colors no-underline py-1.5 ${focusRing}`}>Send feedback →</Link>
+              <Link href="/help" className={`block text-base text-gray-600 hover:text-brand-accent-ink transition-colors no-underline py-1.5 ${focusRing}`}>Help center →</Link>
+              <Link href="/about/ads" className={`block text-base text-gray-600 hover:text-brand-accent-ink transition-colors no-underline py-1.5 ${focusRing}`}>Advertise with us →</Link>
+            </div>
+
+            <div className="border-t border-gray-100 pt-5">
+              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">Data sources</p>
+              <ul>
+                {['Central Bank of Liberia', 'LISGIS', 'Ministry of Finance (MFDP)', 'World Bank', 'IMF', 'Stooq'].map(s => (
+                  <li key={s} className="text-sm text-gray-600 mb-1.5">{s}</li>
                 ))}
               </ul>
-            </div>
-
-            <div className="border-t border-gray-100 pt-5">
-              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-4">Get in touch</p>
-              <Link href="/feedback" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Send feedback →</Link>
-              <Link href="/help" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Help center →</Link>
-              <Link href="/about" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline">Advertise with us →</Link>
-            </div>
-
-            <div className="border-t border-gray-100 pt-5">
-              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">Data sources</p>
-              {['Central Bank of Liberia', 'World Bank', 'IMF', 'Ghana Stock Exchange', 'BRVM', 'Reuters'].map(s => (
-                <p key={s} className="text-sm text-gray-400 mb-1.5">{s}</p>
-              ))}
             </div>
 
           </div>
@@ -84,89 +73,93 @@ export default function AboutPage() {
         {/* Content */}
         <div className="max-w-[680px]">
 
-          <section id="our-story" className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-6">Our Story</p>
+          <section id="our-story" className="mb-10 scroll-mt-36">
+            <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-6">Our Story</h2>
             <p className="text-lg text-gray-800 leading-[1.9] mb-5">
-              TrueRate was founded by <span className="font-bold text-gray-900">Moses Julian Sackey</span> with one conviction: Liberia&apos;s economy deserves serious, independent coverage. Companies are raising capital, deals are closing, markets are moving — and most of it goes unreported.
+              TrueRate was founded by <span className="font-bold text-gray-900">Moses Julian Sackey</span> with one conviction: Liberia&apos;s economy deserves accurate, independent, and accessible financial information. Markets move, prices change, and policy decisions affect millions of people — yet most of it goes unreported or is hard to find in one trustworthy place.
             </p>
             <p className="text-lg text-gray-700 leading-[1.9] mb-5">
-              There is no shortage of things happening in Liberia. Entrepreneurs are building businesses. Investors are looking at the region. Policymakers are making decisions that affect millions of people. What has been missing is a media organisation willing to cover it properly — not press releases, not wire copy, not aggregated headlines from international outlets that barely know Liberia exists.
+              Our mission is to improve financial literacy, economic understanding, and access to reliable information across Liberia. We follow the principles of the publications we admire — Bloomberg, Reuters, the Financial Times, and Yahoo Finance — and adapt them for Liberia and, over time, West Africa. Every story aims to answer four questions: what happened, why it matters, who is affected, and what happens next.
             </p>
             <p className="text-lg text-gray-700 leading-[1.9]">
-              We built TrueRate to close that gap. Original journalism. Real-time market data. Coverage built for people who have something at stake in how Liberia&apos;s economy develops.
+              We&apos;re building TrueRate in stages: trustworthy reporting first, then live market data, company and economic intelligence, and research tools. The long-term goal isn&apos;t traffic — it&apos;s trust. We want professionals, investors, entrepreneurs, students, and policymakers to reach for TrueRate first when they need to understand Liberia&apos;s economy.
             </p>
           </section>
 
-          <section id="coverage" className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-8">What We Cover</p>
+          <section id="coverage" className="mb-10 scroll-mt-36">
+            <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-8">What We Cover</h2>
             <div className="divide-y divide-gray-100">
               {[
                 {
-                  title: 'Business',
-                  desc: "Corporate earnings, deals, company news, and the people running Liberia's largest organisations. From ArcelorMittal to the SMEs growing out of Paynesville.",
+                  title: 'Markets',
+                  desc: "Exchange rates, commodities, and investments. The USD/LRD rate, iron ore, gold, rubber, and palm oil — the numbers that matter to anyone with money moving in or out of Liberia. Market data is pulled live from primary sources, never estimated.",
                 },
                 {
-                  title: 'Investing',
-                  desc: "LRD/USD rates, CBL policy, market data for rubber, iron ore, gold, and palm oil. The numbers that matter to anyone with money moving in or out of Liberia.",
+                  title: 'Economy',
+                  desc: "Inflation, GDP, employment, trade, government spending, and economic policy. The CBL policy rate, public debt, and what Liberia's dual-currency economy means for everyday prices.",
+                },
+                {
+                  title: 'Business',
+                  desc: "Companies, deals, corporate developments, and the people running Liberia's organisations — from ArcelorMittal and the major banks to the SMEs growing out of Paynesville.",
+                },
+                {
+                  title: 'Banking & Finance',
+                  desc: "Banks, fintech, mobile money, insurance, and regulation. Ecobank, UBA, and GTBank; MTN and Orange mobile money; and the CBL's instant-payment system connecting them.",
+                },
+                {
+                  title: 'Personal Finance',
+                  desc: "Saving, budgeting, debt, and investing — explained plainly. Practical financial education that helps ordinary readers make better decisions with their money.",
                 },
                 {
                   title: 'Technology',
-                  desc: "Fintech, mobile money, digital infrastructure. What's changing in how Liberians transact, communicate, and build — and where the real opportunities are.",
+                  desc: "Innovation, digital infrastructure, AI, and fintech. What's changing in how Liberians transact, communicate, and build — and where the real opportunities are.",
                 },
                 {
-                  title: 'Entrepreneurship',
-                  desc: "Founders, small business owners, and the capital flowing into Liberia's private sector. Who is building, how they are doing it, and what they need to go further.",
-                },
-                {
-                  title: 'Leadership',
-                  desc: "The executives, ministers, and decision-makers whose choices shape what happens next. Interviews, profiles, and accountability reporting.",
-                },
-                {
-                  title: 'Lifestyle',
-                  desc: "Sports, culture, and the side of Liberia that doesn't show up in GDP figures but matters deeply to how people actually live.",
+                  title: 'Interviews',
+                  desc: "Business leaders, entrepreneurs, policymakers, and economists. Conversations that seek facts, context, and accountability — not promotion disguised as reporting.",
                 },
               ].map(({ title, desc }) => (
                 <div key={title} className="py-6 grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-3">
-                  <p className="text-md font-bold text-gray-900 pt-0.5">{title}</p>
-                  <p className="text-md text-gray-500 leading-[1.8]">{desc}</p>
+                  <h3 className="text-md font-bold text-gray-900 pt-0.5">{title}</h3>
+                  <p className="text-md text-gray-600 leading-[1.8]">{desc}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          <section id="standards" className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-6">Our Standards</p>
+          <section id="standards" className="mb-10 scroll-mt-36">
+            <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-6">Our Standards</h2>
             <p className="text-lg text-gray-700 leading-[1.9] mb-5">
-              Market data is sourced from the Central Bank of Liberia, World Bank, IMF, Ghana Stock Exchange, BRVM, and licensed data providers. Where data is estimated, we say so.
+              Facts come before speed. Market data is pulled live from licensed providers, and never AI-generated. Economic figures are drawn from primary sources — the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF — which always outrank aggregators. We verify names, figures, and quotations before publishing; where a number is an estimate or sources disagree, we say so.
             </p>
             <p className="text-lg text-gray-700 leading-[1.9] mb-5">
-              Our editorial operation is independent. Advertisers have no influence over what we report or how we report it. When we get something wrong, we correct it publicly and explain what happened.
+              Our editorial operation is independent of commercial interests. Advertisers have no influence over what we report, and any sponsored content is clearly labelled and kept separate from editorial. When we get something wrong, we correct it promptly and transparently, and explain what happened.
             </p>
             <p className="text-lg text-gray-700 leading-[1.9]">
-              We follow the West Africa Journalists Association code of ethics. Sources are protected without exception. We do not publish unverified claims, and we do not accept payment for coverage.
+              We do not fabricate quotes or publish unverified claims about named people or companies. AI may assist with research, drafting, and data analysis, but every story is held to the same standard and reviewed by a person before it is published.
             </p>
           </section>
 
-          <section id="disclaimer" className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Disclaimer</p>
-            <p className="text-md text-gray-400 leading-[1.85]">
-              TrueRate publishes financial and market information for informational purposes only. Nothing on this platform constitutes investment advice, financial advice, or a recommendation to buy or sell any asset. Always consult a licensed financial adviser before making any investment decision. TrueRate is not responsible for decisions made based on content published on this platform.
+          <section id="disclaimer" className="mb-10 scroll-mt-36">
+            <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">Disclaimer</h2>
+            <p className="text-md text-gray-600 leading-[1.85]">
+              TrueRate publishes financial and market information for informational purposes only. Nothing on this platform constitutes financial, investment, legal, or tax advice, or a recommendation to buy, sell, or hold any asset. Market rates are indicative, may differ from rates offered by banks or exchanges, and should be verified independently. Always consult a qualified professional before making any financial decision. TrueRate is not responsible for decisions made based on content published on this platform.
             </p>
           </section>
 
-          <div className="border-t border-gray-100 pt-5 flex flex-wrap gap-x-8 gap-y-3">
+          <nav aria-label="More about TrueRate" className="border-t border-gray-100 pt-5 flex flex-wrap gap-x-8 gap-y-3">
             {[
               { label: 'Help Center',      href: '/help' },
               { label: 'Send Feedback',    href: '/feedback' },
-              { label: 'Advertise',        href: '/about' },
-              { label: 'Privacy Policy',   href: '/about' },
-              { label: 'Terms of Service', href: '/about' },
+              { label: 'Advertise',        href: '/about/ads' },
+              { label: 'Privacy Policy',   href: '/about/privacy' },
+              { label: 'Terms of Service', href: '/about/terms' },
             ].map(l => (
-              <Link key={l.label} href={l.href} className="text-base text-gray-400 no-underline hover:text-gray-900 transition-colors">
+              <Link key={l.label} href={l.href} className={`text-base text-gray-600 no-underline hover:text-brand-accent-ink transition-colors py-1 ${focusRing}`}>
                 {l.label}
               </Link>
             ))}
-          </div>
+          </nav>
 
         </div>
       </div>

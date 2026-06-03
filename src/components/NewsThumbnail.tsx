@@ -12,9 +12,9 @@ function StoryImage({ src }: { src: string }) {
 /* eslint-enable @next/next/no-img-element */
 
 /** Small/medium news thumbnail — real photo when the story has one, else a category gradient */
-export function NewsThumbnail({ category, className, id }: { category: string; className: string; id?: string }) {
+export function NewsThumbnail({ category, className, id, src }: { category: string; className: string; id?: string; src?: string | null }) {
   const s = getCatStyle(category);
-  const photo = storyPhoto(id);
+  const photo = src ?? storyPhoto(id);
   return (
     <div className={`relative overflow-hidden flex items-center justify-center ${s.bg} ${className}`}>
       {photo ? (
@@ -35,9 +35,9 @@ export function NewsThumbnail({ category, className, id }: { category: string; c
 }
 
 /** Large hero visual — real photo when the story has one, else a category gradient */
-export function HeroVisual({ category, className = '', id }: { category: string; className?: string; id?: string }) {
+export function HeroVisual({ category, className = '', id, src }: { category: string; className?: string; id?: string; src?: string | null }) {
   const s = getCatStyle(category);
-  const photo = storyPhoto(id);
+  const photo = src ?? storyPhoto(id);
   if (photo) {
     return (
       <div className={`w-full relative overflow-hidden ${s.bg} ${className}`}>

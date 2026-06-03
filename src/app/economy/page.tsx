@@ -87,7 +87,7 @@ export default async function EconomyPage() {
   const grid = articles.slice(6, 13);
 
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
       <h1 className="sr-only">Economy — TrueRate</h1>
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Economy' }]} />
 
@@ -144,7 +144,7 @@ export default async function EconomyPage() {
         <div className="mb-10 rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
           <p className="text-base text-gray-400">
             No economy stories published yet.{' '}
-            <Link href="/admin/articles/new" className="text-emerald-400 no-underline hover:text-emerald-300">
+            <Link href="/admin/articles/new" className="text-brand-accent no-underline hover:text-brand-accent-hover">
               Publish one
             </Link>{' '}
             to populate this page.
@@ -206,7 +206,7 @@ export default async function EconomyPage() {
                         <dd className="flex items-center gap-2">
                           <span className="text-base font-bold text-white tabular-nums">{formatIndicatorValue(ind)}</span>
                           {change && (
-                            <span className={`text-xs font-semibold ${up ? 'text-emerald-500' : 'text-red-400'}`}>{change}</span>
+                            <span className={`text-xs font-semibold ${up ? 'text-pos' : 'text-neg'}`}>{change}</span>
                           )}
                         </dd>
                       </div>

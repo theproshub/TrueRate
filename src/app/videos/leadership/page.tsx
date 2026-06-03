@@ -51,7 +51,7 @@ function PlayIcon() {
 
 export default function VideosLeadershipPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Videos', href: '/videos' }, { label: 'Leadership' }]} />
       </div>
@@ -68,7 +68,7 @@ export default function VideosLeadershipPage() {
           <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
           <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
           <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-            <h2 className="text-sm sm:text-2xl font-black leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+            <h2 className="text-sm sm:text-2xl font-bold leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
             <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
             <div className="flex items-center gap-2 text-sm">
               <span className="font-semibold text-white/70">{HERO.source}</span>

@@ -55,7 +55,7 @@ export default function Footer() {
   return (
     <footer className="mt-4 sm:mt-10 border-t border-white/[0.06] bg-brand-dark">
 
-      <div className="mx-auto max-w-[1320px] px-4 py-5">
+      <div className="mx-auto max-w-container px-4 py-5">
         <div className="flex flex-col gap-5 sm:flex-row sm:gap-8">
 
           {/* Left: logo + copyright + socials (column 1 of the footer grid) */}
@@ -128,7 +128,7 @@ export default function Footer() {
             ))}
           </div>
           <Text variant="meta">Copyright © 2026 TrueRate. All rights reserved. · Not investment advice</Text>
-          <Text variant="caption" className="mt-1 text-gray-400">Data: Central Bank of Liberia · World Bank · IMF · Ghana Stock Exchange · BRVM · TrueRate Research</Text>
+          <Text variant="caption" className="mt-1 text-gray-400">Data: Central Bank of Liberia · LISGIS · World Bank · IMF · Stooq · TrueRate Research</Text>
         </div>
 
       </div>

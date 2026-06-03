@@ -29,7 +29,7 @@ function MarketsMini() {
             <span className="text-sm font-semibold text-white">{row.ticker}</span>
             <span className="flex items-baseline gap-2">
               <span className="text-sm font-bold tabular-nums text-white">{row.value}</span>
-              <span className={`text-xs font-semibold tabular-nums ${row.up ? 'text-emerald-400' : 'text-red-400'}`}>
+              <span className={`text-xs font-semibold tabular-nums ${row.up ? 'text-pos' : 'text-neg'}`}>
                 {row.change}
               </span>
             </span>
@@ -62,7 +62,7 @@ function TopGainersPanel() {
         {TOP_GAINERS.map((g, i) => (
           <li key={i} className="flex items-baseline justify-between py-2 first:pt-0 last:pb-0 gap-3">
             <span className="text-sm font-semibold text-white/85">{g.label}</span>
-            <span className="text-xs font-bold tabular-nums text-emerald-400 shrink-0">{g.change}</span>
+            <span className="text-xs font-bold tabular-nums text-pos shrink-0">{g.change}</span>
           </li>
         ))}
       </ul>

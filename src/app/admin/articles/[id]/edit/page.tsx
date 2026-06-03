@@ -42,7 +42,7 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
   return (
     <section aria-labelledby="edit-article-heading">
       <header className="mb-6">
-        <h1 id="edit-article-heading" className="text-2xl font-black tracking-tight text-white">
+        <h1 id="edit-article-heading" className="text-2xl font-bold tracking-tight text-white">
           Edit article
         </h1>
         <p className="mt-1 text-sm text-gray-400">
@@ -68,7 +68,7 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
       <div className="my-10 border-t border-white/[0.07]" />
 
       <header className="mb-6">
-        <h2 className="text-xl font-black tracking-tight text-white">Tags</h2>
+        <h2 className="text-xl font-bold tracking-tight text-white">Tags</h2>
         <p className="mt-1 text-sm text-gray-400">
           Link this article to the macro indicators and symbols it discusses. Tags drive
           related-news widgets on indicator and symbol pages.

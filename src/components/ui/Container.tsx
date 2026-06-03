@@ -9,14 +9,14 @@ type Props = {
 
 /**
  * Top-level page wrapper — max-w matches --container-max-w (1320px), centred,
- * with consistent horizontal padding. Use this instead of raw max-w-[1320px].
+ * with consistent horizontal padding. Use this instead of raw max-w-container.
  */
 export function Container({ children, padded = false, className = '' }: Props) {
   return (
     <div
       className={[
         'w-full mx-auto px-4 sm:px-6',
-        'max-w-[1320px]',
+        'max-w-container',
         padded ? 'py-6' : '',
         className,
       ]

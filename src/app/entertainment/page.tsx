@@ -61,7 +61,7 @@ const UPCOMING = [
 export default function EntertainmentPage() {
   return (
     <main className="bg-white min-h-screen">
-      <div className="mx-auto max-w-[1320px] px-4 py-6">
+      <div className="mx-auto max-w-container px-4 py-6">
 
         {/* Breadcrumb + tabs */}
         <div className="mb-6">
@@ -85,7 +85,7 @@ export default function EntertainmentPage() {
                     {HERO.category}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
                   {HERO.title}
                 </h1>
                 <p className="text-md leading-relaxed text-gray-600 line-clamp-3 mb-4">{HERO.summary}</p>
@@ -151,7 +151,7 @@ export default function EntertainmentPage() {
                         <td className="py-3 font-bold text-gray-900 pr-4">{r.title}</td>
                         <td className="py-3 text-2xs font-bold uppercase tracking-wide text-gray-500 pr-4">{r.type}</td>
                         <td className="py-3 text-gray-600 pr-4">{r.creator}</td>
-                        <td className="tabular-nums py-3 text-right font-bold text-emerald-700 pr-4">{r.release}</td>
+                        <td className="tabular-nums py-3 text-right font-bold text-brand-accent-ink pr-4">{r.release}</td>
                         <td className="hidden sm:table-cell py-3 text-gray-500 text-sm">{r.platform}</td>
                       </tr>
                     ))}
@@ -178,7 +178,7 @@ export default function EntertainmentPage() {
                       <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <h3 className="text-[13.5px] sm:text-sm font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                      <h3 className="text-base sm:text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                         {item.title}
                       </h3>
                       <p className="hidden sm:block text-base leading-relaxed text-gray-600 line-clamp-2 mb-2">{item.summary}</p>
@@ -211,7 +211,7 @@ export default function EntertainmentPage() {
                     { title: "Lib Wave confirms Davido, Tems, Stonebwoy for July 27",                            tag: 'Music' },
                   ].map((t, i) => (
                     <li key={i} className="py-2.5 first:pt-0">
-                      <Link href="/news" className="text-sm font-medium text-gray-700 hover:text-emerald-700 transition-colors no-underline line-clamp-2 leading-snug block">
+                      <Link href="/news" className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                         <span className="font-bold uppercase text-2xs tracking-wide mr-1.5 text-gray-400">{t.tag}</span>
                         {t.title}
                       </Link>
@@ -226,7 +226,7 @@ export default function EntertainmentPage() {
                 <div className="flex flex-col divide-y divide-gray-100">
                   {UPCOMING.map((ev, i) => (
                     <div key={i} className="py-2.5 first:pt-0">
-                      <p className="text-xs font-semibold text-emerald-700 mb-0.5">{ev.date}</p>
+                      <p className="text-xs font-semibold text-brand-accent-ink mb-0.5">{ev.date}</p>
                       <p className="text-sm font-semibold text-gray-700 leading-snug">{ev.event}</p>
                     </div>
                   ))}

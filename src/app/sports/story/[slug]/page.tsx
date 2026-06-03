@@ -59,7 +59,7 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
 
   return (
     <div className="bg-brand-surface min-h-screen">
-      <main className="mx-auto max-w-[1320px] px-4 py-6">
+      <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb
           light
@@ -82,7 +82,7 @@ export default async function SportsStoryPage({ params }: { params: Promise<{ sl
                 {story.category}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black leading-tight text-gray-900 mb-4">
+              <h1 className="text-2xl sm:text-3xl font-bold leading-tight text-gray-900 mb-4">
                 {story.title}
               </h1>
 

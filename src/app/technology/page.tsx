@@ -52,7 +52,7 @@ const UPCOMING = [
 
 export default function TechnologyPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
 
       {/* Breadcrumb + tabs */}
       <div className="mb-6">
@@ -76,7 +76,7 @@ export default function TechnologyPage() {
                   {HERO.category}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-black leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
                 {HERO.title}
               </h2>
               <p className="text-md leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
@@ -136,7 +136,7 @@ export default function TechnologyPage() {
                     <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
                       {item.category}
                     </span>
-                    <h3 className="text-[13.5px] sm:text-sm font-black leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                    <h3 className="text-base sm:text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                       {item.title}
                     </h3>
                     <p className="hidden sm:block text-base leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>

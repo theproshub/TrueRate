@@ -52,7 +52,7 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
   return (
     <section aria-labelledby="categories-heading">
       {sp.ok && OK_NOTICE[sp.ok] && (
-        <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/[0.06] p-3 text-sm text-emerald-300">
+        <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-pos/30 bg-pos/[0.06] p-3 text-sm text-pos">
           {OK_NOTICE[sp.ok]}
         </div>
       )}
@@ -64,7 +64,7 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
 
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 id="categories-heading" className="text-2xl font-black tracking-tight text-white">
+          <h1 id="categories-heading" className="text-2xl font-bold tracking-tight text-white">
             Categories
           </h1>
           <p className="mt-1 text-sm text-gray-400">
@@ -75,7 +75,7 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/admin/categories/new"
-          className="rounded-lg bg-[#6001d2] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#490099] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
         >
           New category
         </Link>
@@ -130,7 +130,7 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
                       ) : (
                         <Link
                           href={`/admin/articles?category=${encodeURIComponent(c.slug)}`}
-                          className="text-emerald-400 no-underline hover:text-emerald-300"
+                          className="text-brand-accent no-underline hover:text-brand-accent-hover"
                         >
                           {articleCount}
                         </Link>
@@ -139,7 +139,7 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
                     <td className="px-5 py-3 text-right">
                       <Link
                         href={`/admin/categories/${c.id}/edit`}
-                        className="text-emerald-400 no-underline transition-colors hover:text-emerald-300 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                        className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                       >
                         Edit
                       </Link>

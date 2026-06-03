@@ -25,7 +25,7 @@ export default function VideoFeature() {
               className="absolute inset-0 w-full h-full"
             />
           </PlayableVideo>
-          <h3 className="text-md sm:text-xl font-black leading-[1.2] tracking-tight text-white mb-1.5">
+          <h3 className="text-md sm:text-xl font-bold leading-[1.2] tracking-tight text-white mb-1.5">
             {FEATURED_VIDEO.title}
           </h3>
           {FEATURED_VIDEO.dek && (

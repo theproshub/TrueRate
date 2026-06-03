@@ -11,8 +11,9 @@ const config: Config = {
     extend: {
       colors: {
         // ── Brand palette ──────────────────────────────────────────────────
-        'brand-accent':        '#BFEA36',   // Yellow-green — primary CTA, active states
+        'brand-accent':        '#BFEA36',   // Yellow-green — primary CTA, active states (dark surfaces)
         'brand-accent-hover':  '#a8d42a',   // CTA hover — one shade darker than accent
+        'brand-accent-ink':    '#4d7c0f',   // Dark lime — interactive accent on LIGHT surfaces (AA on white)
         'brand-dark':          '#050d11',   // Page background — near-black with dark azure undertone
         'brand-muted':         '#030a0e',   // Deeper dark — innermost header layer
         'brand-header':        '#061520',   // Header / nav background
@@ -43,7 +44,7 @@ const config: Config = {
         sans:       ['var(--font-inter)', 'Inter', 'sans-serif'],
         inter:      ['var(--font-inter)', 'Inter', 'sans-serif'],
         montserrat: ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
-        mono:       ['"Roboto Mono"', '"Courier New"', 'monospace'],  // financial figures
+        mono:       ['var(--font-roboto-mono)', '"Roboto Mono"', '"Courier New"', 'monospace'],  // financial figures
       },
       // ── Typography scale ────────────────────────────────────────────────
       // Every text size in the app maps to one of these named tiers.
@@ -60,12 +61,21 @@ const config: Config = {
         '3xl':  ['32px', { lineHeight: '1.125' }],  // h1 / hero
         '4xl':  ['32px', { lineHeight: '1.125' }],  // capped — do not exceed 32px
         '5xl':  ['32px', { lineHeight: '1.125' }],  // capped — do not exceed 32px
+        // Display figures — big tabular stat numbers (KPIs). Separate axis from body text.
+        'stat-sm': ['20px', { lineHeight: '1.15' }],
+        'stat-md': ['24px', { lineHeight: '1.1' }],
+        'stat-xl': ['44px', { lineHeight: '1' }],
       },
       // ── Spacing extensions ──────────────────────────────────────────────
       spacing: {
         'header':    '64px',   // top-header   — sticky offset matching header height
         'header-md': '100px',  // top-header-md — header + indicator strip
         'header-lg': '120px',  // top-header-lg — header + indicator strip + section nav
+      },
+      // ── Max width ───────────────────────────────────────────────────────
+      // Single source of truth for the page container width (mirrors --container-max-w).
+      maxWidth: {
+        container: '1320px',
       },
       // ── Border radius ───────────────────────────────────────────────────
       borderRadius: {

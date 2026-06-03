@@ -66,7 +66,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
   return (
     <section aria-labelledby="users-heading">
       {sp.ok && OK_NOTICE[sp.ok] && (
-        <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/[0.06] p-3 text-sm text-emerald-300">
+        <div role="status" aria-live="polite" className="mb-4 rounded-lg border border-pos/30 bg-pos/[0.06] p-3 text-sm text-pos">
           {OK_NOTICE[sp.ok]}
         </div>
       )}
@@ -77,7 +77,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
       )}
 
       <header className="mb-6">
-        <h1 id="users-heading" className="text-2xl font-black tracking-tight text-white">
+        <h1 id="users-heading" className="text-2xl font-bold tracking-tight text-white">
           Users
         </h1>
         <p className="mt-1 text-sm text-gray-400">
@@ -122,7 +122,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
                     </td>
                     <td className="px-5 py-3">
                       {u.isAdmin ? (
-                        <span className="rounded-full border border-emerald-500/30 bg-emerald-500/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-emerald-400">
+                        <span className="rounded-full border border-pos/30 bg-pos/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-pos">
                           Admin
                         </span>
                       ) : (
@@ -140,7 +140,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
                           className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent disabled:cursor-not-allowed disabled:opacity-40 ${
                             u.isAdmin
                               ? 'border-red-500/30 text-red-300 hover:bg-red-500/[0.08]'
-                              : 'border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/[0.08]'
+                              : 'border-pos/30 text-pos hover:bg-pos/[0.08]'
                           }`}
                         >
                           {u.isAdmin ? 'Revoke admin' : 'Make admin'}

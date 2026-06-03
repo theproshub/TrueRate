@@ -15,13 +15,13 @@ type Props = {
  */
 export default function StatCard({ label, value, delta, up, source }: Props) {
   const deltaClass =
-    up === true  ? 'text-lime-700' :
-    up === false ? 'text-red-700'     :
+    up === true  ? 'text-pos' :
+    up === false ? 'text-neg' :
     'text-gray-500';
   return (
     <div className="px-4 py-3">
       <Text variant="meta" className="text-gray-500 leading-snug mb-1">{label}</Text>
-      <p className="text-[20px] font-bold text-gray-900 tabular-nums leading-tight">{value}</p>
+      <p className="text-stat-sm font-bold text-gray-900 tabular-nums leading-tight">{value}</p>
       {delta && (
         <Text className={`mt-0.5 text-sm tabular-nums ${deltaClass}`}>{delta}</Text>
       )}

@@ -23,7 +23,7 @@ export default function SidebarFooter() {
               aria-label={s.label}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center h-7 w-7 rounded-full bg-gray-300 text-gray-900 hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="flex items-center justify-center h-7 w-7 rounded-full bg-gray-300 text-gray-900 hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
             >
               <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
                 <path d={s.path} />
@@ -36,11 +36,11 @@ export default function SidebarFooter() {
       {/* Attribution */}
       <Text variant="meta" className="leading-relaxed text-gray-500 mb-4">
         TrueRate Sports. Match data via{' '}
-        <a href="https://liberianfa.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-lime-400 transition-colors">
+        <a href="https://liberianfa.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-accent transition-colors">
           LFA
         </a>
         {' '}and{' '}
-        <a href="#" className="text-gray-400 hover:text-lime-400 transition-colors">
+        <a href="#" className="text-gray-400 hover:text-brand-accent transition-colors">
           LBA
         </a>
         . Diaspora coverage powered by TrueRate correspondents.
@@ -53,7 +53,7 @@ export default function SidebarFooter() {
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="text-sm text-gray-400 hover:text-white transition-colors no-underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-lime-500"
+                className="text-sm text-gray-400 hover:text-white transition-colors no-underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-accent"
               >
                 {l.label}
               </Link>

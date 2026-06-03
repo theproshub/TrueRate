@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
 
 function deltaClasses(direction?: Kpi['deltaDirection']): string {
   switch (direction) {
-    case 'up':   return 'text-emerald-700';
-    case 'down': return 'text-rose-600';
+    case 'up':   return 'text-pos';
+    case 'down': return 'text-neg';
     case 'flat': return 'text-gray-500';
     default:     return 'text-gray-500';
   }
@@ -43,7 +43,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
 
   return (
     <main className="bg-white min-h-screen">
-      <div className="mx-auto max-w-[1320px] px-4 py-6">
+      <div className="mx-auto max-w-container px-4 py-6">
         <div className="mb-6">
           <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Entertainment', href: '/entertainment' }, { label: topic.label }]} />
           <EntertainmentTopicTabs activeSlug={topic.slug} />
@@ -52,7 +52,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
         {showIntro && (
           <header className="mb-8">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Entertainment &middot; {topic.label}</p>
-            <h1 className="text-3xl sm:text-3xl font-black leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label} — the business behind it</h1>
+            <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label} — the business behind it</h1>
             <p className="text-md text-gray-600 leading-relaxed max-w-[720px]">{topic.blurb}</p>
           </header>
         )}
@@ -103,11 +103,11 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
                     </div>
                     <Link href="/news" className="no-underline group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-4 rounded">
                       {showIntro ? (
-                        <h2 className="text-2xl sm:text-3xl lg:text-3xl font-black leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
+                        <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
                           {content.hero.title}
                         </h2>
                       ) : (
-                        <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black leading-[1.05] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
+                        <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.05] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
                           {content.hero.title}
                         </h1>
                       )}
@@ -242,7 +242,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
                         <span className="text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block text-gray-500">
                           {item.category}
                         </span>
-                        <h3 className="text-[13.5px] sm:text-sm font-black leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                        <h3 className="text-base sm:text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                           {item.title}
                         </h3>
                         <p className="hidden sm:block text-base leading-relaxed text-gray-600 line-clamp-2 mb-2">{item.summary}</p>
@@ -268,7 +268,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
                   <ol className="flex flex-col divide-y divide-gray-100">
                     {content.mostRead.map((t, i) => (
                       <li key={i} className="py-2.5 first:pt-0">
-                        <Link href="/news" className="text-sm font-medium text-gray-700 hover:text-emerald-700 transition-colors no-underline line-clamp-2 leading-snug block">
+                        <Link href="/news" className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                           <span className="font-bold uppercase text-2xs tracking-wide mr-1.5 text-gray-400">{t.tag}</span>
                           {t.title}
                         </Link>
@@ -283,7 +283,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
                   <div className="flex flex-col divide-y divide-gray-100">
                     {content.calendar.map((ev, i) => (
                       <div key={i} className="py-2.5 first:pt-0">
-                        <p className="text-xs font-semibold text-emerald-700 mb-0.5">{ev.date}</p>
+                        <p className="text-xs font-semibold text-brand-accent-ink mb-0.5">{ev.date}</p>
                         <p className="text-sm font-semibold text-gray-700 leading-snug">{ev.event}</p>
                       </div>
                     ))}

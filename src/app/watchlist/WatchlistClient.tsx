@@ -1,87 +1,151 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useTransition, useMemo } from 'react';
 import Link from 'next/link';
-import { exchangeRates } from '@/data/exchangeRates';
-import { economicIndicators } from '@/data/economicIndicators';
-import { commodities } from '@/data/commodities';
-import { Heading, Text } from '@/components/ui';
+import { toggleWatchlistItem } from '@/app/analytics/watchlist-actions';
+import { formatValueWithUnit, formatPct, deltaColor, deltaArrow } from '@/lib/analytics/format';
+import type { AnalyticsItem } from '@/lib/analytics/types';
 
-type WatchedItem = { id: string; type: 'rate' | 'indicator' | 'commodity' };
-
-const STORAGE_KEY = 'truerate_watchlist';
-
-function loadWatched(): WatchedItem[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch { return []; }
+/** A slim, serializable projection passed from the server component. */
+export interface WatchRow {
+  id: string;
+  label: string;
+  name: string;
+  kind: 'currency' | 'commodity' | 'macro';
+  unit: string;
+  format: AnalyticsItem['format'];
+  current: number | null;
+  changePct: number | null;
 }
 
-function saveWatched(items: WatchedItem[]) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch { /* full */ }
+interface Props {
+  authed: boolean;
+  watched: WatchRow[];
+  /** Everything available to add, grouped for the picker. */
+  options: WatchRow[];
 }
 
-function ChangePill({ value, suffix = '%' }: { value: number; suffix?: string }) {
-  const up = value >= 0;
+const KIND_LABEL: Record<WatchRow['kind'], string> = {
+  currency: 'Currency',
+  commodity: 'Commodities',
+  macro: 'Macro',
+};
+const KIND_ORDER: WatchRow['kind'][] = ['currency', 'commodity', 'macro'];
+
+function fmtChange(r: WatchRow) {
+  return { text: formatPct(r.changePct), cls: deltaColor(r.changePct), arr: deltaArrow(r.changePct) };
+}
+
+function Row({
+  r,
+  onRemove,
+  pending,
+}: {
+  r: WatchRow;
+  onRemove: (id: string) => void;
+  pending: boolean;
+}) {
+  const c = fmtChange(r);
   return (
-    <span className={`inline-flex items-center gap-0.5 px-1.5 py-px text-2xs font-semibold tabular-nums ${up ? 'border border-emerald-700/30 bg-emerald-700/[0.08] text-emerald-700' : 'border border-red-400/30 bg-red-500/[0.08] text-red-400'}`}>
-      {up ? '▲' : '▼'} {Math.abs(value).toFixed(2)}{suffix}
-    </span>
+    <div className="flex items-center justify-between py-4">
+      <div className="min-w-0">
+        <div className="text-md font-bold text-white">{r.label}</div>
+        <div className="truncate text-xs text-gray-500">{r.name}</div>
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="text-right">
+          <div className="font-mono text-xl font-bold tabular-nums text-white">
+            {formatValueWithUnit(r.current, r)}
+            {r.kind === 'commodity' && r.unit && (
+              <span className="ml-1 text-sm font-normal text-gray-500">{r.unit}</span>
+            )}
+          </div>
+          <div className={`font-mono text-2xs font-semibold tabular-nums ${c.cls}`}>
+            {c.arr && <span className="mr-0.5">{c.arr}</span>}
+            {c.text}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => onRemove(r.id)}
+          disabled={pending}
+          aria-label={`Remove ${r.label} from watchlist`}
+          className="flex h-11 w-11 items-center justify-center rounded text-gray-600 transition-colors hover:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent disabled:opacity-40"
+        >
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
   );
 }
 
-function AddModal({ onAdd, existing, onClose }: {
-  onAdd: (item: WatchedItem) => void;
-  existing: WatchedItem[];
+function AddModal({
+  options,
+  watchedIds,
+  onToggle,
+  onClose,
+  pendingId,
+}: {
+  options: WatchRow[];
+  watchedIds: Set<string>;
+  onToggle: (id: string) => void;
   onClose: () => void;
+  pendingId: string | null;
 }) {
-  const [tab, setTab] = useState<'rate' | 'indicator' | 'commodity'>('rate');
-  const existingIds = new Set(existing.map(e => e.id));
-
-  const options = {
-    rate:      exchangeRates.map(r => ({ id: r.pair, label: r.pair, sub: `${r.rate.toFixed(4)} LRD` })),
-    indicator: economicIndicators.map(i => ({ id: i.name, label: i.name, sub: `${i.value} ${i.unit}` })),
-    commodity: commodities.map(c => ({ id: c.name, label: c.name, sub: `$${c.price} ${c.currency}${c.unit}` })),
-  };
+  const [tab, setTab] = useState<WatchRow['kind']>('currency');
+  const list = options.filter((o) => o.kind === tab);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Add to watchlist">
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} aria-hidden="true" />
       <div className="relative w-full max-w-md rounded-2xl border border-white/[0.08] bg-brand-card p-6 shadow-2xl">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-lg font-bold text-white">Add to Watchlist</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors">
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <button onClick={onClose} aria-label="Close" className="text-gray-500 transition-colors hover:text-white">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         <div className="mb-4 flex rounded-lg border border-white/[0.06] bg-white/[0.03] p-0.5">
-          {(['rate', 'indicator', 'commodity'] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)}
-              className={`flex-1 rounded-md py-1.5 text-sm font-semibold capitalize transition-colors ${tab === t ? 'bg-white/[0.10] text-white' : 'text-gray-500 hover:text-gray-300'}`}>
-              {t === 'rate' ? 'Rates' : t === 'indicator' ? 'Indicators' : 'Commodities'}
+          {KIND_ORDER.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`flex-1 rounded-md py-1.5 text-sm font-semibold transition-colors ${
+                tab === t ? 'bg-white/[0.10] text-white' : 'text-gray-500 hover:text-gray-300'
+              }`}
+            >
+              {KIND_LABEL[t]}
             </button>
           ))}
         </div>
 
-        <div className="max-h-64 overflow-y-auto space-y-1 pr-1">
-          {options[tab].map(opt => {
-            const already = existingIds.has(opt.id);
+        <div className="max-h-64 space-y-1 overflow-y-auto pr-1">
+          {list.map((opt) => {
+            const already = watchedIds.has(opt.id);
+            const isPending = pendingId === opt.id;
             return (
-              <button key={opt.id} disabled={already}
-                onClick={() => { onAdd({ id: opt.id, type: tab }); onClose(); }}
-                className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left transition-colors ${already ? 'cursor-default opacity-40' : 'hover:bg-white/[0.05] cursor-pointer'}`}>
-                <div>
+              <button
+                key={opt.id}
+                onClick={() => onToggle(opt.id)}
+                disabled={isPending}
+                className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-white/[0.05] disabled:opacity-50"
+              >
+                <div className="min-w-0">
                   <div className="text-base font-semibold text-white">{opt.label}</div>
-                  <div className="text-xs text-gray-500">{opt.sub}</div>
+                  <div className="truncate text-xs text-gray-500">{opt.name}</div>
                 </div>
-                {already
-                  ? <span className="text-2xs font-bold uppercase text-emerald-700">Watching</span>
-                  : <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
-                }
+                {already ? (
+                  <span className="text-2xs font-bold uppercase text-pos">Watching ✓</span>
+                ) : (
+                  <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                )}
               </button>
             );
           })}
@@ -91,166 +155,134 @@ function AddModal({ onAdd, existing, onClose }: {
   );
 }
 
-export default function WatchlistClient() {
-  const [watched, setWatched] = useState<WatchedItem[]>([]);
+export default function WatchlistClient({ authed, watched, options }: Props) {
+  const [items, setItems] = useState<WatchRow[]>(watched);
   const [showModal, setShowModal] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [, startTransition] = useTransition();
 
-  useEffect(() => {
-    setWatched(loadWatched());
-    setHydrated(true);
-  }, []);
+  const optionById = useMemo(() => new Map(options.map((o) => [o.id, o])), [options]);
+  const watchedIds = useMemo(() => new Set(items.map((i) => i.id)), [items]);
 
-  function addItem(item: WatchedItem) {
-    const next = [...watched, item];
-    setWatched(next);
-    saveWatched(next);
+  function toggle(id: string) {
+    const wasWatching = watchedIds.has(id);
+    // Optimistic update.
+    setItems((prev) =>
+      wasWatching ? prev.filter((i) => i.id !== id) : [...prev, optionById.get(id)!].filter(Boolean),
+    );
+    setPendingId(id);
+    startTransition(async () => {
+      const res = await toggleWatchlistItem(id);
+      setPendingId(null);
+      if (!res.ok) {
+        // Roll back on failure.
+        setItems((prev) =>
+          wasWatching ? [...prev, optionById.get(id)!].filter(Boolean) : prev.filter((i) => i.id !== id),
+        );
+      }
+    });
   }
 
-  function removeItem(id: string) {
-    const next = watched.filter(w => w.id !== id);
-    setWatched(next);
-    saveWatched(next);
-  }
-
-  if (!hydrated) {
+  // ── Signed out ──
+  if (!authed) {
     return (
-      <div className="space-y-4">
-        {[1, 2, 3].map(i => <div key={i} className="h-20 rounded-xl bg-white/[0.04] animate-pulse" />)}
+      <div className="mx-auto max-w-md rounded-2xl border border-dashed border-white/[0.10] bg-white/[0.02] p-8 text-center">
+        <h2 className="mb-1 text-lg font-bold text-white">Sign in to build your watchlist</h2>
+        <p className="mb-6 text-base text-gray-500">
+          Track exchange rates, commodities and macro indicators across devices. Your watchlist is saved to your account.
+        </p>
+        <div className="flex justify-center gap-3">
+          <Link
+            href="/sign-in?next=/watchlist"
+            className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark no-underline transition hover:brightness-90"
+          >
+            Sign in
+          </Link>
+          <Link
+            href="/sign-up?next=/watchlist"
+            className="rounded-lg border border-white/20 px-5 py-2.5 text-base font-semibold text-white no-underline transition hover:bg-white/[0.06]"
+          >
+            Create account
+          </Link>
+        </div>
       </div>
     );
   }
 
-  const watchedRates       = watched.filter(w => w.type === 'rate').map(w => exchangeRates.find(r => r.pair === w.id)).filter(Boolean);
-  const watchedIndicators  = watched.filter(w => w.type === 'indicator').map(w => economicIndicators.find(i => i.name === w.id)).filter(Boolean);
-  const watchedCommodities = watched.filter(w => w.type === 'commodity').map(w => commodities.find(c => c.name === w.id)).filter(Boolean);
-  const isEmpty = watched.length === 0;
+  const grouped = KIND_ORDER.map((k) => ({ kind: k, rows: items.filter((i) => i.kind === k) })).filter((g) => g.rows.length > 0);
+  const isEmpty = items.length === 0;
 
   return (
     <>
-      {showModal && <AddModal onAdd={addItem} existing={watched} onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <AddModal
+          options={options}
+          watchedIds={watchedIds}
+          onToggle={toggle}
+          onClose={() => setShowModal(false)}
+          pendingId={pendingId}
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-
-        {/* Main */}
-        <div className="lg:col-span-2 space-y-6">
-
-          {isEmpty && (
+        <div className="space-y-6 lg:col-span-2">
+          {isEmpty ? (
             <div className="rounded-2xl border border-dashed border-white/[0.10] bg-white/[0.02] p-8 text-center">
-              <div className="mb-3 text-5xl">📊</div>
               <h2 className="mb-1 text-lg font-bold text-white">Your watchlist is empty</h2>
-              <p className="mb-6 text-base text-gray-500">Add exchange rates, economic indicators, or commodities to track them here.</p>
-              <button onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-2 rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark hover:brightness-90 transition-colors">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+              <p className="mb-6 text-base text-gray-500">
+                Add exchange rates, commodities, or macro indicators to track them here.
+              </p>
+              <button
+                onClick={() => setShowModal(true)}
+                className="inline-flex items-center gap-2 rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark transition hover:brightness-90"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
                 Add your first item
               </button>
             </div>
-          )}
-
-          {watchedRates.length > 0 && (
-            <section>
-              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">Exchange Rates</h2>
-              <div className="divide-y divide-white/[0.05]">
-                {watchedRates.map(r => r && (
-                  <div key={r.pair} className="flex items-center justify-between py-4">
-                    <div>
-                      <div className="text-md font-bold text-white">{r.pair}</div>
-                      <div className="text-xs text-gray-500">LRD-denominated</div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="tabular-nums text-xl font-bold text-white">{r.rate.toFixed(4)}</div>
-                        <ChangePill value={r.changePercent} />
-                      </div>
-                      <button onClick={() => removeItem(r.pair)} className="text-gray-600 hover:text-red-400 transition-colors">
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {watchedIndicators.length > 0 && (
-            <section>
-              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">Economic Indicators</h2>
-              <div className="divide-y divide-white/[0.05]">
-                {watchedIndicators.map(ind => ind && (
-                  <div key={ind.name} className="flex items-center justify-between py-4">
-                    <div>
-                      <div className="text-md font-bold text-white">{ind.name}</div>
-                      <div className="text-xs text-gray-500">{ind.period} · {ind.source}</div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="tabular-nums text-xl font-bold text-white">{ind.value} <span className="text-sm font-normal text-gray-500">{ind.unit}</span></div>
-                        <ChangePill value={ind.changePercent} />
-                      </div>
-                      <button onClick={() => removeItem(ind.name)} className="text-gray-600 hover:text-red-400 transition-colors">
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {watchedCommodities.length > 0 && (
-            <section>
-              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">Commodities</h2>
-              <div className="divide-y divide-white/[0.05]">
-                {watchedCommodities.map(c => c && (
-                  <div key={c.name} className="flex items-center justify-between py-4">
-                    <div>
-                      <div className="text-md font-bold text-white">{c.name}</div>
-                      <div className="text-xs text-gray-500">per {c.unit} · {c.currency}</div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="tabular-nums text-xl font-bold text-white">{c.price.toFixed(2)}</div>
-                        <ChangePill value={c.changePercent} />
-                      </div>
-                      <button onClick={() => removeItem(c.name)} className="text-gray-600 hover:text-red-400 transition-colors">
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+          ) : (
+            grouped.map((g) => (
+              <section key={g.kind}>
+                <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-accent">
+                  {KIND_LABEL[g.kind]}
+                </h2>
+                <div className="divide-y divide-white/[0.05]">
+                  {g.rows.map((r) => (
+                    <Row key={r.id} r={r} onRemove={toggle} pending={pendingId === r.id} />
+                  ))}
+                </div>
+              </section>
+            ))
           )}
         </div>
 
-        {/* Sidebar */}
         <aside className="space-y-6">
-          <button onClick={() => setShowModal(true)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-base font-semibold text-gray-400 hover:border-brand-accent/50 hover:text-brand-accent transition-colors">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-base font-semibold text-gray-400 transition-colors hover:border-brand-accent/50 hover:text-brand-accent"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
             Add to watchlist
           </button>
 
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-4">Quick links</h3>
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-accent">Quick links</h3>
             <div className="divide-y divide-white/[0.05]">
               {[
+                { href: '/analytics', label: 'Trends & Analytics' },
                 { href: '/markets', label: 'Markets' },
                 { href: '/economy', label: 'Economy Dashboard' },
-                { href: '/news',    label: 'Latest News' },
-              ].map(l => (
-                <Link key={l.href} href={l.href} className="flex items-center justify-between py-3 text-base text-gray-400 hover:text-white transition-colors no-underline">
+              ].map((l) => (
+                <Link key={l.href} href={l.href} className="flex items-center justify-between py-3 text-base text-gray-400 no-underline transition-colors hover:text-white">
                   {l.label}
-                  <span className="text-gray-600">→</span>
+                  <span className="text-gray-600" aria-hidden="true">→</span>
                 </Link>
               ))}
             </div>
-          </div>
-
-          <div className="border-t border-white/[0.06] pt-6">
-            <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-2">Rate Alerts</h3>
-            <p className="text-sm text-gray-500 leading-relaxed">Get notified when LRD/USD moves past your threshold. Email and SMS alerts coming soon.</p>
           </div>
         </aside>
       </div>

@@ -28,7 +28,7 @@ const weightClass: Record<Weight, string> = {
   medium:   'font-medium',
   semibold: 'font-semibold',
   bold:     'font-bold',
-  black:    'font-black',
+  black:    'font-bold',
 };
 
 type Props = HTMLAttributes<HTMLHeadingElement> & {

@@ -8,17 +8,6 @@ import SearchBox from './SearchBox';
 import { Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
-const NEWS_TICKER = [
-  { category: 'Forex',           headline: 'LRD/USD holds at 192.50 — CBL intervenes to anchor exchange rate ahead of budget review' },
-  { category: 'Markets',         headline: 'Iron ore drops 2.1% on weak Chinese demand data — ArcelorMittal Liberia watching closely' },
-  { category: 'Policy',          headline: 'Finance Ministry sets Apr 14 for mid-year budget review as revenue shortfall widens' },
-  { category: 'Trade',           headline: 'Freeport of Monrovia posts strongest weekly throughput since 2021 following Phase II completion' },
-  { category: 'Mining',          headline: 'Bea Mountain confirms 1.4M oz high-grade deposit — Grand Cape Mount gold rush accelerates' },
-  { category: 'Economy',         headline: 'CBL gross reserves reach $642M, covering 4.3 months of imports — highest since 2013' },
-  { category: 'Energy',          headline: 'Private mini-grids add 48MW of solar capacity, powering 190,000 homes outside the national grid' },
-  { category: 'Capital Markets', headline: 'LiberAgro raises $12M in West Africa first cross-border IPO on Ghana Stock Exchange' },
-];
-
 
 /** Compact pills shown next to the search bar — top super-nav */
 const TOP_NAV: { label: string; href: string }[] = [
@@ -31,13 +20,15 @@ const TOP_NAV: { label: string; href: string }[] = [
 const SECTIONS_NAV: { label: string; href: string }[] = [
   { label: 'News',             href: '/news' },
   { label: 'Markets',          href: '/markets' },
+  { label: 'Analytics',        href: '/analytics' },
   { label: 'Economy',          href: '/economy' },
   { label: 'Technology',       href: '/technology' },
   { label: 'Entrepreneurship', href: '/small-business' },
   { label: 'Videos',           href: '/videos' },
 ];
 
-type PrimaryNavItem = { label: string; href: string; children?: { label: string; href: string }[] };
+type NavChild = { label: string; href?: string; heading?: boolean };
+type PrimaryNavItem = { label: string; href: string; children?: NavChild[] };
 
 /** Full nav used by mobile menu — everything in one flat list, no hidden items */
 const PRIMARY_NAV: PrimaryNavItem[] = [
@@ -46,6 +37,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     children: [
       { label: 'All News',        href: '/news' },
       { label: 'Markets',         href: '/markets' },
+      { label: 'Analytics',       href: '/analytics' },
       { label: 'Economy',         href: '/economy' },
       { label: 'Technology',      href: '/technology' },
       { label: 'Monetary Policy', href: '/economy/monetary-policy' },
@@ -83,6 +75,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     children: [
       { label: 'News',             href: '/news' },
       { label: 'Markets',          href: '/markets' },
+      { label: 'Analytics',        href: '/analytics' },
       { label: 'Economy',          href: '/economy' },
       { label: 'Technology',       href: '/technology' },
       { label: 'Entrepreneurship', href: '/small-business' },
@@ -106,6 +99,7 @@ const MORE_NAV: { label: string; href: string; desc: string }[] = [
   { label: 'Entertainment',    href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
   { label: 'Entrepreneurship', href: '/small-business',   desc: 'Liberian small business & founders' },
   { label: 'Watchlist',        href: '/watchlist',        desc: 'Track your tickers and stories' },
+  { label: 'Saved Articles',   href: '/saved',            desc: 'Articles you saved to read later' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
 ];
 
@@ -118,6 +112,7 @@ const MORE_MENU: MoreColumn[] = [
     items: [
       { label: 'All News',        href: '/news' },
       { label: 'Markets',         href: '/markets' },
+      { label: 'Analytics',       href: '/analytics' },
       { label: 'Economy',         href: '/economy' },
       { label: 'Technology',      href: '/technology' },
       { label: 'Monetary Policy', href: '/economy/monetary-policy' },
@@ -166,6 +161,7 @@ const MORE_MENU: MoreColumn[] = [
     items: [
       { label: 'Entrepreneurship', href: '/small-business' },
       { label: 'Watchlist',        href: '/watchlist' },
+      { label: 'Saved Articles',   href: '/saved' },
       { label: 'About TrueRate',   href: '/about' },
       { label: 'Help',             href: '/help' },
       { label: 'Feedback',         href: '/feedback' },
@@ -185,7 +181,26 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
   for (const { label, href } of MORE_NAV) {
     if (!lookup.has(label)) lookup.set(label, { label, href });
   }
-  const MOBILE_ORDER = ['News', 'Entertainment', 'Sports', 'Finance', 'Entrepreneurship'];
+  // Surface Analytics with its terminal sections + instruments as a collapsible group.
+  lookup.set('Analytics', {
+    label: 'Analytics',
+    href: '/analytics',
+    children: [
+      { label: 'Macro', heading: true },
+      { label: 'GDP Growth',                href: '/analytics#sec-macro' },
+      { label: 'Inflation (CPI)',           href: '/analytics#sec-macro' },
+      { label: 'Unemployment',              href: '/analytics#sec-macro' },
+      { label: 'Currency', heading: true },
+      { label: 'USD/LRD',                   href: '/analytics#sec-currency' },
+      { label: 'EUR/LRD',                   href: '/analytics#sec-currency' },
+      { label: 'GBP/LRD',                   href: '/analytics#sec-currency' },
+      { label: 'Commodities', heading: true },
+      { label: 'Gold',                      href: '/analytics#sec-commodities' },
+      { label: 'Brent crude',               href: '/analytics#sec-commodities' },
+      { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
+    ],
+  });
+  const MOBILE_ORDER = ['News', 'Analytics', 'Entertainment', 'Finance', 'Sports', 'Entrepreneurship'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -310,14 +325,25 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
 
                   {hasChildren && isOpen ? (
                     <div id={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`} className="pb-1.5">
-                      {children!.map(c => {
+                      {children!.map((c, ci) => {
+                        if (c.heading) {
+                          return (
+                            <p
+                              key={`h-${ci}`}
+                              className="px-9 pt-3 pb-1 text-2xs font-bold uppercase tracking-[0.14em] text-gray-500"
+                            >
+                              {c.label}
+                            </p>
+                          );
+                        }
+                        const indented = children!.some(x => x.heading);
                         const subActive = pathname === c.href;
                         return (
                           <Link
-                            key={c.href}
-                            href={c.href}
+                            key={`i-${ci}`}
+                            href={c.href!}
                             onClick={onClose}
-                            className={`flex items-center justify-between min-h-[44px] px-9 py-2 text-base no-underline transition-colors ${
+                            className={`flex items-center justify-between min-h-[44px] ${indented ? 'px-12' : 'px-9'} py-2 text-base no-underline transition-colors ${
                               subActive ? 'text-brand-accent' : 'text-white/85 hover:text-white'
                             }`}
                           >
@@ -406,7 +432,7 @@ export default function Header() {
   return (
     <header ref={headerRef} className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-dark border-white/[0.06]'}`}>
       {/* Top bar */}
-      <div className="mx-auto flex max-w-[1320px] items-center px-4 py-2 relative gap-3">
+      <div className="mx-auto flex max-w-container items-center px-4 py-2 relative gap-3">
         {/* Hamburger — mobile only */}
         <button
           type="button"
@@ -446,8 +472,8 @@ export default function Header() {
                 href={href}
                 className={`px-3 py-1.5 rounded text-base font-medium no-underline transition-colors whitespace-nowrap ${
                   active
-                    ? 'text-brand-accent'
-                    : isLight ? 'text-gray-500 hover:text-emerald-700' : 'text-gray-400 hover:text-brand-accent'
+                    ? (isLight ? 'text-brand-accent-ink' : 'text-brand-accent')
+                    : isLight ? 'text-gray-500 hover:text-brand-accent-ink' : 'text-gray-400 hover:text-brand-accent'
                 }`}
               >
                 {label}
@@ -469,8 +495,8 @@ export default function Header() {
               aria-controls="more-menu"
               className={`flex items-center gap-1 px-3 py-1.5 rounded text-base font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
                 moreOpen
-                  ? 'text-brand-accent'
-                  : isLight ? 'text-gray-600 hover:text-emerald-700' : 'text-gray-300 hover:text-brand-accent'
+                  ? (isLight ? 'text-brand-accent-ink' : 'text-brand-accent')
+                  : isLight ? 'text-gray-600 hover:text-brand-accent-ink' : 'text-gray-300 hover:text-brand-accent'
               }`}
             >
               More
@@ -509,9 +535,9 @@ export default function Header() {
                                 onClick={() => setMoreOpen(false)}
                                 className={`block text-base no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded ${
                                   active
-                                    ? 'text-brand-accent font-semibold'
+                                    ? (isLight ? 'text-brand-accent-ink font-semibold' : 'text-brand-accent font-semibold')
                                     : isLight
-                                      ? 'text-gray-700 hover:text-emerald-700'
+                                      ? 'text-gray-700 hover:text-brand-accent-ink'
                                       : 'text-gray-300 hover:text-brand-accent'
                                 }`}
                               >
@@ -545,7 +571,7 @@ export default function Header() {
       {/* Bloomberg-style secondary nav — hidden on /sports/* (SportsChrome owns it there) */}
       {!pathname.startsWith('/sports') && (
       <nav aria-label="Sections" className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
-        <div className="mx-auto flex max-w-[1320px] items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
+        <div className="mx-auto flex max-w-container items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
 
           {pathname.startsWith('/about') ? (
             /* About-specific links */
@@ -604,8 +630,8 @@ export default function Header() {
                   <Link key={label} href={href}
                     className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
                       active
-                        ? 'border-brand-accent text-brand-accent'
-                        : isLight ? 'border-transparent text-gray-500 hover:text-emerald-700' : 'border-transparent text-white/70 hover:text-brand-accent'
+                        ? (isLight ? 'border-brand-accent-ink text-brand-accent-ink' : 'border-brand-accent text-brand-accent')
+                        : isLight ? 'border-transparent text-gray-500 hover:text-brand-accent-ink' : 'border-transparent text-white/70 hover:text-brand-accent'
                     }`}>
                     {label}
                   </Link>

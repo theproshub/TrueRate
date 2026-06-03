@@ -21,13 +21,13 @@ export default function SectionHead({
         id={id}
         className="flex items-center gap-2.5 text-sm font-bold uppercase tracking-widest text-white"
       >
-        <span aria-hidden="true" className="shrink-0 h-3.5 w-[3px] rounded-sm bg-lime-500" />
+        <span aria-hidden="true" className="shrink-0 h-3.5 w-[3px] rounded-sm bg-brand-accent" />
         {title}
       </h2>
       {action && (
         <Link
           href={action}
-          className="text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+          className="text-sm font-semibold text-brand-accent hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark"
         >
           {actionLabel} ›
         </Link>

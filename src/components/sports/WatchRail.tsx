@@ -26,7 +26,7 @@ export default function WatchRail({
             <a
               href={videoHref(v.youtubeId)}
               {...ext}
-              className="group flex items-start gap-2.5 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+              className="group flex items-start gap-2.5 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
             >
               <div className="shrink-0 overflow-hidden">
                 <VideoThumbnail

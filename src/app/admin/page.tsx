@@ -1,10 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 
-interface CountResult {
-  count: number;
-}
-
 async function countByStatus(
   supabase: Awaited<ReturnType<typeof createClient>>,
   status: 'draft' | 'published' | 'archived',
@@ -88,7 +84,7 @@ export default async function AdminDashboardPage() {
       <header>
         <h1
           id="dashboard-heading"
-          className="text-2xl font-black tracking-tight text-white"
+          className="text-2xl font-bold tracking-tight text-white"
         >
           Dashboard
         </h1>
@@ -163,7 +159,7 @@ export default async function AdminDashboardPage() {
             No articles yet.{' '}
             <Link
               href="/admin/articles/new"
-              className="text-emerald-400 no-underline hover:text-emerald-300"
+              className="text-brand-accent no-underline hover:text-brand-accent-hover"
             >
               Create the first one
             </Link>
@@ -186,7 +182,7 @@ export default async function AdminDashboardPage() {
                   <span
                     className={`hidden shrink-0 text-xs font-medium sm:inline ${
                       a.status === 'published'
-                        ? 'text-emerald-400'
+                        ? 'text-pos'
                         : a.status === 'archived'
                           ? 'text-gray-500'
                           : 'text-gray-400'
@@ -220,7 +216,7 @@ function StatCard({
 }) {
   const toneColor =
     tone === 'positive'
-      ? 'text-emerald-400'
+      ? 'text-pos'
       : tone === 'neutral'
         ? 'text-amber-400'
         : tone === 'muted'

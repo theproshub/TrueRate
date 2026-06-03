@@ -71,7 +71,7 @@ function FeedList({ tab }: { tab: string }) {
           <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2">{item.title}</Heading>
+            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
             <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
             <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
               <span className="font-medium text-gray-500">{item.source}</span>

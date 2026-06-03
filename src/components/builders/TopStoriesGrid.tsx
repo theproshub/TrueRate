@@ -17,7 +17,7 @@ export default function TopStoriesGrid() {
       <Link href={HERO_STORY.href} className="group no-underline grid grid-cols-1 sm:grid-cols-2 gap-6 mb-7">
         <HeroVisual category={HERO_STORY.category} className="h-[220px] sm:h-[280px] rounded-lg" />
         <div className="flex flex-col justify-center">
-          <h3 className="text-xl sm:text-2xl font-black leading-[1.2] tracking-tight text-white group-hover:text-white/80 transition-colors mb-2">
+          <h3 className="text-xl sm:text-2xl font-bold leading-[1.2] tracking-tight text-white group-hover:text-white/80 transition-colors mb-2">
             {HERO_STORY.title}
           </h3>
           {HERO_STORY.dek && (

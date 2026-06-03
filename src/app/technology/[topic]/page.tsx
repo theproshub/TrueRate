@@ -33,7 +33,7 @@ export default async function TechnologyTopicPage({ params }: { params: Promise<
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Technology', href: '/technology' }, { label: topic.label }]} />
         <TechnologyTopicTabs activeSlug={topic.slug} />
@@ -41,7 +41,7 @@ export default async function TechnologyTopicPage({ params }: { params: Promise<
 
       <header className="mb-8">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-2">Technology &middot; {topic.label}</p>
-        <h1 className="text-3xl sm:text-3xl font-black leading-[1.1] tracking-tight text-white mb-3">{topic.label}</h1>
+        <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-white mb-3">{topic.label}</h1>
         <p className="text-md text-gray-300 leading-relaxed max-w-[720px]">{topic.blurb}</p>
         <p className="mt-3 text-sm text-gray-500 tabular-nums">
           {items.length} {items.length === 1 ? 'story' : 'stories'} matched from the TrueRate newsroom.

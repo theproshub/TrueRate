@@ -40,7 +40,7 @@ function Sparkline({ data, positive }: { data: number[]; positive: boolean }) {
     .join(' ');
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" className="overflow-visible">
-      <polyline points={pts} fill="none" strokeWidth="1.5" className={positive ? 'stroke-emerald-500' : 'stroke-red-400'} />
+      <polyline points={pts} fill="none" strokeWidth="1.5" className={positive ? 'stroke-pos' : 'stroke-neg'} />
     </svg>
   );
 }
@@ -140,7 +140,7 @@ export default function FeedClient() {
                 <tbody className="divide-y divide-white/[0.05] text-sm">
                   {p.tickers.map((t) => {
                     const positive = (t.changePct ?? 0) >= 0;
-                    const changeColor = t.changePct == null ? 'text-gray-400' : positive ? 'text-emerald-500' : 'text-red-400';
+                    const changeColor = t.changePct == null ? 'text-gray-400' : positive ? 'text-pos' : 'text-neg';
                     const sign = t.changePct == null ? '' : positive ? '+' : '−';
                     return (
                       <tr key={t.symbol} className="text-white">

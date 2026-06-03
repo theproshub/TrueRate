@@ -30,7 +30,7 @@ const SECTIONS = [
     id: 'advertising',
     title: '3. Advertising and analytics',
     body: [
-      "TrueRate shows advertising to keep journalism free. We work with vetted ad partners who may set cookies to measure ad performance and show you more relevant ads. You can read more on the About Our Ads page and opt out of personalised advertising there.",
+      "TrueRate shows advertising to keep our reporting free. We work with vetted ad partners who may set cookies to measure ad performance and show you more relevant ads. You can read more on the About Our Ads page and opt out of personalised advertising there.",
       "We use privacy-respecting analytics on the site. Where required by law, we ask for consent before setting non-essential cookies.",
     ],
   },
@@ -38,7 +38,7 @@ const SECTIONS = [
     id: 'sharing',
     title: '4. Who we share data with',
     body: [
-      "Service providers we rely on to run TrueRate: hosting (Vercel), email delivery, payments, customer support, and analytics. These providers are contractually limited to processing data on our behalf.",
+      "Service providers we rely on to run TrueRate: hosting (Vercel), database and authentication (Supabase), caching (Upstash), email delivery, payments, customer support, and analytics. These providers are contractually limited to processing data on our behalf.",
       "Regulators, law enforcement, or courts when we are legally required to disclose information.",
       "We do not sell your personal information.",
     ],
@@ -54,7 +54,7 @@ const SECTIONS = [
     id: 'your-rights',
     title: '6. Your rights',
     body: [
-      "You can access, correct, export, or delete your personal data at any time. To do so, visit your account settings or email privacy@truerate.com. Depending on where you live, you may also have rights to object to processing or to complain to a data protection authority.",
+      "You can access, correct, export, or delete your personal data at any time. To do so, visit your account settings or email privacy@truerateliberia.com. Depending on where you live, you may also have rights to object to processing or to complain to a data protection authority.",
     ],
   },
   {
@@ -82,7 +82,7 @@ const SECTIONS = [
     id: 'contact',
     title: '10. Contact',
     body: [
-      "Questions about this policy or your data? Email privacy@truerate.com or send feedback through the Feedback page.",
+      "Questions about this policy or your data? Email privacy@truerateliberia.com or send feedback through the Feedback page.",
     ],
   },
 ];
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
 
         <div className="border-b border-gray-200 pb-10 mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Legal</p>
-          <h1 className="text-3xl sm:text-3xl font-black leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
+          <h1 className="text-3xl sm:text-3xl font-bold leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Privacy Policy
           </h1>
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
@@ -106,7 +106,7 @@ export default function PrivacyPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
-            <div className="sticky top-6">
+            <div className="sticky top-36">
               <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
               <ul className="space-y-1">
                 {SECTIONS.map(s => (
@@ -128,8 +128,8 @@ export default function PrivacyPage() {
 
           <div className="max-w-[680px]">
             {SECTIONS.map(s => (
-              <section key={s.id} id={s.id} className="mb-10">
-                <h2 className="text-xl font-black text-gray-900 mb-4">{s.title}</h2>
+              <section key={s.id} id={s.id} className="mb-10 scroll-mt-36">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{s.title}</h2>
                 {s.body.map((p, i) => (
                   <p key={i} className="text-md text-gray-700 leading-[1.9] mb-3">{p}</p>
                 ))}

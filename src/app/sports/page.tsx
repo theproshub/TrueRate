@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
+import { HeroVisual } from '@/components/NewsThumbnail';
 import LeagueNavStrip from '@/components/sports/LeagueNavStrip';
 import LeagueRail from '@/components/sports/LeagueRail';
 import LeagueBlock from '@/components/sports/LeagueBlock';
@@ -46,7 +46,7 @@ export default function SportsPage() {
       {/* 1. League nav strip — sits below SportsChrome (rendered by layout) */}
       <LeagueNavStrip />
 
-      <main className="mx-auto max-w-[1320px] px-4 py-5">
+      <main className="mx-auto max-w-container px-4 py-5">
         {/* 2. Breadcrumb */}
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Sports' }]} />
 
@@ -68,7 +68,7 @@ export default function SportsPage() {
                     <li key={s.href} className="py-2.5 first:pt-0">
                       <Link
                         href={s.href}
-                        className="group flex items-start gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11]"
+                        className="group flex items-start gap-2 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark"
                       >
                         <div className="min-w-0">
                           <Text variant="meta" className="font-bold uppercase tracking-wide text-gray-500 mb-0.5">{s.category}</Text>
@@ -95,11 +95,11 @@ export default function SportsPage() {
 
               <Link
                 href={HERO.href}
-                className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d11]"
+                className="group block no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark"
               >
                 <h1
                   id="hero-feature"
-                  className="text-2xl sm:text-[26px] font-bold text-white leading-[1.15] tracking-tight no-underline group-hover:underline group-hover:decoration-white/50 underline-offset-4 transition-all mb-4"
+                  className="text-2xl sm:text-3xl font-bold text-white leading-[1.15] tracking-tight no-underline group-hover:underline group-hover:decoration-white/50 underline-offset-4 transition-all mb-4"
                 >
                   {HERO.title}
                 </h1>
@@ -119,7 +119,7 @@ export default function SportsPage() {
                     <span aria-hidden className="mt-[5px] shrink-0 h-2 w-2 rounded-full bg-gray-500" />
                     <Link
                       href={s.href}
-                      className="text-base font-bold text-white no-underline hover:underline hover:decoration-white/50 underline-offset-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-1 focus-visible:ring-offset-[#050d11] leading-snug"
+                      className="text-base font-bold text-white no-underline hover:underline hover:decoration-white/50 underline-offset-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-1 focus-visible:ring-offset-brand-dark leading-snug"
                     >
                       {s.title}
                     </Link>

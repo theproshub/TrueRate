@@ -11,7 +11,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
   return (
     <main className="mx-auto max-w-[720px] px-4 py-12 text-center">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-400 mb-4">Something went wrong</p>
-      <h1 className="text-3xl sm:text-3xl font-black leading-tight text-white mb-4">
+      <h1 className="text-3xl sm:text-3xl font-bold leading-tight text-white mb-4">
         We hit an error loading this page.
       </h1>
       <p className="text-md text-gray-400 leading-relaxed mb-8 max-w-[520px] mx-auto">

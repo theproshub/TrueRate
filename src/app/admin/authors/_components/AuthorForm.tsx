@@ -50,7 +50,7 @@ export default function AuthorForm({
         <div
           role="status"
           aria-live="polite"
-          className="rounded-lg border border-emerald-500/30 bg-emerald-500/[0.06] p-3 text-sm text-emerald-300"
+          className="rounded-lg border border-pos/30 bg-pos/[0.06] p-3 text-sm text-pos"
         >
           {notice}
         </div>
@@ -115,7 +115,7 @@ export default function AuthorForm({
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
-          className="rounded-lg bg-[#6001d2] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#490099] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
         >
           {submitLabel}
         </button>

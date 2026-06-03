@@ -54,7 +54,7 @@ function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
 
 export default function VideosEntrepreneurshipPage() {
   return (
-    <main className="mx-auto max-w-[1320px] px-4 py-6">
+    <main className="mx-auto max-w-container px-4 py-6">
       <div className="mb-6">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Videos', href: '/videos' }, { label: 'Entrepreneurship' }]} />
       </div>
@@ -72,7 +72,7 @@ export default function VideosEntrepreneurshipPage() {
           <div className="absolute inset-0 flex items-center justify-center"><PlayIcon size="lg" /></div>
           <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
           <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
-            <h2 className="text-xl sm:text-3xl font-black leading-tight text-white mb-2 max-w-[720px]">{HERO.title}</h2>
+            <h2 className="text-xl sm:text-3xl font-bold leading-tight text-white mb-2 max-w-[720px]">{HERO.title}</h2>
             <p className="text-md text-white/70 line-clamp-2 mb-3 max-w-[640px] hidden sm:block">{HERO.desc}</p>
             <div className="flex items-center gap-2 text-sm text-white/60">
               <span className="font-semibold">{HERO.source}</span>

@@ -19,7 +19,7 @@ export default function SectionFourCards({ id, title, badge, subtitle, items }: 
         {badge && (
           <span
             aria-hidden="true"
-            className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-white text-brand-ink text-xs font-black"
+            className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-white text-brand-ink text-xs font-bold"
           >
             {badge}
           </span>
@@ -46,7 +46,7 @@ export default function SectionFourCards({ id, title, badge, subtitle, items }: 
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs text-gray-500">{c.source}</span>
               {c.badge && (
-                <span className="text-2xs font-bold tabular-nums text-emerald-400 border border-emerald-400/30 rounded px-1.5 py-0.5">
+                <span className="text-2xs font-bold tabular-nums text-pos border border-pos/30 rounded px-1.5 py-0.5">
                   {c.badge}
                 </span>
               )}
