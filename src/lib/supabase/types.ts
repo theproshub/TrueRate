@@ -221,6 +221,68 @@ export type Database = {
         }
         Relationships: []
       }
+      business_claims: {
+        Row: {
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string | null
+          evidence_url: string | null
+          id: string
+          issuer_id: string
+          note: string | null
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          role_at_business: string | null
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          evidence_url?: string | null
+          id?: string
+          issuer_id: string
+          note?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          role_at_business?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          evidence_url?: string | null
+          id?: string
+          issuer_id?: string
+          note?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          role_at_business?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_claims_issuer_id_fkey"
+            columns: ["issuer_id"]
+            isOneToOne: false
+            referencedRelation: "issuers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           description: string | null
@@ -483,6 +545,65 @@ export type Database = {
             columns: ["symbol_id"]
             isOneToOne: false
             referencedRelation: "symbols"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feedback: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          message: string
+          type: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          message: string
+          type?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          message?: string
+          type?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      saved_articles: {
+        Row: {
+          article_id: string
+          created_at: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_articles_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
             referencedColumns: ["id"]
           },
         ]
