@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "hydrate:worldbank": "node --env-file=.env.local scripts/hydrate-worldbank.mjs",
+    "dedupe:symbols": "node --env-file=.env.local scripts/dedupe-symbols.mjs",
     "inventory": "node --env-file=.env.local scripts/inventory.mjs",
     "backfill:topic-tags": "node --env-file=.env.local scripts/backfill-topic-tags.mjs"
   },
