@@ -62,7 +62,7 @@ function deltaSign(delta: number | null): string {
 }
 
 function timeAgo(d: string) {
-  const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
+  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
   if (days <= 0) return 'Today';
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
@@ -159,7 +159,11 @@ export default async function MarketsPage() {
     fetchLiberiaIndicators().catch(() => ({} as Record<string, { date: string; value: number }[]>)),
   ]);
 
-  const lrdRates = toLRDRates(liveRates);
+  // When both FX feeds are down we get hardcoded fallback rates. Honor the
+  // page's "never silently substitute stale or fabricated data" promise by
+  // treating those as unavailable (the panel renders a dash).
+  const fxStale = !!liveRates.stale;
+  const lrdRates = fxStale ? {} : toLRDRates(liveRates);
 
   // ── Top Movers (commodities sorted by intraday change) ──
   const movers = commodities
@@ -335,7 +339,7 @@ export default async function MarketsPage() {
           </ul>
 
           <Text variant="caption" className="mt-4 leading-relaxed">
-            FX from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">@fawazahmed0/currency-api</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
+            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); cross-rates via <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">@fawazahmed0/currency-api</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
           </Text>
         </aside>
       </section>
@@ -503,7 +507,7 @@ export default async function MarketsPage() {
       <section className="mt-8 border-t border-white/[0.08] pt-5" aria-labelledby="method-heading">
         <h2 id="method-heading" className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
         <ul className="space-y-2 text-base text-gray-300 leading-relaxed max-w-[760px]">
-          <li>· FX rates refresh every 60 minutes from a free CDN feed; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>
+          <li>· The USD/LRD anchor is the Central Bank of Liberia&rsquo;s published daily mid-rate; other currency cross-rates refresh every 60 minutes from a free CDN feed; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>
           <li>· If an upstream feed is unreachable, the affected card shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
           <li>· LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>
           <li>· No equities feed for the Liberian Stock Exchange is available; Top Movers is restricted to the commodities universe relevant to Liberia&rsquo;s export economy.</li>

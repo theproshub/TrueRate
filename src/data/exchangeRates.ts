@@ -16,11 +16,11 @@ export const exchangeRates: ExchangeRate[] = [
     pair: 'USD/LRD',
     from: 'USD',
     to: 'LRD',
-    rate: 192.50,
+    rate: 182.53, // CBL mid, Jun 2026 — live value overrides via /api/rates
     change: 0.80,
     changePercent: 0.42,
     high52w: 198.20,
-    low52w: 183.40,
+    low52w: 181.40,
     // Real USD/LRD annual midpoint rates — CBL data + IMF Article IV
     historicalData: generateHistoricalDataFromAnchors([
       { year: 2015, value: 84.0  },
@@ -32,7 +32,8 @@ export const exchangeRates: ExchangeRate[] = [
       { year: 2021, value: 170.8 }, // CBL intervention strengthened LRD
       { year: 2022, value: 154.0 }, // Continued rebound
       { year: 2023, value: 175.2 }, // Re-depreciation
-      { year: 2024, value: 192.5 },
+      { year: 2024, value: 188.0 },
+      { year: 2025, value: 182.5 }, // CBL — LRD firmed
     ], 0.006, 101),
   },
   {

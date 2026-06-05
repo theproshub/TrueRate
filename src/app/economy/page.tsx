@@ -82,6 +82,10 @@ export default async function EconomyPage() {
     getDashboardIndicators(),
   ]);
 
+  // The snapshot is captioned "Source: World Bank", so exclude the
+  // administered CBL policy rate (a Central Bank figure) from this list.
+  const wbIndicators = indicators.filter((ind) => ind.key !== 'CBL_RATE');
+
   const hero = articles[0] ?? null;
   const topStories = articles.slice(1, 6);
   const grid = articles.slice(6, 13);
@@ -192,12 +196,12 @@ export default async function EconomyPage() {
           {/* Data snapshot — live from Supabase (World Bank series) */}
           <div>
             <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">Data Snapshot</h2>
-            {indicators.length === 0 ? (
+            {wbIndicators.length === 0 ? (
               <p className="text-sm text-gray-500">Indicator data unavailable.</p>
             ) : (
               <>
                 <dl className="space-y-3">
-                  {indicators.map((ind) => {
+                  {wbIndicators.map((ind) => {
                     const change = formatIndicatorChange(ind);
                     const up = (ind.changePercent ?? 0) >= 0;
                     return (

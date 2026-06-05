@@ -268,7 +268,7 @@ export const COMPANIES: Company[] = [
     headquarters: 'Monrovia',
     description:
       'The Central Bank of Liberia (CBL) is the apex regulatory body for Liberia\'s financial system. It issues the Liberian dollar, manages monetary policy, supervises commercial banks, and manages foreign exchange reserves.',
-    keyFact: 'Sets the CBL Monetary Policy Rate — currently 20% — and manages Liberia\'s USD/LRD dual-currency system.',
+    keyFact: 'Sets the CBL Monetary Policy Rate — currently 16.25% — and manages Liberia\'s USD/LRD dual-currency system.',
     financials: {
       employees: 700,
       revenueYear: 2023,

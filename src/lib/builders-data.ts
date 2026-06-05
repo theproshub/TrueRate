@@ -32,7 +32,6 @@ export type Video = {
   youtubeId?: string;
 };
 
-export type MarketRow = { ticker: string; value: string; change: string; up: boolean };
 export type TrendingSME = { name: string; sector: string; signal: string };
 export type Gainer = { label: string; change: string };
 export type EconEvent = { date: string; title: string };
@@ -125,14 +124,7 @@ export const MORE_STORIES: Story[] = [
 ];
 
 /* ─── Right rail data ─── */
-export const LIBERIA_MARKETS: MarketRow[] = [
-  { ticker: 'LRD/USD',  value: '192.50',    change: '+0.35',  up: true  },
-  { ticker: 'LRD/EUR',  value: '209.85',    change: '-0.21',  up: false },
-  { ticker: 'CBL Rate', value: '16.25%',    change: 'steady', up: true  },
-  { ticker: 'Iron Ore', value: '108.50',    change: '-2.08%', up: false },
-  { ticker: 'Rubber',   value: '$1.72',     change: '+2.38%', up: true  },
-  { ticker: 'Gold',     value: '$2,285.40', change: '+0.82%', up: true  },
-];
+/* Liberia Markets panel is now live — see components/builders/LiveMarketsMini. */
 
 export const TRENDING_SMES: TrendingSME[] = [
   { name: 'Konnect Fintech',     sector: 'Fintech',      signal: '+35% MoM users'        },

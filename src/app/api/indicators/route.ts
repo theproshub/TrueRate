@@ -39,6 +39,7 @@ export async function GET() {
 
     const NAME_TO_KEY: Record<string, string> = {
       'GDP':                 'GDP',
+      'GDP Growth':          'GDP_GROWTH',
       'Inflation Rate':      'INFLATION',
       'CBL Policy Rate':     'CBL_RATE',
       'Unemployment':        'UNEMPLOYMENT',

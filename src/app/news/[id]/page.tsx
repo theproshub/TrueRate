@@ -13,7 +13,7 @@ import { isArticleSaved } from '@/lib/saved-articles';
 import SaveArticleButton from '@/components/SaveArticleButton';
 
 function timeAgo(d: string) {
-  const days = Math.floor((new Date('2026-04-01').getTime() - new Date(d).getTime()) / 86400000);
+  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
   if (days === 0) return 'Today';
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
