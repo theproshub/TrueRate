@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { renderMarkdown } from '@/lib/markdown';
 import type { ParsedTemplate } from '@/lib/article-template';
+import { inferCategory } from '@/lib/category-infer';
 import { uploadArticleImage } from '../_upload';
 import TemplateImporter from './TemplateImporter';
 
@@ -108,8 +109,18 @@ export default function ArticleForm({
     }
     if (parsed.heroImage !== undefined) setHeroImage(parsed.heroImage);
     if (parsed.heroAlt !== undefined) setHeroAlt(parsed.heroAlt);
-    if (parsed.category !== undefined) {
-      const id = matchOptionId(parsed.category, categories);
+    // Category: an explicit label that matches a real option wins; otherwise
+    // infer the best-fit category from the draft's topics.
+    {
+      const explicit = parsed.category
+        ? matchOptionId(parsed.category, categories)
+        : undefined;
+      const id =
+        explicit ??
+        inferCategory(
+          { title: parsed.title, dek: parsed.dek, body: parsed.body },
+          categories,
+        );
       if (id) setCategoryId(id);
     }
     if (parsed.author !== undefined) {
