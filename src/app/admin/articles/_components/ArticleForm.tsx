@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { renderMarkdown } from '@/lib/markdown';
 import type { ParsedTemplate } from '@/lib/article-template';
 import { inferCategory } from '@/lib/category-infer';
+import { authorNameForCategory } from '@/lib/category-desk';
 import { uploadArticleImage } from '../_upload';
 import TemplateImporter from './TemplateImporter';
 
@@ -104,6 +105,22 @@ export default function ArticleForm({
     );
   }
 
+  /** The author option id mapped to a category's desk (e.g. Economy → TrueRate Economics). */
+  function deskAuthorIdForCategory(categoryId: string): string | undefined {
+    const label = categories.find((c) => c.id === categoryId)?.label;
+    const name = authorNameForCategory(label);
+    return name
+      ? matchOptionId(name, authors.map((a) => ({ id: a.id, label: a.name })))
+      : undefined;
+  }
+
+  /** Pick a category and auto-fill its desk byline. */
+  function selectCategory(categoryId: string) {
+    setCategoryId(categoryId);
+    const deskId = deskAuthorIdForCategory(categoryId);
+    if (deskId) setAuthorId(deskId);
+  }
+
   function applyTemplate(parsed: ParsedTemplate) {
     if (parsed.title !== undefined) setTitle(parsed.title);
     if (parsed.dek !== undefined) setDek(parsed.dek);
@@ -115,22 +132,25 @@ export default function ArticleForm({
     if (parsed.heroAlt !== undefined) setHeroAlt(parsed.heroAlt);
     // Category: an explicit label that matches a real option wins; otherwise
     // infer the best-fit category from the draft's topics.
-    {
-      const explicit = parsed.category
-        ? matchOptionId(parsed.category, categories)
-        : undefined;
-      const id =
-        explicit ??
-        inferCategory(
-          { title: parsed.title, dek: parsed.dek, body: parsed.body },
-          categories,
-        );
-      if (id) setCategoryId(id);
-    }
-    if (parsed.author !== undefined) {
-      const id = matchOptionId(parsed.author, authors.map((a) => ({ id: a.id, label: a.name })));
-      if (id) setAuthorId(id);
-    }
+    const explicitCat = parsed.category
+      ? matchOptionId(parsed.category, categories)
+      : undefined;
+    const categoryId =
+      explicitCat ??
+      inferCategory(
+        { title: parsed.title, dek: parsed.dek, body: parsed.body },
+        categories,
+      );
+    if (categoryId) setCategoryId(categoryId);
+
+    // Author: a draft byline that matches a real author wins; otherwise fall
+    // back to the desk for the chosen category (Economy → TrueRate Economics…).
+    const draftAuthorId = parsed.author
+      ? matchOptionId(parsed.author, authors.map((a) => ({ id: a.id, label: a.name })))
+      : undefined;
+    const authorId =
+      draftAuthorId ?? (categoryId ? deskAuthorIdForCategory(categoryId) : undefined);
+    if (authorId) setAuthorId(authorId);
     if (parsed.sourceName !== undefined) setSourceName(parsed.sourceName);
     if (parsed.sourceUrl !== undefined) setSourceUrl(parsed.sourceUrl);
     if (parsed.status !== undefined) setStatus(parsed.status);
@@ -263,7 +283,7 @@ export default function ArticleForm({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label htmlFor="category_id" className={LABEL}>Category</label>
-            <select id="category_id" name="category_id" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className={INPUT_BASE}>
+            <select id="category_id" name="category_id" value={categoryId} onChange={(e) => selectCategory(e.target.value)} className={INPUT_BASE}>
               <option value="">— None —</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.label}</option>
@@ -272,12 +292,13 @@ export default function ArticleForm({
           </div>
           <div>
             <label htmlFor="author_id" className={LABEL}>Author</label>
-            <select id="author_id" name="author_id" value={authorId} onChange={(e) => setAuthorId(e.target.value)} className={INPUT_BASE}>
+            <select id="author_id" name="author_id" value={authorId} onChange={(e) => setAuthorId(e.target.value)} aria-describedby="author-hint" className={INPUT_BASE}>
               <option value="">— None —</option>
               {authors.map((a) => (
                 <option key={a.id} value={a.id}>{a.name}</option>
               ))}
             </select>
+            <p id="author-hint" className={HINT}>Auto-set from the category — change it here to override.</p>
           </div>
         </div>
 

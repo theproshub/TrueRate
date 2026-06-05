@@ -21,9 +21,9 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
     (categories ?? []).find((c) => c.label.trim().toLowerCase() === 'news')?.id ??
     null;
 
-  // Default byline to the TrueRate News Desk (falls back to none if missing).
+  // Default byline to TrueRate Newsroom (the News desk; falls back to none).
   const defaultAuthorId =
-    (authors ?? []).find((a) => a.name.trim().toLowerCase() === 'truerate news desk')?.id ??
+    (authors ?? []).find((a) => a.name.trim().toLowerCase() === 'truerate newsroom')?.id ??
     null;
 
   return (
