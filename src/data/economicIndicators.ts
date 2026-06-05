@@ -14,6 +14,7 @@
 
 import { EconomicIndicator } from '@/lib/types';
 import { generateHistoricalDataFromAnchors } from '@/lib/utils';
+import { CBL_POLICY_RATE, CBL_POLICY_RATE_PERIOD } from '@/lib/data/cbl-rate';
 
 export const economicIndicators: EconomicIndicator[] = [
   {
@@ -39,11 +40,33 @@ export const economicIndicators: EconomicIndicator[] = [
     ], 0.006, 201),
   },
   {
-    name: 'Inflation Rate',
-    value: 10.3,
+    name: 'GDP Growth',
+    value: 4.8,
     unit: '%',
-    change: 2.7,
-    changePercent: 35.5,
+    change: 0.2,
+    changePercent: 4.3,
+    period: '2024',
+    source: 'World Bank',
+    // Real GDP growth (annual %) — World Bank NY.GDP.MKTP.KD.ZG
+    historicalData: generateHistoricalDataFromAnchors([
+      { year: 2015, value: 0.0  },
+      { year: 2016, value: -1.6 },
+      { year: 2017, value: 2.5  },
+      { year: 2018, value: 1.2  },
+      { year: 2019, value: -2.5 },
+      { year: 2020, value: -3.0 }, // COVID contraction
+      { year: 2021, value: 5.0  },
+      { year: 2022, value: 4.8  },
+      { year: 2023, value: 4.6  },
+      { year: 2024, value: 4.8  },
+    ], 0.05, 209),
+  },
+  {
+    name: 'Inflation Rate',
+    value: 10.2,
+    unit: '%',
+    change: 2.6,
+    changePercent: 34.2,
     period: '2023',
     source: 'Central Bank of Liberia',
     // Real World Bank CPI inflation data (annual %)
@@ -56,19 +79,19 @@ export const economicIndicators: EconomicIndicator[] = [
       { year: 2020, value: 17.4 },
       { year: 2021, value: 8.0  },
       { year: 2022, value: 7.6  },
-      { year: 2023, value: 10.3 },
+      { year: 2023, value: 10.2 },
       { year: 2024, value: 9.8  }, // CBL estimate
     ], 0.02, 202),
   },
   {
     name: 'CBL Policy Rate',
-    value: 20.0,
+    value: CBL_POLICY_RATE, // single source of truth — see @/lib/data/cbl-rate
     unit: '%',
     change: 0.0,
     changePercent: 0.0,
-    period: 'Q1 2026',
+    period: CBL_POLICY_RATE_PERIOD,
     source: 'Central Bank of Liberia',
-    // CBL Monetary Policy Rate — held at 20% since Nov 2023 MPC meeting
+    // CBL Monetary Policy Rate — held at 16.25% with a cautious tightening bias
     historicalData: generateHistoricalDataFromAnchors([
       { year: 2015, value: 3.2  },
       { year: 2016, value: 3.2  },
@@ -77,9 +100,9 @@ export const economicIndicators: EconomicIndicator[] = [
       { year: 2019, value: 30.0 },
       { year: 2020, value: 25.0 },
       { year: 2021, value: 25.0 },
-      { year: 2022, value: 25.0 },
-      { year: 2023, value: 20.0 }, // Eased Nov 2023
-      { year: 2024, value: 20.0 },
+      { year: 2022, value: 20.0 }, // Eased through 2022
+      { year: 2023, value: 16.25 }, // Cut to 16.25%
+      { year: 2024, value: 16.25 },
     ], 0.005, 203),
   },
   {

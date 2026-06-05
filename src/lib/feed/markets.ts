@@ -76,6 +76,7 @@ async function fetchYahooTicker(
 async function fetchLrdSpot(): Promise<MarketsTicker | null> {
   try {
     const live = await fetchLiveRates();
+    if (live.stale) return null; // omit rather than publish a fabricated spot
     const rate = live.rates.lrd;
     if (typeof rate !== 'number' || !Number.isFinite(rate)) return null;
     return {

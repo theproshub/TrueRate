@@ -61,6 +61,11 @@ export async function GET(request: NextRequest) {
     // ── FX: live USD-base rates → LRD cross-rates ──
     try {
       const live = await fetchLiveRates();
+      if (live.stale) {
+        // Both FX feeds down — never persist hardcoded fallback rates as a
+        // real end-of-day close. Skip FX entirely this run.
+        throw new Error('FX feed unavailable (stale fallback) — skipped');
+      }
       const lrd = toLRDRates(live); // { USD: <LRD per USD>, EUR: ..., ... }
       let fxCount = 0;
       for (const sym of FX_SYMBOLS) {

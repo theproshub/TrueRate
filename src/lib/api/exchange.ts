@@ -1,29 +1,56 @@
 /**
- * Exchange rate API client.
- * Primary:  fawazahmed0 currency API (free, no key, hosted on jsDelivr CDN)
- *           https://github.com/fawazahmed0/exchange-api
- * Fallback: hardcoded seed rates (keeps the app functional if CDN is down)
+ * Exchange rate API client — sources assigned per layer:
+ *
+ * USD/LRD anchor:  Central Bank of Liberia (authoritative — see ./cbl). CBL
+ *                  only quotes USD/LRD.
+ * ECB majors:      Frankfurter (free, no key, ECB reference rates) for EUR,
+ *                  GBP, CNY. https://frankfurter.dev
+ * West African:    fawazahmed0 currency API (free, no key) for GHS, NGN, which
+ *                  the ECB set does not cover. Also backstops the majors and
+ *                  provides an alternate LRD if the CBL scrape fails.
+ *                  https://github.com/fawazahmed0/exchange-api
+ * Fallback:        hardcoded seed rates if no live LRD anchor is reachable
+ *                  (flagged `stale` so callers can render a dash).
+ *
+ * All `rates` values follow the "units of currency per 1 USD" convention and
+ * use lowercase keys (lrd, eur, gbp, cny, ghs, ngn).
  */
+
+import { fetchCblUsdLrd } from './cbl';
 
 const CDN_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
 const CDN_URL_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies/usd.json';
+
+/** ECB reference rates (no GHS/NGN/LRD) — used only for the majors below. */
+const FRANKFURTER_URL = 'https://api.frankfurter.app/latest?base=USD&symbols=EUR,GBP,CNY';
+
+/** Currencies sourced from Frankfurter (ECB); the rest come from the CDN. */
+const FRANKFURTER_CURRENCIES = ['eur', 'gbp', 'cny'] as const;
 
 export interface LiveRates {
   date: string;
   /** All values are "how many units of this currency per 1 USD" */
   rates: Record<string, number>;
+  /**
+   * True when no live source was reachable and these are hardcoded fallback
+   * rates. Consumers that promise "no fabricated data" (e.g. the Markets page)
+   * must check this and render a dash instead of the stale values.
+   */
+  stale?: boolean;
+  /** Where the headline USD/LRD anchor came from this fetch. */
+  lrdSource?: 'CBL' | 'CDN' | 'fallback';
 }
 
 /** Currencies TrueRate tracks (LRD-centric) */
 export const TRACKED_CURRENCIES = ['lrd', 'eur', 'gbp', 'cny', 'ghs', 'ngn'] as const;
 export type TrackedCurrency = (typeof TRACKED_CURRENCIES)[number];
 
-/** Hardcoded fallback rates (1 USD = X) — updated manually from CBL data */
+/** Hardcoded fallback rates (1 USD = X) — refreshed manually from CBL + ECB. */
 const FALLBACK_RATES: Record<string, number> = {
-  lrd: 192.50,
-  eur: 0.9201,
-  gbp: 0.7921,
-  cny: 7.2387,
+  lrd: 182.53,  // CBL mid, Jun 2026 (buying 181.59 / selling 183.47)
+  eur: 0.8591,  // ECB, Jun 2026
+  gbp: 0.7426,  // ECB, Jun 2026
+  cny: 6.7656,  // ECB, Jun 2026
   ghs: 15.84,
   ngn: 1605.30,
 };
@@ -46,25 +73,95 @@ async function tryFetch(url: string): Promise<LiveRates | null> {
   }
 }
 
-/** Fetch live USD-base rates; falls back gracefully to hardcoded values */
+/** Fetch USD-base rates from the CDN (first endpoint that answers). */
+async function fetchCdnRates(): Promise<LiveRates | null> {
+  return (await tryFetch(CDN_URL)) ?? (await tryFetch(CDN_URL_FALLBACK));
+}
+
+/** Fetch ECB major-currency ratios (USD base) from Frankfurter. */
+async function fetchFrankfurterRates(): Promise<LiveRates | null> {
+  try {
+    const res = await fetch(FRANKFURTER_URL, {
+      next: { revalidate: 3600 }, // ECB publishes once per working day
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    const raw: Record<string, unknown> = json?.rates ?? {};
+    const rates: Record<string, number> = {};
+    for (const [k, v] of Object.entries(raw)) {
+      if (typeof v === 'number' && Number.isFinite(v)) rates[k.toLowerCase()] = v;
+    }
+    if (Object.keys(rates).length === 0) return null;
+    return { date: json.date ?? new Date().toISOString().split('T')[0], rates };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch live rates by composing three sources:
+ *   - CBL        → USD/LRD anchor (authoritative)
+ *   - Frankfurter→ EUR/GBP/CNY (ECB reference)
+ *   - CDN        → GHS/NGN (+ backstop for majors and an alternate LRD)
+ *
+ * LRD is the spine: without a live anchor, nothing LRD-denominated can be real,
+ * so we fall back wholesale to hardcoded values (flagged `stale`) in that case.
+ */
 export async function fetchLiveRates(): Promise<LiveRates> {
-  const primary = await tryFetch(CDN_URL);
-  if (primary) return primary;
+  const [frank, cdn, cbl] = await Promise.all([
+    fetchFrankfurterRates(),
+    fetchCdnRates(),
+    fetchCblUsdLrd(),
+  ]);
 
-  const secondary = await tryFetch(CDN_URL_FALLBACK);
-  if (secondary) return secondary;
+  const cdnLrd =
+    cdn && typeof cdn.rates.lrd === 'number' && Number.isFinite(cdn.rates.lrd)
+      ? cdn.rates.lrd
+      : undefined;
+  const lrdAnchor = cbl?.mid ?? cdnLrd;
 
-  // Both CDN endpoints down — use hardcoded fallback
+  // No live LRD anchor → fall back wholesale so callers can dash everything.
+  if (lrdAnchor === undefined) {
+    return {
+      date: new Date().toISOString().split('T')[0],
+      rates: { ...FALLBACK_RATES },
+      stale: true,
+      lrdSource: 'fallback',
+    };
+  }
+
+  // Base layer: the CDN's full set (eur, gbp, cny, ghs, ngn, lrd).
+  const rates: Record<string, number> = cdn ? { ...cdn.rates } : {};
+
+  // Authority layer: ECB majors override the CDN's equivalents when available.
+  if (frank) {
+    for (const cur of FRANKFURTER_CURRENCIES) {
+      const v = frank.rates[cur];
+      if (typeof v === 'number' && Number.isFinite(v)) rates[cur] = v;
+    }
+  }
+
+  // Anchor: CBL mid, else the CDN's own lrd.
+  rates.lrd = lrdAnchor;
+
   return {
-    date: new Date().toISOString().split('T')[0],
-    rates: FALLBACK_RATES,
+    date: cbl?.date ?? frank?.date ?? cdn?.date ?? new Date().toISOString().split('T')[0],
+    rates,
+    lrdSource: cbl ? 'CBL' : 'CDN',
   };
 }
 
-/** Convert rate table into LRD-denominated rates (how many LRD per 1 X) */
+/**
+ * Convert a USD-base rate table into LRD-denominated rates (how many LRD per
+ * 1 X). Currencies without a finite source ratio are omitted, so callers can
+ * render a dash rather than a fabricated cross-rate.
+ */
 export function toLRDRates(liveRates: LiveRates): Record<string, number> {
   const usdToLrd = liveRates.rates.lrd;
   const result: Record<string, number> = { LRD: 1 };
+  if (typeof usdToLrd !== 'number' || !Number.isFinite(usdToLrd)) return result;
 
   for (const cur of TRACKED_CURRENCIES) {
     if (cur === 'lrd') {
@@ -72,7 +169,9 @@ export function toLRDRates(liveRates: LiveRates): Record<string, number> {
     } else {
       const usdPerUnit = liveRates.rates[cur]; // e.g. EUR: 0.92 means 1 USD = 0.92 EUR
       // So 1 EUR = (1/0.92) USD = (1/0.92) * usdToLrd LRD
-      result[cur.toUpperCase()] = (1 / usdPerUnit) * usdToLrd;
+      if (typeof usdPerUnit === 'number' && Number.isFinite(usdPerUnit) && usdPerUnit !== 0) {
+        result[cur.toUpperCase()] = (1 / usdPerUnit) * usdToLrd;
+      }
     }
   }
 

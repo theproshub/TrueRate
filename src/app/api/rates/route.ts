@@ -54,7 +54,8 @@ export async function GET() {
     }
 
     return NextResponse.json(
-      { date: live.date, rates, lookup },
+      // Don't advertise a current date when these are stale fallback rates.
+      { date: live.stale ? null : live.date, rates, lookup },
       {
         headers: {
           'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300',

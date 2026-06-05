@@ -10,7 +10,8 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
     Promise.all([
       fetch('/api/rates').then(r => r.json()).catch(() => null),
       fetch('/api/indicators').then(r => r.json()).catch(() => null),
-    ]).then(([ratesData, indicatorsData]) => {
+      fetch('/api/commodities').then(r => r.json()).catch(() => null),
+    ]).then(([ratesData, indicatorsData, commoditiesData]) => {
       const next: TickerItem[] = [...initial];
 
       if (ratesData?.rates?.length) {
@@ -40,6 +41,7 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
         const macroMap: Record<string, { label: string; fmt: (v: number) => string; pctLabel: string }> = {
           GDP_GROWTH: { label: 'GDP Growth', fmt: v => `${v.toFixed(1)}%`, pctLabel: 'YoY' },
           INFLATION:  { label: 'Inflation',  fmt: v => `${v.toFixed(1)}%`, pctLabel: 'YoY' },
+          CBL_RATE:   { label: 'CBL Rate',   fmt: v => `${v}%`,            pctLabel: 'Steady' },
         };
         for (const [key, meta] of Object.entries(macroMap)) {
           const ind = iMap[key];
@@ -51,6 +53,22 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
             label: meta.label,
             value: meta.fmt(ind.value),
             pct: meta.pctLabel,
+            up: cp !== null ? cp >= 0 : true,
+          };
+        }
+      }
+
+      if (commoditiesData?.commodities?.length) {
+        const gold = commoditiesData.commodities.find(
+          (c: { name: string; price: number | null; changePercent: number | null }) => c.name === 'Gold',
+        );
+        const idx = next.findIndex(x => x.label === 'Gold');
+        if (gold && gold.price !== null && idx !== -1) {
+          const cp: number | null = gold.changePercent;
+          next[idx] = {
+            label: 'Gold',
+            value: gold.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+            pct: cp !== null ? `${cp >= 0 ? '+' : ''}${cp.toFixed(2)}%` : '',
             up: cp !== null ? cp >= 0 : true,
           };
         }

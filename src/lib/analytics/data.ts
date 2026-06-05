@@ -85,7 +85,7 @@ async function loadPriceItems(): Promise<AnalyticsItem[]> {
   // Live spot overlay (today), merged onto stored history.
   const liveSpot = new Map<string, number>(); // ticker → value
   const [ratesRes, commsRes] = await Promise.allSettled([fetchLiveRates(), fetchCommodities()]);
-  if (ratesRes.status === 'fulfilled') {
+  if (ratesRes.status === 'fulfilled' && !ratesRes.value.stale) {
     const lrd = toLRDRates(ratesRes.value);
     for (const s of FX_SYMBOLS) {
       const v = lrd[s.sourceKey.toUpperCase()];

@@ -1,5 +1,34 @@
 import { publicClient } from '@/lib/supabase/public';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
+import {
+  CBL_POLICY_RATE,
+  CBL_POLICY_RATE_PERIOD,
+  CBL_POLICY_RATE_PREV,
+} from '@/lib/data/cbl-rate';
+
+/**
+ * The CBL policy rate has no World Bank series — it is an administered figure
+ * maintained in `@/lib/data/cbl-rate`. We surface it alongside the live macro
+ * series so every consumer (ticker, rail, /api/indicators) reads one value.
+ */
+function cblPolicyRateIndicator(): NormalizedIndicator {
+  const change = Number((CBL_POLICY_RATE - CBL_POLICY_RATE_PREV).toFixed(4));
+  return {
+    key: 'CBL_RATE',
+    name: 'CBL Policy Rate',
+    value: CBL_POLICY_RATE,
+    previousValue: CBL_POLICY_RATE_PREV,
+    change,
+    changePercent:
+      CBL_POLICY_RATE_PREV !== 0
+        ? Number(((change / CBL_POLICY_RATE_PREV) * 100).toFixed(4))
+        : null,
+    unit: '%',
+    period: CBL_POLICY_RATE_PERIOD,
+    source: 'Central Bank of Liberia',
+    history: [],
+  };
+}
 
 /**
  * Server-side loader for the dashboard indicators strip.
@@ -109,6 +138,9 @@ export async function getDashboardIndicators(): Promise<NormalizedIndicator[]> {
         })),
     });
   }
+
+  // Administered CBL policy rate (no WB series) — single source of truth.
+  out.push(cblPolicyRateIndicator());
 
   return out;
 }

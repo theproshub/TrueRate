@@ -23,7 +23,7 @@ interface Props {
 
 export default function CurrencyConverter({ initialLookup }: Props) {
   const [lookup, setLookup] = useState<Record<string, number>>(
-    initialLookup ?? { LRD: 1, USD: 192.5, EUR: 209.85, GBP: 245.3, GHS: 13.2, NGN: 0.131, SLL: 0.0094, XOF: 0.322 }
+    initialLookup ?? { LRD: 1, USD: 182.53, EUR: 209.85, GBP: 245.3, GHS: 13.2, NGN: 0.131, SLL: 0.0094, XOF: 0.322 }
   );
   const [from, setFrom] = useState('USD');
   const [to, setTo] = useState('LRD');

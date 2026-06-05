@@ -1,9 +1,9 @@
 import {
-  LIBERIA_MARKETS,
   TRENDING_SMES,
   TOP_GAINERS,
   ECON_EVENTS,
 } from '@/lib/builders-data';
+import LiveMarketsMini from '@/components/builders/LiveMarketsMini';
 
 function RightRailPanel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -23,19 +23,7 @@ function RightRailPanel({ title, children }: { title: string; children: React.Re
 function MarketsMini() {
   return (
     <RightRailPanel title="Liberia Markets">
-      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
-        {LIBERIA_MARKETS.map(row => (
-          <li key={row.ticker} className="flex items-center justify-between py-2 first:pt-0 last:pb-0">
-            <span className="text-sm font-semibold text-white">{row.ticker}</span>
-            <span className="flex items-baseline gap-2">
-              <span className="text-sm font-bold tabular-nums text-white">{row.value}</span>
-              <span className={`text-xs font-semibold tabular-nums ${row.up ? 'text-pos' : 'text-neg'}`}>
-                {row.change}
-              </span>
-            </span>
-          </li>
-        ))}
-      </ul>
+      <LiveMarketsMini />
     </RightRailPanel>
   );
 }
