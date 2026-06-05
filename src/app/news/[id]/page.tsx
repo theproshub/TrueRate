@@ -31,6 +31,8 @@ interface DbArticle {
   updated_at: string;
   category: { slug: string; label: string } | null;
   author:   { name: string }                | null;
+  source_name?: string | null;
+  source_url?: string | null;
 }
 
 async function fetchDbArticle(slug: string): Promise<DbArticle | null> {
@@ -44,7 +46,23 @@ async function fetchDbArticle(slug: string): Promise<DbArticle | null> {
     .eq('slug', slug)
     .eq('status', 'published')
     .maybeSingle();
-  return (data as unknown as DbArticle | null) ?? null;
+  const article = (data as unknown as DbArticle | null) ?? null;
+  if (!article) return null;
+
+  // Best-effort outlet attribution (only if migration 009 has been applied).
+  const { data: srcRow } = await publicClient
+    .from('articles')
+    .select('source_name, source_url')
+    .eq('id', article.id)
+    .maybeSingle();
+  const src = srcRow as unknown as
+    | { source_name: string | null; source_url: string | null }
+    | null;
+  if (src) {
+    article.source_name = src.source_name;
+    article.source_url = src.source_url;
+  }
+  return article;
 }
 
 export function generateStaticParams() {
@@ -337,7 +355,22 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                     <span>·</span>
                   </>
                 )}
-                <span>TrueRate</span>
+                {article.source_name ? (
+                  article.source_url ? (
+                    <a
+                      href={article.source_url}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="text-brand-accent-ink underline underline-offset-2 hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded"
+                    >
+                      {article.source_name}
+                    </a>
+                  ) : (
+                    <span>{article.source_name}</span>
+                  )
+                ) : (
+                  <span>TrueRate</span>
+                )}
                 <span>·</span>
                 <span>{timeAgo(dateIso)}</span>
               </div>

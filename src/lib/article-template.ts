@@ -40,6 +40,8 @@ export interface ParsedTemplate {
   heroAlt?: string;
   category?: string;
   author?: string;
+  sourceName?: string;
+  sourceUrl?: string;
   status?: 'draft' | 'published' | 'archived';
   body: string;
 }
@@ -52,6 +54,7 @@ type FieldKey =
   | 'heroAlt'
   | 'category'
   | 'author'
+  | 'source'
   | 'status'
   | 'body'
   | 'ignore';
@@ -80,6 +83,11 @@ const LABELS: Record<string, FieldKey> = {
   'hero alt text': 'heroAlt',
   'hero alt': 'heroAlt',
   'alt text': 'heroAlt',
+  source: 'source',
+  sources: 'source',
+  outlet: 'source',
+  credit: 'source',
+  via: 'source',
   body: 'body',
   'body markdown': 'body',
   article: 'body',
@@ -124,6 +132,41 @@ function cleanScalar(value: string): string {
   return v;
 }
 
+/** Parse a SOURCE value: a Markdown link, "Name | url", a bare URL, or a name. */
+function parseSourceValue(raw: string): { name?: string; url?: string } | null {
+  const v = raw.trim();
+  if (!v) return null;
+
+  const md = v.match(/\[([^\]]+)\]\(([^)]+)\)/);
+  if (md) return { name: md[1].trim() || undefined, url: md[2].trim() || undefined };
+
+  if (v.includes('|')) {
+    const [a, ...rest] = v.split('|');
+    const b = rest.join('|').trim();
+    if (/^https?:\/\//i.test(b)) return { name: a.trim() || undefined, url: b };
+    if (/^https?:\/\//i.test(a.trim())) return { name: b || undefined, url: a.trim() };
+  }
+
+  const url = v.match(/https?:\/\/\S+/);
+  if (url) {
+    const name = v.replace(url[0], '').replace(/[—–\-•|:]+/g, ' ').trim();
+    return { name: name || undefined, url: url[0] };
+  }
+  return { name: v };
+}
+
+/** Find a "Sources:" line in the body and pull its first link as the source. */
+function extractSourceFromBody(body: string): { name?: string; url?: string } | null {
+  for (const line of body.split('\n')) {
+    const t = line.trim();
+    if (/^\**\s*sources?\b\s*:?/i.test(t)) {
+      const parsed = parseSourceValue(t.replace(/^\**\s*sources?\b\s*:?\**/i, '').trim());
+      if (parsed && (parsed.name || parsed.url)) return parsed;
+    }
+  }
+  return null;
+}
+
 function normalizeStatus(
   value: string | undefined,
 ): ParsedTemplate['status'] {
@@ -163,7 +206,9 @@ function parseFieldSheet(lines: string[]): ParsedTemplate | null {
     const match = trimmed.match(LABEL_LINE);
     if (match) {
       const key = LABELS[normalizeLabel(match[1])];
-      if (key) {
+      // Once inside the body, only the tail fields (status / published) may end
+      // it. A "Sources:" reference line in the body must stay in the body.
+      if (key && !(current === 'body' && key !== 'status' && key !== 'ignore')) {
         sawLabel = true;
         current = key;
         if (!buffers.has(key)) buffers.set(key, []);
@@ -195,6 +240,13 @@ function parseFieldSheet(lines: string[]): ParsedTemplate | null {
 
   const body = normalizeBodyHeadings((buffers.get('body') ?? []).join('\n').trim());
 
+  // Source: an explicit SOURCE: label wins; otherwise pull the first link from a
+  // "Sources:" line in the body (kept in the body for the reference list).
+  const rawSource = (buffers.get('source') ?? []).join(' ').trim();
+  const source = rawSource
+    ? parseSourceValue(rawSource)
+    : extractSourceFromBody(body);
+
   const result: ParsedTemplate = {
     title: scalar('title'),
     slug: scalar('slug'),
@@ -203,6 +255,8 @@ function parseFieldSheet(lines: string[]): ParsedTemplate | null {
     heroAlt: scalar('heroAlt'),
     category: scalar('category'),
     author: scalar('author'),
+    sourceName: source?.name,
+    sourceUrl: source?.url,
     status: normalizeStatus(scalar('status')),
     body,
   };
@@ -265,7 +319,13 @@ function parseInline(lines: string[]): ParsedTemplate {
     }
   }
 
-  return { ...fields, body };
+  const source = extractSourceFromBody(body);
+  return {
+    ...fields,
+    ...(source?.name ? { sourceName: source.name } : {}),
+    ...(source?.url ? { sourceUrl: source.url } : {}),
+    body,
+  };
 }
 
 /**

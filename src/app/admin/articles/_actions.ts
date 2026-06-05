@@ -68,6 +68,37 @@ function parseForm(form: FormData): ArticleInput | { error: string } {
   };
 }
 
+interface SourceInput {
+  source_name: string | null;
+  source_url: string | null;
+}
+
+function parseSource(form: FormData): SourceInput {
+  return {
+    source_name: nonEmpty(form.get('source_name')),
+    source_url: nonEmpty(form.get('source_url')),
+  };
+}
+
+/**
+ * Best-effort write of the outlet-attribution columns. Kept separate from the
+ * main insert/update so that, if migration 009 hasn't been applied yet, the
+ * article still saves — the source just isn't persisted until the column exists.
+ */
+async function saveSource(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  id: string,
+  src: SourceInput,
+) {
+  if (src.source_name === null && src.source_url === null) return;
+  const { error } = await supabase.from('articles').update(src).eq('id', id);
+  if (error) {
+    console.warn(
+      `[articles] source not saved (apply migration 009_article_source?): ${error.message}`,
+    );
+  }
+}
+
 export async function createArticle(form: FormData) {
   await requireAdmin('/admin/articles/new');
   const parsed = parseForm(form);
@@ -89,6 +120,8 @@ export async function createArticle(form: FormData) {
       `/admin/articles/new?error=${encodeURIComponent(error.message)}`,
     );
   }
+
+  await saveSource(supabase, data.id, parseSource(form));
 
   revalidatePath('/admin/articles');
   redirect(`/admin/articles/${data.id}/edit?ok=created`);
@@ -126,6 +159,8 @@ export async function updateArticle(id: string, form: FormData) {
       `/admin/articles/${id}/edit?error=${encodeURIComponent(error.message)}`,
     );
   }
+
+  await saveSource(supabase, id, parseSource(form));
 
   revalidatePath('/admin/articles');
   revalidatePath(`/admin/articles/${id}/edit`);

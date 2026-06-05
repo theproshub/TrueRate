@@ -28,6 +28,8 @@ export interface ArticleDefaults {
   hero_alt?: string | null;
   author_id?: string | null;
   category_id?: string | null;
+  source_name?: string | null;
+  source_url?: string | null;
   status?: 'draft' | 'published' | 'archived';
   published_at?: string | null;
 }
@@ -83,6 +85,8 @@ export default function ArticleForm({
   const [categoryId, setCategoryId] = useState(d.category_id ?? '');
   const [authorId, setAuthorId] = useState(d.author_id ?? '');
   const [heroAlt, setHeroAlt] = useState(d.hero_alt ?? '');
+  const [sourceName, setSourceName] = useState(d.source_name ?? '');
+  const [sourceUrl, setSourceUrl] = useState(d.source_url ?? '');
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(
     d.status ?? 'draft',
   );
@@ -127,6 +131,8 @@ export default function ArticleForm({
       const id = matchOptionId(parsed.author, authors.map((a) => ({ id: a.id, label: a.name })));
       if (id) setAuthorId(id);
     }
+    if (parsed.sourceName !== undefined) setSourceName(parsed.sourceName);
+    if (parsed.sourceUrl !== undefined) setSourceUrl(parsed.sourceUrl);
     if (parsed.status !== undefined) setStatus(parsed.status);
     setBody(parsed.body);
     setTab('write');
@@ -274,6 +280,39 @@ export default function ArticleForm({
             </select>
           </div>
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label htmlFor="source_name" className={LABEL}>Source outlet (optional)</label>
+            <input
+              id="source_name"
+              name="source_name"
+              type="text"
+              value={sourceName}
+              onChange={(e) => setSourceName(e.target.value)}
+              maxLength={120}
+              placeholder="Bloomberg, Reuters, New Dawn…"
+              aria-describedby="source-hint"
+              className={INPUT_BASE}
+            />
+          </div>
+          <div>
+            <label htmlFor="source_url" className={LABEL}>Source link (optional)</label>
+            <input
+              id="source_url"
+              name="source_url"
+              type="url"
+              value={sourceUrl}
+              onChange={(e) => setSourceUrl(e.target.value)}
+              maxLength={500}
+              placeholder="https://…"
+              className={INPUT_BASE}
+            />
+          </div>
+        </div>
+        <p id="source-hint" className={HINT}>
+          Credits the originating outlet on the story (Yahoo/Bloomberg-style). Leave blank for original TrueRate reporting.
+        </p>
       </div>
 
       <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">

@@ -34,6 +34,22 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
 
   if (articleErr || !article) notFound();
 
+  // Best-effort: load outlet attribution if migration 009 has been applied.
+  // Isolated so a missing column never breaks the editor.
+  let source: { source_name: string | null; source_url: string | null } = {
+    source_name: null,
+    source_url: null,
+  };
+  const { data: sourceRow } = await supabase
+    .from('articles')
+    .select('source_name, source_url')
+    .eq('id', id)
+    .single();
+  const src = sourceRow as unknown as
+    | { source_name: string | null; source_url: string | null }
+    | null;
+  if (src) source = src;
+
   const sp = await searchParams;
 
   const boundUpdate = updateArticle.bind(null, id);
@@ -55,7 +71,7 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
       </header>
       <ArticleForm
         action={boundUpdate}
-        defaults={article as ArticleDefaults}
+        defaults={{ ...article, ...source } as ArticleDefaults}
         categories={categories ?? []}
         authors={authors ?? []}
         error={sp.error ?? null}

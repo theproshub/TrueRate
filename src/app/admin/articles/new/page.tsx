@@ -21,9 +21,9 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
     (categories ?? []).find((c) => c.label.trim().toLowerCase() === 'news')?.id ??
     null;
 
-  // Default byline to Julian Sackey (falls back to none if missing).
+  // Default byline to the TrueRate News Desk (falls back to none if missing).
   const defaultAuthorId =
-    (authors ?? []).find((a) => a.name.trim().toLowerCase() === 'julian sackey')?.id ??
+    (authors ?? []).find((a) => a.name.trim().toLowerCase() === 'truerate news desk')?.id ??
     null;
 
   return (
