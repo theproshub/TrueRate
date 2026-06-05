@@ -4,7 +4,6 @@ import { timeAgo } from '@/lib/utils';
 import IndicatorsStrip from '@/components/IndicatorsStrip';
 import VideosSection from '@/components/VideosSection';
 import LiveMarketRail from '@/components/LiveMarketRail';
-import LiveMarketsFeed from '@/components/LiveMarketsFeed';
 import StickySidebar from '@/components/sports/StickySidebar';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
@@ -262,9 +261,6 @@ function MostReadWidget({ items }: { items: HomeArticle[] }) {
 function LatestSidebar({ latest, mostRead }: { latest: HomeArticle[]; mostRead: HomeArticle[] }) {
   return (
     <div className="flex flex-col gap-6">
-      {/* Auto-refreshing cross-asset feed (CBL FX + global indices/commodities/crypto) */}
-      <LiveMarketsFeed />
-
       {/* Live market data (FX + macro indicators) */}
       <LiveMarketRail />
 
