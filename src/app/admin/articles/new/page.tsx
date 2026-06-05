@@ -17,7 +17,7 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
   const sp = await searchParams;
 
   return (
-    <section aria-labelledby="new-article-heading">
+    <section aria-labelledby="new-article-heading" className="mx-auto max-w-3xl">
       <header className="mb-6">
         <h1 id="new-article-heading" className="text-2xl font-bold tracking-tight text-white">
           New article

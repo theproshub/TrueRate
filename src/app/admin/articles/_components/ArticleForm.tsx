@@ -3,7 +3,9 @@
 import { useMemo, useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { renderMarkdown } from '@/lib/markdown';
+import type { ParsedTemplate } from '@/lib/article-template';
 import { uploadArticleImage } from '../_upload';
+import TemplateImporter from './TemplateImporter';
 
 export interface AuthorOption {
   id: string;
@@ -76,8 +78,20 @@ export default function ArticleForm({
   const [title, setTitle] = useState(d.title ?? '');
   const [slug, setSlug] = useState(d.slug ?? '');
   const [slugTouched, setSlugTouched] = useState(Boolean(d.slug));
+  const [dek, setDek] = useState(d.dek ?? '');
   const [body, setBody] = useState(d.body ?? '');
   const [tab, setTab] = useState<'write' | 'preview'>('write');
+
+  function applyTemplate(parsed: ParsedTemplate) {
+    if (parsed.title !== undefined) setTitle(parsed.title);
+    if (parsed.dek !== undefined) setDek(parsed.dek);
+    if (parsed.slug !== undefined) {
+      setSlugTouched(true);
+      setSlug(slugify(parsed.slug));
+    }
+    setBody(parsed.body);
+    setTab('write');
+  }
 
   const [heroImage, setHeroImage] = useState(d.hero_image ?? '');
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -129,6 +143,11 @@ export default function ArticleForm({
           {notice}
         </div>
       )}
+
+      <TemplateImporter
+        onApply={applyTemplate}
+        hasExistingContent={Boolean(title.trim() || body.trim())}
+      />
 
       <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">
         <div>
@@ -188,7 +207,8 @@ export default function ArticleForm({
             id="dek"
             name="dek"
             type="text"
-            defaultValue={d.dek ?? ''}
+            value={dek}
+            onChange={(e) => setDek(e.target.value)}
             maxLength={300}
             placeholder="One-sentence summary shown under the headline"
             className={INPUT_BASE}

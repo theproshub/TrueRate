@@ -429,6 +429,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // The /admin area has its own chrome (see app/admin/layout.tsx) — the public
+  // marketing header doesn't belong there. Hooks above run unconditionally.
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <header ref={headerRef} className={`sticky top-0 z-50 border-b transition-colors ${isLight ? 'bg-white border-gray-200' : 'bg-brand-dark border-white/[0.06]'}`}>
       {/* Top bar */}

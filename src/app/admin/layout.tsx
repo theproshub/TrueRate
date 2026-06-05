@@ -15,7 +15,7 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-brand-dark">
-      <header className="border-b border-white/[0.07] bg-brand-card">
+      <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-brand-card/95 backdrop-blur">
         <div className="mx-auto flex max-w-container items-center gap-6 px-4 py-3">
           <Link
             href="/admin"

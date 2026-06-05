@@ -40,7 +40,7 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
   const boundDelete = deleteArticle.bind(null, id);
 
   return (
-    <section aria-labelledby="edit-article-heading">
+    <section aria-labelledby="edit-article-heading" className="mx-auto max-w-3xl">
       <header className="mb-6">
         <h1 id="edit-article-heading" className="text-2xl font-bold tracking-tight text-white">
           Edit article

@@ -51,7 +51,7 @@ const LEGAL_LINKS = [
 
 export default function Footer() {
   const pathname = usePathname();
-  if (pathname.startsWith('/news') || pathname.startsWith('/sports')) return null;
+  if (pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname.startsWith('/admin')) return null;
   return (
     <footer className="mt-4 sm:mt-10 border-t border-white/[0.06] bg-brand-dark">
 
