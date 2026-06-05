@@ -8,7 +8,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-04-28',
     category: 'policy',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '7 min read',
     body: [
       "The Monetary Policy Committee of the Central Bank of Liberia met on April 27 to review global and domestic economic developments during the first quarter of 2026 and to determine the appropriate monetary policy stance. The Committee's discussion was guided by its mandate to preserve price stability, safeguard exchange rate stability, maintain financial system resilience, and support domestic economic growth.",
@@ -26,7 +26,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-29',
     category: 'forex',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "The Liberian Dollar has held up better than several of West Africa's major currencies over recent months, a meaningful departure from its multi-year trend of broad-based weakness against regional peers. The shift is modest in absolute terms, but the direction of travel matters.",
@@ -42,7 +42,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Investigation',
     date: '2026-03-28',
     category: 'commodities',
-    author: 'TrueRate Investigation Team',
+    author: 'Julian Sackey',
     readTime: '10 min read',
     body: [
       "ArcelorMittal Liberia, the country's largest foreign direct investor and its single largest private sector employer, has committed $120 million to expand iron ore production at its Nimba County concession. The investment — the company's largest capital commitment in Liberia since the original mine reopening in 2011 — will add a third processing line, upgrade the 267-kilometre railway that connects the mine to the Port of Buchanan in Grand Bassa County, and increase annual production capacity from approximately 5 million tonnes to an eventual target of 15 million tonnes.",
@@ -59,7 +59,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-03-27',
     category: 'economy',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "The World Bank's latest Liberia Economic Monitor projects real GDP growth of 4.5% for 2026, up from an estimated 3.9% in 2025. The upgrade is driven primarily by three factors: the ramp-up of ArcelorMittal's expanded Nimba iron ore operations, increased capital spending under the 2026/27 national budget, and continued recovery in rubber export volumes. On paper, it is Liberia's strongest growth performance in five years. The headline number, however, obscures a more complicated story about who is capturing the gains.",
@@ -76,7 +76,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-26',
     category: 'commodities',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '8 min read',
     body: [
       "The Firestone Natural Rubber Company's Harbel plantation in Margibi County has just recorded its highest quarterly production in a decade. The estate — spanning approximately 220,000 acres and employing roughly 8,000 workers directly, with another 20,000 people dependent on it in surrounding communities — is the world's single largest rubber plantation under unified management. Bridgestone Corporation, the Japanese tyre giant that acquired Firestone in 1988, has been quietly executing a replanting and yield-improvement programme that is now delivering results that most industry analysts did not see coming.",
@@ -93,7 +93,7 @@ export const newsItems: NewsItem[] = [
     source: 'FrontPage Africa',
     date: '2026-03-25',
     category: 'policy',
-    author: 'FrontPage Africa',
+    author: 'TrueRate Newsroom',
     readTime: '5 min read',
     body: [
       "The Government of Liberia has completed the first phase of its civil service payroll digitalisation initiative, transitioning approximately 38,000 employees in Montserrado, Margibi, and Grand Bassa counties to receive salaries via mobile money. The programme, administered through a partnership between the Ministry of Finance and Development Planning, the Civil Service Agency, and Orange Money Liberia, is designed to reduce leakage from the payroll — a persistent problem in Liberia where 'ghost workers' have historically inflated salary expenditures — and to bring civil servants into the formal financial system.",
@@ -110,7 +110,7 @@ export const newsItems: NewsItem[] = [
     source: 'Reuters / TrueRate',
     date: '2026-03-24',
     category: 'commodities',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '5 min read',
     body: [
       "Global crude palm oil prices fell 1.4% in the week ending March 24, 2026, extending a decline that has cut approximately 12% from the commodity's price over the past three months. The primary driver is a supply recovery in Indonesia and Malaysia — the world's two largest palm oil producers, together accounting for roughly 85% of global output — following weather-related production disruptions in late 2024. Indonesian export volumes in particular have surged, with shipment data showing a 9% year-on-year increase in the first quarter of 2026.",
@@ -126,7 +126,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-03-23',
     category: 'economy',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "The International Monetary Fund has completed its annual Article IV consultation for Liberia, and the headline assessment is broadly positive. Staff welcomed falling inflation, the build-up in gross international reserves, and the government's commitment to fiscal consolidation under its Extended Credit Facility programme. The IMF projects real GDP growth of 4.5–5.1% for 2026, contingent on continued mining sector expansion and improved budget execution. The report describes Liberia's macroeconomic trajectory as 'broadly on track' — notable praise for a country that has navigated significant headwinds since the pandemic.",
@@ -143,7 +143,7 @@ export const newsItems: NewsItem[] = [
     source: 'Liberia Maritime Authority',
     date: '2026-03-22',
     category: 'economy',
-    author: 'TrueRate Trade Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "The Freeport of Monrovia recorded container throughput of approximately 48,000 twenty-foot equivalent units (TEUs) in the first quarter of 2026, a 22% increase over the same period in 2025 and the highest quarterly volume since 2021. The National Port Authority attributed the increase to three factors: the completion of Phase II of the port expansion in early 2026, which added two deep-water berths and expanded the container yard; improved vessel scheduling reliability following upgrades to the port's cargo handling equipment; and a general increase in import demand driven by construction activity associated with infrastructure projects funded by the World Bank and African Development Bank.",
@@ -159,7 +159,7 @@ export const newsItems: NewsItem[] = [
     source: 'Central Bank of Liberia',
     date: '2026-03-21',
     category: 'economy',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '7 min read',
     body: [
       "Remittances from the Liberian diaspora are among the largest sources of external financing for households in the country — by many estimates rivalling or exceeding government development spending, and larger than foreign direct investment, official development assistance, or earnings from most single commodities. Precise annual totals vary by source, but the scale of the flows and their upward trend are not in dispute.",
@@ -176,7 +176,7 @@ export const newsItems: NewsItem[] = [
     source: 'ECOWAS Commission',
     date: '2026-03-20',
     category: 'policy',
-    author: 'TrueRate Trade Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "The ECOWAS Commission's cross-border mobile money interoperability pilot went live on March 15, 2026, connecting payment systems in Liberia, Nigeria, Ghana, Senegal, Côte d'Ivoire, and Sierra Leone in a single digital payment corridor. The pilot, developed under the ECOWAS Payment System Interoperability project with technical support from the African Development Bank and the Bill & Melinda Gates Foundation, allows mobile money users in one participating country to send and receive payments directly to users in any other participating country — without the currency conversion friction and operator-specific barriers that have historically impeded cross-border digital transactions.",
@@ -192,7 +192,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-19',
     category: 'economy',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '7 min read',
     body: [
       "Ecobank Liberia posted an 18% increase in pre-tax profit for fiscal year 2025, its best performance since 2018 and a result that significantly outpaced the Liberian banking sector average of approximately 9% profit growth. The bank — a subsidiary of Ecobank Transnational Incorporated, the pan-African banking group headquartered in Lomé, Togo — attributed the result to three drivers: growth in its SME lending portfolio, increased fee income from digital banking and trade finance, and lower non-performing loan ratios following a 2023–2024 portfolio clean-up.",
@@ -209,7 +209,7 @@ export const newsItems: NewsItem[] = [
     source: 'Liberia Investment Commission',
     date: '2026-03-18',
     category: 'commodities',
-    author: 'TrueRate Investigation Team',
+    author: 'Julian Sackey',
     readTime: '8 min read',
     body: [
       "The Liberia Investment Commission reported $340 million in new foreign direct investment commitments to the mining sector in the first quarter of 2026, the highest quarterly figure since records began in 2012. The pledges, spanning iron ore, gold, and diamond exploration, come from companies based in Australia, Canada, the United Kingdom, and China, and follow the award of 14 new exploration licenses by the Ministry of Mines and Energy in the fourth quarter of 2025. The LIC describes the inflows as a vote of confidence in political stability under the Boakai administration and in the legal framework governing mineral development agreements.",
@@ -226,7 +226,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-17',
     category: 'economy',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '7 min read',
     body: [
       "Cassava is Liberia's most widely cultivated food crop, grown by an estimated 400,000 smallholder households across all 15 counties. It is the primary caloric staple for rural Liberian families, processed into fufu, dumboy, and gari — staple foods consumed across all socioeconomic groups. Despite its importance, Liberia's average cassava yield of approximately 7–8 tonnes per hectare is less than half the potential achievable with improved varieties and basic agronomic practices. The Ministry of Agriculture's $15 million Cassava Modernisation Initiative, funded partly by the International Fund for Agricultural Development, aims to change that.",
@@ -243,7 +243,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-16',
     category: 'economy',
-    author: 'TrueRate Tech & Finance Desk',
+    author: 'TrueRate Tech',
     readTime: '6 min read',
     body: [
       "Orange Money Liberia announced this month that it has crossed one million registered users — a milestone that took three years to reach following the platform's relaunch under Orange Liberia's broader West Africa mobile money strategy. The figure represents approximately 20% of Liberia's adult population and makes Orange Money the largest single financial services platform in the country by registered user count, exceeding the combined account base of all licensed commercial banks. The milestone was accelerated by the government's civil service salary disbursement programme, which enrolled approximately 38,000 civil servants as active Orange Money users.",
@@ -260,7 +260,7 @@ export const newsItems: NewsItem[] = [
     source: 'African Development Bank',
     date: '2026-03-15',
     category: 'economy',
-    author: 'TrueRate Development Desk',
+    author: 'TrueRate Business',
     readTime: '5 min read',
     body: [
       "The African Development Bank's Board of Directors approved a $28 million concessional loan to Liberia on March 10 for the rehabilitation of 320 kilometres of rural feeder roads in five agricultural counties: Lofa, Nimba, Bong, Margibi, and Grand Bassa. The loan, at a 0.75% annual interest rate with a 40-year repayment period and 10-year grace period, will fund the grading, gravelling, and drainage improvement of roads connecting smallholder farming communities to market towns and the national road network. The Ministry of Public Works will execute the project with supervision from an AfDB-appointed engineering firm.",
@@ -276,7 +276,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-14',
     category: 'commodities',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "Spot gold prices breached $3,100 per troy ounce in the week of March 10, 2026, extending a rally driven by central bank purchasing, geopolitical uncertainty, and sustained demand from Asian retail investors. At current prices, gold is trading approximately 35% above its level twelve months ago — a price environment that dramatically improves the economics of gold mining projects globally. For Liberia, where gold is the second most valuable export commodity after iron ore, the timing coincides with a significant expansion of mining activity in Grand Cape Mount County.",
@@ -293,7 +293,7 @@ export const newsItems: NewsItem[] = [
     source: 'Ministry of Finance',
     date: '2026-03-13',
     category: 'economy',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '7 min read',
     body: [
       "The Government of Liberia's debut $50 million sustainability-linked green bond, issued in February 2026, was oversubscribed 2.4 times, with orders exceeding $120 million from international institutional investors including development finance institutions, impact-focused asset managers, and African sovereign bond funds. The five-year bond was priced at a yield of 8.75%, inside the initial price guidance of 9.25–9.5%, and was admitted to trading on the London Stock Exchange's international securities market. It is the first sovereign bond issued by Liberia since independence.",
@@ -310,7 +310,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-03-12',
     category: 'policy',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "Liberia's mid-year budget review, scheduled for presentation to the Legislature on April 14, is expected to reveal a revenue shortfall of approximately $35–45 million against the $1.28 billion budget approved for fiscal 2026/27. Three separate analysts consulted by TrueRate — from the Liberia Business Association, the IMF Resident Representative's office, and the local economics faculty of the University of Liberia — all pointed to the same two underperforming revenue lines: customs duties, which are running approximately 12% below target, and personal income tax collections, which are approximately 8% below target.",
@@ -326,7 +326,7 @@ export const newsItems: NewsItem[] = [
     source: 'FAO',
     date: '2026-03-11',
     category: 'economy',
-    author: 'TrueRate Development Desk',
+    author: 'TrueRate Business',
     readTime: '5 min read',
     body: [
       "The Food and Agriculture Organization of the United Nations has published its West Africa Food Security Assessment for the first quarter of 2026. For Liberia, the headline finding is an improvement: the share of the population classified as food insecure — defined as lacking adequate access to sufficient, safe, and nutritious food — has declined from approximately 32% in 2023 to 27% in 2025, driven by improved agricultural output, falling food prices relative to their 2024 peak, and increased income from the mining and construction sectors in Nimba, Bong, and Montserrado counties.",
@@ -342,7 +342,7 @@ export const newsItems: NewsItem[] = [
     source: 'Central Bank of Liberia',
     date: '2026-03-10',
     category: 'policy',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "The Central Bank of Liberia completed a comprehensive overhaul of its Real-Time Gross Settlement system in March 2026, cutting the average time for interbank payment settlement from approximately four hours to under 90 seconds. The RTGS system is the backbone of Liberia's high-value payment infrastructure: it processes large-value transfers between commercial banks, government treasury payments, and cross-border transactions cleared through correspondent banking arrangements. The upgrade, funded through a combination of IMF technical assistance and government budget allocation at a total cost of approximately $4.2 million, replaces a legacy system installed in 2007.",
@@ -358,7 +358,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-09',
     category: 'commodities',
-    author: 'TrueRate Mining Desk',
+    author: 'TrueRate Mining',
     readTime: '8 min read',
     body: [
       "Bea Mountain Mining Corporation published a National Instrument 43-101 compliant resource estimate in March 2026 confirming 1.4 million ounces of indicated gold resource at the Gondoja prospect in Grand Cape Mount County, at an average grade of 2.1 grams per tonne. The resource was delineated through 148 drill holes completed between October 2024 and January 2026, at a total exploration expenditure of approximately $12 million. At current gold prices above $3,100 per ounce, the in-situ value of the deposit exceeds $4.3 billion — though what is actually recoverable after processing and infrastructure costs is significantly less.",
@@ -375,7 +375,7 @@ export const newsItems: NewsItem[] = [
     source: 'New Democrat',
     date: '2026-03-08',
     category: 'economy',
-    author: 'New Democrat / TrueRate',
+    author: 'TrueRate Newsroom',
     readTime: '6 min read',
     body: [
       "Average monthly rent for a two-bedroom unit in Monrovia reached approximately $210 in the first quarter of 2026, according to a housing survey published by the Ministry of Internal Affairs and Urban Affairs. The figure represents a 34% increase over the average of $157 recorded in 2023 and places housing costs in the capital at nearly double the minimum monthly salary of a civil servant in Grade 4 — approximately $115 per month. In the Paynesville, Sinkor, and Congo Town areas — the primary residential zones for Monrovia's growing middle class — rents for comparable units range from $250 to $400 per month.",
@@ -391,7 +391,7 @@ export const newsItems: NewsItem[] = [
     source: 'Liberia Telecommunications Authority',
     date: '2026-03-07',
     category: 'policy',
-    author: 'TrueRate Tech Desk',
+    author: 'TrueRate Tech',
     readTime: '5 min read',
     body: [
       "The Liberia Telecommunications Authority has confirmed that Liberia's first 5G spectrum auction will be held in the third quarter of 2026. The auction will offer licenses for 700 MHz spectrum — known as the 'digital dividend' band, propagating over long distances and penetrating buildings effectively, making it valuable for both urban coverage and rural connectivity — and 3.5 GHz spectrum, the primary mid-band frequency for 5G high-capacity deployments in dense urban areas. The LTA conducted a preliminary market consultation in January 2026 and received formal expressions of interest from Orange Liberia and Lonestar Cell MTN, Liberia's two licensed mobile network operators.",
@@ -407,7 +407,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-03-06',
     category: 'economy',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '6 min read',
     body: [
       "When investors talk about Liberia's economy, the conversation usually starts with mining. Iron ore and gold drove much of the country's 5.1% growth in 2025, with the mining sector expanding by roughly 17%. But agriculture — which grew more modestly, by about 2.6% that year — remains the larger employer and the part of the economy that most directly shapes how ordinary Liberians live.",
@@ -424,7 +424,7 @@ export const newsItems: NewsItem[] = [
     source: 'National Port Authority',
     date: '2026-03-05',
     category: 'economy',
-    author: 'TrueRate Trade Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "The National Port Authority formally inaugurated Phase II of the Freeport of Monrovia expansion on February 28, 2026, completing a five-year project funded primarily by the United States Millennium Challenge Corporation's second Liberia compact. The expansion added two deep-water berths capable of accommodating vessels up to 260 metres in length, a new container yard with a capacity of approximately 15,000 TEUs, and upgraded cranes and cargo handling equipment that roughly double the port's previous handling capacity. The total project cost was approximately $180 million, with MCC providing $125 million in grants and the Government of Liberia contributing approximately $55 million in counterpart funding.",
@@ -440,7 +440,7 @@ export const newsItems: NewsItem[] = [
     source: 'Liberia Rubber Authority',
     date: '2026-03-04',
     category: 'commodities',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '6 min read',
     body: [
       "The Liberia Rubber Authority has published a five-year strategic plan proposing a $30 million Rubber Replanting Fund to address what it describes as an 'existential threat' to Liberia's smallholder rubber sector. The fund, which the LRA proposes to capitalise through a combination of government budget allocation, donor support, and a levy on commercial rubber exporters, would finance the replanting of approximately 160,000 acres of aged rubber trees on smallholder farms across Margibi, Bong, Grand Bassa, and Lofa counties. Without replanting, the LRA estimates that smallholder rubber output could decline by 30–40% by 2032 as ageing trees pass their productive peak.",
@@ -457,7 +457,7 @@ export const newsItems: NewsItem[] = [
     source: 'Central Bank of Liberia',
     date: '2026-03-03',
     category: 'forex',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "Liberia's gross international reserves stood near US$576 million at the end of 2025, equivalent to roughly two months of import cover. The Central Bank of Liberia has attributed the level to several concurrent factors: mining-sector export receipts, particularly from expanded iron ore operations; diaspora remittance inflows; the reserve value of Liberia's IMF Special Drawing Rights allocation; and disciplined intervention in the foreign exchange market that purchases foreign currency during periods of excess supply.",
@@ -473,7 +473,7 @@ export const newsItems: NewsItem[] = [
     source: 'ECOWAS Commission',
     date: '2026-03-02',
     category: 'policy',
-    author: 'TrueRate Trade Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "All 15 member states of the Economic Community of West African States signed a customs harmonisation and trade facilitation agreement at the ECOWAS Summit in Abuja in February 2026, committing to a single window customs documentation system and digital cargo clearance by the end of 2028. The agreement builds on the existing ECOWAS Common External Tariff, which provides a standardised tariff structure for goods entering the region, but goes further in harmonising procedures, documentation requirements, and risk management systems across member state customs administrations. The World Bank's West Africa Trade Facilitation Programme, which has been supporting the technical work behind the agreement for three years, estimates that full implementation could reduce average border crossing times in the region by 40–60%.",
@@ -489,7 +489,7 @@ export const newsItems: NewsItem[] = [
     source: 'Rural and Renewable Energy Agency',
     date: '2026-03-01',
     category: 'economy',
-    author: 'TrueRate Energy Desk',
+    author: 'TrueRate Energy',
     readTime: '6 min read',
     body: [
       "Liberia's Rural and Renewable Energy Agency reported in its 2025 annual review that private solar mini-grid and standalone solar home system operators have added approximately 48 megawatts of installed capacity across the country over the past two years, powering an estimated 190,000 households. All of this capacity is in areas outside the national grid service territory of the Liberia Electricity Corporation, which serves approximately 70,000–80,000 customers in Montserrado County and a handful of secondary town supply areas. The off-grid sector has, in effect, outpaced the grid sector in terms of new household connections.",
@@ -506,7 +506,7 @@ export const newsItems: NewsItem[] = [
     source: 'Ministry of Finance',
     date: '2026-02-28',
     category: 'policy',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '7 min read',
     body: [
       "The Government of Liberia's fiscal year 2026/27 national budget, passed by the Legislature on February 20, 2026, totals $1.28 billion — the largest budget in Liberia's history in nominal terms and a 9.4% increase over the $1.17 billion approved for 2025/26. The budget prioritises capital expenditure, with a 12% increase in the development budget allocation to approximately $285 million, funded partly by increased mining royalty revenues, the green bond proceeds, and new concessional loans from multilateral development banks. Recurrent expenditure, principally wages, goods, and services, accounts for the remaining $995 million.",
@@ -523,7 +523,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate',
     date: '2026-02-27',
     category: 'commodities',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '6 min read',
     body: [
       "Cargill, one of the world's largest agricultural commodities traders, has signed supply agreements with seven cocoa farmer cooperatives in Nimba and Lofa counties covering an estimated 8,000 farming households and approximately 12,000 tonnes of annual cocoa production. Under the agreements, Cargill will purchase cocoa beans directly from the cooperatives at a price of 85% of the London terminal market price — significantly above the 60–65% of terminal price that smallholders typically receive through intermediary traders — in exchange for exclusivity, quality compliance with Cargill's sustainability standards, and minimum annual supply volumes.",
@@ -540,7 +540,7 @@ export const newsItems: NewsItem[] = [
     source: 'LiberBank Annual Report',
     date: '2026-02-26',
     category: 'economy',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "LiberBank, one of Liberia's mid-sized commercial banks with total assets of approximately $220 million, reported a 40% increase in its SME loan portfolio in fiscal 2025, driven by a credit assessment partnership with a Nairobi-based fintech firm that has deployed alternative credit scoring models across five East and West African markets. The partnership, which began in early 2024, uses a combination of mobile money transaction history, mobile phone usage patterns, and utility payment data to generate credit scores for borrowers who lack the formal bank account history, payslips, and collateral that traditional bank lending criteria require. The bank made approximately 12,000 new loans under the programme in its first full year, with an average loan size of $1,800.",
@@ -557,7 +557,7 @@ export const newsItems: NewsItem[] = [
     source: 'Ministry of Agriculture',
     date: '2026-02-25',
     category: 'economy',
-    author: 'TrueRate Agriculture Desk',
+    author: 'TrueRate Agriculture',
     readTime: '7 min read',
     body: [
       "The Ministry of Agriculture has published a $55 million development blueprint for what it calls the Lofa Agricultural Corridor — a plan to improve road connectivity between Lofa County's major agricultural production zones and Monrovia, establish cold-chain logistics facilities at three points along the corridor, and develop farmer cooperative capacity to supply consistent volumes of cocoa, coffee, palm oil, and vegetables to domestic processors and export aggregators. The blueprint, developed with technical assistance from the International Fund for Agricultural Development and the USAID Feed the Future programme, represents the most comprehensive agricultural investment plan the Liberian government has produced in the past 15 years.",
@@ -574,7 +574,7 @@ export const newsItems: NewsItem[] = [
     source: 'Reuters / TrueRate',
     date: '2026-02-24',
     category: 'commodities',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "Benchmark iron ore futures on the Singapore Exchange rallied 8.2% in the week of February 17–21, 2026, with the 62% Fe CFR China price recovering to approximately $116 per metric tonne from a four-month low of $107 recorded in January. The recovery was driven by improved Chinese steel production data: blast furnace utilisation at major Chinese steel mills reached a 14-month high of approximately 82%, as Chinese infrastructure stimulus spending and a modest recovery in property sector construction activity drove steel demand higher than most analysts had forecast for the first quarter.",
@@ -593,7 +593,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-04-28',
     category: 'analysis',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "The Central Bank of Liberia has held its benchmark policy rate at 16.25% with a continued cautious tightening bias, an unusually long pause that reflects genuine uncertainty about the direction of inflation rather than central bank inertia. Headline consumer price inflation, as measured by LISGIS, stood at 10.2% year-on-year in March 2026 — down from a peak of 13.7% in mid-2024, but still materially above the CBL's stated medium-term target band of 6–8%. The question that will define Liberian monetary policy through 2026 is whether the disinflationary trend is durable enough to justify an easing cycle, or whether cutting rates now would reignite the price pressures the CBL has spent two years suppressing.",
@@ -608,7 +608,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-04-22',
     category: 'analysis',
-    author: 'TrueRate Economics Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "Liberia's fiscal consolidation narrative — lower deficit, higher revenue collection, improved IMF programme compliance — is genuine and deserves credit. The Ministry of Finance has meaningfully strengthened the Liberia Revenue Authority's enforcement capacity, expanded the tax net to include more formal sector businesses, and reduced extrabudgetary expenditure that previously obscured the true fiscal position. The IMF's April 2026 Article IV consultation acknowledged these improvements explicitly, noting that Liberia's fiscal primary balance moved from a deficit of 2.1% of GDP in 2023 to near-balance in 2025.",
@@ -623,7 +623,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-04-15',
     category: 'analysis',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '6 min read',
     body: [
       "The fundamental case for a Liberian sovereign wealth fund rests on a straightforward observation: the country's most valuable assets — iron ore, rubber, gold — are finite and subject to volatile global prices. A properly designed wealth fund would capture a portion of extractive revenue during high-price periods, invest it in diversified international assets, and deploy returns to fund public services, infrastructure, or future generations — creating a buffer against commodity cycles that have historically destabilised Liberian public finances. The Santiago Principles, the international governance standards for sovereign wealth funds developed by the International Working Group of Sovereign Wealth Funds in 2008, provide a ready-made framework for transparency and accountability that would satisfy most donor concerns about political capture.",
@@ -638,7 +638,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-04-08',
     category: 'analysis',
-    author: 'TrueRate Investigation Team',
+    author: 'Julian Sackey',
     readTime: '7 min read',
     body: [
       "Liberia attracted an estimated $420 million in foreign direct investment in 2025, the highest since the post-Ebola recovery period of 2016–2018. That number, drawn from CBL balance of payments data and Ministry of Commerce concession filings, sounds encouraging until you map where it went. ArcelorMittal Liberia's Nimba expansion accounts for approximately $180 million — 43% of the total. Firestone Liberia's Harbel plantation maintenance and processing upgrades account for another $65 million, or 15%. Sime Darby Liberia's palm oil operations added approximately $30 million. In total, three concession companies in mining and plantation agriculture absorbed roughly 64% of total FDI.",
@@ -653,7 +653,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Analysis',
     date: '2026-04-01',
     category: 'analysis',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "Liberia's financial inclusion metrics have improved materially over the past three years. Orange Money, MTN MoMo, and Lonestar Cell's M-Cash together serve approximately 1.4 million registered mobile money users — a penetration rate of roughly 42% of Liberian adults — up from an estimated 28% in 2022. The CBL's 2025 Financial Inclusion Survey records a bank account ownership rate of 22.3% among adults, compared to 16.7% in 2020. By any measure, access to formal or semi-formal financial services is expanding. The question is whether expanded access is translating into meaningful use.",
@@ -671,7 +671,7 @@ export const newsItems: NewsItem[] = [
     source: 'LBDI / TrueRate Finance Desk',
     date: '2026-04-30',
     category: 'banking',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "The Liberia Bank for Development and Investment priced a five-year subordinated Liberian dollar note at LRD 500 million — approximately $2.6 million at the current CBL reference rate — in late April, completing a transaction that the bank and its advisers describe as the largest domestic corporate bond issuance in Liberia's recorded financial history. The note carries a fixed coupon of 14.5% per annum, payable semi-annually, and qualifies as Tier 2 capital under the CBL's capital adequacy framework, allowing LBDI to strengthen its regulatory capital ratios ahead of the Basel III-aligned standards the CBL expects to introduce by 2027. The offering was placed with seven institutional investors, predominantly commercial banks and a pension fund manager, with the remaining LRD 120 million placed with high-net-worth individuals through LBDI's private banking desk.",
@@ -686,7 +686,7 @@ export const newsItems: NewsItem[] = [
     source: 'Ecobank Liberia / CBL',
     date: '2026-04-25',
     category: 'banking',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "Ecobank Liberia's non-performing loan ratio declined to 8.1% in the quarter ending March 2026, the bank confirmed in its first-quarter management accounts published last week. The improvement marks a sustained recovery from a peak NPL ratio of 14.7% recorded in mid-2022, when a combination of pandemic-era loan restructurings, the post-Ebola construction sector downturn, and inadequate credit underwriting in the SME portfolio produced the highest bad debt levels the bank had seen in Liberia since its establishment. At 8.1%, the NPL ratio remains above the CBL's regulatory preferred threshold of 5%, and above Ecobank's West Africa average of 6.2%, but the trajectory is the right one.",
@@ -701,7 +701,7 @@ export const newsItems: NewsItem[] = [
     source: 'UBA Liberia',
     date: '2026-04-20',
     category: 'banking',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "United Bank for Africa's Liberia subsidiary has opened a dedicated SME Finance Centre at its Broad Street headquarters in Monrovia, staffed by twelve relationship managers and equipped with a digital loan origination system developed by UBA's Lagos technology team. The centre will offer working capital facilities from LRD 150,000 to LRD 5 million (approximately $780 to $26,000), asset finance for vehicles and equipment, and trade finance lines for importers. Interest rates start in the low-20s percent per annum for well-collateralised borrowers, declining for businesses that maintain a current account in good standing — a structure the bank has framed as a commitment to Liberia's productive sector that goes beyond deposit-gathering alone.",
@@ -716,7 +716,7 @@ export const newsItems: NewsItem[] = [
     source: 'Central Bank of Liberia',
     date: '2026-04-14',
     category: 'banking',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "The Central Bank of Liberia published its Basel III Capital Adequacy Implementation Roadmap last week, setting a deadline of December 31, 2027 for all licensed commercial banks to achieve a Common Equity Tier 1 capital ratio of at least 15% and a Total Capital Ratio of at least 18%. The roadmap, developed in consultation with the IMF Financial Sector Assessment Programme team over the past 18 months, adopts a simplified approach to the full Basel III framework that reflects Liberia's regulatory capacity and the relatively straightforward balance sheets of Liberian commercial banks. It does not incorporate the full Basel III market risk, operational risk, or leverage ratio requirements, which the CBL characterises as aspirational targets for a subsequent regulatory phase.",
@@ -731,7 +731,7 @@ export const newsItems: NewsItem[] = [
     source: 'GN Bank Liberia',
     date: '2026-04-07',
     category: 'banking',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "GN Bank Liberia posted an operating profit of LRD 4.2 million (approximately $22,000) in the first quarter of 2026 — a modest figure by any absolute measure, but a symbolically significant one for an institution that posted cumulative losses of approximately $14 million in the 2021–2023 period following the collapse of its parent's operations in Ghana. The Ghanaian banking crisis of 2019, which saw the Bank of Ghana revoke the licences of nine financial institutions including GN Bank Ghana, left GN Bank Liberia without the shareholder support it depended on for capital and liquidity, forcing the CBL to impose enhanced oversight and a partial lending moratorium that effectively froze the bank's growth for eighteen months.",
@@ -749,7 +749,7 @@ export const newsItems: NewsItem[] = [
     source: 'Central Bank of Liberia',
     date: '2026-04-29',
     category: 'investing',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "The Central Bank of Liberia conducted its first monthly Treasury Bill auction under the new issuance calendar on April 15, offering LRD 120 million of 91-day bills and LRD 80 million of 182-day bills. Total bids submitted were LRD 247 million — an oversubscription ratio of 1.23x — with the clearing rate settling at 13.8% for the 91-day tranche and 14.6% for the 182-day tranche. The CBL accepted bids for the full offered amount. While the market is still shallow by regional standards — Nigeria's FGN T-bill market clears over NGN 1 trillion per week — the shift from quarterly to monthly issuance represents a structural improvement in the functioning of Liberia's short-term money market.",
@@ -764,7 +764,7 @@ export const newsItems: NewsItem[] = [
     source: 'Ministry of Finance / TrueRate',
     date: '2026-04-24',
     category: 'investing',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "Liberia's $50 million sovereign green bond — issued in October 2024 with a seven-year maturity and a coupon of 8.75% — closed 2.4 times oversubscribed, a result that exceeded the expectations of both the Ministry of Finance and its lead arranger, the African Development Bank. The oversubscription reflected genuine demand from European impact investors, climate-focused pension funds, and development finance institutions who were prepared to accept the credit risk of a Liberian sovereign instrument in exchange for verified climate-eligible use of proceeds. The transaction established Liberia as one of the smallest sovereign issuers to successfully place a labelled bond in international capital markets, a distinction that the Ministry has deployed in subsequent investor engagement as evidence of market credibility.",
@@ -779,7 +779,7 @@ export const newsItems: NewsItem[] = [
     source: 'LiberCapital / TrueRate Tech & Finance Desk',
     date: '2026-04-18',
     category: 'investing',
-    author: 'TrueRate Tech & Finance Desk',
+    author: 'TrueRate Tech',
     readTime: '4 min read',
     body: [
       "LiberCapital, the Monrovia-based fintech company that provides working capital advances to small businesses using mobile money transaction history as the primary credit assessment input, has completed a $4.2 million Series A funding round led by Partech Africa, the continent-focused arm of the global venture firm, with co-investment from two Liberian institutional investors whose identities were not disclosed at closing. The round values LiberCapital at approximately $18 million post-money — a figure that reflects both the company's traction and the early-stage risk premium that frontier market fintech investments command. The company has deployed approximately $3.1 million in loans to date, with an average loan size of $620 and a reported 30-day default rate of 4.8%.",
@@ -794,7 +794,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Markets Desk',
     date: '2026-04-10',
     category: 'investing',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '5 min read',
     body: [
       "The International Finance Corporation, Norfund, and the Dutch development bank FMO have all conducted due diligence visits to Liberia in the past six months, evaluating potential investments across agriculture value chains, renewable energy, and financial services. Two European family offices — one specialising in frontier market debt and one in impact equity — have also retained local advisers to assess specific opportunities. None of this activity has produced a signed deal yet, but the clustering of investor attention is meaningful in a market where external investment has historically been dominated by mining FDI and official development finance.",
@@ -809,7 +809,7 @@ export const newsItems: NewsItem[] = [
     source: 'NASSCORP / TrueRate Finance Desk',
     date: '2026-04-03',
     category: 'investing',
-    author: 'TrueRate Finance Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "Liberia's National Social Security and Welfare Corporation has completed its governance restructuring under the amended NASSCORP Act passed by the Legislature in January 2026, installing an independent Investment Committee chaired by a non-executive director with international pension fund management experience. The reformed NASSCORP manages approximately $340 million in accumulated pension assets — the single largest pool of domestic institutional capital in Liberia, accumulated from mandatory payroll contributions of formal sector employees over several decades. The asset base has grown 18% in real terms since 2022, driven by increasing formal sector employment and improved contribution collection.",
@@ -827,7 +827,7 @@ export const newsItems: NewsItem[] = [
     source: 'Central Bank of Liberia',
     date: '2026-04-27',
     category: 'forex',
-    author: 'TrueRate Markets Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "The Central Bank of Liberia sold approximately $18 million in foreign exchange to commercial banks through the interbank foreign exchange market between March 18 and April 1, 2026, in the largest two-week intervention since the LRD stabilisation operation of September 2023. The sales were triggered by a convergence of seasonal demand factors — the end of the school term, when Liberian private schools require dollar payments for equipment, textbooks, and expatriate staff; the pre-Easter fuel import surge, which requires dollar settlements with Liberia's petroleum importers; and an unusual concentration of corporate dividend repatriation by two mining-sector concessionaries whose fiscal year closed March 31. The combined demand pressure pushed the LRD from 192.3 to 193.8 against the dollar before CBL intervention brought it back to within its managed corridor.",
@@ -842,7 +842,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Trade Desk',
     date: '2026-04-21',
     category: 'forex',
-    author: 'TrueRate Trade Desk',
+    author: 'TrueRate Economics',
     readTime: '4 min read',
     body: [
       "Nigeria's naira has depreciated from approximately 460 per dollar in mid-2023 to approximately 1,580 per dollar in April 2026 — a decline of more than 70% that represents the most severe currency adjustment in the history of one of West Africa's most important economies. The depreciation was triggered by the Tinubu administration's unification of Nigeria's multiple exchange rate windows in May 2023, a structural reform that was broadly right in principle but which exposed the naira to market forces for the first time in a decade, producing a rapid correction to fair value. The consequences for Nigeria's economy — accelerating inflation, a cost of living crisis, and sharp declines in real wages — have been severe and are still unfolding.",
@@ -857,7 +857,7 @@ export const newsItems: NewsItem[] = [
     source: 'TrueRate Investigation Team',
     date: '2026-04-12',
     category: 'forex',
-    author: 'TrueRate Investigation Team',
+    author: 'Julian Sackey',
     readTime: '6 min read',
     body: [
       "Liberia's formal remittance system — money transfer operators licensed by the CBL and operating through bank partnerships, including MoneyGram, Western Union, and Orange Money's international remittance product — processed approximately $56 million in inbound transfers in 2025. This figure, sourced from CBL balance of payments data, significantly understates the total remittance flow from the Liberian diaspora. Industry estimates, triangulated from mobile money transaction data, border surveys, and interviews with community associations in the United States, United Kingdom, and Ghana, suggest that an additional $120–180 million flows through informal channels annually — through community couriers, informal money dealers, and what is loosely termed the hawala network: trust-based value transfer systems in which money is transferred through a network of brokers without physical movement of cash.",
