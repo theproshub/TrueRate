@@ -1,59 +1,277 @@
 /**
- * Parse a pasted "template" into draft article fields.
+ * Parse a pasted / uploaded "template" into draft article fields.
  *
- * The parser is intentionally forgiving so editors can paste a structure in a
- * few shapes and still get a sensible draft. Nothing is invented — it only
- * reorganises the text you paste into the form's fields.
+ * Nothing is invented — it only reorganises the text you provide into the
+ * form's fields. Two shapes are supported:
  *
- * Recognised shapes (mix and match):
+ * 1. FIELD SHEET (e.g. the newsroom "maps 1:1 to /admin/articles/new" draft).
+ *    Labels sit on their own line, the value follows on the next line(s), and a
+ *    `---` divider ends the form section (notes after it are ignored):
  *
- *   Labelled fields at the top, one per line:
- *     Title: CBL Holds Rate at 16.25%
- *     Standfirst: A one-sentence summary under the headline
- *     Slug: cbl-holds-rate          (optional; otherwise derived from title)
- *     Body:
- *     ## Lead
- *     ...
+ *      TITLE:
+ *      Mines minister tours ArcelorMittal …
  *
- *   Or plain Markdown — a leading `# Heading` becomes the title and the rest
- *   becomes the body:
- *     # CBL Holds Rate at 16.25%
- *     ## Lead
- *     ...
+ *      STANDFIRST / SUBTITLE:  (one sentence)
+ *      The minister praised the Buchanan investments …
  *
- * Accepted label aliases are listed below. The first `Body:` / `Article:` /
- * `Content:` marker (or the first unlabelled line) starts the body; everything
- * after it is kept verbatim, including Markdown headings.
+ *      CATEGORY:
+ *      News   [alt: Economy]
+ *
+ *      BODY (Markdown):
+ *      Liberia's Minister of Mines …
+ *
+ *      STATUS:
+ *      Draft
+ *      ---
+ *      ## BEFORE YOU PUBLISH — ignored
+ *
+ *    Parenthetical hints `(one sentence)`, bracket notes `[alt: Economy]`, and
+ *    placeholder values like `(leave blank …)` are stripped/ignored.
+ *
+ * 2. INLINE / MARKDOWN — `Label: value` on one line, or plain Markdown where a
+ *    leading `# Heading` becomes the title and the rest becomes the body.
  */
 
 export interface ParsedTemplate {
   title?: string;
   slug?: string;
   dek?: string;
+  heroImage?: string;
+  heroAlt?: string;
+  category?: string;
+  author?: string;
+  status?: 'draft' | 'published' | 'archived';
   body: string;
 }
 
-const FIELD_ALIASES: Record<string, 'title' | 'slug' | 'dek'> = {
+type FieldKey =
+  | 'title'
+  | 'slug'
+  | 'dek'
+  | 'heroImage'
+  | 'heroAlt'
+  | 'category'
+  | 'author'
+  | 'status'
+  | 'body'
+  | 'ignore';
+
+/** Normalised label text → field. Covers the newsroom sheet + common aliases. */
+const LABELS: Record<string, FieldKey> = {
   title: 'title',
   headline: 'title',
+  'url slug': 'slug',
   slug: 'slug',
   url: 'slug',
+  'standfirst / subtitle': 'dek',
+  'standfirst/subtitle': 'dek',
   standfirst: 'dek',
-  dek: 'dek',
   subtitle: 'dek',
   subhead: 'dek',
+  dek: 'dek',
   summary: 'dek',
+  category: 'category',
+  section: 'category',
+  author: 'author',
+  byline: 'author',
+  'hero image': 'heroImage',
+  hero: 'heroImage',
+  image: 'heroImage',
+  'hero alt text': 'heroAlt',
+  'hero alt': 'heroAlt',
+  'alt text': 'heroAlt',
+  body: 'body',
+  'body markdown': 'body',
+  article: 'body',
+  content: 'body',
+  story: 'body',
+  status: 'status',
+  'published at': 'ignore',
+  published: 'ignore',
+  'published date': 'ignore',
 };
 
-const BODY_MARKERS = new Set(['body', 'article', 'content', 'story']);
+// A "Label:" line — anything up to the first colon that doesn't start with a
+// Markdown heading marker. We only treat it as a field when the normalised
+// label is one we know, so body prose like "What to watch:" stays in the body.
+const LABEL_LINE = /^\s*([^:#][^:]*):\s*(.*)$/;
+const DIVIDER = /^\s*(-{3,}|\*{3,}|_{3,})\s*$/;
+
+function normalizeLabel(raw: string): string {
+  return raw
+    .replace(/\([^)]*\)/g, '') // drop "(one sentence)" / "(Markdown)"
+    .replace(/\[[^\]]*\]/g, '') // drop "[alt: …]"
+    .replace(/[*_`]/g, '') // drop markdown emphasis chars
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+/** A value that's really an instruction, e.g. "(leave blank — …)". */
+function isPlaceholder(value: string): boolean {
+  const v = value.trim();
+  if (!v) return true;
+  if (/^\(.*\)$/.test(v)) return true; // fully parenthesised
+  if (/^[—–-]+$/.test(v)) return true; // just a dash
+  return false;
+}
+
+/** Tidy a scalar field value: drop bracket notes, surrounding quotes, dashes. */
+function cleanScalar(value: string): string {
+  let v = value.split('[')[0]; // "News   [alt: Economy]" → "News"
+  v = v.replace(/\s+/g, ' ').trim();
+  v = v.replace(/^["'“”]+|["'“”]+$/g, '').trim();
+  return v;
+}
+
+function normalizeStatus(
+  value: string | undefined,
+): ParsedTemplate['status'] {
+  if (!value) return undefined;
+  const v = value.toLowerCase();
+  if (v.includes('publish')) return 'published';
+  if (v.includes('archiv')) return 'archived';
+  if (v.includes('draft')) return 'draft';
+  return undefined;
+}
+
+export function parseTemplate(input: string): ParsedTemplate {
+  const text = input.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  if (!text) return { body: '' };
+
+  const lines = text.split('\n');
+  const sheet = parseFieldSheet(lines);
+  if (sheet) return sheet;
+  return parseInline(lines);
+}
 
 /**
- * Keep the body within the site's styled heading hierarchy.
- *
- * The public article layout renders the headline as the page <h1> and styles
- * only h2/h3/h4 inside `.article-body`. A stray top-level `# Heading` in the
- * body would render unstyled, so we demote any body-level H1 to H2 (`#` → `##`).
- * Fenced code blocks are left untouched.
+ * Field-sheet parser: labels on their own line, value on following lines, body
+ * runs until the next known label or a `---` divider. Returns null when no
+ * known label is present so the caller can fall back to inline/Markdown.
+ */
+function parseFieldSheet(lines: string[]): ParsedTemplate | null {
+  const buffers = new Map<FieldKey, string[]>();
+  let current: FieldKey | null = null;
+  let sawLabel = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (DIVIDER.test(trimmed)) break; // notes follow — stop here
+
+    const match = trimmed.match(LABEL_LINE);
+    if (match) {
+      const key = LABELS[normalizeLabel(match[1])];
+      if (key) {
+        sawLabel = true;
+        current = key;
+        if (!buffers.has(key)) buffers.set(key, []);
+        const inline = match[2].trim();
+        if (inline && !isPlaceholder(inline)) buffers.get(key)!.push(inline);
+        continue;
+      }
+    }
+
+    if (!current) continue; // preamble before the first label → ignore
+
+    if (current === 'body') {
+      buffers.get('body')!.push(line); // preserve raw Markdown (incl. blanks)
+      continue;
+    }
+    // Scalar field: skip blanks and placeholder instructions.
+    if (!trimmed || isPlaceholder(trimmed)) continue;
+    buffers.get(current)!.push(trimmed);
+  }
+
+  if (!sawLabel) return null;
+
+  const scalar = (k: FieldKey): string | undefined => {
+    const arr = buffers.get(k);
+    if (!arr || arr.length === 0) return undefined;
+    const cleaned = cleanScalar(arr.join(' '));
+    return cleaned || undefined;
+  };
+
+  const body = normalizeBodyHeadings((buffers.get('body') ?? []).join('\n').trim());
+
+  const result: ParsedTemplate = {
+    title: scalar('title'),
+    slug: scalar('slug'),
+    dek: scalar('dek'),
+    heroImage: scalar('heroImage'),
+    heroAlt: scalar('heroAlt'),
+    category: scalar('category'),
+    author: scalar('author'),
+    status: normalizeStatus(scalar('status')),
+    body,
+  };
+
+  // Drop undefined keys for a clean object.
+  (Object.keys(result) as (keyof ParsedTemplate)[]).forEach((k) => {
+    if (result[k] === undefined) delete result[k];
+  });
+  return result;
+}
+
+/** Inline `Label: value` + plain-Markdown parser (leading `# Heading` = title). */
+function parseInline(lines: string[]): ParsedTemplate {
+  const fields: { title?: string; slug?: string; dek?: string } = {};
+  const bodyLines: string[] = [];
+  let inBody = false;
+
+  for (const line of lines) {
+    if (inBody) {
+      bodyLines.push(line);
+      continue;
+    }
+
+    const trimmed = line.trim();
+
+    if (!fields.title && /^#\s+\S/.test(trimmed)) {
+      fields.title = trimmed.replace(/^#\s+/, '').trim();
+      continue;
+    }
+
+    const match = trimmed.match(/^([A-Za-z][A-Za-z /]{1,20}):\s*(.*)$/);
+    if (match) {
+      const label = normalizeLabel(match[1]);
+      const value = match[2].trim();
+      const key = LABELS[label];
+      if (key === 'body') {
+        inBody = true;
+        if (value) bodyLines.push(value);
+        continue;
+      }
+      if (key === 'title' || key === 'slug' || key === 'dek') {
+        if (value) fields[key] = value;
+        continue;
+      }
+    }
+
+    if (!trimmed && bodyLines.length === 0) continue;
+
+    inBody = true;
+    bodyLines.push(line);
+  }
+
+  let body = normalizeBodyHeadings(bodyLines.join('\n').trim());
+
+  if (!fields.dek) {
+    const lead = extractLeadDek(body);
+    if (lead) {
+      fields.dek = lead.dek;
+      body = lead.body;
+    }
+  }
+
+  return { ...fields, body };
+}
+
+/**
+ * Keep the body within the site's styled heading hierarchy. The public article
+ * layout renders the headline as the page <h1> and styles only h2/h3/h4 inside
+ * `.article-body`, so demote any body-level H1 to H2. Fenced code is untouched.
  */
 function normalizeBodyHeadings(body: string): string {
   let inFence = false;
@@ -72,90 +290,17 @@ function normalizeBodyHeadings(body: string): string {
     .join('\n');
 }
 
-// A label line: starts with a letter, up to ~20 chars of letters/spaces/slashes,
-// then a colon. Excludes Markdown headings (`#`) and list markers.
-const LABEL_RE = /^([A-Za-z][A-Za-z /]{1,20}):\s*(.*)$/;
-
-export function parseTemplate(input: string): ParsedTemplate {
-  const text = input.replace(/\r\n/g, '\n').trim();
-  if (!text) return { body: '' };
-
-  const lines = text.split('\n');
-  const fields: { title?: string; slug?: string; dek?: string } = {};
-  const bodyLines: string[] = [];
-  let inBody = false;
-
-  for (const line of lines) {
-    if (inBody) {
-      bodyLines.push(line);
-      continue;
-    }
-
-    const trimmed = line.trim();
-
-    // Leading Markdown H1 → title (only the first one, before the body starts)
-    if (!fields.title && /^#\s+\S/.test(trimmed)) {
-      fields.title = trimmed.replace(/^#\s+/, '').trim();
-      continue;
-    }
-
-    const match = trimmed.match(LABEL_RE);
-    if (match) {
-      const label = match[1].trim().toLowerCase();
-      const value = match[2].trim();
-
-      if (BODY_MARKERS.has(label)) {
-        inBody = true;
-        if (value) bodyLines.push(value);
-        continue;
-      }
-
-      const field = FIELD_ALIASES[label];
-      if (field) {
-        if (value) fields[field] = value;
-        continue;
-      }
-    }
-
-    // Skip blank lines that precede any body content.
-    if (!trimmed && bodyLines.length === 0) continue;
-
-    // First unrecognised, non-blank line → body starts here.
-    inBody = true;
-    bodyLines.push(line);
-  }
-
-  let body = normalizeBodyHeadings(bodyLines.join('\n').trim());
-
-  // If no standfirst was given explicitly, lift a short lead paragraph out of
-  // the body into the dek — e.g. the opening line of a Word draft that sits
-  // under the headline. Only when it's a plain one-line sentence followed by
-  // more content, so we never strip a real article lead or a heading.
-  if (!fields.dek) {
-    const lead = extractLeadDek(body);
-    if (lead) {
-      fields.dek = lead.dek;
-      body = lead.body;
-    }
-  }
-
-  return { ...fields, body };
-}
-
 function extractLeadDek(body: string): { dek: string; body: string } | null {
   const text = body.trimStart();
   const breakIdx = text.indexOf('\n\n');
-  if (breakIdx === -1) return null; // need content after the lead
+  if (breakIdx === -1) return null;
 
   const first = text.slice(0, breakIdx).trim();
   const rest = text.slice(breakIdx + 2).trim();
 
   const looksStructural = /^(#{1,6}\s|>\s?|[-*+]\s|\d+\.\s|```|~~~|!\[)/.test(first);
   const isPlainShortLine =
-    first.length > 0 &&
-    first.length <= 220 &&
-    !first.includes('\n') &&
-    !looksStructural;
+    first.length > 0 && first.length <= 220 && !first.includes('\n') && !looksStructural;
 
   if (isPlainShortLine && rest.length > 0) {
     return { dek: first, body: rest };

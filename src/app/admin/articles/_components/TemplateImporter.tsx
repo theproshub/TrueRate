@@ -253,12 +253,18 @@ export default function TemplateImporter({
               className="mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 font-mono text-sm leading-relaxed text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             />
             <p id={`${textareaId}-hint`} className="mt-1 text-xs text-gray-500">
-              Recognises <code className="text-gray-400">Title:</code>,{' '}
-              <code className="text-gray-400">Standfirst:</code>,{' '}
-              <code className="text-gray-400">Slug:</code> and{' '}
-              <code className="text-gray-400">Body:</code> labels, or a leading{' '}
-              <code className="text-gray-400"># Heading</code>. Everything else
-              becomes the body.
+              Reads field-sheet labels —{' '}
+              <code className="text-gray-400">TITLE:</code>,{' '}
+              <code className="text-gray-400">STANDFIRST:</code>,{' '}
+              <code className="text-gray-400">CATEGORY:</code>,{' '}
+              <code className="text-gray-400">AUTHOR:</code>,{' '}
+              <code className="text-gray-400">HERO ALT TEXT:</code>,{' '}
+              <code className="text-gray-400">BODY:</code>,{' '}
+              <code className="text-gray-400">STATUS:</code> — with the value on
+              the next line, and stops at a <code className="text-gray-400">---</code>{' '}
+              divider. Also accepts inline{' '}
+              <code className="text-gray-400">Label: value</code> or a leading{' '}
+              <code className="text-gray-400"># Heading</code>.
             </p>
           </div>
 

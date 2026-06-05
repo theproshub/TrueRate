@@ -71,7 +71,6 @@ export default function ArticleForm({
   deleteAction,
 }: ArticleFormProps) {
   const d = defaults;
-  const status = d.status ?? 'draft';
   const publishedAtValue =
     d.published_at ? new Date(d.published_at).toISOString().slice(0, 16) : '';
 
@@ -80,7 +79,25 @@ export default function ArticleForm({
   const [slugTouched, setSlugTouched] = useState(Boolean(d.slug));
   const [dek, setDek] = useState(d.dek ?? '');
   const [body, setBody] = useState(d.body ?? '');
+  const [categoryId, setCategoryId] = useState(d.category_id ?? '');
+  const [authorId, setAuthorId] = useState(d.author_id ?? '');
+  const [heroAlt, setHeroAlt] = useState(d.hero_alt ?? '');
+  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(
+    d.status ?? 'draft',
+  );
   const [tab, setTab] = useState<'write' | 'preview'>('write');
+
+  /** Match a template's free-text name to a dropdown option id (case-insensitive). */
+  function matchOptionId(
+    name: string,
+    options: { id: string; label: string }[],
+  ): string | undefined {
+    const n = name.trim().toLowerCase();
+    return (
+      options.find((o) => o.label.trim().toLowerCase() === n)?.id ??
+      options.find((o) => o.label.trim().toLowerCase().startsWith(n))?.id
+    );
+  }
 
   function applyTemplate(parsed: ParsedTemplate) {
     if (parsed.title !== undefined) setTitle(parsed.title);
@@ -89,6 +106,17 @@ export default function ArticleForm({
       setSlugTouched(true);
       setSlug(slugify(parsed.slug));
     }
+    if (parsed.heroImage !== undefined) setHeroImage(parsed.heroImage);
+    if (parsed.heroAlt !== undefined) setHeroAlt(parsed.heroAlt);
+    if (parsed.category !== undefined) {
+      const id = matchOptionId(parsed.category, categories);
+      if (id) setCategoryId(id);
+    }
+    if (parsed.author !== undefined) {
+      const id = matchOptionId(parsed.author, authors.map((a) => ({ id: a.id, label: a.name })));
+      if (id) setAuthorId(id);
+    }
+    if (parsed.status !== undefined) setStatus(parsed.status);
     setBody(parsed.body);
     setTab('write');
   }
@@ -218,7 +246,7 @@ export default function ArticleForm({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label htmlFor="category_id" className={LABEL}>Category</label>
-            <select id="category_id" name="category_id" defaultValue={d.category_id ?? ''} className={INPUT_BASE}>
+            <select id="category_id" name="category_id" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className={INPUT_BASE}>
               <option value="">— None —</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.label}</option>
@@ -227,7 +255,7 @@ export default function ArticleForm({
           </div>
           <div>
             <label htmlFor="author_id" className={LABEL}>Author</label>
-            <select id="author_id" name="author_id" defaultValue={d.author_id ?? ''} className={INPUT_BASE}>
+            <select id="author_id" name="author_id" value={authorId} onChange={(e) => setAuthorId(e.target.value)} className={INPUT_BASE}>
               <option value="">— None —</option>
               {authors.map((a) => (
                 <option key={a.id} value={a.id}>{a.name}</option>
@@ -284,7 +312,7 @@ export default function ArticleForm({
         </div>
         <div>
           <label htmlFor="hero_alt" className={LABEL}>Hero alt text</label>
-          <input id="hero_alt" name="hero_alt" type="text" defaultValue={d.hero_alt ?? ''} maxLength={200} placeholder="CBL Governor Henry F. Saamoi at MPC briefing" aria-describedby="hero-alt-hint" className={INPUT_BASE} />
+          <input id="hero_alt" name="hero_alt" type="text" value={heroAlt} onChange={(e) => setHeroAlt(e.target.value)} maxLength={200} placeholder="CBL Governor Henry F. Saamoi at MPC briefing" aria-describedby="hero-alt-hint" className={INPUT_BASE} />
           <p id="hero-alt-hint" className={HINT}>Required for accessibility if a hero image is set. Describe the image, don&apos;t restate the headline.</p>
         </div>
       </div>
@@ -346,7 +374,7 @@ export default function ArticleForm({
           <div className="mt-2 flex flex-wrap gap-4">
             {(['draft', 'published', 'archived'] as const).map((s) => (
               <label key={s} className="inline-flex items-center gap-2 text-sm text-white">
-                <input type="radio" name="status" value={s} defaultChecked={status === s} className="h-4 w-4 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent" />
+                <input type="radio" name="status" value={s} checked={status === s} onChange={() => setStatus(s)} className="h-4 w-4 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent" />
                 <span>{s.charAt(0).toUpperCase() + s.slice(1)}</span>
               </label>
             ))}
