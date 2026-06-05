@@ -21,6 +21,11 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
     (categories ?? []).find((c) => c.label.trim().toLowerCase() === 'news')?.id ??
     null;
 
+  // Default byline to Julian Sackey (falls back to none if missing).
+  const defaultAuthorId =
+    (authors ?? []).find((a) => a.name.trim().toLowerCase() === 'julian sackey')?.id ??
+    null;
+
   return (
     <section aria-labelledby="new-article-heading" className="mx-auto max-w-3xl">
       <header className="mb-6">
@@ -33,7 +38,7 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
       </header>
       <ArticleForm
         action={createArticle}
-        defaults={{ status: 'draft', category_id: newsCategoryId }}
+        defaults={{ status: 'draft', category_id: newsCategoryId, author_id: defaultAuthorId }}
         categories={categories ?? []}
         authors={authors ?? []}
         error={sp.error ?? null}
