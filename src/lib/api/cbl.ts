@@ -47,7 +47,10 @@ function firstNumber(re: RegExp, html: string): number | null {
 export async function fetchCblUsdLrd(): Promise<CblUsdLrd | null> {
   try {
     const res = await fetch(CBL_URL, {
-      next: { revalidate: 3600 }, // CBL posts once per business day
+      // CBL posts once per business day — pull at most ~once/day. The fragile
+      // scrape lives behind Vercel's Data Cache, so a transient CBL outage or
+      // markup hiccup is absorbed by the cached value, not re-hit per request.
+      next: { revalidate: 86400 },
       headers: {
         Accept: 'text/html',
         'User-Agent': 'Mozilla/5.0 (compatible; TrueRate/1.0; +https://truerateliberia.com)',
