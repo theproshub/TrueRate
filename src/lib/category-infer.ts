@@ -56,6 +56,15 @@ const KEYWORDS: Record<string, RegExp[]> = {
   ],
   analysis: [/\banalysis\b/, /deep dive/, /explainer/],
   opinion: [/\bopinion\b/, /editorial/, /op-?ed/, /\bcolumn\b/],
+  // General/announcement signals. Kept last and deliberately narrow so topical
+  // stories (Economy, Markets, …) still win ties; News catches press releases,
+  // appointments, launches, and ceremonies with no stronger topical signal.
+  news: [
+    /press release/, /press conference/, /\bannounce/, /\bstatement\b/,
+    /communiqu/, /inaugurat/, /\blaunch/, /ceremony/, /sworn[- ]in/,
+    /\bappointment\b/, /\bappointed\b/, /\bdecree\b/, /executive order/,
+    /ratif/, /\bcabinet\b/,
+  ],
 };
 
 function countMatches(text: string, re: RegExp): number {

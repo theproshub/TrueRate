@@ -16,6 +16,11 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
 
   const sp = await searchParams;
 
+  // Default new articles to the "News" section (falls back to none if missing).
+  const newsCategoryId =
+    (categories ?? []).find((c) => c.label.trim().toLowerCase() === 'news')?.id ??
+    null;
+
   return (
     <section aria-labelledby="new-article-heading" className="mx-auto max-w-3xl">
       <header className="mb-6">
@@ -28,7 +33,7 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
       </header>
       <ArticleForm
         action={createArticle}
-        defaults={{ status: 'draft' }}
+        defaults={{ status: 'draft', category_id: newsCategoryId }}
         categories={categories ?? []}
         authors={authors ?? []}
         error={sp.error ?? null}
