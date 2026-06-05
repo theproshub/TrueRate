@@ -15,6 +15,8 @@
  * the CBL only quotes USD/LRD.
  */
 
+import { publicClient } from '@/lib/supabase/public';
+
 const CBL_URL = 'https://www.cbl.org.lr/research/buying-selling-rates';
 
 export interface CblUsdLrd {
@@ -80,4 +82,51 @@ export async function fetchCblUsdLrd(): Promise<CblUsdLrd | null> {
   } catch {
     return null;
   }
+}
+
+/**
+ * Last-known-good CBL rate: the most recent USD/LRD close we previously stored
+ * in `quotes_daily` (written by the snapshot cron + the history backfill, both
+ * sourced from the CBL). Used as an authoritative fallback when the live scrape
+ * fails — a recent *official* rate beats a community aggregate or a constant.
+ */
+export async function fetchLastKnownCblUsdLrd(): Promise<{ date: string; mid: number } | null> {
+  try {
+    const { data: sym } = await publicClient
+      .from('symbols')
+      .select('id')
+      .eq('ticker', 'USD/LRD')
+      .limit(1)
+      .maybeSingle();
+    if (!sym?.id) return null;
+
+    const { data: row } = await publicClient
+      .from('quotes_daily')
+      .select('date, close')
+      .eq('symbol_id', sym.id)
+      .order('date', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const mid = Number(row?.close);
+    if (!row?.date || !Number.isFinite(mid)) return null;
+    return { date: String(row.date), mid };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Resolve the CBL USD/LRD rate, preferring the live scrape and falling back to
+ * the last-known-good stored value. `live` is false when the cached value was
+ * used — callers must not persist a cached rate as a fresh daily close.
+ */
+export async function resolveCblUsdLrd(): Promise<{ date: string; mid: number; live: boolean } | null> {
+  const live = await fetchCblUsdLrd();
+  if (live) return { date: live.date, mid: live.mid, live: true };
+
+  const cached = await fetchLastKnownCblUsdLrd();
+  if (cached) return { date: cached.date, mid: cached.mid, live: false };
+
+  return null;
 }

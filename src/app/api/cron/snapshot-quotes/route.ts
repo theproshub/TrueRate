@@ -70,6 +70,10 @@ export async function GET(request: NextRequest) {
       let fxCount = 0;
       for (const sym of FX_SYMBOLS) {
         const base = sym.sourceKey.toUpperCase(); // 'usd' → 'USD'
+        // The USD/LRD series is the official CBL record — only persist it when
+        // freshly scraped today. A cached ('CBL-cache') or CDN anchor must not
+        // be written as a new official close.
+        if (base === 'USD' && live.lrdSource !== 'CBL') continue;
         const value = lrd[base];
         const id = idByTicker.get(sym.ticker);
         if (id && typeof value === 'number' && Number.isFinite(value)) {

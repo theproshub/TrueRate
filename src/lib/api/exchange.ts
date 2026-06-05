@@ -16,7 +16,7 @@
  * use lowercase keys (lrd, eur, gbp, cny, ghs, ngn).
  */
 
-import { fetchCblUsdLrd } from './cbl';
+import { resolveCblUsdLrd } from './cbl';
 
 const CDN_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
 const CDN_URL_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies/usd.json';
@@ -37,8 +37,16 @@ export interface LiveRates {
    * must check this and render a dash instead of the stale values.
    */
   stale?: boolean;
-  /** Where the headline USD/LRD anchor came from this fetch. */
-  lrdSource?: 'CBL' | 'CDN' | 'fallback';
+  /**
+   * Where the headline USD/LRD anchor came from this fetch.
+   *  - 'CBL'        live scrape today (fresh, persistable)
+   *  - 'CBL-cache'  last official rate from quotes_daily (recent, NOT today)
+   *  - 'CDN'        community aggregate (fawazahmed0)
+   *  - 'fallback'   hardcoded constant
+   */
+  lrdSource?: 'CBL' | 'CBL-cache' | 'CDN' | 'fallback';
+  /** Date of the CBL rate when lrdSource is 'CBL' or 'CBL-cache'. */
+  lrdAsOf?: string;
 }
 
 /** Currencies TrueRate tracks (LRD-centric) */
@@ -113,7 +121,7 @@ export async function fetchLiveRates(): Promise<LiveRates> {
   const [frank, cdn, cbl] = await Promise.all([
     fetchFrankfurterRates(),
     fetchCdnRates(),
-    fetchCblUsdLrd(),
+    resolveCblUsdLrd(), // live scrape, else last-known-good from quotes_daily
   ]);
 
   const cdnLrd =
@@ -122,7 +130,7 @@ export async function fetchLiveRates(): Promise<LiveRates> {
       : undefined;
   const lrdAnchor = cbl?.mid ?? cdnLrd;
 
-  // No live LRD anchor → fall back wholesale so callers can dash everything.
+  // No LRD anchor at all → fall back wholesale so callers can dash everything.
   if (lrdAnchor === undefined) {
     return {
       date: new Date().toISOString().split('T')[0],
@@ -143,13 +151,19 @@ export async function fetchLiveRates(): Promise<LiveRates> {
     }
   }
 
-  // Anchor: CBL mid, else the CDN's own lrd.
+  // Anchor: CBL (live or cached), else the CDN's own lrd.
   rates.lrd = lrdAnchor;
+  const lrdSource: LiveRates['lrdSource'] = cbl
+    ? cbl.live
+      ? 'CBL'
+      : 'CBL-cache'
+    : 'CDN';
 
   return {
     date: cbl?.date ?? frank?.date ?? cdn?.date ?? new Date().toISOString().split('T')[0],
     rates,
-    lrdSource: cbl ? 'CBL' : 'CDN',
+    lrdSource,
+    lrdAsOf: cbl?.date,
   };
 }
 
