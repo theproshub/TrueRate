@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      sports_clubs: {
+        Row: { id: string; rank: number; club: string; est_value: string | null; yoy: string | null; up: boolean | null; capacity: string | null; founded: number | null; revenue: string | null; wages: string | null; profit: string | null; profitable: boolean | null; margin: string | null; created_at: string | null; updated_at: string | null }
+        Insert: { id?: string; rank: number; club: string; est_value?: string | null; yoy?: string | null; up?: boolean | null; capacity?: string | null; founded?: number | null; revenue?: string | null; wages?: string | null; profit?: string | null; profitable?: boolean | null; margin?: string | null; created_at?: string | null; updated_at?: string | null }
+        Update: { id?: string; rank?: number; club?: string; est_value?: string | null; yoy?: string | null; up?: boolean | null; capacity?: string | null; founded?: number | null; revenue?: string | null; wages?: string | null; profit?: string | null; profitable?: boolean | null; margin?: string | null; created_at?: string | null; updated_at?: string | null }
+        Relationships: []
+      }
+      sports_athletes: {
+        Row: { id: string; rank: number; name: string; pos: string | null; club: string | null; market_value: string | null; trend: string | null; up: boolean | null; created_at: string | null; updated_at: string | null }
+        Insert: { id?: string; rank: number; name: string; pos?: string | null; club?: string | null; market_value?: string | null; trend?: string | null; up?: boolean | null; created_at?: string | null; updated_at?: string | null }
+        Update: { id?: string; rank?: number; name?: string; pos?: string | null; club?: string | null; market_value?: string | null; trend?: string | null; up?: boolean | null; created_at?: string | null; updated_at?: string | null }
+        Relationships: []
+      }
+      sports_sponsorships: {
+        Row: { id: string; rank: number; party: string; sponsor: string; category: string | null; annual: string | null; total_value: string | null; since_year: number | null; expiry_year: number | null; status: string | null; created_at: string | null; updated_at: string | null }
+        Insert: { id?: string; rank: number; party: string; sponsor: string; category?: string | null; annual?: string | null; total_value?: string | null; since_year?: number | null; expiry_year?: number | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
+        Update: { id?: string; rank?: number; party?: string; sponsor?: string; category?: string | null; annual?: string | null; total_value?: string | null; since_year?: number | null; expiry_year?: number | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
+        Relationships: []
+      }
+      sports_transfers: {
+        Row: { id: string; rank: number; player: string; pos: string | null; from_club: string | null; to_club: string | null; fee: string | null; contract: string | null; status: string | null; deal_date: string | null; direction: string | null; created_at: string | null; updated_at: string | null }
+        Insert: { id?: string; rank: number; player: string; pos?: string | null; from_club?: string | null; to_club?: string | null; fee?: string | null; contract?: string | null; status?: string | null; deal_date?: string | null; direction?: string | null; created_at?: string | null; updated_at?: string | null }
+        Update: { id?: string; rank?: number; player?: string; pos?: string | null; from_club?: string | null; to_club?: string | null; fee?: string | null; contract?: string | null; status?: string | null; deal_date?: string | null; direction?: string | null; created_at?: string | null; updated_at?: string | null }
+        Relationships: []
+      }
+      sports_broadcast_deals: {
+        Row: { id: string; sort_order: number; comp: string; rights: string | null; value: string | null; per_season: string | null; territory: string | null; expiry: string | null; status: string | null; created_at: string | null; updated_at: string | null }
+        Insert: { id?: string; sort_order?: number; comp: string; rights?: string | null; value?: string | null; per_season?: string | null; territory?: string | null; expiry?: string | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
+        Update: { id?: string; sort_order?: number; comp?: string; rights?: string | null; value?: string | null; per_season?: string | null; territory?: string | null; expiry?: string | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
+        Relationships: []
+      }
       alerts: {
         Row: {
           active: boolean | null

@@ -1,188 +1,156 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { NewsThumbnail } from '@/components/NewsThumbnail';
-import LeagueTable from '@/components/sports/LeagueTable';
+import SportsMasthead from '@/components/sports/SportsMasthead';
+import VerticalHero from '@/components/sports/VerticalHero';
+import SectionHead from '@/components/sports/SectionHead';
+import IntelTable from '@/components/sports/IntelTable';
+import InvestigationCard from '@/components/sports/InvestigationCard';
+import SidebarFooter from '@/components/sports/SidebarFooter';
+import Delta from '@/components/sports/Delta';
+import { fetchClubs } from '@/lib/sports/intel';
 import {
   CLUB_FINANCE_HERO,
-  CLUB_VALUATIONS,
-  CLUB_PNL,
   STADIUM_ECONOMICS,
   SPEND_VS_PERF,
   CLUB_FINANCE_EDITORIAL,
+  type ClubValuation,
+  type ClubPnL,
 } from '@/lib/sports-finance-data';
 
 export const metadata: Metadata = {
-  title: 'Club Finance — Sports Finance | TrueRate',
-  description: 'Club valuations, P&L summaries, stadium economics, and the spending-vs-performance picture across the Liberian Premier League.',
+  title: 'Club Finance — Sports Intelligence',
+  description: 'Liberian Premier League club valuations, P&L, stadium economics and the spending-vs-performance picture.',
 };
 
-function H2({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="text-xl font-bold text-gray-900 border-b border-gray-300 pb-1.5 mb-4">
-      {children}
-    </h2>
-  );
-}
+export const revalidate = 300;
 
-export default function ClubFinancePage() {
-  const maxSpend = Math.max(...SPEND_VS_PERF.map(d => d.spend));
-  const maxPerf  = Math.max(...SPEND_VS_PERF.map(d => d.perf));
+export default async function ClubFinancePage() {
+  const { valuations, pnl } = await fetchClubs();
+  const maxSpend = Math.max(...SPEND_VS_PERF.map((d) => d.spend));
+  const maxPerf = Math.max(...SPEND_VS_PERF.map((d) => d.perf));
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="min-h-screen bg-brand-surface text-gray-800">
+      <SportsMasthead />
       <main className="mx-auto max-w-container px-4 py-6">
-
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Club Finance' }]} />
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <article className="mb-10 pb-8 border-b border-gray-300">
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-3">Most-improved club</p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-[1.15] tracking-tight mb-3 max-w-[820px]">
-            {CLUB_FINANCE_HERO.title}
-          </h1>
-          <p className="text-md leading-relaxed text-gray-600 max-w-[760px] mb-3">
-            {CLUB_FINANCE_HERO.dek}
-          </p>
-          <p className="text-sm text-gray-500">
-            <span className="font-semibold text-gray-700">{CLUB_FINANCE_HERO.source}</span>
-            <span className="mx-1.5">·</span>
-            <time>{CLUB_FINANCE_HERO.time}</time>
-          </p>
-        </article>
+        <div className="mt-4">
+          <VerticalHero {...CLUB_FINANCE_HERO} />
+        </div>
 
-        {/* ── Valuations ──────────────────────────────────────────── */}
-        <section className="mb-12">
-          <H2>LPL club valuations · 2026 estimate</H2>
-          <LeagueTable
+        {/* Valuations */}
+        <section aria-labelledby="valuations" className="mb-12">
+          <SectionHead id="valuations" title="LPL Club Valuations · 2026 estimate" />
+          <IntelTable<ClubValuation>
+            caption="Estimated Liberian Premier League club valuations, 2026"
+            rows={valuations}
+            getRowKey={(r) => r.club}
             columns={[
-              { key: 'rank',     label: '#',          align: 'left',  width: '32px',  render: r => <span className="text-gray-400 tabular-nums">{r.rank}</span> },
-              { key: 'club',     label: 'Club',       align: 'left',  primary: true },
-              { key: 'estValue', label: 'Est. Value', align: 'right', numeric: true, primary: true },
-              { key: 'yoy',      label: 'YoY',        align: 'right', render: r => (
-                <span className={`text-sm tabular-nums ${r.up ? 'text-pos' : 'text-neg'}`}>
-                  {r.up ? '+' : ''}{r.yoy}
-                </span>
-              ) },
-              { key: 'capacity', label: 'Capacity',   align: 'right', hideOnMobile: true,
-                render: r => <span className="text-sm text-gray-500 tabular-nums">{r.capacity}</span> },
-              { key: 'founded',  label: 'Founded',    align: 'right', hideOnMobile: true,
-                render: r => <span className="text-sm text-gray-500 tabular-nums">{r.founded}</span> },
+              { key: 'rank', label: '#', render: (r) => <span className="text-gray-400">{r.rank}</span> },
+              { key: 'club', label: 'Club', primary: true },
+              { key: 'estValue', label: 'Est. value', numeric: true, primary: true },
+              { key: 'yoy', label: 'YoY', numeric: true, render: (r) => <Delta text={r.yoy} up={r.up} className="text-xs justify-end" /> },
+              { key: 'capacity', label: 'Capacity', numeric: true, hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.capacity}</span> },
+              { key: 'founded', label: 'Founded', numeric: true, hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.founded}</span> },
             ]}
-            rows={CLUB_VALUATIONS}
-            caption="Estimated club valuations, top of LPL"
           />
         </section>
 
-        {/* ── P&L ────────────────────────────────────────────────── */}
-        <section className="mb-12">
-          <H2>Club P&L · 2025 season</H2>
-          <LeagueTable
+        {/* P&L */}
+        <section aria-labelledby="pnl" className="mb-12">
+          <SectionHead id="pnl" title="Club P&amp;L · 2025 season" />
+          <IntelTable<ClubPnL>
+            caption="Liberian Premier League club profit and loss, 2025 season"
+            rows={pnl}
+            getRowKey={(r) => r.club}
             columns={[
-              { key: 'club',    label: 'Club',     align: 'left',  primary: true },
-              { key: 'revenue', label: 'Revenue',  align: 'right', numeric: true },
-              { key: 'wages',   label: 'Wage Bill',align: 'right',
-                render: r => <span className="text-sm tabular-nums text-gray-700">{r.wages}</span> },
-              { key: 'profit',  label: 'P&L',      align: 'right',
-                render: r => (
-                  <span className={`text-base font-semibold tabular-nums ${r.profitable ? 'text-pos' : 'text-neg'}`}>
-                    {r.profit}
-                  </span>
-                )
-              },
-              { key: 'margin',  label: 'Margin',   align: 'right', hideOnMobile: true,
-                render: r => (
-                  <span className={`text-sm tabular-nums ${r.profitable ? 'text-pos' : 'text-neg'}`}>
-                    {r.margin}
-                  </span>
-                )
-              },
+              { key: 'club', label: 'Club', primary: true },
+              { key: 'revenue', label: 'Revenue', numeric: true, primary: true },
+              { key: 'wages', label: 'Wage bill', numeric: true, render: (r) => <span className="text-gray-500">{r.wages}</span> },
+              { key: 'profit', label: 'P&L', numeric: true, render: (r) => <span className={`font-semibold tabular-nums ${r.profitable ? 'text-pos' : 'text-neg'}`}>{r.profit}</span> },
+              { key: 'margin', label: 'Margin', numeric: true, hideOnMobile: true, render: (r) => <Delta text={r.margin} up={r.profitable} className="text-xs justify-end" /> },
             ]}
-            rows={CLUB_PNL}
-            caption="Club profit and loss, 2025 season"
           />
         </section>
 
-        {/* ── Stadium + Spend vs Perf ─────────────────────────────── */}
-        <section className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-10">
-
+        {/* Stadium + scatter */}
+        <section aria-labelledby="stadium" className="mb-12 grid gap-x-8 gap-y-10 lg:grid-cols-2">
           <div>
-            <H2>{STADIUM_ECONOMICS.venue}</H2>
-            <dl className="grid grid-cols-2 border-y border-gray-200 [&>*+*]:border-l [&>*+*]:border-gray-200 [&>*:nth-child(n+3)]:border-t [&>*:nth-child(odd)]:border-l-0 [&>*:nth-child(3)]:border-l-0">
-              <div className="px-4 py-3">
-                <dt className="text-xs text-gray-500 mb-1">Capacity</dt>
-                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.capacity}</dd>
+            <SectionHead id="stadium" title={STADIUM_ECONOMICS.venue} />
+            <dl className="grid grid-cols-2 gap-px rounded-lg overflow-hidden border border-gray-200 bg-gray-200">
+              <div className="bg-white px-4 py-3">
+                <dt className="text-2xs uppercase tracking-wide text-gray-500">Capacity</dt>
+                <dd className="mt-1 text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.capacity}</dd>
               </div>
-              <div className="px-4 py-3">
-                <dt className="text-xs text-gray-500 mb-1">Utilisation</dt>
-                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.utilisation}</dd>
+              <div className="bg-white px-4 py-3">
+                <dt className="text-2xs uppercase tracking-wide text-gray-500">Utilisation</dt>
+                <dd className="mt-1 text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.utilisation}</dd>
               </div>
-              <div className="px-4 py-3">
-                <dt className="text-xs text-gray-500 mb-1">Renovation</dt>
-                <dd className="text-md font-semibold text-gray-900">{STADIUM_ECONOMICS.renovation_phase} <span className="text-sm font-normal text-gray-500 tabular-nums">· {STADIUM_ECONOMICS.renovation_total}</span></dd>
+              <div className="bg-white px-4 py-3">
+                <dt className="text-2xs uppercase tracking-wide text-gray-500">Renovation</dt>
+                <dd className="mt-1 text-md font-semibold text-gray-900">{STADIUM_ECONOMICS.renovation_phase} <span className="text-sm font-normal text-gray-500 tabular-nums">· {STADIUM_ECONOMICS.renovation_total}</span></dd>
               </div>
-              <div className="px-4 py-3">
-                <dt className="text-xs text-gray-500 mb-1">Break-even</dt>
-                <dd className="text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.break_even_year}</dd>
+              <div className="bg-white px-4 py-3">
+                <dt className="text-2xs uppercase tracking-wide text-gray-500">Break-even</dt>
+                <dd className="mt-1 text-stat-sm font-bold text-gray-900 tabular-nums">{STADIUM_ECONOMICS.break_even_year}</dd>
               </div>
             </dl>
             <ul className="mt-4 space-y-2.5">
               {STADIUM_ECONOMICS.notes.map((n, i) => (
-                <li key={i} className="text-base leading-relaxed text-gray-600 pl-3 border-l-2 border-gray-300">
-                  {n}
-                </li>
+                <li key={i} className="text-sm leading-relaxed text-gray-600 pl-3 border-l-2 border-gray-300">{n}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <H2>Wage bill vs LPL points · 2025</H2>
-            <div className="relative aspect-[5/3] border-l border-b border-gray-300 ml-10 mb-8 mt-4">
-              {SPEND_VS_PERF.map(d => {
-                const x = (d.spend / maxSpend) * 100;
-                const y = (d.perf  / maxPerf)  * 100;
-                return (
-                  <div
-                    key={d.club}
-                    title={`${d.club}: $${d.spend}K wages · ${d.perf} pts`}
-                    className={`absolute h-2.5 w-2.5 rounded-full -translate-x-1/2 translate-y-1/2 ${d.profitable ? 'bg-pos' : 'bg-neg'}`}
-                    style={{ left: `${x}%`, bottom: `${y}%` }}
-                  />
-                );
-              })}
-              <span className="absolute -left-9 top-0 text-2xs uppercase tracking-wide text-gray-500">Pts</span>
-              <span className="absolute -bottom-6 right-0 text-2xs uppercase tracking-wide text-gray-500">Wages →</span>
-            </div>
-            <div className="flex items-center gap-5 text-sm text-gray-500">
-              <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-pos" /> Profitable</span>
-              <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-neg" /> Loss-making</span>
-            </div>
+            <SectionHead id="spend-perf" title="Wage bill vs LPL points · 2025" />
+            <figure>
+              <div
+                className="relative aspect-[5/3] border-l border-b border-gray-300 ml-10 mb-8 mt-2"
+                role="img"
+                aria-label="Scatter plot of club wage bill against league points; higher-spending clubs generally finish with more points."
+              >
+                {SPEND_VS_PERF.map((d) => {
+                  const x = (d.spend / maxSpend) * 100;
+                  const y = (d.perf / maxPerf) * 100;
+                  return (
+                    <span
+                      key={d.club}
+                      title={`${d.club}: $${d.spend}K wages · ${d.perf} pts`}
+                      className={`absolute h-2.5 w-2.5 rounded-full -translate-x-1/2 translate-y-1/2 ${d.profitable ? 'bg-pos' : 'bg-neg'}`}
+                      style={{ left: `${x}%`, bottom: `${y}%` }}
+                    />
+                  );
+                })}
+                <span className="absolute -left-9 top-0 text-2xs uppercase tracking-wide text-gray-500">Pts</span>
+                <span className="absolute -bottom-6 right-0 text-2xs uppercase tracking-wide text-gray-500">Wages →</span>
+              </div>
+              <figcaption className="flex items-center gap-5 text-sm text-gray-600">
+                <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-pos" /> Profitable</span>
+                <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-neg" /> Loss-making</span>
+              </figcaption>
+            </figure>
           </div>
-
         </section>
 
-        {/* ── Editorial ────────────────────────────────────────────── */}
-        <section>
-          <H2>In depth</H2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {CLUB_FINANCE_EDITORIAL.map(e => (
-              <Link key={e.title} href={e.href} className="group flex flex-col no-underline">
-                <div className="overflow-hidden mb-3">
-                  <NewsThumbnail category={e.category} className="w-full h-[160px]" />
-                </div>
-                <p className="text-xs uppercase tracking-wide text-gray-500 mb-1.5">{e.category}</p>
-                <h3 className="text-lg font-bold text-gray-900 leading-snug tracking-tight group-hover:text-gray-700 transition-colors mb-2">{e.title}</h3>
-                <p className="text-base text-gray-600 leading-relaxed line-clamp-3 mb-3">{e.dek}</p>
-                <p className="text-xs text-gray-500 mt-auto">
-                  <span className="font-semibold text-gray-700">{e.source}</span>
-                  <span className="mx-1.5">·</span>
-                  {e.time}
-                </p>
-              </Link>
+        {/* Editorial */}
+        <section aria-labelledby="cf-depth" className="mb-12">
+          <SectionHead id="cf-depth" title="In Depth" />
+          <div className="grid gap-6 sm:grid-cols-3">
+            {CLUB_FINANCE_EDITORIAL.map((e) => (
+              <InvestigationCard key={e.title} item={e} imageCategory="club finance" />
             ))}
           </div>
         </section>
 
+        <div className="mt-4">
+          <SidebarFooter />
+        </div>
+        <p className="sr-only">
+          <Link href="/sports">Back to TrueRate Sports</Link>
+        </p>
       </main>
     </div>
   );

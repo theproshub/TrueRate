@@ -1,158 +1,124 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { NewsThumbnail } from '@/components/NewsThumbnail';
-import StatusPill from '@/components/sports/StatusPill';
-import LeagueTable from '@/components/sports/LeagueTable';
+import SportsMasthead from '@/components/sports/SportsMasthead';
+import VerticalHero from '@/components/sports/VerticalHero';
+import SectionHead from '@/components/sports/SectionHead';
+import IntelTable from '@/components/sports/IntelTable';
+import InvestigationCard from '@/components/sports/InvestigationCard';
+import SidebarFooter from '@/components/sports/SidebarFooter';
+import { fetchSponsorships } from '@/lib/sports/intel';
 import {
   SPONSORSHIP_HERO,
-  SPONSORSHIP_LEADERBOARD,
   SPONSORSHIP_BRANDS,
   SPONSORSHIP_ATHLETES,
   SPONSORSHIP_FEDERATION,
   SPONSORSHIP_EDITORIAL,
+  type Sponsorship,
+  type SponsorBrand,
 } from '@/lib/sports-finance-data';
 
 export const metadata: Metadata = {
-  title: 'Sponsorship — Sports Finance | TrueRate',
-  description: 'Title, shirt, and federation sponsorship deals across Liberian and West African sports — clubs ranked, brands ranked, and the deal economics behind the headlines.',
+  title: 'Sponsorship & Business — Sports Intelligence',
+  description: 'Active partnerships, brand-category spend, athlete endorsements and federation deals across Liberian sport.',
 };
 
-function H2({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="text-xl font-bold text-gray-900 border-b border-gray-300 pb-1.5 mb-4">
-      {children}
-    </h2>
-  );
-}
+export const revalidate = 300;
 
-export default function SponsorshipPage() {
+export default async function SponsorshipPage() {
+  const leaderboard = await fetchSponsorships();
   return (
-    <div className="bg-white min-h-screen">
+    <div className="min-h-screen bg-brand-surface text-gray-800">
+      <SportsMasthead />
       <main className="mx-auto max-w-container px-4 py-6">
-
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Sports', href: '/sports' }, { label: 'Sponsorship' }]} />
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <article className="mb-10 pb-8 border-b border-gray-300">
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-3">League title sponsorship</p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-[1.15] tracking-tight mb-3 max-w-[820px]">
-            {SPONSORSHIP_HERO.title}
-          </h1>
-          <p className="text-md leading-relaxed text-gray-600 max-w-[760px] mb-3">
-            {SPONSORSHIP_HERO.dek}
-          </p>
-          <p className="text-sm text-gray-500">
-            <span className="font-semibold text-gray-700">{SPONSORSHIP_HERO.source}</span>
-            <span className="mx-1.5">·</span>
-            <time>{SPONSORSHIP_HERO.time}</time>
-          </p>
-        </article>
+        <div className="mt-4">
+          <VerticalHero {...SPONSORSHIP_HERO} />
+        </div>
 
-        {/* ── Leaderboard ─────────────────────────────────────────── */}
-        <section className="mb-12">
-          <H2>Sponsorship leaderboard · clubs & federations</H2>
-          <LeagueTable
+        {/* Leaderboard */}
+        <section aria-labelledby="sp-leaderboard" className="mb-12">
+          <SectionHead id="sp-leaderboard" title="Sponsorship Leaderboard" />
+          <IntelTable<Sponsorship>
+            caption="Largest active sponsorship deals across Liberian sport"
+            rows={leaderboard}
+            getRowKey={(r) => `${r.party}-${r.sponsor}`}
             columns={[
-              { key: 'rank',       label: '#',          align: 'left',  width: '32px',  render: r => <span className="text-gray-400 tabular-nums">{r.rank}</span> },
-              { key: 'party',      label: 'Party',      align: 'left',  primary: true },
-              { key: 'sponsor',    label: 'Sponsor',    align: 'left',  hideOnMobile: true },
-              { key: 'category',   label: 'Type',       align: 'left',  hideOnMobile: true,
-                render: r => <span className="text-xs uppercase tracking-wide text-gray-500">{r.category}</span> },
-              { key: 'annual',     label: 'Annual',     align: 'right', numeric: true, primary: true },
-              { key: 'totalValue', label: 'Total',      align: 'right', hideOnMobile: true,
-                render: r => <span className="text-sm text-gray-500 tabular-nums">{r.totalValue}</span> },
-              { key: 'expiry',     label: 'Expires',    align: 'right', hideOnMobile: true,
-                render: r => <span className="text-sm text-gray-500 tabular-nums">{r.expiry}</span> },
-              { key: 'status',     label: 'Status',     align: 'right', render: r => <StatusPill status={r.status} /> },
+              { key: 'rank', label: '#', render: (r) => <span className="text-gray-400">{r.rank}</span> },
+              { key: 'party', label: 'Rights holder', primary: true },
+              { key: 'sponsor', label: 'Brand', render: (r) => <span className="text-gray-700">{r.sponsor}</span> },
+              { key: 'category', label: 'Type', hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.category}</span> },
+              { key: 'annual', label: 'Annual', numeric: true, primary: true },
+              { key: 'totalValue', label: 'Total', numeric: true, hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.totalValue}</span> },
+              { key: 'expiry', label: 'Through', numeric: true, hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.expiry}</span> },
             ]}
-            rows={SPONSORSHIP_LEADERBOARD}
-            caption="Sponsorship leaderboard ranked by annual value"
           />
         </section>
 
-        {/* ── Brand activity + Federation deals ───────────────────── */}
-        <section className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-10">
-
+        {/* Brands + athletes/federation */}
+        <section aria-labelledby="sp-brands" className="mb-12 grid gap-x-8 gap-y-10 lg:grid-cols-2">
           <div>
-            <H2>Top brands · annual spend</H2>
-            <LeagueTable
-              columns={[
-                { key: 'rank',        label: '#',       align: 'left',  width: '32px', render: r => <span className="text-gray-400 tabular-nums">{r.rank}</span> },
-                { key: 'brand',       label: 'Brand',   align: 'left',  primary: true },
-                { key: 'sector',      label: 'Sector',  align: 'left',  hideOnMobile: true,
-                  render: r => <span className="text-xs uppercase tracking-wide text-gray-500">{r.sector}</span> },
-                { key: 'totalAnnual', label: 'Annual',  align: 'right', numeric: true, primary: true },
-                { key: 'deals',       label: 'Deals',   align: 'right',
-                  render: r => <span className="text-sm tabular-nums text-gray-700">{r.deals}</span> },
-                { key: 'topDeal',     label: 'Top deal', align: 'left', hideOnMobile: true,
-                  render: r => <span className="text-xs text-gray-500">{r.topDeal}</span> },
-              ]}
+            <SectionHead id="sp-brands" title="Top Brands by Spend" />
+            <IntelTable<SponsorBrand>
+              caption="Brands ranked by total annual sports sponsorship spend"
               rows={SPONSORSHIP_BRANDS}
-              caption="Top sports sponsors ranked by total annual spend"
+              getRowKey={(r) => r.brand}
+              columns={[
+                { key: 'rank', label: '#', render: (r) => <span className="text-gray-400">{r.rank}</span> },
+                { key: 'brand', label: 'Brand', primary: true },
+                { key: 'sector', label: 'Sector', render: (r) => <span className="text-gray-500">{r.sector}</span> },
+                { key: 'deals', label: 'Deals', numeric: true, render: (r) => <span className="text-gray-700">{r.deals}</span> },
+                { key: 'totalAnnual', label: 'Annual', numeric: true, primary: true },
+              ]}
             />
           </div>
 
-          <div>
-            <H2>National federation deals</H2>
-            <ul className="border-y border-gray-200">
-              {SPONSORSHIP_FEDERATION.map(f => (
-                <li key={f.fed} className="px-1 py-3 border-b border-gray-100 last:border-0 flex items-baseline justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="text-md font-semibold text-gray-900 leading-snug">{f.fed}</p>
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      {f.sponsor} <span className="text-gray-400">· since {f.since}</span>
-                    </p>
-                  </div>
-                  <p className="shrink-0 text-lg font-bold text-gray-900 tabular-nums">{f.annual}</p>
-                </li>
-              ))}
-            </ul>
+          <div className="space-y-10">
+            <div>
+              <SectionHead id="sp-athletes" title="Athlete Endorsements" />
+              <ul className="rounded-lg border border-gray-200 bg-white divide-y divide-gray-200">
+                {SPONSORSHIP_ATHLETES.map((a) => (
+                  <li key={a.name} className="flex items-center justify-between gap-3 px-4 py-3">
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold text-gray-900 truncate">{a.name}</span>
+                      <span className="block text-xs text-gray-500 truncate">{a.sport} · {a.deals.join(', ')}</span>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums text-gray-900 shrink-0">{a.total}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <SectionHead id="sp-fed" title="Federation Deals" />
+              <ul className="rounded-lg border border-gray-200 bg-white divide-y divide-gray-200">
+                {SPONSORSHIP_FEDERATION.map((f) => (
+                  <li key={f.fed} className="flex items-center justify-between gap-3 px-4 py-3">
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold text-gray-900 truncate">{f.fed}</span>
+                      <span className="block text-xs text-gray-500 truncate">{f.sponsor} · since {f.since}</span>
+                    </span>
+                    <span className="text-sm font-bold tabular-nums text-gray-900 shrink-0">{f.annual}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-
         </section>
 
-        {/* ── Athlete endorsements ─────────────────────────────────── */}
-        <section className="mb-12">
-          <H2>Athlete endorsements</H2>
-          <ul className="border-y border-gray-200">
-            {SPONSORSHIP_ATHLETES.map(a => (
-              <li key={a.name} className="px-1 py-4 border-b border-gray-100 last:border-0 grid grid-cols-1 sm:grid-cols-[200px_1fr_auto] gap-3 sm:gap-6 items-baseline">
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-gray-500 mb-0.5">{a.sport}</p>
-                  <p className="text-lg font-semibold text-gray-900">{a.name}</p>
-                </div>
-                <p className="text-base text-gray-600">
-                  Sponsors: <span className="text-gray-900">{a.deals.join(' · ')}</span>
-                </p>
-                <p className="text-lg font-bold text-gray-900 tabular-nums sm:text-right">{a.total}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* ── Editorial ────────────────────────────────────────────── */}
-        <section>
-          <H2>In depth</H2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {SPONSORSHIP_EDITORIAL.map(e => (
-              <Link key={e.title} href={e.href} className="group flex flex-col no-underline">
-                <div className="overflow-hidden mb-3">
-                  <NewsThumbnail category={e.category} className="w-full h-[160px]" />
-                </div>
-                <p className="text-xs uppercase tracking-wide text-gray-500 mb-1.5">{e.category}</p>
-                <h3 className="text-lg font-bold text-gray-900 leading-snug tracking-tight group-hover:text-gray-700 transition-colors mb-2">{e.title}</h3>
-                <p className="text-base text-gray-600 leading-relaxed line-clamp-3 mb-3">{e.dek}</p>
-                <p className="text-xs text-gray-500 mt-auto">
-                  <span className="font-semibold text-gray-700">{e.source}</span>
-                  <span className="mx-1.5">·</span>
-                  {e.time}
-                </p>
-              </Link>
+        {/* Editorial */}
+        <section aria-labelledby="sp-depth" className="mb-12">
+          <SectionHead id="sp-depth" title="In Depth" />
+          <div className="grid gap-6 sm:grid-cols-3">
+            {SPONSORSHIP_EDITORIAL.map((e) => (
+              <InvestigationCard key={e.title} item={e} imageCategory="sponsorship" />
             ))}
           </div>
         </section>
 
+        <div className="mt-4">
+          <SidebarFooter />
+        </div>
       </main>
     </div>
   );

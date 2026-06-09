@@ -120,19 +120,25 @@ function FeaturedColumn({ items }: { items: HomeArticle[] }) {
 function NewsListColumn({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
-    <div className="flex flex-col divide-y divide-white/[0.05]">
-      {items.map((a) => (
-        <Link key={a.href} href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
-          <div className="overflow-hidden rounded-xl shrink-0">
-            <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{a.title}</h3>
-            <Meta a={a} byline={false} />
-          </div>
-        </Link>
-      ))}
-    </div>
+    <section aria-labelledby="top-stories-heading">
+      <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
+        <h2 id="top-stories-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Top Stories</h2>
+        <Link href="/news" className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+      </div>
+      <div className="flex flex-col divide-y divide-white/[0.05]">
+        {items.map((a) => (
+          <Link key={a.href} href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
+            <div className="overflow-hidden rounded-xl shrink-0">
+              <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{a.title}</h3>
+              <Meta a={a} byline={false} />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -193,9 +199,15 @@ function DeepReadsColumn({ items }: { items: HomeArticle[] }) {
 function MoreNewsColumn({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
-    <div className="flex flex-col divide-y divide-white/[0.05]">
-      {items.map((a) => <StoryRow key={a.href} a={a} thumb="right" />)}
-    </div>
+    <section aria-labelledby="across-liberia-heading">
+      <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
+        <h2 id="across-liberia-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Across Liberia</h2>
+        <Link href="/news" className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+      </div>
+      <div className="flex flex-col divide-y divide-white/[0.05]">
+        {items.map((a) => <StoryRow key={a.href} a={a} thumb="right" />)}
+      </div>
+    </section>
   );
 }
 

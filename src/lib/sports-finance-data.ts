@@ -40,24 +40,37 @@ export type DealStatus = 'done' | 'active' | 'expiring' | 'negotiating' | 'rumou
    /sports — DASHBOARD INDEX
    ───────────────────────────────────────────────────────────────────────── */
 
+/** Editorial flag shown as a coloured kicker chip (newsroom furniture). */
+export type StoryFlag = 'Exclusive' | 'Analysis' | 'Live' | 'Opinion' | 'Data' | 'Interview';
+
 export const DASHBOARD_HERO = {
   kicker: 'Sponsorship · Lead deal',
+  flag: 'Exclusive' as StoryFlag,
+  dateline: 'MONROVIA',
   bigNumber: '$1.8M',
   bigNumberLabel: 'Annual title fee',
   title: 'LFA Secures $1.8M Orange Liberia Title Sponsorship — Biggest in League History',
   dek: "The three-year title deal lifts the Liberian Premier League's annual operating budget by 41%, paying for broadcast production upgrades, referee salaries, and the first centralised player wage floor in the league's history.",
   source: 'TrueRate Sports',
+  author: 'Sarah Kollie',
+  authorRole: 'Sports Business Editor',
+  readTime: '6 min read',
   time: '2 days ago',
+  updated: 'Updated Jun 6, 3:42 PM GMT',
   href: '/sports/sponsorship',
 };
 
-/** Six headline cards rendered as an image-and-headline rail beneath the lead. */
+/** Headline cards rendered as an image-and-headline rail beneath the lead. */
 export type TopStory = {
   category: string;
   title: string;
   source: string;
   time: string;
   href: string;
+  author?: string;
+  dateline?: string;
+  readTime?: string;
+  flag?: StoryFlag;
 };
 
 export const DASHBOARD_TOP_STORIES: TopStory[] = [
@@ -65,6 +78,10 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     category: 'Club Finance',
     title: 'Mighty Barrolle Reports First Profitable Quarter Since 2018 — $180K Surplus',
     source: 'Daily Observer',
+    author: 'James Dweh',
+    dateline: 'MONROVIA',
+    readTime: '5 min read',
+    flag: 'Exclusive',
     time: '1d ago',
     href: '/sports/club-finance',
   },
@@ -72,6 +89,9 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     category: 'Broadcast',
     title: 'LBA Lands Multi-Year ClarTV Deal — Estimated $1.4M Across Five Seasons',
     source: 'FrontPage Africa',
+    author: 'Tina Mensah',
+    dateline: 'MONROVIA',
+    readTime: '4 min read',
     time: '2d ago',
     href: '/sports/broadcast-rights',
   },
@@ -79,6 +99,10 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     category: 'Transfers',
     title: "Williams to ES Tunis for $145K — Liberia's Biggest 2026 Transfer",
     source: 'TrueRate Sports',
+    author: 'Emmanuel Toe',
+    dateline: 'TUNIS',
+    readTime: '3 min read',
+    flag: 'Analysis',
     time: '4d ago',
     href: '/sports/transfers-deals',
   },
@@ -86,6 +110,9 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     category: 'Stadium',
     title: 'Antoinette Tubman Phase 2 Approved — $8M Renovation Adds Commercial Concourse',
     source: 'The New Dawn',
+    author: 'Patrice Williams',
+    dateline: 'MONROVIA',
+    readTime: '7 min read',
     time: '5d ago',
     href: '/sports/club-finance',
   },
@@ -93,6 +120,9 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     category: 'Sponsorship',
     title: 'Lonestar Cell Renews IE Shirt Deal at $240K Per Year Through 2029',
     source: 'TrueRate Sports',
+    author: 'Sarah Kollie',
+    dateline: 'MONROVIA',
+    readTime: '4 min read',
     time: '6d ago',
     href: '/sports/sponsorship',
   },
@@ -100,9 +130,37 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     category: 'Athletics',
     title: 'World Athletics Commits $90K to Liberia Federation Development Programme',
     source: 'World Athletics',
+    author: 'Comfort Davies',
+    dateline: 'MONACO',
+    readTime: '3 min read',
     time: '1w ago',
     href: '/sports',
   },
+];
+
+/** Numbered "Most Read" rail — classic newsroom engagement furniture. */
+export const DASHBOARD_MOST_READ: { title: string; category: string; href: string }[] = [
+  { title: 'The diaspora pipeline: how 340 Liberian footballers became an export industry', category: 'Analysis',     href: '/sports/transfers-deals' },
+  { title: 'Why Liberian club football is finally bankable after two decades in the red',     category: 'Club Finance', href: '/sports/club-finance' },
+  { title: 'Inside the $1.8M Orange deal — the clauses nobody is talking about',              category: 'Exclusive',    href: '/sports/sponsorship' },
+  { title: 'Can Antoinette Tubman pay for itself? The break-even maths',                       category: 'Stadium',      href: '/sports/club-finance' },
+  { title: 'A streaming carve-out could double the LPL audience overnight',                    category: 'Broadcast',    href: '/sports/broadcast-rights' },
+];
+
+/** "Business of Liberian Sport" podcast — engagement module. */
+export type PodcastEpisode = {
+  ep: number;
+  title: string;
+  guest: string;
+  duration: string;
+  date: string;
+  href: string;
+};
+
+export const PODCAST_EPISODES: PodcastEpisode[] = [
+  { ep: 24, title: 'The wage-cap experiment that saved Mighty Barrolle', guest: 'Cassell Kuoh, Chairman', duration: '38 min', date: 'Jun 5', href: '/sports/club-finance' },
+  { ep: 23, title: 'Why telecoms own Liberian sport now',                guest: 'Aretha Karbo, Orange Liberia', duration: '41 min', date: 'May 29', href: '/sports/sponsorship' },
+  { ep: 22, title: 'Selling the league: inside the LPL rights tender',   guest: 'Mustapha Raji, LFA',   duration: '45 min', date: 'May 22', href: '/sports/broadcast-rights' },
 ];
 
 export const DASHBOARD_STATS: { label: string; value: string; delta: string; up: boolean | null; source: string }[] = [
@@ -156,6 +214,8 @@ export type EditorialItem = {
   source: string;
   time: string;
   href: string;
+  /** Optional CMS hero photo; falls back to the category gradient. */
+  image?: string | null;
 };
 
 export const DASHBOARD_EDITORIAL: EditorialItem[] = [
@@ -521,4 +581,114 @@ export const SPONSORSHIP_EDITORIAL: EditorialItem[] = [
   { category: 'Analysis',  title: 'How Lonestar and Orange Are Rewriting West African Sports Sponsorship', dek: 'Telecoms now account for 61% of all LPL sponsorship spend. The reasons run deeper than logo placement.',           source: 'TrueRate Sports', time: '3d ago', href: '/sports/sponsorship' },
   { category: 'Investigation', title: 'The Real Value of the $1.8M Orange Deal — Cash, Kind, and the Fine Print', dek: '$1.8M annually in cash. $600K in telecom infrastructure. $400K of youth-academy commitments. We read every clause.', source: 'TrueRate Investigation', time: '4d ago', href: '/sports/sponsorship' },
   { category: 'Explainer', title: 'Why Athlete Endorsements Are the Fastest-Growing Bucket',              dek: "Comfort Brown alone now earns more than half the entire LBA sponsorship pool. Inside the rise of athlete-led commercial value.",  source: 'Daily Observer',  time: '5d ago', href: '/sports/sponsorship' },
+];
+
+/* ─────────────────────────────────────────────────────────────────────────
+   /sports — MARKET MOVERS (financial-dashboard style movers board)
+   ───────────────────────────────────────────────────────────────────────── */
+
+export type Mover = {
+  name: string;
+  meta: string;        // club / sport / context line
+  value: string;       // headline figure or rank metric
+  delta: string;       // movement text e.g. '+18%', '3 deals'
+  up: boolean | null;  // true = positive, false = negative, null = neutral
+  href: string;
+};
+
+/** Grouped movers feeding the Market Movers dashboard on the index. */
+export const MARKET_MOVERS: {
+  clubs: Mover[];
+  athletes: Mover[];
+  leagues: Mover[];
+} = {
+  clubs: [
+    { name: 'Mighty Barrolle',   meta: 'LPL · valuation $8.4M',    value: '#1', delta: '+11% YoY',  up: true,  href: '/sports/club-finance' },
+    { name: 'Invincible Eleven', meta: 'LPL · shirt deal renewed', value: '#2', delta: '+8% YoY',   up: true,  href: '/sports/club-finance' },
+    { name: 'LISCR FC',          meta: 'LPL · two outbound sales', value: '#3', delta: '+4% YoY',   up: true,  href: '/sports/club-finance' },
+    { name: 'BYC FC',            meta: 'LPL · wage pressure',      value: '#5', delta: '-3% YoY',   up: false, href: '/sports/club-finance' },
+  ],
+  athletes: [
+    { name: 'Mannah Williams', meta: 'Striker · ES Tunis',          value: '$145K', delta: 'Record move',  up: true,  href: '/sports/transfers-deals' },
+    { name: 'Comfort Brown',   meta: 'Athletics · 3 endorsements',  value: '$220K', delta: '+ Puma deal',  up: true,  href: '/sports/sponsorship' },
+    { name: 'Marcus Pewee',    meta: 'Basketball · Rivers Hoopers', value: '$840K', delta: 'Top contract', up: true,  href: '/sports/transfers-deals' },
+    { name: 'Emmanuel Kollie', meta: 'Striker · Barrolle target',   value: '$85K',  delta: 'In talks',     up: null,  href: '/sports/transfers-deals' },
+  ],
+  leagues: [
+    { name: 'Liberian Premier League', meta: 'Annual revenue',   value: '$6.4M', delta: '+18% YoY', up: true, href: '/sports/club-finance' },
+    { name: 'LBA Pro',                 meta: 'New ClarTV deal',   value: '$1.4M', delta: '5-yr term', up: true, href: '/sports/broadcast-rights' },
+    { name: 'Sponsorship pool',        meta: 'All competitions',  value: '$3.2M', delta: '+24% YoY', up: true, href: '/sports/sponsorship' },
+    { name: 'Stadium utilisation',     meta: 'Antoinette Tubman', value: '62%',   delta: '+5pp YoY', up: true, href: '/sports/club-finance' },
+  ],
+};
+
+/* ─────────────────────────────────────────────────────────────────────────
+   /sports — ATHLETE INTELLIGENCE (data center)
+   ───────────────────────────────────────────────────────────────────────── */
+
+export type AthleteIntel = {
+  rank: number;
+  name: string;
+  pos: string;       // position / discipline
+  club: string;
+  marketValue: string;
+  trend: string;     // movement text
+  up: boolean;
+};
+
+export const ATHLETE_INTELLIGENCE: AthleteIntel[] = [
+  { rank: 1, name: 'Marcus Pewee',    pos: 'SF · Basketball',    club: 'Rivers Hoopers',   marketValue: '$840K', trend: '+18%', up: true  },
+  { rank: 2, name: 'Comfort Brown',   pos: 'Sprint · Athletics', club: 'LAF National',     marketValue: '$310K', trend: '+22%', up: true  },
+  { rank: 3, name: 'Mannah Williams', pos: 'ST · Football',      club: 'ES Tunis',         marketValue: '$190K', trend: '+31%', up: true  },
+  { rank: 4, name: 'E. Kpah',         pos: 'CM · Football',      club: 'Club FC Abidjan',  marketValue: '$140K', trend: '+9%',  up: true  },
+  { rank: 5, name: 'Emmanuel Kollie', pos: 'ST · Football',      club: 'LISCR FC',         marketValue: '$95K',  trend: '+4%',  up: true  },
+  { rank: 6, name: 'Ibrahim Kamara',  pos: 'CB · Football',      club: 'Williamsville AC', marketValue: '$78K',  trend: '-2%',  up: false },
+];
+
+/* ─────────────────────────────────────────────────────────────────────────
+   /sports — EXECUTIVE INTERVIEWS
+   ───────────────────────────────────────────────────────────────────────── */
+
+export type ExecutiveInterview = {
+  name: string;
+  role: string;        // title + org
+  topic: string;       // category label
+  quote: string;       // pull-quote
+  time: string;
+  href: string;
+};
+
+export const EXECUTIVE_INTERVIEWS: ExecutiveInterview[] = [
+  {
+    name: 'Mustapha Raji',
+    role: 'President, Liberia Football Association',
+    topic: 'Governance',
+    quote: 'A centralised wage floor is not charity — it is the only way the league becomes investable for sponsors who want governance, not guesswork.',
+    time: '2 days ago',
+    href: '/sports/sponsorship',
+  },
+  {
+    name: 'Cassell Kuoh',
+    role: 'Chairman, Mighty Barrolle',
+    topic: 'Club Finance',
+    quote: 'We capped the senior wage bill at 58% of revenue and renegotiated the shirt deal up a third. Profit was a decision, not luck.',
+    time: '3 days ago',
+    href: '/sports/club-finance',
+  },
+  {
+    name: 'Comfort Brown',
+    role: 'Sprinter & Olympian',
+    topic: 'Athlete Economics',
+    quote: 'My endorsements now fund three junior athletes a year. The market for a Liberian athlete finally exists — we built it ourselves.',
+    time: '5 days ago',
+    href: '/sports/sponsorship',
+  },
+  {
+    name: 'Aretha Karbo',
+    role: 'Commercial Director, Orange Liberia',
+    topic: 'Sponsorship',
+    quote: 'Sport is the most efficient customer-acquisition channel left in this market. The $1.8M title deal pays for itself in airtime alone.',
+    time: '1 week ago',
+    href: '/sports/sponsorship',
+  },
 ];

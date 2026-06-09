@@ -59,15 +59,20 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'Sports', href: '/sports',
     children: [
-      { label: 'LPL',           href: '/sports' },
-      { label: 'LWPL',          href: '/sports' },
-      { label: 'LBA',           href: '/sports' },
-      { label: 'National Team', href: '/sports' },
-      { label: 'Athletics',     href: '/sports' },
-      { label: 'Diaspora',      href: '/sports' },
-      { label: 'Transfers',     href: '/sports/transfers-deals' },
-      { label: 'Youth',         href: '/sports' },
-      { label: 'Watch',         href: '/videos' },
+      { label: 'All Sports',      href: '/sports' },
+      { label: 'Football',        href: '/sports/football' },
+      { label: 'Basketball',      href: '/sports/basketball' },
+      { label: 'Athletics',       href: '/sports/athletics' },
+      { label: 'Youth Sports',    href: '/sports/youth-sports' },
+      { label: "Women's Sports",  href: '/sports/womens-sports' },
+      { label: 'Transfers',       href: '/sports/transfers-deals' },
+      { label: 'Sports Business', href: '/sports/sponsorship' },
+      { label: 'Sports Finance',  href: '/sports/club-finance' },
+      { label: 'Governance',      href: '/sports/governance' },
+      { label: 'Technology',      href: '/sports/technology' },
+      { label: 'Interviews',      href: '/sports/interviews' },
+      { label: 'Data & Research', href: '/sports/data-research' },
+      { label: 'Opinion',         href: '/sports/opinion' },
     ],
   },
   {
@@ -200,7 +205,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
       { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
     ],
   });
-  const MOBILE_ORDER = ['News', 'Analytics', 'Entertainment', 'Finance', 'Sports', 'Entrepreneurship'];
+  const MOBILE_ORDER = ['News', 'Analytics', 'Entertainment', 'Finance', 'Sports', 'Watchlist'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -403,7 +408,8 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help') || pathname.startsWith('/entertainment');
+  const isSports = pathname.startsWith('/sports');
+  const isLight = isSports || pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help') || pathname.startsWith('/entertainment');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -463,8 +469,12 @@ export default function Header() {
           />
         </Link>
 
-        {/* Search */}
-        <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
+        {/* Search — hidden on /sports (that section has its own masthead search) */}
+        {isSports ? (
+          <div className="hidden sm:block flex-1" aria-hidden="true" />
+        ) : (
+          <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
+        )}
 
         {/* Top super-nav — compact pills next to the search bar */}
         <div className="hidden sm:flex items-center gap-0.5 shrink-0">
@@ -565,12 +575,14 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile search — collapses on scroll */}
+      {/* Mobile search — collapses on scroll. Hidden on /sports (own masthead search). */}
+      {!isSports && (
       <div className={`sm:hidden overflow-hidden transition-all motion-safe:duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
           <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
         </div>
       </div>
+      )}
 
       {/* Bloomberg-style secondary nav — hidden on /sports/* (SportsChrome owns it there) */}
       {!pathname.startsWith('/sports') && (

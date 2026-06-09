@@ -259,15 +259,19 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
         </div>
 
         <aside className="space-y-6">
-          <button
-            onClick={() => setShowModal(true)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-base font-semibold text-gray-400 transition-colors hover:border-brand-accent/50 hover:text-brand-accent"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-            Add to watchlist
-          </button>
+          {/* The empty state already offers an add button; only show this when
+              the list has items (otherwise it's a duplicate). */}
+          {!isEmpty && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-base font-semibold text-gray-400 transition-colors hover:border-brand-accent/50 hover:text-brand-accent"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              Add to watchlist
+            </button>
+          )}
 
           <div>
             <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-accent">Quick links</h3>
