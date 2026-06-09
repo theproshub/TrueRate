@@ -24,7 +24,7 @@ export interface CatalogSymbol {
   region: Region;
   unit: string;
   /** Source key used by the snapshot cron. For fx: the base currency code
-   *  (USD→usd in the exchange API). For commodity: the Stooq symbol. */
+   *  (USD→usd in the exchange API). For commodity: the Yahoo Finance symbol. */
   sourceKey: string;
 }
 
@@ -40,12 +40,12 @@ export const FX_SYMBOLS: CatalogSymbol[] = [
 
 /** Commodity benchmarks — international price discovery → region 'global'. */
 export const COMMODITY_SYMBOLS: CatalogSymbol[] = [
-  { ticker: 'gc.f',   assetClass: 'commodity', name: 'Gold',                     region: 'global', unit: '$/oz',  sourceKey: 'gc.f' },
-  { ticker: 'cb.f',   assetClass: 'commodity', name: 'Brent crude',             region: 'global', unit: '$/bbl', sourceKey: 'cb.f' },
-  { ticker: 'cc.f',   assetClass: 'commodity', name: 'Cocoa',                   region: 'global', unit: '$/t',   sourceKey: 'cc.f' },
-  { ticker: 'kc.f',   assetClass: 'commodity', name: 'Coffee',                  region: 'global', unit: '¢/lb',  sourceKey: 'kc.f' },
-  { ticker: 'sb.f',   assetClass: 'commodity', name: 'Sugar',                   region: 'global', unit: '¢/lb',  sourceKey: 'sb.f' },
-  { ticker: 'bhp.us', assetClass: 'commodity', name: 'Iron ore (BHP ADR proxy)', region: 'global', unit: '$ ADR', sourceKey: 'bhp.us' },
+  { ticker: 'gc.f',   assetClass: 'commodity', name: 'Gold',                     region: 'global', unit: '$/oz',  sourceKey: 'GC=F' },
+  { ticker: 'cb.f',   assetClass: 'commodity', name: 'Brent crude',             region: 'global', unit: '$/bbl', sourceKey: 'BZ=F' },
+  { ticker: 'cc.f',   assetClass: 'commodity', name: 'Cocoa',                   region: 'global', unit: '$/t',   sourceKey: 'CC=F' },
+  { ticker: 'kc.f',   assetClass: 'commodity', name: 'Coffee',                  region: 'global', unit: '¢/lb',  sourceKey: 'KC=F' },
+  { ticker: 'sb.f',   assetClass: 'commodity', name: 'Sugar',                   region: 'global', unit: '¢/lb',  sourceKey: 'SB=F' },
+  { ticker: 'bhp.us', assetClass: 'commodity', name: 'Iron ore (BHP ADR proxy)', region: 'global', unit: '$ ADR', sourceKey: 'BHP' },
 ];
 
 export const ALL_SYMBOLS: CatalogSymbol[] = [...FX_SYMBOLS, ...COMMODITY_SYMBOLS];

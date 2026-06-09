@@ -61,7 +61,7 @@ export default function AboutPage() {
             <div className="border-t border-gray-100 pt-5">
               <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">Data sources</p>
               <ul>
-                {['Central Bank of Liberia', 'LISGIS', 'Ministry of Finance (MFDP)', 'World Bank', 'IMF', 'Stooq'].map(s => (
+                {['Central Bank of Liberia', 'LISGIS', 'Ministry of Finance (MFDP)', 'World Bank', 'IMF', 'Yahoo Finance'].map(s => (
                   <li key={s} className="text-sm text-gray-600 mb-1.5">{s}</li>
                 ))}
               </ul>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const SOURCES = [
   { source: 'Open currency-rate feed (CDN)',  data: 'Live USD-base FX rates; LRD cross-rates computed (mid-market reference, not a dealing rate)', freshness: 'Hourly' },
-  { source: 'Stooq',                          data: 'Commodity prices relevant to Liberia’s export economy (gold, oil, and others)', freshness: '~15 min' },
+  { source: 'Yahoo Finance',                  data: 'Commodity prices relevant to Liberia’s export economy (gold, oil, and others)', freshness: '~15 min' },
   { source: 'Central Bank of Liberia (CBL)',  data: 'Policy rate, gross reserves, and official reference data cited in reporting', freshness: 'As published' },
   { source: 'LISGIS',                         data: 'Consumer price index (inflation), population, national statistics',          freshness: 'As published' },
   { source: 'Ministry of Finance (MFDP)',     data: 'National budget, fiscal data, public debt',                                 freshness: 'As published' },

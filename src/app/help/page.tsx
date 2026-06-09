@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const FAQS = [
   { q: 'Is TrueRate free to use?', a: 'Yes. TrueRate’s news, market data, currency converter, and research are free to read — no payment required. You can create a free account to save articles and use the watchlist. We may add premium products later, but our core coverage stays free.' },
-  { q: 'Where does TrueRate get its data?', a: 'Live exchange rates come from a free third-party currency feed (with LRD cross-rates computed as a mid-market reference), commodity prices from Stooq, and economic figures from primary sources — the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF. Primary sources always outrank aggregators.' },
+  { q: 'Where does TrueRate get its data?', a: 'Live exchange rates come from a free third-party currency feed (with LRD cross-rates computed as a mid-market reference), commodity prices from Yahoo Finance, and economic figures from primary sources — the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF. Primary sources always outrank aggregators.' },
   { q: 'How do I report an error in the data?', a: 'Please use the Feedback page to report any data issues. Our team reviews all submissions within 24 hours.' },
   { q: 'Can I access TrueRate on mobile?', a: 'Yes. TrueRate is fully responsive and works on all modern mobile browsers. A dedicated app is coming soon.' },
   { q: 'Do I need an account to read TrueRate?', a: 'No. All content is freely accessible without an account. Creating an account lets you save articles and use the watchlist.' },

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
-import { fetchCommodities } from '@/lib/api/stooq';
+import { fetchCommodities } from '@/lib/api/yahoo';
 import { FX_SYMBOLS, COMMODITY_SYMBOLS } from '@/lib/analytics/catalog';
 
 /**
@@ -9,8 +9,8 @@ import { FX_SYMBOLS, COMMODITY_SYMBOLS } from '@/lib/analytics/catalog';
  *
  * Persists ONE real end-of-day close per tracked symbol into `quotes_daily`,
  * building the price/FX time-series forward over time (quotes_daily started
- * empty — there is no historical bulk source for Liberian FX, and Stooq's bulk
- * history endpoint is IP-blocked, so we accumulate honest daily snapshots).
+ * empty — there is no historical bulk source for Liberian FX, and no free bulk
+ * history endpoint for commodities, so we accumulate honest daily snapshots).
  *
  * NEVER fabricates: a symbol whose live source fails is simply skipped this run.
  * Upsert on (symbol_id, date) makes re-runs within a day idempotent.
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
       detail.fx_error = e instanceof Error ? e.message : String(e);
     }
 
-    // ── Commodities: live Stooq snapshot ──
+    // ── Commodities: live Yahoo Finance snapshot ──
     try {
       const commodities = await fetchCommodities();
       const bySymbol = new Map(commodities.map((c) => [c.symbol, c]));
@@ -99,7 +99,9 @@ export async function GET(request: NextRequest) {
             symbol_id: id,
             date: today,
             close: Number(q.price.toFixed(4)),
-            open: q.prevClose ?? null,
+            // q.prevClose is the *previous* session's close, not today's open —
+            // don't mislabel it in the open column.
+            open: null,
             high: null,
             low: null,
           });

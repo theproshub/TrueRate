@@ -4,7 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getNewsCatColor } from '@/lib/category-colors';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
-import { fetchCommodities } from '@/lib/api/stooq';
+import { fetchCommodities } from '@/lib/api/yahoo';
 import {
   fetchLiberiaIndicators,
   latestValue,
@@ -165,7 +165,7 @@ export default async function MarketsPage() {
   const fxStale = !!liveRates.stale;
   const lrdRates = fxStale ? {} : toLRDRates(liveRates);
 
-  // ── Top Movers (commodities sorted by intraday change) ──
+  // ── Top Movers (commodities sorted by daily change vs previous close) ──
   const movers = commodities
     .filter(c => c.changePercent !== null)
     .map(c => ({ ...c, change: c.changePercent as number }));
@@ -241,7 +241,7 @@ export default async function MarketsPage() {
             <div>
               <Text variant="meta" className="font-bold uppercase tracking-wider text-pos mb-2">Leaders</Text>
               <table className="w-full text-base tabular-nums">
-                <caption className="sr-only">Commodities leading by intraday percent change.</caption>
+                <caption className="sr-only">Commodities leading by daily percent change.</caption>
                 <thead>
                   <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
                     <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
@@ -269,7 +269,7 @@ export default async function MarketsPage() {
             <div>
               <Text variant="meta" className="font-bold uppercase tracking-wider text-neg mb-2">Laggards</Text>
               <table className="w-full text-base tabular-nums">
-                <caption className="sr-only">Commodities lagging by intraday percent change.</caption>
+                <caption className="sr-only">Commodities lagging by daily percent change.</caption>
                 <thead>
                   <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
                     <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
@@ -294,7 +294,7 @@ export default async function MarketsPage() {
             </div>
           </div>
           <Text variant="caption" className="mt-3 leading-relaxed">
-            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://stooq.com" target="_blank" rel="noopener noreferrer">Stooq</a> EOD feed · cached 15 min · iron ore proxied via BHP ADR. Liberia-relevant futures only — no equities feed available for the LSE.
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://finance.yahoo.com" target="_blank" rel="noopener noreferrer">Yahoo Finance</a> · cached 15 min · iron ore proxied via BHP ADR. Liberia-relevant futures only — no equities feed available for the LSE.
           </Text>
         </div>
 
@@ -339,7 +339,7 @@ export default async function MarketsPage() {
           </ul>
 
           <Text variant="caption" className="mt-4 leading-relaxed">
-            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://frankfurter.dev" target="_blank" rel="noopener noreferrer">Frankfurter (ECB)</a>; GHS/NGN via <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">@fawazahmed0/currency-api</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
+            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
           </Text>
         </aside>
       </section>
@@ -507,7 +507,7 @@ export default async function MarketsPage() {
       <section className="mt-8 border-t border-white/[0.08] pt-5" aria-labelledby="method-heading">
         <h2 id="method-heading" className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
         <ul className="space-y-2 text-base text-gray-300 leading-relaxed max-w-[760px]">
-          <li>· The USD/LRD anchor is the Central Bank of Liberia&rsquo;s published daily mid-rate; EUR/GBP/CNY use ECB reference rates (Frankfurter) and GHS/NGN a free CDN feed, both refreshed hourly; commodities every 15 minutes from Stooq; macro indicators every 24 hours from the World Bank.</li>
+          <li>· The USD/LRD anchor is the Central Bank of Liberia&rsquo;s published daily mid-rate; EUR/GBP/CNY use European Central Bank reference rates and GHS/NGN a free CDN feed, both refreshed hourly; commodities every 15 minutes from Yahoo Finance; macro indicators every 24 hours from the World Bank.</li>
           <li>· If an upstream feed is unreachable, the affected card shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
           <li>· LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>
           <li>· No equities feed for the Liberian Stock Exchange is available; Top Movers is restricted to the commodities universe relevant to Liberia&rsquo;s export economy.</li>

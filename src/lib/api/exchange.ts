@@ -3,8 +3,11 @@
  *
  * USD/LRD anchor:  Central Bank of Liberia (authoritative — see ./cbl). CBL
  *                  only quotes USD/LRD.
- * ECB majors:      Frankfurter (free, no key, ECB reference rates) for EUR,
- *                  GBP, CNY. https://frankfurter.dev
+ * ECB majors:      European Central Bank reference rates, fetched straight from
+ *                  the ECB's own daily feed (no intermediary) for EUR, GBP, CNY.
+ *                  Frankfurter (https://frankfurter.dev) republishes the same
+ *                  ECB data and is kept only as a fallback if the ECB feed is
+ *                  unreachable.
  * West African:    fawazahmed0 currency API (free, no key) for GHS, NGN, which
  *                  the ECB set does not cover. Also backstops the majors and
  *                  provides an alternate LRD if the CBL scrape fails.
@@ -21,11 +24,14 @@ import { resolveCblUsdLrd } from './cbl';
 const CDN_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
 const CDN_URL_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies/usd.json';
 
-/** ECB reference rates (no GHS/NGN/LRD) — used only for the majors below. */
+/** ECB's own daily reference-rate feed (EUR-base XML, official source). */
+const ECB_URL = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
+
+/** Frankfurter republishes ECB rates — fallback only if the ECB feed is down. */
 const FRANKFURTER_URL = 'https://api.frankfurter.app/latest?base=USD&symbols=EUR,GBP,CNY';
 
-/** Currencies sourced from Frankfurter (ECB); the rest come from the CDN. */
-const FRANKFURTER_CURRENCIES = ['eur', 'gbp', 'cny'] as const;
+/** Currencies sourced from the ECB (or Frankfurter fallback); rest come from the CDN. */
+const ECB_CURRENCIES = ['eur', 'gbp', 'cny'] as const;
 
 export interface LiveRates {
   date: string;
@@ -86,7 +92,53 @@ async function fetchCdnRates(): Promise<LiveRates | null> {
   return (await tryFetch(CDN_URL)) ?? (await tryFetch(CDN_URL_FALLBACK));
 }
 
-/** Fetch ECB major-currency ratios (USD base) from Frankfurter. */
+/**
+ * Fetch ECB reference rates straight from the ECB's own daily XML feed.
+ *
+ * The feed is EUR-base (`<Cube currency='USD' rate='1.1540'/>` = 1 EUR = 1.154
+ * USD). We convert to this module's USD-base convention: units of X per 1 USD =
+ * rate_X / rate_USD. Parsed with a regex — the feed is a fixed, flat format, so
+ * no XML dependency is warranted.
+ */
+async function fetchEcbRates(): Promise<LiveRates | null> {
+  try {
+    const res = await fetch(ECB_URL, {
+      next: { revalidate: 3600 }, // ECB publishes once per working day
+      headers: { Accept: 'application/xml' },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return null;
+    const xml = await res.text();
+
+    // EUR-base rates from the <Cube currency='X' rate='Y'/> nodes (EUR itself = 1).
+    const eurBase: Record<string, number> = { eur: 1 };
+    const re = /currency=['"]([A-Za-z]{3})['"]\s+rate=['"]([\d.]+)['"]/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(xml)) !== null) {
+      const v = Number(m[2]);
+      if (Number.isFinite(v)) eurBase[m[1].toLowerCase()] = v;
+    }
+
+    const usdPerEur = eurBase.usd; // 1 EUR = usdPerEur USD
+    if (!usdPerEur || !Number.isFinite(usdPerEur)) return null;
+
+    const rates: Record<string, number> = {};
+    for (const cur of ECB_CURRENCIES) {
+      const eurRate = eurBase[cur]; // units of cur per 1 EUR (eur → 1)
+      if (typeof eurRate === 'number' && Number.isFinite(eurRate)) {
+        rates[cur] = eurRate / usdPerEur; // → units of cur per 1 USD
+      }
+    }
+    if (Object.keys(rates).length === 0) return null;
+
+    const date = xml.match(/time=['"](\d{4}-\d{2}-\d{2})['"]/)?.[1];
+    return { date: date ?? new Date().toISOString().split('T')[0], rates };
+  } catch {
+    return null;
+  }
+}
+
+/** Fetch ECB major-currency ratios (USD base) from Frankfurter (fallback feed). */
 async function fetchFrankfurterRates(): Promise<LiveRates | null> {
   try {
     const res = await fetch(FRANKFURTER_URL, {
@@ -109,17 +161,18 @@ async function fetchFrankfurterRates(): Promise<LiveRates | null> {
 }
 
 /**
- * Fetch live rates by composing three sources:
+ * Fetch live rates by composing the sources:
  *   - CBL        → USD/LRD anchor (authoritative)
- *   - Frankfurter→ EUR/GBP/CNY (ECB reference)
+ *   - ECB        → EUR/GBP/CNY (official reference; Frankfurter as fallback)
  *   - CDN        → GHS/NGN (+ backstop for majors and an alternate LRD)
  *
  * LRD is the spine: without a live anchor, nothing LRD-denominated can be real,
  * so we fall back wholesale to hardcoded values (flagged `stale`) in that case.
  */
 export async function fetchLiveRates(): Promise<LiveRates> {
-  const [frank, cdn, cbl] = await Promise.all([
-    fetchFrankfurterRates(),
+  const [ecb, frank, cdn, cbl] = await Promise.all([
+    fetchEcbRates(),
+    fetchFrankfurterRates(), // fallback for the majors if the ECB feed is down
     fetchCdnRates(),
     resolveCblUsdLrd(), // live scrape, else last-known-good from quotes_daily
   ]);
@@ -143,10 +196,12 @@ export async function fetchLiveRates(): Promise<LiveRates> {
   // Base layer: the CDN's full set (eur, gbp, cny, ghs, ngn, lrd).
   const rates: Record<string, number> = cdn ? { ...cdn.rates } : {};
 
-  // Authority layer: ECB majors override the CDN's equivalents when available.
-  if (frank) {
-    for (const cur of FRANKFURTER_CURRENCIES) {
-      const v = frank.rates[cur];
+  // Authority layer: ECB majors (direct, else Frankfurter) override the CDN's
+  // equivalents when available.
+  const majors = ecb ?? frank;
+  if (majors) {
+    for (const cur of ECB_CURRENCIES) {
+      const v = majors.rates[cur];
       if (typeof v === 'number' && Number.isFinite(v)) rates[cur] = v;
     }
   }
@@ -160,7 +215,7 @@ export async function fetchLiveRates(): Promise<LiveRates> {
     : 'CDN';
 
   return {
-    date: cbl?.date ?? frank?.date ?? cdn?.date ?? new Date().toISOString().split('T')[0],
+    date: cbl?.date ?? ecb?.date ?? frank?.date ?? cdn?.date ?? new Date().toISOString().split('T')[0],
     rates,
     lrdSource,
     lrdAsOf: cbl?.date,

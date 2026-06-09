@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
-import { fetchCommodities } from '@/lib/api/stooq';
+import { fetchCommodities } from '@/lib/api/yahoo';
 import {
   ALL_SYMBOLS,
   FX_SYMBOLS,
@@ -16,7 +16,7 @@ import type { AnalyticsItem, AnalyticsPayload, SeriesPoint } from './types';
  * One pass assembles everything the page needs — no client waterfalls:
  *   - price history (FX + commodities) from quotes_daily  (real, accruing daily)
  *   - macro history                     from macro_values (real, World Bank)
- *   - live spot                         from /lib/api (exchange + Stooq)
+ *   - live spot                         from /lib/api (exchange + Yahoo)
  *
  * NEVER fabricates. A symbol/series with no stored history yields an empty
  * `series` and `buildingHistory: true`; the UI renders an honest empty state.
@@ -53,6 +53,13 @@ interface MacroValueRow { series_id: string; date: string; value: number }
 
 function asc(points: SeriesPoint[]): SeriesPoint[] {
   return [...points].sort((a, b) => a.date.localeCompare(b.date));
+}
+
+/** Canonical source label per FX pair — honest provenance, not a blanket feed. */
+function fxSourceLabel(ticker: string): string {
+  if (ticker === 'USD/LRD') return 'Central Bank of Liberia';
+  if (ticker === 'EUR/LRD' || ticker === 'GBP/LRD' || ticker === 'CNY/LRD') return 'European Central Bank';
+  return 'Open currency-rate feed'; // GHS/NGN
 }
 
 async function loadPriceItems(): Promise<AnalyticsItem[]> {
@@ -121,7 +128,7 @@ async function loadPriceItems(): Promise<AnalyticsItem[]> {
     const current = live ?? (stored.length ? stored[stored.length - 1].value : null);
 
     // FX: the pair (USD/LRD) is the recognizable label. Commodities: lead with
-    // the friendly name (Gold), not the Stooq ticker (gc.f).
+    // the friendly name (Gold), not the ticker (gc.f).
     const label = cat.assetClass === 'fx' ? cat.ticker : (sym?.name ?? cat.name);
 
     return {
@@ -132,7 +139,7 @@ async function loadPriceItems(): Promise<AnalyticsItem[]> {
       region: regionForTicker(cat.ticker),
       unit: sym?.unit ?? cat.unit,
       format: cat.assetClass === 'fx' ? 'rate' : 'price',
-      source: cat.assetClass === 'fx' ? 'Exchange API (fawazahmed0)' : 'Stooq EOD',
+      source: cat.assetClass === 'fx' ? fxSourceLabel(cat.ticker) : 'Yahoo Finance',
       current,
       series,
       frequency: 'daily',

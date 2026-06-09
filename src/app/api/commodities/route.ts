@@ -1,7 +1,7 @@
 /**
  * GET /api/commodities
  *
- * Returns live commodity quotes (Stooq EOD) for client surfaces that can't
+ * Returns live commodity quotes (Yahoo Finance) for client surfaces that can't
  * fetch server-side, e.g. the homepage ticker's Gold row.
  *
  * A symbol whose upstream feed is unavailable comes back with `price: null` —
@@ -11,9 +11,9 @@
  */
 
 import { NextResponse } from 'next/server';
-import { fetchCommodities } from '@/lib/api/stooq';
+import { fetchCommodities } from '@/lib/api/yahoo';
 
-// ISR: match the Stooq client's 15-minute cache.
+// ISR: match the Yahoo client's 15-minute cache.
 export const revalidate = 900;
 
 export async function GET() {

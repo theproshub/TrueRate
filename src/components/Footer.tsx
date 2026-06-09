@@ -128,7 +128,7 @@ export default function Footer() {
             ))}
           </div>
           <Text variant="meta">Copyright © 2026 TrueRate. All rights reserved. · Not investment advice</Text>
-          <Text variant="caption" className="mt-1 text-gray-400">Data: Central Bank of Liberia · LISGIS · World Bank · IMF · Stooq · TrueRate Research</Text>
+          <Text variant="caption" className="mt-1 text-gray-400">Data: Central Bank of Liberia · LISGIS · World Bank · IMF · Yahoo Finance · TrueRate Research</Text>
         </div>
 
       </div>

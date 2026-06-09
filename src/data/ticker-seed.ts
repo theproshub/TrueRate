@@ -8,7 +8,7 @@ export type TickerItem = { label: string; value: string; pct: string; up: boolea
  *   - FX pairs        → /api/rates
  *   - GDP / Inflation → /api/indicators (World Bank)
  *   - CBL Rate        → /api/indicators (administered, single source)
- *   - Gold            → /api/commodities (Stooq EOD)
+ *   - Gold            → /api/commodities (Yahoo Finance)
  *
  * Gold has no trustworthy static value, so it renders a dash until the live
  * price arrives — we never ship a fabricated price. Rows without any live feed
