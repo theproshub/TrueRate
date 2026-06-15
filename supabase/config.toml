@@ -1,4 +1,10 @@
 
+[functions.cbl-statistics-mcp]
+enabled = true
+verify_jwt = false
+import_map = "./functions/cbl-statistics-mcp/deno.json"
+entrypoint = "./functions/cbl-statistics-mcp/index.ts"
+
 [functions.truerate-mcp]
 enabled = true
 verify_jwt = false
