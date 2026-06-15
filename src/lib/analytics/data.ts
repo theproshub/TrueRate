@@ -22,6 +22,17 @@ import type { AnalyticsItem, AnalyticsPayload, SeriesPoint } from './types';
  * `series` and `buildingHistory: true`; the UI renders an honest empty state.
  */
 
+/**
+ * True only when both Supabase creds are present. They are absent during the
+ * production *build* (the service-role key isn't injected at prerender time),
+ * so the DB-backed loaders fail soft to an empty payload there and ISR fills
+ * in the real data on the first runtime revalidation. If this is ever false at
+ * runtime, the page renders its honest empty state instead of crashing.
+ */
+const HAS_DB_CREDS = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY,
+);
+
 function db() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -63,6 +74,7 @@ function fxSourceLabel(ticker: string): string {
 }
 
 async function loadPriceItems(): Promise<AnalyticsItem[]> {
+  if (!HAS_DB_CREDS) return [];
   const sb = db();
 
   const { data: symbols } = await sb
@@ -149,6 +161,7 @@ async function loadPriceItems(): Promise<AnalyticsItem[]> {
 }
 
 async function loadMacroItems(): Promise<AnalyticsItem[]> {
+  if (!HAS_DB_CREDS) return [];
   const sb = db();
   const wanted = Object.keys(MACRO_DISPLAY);
 
