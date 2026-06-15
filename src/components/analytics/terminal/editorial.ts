@@ -27,6 +27,14 @@ export const EDITORIAL: Record<string, Editorial> = {
   'WB.BM.GSR.GNFS.CD':    { note: 'High imports draw down foreign reserves.' },
   'WB.SP.POP.TOTL':       { note: 'Population growth shapes labour supply and demand.' },
 
+  // ── Central Bank of Liberia (cbl_observations) ──
+  'LBR_CPI_0':      { note: 'Monthly consumer prices — rising CPI erodes purchasing power faster than annual snapshots reveal.' },
+  'LBR_FIS_DEBT_1': { note: 'Total government debt stock — rising levels tighten fiscal space for public investment.' },
+  'LBR_FIS_BUD_1':  { note: 'Monthly government revenue — tracks tax collection and grant inflows.' },
+  'LBR_FIS_BUD_2':  { note: 'Monthly government spending — salary, capital and debt-service outlays.' },
+  'LBR_BOP_1_4':    { note: 'Goods trade balance — a deficit means Liberia imports more goods than it exports.' },
+  'LBR_NAT_0':      { note: 'Nominal GDP at market prices — the headline size of the economy.' },
+
   // ── Currency (vs LRD) ──
   'USD/LRD': { note: 'A weaker LRD raises the cost of imports and dollar-priced goods.' },
   'EUR/LRD': { note: 'Tracks euro-zone trade and diaspora remittance value.' },
@@ -64,9 +72,10 @@ export const EDITORIAL: Record<string, Editorial> = {
 
 /** Curated sections the terminal renders (subset of the full payload). */
 export const SECTION_CONFIG: { id: string; title: string; ids: string[] }[] = [
-  { id: 'macro',       title: 'Macro',       ids: ['WB.NY.GDP.MKTP.KD.ZG', 'WB.FP.CPI.TOTL.ZG', 'WB.SL.UEM.TOTL.ZS'] },
-  { id: 'currency',    title: 'Currency',    ids: ['USD/LRD', 'EUR/LRD', 'GBP/LRD'] },
-  { id: 'commodities', title: 'Commodities', ids: ['gc.f', 'cb.f', 'bhp.us'] },
+  { id: 'macro',       title: 'Macro',        ids: ['WB.NY.GDP.MKTP.KD.ZG', 'WB.FP.CPI.TOTL.ZG', 'WB.SL.UEM.TOTL.ZS'] },
+  { id: 'cbl',         title: 'Central Bank', ids: ['LBR_CPI_0', 'LBR_FIS_DEBT_1', 'LBR_BOP_1_4'] },
+  { id: 'currency',    title: 'Currency',     ids: ['USD/LRD', 'EUR/LRD', 'GBP/LRD'] },
+  { id: 'commodities', title: 'Commodities',  ids: ['gc.f', 'cb.f', 'bhp.us'] },
 ];
 
 export function editorialFor(id: string): Editorial {

@@ -41,6 +41,22 @@ function db() {
   );
 }
 
+/** CBL series from cbl_observations, with display formatting.
+ *  `scale`: multiply raw DB values by this factor so `abbreviate()` works
+ *  correctly (CBL stores fiscal/BOP in millions, but `format: 'usd'` expects
+ *  raw USD). */
+const CBL_DISPLAY: Record<
+  string,
+  { label: string; format: AnalyticsItem['format']; unit: string; frequency: AnalyticsItem['frequency']; name: string; scale: number }
+> = {
+  'LBR_CPI_0':      { label: 'CPI (Harmonized)',  format: 'plain', unit: 'Index',       frequency: 'monthly', name: 'Harmonized Consumer Price Index',        scale: 1 },
+  'LBR_FIS_DEBT_1': { label: 'Govt Debt',         format: 'usd',   unit: 'Million USD', frequency: 'monthly', name: 'Total Government Debt',                  scale: 1e6 },
+  'LBR_FIS_BUD_1':  { label: 'Govt Revenue',      format: 'usd',   unit: 'Million USD', frequency: 'monthly', name: 'Total Government Revenue',               scale: 1e6 },
+  'LBR_FIS_BUD_2':  { label: 'Govt Expenditure',  format: 'usd',   unit: 'Million USD', frequency: 'monthly', name: 'Total Government Expenditure',           scale: 1e6 },
+  'LBR_BOP_1_4':    { label: 'Trade Balance',     format: 'usd',   unit: 'Million USD', frequency: 'monthly', name: 'Goods (Trade Balance)',                   scale: 1e6 },
+  'LBR_NAT_0':      { label: 'GDP (nominal)',      format: 'usd',   unit: 'Millions USD', frequency: 'annual', name: 'Gross Domestic Product, market prices', scale: 1e6 },
+};
+
 /** Macro series we surface, with display formatting. All Liberia → region LR. */
 const MACRO_DISPLAY: Record<string, { label: string; format: AnalyticsItem['format'] }> = {
   'WB.NY.GDP.MKTP.KD.ZG': { label: 'GDP Growth', format: 'pct' },
@@ -211,13 +227,62 @@ async function loadMacroItems(): Promise<AnalyticsItem[]> {
   return items;
 }
 
+async function loadCblItems(): Promise<AnalyticsItem[]> {
+  if (!HAS_DB_CREDS) return [];
+  const sb = db();
+  const wanted = Object.keys(CBL_DISPLAY);
+
+  // Fetch observations for all wanted mnemonics (up to 60 per series).
+  const { data: rows } = await sb
+    .from('cbl_observations')
+    .select('mnemonic, period_date, value')
+    .in('mnemonic', wanted)
+    .not('value', 'is', null)
+    .neq('value', 0)
+    .order('period_date', { ascending: true });
+
+  const historyByMnemonic = new Map<string, SeriesPoint[]>();
+  for (const r of (rows ?? []) as { mnemonic: string; period_date: string; value: number }[]) {
+    const scale = CBL_DISPLAY[r.mnemonic]?.scale ?? 1;
+    const arr = historyByMnemonic.get(r.mnemonic) ?? [];
+    arr.push({ date: r.period_date, value: r.value * scale });
+    historyByMnemonic.set(r.mnemonic, arr);
+  }
+
+  const items: AnalyticsItem[] = [];
+  for (const [mnemonic, disp] of Object.entries(CBL_DISPLAY)) {
+    const hist = asc(historyByMnemonic.get(mnemonic) ?? []);
+    if (hist.length === 0) continue;
+    items.push({
+      id: mnemonic,
+      label: disp.label,
+      name: disp.name,
+      assetClass: 'macro',
+      region: regionForMacro(),
+      unit: disp.unit,
+      format: disp.format,
+      source: 'Central Bank of Liberia',
+      current: hist[hist.length - 1].value,
+      series: hist,
+      frequency: disp.frequency,
+      buildingHistory: false,
+    });
+  }
+
+  // Preserve declaration order.
+  const order = Object.keys(CBL_DISPLAY);
+  items.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  return items;
+}
+
 /** Assemble the full batched payload for the Trends page. */
 export async function getAnalyticsPayload(): Promise<AnalyticsPayload> {
-  const [prices, macro] = await Promise.all([loadPriceItems(), loadMacroItems()]);
+  const [prices, macro, cbl] = await Promise.all([loadPriceItems(), loadMacroItems(), loadCblItems()]);
 
   const fx = prices.filter((p) => p.assetClass === 'fx');
   const commodities = prices.filter((p) => p.assetClass === 'commodity');
-  const items = [...prices, ...macro];
+  const allMacro = [...macro, ...cbl];
+  const items = [...prices, ...allMacro];
 
   // priceHistoryReady = at least one price series has ≥2 stored points.
   const priceHistoryReady = prices.some((p) => !p.buildingHistory);
@@ -227,7 +292,7 @@ export async function getAnalyticsPayload(): Promise<AnalyticsPayload> {
     items,
     fx,
     commodities,
-    macro,
+    macro: allMacro,
     priceHistoryReady,
   };
 }
