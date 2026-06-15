@@ -8,6 +8,7 @@
  * illustrative sample data (the section-wide "Sample data" banner applies).
  */
 import type { StoryFlag } from '@/lib/sports-finance-data';
+import type { HeroVariant } from '@/components/sports/SportsDeskHero';
 
 export type DeskStory = {
   category: string;
@@ -23,6 +24,10 @@ export type SportsDesk = {
   label: string;
   blurb: string;
   imageCategory: string;
+  /** This desk's signature front layout — explicit so every desk reads differently. */
+  variant: HeroVariant;
+  /** Short "what this desk covers" bullets for the desk sidebar. */
+  coverage?: string[];
   /** Special render: pull executive interviews / data tables into the body. */
   module?: 'interviews' | 'data';
   lead: DeskStory & { dek: string };
@@ -32,6 +37,12 @@ export type SportsDesk = {
 export const SPORTS_DESKS: SportsDesk[] = [
   {
     slug: 'football',
+    variant: 'bigLeft',
+    coverage: [
+      'LPL results, club business and the league\'s commercial growth',
+      'The Lone Star: squads, qualifiers and what tournaments pay',
+      'Wages, contracts, licensing and the rules reshaping the domestic game',
+    ],
     label: 'Football',
     blurb: 'The Liberian Premier League, the Lone Star, and the business of the domestic game.',
     imageCategory: 'football',
@@ -49,6 +60,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'basketball',
+    variant: 'overlay',
+    coverage: [
+      'The LBA season, broadcast deals and franchise economics',
+      'Liberians in the BAL and the NBA pipeline',
+      'Grassroots courts, federations and the commercial rise of the game',
+    ],
     label: 'Basketball',
     blurb: 'The LBA, national teams, and the commercial rise of Liberian basketball.',
     imageCategory: 'basketball',
@@ -65,6 +82,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'athletics',
+    variant: 'horizontal',
+    coverage: [
+      'Liberian sprinters and field athletes on the continental circuit',
+      'Endorsements, grants and how track talent gets funded',
+      'Meets, qualifying marks and the federation behind them',
+    ],
     label: 'Athletics',
     blurb: 'Track, field and the athletes carrying Liberia onto the world stage.',
     imageCategory: 'athletics',
@@ -81,6 +104,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'youth-sports',
+    variant: 'grid',
+    coverage: [
+      'Academies, school sport and the development pipeline',
+      'Who funds youth development — and who profits from it',
+      'Safeguarding, standards and the rules protecting young athletes',
+    ],
     label: 'Youth Sports',
     blurb: 'Academies, school competitions and the pipeline developing Liberia’s next generation.',
     imageCategory: 'development',
@@ -97,6 +126,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'womens-sports',
+    variant: 'stacked',
+    coverage: [
+      'The LWPL, the national team and the women\'s game\'s growth',
+      'Sponsorship, pay and the investment gap',
+      'Attendance, broadcast interest and the audience data',
+    ],
     label: "Women's Sports",
     blurb: 'The growth, investment and coverage of women’s sport across Liberia.',
     imageCategory: 'women',
@@ -113,6 +148,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'governance',
+    variant: 'ledger',
+    coverage: [
+      'Federation budgets, elections and accountability',
+      'Club licensing, integrity and regulation',
+      'The institutions that decide where the money flows',
+    ],
     label: 'Sports Governance',
     blurb: 'Federations, regulation, integrity and the institutions that run Liberian sport.',
     imageCategory: 'federation',
@@ -129,6 +170,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'technology',
+    variant: 'wire',
+    coverage: [
+      'Streaming, broadcast tech and how Liberian sport reaches fans',
+      'Performance data, scouting and analytics adoption',
+      'Ticketing, mobile money and the digital business of sport',
+    ],
     label: 'Sports Technology',
     blurb: 'Data, broadcast and the technology modernising how Liberian sport is played and sold.',
     imageCategory: 'technology',
@@ -145,6 +192,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'interviews',
+    variant: 'feature',
+    coverage: [
+      'Owners, chairs and executives on the record',
+      'Coaches and athletes on the business behind their sport',
+      'The decision-makers shaping Liberian sport, in their own words',
+    ],
     label: 'Interviews',
     blurb: 'Executive conversations with the owners, coaches, officials and athletes running Liberian sport.',
     imageCategory: 'interviews',
@@ -158,6 +211,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'data-research',
+    variant: 'index',
+    coverage: [
+      'Datasets on valuations, deals, wages and attendance',
+      'Evidence-led reporting and methodology notes',
+      'The numbers behind every claim on the sports desks',
+    ],
     label: 'Data & Research',
     blurb: 'The numbers behind Liberian sport — datasets, valuations and evidence-led reporting.',
     imageCategory: 'investigation',
@@ -171,6 +230,12 @@ export const SPORTS_DESKS: SportsDesk[] = [
   },
   {
     slug: 'opinion',
+    variant: 'essay',
+    coverage: [
+      'Argument and interpretation from the TrueRate Sports desk',
+      'Columns on where the money in Liberian sport should go',
+      'Replies and counterpoints from readers and the industry',
+    ],
     label: 'Opinion & Analysis',
     blurb: 'Argument and interpretation on the business and future of Liberian sport.',
     imageCategory: 'analysis',

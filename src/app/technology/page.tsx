@@ -3,207 +3,326 @@ import Breadcrumb from '@/components/Breadcrumb';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
+import { fetchTechnologyArticles, toTechStory, type TechStory } from '@/lib/technology/feed';
 
 export const metadata = {
   alternates: { canonical: '/technology' },
 };
 
-const HERO = {
+export const revalidate = 300; // refresh every 5 min, like /economy and /sports
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MOCK CONTENT — design-preview fallback only.
+   Per TrueRate's "no fabricated data" principle, this is shown ONLY when no
+   real technology articles are published yet, and always behind a visible
+   "Sample data" banner. The moment articles exist, the real feed takes over.
+   ────────────────────────────────────────────────────────────────────────── */
+
+const MOCK_HERO = {
   category: 'Fintech',
-  title: "Liberia's mobile money market hits $2.1B in annual transactions as Orange Money leads expansion",
-  summary: 'Orange Money Liberia crossed the billion-dollar transaction threshold in Q1 2026, driven by rural adoption and merchant payment integrations across 12 counties.',
+  categorySlug: 'fintech',
+  title: "Orange Money Leads Expansion in Liberia's Mobile Money Market",
+  summary: 'Orange Money Liberia is widening its lead as rural adoption and merchant-payment integrations push mobile money deeper into the formal economy.',
   source: 'TrueRate Tech',
   time: '1h ago',
+  href: '/news',
 };
 
-const STRIP_CARDS = [
-  { category: 'Fintech',    title: 'Monrovia startup Ducor Pay raises $4.2M Series A to expand USSD lending across West Africa', source: 'TechCabal',      time: '2h ago' },
-  { category: 'Hardware',   title: 'iPhone 16 demand surges in Monrovia, but Randall Street retailers pull units as import duty hike bites margins', source: 'FrontPage Africa', time: '4h ago' },
-  { category: 'Startups',   title: 'Orange Digital Center Liberia opens DevOps sandbox — first cohort of 120 engineers begin 6-month residency',      source: 'TrueRate Tech',    time: '5h ago' },
-  { category: 'Education',  title: 'BlueCrest University to graduate 340 new CS and software engineering students in June — biggest class to date',   source: 'Liberian Observer', time: '6h ago' },
-  { category: 'Government', title: 'Audit finds 4 ministry offices still running Windows 7; cybersecurity team warns of patch exposure',              source: 'The New Dawn',     time: '8h ago' },
-  { category: 'Government', title: 'National registry database crashes for third time this quarter — MoICT pledges full infrastructure audit',        source: 'FrontPage Africa', time: '10h ago' },
-  { category: 'AI',         title: 'Liberia joins AU AI Task Force — plans national AI policy framework by Q3 2026',                                   source: 'The New Dawn',     time: '12h ago' },
-  { category: 'Telecom',    title: 'Lonestar MTN rolls out 4G to 8 new counties, bringing coverage to 74% of the population',                          source: 'FrontPage Africa', time: '14h ago' },
-  { category: 'Startups',   title: "Liberia's first tech hub, iCampus, secures $1.5M from USAID to expand coding bootcamps",                           source: 'Liberian Observer', time: '16h ago' },
-  { category: 'E-Commerce', title: "Jumia Liberia's GMV rises 28% YoY as smartphone penetration crosses 40% threshold",                                source: 'Reuters',          time: '1 day ago' },
+const MOCK_STRIP: { category: string; title: string; source: string; time: string; href: string }[] = [
+  { category: 'Fintech',    title: 'Monrovia startup Ducor Pay closes Series A to expand USSD lending across West Africa',                        source: 'TechCabal',      time: '2h ago',  href: '/news' },
+  { category: 'Hardware',   title: 'iPhone 16 demand surges in Monrovia, but Randall Street retailers pull units as import duty hike bites margins', source: 'FrontPage Africa', time: '4h ago', href: '/news' },
+  { category: 'Startups',   title: 'Orange Digital Center Liberia opens DevOps sandbox — first cohort of engineers begins residency',                source: 'TrueRate Tech',    time: '5h ago',  href: '/news' },
+  { category: 'Education',  title: 'BlueCrest University lines up its biggest class yet of CS and software engineering graduates',                   source: 'Liberian Observer', time: '6h ago', href: '/news' },
+  { category: 'Government', title: 'Audit finds ministry offices still running Windows 7; cybersecurity team warns of patch exposure',               source: 'The New Dawn',     time: '8h ago',  href: '/news' },
+  { category: 'Government', title: 'National registry database crashes again — MoICT pledges full infrastructure audit',                            source: 'FrontPage Africa', time: '10h ago', href: '/news' },
+  { category: 'AI',         title: 'Liberia joins AU AI Task Force, plans national AI policy framework',                                            source: 'The New Dawn',     time: '12h ago', href: '/news' },
+  { category: 'Telecom',    title: 'Lonestar MTN extends 4G to more counties, widening national coverage',                                          source: 'FrontPage Africa', time: '14h ago', href: '/news' },
+  { category: 'Startups',   title: "Liberia's first tech hub, iCampus, secures USAID funding to expand coding bootcamps",                           source: 'Liberian Observer', time: '16h ago', href: '/news' },
+  { category: 'E-Commerce', title: "Jumia Liberia's sales climb as smartphone penetration deepens",                                                 source: 'Reuters',          time: '1 day ago', href: '/news' },
 ];
 
-const FEED = [
-  { category: 'Government', title: "Inside Liberia's database crisis: why government records keep going offline",               summary: "From the National Identification Registry to Ministry of Finance payroll systems, legacy Oracle installations with no failover have cost the state an estimated 430 working hours in downtime this year alone. Engineers say the problem is architectural, not budgetary.", source: 'TrueRate',         time: '11 min read' },
-  { category: 'Hardware',   title: "Why iPhones are flying off Monrovia streets but disappearing from formal retailers",         summary: 'A 35% import duty hike has pushed authorized resellers to pull iPhone 16 units from display, even as grey-market volumes on Randall Street hit record highs. Inside the split market and what it signals for the formal tech economy.',                                source: 'FrontPage Africa', time: '9 min read' },
-  { category: 'Startups',   title: "Orange Digital Center Liberia is quietly building the country's first real DevOps pipeline", summary: 'Its new sandbox environment — funded by Orange Foundation and MEST — gives 120 Liberian engineers access to CI/CD tooling, Kubernetes clusters, and cloud credits. The long-term bet: a local talent pool that enterprises can actually hire from.',                  source: 'TrueRate Tech',    time: '10 min read' },
-  { category: 'Education',  title: "BlueCrest's class of 2026: 340 new CS grads hit the market — but will the market hire them?", summary: "The country's biggest tech-adjacent graduating class enters a market where only 14% of local software jobs offer structured onboarding. A look at the pipeline gap between classrooms and production codebases.",                                                       source: 'Liberian Observer', time: '8 min read' },
-  { category: 'AI',         title: "Can Liberia leapfrog traditional banking with AI credit scoring?",                           summary: 'Three Monrovia fintechs are deploying machine-learning models trained on mobile money data to extend micro-loans to unbanked Liberians in under 90 seconds.',                                                                                                         source: 'TrueRate',         time: '8 min read' },
-  { category: 'Government', title: "Windows 7 in the ministries: how outdated OS installs became a national security risk",      summary: 'An internal cybersecurity review found unpatched Windows 7 machines at four ministries, some handling procurement and civil service records. The cost of migration: roughly $2.8M. The cost of not migrating: harder to calculate.',                                   source: 'The New Dawn',     time: '7 min read' },
-  { category: 'Startups',   title: "The iCampus generation: how Liberia's first tech hub is producing founders",                 summary: 'Since 2020, iCampus Monrovia has trained 1,400 developers and seen 38 startups emerge. A look at what is — and isn\'t — working.',                                                                                                                                   source: 'TechCabal',        time: '10 min read' },
-  { category: 'Fintech',    title: "Orange Money Liberia's billion-dollar quarter: inside the numbers",                          summary: 'An in-depth breakdown of transaction volumes, merchant acceptance rates, and the rural rollout strategy that put Liberia\'s mobile money market in focus.',                                                                                                         source: 'TrueRate',         time: '7 min read' },
-  { category: 'Telecom',    title: "4G coverage hits 74%: what it means for Liberia's digital economy",                          summary: 'Lonestar MTN\'s latest rural expansion is reshaping access. But data costs remain among the highest in West Africa, limiting actual usage growth.',                                                                                                                   source: 'The New Dawn',     time: '6 min read' },
-  { category: 'E-Commerce', title: "Jumia Liberia vs. local platforms: who is winning the last-mile battle?",                    summary: 'Despite Jumia\'s GMV growth, local logistics startup TruckersPro claims faster last-mile delivery in Margibi and Bong counties.',                                                                                                                                  source: 'FrontPage Africa', time: '5 min read' },
-  { category: 'AI',         title: "AI in Liberia's classrooms: USAID pilots adaptive learning tools in 40 public schools",     summary: 'An $800K pilot in Montserrado County is testing AI-adaptive reading software. Early results show a 1.4-grade-level improvement in 6 months.',                                                                                                                        source: 'Liberian Observer', time: '9 min read' },
+const MOCK_FEED: { category: string; title: string; summary: string; source: string; time: string; href: string }[] = [
+  { category: 'Government', title: "Inside Liberia's database crisis: why government records keep going offline",               summary: "From the National Identification Registry to Ministry of Finance payroll systems, legacy Oracle installations with no failover have cost the state an estimated 430 working hours in downtime this year alone. Engineers say the problem is architectural, not budgetary.", source: 'TrueRate',         time: '11 min read', href: '/news' },
+  { category: 'Hardware',   title: "Why iPhones are flying off Monrovia streets but disappearing from formal retailers",         summary: 'A 35% import duty hike has pushed authorized resellers to pull iPhone 16 units from display, even as grey-market volumes on Randall Street hit record highs. Inside the split market and what it signals for the formal tech economy.',                                source: 'FrontPage Africa', time: '9 min read', href: '/news' },
+  { category: 'Startups',   title: "Orange Digital Center Liberia is quietly building the country's first real DevOps pipeline", summary: 'Its new sandbox environment — funded by Orange Foundation and MEST — gives 120 Liberian engineers access to CI/CD tooling, Kubernetes clusters, and cloud credits. The long-term bet: a local talent pool that enterprises can actually hire from.',                  source: 'TrueRate Tech',    time: '10 min read', href: '/news' },
+  { category: 'Education',  title: "BlueCrest's class of 2026: a wave of new CS grads hits the market — but will the market hire them?", summary: "The country's biggest tech-adjacent graduating class enters a market where few local software jobs offer structured onboarding. A look at the pipeline gap between classrooms and production codebases.",                                                       source: 'Liberian Observer', time: '8 min read', href: '/news' },
+  { category: 'AI',         title: "Can Liberia leapfrog traditional banking with AI credit scoring?",                           summary: 'Several Monrovia fintechs are deploying machine-learning models trained on mobile money data to extend micro-loans to unbanked Liberians within minutes.',                                                                                                          source: 'TrueRate',         time: '8 min read', href: '/news' },
+  { category: 'Government', title: "Windows 7 in the ministries: how outdated OS installs became a national security risk",      summary: 'An internal cybersecurity review found unpatched Windows 7 machines at four ministries, some handling procurement and civil service records. The cost of migration runs into the millions; the cost of not migrating is harder to calculate.',                        source: 'The New Dawn',     time: '7 min read', href: '/news' },
+  { category: 'Startups',   title: "The iCampus generation: how Liberia's first tech hub is producing founders",                 summary: 'Since 2020, iCampus Monrovia has trained hundreds of developers and helped dozens of startups emerge. A look at what is — and isn\'t — working.',                                                                                                                    source: 'TechCabal',        time: '10 min read', href: '/news' },
+  { category: 'Fintech',    title: "Orange Money Liberia's breakout quarter: inside the numbers",                                summary: 'An in-depth breakdown of transaction volumes, merchant acceptance rates, and the rural rollout strategy that put Liberia\'s mobile money market in focus.',                                                                                                         source: 'TrueRate',         time: '7 min read', href: '/news' },
+  { category: 'Telecom',    title: "Liberia's widening 4G coverage: what it means for the digital economy",                      summary: 'Lonestar MTN\'s latest rural expansion is reshaping access. But data costs remain among the highest in West Africa, limiting actual usage growth.',                                                                                                                   source: 'The New Dawn',     time: '6 min read', href: '/news' },
+  { category: 'E-Commerce', title: "Jumia Liberia vs. local platforms: who is winning the last-mile battle?",                    summary: 'Despite Jumia\'s sales growth, local logistics startup TruckersPro claims faster last-mile delivery in Margibi and Bong counties.',                                                                                                                                 source: 'FrontPage Africa', time: '5 min read', href: '/news' },
+  { category: 'AI',         title: "AI in Liberia's classrooms: USAID pilots adaptive learning tools in public schools",        summary: 'A USAID pilot in Montserrado County is testing AI-adaptive reading software. Early results point to meaningful reading gains within months.',                                                                                                                       source: 'Liberian Observer', time: '9 min read', href: '/news' },
 ];
 
-const UPCOMING = [
+const MOCK_UPCOMING = [
   { date: 'Apr 22', event: 'Digital Liberia Summit — Monrovia Convention Center' },
   { date: 'May 5',  event: 'MEST Africa Liberia Demo Day' },
   { date: 'May 12', event: 'CBL Digital Finance Policy Update' },
   { date: 'Jun 2',  event: 'Africa Tech Summit — Kigali (Liberian delegation)' },
 ];
 
-export default function TechnologyPage() {
+const MOCK_MOST_READ = [
+  { title: "Ducor Pay's Series A: what the term sheet looked like",     tag: 'Fintech' },
+  { title: 'Orange Money crosses a major quarterly milestone',          tag: 'Fintech' },
+  { title: "iCampus: inside Liberia's startup pipeline and what's next", tag: 'Startups' },
+  { title: '4G is spreading — but data costs still block adoption',     tag: 'Telecom' },
+  { title: "Liberia's AI policy framework: what's proposed",            tag: 'AI' },
+];
+
+/* ── Common card shape rendered by the page (satisfied by both DB + mock). ── */
+type Card = {
+  category: string;
+  categorySlug?: string;
+  title: string;
+  summary?: string;
+  source: string;
+  time: string;
+  href: string;
+};
+
+function storyToCard(s: TechStory): Card {
+  return {
+    category: s.category,
+    categorySlug: s.categorySlug,
+    title: s.title,
+    summary: s.dek,
+    source: s.author ?? 'TrueRate Tech',
+    time: s.time,
+    href: s.href,
+  };
+}
+
+export default async function TechnologyPage() {
+  // Backend-first: real published technology articles drive every surface.
+  // Until any are published, the mock content keeps the design preview full and
+  // a "Sample data" banner makes the placeholder status unmistakable.
+  const db = await fetchTechnologyArticles({ limit: 24 });
+  const useDb = db.length > 0;
+  const stories = db.map(toTechStory);
+
+  const hero: Card = useDb ? storyToCard(stories[0]) : MOCK_HERO;
+  const leads: Card[] = useDb ? stories.slice(1, 4).map(storyToCard) : MOCK_STRIP.slice(0, 3);
+  const strip: Card[] = useDb ? stories.slice(4, 12).map(storyToCard) : MOCK_STRIP.slice(3);
+  const feed: Card[] = useDb
+    ? stories.slice(1).filter((s) => s.dek).slice(0, 10).map(storyToCard)
+    : MOCK_FEED;
+
   return (
-    <main className="mx-auto max-w-container px-4 py-6">
-
-      {/* Breadcrumb + tabs */}
-      <div className="mb-6">
-        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Technology' }]} />
-        <TechnologyTopicTabs activeSlug="all" />
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-5">
-        {/* Main column */}
-        <div className="flex-1 min-w-0">
-
-          {/* Hero */}
-          <Link href="/news" className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-white/[0.07]">
-            <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
-              <HeroVisual category={HERO.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
-            </div>
-            <div className="flex flex-col justify-center flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-dark">Top Story</span>
-                <span className={`text-2xs font-bold uppercase tracking-widest ${getCatColor(HERO.category)}`}>
-                  {HERO.category}
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
-                {HERO.title}
-              </h2>
-              <p className="text-md leading-relaxed text-gray-400 line-clamp-3 mb-4">{HERO.summary}</p>
-              <div className="flex items-center gap-2 mt-auto text-sm text-gray-500">
-                <span className="font-semibold text-gray-400">{HERO.source}</span>
-                <span>·</span>
-                <span>{HERO.time}</span>
-              </div>
-            </div>
-          </Link>
-
-          {/* Strip — single column list */}
-          <section className="mb-6" aria-labelledby="latest-signals-heading">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-2">
-              <div className="flex items-center gap-3">
-                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
-                <h2 id="latest-signals-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Latest Signals</h2>
-              </div>
-              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-white transition-colors no-underline">More ›</Link>
-            </div>
-            <ul className="flex flex-col divide-y divide-white/[0.05] list-none p-0 m-0">
-              {STRIP_CARDS.map((card, i) => (
-                <li key={i}>
-                  <Link href="/news" className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-white/[0.03] -mx-2 px-2 rounded">
-                    <p className={`text-2xs font-bold uppercase tracking-[0.12em] mb-1.5 ${getCatColor(card.category)}`}>
-                      {card.category}
-                    </p>
-                    <h3 className="text-sm sm:text-md font-semibold leading-snug text-white group-hover:text-white/75 transition-colors text-pretty">
-                      {card.title}
-                    </h3>
-                    <p className="mt-1.5 text-xs text-gray-500 truncate">
-                      <span className="text-gray-400">{card.source}</span>
-                      <span aria-hidden className="mx-1.5 text-gray-700">·</span>
-                      <time>{card.time}</time>
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Analysis feed */}
-          <div className="mb-5">
-            <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <h2 className="text-base font-bold text-white uppercase tracking-[0.12em]">In-Depth Analysis</h2>
-              </div>
-            </div>
-            <div className="flex flex-col divide-y divide-white/[0.05]">
-              {FEED.map((item, i) => (
-                <Link key={i} href="/news" className="group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline">
-                  <div className="shrink-0 overflow-hidden rounded-lg">
-                    <NewsThumbnail category={item.category} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.category)}`}>
-                      {item.category}
-                    </span>
-                    <h3 className="text-base sm:text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
-                      {item.title}
-                    </h3>
-                    <p className="hidden sm:block text-base leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
-                    <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
-                      <span className="text-gray-500 truncate">{item.source}</span>
-                      <span>·</span>
-                      <span className="whitespace-nowrap">{item.time}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+    <>
+      {/* Sample-data notice — only while running on placeholder content. */}
+      {!useDb && (
+        <div role="note" aria-label="Sample data notice" className="bg-amber-400 text-amber-950">
+          <div className="mx-auto max-w-container px-4 py-2 flex items-start gap-2 text-sm">
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0">
+              <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+            </svg>
+            <p className="leading-snug">
+              <span className="font-bold uppercase tracking-wide">Sample data</span>
+              {' — '}
+              this section uses placeholder content for design preview. Headlines and figures are
+              illustrative, not real reporting. They disappear automatically once technology stories
+              are published.
+            </p>
           </div>
+        </div>
+      )}
 
+      <main className="mx-auto max-w-container px-4 py-6">
+
+        {/* Breadcrumb + tabs */}
+        <div className="mb-6">
+          <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Technology' }]} />
+          <TechnologyTopicTabs activeSlug="all" />
         </div>
 
-        {/* Right rail */}
-        <aside className="hidden lg:block w-full lg:w-[280px] shrink-0">
-          <div className="sticky top-header-lg flex flex-col gap-5">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-5">
+          {/* Main column */}
+          <div className="flex-1 min-w-0">
 
-            {/* Most Read */}
-            <div>
-              <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">Most Read</h3>
-              <ol className="flex flex-col divide-y divide-white/[0.05]">
-                {[
-                  { title: "Ducor Pay's $4.2M raise: what the term sheet looked like", tag: 'Fintech' },
-                  { title: 'Orange Money crosses $1B quarterly milestone',              tag: 'Fintech' },
-                  { title: "iCampus: Liberia's 38 startups and what comes next",        tag: 'Startups' },
-                  { title: '4G at 74% — but data costs still block adoption',           tag: 'Telecom' },
-                  { title: "Liberia's AI policy framework: what's proposed",            tag: 'AI' },
-                ].map((t, i) => (
-                  <li key={i} className="py-2.5 first:pt-0">
-                    <Link href="/news" className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
-                      <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(t.tag)}`}>{t.tag}</span>
-                      {t.title}
-                    </Link>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            {/* Calendar */}
-            <div>
-              <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">Tech Calendar</h3>
-              <div className="flex flex-col divide-y divide-white/[0.05]">
-                {UPCOMING.map((ev, i) => (
-                  <div key={i} className="py-2.5 first:pt-0">
-                    <p className="text-xs font-semibold text-brand-accent mb-0.5">{ev.date}</p>
-                    <p className="text-sm font-semibold text-white/80 leading-snug">{ev.event}</p>
-                  </div>
-                ))}
+            {/* Hero */}
+            <Link href={hero.href} className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-white/[0.07]">
+              <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
+                <HeroVisual category={hero.categorySlug ?? hero.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
               </div>
-            </div>
+              <div className="flex flex-col justify-center flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-dark">Top Story</span>
+                  <span className={`text-2xs font-bold uppercase tracking-widest ${getCatColor(hero.categorySlug ?? hero.category)}`}>
+                    {hero.category}
+                  </span>
+                </div>
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
+                  {hero.title}
+                </h1>
+                {hero.summary && <p className="text-md leading-relaxed text-gray-400 line-clamp-3 mb-4">{hero.summary}</p>}
+                <div className="flex items-center gap-2 mt-auto text-sm text-gray-500">
+                  <span className="font-semibold text-gray-400">{hero.source}</span>
+                  <span>·</span>
+                  <span>{hero.time}</span>
+                </div>
+              </div>
+            </Link>
 
-            {/* Newsletter */}
-            <div className="border-t border-white/[0.07] pt-6">
-              <h3 className="text-sm font-black text-white uppercase tracking-wide mb-1">Tech Brief</h3>
-              <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 mb-4">Liberia&apos;s digital economy stories, weekly in your inbox.</p>
-              <input type="email" placeholder="Your email" className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-base text-white placeholder:text-gray-500 outline-none focus:border-white/60 transition-colors mb-3" />
-              <button className="w-full rounded-lg bg-white py-2 text-base font-bold text-brand-ink hover:brightness-90 transition-all">
-                Sign up free
-              </button>
-            </div>
+            {/* Top Stories — 3-up lead row under the hero */}
+            {leads.length > 0 && (
+              <section className="mb-8" aria-labelledby="top-stories-heading">
+                <h2 id="top-stories-heading" className="sr-only">More top stories</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 pb-6 border-b border-white/[0.07]">
+                  {leads.map((card, i) => (
+                    <Link key={card.href + i} href={card.href} className="group flex flex-col no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark rounded">
+                      <div className="overflow-hidden rounded-lg mb-3">
+                        <NewsThumbnail category={card.categorySlug ?? card.category} className="w-full h-[160px] group-hover:scale-[1.03] transition-transform duration-500" />
+                      </div>
+                      <span className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
+                        {card.category}
+                      </span>
+                      <h3 className="text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 text-pretty">
+                        {card.title}
+                      </h3>
+                      <p className="mt-2 text-xs text-gray-500 truncate">
+                        <span className="text-gray-400">{card.source}</span>
+                        <span aria-hidden className="mx-1.5 text-gray-700">·</span>
+                        <time>{card.time}</time>
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Strip — single column list */}
+            {strip.length > 0 && (
+              <section className="mb-6" aria-labelledby="latest-signals-heading">
+                <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-2">
+                  <div className="flex items-center gap-3">
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
+                    <h2 id="latest-signals-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">{useDb ? 'Latest in Technology' : 'Latest Signals'}</h2>
+                  </div>
+                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-white transition-colors no-underline">More ›</Link>
+                </div>
+                <ul className="flex flex-col divide-y divide-white/[0.05] list-none p-0 m-0">
+                  {strip.map((card, i) => (
+                    <li key={card.href + i}>
+                      <Link href={card.href} className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-white/[0.03] -mx-2 px-2 rounded">
+                        <p className={`text-2xs font-bold uppercase tracking-[0.12em] mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
+                          {card.category}
+                        </p>
+                        <h3 className="text-sm sm:text-md font-semibold leading-snug text-white group-hover:text-white/75 transition-colors text-pretty">
+                          {card.title}
+                        </h3>
+                        <p className="mt-1.5 text-xs text-gray-500 truncate">
+                          <span className="text-gray-400">{card.source}</span>
+                          <span aria-hidden className="mx-1.5 text-gray-700">·</span>
+                          <time>{card.time}</time>
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {/* In-Depth feed */}
+            {feed.length > 0 && (
+              <div className="mb-5">
+                <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
+                    <h2 className="text-base font-bold text-white uppercase tracking-[0.12em]">In-Depth Analysis</h2>
+                  </div>
+                </div>
+                <div className="flex flex-col divide-y divide-white/[0.05]">
+                  {feed.map((item, i) => (
+                    <Link key={item.href + i} href={item.href} className="group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline">
+                      <div className="shrink-0 overflow-hidden rounded-lg">
+                        <NewsThumbnail category={item.categorySlug ?? item.category} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.categorySlug ?? item.category)}`}>
+                          {item.category}
+                        </span>
+                        <h3 className="text-base sm:text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                          {item.title}
+                        </h3>
+                        {item.summary && <p className="hidden sm:block text-base leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>}
+                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
+                          <span className="text-gray-500 truncate">{item.source}</span>
+                          <span>·</span>
+                          <span className="whitespace-nowrap">{item.time}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
           </div>
-        </aside>
-      </div>
-    </main>
+
+          {/* Right rail — visible on mobile too (newsletter + calendar);
+              Most Read is desktop-only since it duplicates the main feed. */}
+          <aside className="w-full lg:w-[280px] shrink-0" aria-label="Technology sidebar">
+            <div className="lg:sticky lg:top-header-lg flex flex-col gap-5">
+
+              {/* More from / Most Read — real recent articles in DB mode (no
+                  fabricated "most read"), mock list only in preview mode. */}
+              <div className="hidden lg:block">
+                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">{useDb ? 'More from Technology' : 'Most Read'}</h3>
+                <ol className="flex flex-col divide-y divide-white/[0.05]">
+                  {useDb
+                    ? stories.slice(0, 6).map((s, i) => (
+                        <li key={s.href + i} className="py-2.5 first:pt-0">
+                          <Link href={s.href} className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                            <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug)}`}>{s.category}</span>
+                            {s.title}
+                          </Link>
+                        </li>
+                      ))
+                    : MOCK_MOST_READ.map((t, i) => (
+                        <li key={i} className="py-2.5 first:pt-0">
+                          <Link href="/news" className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                            <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(t.tag)}`}>{t.tag}</span>
+                            {t.title}
+                          </Link>
+                        </li>
+                      ))}
+                </ol>
+              </div>
+
+              {/* Tech Calendar — forward-looking schedule with no live source,
+                  shown ONLY in design-preview (mock) mode. */}
+              {!useDb && (
+                <div>
+                  <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">Tech Calendar</h3>
+                  <div className="flex flex-col divide-y divide-white/[0.05]">
+                    {MOCK_UPCOMING.map((ev, i) => (
+                      <div key={i} className="py-2.5 first:pt-0">
+                        <p className="text-xs font-semibold text-brand-accent mb-0.5">{ev.date}</p>
+                        <p className="text-sm font-semibold text-white/80 leading-snug">{ev.event}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Newsletter */}
+              <div className="border-t border-white/[0.07] pt-6">
+                <h3 className="text-sm font-black text-white uppercase tracking-wide mb-1">Tech Brief</h3>
+                <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 mb-4">Liberia&apos;s digital economy stories, weekly in your inbox.</p>
+                <form aria-label="Sign up for the Tech Brief newsletter">
+                  <label htmlFor="tech-email" className="sr-only">Email address</label>
+                  <input id="tech-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-base text-white placeholder:text-gray-500 outline-none focus:border-white/60 transition-colors mb-3" />
+                  <button type="submit" className="w-full rounded-lg bg-white py-2 text-base font-bold text-brand-ink hover:brightness-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark">
+                    Sign up free
+                  </button>
+                </form>
+              </div>
+
+            </div>
+          </aside>
+        </div>
+      </main>
+    </>
   );
 }

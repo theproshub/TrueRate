@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import HeaderAuthButtons from './HeaderAuthButtons';
 import SearchBox from './SearchBox';
+import SportsSearchBox from './sports/SportsSearchBox';
 import { Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
@@ -457,21 +458,39 @@ export default function Header() {
           <span aria-hidden className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
-        {/* Logo */}
-        <Link href="/" aria-label="TrueRate home" className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center gap-2 no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo.png"
-            alt=""
-            aria-hidden="true"
-            className="shrink-0"
-            style={{ height: '64px', width: 'auto', filter: isLight ? 'brightness(0)' : 'none' }}
-          />
-        </Link>
+        {/* Logo — the "truerate sports" lockup on /sports, the default mark elsewhere */}
+        <div className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center">
+          {isSports ? (
+            <Link href="/sports" aria-label="TrueRate Sports — section home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/trsports1.png"
+                alt="TrueRate Sports"
+                className="h-8 sm:h-9 md:h-10 w-auto shrink-0"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </Link>
+          ) : (
+            <Link href="/" aria-label="TrueRate home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-tight.png"
+                alt=""
+                aria-hidden="true"
+                className="h-[27px] sm:h-[31px] md:h-[35px] w-auto shrink-0"
+                fetchPriority="high"
+                decoding="async"
+                style={{ filter: isLight ? 'brightness(0)' : 'none' }}
+              />
+            </Link>
+          )}
+        </div>
 
-        {/* Search — hidden on /sports (that section has its own masthead search) */}
+        {/* Search. On /sports the section's "clubs, athletes, deals" search
+            lives here in the header (moved out of the section masthead). */}
         {isSports ? (
-          <div className="hidden sm:block flex-1" aria-hidden="true" />
+          <SportsSearchBox inputId="sports-header-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
         ) : (
           <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
         )}
@@ -575,14 +594,17 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile search — collapses on scroll. Hidden on /sports (own masthead search). */}
-      {!isSports && (
+      {/* Mobile search — collapses on scroll. On /sports it's the section's
+          "clubs, athletes, deals" search (moved out of the section masthead). */}
       <div className={`sm:hidden overflow-hidden transition-all motion-safe:duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
-          <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
+          {isSports ? (
+            <SportsSearchBox inputId="sports-header-search-mobile" variant="mobile" className="flex w-full" />
+          ) : (
+            <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
+          )}
         </div>
       </div>
-      )}
 
       {/* Bloomberg-style secondary nav — hidden on /sports/* (SportsChrome owns it there) */}
       {!pathname.startsWith('/sports') && (

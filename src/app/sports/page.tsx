@@ -1,321 +1,167 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import SportsMasthead from '@/components/sports/SportsMasthead';
+import SportsFrontPackage, { type PackageItem } from '@/components/sports/SportsFrontPackage';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
-import SectionHead from '@/components/sports/SectionHead';
-import SidebarFooter from '@/components/sports/SidebarFooter';
-import SportsMasthead from '@/components/sports/SportsMasthead';
-import HeroLede from '@/components/sports/HeroLede';
-import FlagChip from '@/components/sports/FlagChip';
-import WireFeed from '@/components/sports/WireFeed';
-import MostRead from '@/components/sports/MostRead';
-import PodcastModule from '@/components/sports/PodcastModule';
-import NewsletterSignup from '@/components/sports/NewsletterSignup';
-import IntelTable from '@/components/sports/IntelTable';
-import InvestigationCard from '@/components/sports/InvestigationCard';
-import InterviewCard from '@/components/sports/InterviewCard';
-import Delta from '@/components/sports/Delta';
-import { fetchSportsArticles, timeAgo, type SportsArticle } from '@/lib/sports/feed';
-import { fetchClubs, fetchAthletes } from '@/lib/sports/intel';
 import {
-  DASHBOARD_HERO,
-  DASHBOARD_TOP_STORIES,
-  DASHBOARD_EDITORIAL,
-  DASHBOARD_CALENDAR,
-  DASHBOARD_WEST_AFRICA,
-  DASHBOARD_MOST_READ,
-  PODCAST_EPISODES,
-  EXECUTIVE_INTERVIEWS,
-  type TopStory,
-  type EditorialItem,
-  type StoryFlag,
-  type ClubValuation,
-  type AthleteIntel,
-} from '@/lib/sports-finance-data';
+  sportsHero,
+  sportsStoriesBySection,
+  type SportsStory,
+} from '@/data/sports-stories';
 
 export const metadata: Metadata = {
-  title: 'Sports — The Business & Intelligence of Liberian Sport',
+  title: 'Sports — The Business of Liberian Sport',
   alternates: { canonical: '/sports' },
   description:
-    'TrueRate Sports — club finance, sponsorships, transfers, governance and athlete economics across Liberian and West African sport. Data-driven sports business journalism.',
+    'TrueRate Sports — the business of Liberian sport: club finance, sponsorship, transfers, broadcast rights and governance across Liberia and West Africa.',
 };
 
-export const revalidate = 300; // refresh every 5 min, like /economy
+export const revalidate = 300;
 
 const EDITION_DATE = new Date().toLocaleDateString('en-GB', {
   weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
 });
 
-/** Common card shape — satisfied by both CMS articles and the mock TopStory. */
-type CardStory = {
-  category: string;
-  categorySlug?: string;
-  title: string;
-  dek?: string;
-  author?: string;
-  source?: string;
-  time: string;
-  href: string;
-  flag?: StoryFlag;
-  dateline?: string;
-  image?: string | null;
-};
+const href = (s: SportsStory) => `/sports/news/${s.slug}`;
 
-function articleToCard(a: SportsArticle): CardStory {
-  return {
-    category: a.category?.label ?? 'Sports',
-    categorySlug: a.category?.slug ?? 'sports',
-    title: a.title,
-    dek: a.dek ?? undefined,
-    author: a.author?.name ?? undefined,
-    time: timeAgo(a.published_at),
-    href: `/news/${a.slug}`,
-    image: a.hero_image,
-  };
-}
+const DESKS: { label: string; href: string; section: 'sponsorship' | 'transfers' | 'broadcast' }[] = [
+  { label: 'Sponsorship',       href: '/sports/sponsorship',      section: 'sponsorship' },
+  { label: 'Transfers & Deals', href: '/sports/transfers-deals',  section: 'transfers' },
+  { label: 'Broadcast Rights',  href: '/sports/broadcast-rights', section: 'broadcast' },
+];
 
-function articleToEditorial(a: SportsArticle): EditorialItem {
-  return {
-    category: a.category?.label ?? 'Sports',
-    title: a.title,
-    dek: a.dek ?? '',
-    source: a.author?.name ?? 'TrueRate Sports',
-    time: timeAgo(a.published_at),
-    href: `/news/${a.slug}`,
-    image: a.hero_image,
-  };
-}
-
-/** Editorial headline card — photo, flag, category, dateline, headline, byline. */
-function StoryCard({ s, size = 'md' }: { s: CardStory; size?: 'md' | 'sm' }) {
+/** Newspaper-style section rule — thick top stroke + small-caps label. */
+function Rule({ label, href: more, moreLabel = 'More' }: { label: string; href?: string; moreLabel?: string }) {
   return (
-    <Link href={s.href} className="group flex flex-col no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink focus-visible:ring-offset-2">
-      <div className="relative overflow-hidden rounded-lg mb-3">
-        <NewsThumbnail category={s.categorySlug ?? s.category} src={s.image} className={`w-full ${size === 'sm' ? 'h-[130px]' : 'h-[180px]'} transition-transform motion-safe:group-hover:scale-[1.03]`} />
-        {s.flag && <span className="absolute left-2 top-2"><FlagChip flag={s.flag} /></span>}
-      </div>
-      <span className={`text-2xs font-bold uppercase tracking-wider mb-1 ${getCatColor(s.categorySlug ?? s.category)}`}>{s.category}</span>
-      <h3 className={`${size === 'sm' ? 'text-sm' : 'text-base'} font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 text-pretty`}>
-        {s.dateline && <span className="text-gray-500">{s.dateline} — </span>}{s.title}
-      </h3>
-      <p className="mt-1.5 text-2xs text-gray-500">
-        {s.author ? `By ${s.author}` : (s.source ?? 'TrueRate Sports')}<span className="mx-1 text-gray-300">·</span>{s.time}
-      </p>
-    </Link>
+    <div className="flex items-baseline justify-between border-b-2 border-gray-900 pb-2 mb-5">
+      <h2 className="text-sm font-black uppercase tracking-[0.16em] text-gray-900">{label}</h2>
+      {more && <Link href={more} className="text-2xs font-semibold uppercase tracking-wide text-brand-accent-ink hover:text-brand-ink no-underline">{moreLabel} ›</Link>}
+    </div>
   );
 }
 
-/** Compact text headline (no image) for the secondary lead column. */
-function HeadlineRow({ s }: { s: CardStory }) {
+/** Map a SportsStory to the shared front-package item shape. */
+const toPackageItem = (s: SportsStory): PackageItem => ({
+  category: s.category,
+  title: s.title,
+  href: href(s),
+  dek: s.summary,
+  source: s.source,
+  author: s.author,
+  authorRole: s.authorRole,
+  time: s.time,
+  flag: s.flag,
+  dateline: s.dateline,
+  readTime: s.readTime,
+});
+
+/** Desk mini-section: labelled lead + supporting headlines — scan by topic. */
+function DeskColumn({ label, href: deskHref, items }: { label: string; href: string; items: SportsStory[] }) {
+  if (items.length === 0) return null;
+  const [lead, ...rest] = items;
   return (
-    <Link href={s.href} className="group block py-3.5 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink focus-visible:ring-offset-2">
-      <div className="flex items-center gap-2 mb-1">
-        {s.flag && <FlagChip flag={s.flag} />}
-        <span className={`text-2xs font-bold uppercase tracking-wider ${getCatColor(s.categorySlug ?? s.category)}`}>{s.category}</span>
+    <section aria-label={label} className="min-w-0">
+      <div className="flex items-center justify-between border-b border-gray-900/20 pb-2 mb-3">
+        <h3 className="text-xs font-black uppercase tracking-[0.16em] text-gray-900">{label}</h3>
+        <Link href={deskHref} className="text-2xs font-semibold uppercase tracking-wide text-brand-accent-ink hover:text-brand-ink no-underline">More ›</Link>
       </div>
-      <h3 className="text-base font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors text-pretty">
-        {s.title}
-      </h3>
-      <p className="mt-1 text-2xs text-gray-500">{s.author ? `By ${s.author}` : (s.source ?? 'TrueRate Sports')}<span className="mx-1 text-gray-300">·</span>{s.time}</p>
-    </Link>
+      <Link href={href(lead)} className="group block no-underline mb-3">
+        <div className="overflow-hidden rounded-md mb-2.5">
+          <NewsThumbnail category={lead.category} className="w-full h-[150px]" />
+        </div>
+        <span className={`block text-2xs font-bold uppercase tracking-wider mb-1 ${getCatColor(lead.category)}`}>{lead.category}</span>
+        <h4 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2">{lead.title}</h4>
+        <p className="mt-1 text-sm text-gray-500 leading-relaxed line-clamp-2">{lead.summary}</p>
+        <p className="mt-1.5 text-2xs text-gray-400">{lead.source} · {lead.time}</p>
+      </Link>
+      <div className="flex flex-col divide-y divide-gray-200">
+        {rest.map((s) => (
+          <Link key={s.slug} href={href(s)} className="group block py-2.5 no-underline">
+            <h4 className="text-sm font-semibold leading-snug text-gray-800 group-hover:text-gray-600 transition-colors line-clamp-2">{s.title}</h4>
+            <p className="mt-1 text-2xs text-gray-400">{s.source} · {s.time}</p>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
 export default async function SportsPage() {
-  // Backend-first: real published sports articles drive the editorial surfaces.
-  // Until any are published, the mock content keeps the design preview full.
-  const [db, clubs, athletes] = await Promise.all([
-    fetchSportsArticles({ limit: 18 }),
-    fetchClubs(),
-    fetchAthletes(),
-  ]);
-  const useDb = db.length > 0;
-
-  const heroProps: React.ComponentProps<typeof HeroLede> = useDb
-    ? {
-        category: db[0].category?.label ?? 'Sports',
-        imageCategory: db[0].category?.slug ?? 'sports',
-        image: db[0].hero_image,
-        title: db[0].title,
-        dek: db[0].dek ?? '',
-        source: 'TrueRate Sports',
-        author: db[0].author?.name,
-        time: timeAgo(db[0].published_at),
-        href: `/news/${db[0].slug}`,
-      }
-    : {
-        category: DASHBOARD_HERO.kicker,
-        imageCategory: 'sponsorship',
-        title: DASHBOARD_HERO.title,
-        dek: DASHBOARD_HERO.dek,
-        source: DASHBOARD_HERO.source,
-        time: DASHBOARD_HERO.time,
-        href: DASHBOARD_HERO.href,
-        flag: DASHBOARD_HERO.flag,
-        dateline: DASHBOARD_HERO.dateline,
-        author: DASHBOARD_HERO.author,
-        authorRole: DASHBOARD_HERO.authorRole,
-        readTime: DASHBOARD_HERO.readTime,
-        updated: DASHBOARD_HERO.updated,
-      };
-
-  const secondaryLeads: CardStory[] = useDb
-    ? db.slice(1, 5).map(articleToCard)
-    : (DASHBOARD_TOP_STORIES.slice(0, 4) as TopStory[]);
-  const investigations: EditorialItem[] = useDb
-    ? db.slice(5, 8).map(articleToEditorial)
-    : DASHBOARD_EDITORIAL;
-  const latest: CardStory[] = useDb
-    ? db.slice(8, 18).map(articleToCard)
-    : (DASHBOARD_TOP_STORIES.slice(0, 6) as TopStory[]);
-
-  const [leadInvestigation, ...restInvestigations] = investigations;
+  const hero = sportsHero('main');
+  const mainRest = sportsStoriesBySection('main'); // excludes hero
+  const latest = mainRest.slice(8);
+  const mostRead = [hero, ...mainRest].slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-brand-surface text-gray-800">
+    <div className="bg-brand-surface min-h-screen text-gray-800">
       <SportsMasthead />
 
       <main className="mx-auto max-w-container px-4 py-6">
-        {/* Edition line */}
-        <p className="pb-3 mb-6 border-b border-gray-900/15 text-2xs font-bold uppercase tracking-[0.16em] text-gray-500">
+        {/* Edition line — newsroom furniture */}
+        <p className="pb-3 mb-5 sm:mb-6 border-b border-gray-900/15 text-2xs font-bold uppercase tracking-[0.18em] text-gray-500">
           Monrovia <span className="text-gray-300">·</span> {EDITION_DATE} <span className="text-gray-300">·</span> Sports Business Edition
         </p>
 
-        {/* 1 — Lead: hero + secondary headlines */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 pb-10 border-b border-gray-900/15">
-          <div className="min-w-0 lg:col-span-2 lg:border-r lg:border-gray-900/15 lg:pr-8">
-            <HeroLede {...heroProps} />
-          </div>
-          {secondaryLeads.length > 0 && (
-            <div className="flex flex-col divide-y divide-gray-200 min-w-0">
-              {secondaryLeads.map((s, i) => (
-                <HeadlineRow key={`${s.href}-${i}`} s={s} />
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Front package: scannable index rail · dominant lead · second story */}
+        <SportsFrontPackage items={[hero, ...mainRest].map(toPackageItem)} leadAs="h1" />
 
-        {/* 2 — Featured investigations */}
-        {leadInvestigation && (
-          <section aria-labelledby="investigations" className="mt-12">
-            <SectionHead id="investigations" title="Featured Investigations" />
-            <div className="grid gap-8 lg:grid-cols-2">
-              <InvestigationCard item={leadInvestigation} imageCategory="investigation" />
-              <div className="flex flex-col divide-y divide-gray-200">
-                {restInvestigations.map((e) => (
-                  <InvestigationCard key={e.title} item={e} variant="row" />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 3 — Latest + right rail (Most Read, Calendar) */}
-        <div className="mt-12 grid gap-10 lg:grid-cols-3">
-          {latest.length > 0 && (
-            <section aria-labelledby="latest-intel" className="lg:col-span-2">
-              <SectionHead id="latest-intel" title="Latest Sports Intelligence" />
-              <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
-                {latest.map((s, i) => (
-                  <StoryCard key={`latest-${s.href}-${i}`} s={s} size="sm" />
-                ))}
-              </div>
-            </section>
-          )}
-
-          <aside aria-label="Most read and schedule" className={latest.length > 0 ? 'space-y-10' : 'space-y-10 lg:col-span-3'}>
-            <section aria-labelledby="most-read">
-              <SectionHead id="most-read" title="Most Read" />
-              <MostRead items={DASHBOARD_MOST_READ} />
-            </section>
-            <section aria-labelledby="calendar-rail">
-              <SectionHead id="calendar-rail" title="Industry Calendar" />
-              <ol className="border-t border-gray-200 divide-y divide-gray-200">
-                {DASHBOARD_CALENDAR.map((c) => (
-                  <li key={c.title} className="flex items-start gap-3 py-3">
-                    <span className="shrink-0 w-12 text-2xs font-bold uppercase tracking-wide text-brand-accent-ink tabular-nums pt-0.5">{c.date}</span>
-                    <span className="min-w-0">
-                      <span className="block text-sm text-gray-900 leading-snug">{c.title}</span>
-                      <span className="block text-2xs uppercase tracking-wide text-gray-400 mt-0.5">{c.type}</span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          </aside>
-        </div>
-
-        {/* 4 — West Africa wire */}
-        <section aria-labelledby="wa-wire" className="mt-12">
-          <SectionHead id="wa-wire" title="West Africa Wire" />
-          <WireFeed items={DASHBOARD_WEST_AFRICA} />
-        </section>
-
-        {/* 5 — Podcast + newsletter */}
-        <section aria-labelledby="engage" className="mt-12">
-          <h2 id="engage" className="sr-only">Listen and subscribe</h2>
-          <div className="grid gap-6 lg:grid-cols-2">
-            <PodcastModule episodes={PODCAST_EPISODES} />
-            <NewsletterSignup />
-          </div>
-        </section>
-
-        {/* 6 — Executive interviews */}
-        <section id="interviews" aria-labelledby="exec-interviews" className="mt-12 scroll-mt-24">
-          <SectionHead id="exec-interviews" title="Executive Interviews" />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {EXECUTIVE_INTERVIEWS.map((it) => (
-              <InterviewCard key={it.name} item={it} />
+        {/* Across the Desks — the sports-business verticals */}
+        <section aria-labelledby="desks-h" className="mt-10">
+          <h2 id="desks-h" className="text-sm font-black uppercase tracking-[0.16em] text-gray-900 border-b-2 border-gray-900 pb-2 mb-6">Across the Desks</h2>
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            {DESKS.map((d) => (
+              <DeskColumn key={d.label} label={d.label} href={d.href} items={sportsStoriesBySection(d.section, { includeHero: true }).slice(0, 3)} />
             ))}
           </div>
         </section>
 
-        {/* 7 — Data center (the one place numbers live) */}
-        <section id="data-center" aria-labelledby="data-center-h" className="mt-12 scroll-mt-24">
-          <SectionHead id="data-center-h" title="Sports Data Center" action="/sports/club-finance" actionLabel="Full data" />
-          <p className="-mt-2 mb-5 text-sm text-gray-500 max-w-[60ch]">
-            The numbers behind the stories — athlete market values and club valuations, updated as deals are reported.
-          </p>
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 mb-3">Athlete market values</h3>
-              <IntelTable<AthleteIntel>
-                caption="Estimated market values of leading Liberian athletes"
-                rows={athletes}
-                getRowKey={(r) => r.name}
-                columns={[
-                  { key: 'rank', label: '#', render: (r) => <span className="text-gray-400">{r.rank}</span> },
-                  { key: 'name', label: 'Athlete', primary: true },
-                  { key: 'pos', label: 'Discipline', hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.pos}</span> },
-                  { key: 'club', label: 'Club', hideOnMobile: true, render: (r) => <span className="text-gray-500">{r.club}</span> },
-                  { key: 'marketValue', label: 'Est. value', numeric: true, primary: true },
-                  { key: 'trend', label: 'Trend', numeric: true, render: (r) => <Delta text={r.trend} up={r.up} className="text-xs justify-end" /> },
-                ]}
-              />
+        {/* Latest river + editorial sidebar */}
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+          <section aria-labelledby="latest-h" className="lg:col-span-2 min-w-0">
+            <Rule label="Latest in Sports Business" href="/sports/transfers-deals" />
+            <div className="flex flex-col divide-y divide-gray-200">
+              {latest.map((s) => (
+                <Link key={s.slug} href={href(s)} className="group flex gap-4 sm:gap-5 py-5 first:pt-0 no-underline">
+                  <div className="shrink-0 overflow-hidden rounded-md order-last">
+                    <NewsThumbnail category={s.category} className="h-[84px] w-[120px] sm:h-[96px] sm:w-[150px]" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className={`text-2xs font-bold uppercase tracking-wider ${getCatColor(s.category)}`}>{s.category}</span>
+                    <h3 className="mt-0.5 text-base font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 text-pretty">{s.title}</h3>
+                    <p className="mt-1 hidden sm:block text-sm text-gray-500 leading-relaxed line-clamp-2">{s.summary}</p>
+                    <p className="mt-1.5 text-2xs text-gray-400">{s.source} · {s.time}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 mb-3">Club valuations</h3>
-              <IntelTable<ClubValuation>
-                caption="Liberian Premier League club valuations"
-                rows={clubs.valuations}
-                getRowKey={(r) => r.club}
-                columns={[
-                  { key: 'rank', label: '#', render: (r) => <span className="text-gray-400">{r.rank}</span> },
-                  { key: 'club', label: 'Club', primary: true },
-                  { key: 'estValue', label: 'Est. value', numeric: true, primary: true },
-                  { key: 'yoy', label: 'YoY', numeric: true, render: (r) => <Delta text={r.yoy} up={r.up} className="text-xs justify-end" /> },
-                ]}
-              />
-              <p className="mt-3 text-2xs text-gray-500">
-                Illustrative sample data for design preview.{' '}
-                <Link href="/sports/club-finance" className="text-brand-accent-ink hover:text-brand-ink no-underline">Full club intelligence ›</Link>
-              </p>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <div className="mt-14">
-          <SidebarFooter />
+          <aside aria-label="Most read and newsletter" className="lg:col-span-1 space-y-10">
+            <section aria-labelledby="mr-h">
+              <Rule label="Most Read" />
+              <ol className="flex flex-col divide-y divide-gray-200">
+                {mostRead.map((s, i) => (
+                  <li key={s.slug} className="py-3 first:pt-0">
+                    <Link href={href(s)} className="group flex items-start gap-3 no-underline">
+                      <span aria-hidden className="shrink-0 w-6 font-mono text-lg font-black tabular-nums leading-none text-gray-300">{i + 1}</span>
+                      <span className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{s.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section aria-labelledby="nl-h" className="border-t-2 border-gray-900 pt-5">
+              <h2 id="nl-h" className="text-sm font-black uppercase tracking-wide text-gray-900 mb-1">Sports Business Brief</h2>
+              <p className="text-sm text-gray-500 mb-3">The money behind Liberian sport, in your inbox every week.</p>
+              <form aria-label="Sign up for the Sports Business Brief">
+                <label htmlFor="sb-email" className="sr-only">Email address</label>
+                <input id="sb-email" type="email" required placeholder="Email address" className="w-full bg-transparent border-b border-gray-300 px-0 py-2 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 transition-colors mb-3" />
+                <button type="submit" className="w-full rounded-md bg-gray-900 py-2.5 text-base font-bold text-white hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink focus-visible:ring-offset-2">Sign up free</button>
+              </form>
+            </section>
+          </aside>
         </div>
       </main>
     </div>

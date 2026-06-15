@@ -10,6 +10,14 @@ export type SportsStory = {
   section: SportsSection;
   hero?: boolean;
   body: string[];
+  /** Optional newsroom furniture used by the editorial front lead. */
+  author?: string;
+  authorRole?: string;
+  dateline?: string;
+  flag?: 'Exclusive' | 'Analysis' | 'Live' | 'Opinion' | 'Data' | 'Interview';
+  readTime?: string;
+  /** Desk topic slug (e.g. 'governance') for category-specific desk pages. */
+  topic?: string;
 };
 
 export const SPORTS_STORIES: SportsStory[] = [
@@ -71,8 +79,13 @@ export const SPORTS_STORIES: SportsStory[] = [
     category: 'Football',
     title: "AFCON 2027 broadcast rights: who's paying — and what Liberia's qualification is worth to CAF",
     summary:
-      "Liberia's historic qualification has boosted regional viewership projections for AFCON 2027 by an estimated 12%. We break down the $340M broadcast deal, CAF's prize money structure, and what the Lone Star stands to earn.",
+      "Liberia's historic qualification has boosted regional viewership projections for AFCON 2027. We break down the broadcast deal, CAF's prize money structure, and what the Lone Star stands to earn.",
     source: 'TrueRate Sports Business',
+    author: 'Sarah Kollie',
+    authorRole: 'Sports Business Editor',
+    dateline: 'MONROVIA',
+    flag: 'Exclusive',
+    readTime: '7 min read',
     time: '1h ago',
     body: [
       'When Liberia qualified for AFCON 2027 last month — the country\'s first appearance in 24 years — CAF\'s commercial team in Cairo took notice. Within a fortnight, the confederation\'s rights advisors had revised regional viewership projections for the tournament upward by an estimated 12%, citing both the size of Liberia\'s domestic audience and, crucially, the West African diaspora in North America and Europe that historically over-indexes for Lone Star matches.',

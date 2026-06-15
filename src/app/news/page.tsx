@@ -19,14 +19,14 @@ function timeAgo(d: string) {
 /* ── static data ── */
 
 const BREAKING = [
-  { label: 'FOREX', text: 'USD/LRD trades around L$182–183, within its 2026 range of about L$177–187 (mid-market reference)' },
-  { label: 'POLICY', text: 'CBL holds the Monetary Policy Rate at 16.25% with a cautious tightening bias as inflation eases' },
-  { label: 'ECONOMY', text: 'Real GDP grew 5.1% in 2025, with mining expanding about 17% as the main growth driver' },
-  { label: 'PAYMENTS', text: "CBL's 'Pay Na-Na' system enables real-time transfers between MTN Mobile Money and Orange Money" },
-  { label: 'RESERVES', text: 'Foreign reserves stood near US$576M at end-2025 — about two months of import cover' },
-  { label: 'INFLATION', text: 'Headline inflation averaged 8.5% in 2025; monthly readings eased to roughly 3% in early 2026' },
-  { label: 'MOBILE MONEY', text: 'Orange Liberia secured a standalone mobile-money licence in February 2026; MTN expected to follow' },
-  { label: 'DEBT', text: 'Public debt was 54.6% of GDP in 2025, with the fiscal deficit at about 1.1%' },
+  { label: 'FOREX', text: 'Liberian dollar ended March 2026 at L$183.93 per US dollar — about 8% stronger than a year earlier (CBL)' },
+  { label: 'POLICY', text: 'CBL held the Monetary Policy Rate at 16.3% through May 2026, after a one-point cut from 17.3% (CBL)' },
+  { label: 'INFLATION', text: 'Headline inflation eased to 4.5% year-on-year in March 2026, though core prices held near 6% (CBL)' },
+  { label: 'ECONOMY', text: 'Real GDP grew 4.6% in 2025, up from 4.0% a year earlier; nominal GDP reached US$5.16bn (LISGIS)' },
+  { label: 'TRADE', text: 'Exports jumped 58% to US$2.07bn in 2025, led by gold; imports rose 55% to US$2.35bn (CBL)' },
+  { label: 'MONEY', text: 'Broad money grew 10.7% to L$299.4bn in March 2026; reserve money rose 31% year-on-year (CBL)' },
+  { label: 'COMMODITIES', text: 'Gold exports more than doubled year-on-year to about US$175m in March 2026; rubber earnings fell ~54% (CBL)' },
+  { label: 'MINING', text: 'Gold output rose 15% and diamond output more than doubled year-on-year in March 2026; rubber fell ~30% (LISGIS)' },
 ];
 
 const OPINION = [
@@ -38,40 +38,40 @@ const OPINION = [
 ];
 
 const DATA_STORIES = [
-  { href: '/news/4',  stat: '5.1%',     statLabel: 'GDP growth',   title: "Liberia's Economy Grew 5.1% in 2025 — and Mining Did the Heavy Lifting",        time: '1d ago', category: 'economy' },
-  { href: '/news/1',  stat: '16.25%',   statLabel: 'Policy rate',  title: 'Why the CBL Is Holding Rates at 16.25% Even as Inflation Cools',                 time: '2d ago', category: 'policy' },
-  { href: '/news/35', stat: '~17%',     statLabel: 'Mining growth', title: 'Iron Ore and Gold Powered a 17% Mining Expansion in 2025. Can It Hold?',         time: '3d ago', category: 'Mining' },
-  { href: '/news/28', stat: 'US$576M',  statLabel: 'FX reserves',  title: "Liberia's Reserves Near US$576M — About Two Months of Import Cover",             time: '4d ago', category: 'policy' },
-  { href: '/news/10', stat: '1.28M',    statLabel: 'MoMo users',   title: 'Mobile Money Crosses the Million Mark as MTN Reports About 1.28M Users',         time: '5d ago', category: 'economy' },
-  { href: '/news/30', stat: '54.6%',    statLabel: 'Debt / GDP',   title: "Public Debt Reached 54.6% of GDP. Here's What That Means for the Budget.",        time: '6d ago', category: 'economy' },
+  { href: '/news/5', stat: '4.6%',     statLabel: 'GDP growth',    title: "Liberia's Economy Grew 4.6% in 2025 as Nominal GDP Reached US$5.2 Billion",  time: '1d ago', category: 'economy' },
+  { href: '/news/3', stat: '16.3%',    statLabel: 'Policy rate',   title: "Broad Money Grows 11% as the CBL Holds Its Rate at 16.3%",                   time: '2d ago', category: 'policy' },
+  { href: '/news/2', stat: '4.5%',     statLabel: 'Inflation',     title: "Inflation Eases to 4.5% in March, but Core Prices Stay Near 6%",             time: '3d ago', category: 'economy' },
+  { href: '/news/4', stat: 'US$2.1bn', statLabel: 'Exports 2025',  title: "Liberia's Exports Jump 58% to US$2.1 Billion in 2025, Led by Gold",          time: '4d ago', category: 'economy' },
+  { href: '/news/1', stat: 'L$183.9',  statLabel: 'LRD / US$',     title: "Liberian Dollar Ends March Near L$184 to the US Dollar, Up 8% on the Year",  time: '5d ago', category: 'forex' },
+  { href: '/news/6', stat: '+112%',    statLabel: 'Gold exports',  title: "Mining Output Climbs as Gold and Iron Ore Lead; Rubber Falls",               time: '6d ago', category: 'commodities' },
 ];
 
 const EDITORS_PICKS = [
   {
-    href: '/news/3',
-    category: 'Deep Dive',
-    title: "ArcelorMittal's Nimba Expansion: Three Scenarios for Liberia's Fiscal Future",
-    excerpt: "This is more than a mining story — it's a test of whether Liberia can translate a commodity boom into lasting public revenue. We model an optimistic case, a base case, and the scenario policymakers would rather not discuss.",
+    href: '/news/5',
+    category: 'Explainer',
+    title: "Liberia Grew 4.6% in 2025. Here's What That Number Means for the Average Liberian.",
+    excerpt: "Mining-led growth sounds like good news, but the gains have historically concentrated at the top. We map which sectors drove the expansion — iron ore, trade and services — and where the economy is still failing most people.",
     author: 'TrueRate Economics',
-    readTime: '8 min read',
+    readTime: '4 min read',
     time: '1d ago',
   },
   {
     href: '/news/4',
-    category: 'Explainer',
-    title: "Liberia Grew 5.1% in 2025. Here's What That Number Means for the Average Liberian.",
-    excerpt: "Mining-led growth sounds like good news, but the gains have historically concentrated at the top. We map which sectors drove the expansion, who captures the upside — and where the economy is still failing most people.",
-    author: 'TrueRate Newsroom',
-    readTime: '5 min read',
+    category: 'Deep Dive',
+    title: "Liberia's Exports Jumped 58% in 2025. Gold Did the Heavy Lifting.",
+    excerpt: "Export earnings reached US$2.07 billion as gold and iron-ore shipments surged. We break down which commodities drove the boom, why the trade deficit still widened, and what it means for foreign-exchange earnings.",
+    author: 'TrueRate Economics',
+    readTime: '4 min read',
     time: '2d ago',
   },
   {
-    href: '/news/18',
+    href: '/news/3',
     category: 'Explainer',
-    title: "Inside 'Pay Na-Na': How Liberia Made Mobile-Money Wallets Talk to Each Other",
-    excerpt: "In December 2025 the Central Bank launched an instant-payment system that lets MTN Mobile Money and Orange Money users transfer to each other in real time. We explain how interoperability works, who is behind it, and what it changes for everyday transactions.",
+    title: "Why the CBL Is Holding Its Rate at 16.3% as Money Supply Climbs",
+    excerpt: "Broad money grew nearly 11% and reserve money surged 31% over the year, yet the Central Bank has kept its policy rate steady. We explain the balancing act between liquidity, inflation and the cost of credit.",
     author: 'TrueRate Economics',
-    readTime: '7 min read',
+    readTime: '4 min read',
     time: '3d ago',
   },
 ];

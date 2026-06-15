@@ -6,6 +6,7 @@ import EconomyTopicTabs from '@/components/EconomyTopicTabs';
 import { publicClient } from '@/lib/supabase/public';
 import { getDashboardIndicators } from '@/lib/data/indicators';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
+import { newsItems } from '@/data/news';
 
 export const metadata = {
   alternates: { canonical: '/economy' },
@@ -54,12 +55,39 @@ function formatIndicatorChange(ind: NormalizedIndicator): string | null {
   return `${ind.changePercent >= 0 ? '+' : ''}${ind.changePercent.toFixed(1)}%`;
 }
 
+// Static fallback: when no DB articles are published, surface the seed
+// articles from news.ts so the Economy front isn't empty.
+const ECONOMY_FALLBACK_SLUGS = ['economy', 'policy', 'analysis', 'commodities', 'banking', 'forex'];
+
+function titleCase(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function economyFallbackArticles(): EconomyArticle[] {
+  return newsItems
+    .filter((n) => ECONOMY_FALLBACK_SLUGS.includes(n.category))
+    .slice()
+    .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+    .slice(0, 13)
+    .map((n) => ({
+      id: n.id,
+      slug: n.id,
+      title: n.title,
+      dek: n.summary ?? null,
+      hero_image: null,
+      hero_alt: null,
+      published_at: n.date ?? null,
+      category: { slug: n.category, label: titleCase(n.category) },
+      author: n.author ? { name: n.author } : null,
+    }));
+}
+
 async function fetchEconomyArticles(): Promise<EconomyArticle[]> {
   const { data: cats } = await publicClient.from('categories').select('id, slug');
   const ids = (cats ?? [])
     .filter((c) => ECONOMY_CATEGORY_SLUGS.includes((c as { slug: string }).slug))
     .map((c) => (c as { id: string }).id);
-  if (ids.length === 0) return [];
+  if (ids.length === 0) return economyFallbackArticles();
 
   const { data } = await publicClient
     .from('articles')
@@ -73,7 +101,8 @@ async function fetchEconomyArticles(): Promise<EconomyArticle[]> {
     .order('published_at', { ascending: false })
     .limit(13);
 
-  return (data ?? []) as unknown as EconomyArticle[];
+  const rows = (data ?? []) as unknown as EconomyArticle[];
+  return rows.length > 0 ? rows : economyFallbackArticles();
 }
 
 export default async function EconomyPage() {

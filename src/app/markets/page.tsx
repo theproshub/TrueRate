@@ -181,11 +181,15 @@ export default async function MarketsPage() {
   const bankingNews     = byCategory('banking');
   const investingNews   = byCategory('investing');
 
-  // Lead block — pinned to FT-style flagship stories
-  const findById = (id: string) => newsItems.find(n => n.id === id)!;
-  const lead        = findById('36');  // CBL rate dilemma — analysis lead
-  const subFeatures = ['51', '41'].map(findById);
-  const whatsNews   = ['42', '46', '52', '38', '47', '43'].map(findById);
+  // Lead block — derive from available articles (resilient to dataset changes)
+  const byId = (id: string) => newsItems.find(n => n.id === id);
+  const used = new Set<string>();
+  const take = (n: number) =>
+    newsItems.filter(a => !used.has(a.id)).slice(0, n).map(a => { used.add(a.id); return a; });
+  const lead        = byId('3') ?? newsItems[0];
+  if (lead) used.add(lead.id);
+  const subFeatures = take(2);
+  const whatsNews   = take(6);
 
   // Section feeds — FT-style thematic desks
   const heardOnTheStreet   = analysisNews.slice(0, 5);
@@ -213,11 +217,8 @@ export default async function MarketsPage() {
     .slice(0, 3)
     .map(([author, info]) => ({ author, ...info }));
 
-  // Pull "More in Markets" from the new FT-style desks for variety
-  const morePickIds = ['36', '41', '46', '51', '38', '42', '47', '52'];
-  const morePicks = morePickIds
-    .map(id => newsItems.find(n => n.id === id))
-    .filter((n): n is NonNullable<typeof n> => !!n);
+  // Pull "More in Markets" from available articles for variety
+  const morePicks = newsItems.slice(0, 8);
 
   return (
     <main className="mx-auto max-w-container px-4 py-6 pb-10">
