@@ -37,6 +37,7 @@
   ],
   "exclude": [
     "node_modules",
-    "clerk-nextjs"
+    "clerk-nextjs",
+    "supabase/functions"
   ]
 }
