@@ -55,6 +55,20 @@ function requireString(
   return value;
 }
 
+function optionalInt(
+  args: Record<string, unknown> | undefined,
+  key: string,
+  defaultVal: number,
+): number {
+  const v = args?.[key];
+  if (v === undefined || v === null) return defaultVal;
+  const n = Number(v);
+  if (!Number.isInteger(n) || n < 1) {
+    throw new RpcError(INVALID_PARAMS, `"${key}" must be a positive integer.`);
+  }
+  return n;
+}
+
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -75,6 +89,7 @@ function rpcError(id: unknown, code: number, message: string): Response {
 // ---------------------------------------------------------------------------
 
 const TOOLS = [
+  // ── Editorial ──────────────────────────────────────────────────────────
   {
     name: "latest_articles",
     description:
@@ -121,17 +136,98 @@ const TOOLS = [
       "Returns the 20 most recently published content cards (breaking news, big stats, market snapshots, etc.).",
     inputSchema: { type: "object", properties: {} },
   },
-  {
-    name: "latest_economic_release",
-    description:
-      "Returns the latest Liberia economic data release. (Placeholder — not yet implemented.)",
-    inputSchema: { type: "object", properties: {} },
-  },
+  // ── CBL Statistics ─────────────────────────────────────────────────────
   {
     name: "latest_exchange_rate",
     description:
-      "Returns the latest USD/LRD exchange rate. (Placeholder — not yet implemented.)",
+      "Returns the latest USD/LRD exchange rate from the Central Bank of Liberia (end-of-period and period average).",
     inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "exchange_rate_history",
+    description: "Returns monthly USD/LRD exchange rate history from the CBL.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        months: {
+          type: "number",
+          description: "Number of months of history to return (default 24, max 120).",
+        },
+      },
+    },
+  },
+  {
+    name: "latest_inflation",
+    description:
+      "Returns the most recent Liberia CPI (Consumer Price Index) reading with year-on-year change.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "inflation_history",
+    description: "Returns monthly CPI history for Liberia from the CBL.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        months: {
+          type: "number",
+          description: "Number of months of history to return (default 24, max 120).",
+        },
+      },
+    },
+  },
+  {
+    name: "list_databanks",
+    description:
+      "Lists all CBL statistical databanks (EXR, CPI, MON, FIS, INR, INT, BOP, NAT, PRO, POP) with their names and series counts.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "list_series",
+    description:
+      "Lists all series within a given CBL databank, including mnemonic, name, unit, and frequency.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        databank: {
+          type: "string",
+          description: "Databank code, e.g. EXR, CPI, MON, FIS, INR, INT, BOP, NAT, PRO, POP.",
+        },
+      },
+      required: ["databank"],
+    },
+  },
+  {
+    name: "get_series",
+    description:
+      "Returns metadata and the most recent observations for a CBL series by mnemonic.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        mnemonic: {
+          type: "string",
+          description: "CBL mnemonic, e.g. LBR_EXR_EPR_1.",
+        },
+        limit: {
+          type: "number",
+          description: "Number of most recent observations to return (default 24).",
+        },
+      },
+      required: ["mnemonic"],
+    },
+  },
+  {
+    name: "search_series",
+    description: "Search CBL series by keyword across name, databank, and unit fields.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description: "Keyword to search for.",
+        },
+      },
+      required: ["query"],
+    },
   },
 ];
 
@@ -234,18 +330,171 @@ async function callTool(
       return textContent(data);
     }
 
-    // ── placeholders ─────────────────────────────────────────────────────
-    case "latest_economic_release":
-      return textContent({
-        status: "placeholder",
-        message: "Economic release data is not yet implemented.",
-      });
+    // ── CBL: latest_exchange_rate ─────────────────────────────────────────
+    case "latest_exchange_rate": {
+      const mnemonics = ["LBR_EXR_EPR_1", "LBR_EXR_PAR_1"];
+      const results = await Promise.all(
+        mnemonics.map(async (mnemonic) => {
+          const { data: meta } = await supabase
+            .from("cbl_series")
+            .select("name_of_series, unit_of_measure")
+            .eq("mnemonic", mnemonic)
+            .single();
+          const { data: obs } = await supabase
+            .from("cbl_observations")
+            .select("period_date, period_label, value")
+            .eq("mnemonic", mnemonic)
+            .not("value", "is", null)
+            .neq("value", 0)
+            .order("period_date", { ascending: false })
+            .limit(1)
+            .single();
+          return {
+            mnemonic,
+            name: meta?.name_of_series ?? mnemonic,
+            unit: meta?.unit_of_measure ?? "Per USD",
+            period: obs?.period_label ?? null,
+            period_date: obs?.period_date ?? null,
+            value: obs?.value ?? null,
+          };
+        }),
+      );
+      return textContent({ currency_pair: "USD/LRD", rates: results });
+    }
 
-    case "latest_exchange_rate":
+    // ── CBL: exchange_rate_history ────────────────────────────────────────
+    case "exchange_rate_history": {
+      const months = Math.min(optionalInt(args, "months", 24), 120);
+      const { data, error } = await supabase
+        .from("cbl_observations")
+        .select("period_date, period_label, value")
+        .eq("mnemonic", "LBR_EXR_EPR_1")
+        .not("value", "is", null)
+        .neq("value", 0)
+        .order("period_date", { ascending: false })
+        .limit(months);
+      if (error) throw new RpcError(INTERNAL_ERROR, error.message);
       return textContent({
-        status: "placeholder",
-        message: "Exchange rate data is not yet implemented.",
+        mnemonic: "LBR_EXR_EPR_1",
+        series: "USD/LRD Market Rate End of Period",
+        unit: "LRD per 1 USD",
+        observations: (data ?? []).reverse(),
       });
+    }
+
+    // ── CBL: latest_inflation ─────────────────────────────────────────────
+    case "latest_inflation": {
+      const { data, error } = await supabase
+        .from("cbl_observations")
+        .select("period_date, period_label, value")
+        .eq("mnemonic", "LBR_CPI_0")
+        .not("value", "is", null)
+        .neq("value", 0)
+        .order("period_date", { ascending: false })
+        .limit(13);
+      if (error) throw new RpcError(INTERNAL_ERROR, error.message);
+      const obs = data ?? [];
+      const latest = obs[0] ?? null;
+      const yearAgo = obs[12] ?? null;
+      const yoy =
+        latest?.value && yearAgo?.value
+          ? Number((((latest.value - yearAgo.value) / yearAgo.value) * 100).toFixed(2))
+          : null;
+      return textContent({
+        mnemonic: "LBR_CPI_0",
+        series: "Harmonized Consumer Price Index",
+        latest: latest ? { period: latest.period_label, period_date: latest.period_date, value: latest.value } : null,
+        year_ago: yearAgo ? { period: yearAgo.period_label, period_date: yearAgo.period_date, value: yearAgo.value } : null,
+        yoy_change_pct: yoy,
+      });
+    }
+
+    // ── CBL: inflation_history ────────────────────────────────────────────
+    case "inflation_history": {
+      const months = Math.min(optionalInt(args, "months", 24), 120);
+      const { data, error } = await supabase
+        .from("cbl_observations")
+        .select("period_date, period_label, value")
+        .eq("mnemonic", "LBR_CPI_0")
+        .not("value", "is", null)
+        .neq("value", 0)
+        .order("period_date", { ascending: false })
+        .limit(months);
+      if (error) throw new RpcError(INTERNAL_ERROR, error.message);
+      return textContent({
+        mnemonic: "LBR_CPI_0",
+        series: "Harmonized Consumer Price Index",
+        observations: (data ?? []).reverse(),
+      });
+    }
+
+    // ── CBL: list_databanks ───────────────────────────────────────────────
+    case "list_databanks": {
+      const { data, error } = await supabase
+        .from("cbl_series")
+        .select("databank, databank_name")
+        .order("databank");
+      if (error) throw new RpcError(INTERNAL_ERROR, error.message);
+      const map = new Map<string, { databank_name: string; count: number }>();
+      for (const row of data ?? []) {
+        const existing = map.get(row.databank);
+        if (existing) { existing.count++; }
+        else { map.set(row.databank, { databank_name: row.databank_name ?? row.databank, count: 1 }); }
+      }
+      return textContent(
+        Array.from(map.entries()).map(([databank, v]) => ({
+          databank,
+          databank_name: v.databank_name,
+          series_count: v.count,
+        })),
+      );
+    }
+
+    // ── CBL: list_series ──────────────────────────────────────────────────
+    case "list_series": {
+      const databank = requireString(args, "databank").toUpperCase();
+      const { data, error } = await supabase
+        .from("cbl_series")
+        .select("mnemonic, name_of_series, unit_of_measure, frequency, first_observation")
+        .eq("databank", databank)
+        .order("mnemonic");
+      if (error) throw new RpcError(INTERNAL_ERROR, error.message);
+      if (!data?.length) throw new RpcError(INVALID_PARAMS, `No series found for databank "${databank}".`);
+      return textContent(data);
+    }
+
+    // ── CBL: get_series ───────────────────────────────────────────────────
+    case "get_series": {
+      const mnemonic = requireString(args, "mnemonic").toUpperCase();
+      const limit = Math.min(optionalInt(args, "limit", 24), 120);
+      const { data: meta, error: metaErr } = await supabase
+        .from("cbl_series")
+        .select("*")
+        .eq("mnemonic", mnemonic)
+        .single();
+      if (metaErr) throw new RpcError(INTERNAL_ERROR, metaErr.message);
+      const { data: obs, error: obsErr } = await supabase
+        .from("cbl_observations")
+        .select("period_date, period_label, value")
+        .eq("mnemonic", mnemonic)
+        .order("period_date", { ascending: false })
+        .limit(limit);
+      if (obsErr) throw new RpcError(INTERNAL_ERROR, obsErr.message);
+      return textContent({ ...meta, observations: (obs ?? []).reverse() });
+    }
+
+    // ── CBL: search_series ────────────────────────────────────────────────
+    case "search_series": {
+      const query = requireString(args, "query");
+      const { data, error } = await supabase
+        .from("cbl_series")
+        .select("mnemonic, databank, name_of_series, unit_of_measure, frequency")
+        .or(`name_of_series.ilike.%${query}%,databank_name.ilike.%${query}%,unit_of_measure.ilike.%${query}%`)
+        .order("databank")
+        .limit(30);
+      if (error) throw new RpcError(INTERNAL_ERROR, error.message);
+      return textContent(data);
+    }
 
     default:
       throw new RpcError(METHOD_NOT_FOUND, `Unknown tool: ${name}`);
