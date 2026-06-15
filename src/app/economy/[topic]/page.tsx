@@ -8,7 +8,13 @@ import { getCatColor } from '@/lib/category-colors';
 import { newsItems } from '@/data/news';
 import { timeAgo } from '@/lib/utils';
 import { ECONOMY_TOPIC_BY_SLUG, ECONOMY_TOPICS } from '@/lib/economy-topics';
-import { getCpiData, getExchangeRateData } from '@/lib/data/cbl-observations';
+import {
+  getCpiData,
+  getExchangeRateData,
+  getGdpData,
+  getFiscalData,
+  getTradeData,
+} from '@/lib/data/cbl-observations';
 import { CBL_POLICY_RATE, CBL_POLICY_RATE_PERIOD } from '@/lib/data/cbl-rate';
 import TrendChart from '@/components/analytics/terminal/TrendChart';
 
@@ -38,6 +44,11 @@ function StatCell({ label, value, sub }: { label: string; value: string; sub?: s
   );
 }
 
+/** Format a USD million value for display. */
+function fmtM(v: number): string {
+  return `$${v.toLocaleString('en-US', { maximumFractionDigits: 1 })}M`;
+}
+
 export default async function EconomyTopicPage({ params }: { params: Promise<{ topic: string }> }) {
   const { topic: slug } = await params;
   const topic = ECONOMY_TOPIC_BY_SLUG[slug];
@@ -48,9 +59,12 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
   // Fetch CBL data only for topics that display it.
-  const [cpi, exr] = await Promise.all([
+  const [cpi, exr, gdp, fiscal, trade] = await Promise.all([
     slug === 'inflation' ? getCpiData(24) : Promise.resolve(null),
     slug === 'monetary-policy' ? getExchangeRateData(24) : Promise.resolve(null),
+    slug === 'growth' ? getGdpData(15) : Promise.resolve(null),
+    slug === 'fiscal' ? getFiscalData(24) : Promise.resolve(null),
+    slug === 'trade' ? getTradeData(20) : Promise.resolve(null),
   ]);
 
   return (
@@ -153,6 +167,161 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
                 {exr.latest ? ` Most recent rate: ${exr.latest.value} LRD per USD.` : ''}
               </p>
               <TrendChart points={exr.points} unit="LRD" height={200} />
+            </>
+          ) : (
+            <p className="text-sm text-gray-500 italic">Chart data unavailable — sync pending.</p>
+          )}
+
+          <p className="mt-3 text-2xs text-gray-600">
+            Source: Central Bank of Liberia DataWarehousePro · Updated nightly
+          </p>
+        </section>
+      )}
+
+      {/* ── Growth data panel ────────────────────────────────────────────── */}
+      {slug === 'growth' && gdp && (
+        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia GDP data">
+          <div className="mb-5">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+              CBL Statistical Data &middot; National Accounts
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Gross domestic product at market prices (LBR_NAT_0) and constant 1992 prices (LBR_NAT_00). Annual series.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-8 mb-6">
+            {gdp.nominal.latest ? (
+              <StatCell
+                label="Nominal GDP"
+                value={fmtM(gdp.nominal.latest.value)}
+                sub={gdp.nominal.latest.date.slice(0, 4)}
+              />
+            ) : null}
+            {gdp.real.latest ? (
+              <StatCell
+                label="Real GDP (1992 prices)"
+                value={fmtM(gdp.real.latest.value)}
+                sub={gdp.real.latest.date.slice(0, 4)}
+              />
+            ) : null}
+          </div>
+
+          {gdp.nominal.points.length >= 2 ? (
+            <>
+              <p className="sr-only">
+                Chart showing Liberia nominal GDP over {gdp.nominal.points.length} years.
+                {gdp.nominal.latest ? ` Most recent: ${fmtM(gdp.nominal.latest.value)} in ${gdp.nominal.latest.date.slice(0, 4)}.` : ''}
+              </p>
+              <TrendChart points={gdp.nominal.points} unit="M USD" height={200} />
+            </>
+          ) : (
+            <p className="text-sm text-gray-500 italic">Chart data unavailable — sync pending.</p>
+          )}
+
+          <p className="mt-3 text-2xs text-gray-600">
+            Source: Central Bank of Liberia DataWarehousePro · Updated nightly
+          </p>
+        </section>
+      )}
+
+      {/* ── Fiscal data panel ────────────────────────────────────────────── */}
+      {slug === 'fiscal' && fiscal && (
+        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia fiscal data">
+          <div className="mb-5">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+              CBL Statistical Data &middot; Government Finance
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Total government debt (LBR_FIS_DEBT_1), revenue, and expenditure. Monthly series, million USD.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-8 mb-6">
+            {fiscal.debt.latest ? (
+              <StatCell
+                label="Total Govt Debt"
+                value={fmtM(fiscal.debt.latest.value)}
+                sub={fiscal.debt.latest.date.slice(0, 7)}
+              />
+            ) : null}
+            {fiscal.revenue ? (
+              <StatCell
+                label="Total Revenue"
+                value={fmtM(fiscal.revenue.value)}
+                sub={fiscal.revenue.date.slice(0, 7)}
+              />
+            ) : null}
+            {fiscal.expenditure ? (
+              <StatCell
+                label="Total Expenditure"
+                value={fmtM(fiscal.expenditure.value)}
+                sub={fiscal.expenditure.date.slice(0, 7)}
+              />
+            ) : null}
+          </div>
+
+          {fiscal.debt.points.length >= 2 ? (
+            <>
+              <p className="sr-only">
+                Chart showing Liberia total government debt over the past {fiscal.debt.points.length} months.
+                {fiscal.debt.latest ? ` Most recent: ${fmtM(fiscal.debt.latest.value)}.` : ''}
+              </p>
+              <TrendChart points={fiscal.debt.points} unit="M USD" height={200} />
+            </>
+          ) : (
+            <p className="text-sm text-gray-500 italic">Chart data unavailable — sync pending.</p>
+          )}
+
+          <p className="mt-3 text-2xs text-gray-600">
+            Source: Central Bank of Liberia DataWarehousePro · Updated nightly
+          </p>
+        </section>
+      )}
+
+      {/* ── Trade data panel ─────────────────────────────────────────────── */}
+      {slug === 'trade' && trade && (
+        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia trade data">
+          <div className="mb-5">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+              CBL Statistical Data &middot; Balance of Payments
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Goods trade balance (LBR_BOP_1_4) with export and import flows. Quarterly series, million USD.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-8 mb-6">
+            {trade.balance.latest ? (
+              <StatCell
+                label="Trade Balance"
+                value={fmtM(trade.balance.latest.value)}
+                sub={trade.balance.latest.date.slice(0, 7)}
+              />
+            ) : null}
+            {trade.exports ? (
+              <StatCell
+                label="Goods Exports"
+                value={fmtM(trade.exports.value)}
+                sub={trade.exports.date.slice(0, 7)}
+              />
+            ) : null}
+            {trade.imports ? (
+              <StatCell
+                label="Goods Imports"
+                value={fmtM(Math.abs(trade.imports.value))}
+                sub={trade.imports.date.slice(0, 7)}
+              />
+            ) : null}
+          </div>
+
+          {trade.balance.points.length >= 2 ? (
+            <>
+              <p className="sr-only">
+                Chart showing Liberia goods trade balance over {trade.balance.points.length} quarters.
+                {trade.balance.latest ? ` Most recent: ${fmtM(trade.balance.latest.value)}.` : ''}
+              </p>
+              <TrendChart points={trade.balance.points} unit="M USD" height={200} />
             </>
           ) : (
             <p className="text-sm text-gray-500 italic">Chart data unavailable — sync pending.</p>

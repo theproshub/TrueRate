@@ -75,3 +75,77 @@ export async function getExchangeRateData(months = 24): Promise<ExchangeRateData
   const latest = obs.length ? obs[obs.length - 1] : null;
   return { points: obs, latest };
 }
+
+// ---------------------------------------------------------------------------
+// Growth (NAT — National Accounts, annual)
+// ---------------------------------------------------------------------------
+
+export interface GdpData {
+  /** GDP at market prices (LBR_NAT_0), annual. */
+  nominal: { points: CblObsPoint[]; latest: CblObsPoint | null };
+  /** GDP at constant 1992 prices (LBR_NAT_00), annual. */
+  real: { points: CblObsPoint[]; latest: CblObsPoint | null };
+}
+
+export async function getGdpData(years = 15): Promise<GdpData> {
+  const [nominal, real] = await Promise.all([
+    fetchSeries('LBR_NAT_0', years),
+    fetchSeries('LBR_NAT_00', years),
+  ]);
+  return {
+    nominal: { points: nominal, latest: nominal.at(-1) ?? null },
+    real: { points: real, latest: real.at(-1) ?? null },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Fiscal (FIS — Government Budget & Debt, monthly)
+// ---------------------------------------------------------------------------
+
+export interface FiscalData {
+  /** Total government debt (LBR_FIS_DEBT_1). */
+  debt: { points: CblObsPoint[]; latest: CblObsPoint | null };
+  /** Total revenue (LBR_FIS_BUD_1) — latest value only. */
+  revenue: CblObsPoint | null;
+  /** Total expenditure (LBR_FIS_BUD_2) — latest value only. */
+  expenditure: CblObsPoint | null;
+}
+
+export async function getFiscalData(months = 24): Promise<FiscalData> {
+  const [debt, rev, exp] = await Promise.all([
+    fetchSeries('LBR_FIS_DEBT_1', months),
+    fetchSeries('LBR_FIS_BUD_1', 1),
+    fetchSeries('LBR_FIS_BUD_2', 1),
+  ]);
+  return {
+    debt: { points: debt, latest: debt.at(-1) ?? null },
+    revenue: rev.at(-1) ?? null,
+    expenditure: exp.at(-1) ?? null,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Trade (BOP — Balance of Payments, quarterly)
+// ---------------------------------------------------------------------------
+
+export interface TradeData {
+  /** Goods trade balance (LBR_BOP_1_4). */
+  balance: { points: CblObsPoint[]; latest: CblObsPoint | null };
+  /** Goods exports (LBR_BOP_1_4_1) — latest value only. */
+  exports: CblObsPoint | null;
+  /** Goods imports (LBR_BOP_1_4_2) — latest value only. */
+  imports: CblObsPoint | null;
+}
+
+export async function getTradeData(quarters = 20): Promise<TradeData> {
+  const [bal, exp, imp] = await Promise.all([
+    fetchSeries('LBR_BOP_1_4', quarters),
+    fetchSeries('LBR_BOP_1_4_1', 1),
+    fetchSeries('LBR_BOP_1_4_2', 1),
+  ]);
+  return {
+    balance: { points: bal, latest: bal.at(-1) ?? null },
+    exports: exp.at(-1) ?? null,
+    imports: imp.at(-1) ?? null,
+  };
+}
