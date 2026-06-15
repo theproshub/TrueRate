@@ -1,49 +1,118 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import TickerTape from '@/components/analytics/terminal/TickerTape';
 import TrendsTerminal from '@/components/analytics/terminal/TrendsTerminal';
-import { getAnalyticsPayload } from '@/lib/analytics/data';
+import { getMcpAnalyticsPayload, type MarketTicker } from '@/lib/analytics/mcp-data';
 import { SECTION_CONFIG } from '@/components/analytics/terminal/editorial';
 import type { AnalyticsItem } from '@/lib/analytics/types';
+import { formatPct } from '@/lib/analytics/format';
 
-// Real, server-side data. ISR: rebuild every 15 min; live spot is fetched in the
-// data layer (which caches upstream calls), so there is no client waterfall.
-export const revalidate = 900;
+export const revalidate = 900; // ISR: rebuild every 15 min
 
 export const metadata: Metadata = {
   title: 'Trends & Analytics — Liberia',
   alternates: { canonical: '/analytics' },
   description:
-    'TrueRate Trends & Analytics — Liberia macro indicators, currency cross-rates and commodity benchmarks in a clean, terminal-style dashboard.',
+    'TrueRate Trends & Analytics — Liberia macro indicators, central bank data and global market benchmarks powered by the CBL statistical database.',
 };
 
+/* ── Market ticker card ── */
+function MarketCard({ ticker }: { ticker: MarketTicker }) {
+  const isUp = (ticker.changePct ?? 0) > 0;
+  const isDown = (ticker.changePct ?? 0) < 0;
+  const dirClass = isUp ? 'text-pos' : isDown ? 'text-neg' : 'text-gray-400';
+  const arrow = isUp ? '▲' : isDown ? '▼' : '';
+
+  return (
+    <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3.5">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-xs font-semibold uppercase tracking-[0.08em] text-gray-400 truncate">
+          {ticker.symbol}
+        </span>
+        <span className={`font-mono text-xs tabular-nums ${dirClass}`}>
+          {arrow && <span className="mr-0.5">{arrow}</span>}
+          {formatPct(ticker.changePct)}
+        </span>
+      </div>
+      <span className="font-mono text-xl tabular-nums leading-none text-white">
+        {ticker.price.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+      </span>
+      <div className="flex items-center justify-between">
+        <span className="text-2xs text-gray-500 truncate">{ticker.name}</span>
+        {/* Mini sparkline via inline SVG */}
+        {ticker.sparkline.length >= 2 && (
+          <MiniSparkline values={ticker.sparkline} up={isUp} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MiniSparkline({ values, up }: { values: number[]; up: boolean }) {
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const w = 48;
+  const h = 20;
+  const step = w / (values.length - 1);
+  const points = values.map((v, i) => `${i * step},${h - ((v - min) / range) * h}`).join(' ');
+
+  return (
+    <svg
+      className="shrink-0"
+      width={w}
+      height={h}
+      viewBox={`0 0 ${w} ${h}`}
+      fill="none"
+      aria-hidden="true"
+    >
+      <polyline
+        points={points}
+        stroke={up ? '#22c55e' : '#ef4444'}
+        strokeWidth={1.5}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/* ── Data source badge ── */
+function SourceBadge({ label, count }: { label: string; count: number }) {
+  return (
+    <div className="text-right">
+      <dd className="font-mono text-2xl font-semibold tabular-nums leading-none text-white">{count}</dd>
+      <dt className="mt-1 text-2xs font-semibold uppercase tracking-[0.14em] text-gray-500">{label}</dt>
+    </div>
+  );
+}
+
 export default async function AnalyticsPage() {
-  const payload = await getAnalyticsPayload();
+  const payload = await getMcpAnalyticsPayload();
   const byId = new Map(payload.items.map((i) => [i.id, i]));
 
-  // Curated sections from real items (skip anything the data layer couldn't load).
+  // Build terminal sections from real items (skip anything the data layer couldn't load).
   const sections = SECTION_CONFIG.map((cfg) => ({
     id: cfg.id,
     title: cfg.title,
     items: cfg.ids.map((id) => byId.get(id)).filter((i): i is AnalyticsItem => Boolean(i)),
   })).filter((s) => s.items.length > 0);
 
-  // Ticker: live FX + commodities + the headline macro figures, in a stable order.
-  const tickerItems = [
-    ...payload.macro,
-    ...payload.fx,
-    ...payload.commodities,
-  ];
+  // Ticker tape: all CBL items
+  const tickerItems = payload.items;
 
-  // Real header metadata — no fabricated values.
+  // Header metadata
   const updated = new Date(payload.updatedAt).toLocaleString('en-US', {
     month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
     hour12: false, timeZone: 'UTC',
   });
-  const coverage = [
-    { label: 'Macro', n: payload.macro.length },
-    { label: 'Currency', n: payload.fx.length },
-    { label: 'Commodity', n: payload.commodities.length },
+
+  // Count by section type
+  const sectionCounts = [
+    { label: 'CBL Series', n: payload.items.length },
+    { label: 'Sections', n: sections.length },
+    { label: 'Market Tickers', n: payload.tickers.length },
   ];
 
   return (
@@ -51,43 +120,61 @@ export default async function AnalyticsPage() {
       {/* Zone 1 — full-bleed ticker tape */}
       <TickerTape items={tickerItems} />
 
-      {/* Zone 2 — constrained analytics grid */}
+      {/* Zone 2 — page content */}
       <main className="mx-auto max-w-container px-4 py-7 pb-14 sm:px-6 lg:px-8">
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Trends & Analytics' }]} />
 
+        {/* ── Header ── */}
         <header className="mb-8 mt-1 border-b border-white/10 pb-5">
-          {/* Status row — live indicator + real last-updated stamp */}
           <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <span className="inline-flex items-center gap-1.5 text-2xs font-bold uppercase tracking-[0.18em] text-brand-accent">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
-              Market Data
+              CBL Market Data
             </span>
             <span aria-hidden className="h-3 w-px bg-white/15" />
             <span className="font-mono text-2xs uppercase tracking-wide text-gray-500">
               Updated <time dateTime={payload.updatedAt}>{updated} GMT</time>
+            </span>
+            <span aria-hidden className="h-3 w-px bg-white/15" />
+            <span className="font-mono text-2xs uppercase tracking-wide text-gray-500">
+              Source: TrueRate MCP
             </span>
           </div>
 
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-white">Trends &amp; Analytics</h1>
-              <p className="mt-1.5 max-w-[560px] text-sm leading-relaxed text-gray-400">
-                Liberia macro, currency &amp; commodity benchmarks — click any figure to chart its history.
+              <p className="mt-1.5 max-w-[600px] text-sm leading-relaxed text-gray-400">
+                Liberia macro indicators, central bank data &amp; global market benchmarks — all powered by the CBL statistical database via TrueRate MCP. Click any figure to chart its history.
               </p>
             </div>
 
-            {/* Coverage — real instrument counts per asset class */}
             <dl className="flex shrink-0 items-center gap-6 sm:gap-7">
-              {coverage.map((c) => (
-                <div key={c.label} className="text-right">
-                  <dd className="font-mono text-2xl font-semibold tabular-nums leading-none text-white">{c.n}</dd>
-                  <dt className="mt-1 text-2xs font-semibold uppercase tracking-[0.14em] text-gray-500">{c.label}</dt>
-                </div>
+              {sectionCounts.map((c) => (
+                <SourceBadge key={c.label} label={c.label} count={c.n} />
               ))}
             </dl>
           </div>
         </header>
 
+        {/* ── Global Market Tickers ── */}
+        {payload.tickers.length > 0 && (
+          <section className="mb-10" aria-labelledby="market-tickers-heading">
+            <h2
+              id="market-tickers-heading"
+              className="mb-4 border-b border-white/15 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-gray-400"
+            >
+              Global Markets
+            </h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {payload.tickers.map((t) => (
+                <MarketCard key={t.symbol} ticker={t} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── CBL Terminal ── */}
         {sections.length > 0 ? (
           <TrendsTerminal sections={sections} />
         ) : (
@@ -95,6 +182,29 @@ export default async function AnalyticsPage() {
             Market data is temporarily unavailable. Please check back shortly.
           </p>
         )}
+
+        {/* ── Data Sources footer ── */}
+        <footer className="mt-12 border-t border-white/10 pt-6">
+          <div className="flex flex-wrap gap-6 text-2xs text-gray-500">
+            <div>
+              <span className="font-semibold uppercase tracking-wide text-gray-400">Data Sources</span>
+              <p className="mt-1">Central Bank of Liberia &middot; Ministry of Finance &middot; LISGIS &middot; Yahoo Finance</p>
+            </div>
+            <div>
+              <span className="font-semibold uppercase tracking-wide text-gray-400">Databanks</span>
+              <p className="mt-1">EXR &middot; CPI &middot; MON &middot; FIS &middot; BOP &middot; NAT &middot; INR &middot; INT &middot; PRO &middot; POP</p>
+            </div>
+            <div>
+              <span className="font-semibold uppercase tracking-wide text-gray-400">Powered by</span>
+              <p className="mt-1">
+                <Link href="/about" className="text-brand-accent hover:text-brand-accent/80 transition-colors">
+                  TrueRate MCP
+                </Link>
+                {' '}&middot; 366 series across 10 databanks
+              </p>
+            </div>
+          </div>
+        </footer>
       </main>
     </>
   );

@@ -46,20 +46,24 @@ function SignedInButtons({
   return (
     <>
       <Link
-        href="/watchlist"
-        className={`hidden sm:flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
+        href="/saved"
+        className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
           isLight
             ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
             : 'text-gray-400 hover:text-white hover:bg-white/[0.06]'
         }`}
-        aria-label="My watchlist"
+        aria-label="Saved articles"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
         </svg>
       </Link>
       <span
-        className="hidden sm:inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-white ring-2 ring-white/10"
+        className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ring-2 ${
+          isLight
+            ? 'bg-gray-200 text-gray-700 ring-gray-300'
+            : 'bg-white/10 text-white ring-white/10'
+        }`}
         title={user.email ?? ''}
         aria-hidden="true"
       >

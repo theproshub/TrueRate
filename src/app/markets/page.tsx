@@ -10,6 +10,17 @@ import {
   latestValue,
   WB_INDICATORS,
 } from '@/lib/api/worldbank';
+import {
+  getInterestRateData,
+  getMoneySupplyData,
+  getDebtBreakdownData,
+} from '@/lib/data/cbl-observations';
+import dynamic from 'next/dynamic';
+
+const TrendChart = dynamic(
+  () => import('@/components/analytics/terminal/TrendChart'),
+  { loading: () => <div className="h-[140px] w-full animate-pulse rounded bg-white/[0.04]" /> },
+);
 import { newsItems } from '@/data/news';
 import type { NewsItem } from '@/lib/types';
 import { Heading, Text } from '@/components/ui';
@@ -153,10 +164,13 @@ function DeskColumn({ title, href, items }: { title: string; href: string; items
 // ── page ────────────────────────────────────────────────────────────────────
 
 export default async function MarketsPage() {
-  const [liveRates, commodities, indicators] = await Promise.all([
+  const [liveRates, commodities, indicators, interestRates, moneySupply, debtBreakdown] = await Promise.all([
     fetchLiveRates(),
     fetchCommodities(),
     fetchLiberiaIndicators().catch(() => ({} as Record<string, { date: string; value: number }[]>)),
+    getInterestRateData(12),
+    getMoneySupplyData(12),
+    getDebtBreakdownData(12),
   ]);
 
   // When both FX feeds are down we get hardcoded fallback rates. Honor the
@@ -343,6 +357,179 @@ export default async function MarketsPage() {
             USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
           </Text>
         </aside>
+      </section>
+
+      {/* ── Financial Markets: Interest Rates / Money Supply / Govt Debt ── */}
+      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]" aria-labelledby="financial-heading">
+        <h2 id="financial-heading" className="sr-only">Liberia Financial Markets Data</h2>
+
+        {/* Interest Rates */}
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+          <div className="mb-4">
+            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Interest Rates · CBL</Text>
+            <p className="text-sm text-gray-400 leading-relaxed">Industry-average banking rates and CBL policy rate, monthly.</p>
+          </div>
+
+          {interestRates.rows.length > 0 ? (
+            <table className="w-full text-sm tabular-nums">
+              <caption className="sr-only">Liberia interest rates by type and currency.</caption>
+              <thead>
+                <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                  <th scope="col" className="py-1.5 text-left font-semibold">Rate</th>
+                  <th scope="col" className="py-1.5 text-right font-semibold">LRD</th>
+                  <th scope="col" className="py-1.5 text-right font-semibold">USD</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.06]">
+                {interestRates.rows.map(r => (
+                  <tr key={r.label} className="hover:bg-white/[0.02]">
+                    <td className="py-2 pr-2 font-semibold text-white">{r.label}</td>
+                    <td className="py-2 text-right font-bold text-white">
+                      {r.lrd ? `${r.lrd.value.toFixed(2)}%` : '—'}
+                    </td>
+                    <td className="py-2 text-right font-bold text-white">
+                      {r.usd ? `${r.usd.value.toFixed(2)}%` : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-sm text-gray-500 italic">Data unavailable — sync pending.</p>
+          )}
+
+          {interestRates.policyRate.points.length >= 2 && (
+            <div className="mt-4">
+              <Text variant="caption" className="uppercase tracking-wider text-gray-500 mb-2">Policy Rate Trend</Text>
+              <p className="sr-only">
+                Chart showing the CBL monetary policy rate over the past {interestRates.policyRate.points.length} months.
+                {interestRates.policyRate.latest ? ` Current rate: ${interestRates.policyRate.latest.value}%.` : ''}
+              </p>
+              <TrendChart points={interestRates.policyRate.points} unit="%" height={140} />
+            </div>
+          )}
+
+          <Text variant="caption" className="mt-3 leading-relaxed">
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> · monthly industry average
+            {interestRates.rows[0]?.lrd ? ` · as of ${interestRates.rows[0].lrd.date.slice(0, 7)}` : ''}
+          </Text>
+        </div>
+
+        {/* Money Supply */}
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+          <div className="mb-4">
+            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Money Supply · CBL</Text>
+            <p className="text-sm text-gray-400 leading-relaxed">Reserve money (monetary base) and broad money (M2), monthly.</p>
+          </div>
+
+          <div className="flex flex-wrap gap-6 mb-5">
+            {moneySupply.reserveMoney.latest && (
+              <div className="flex flex-col gap-0.5">
+                <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">Reserve Money</span>
+                <span className="text-xl font-bold tabular-nums text-white leading-none">
+                  LRD {(moneySupply.reserveMoney.latest.value / 1000).toFixed(1)}B
+                </span>
+                <span className="text-xs text-gray-500 mt-0.5">{moneySupply.reserveMoney.latest.date.slice(0, 7)}</span>
+              </div>
+            )}
+            {moneySupply.broadMoney.latest && (
+              <div className="flex flex-col gap-0.5">
+                <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">Broad Money (M2)</span>
+                <span className="text-xl font-bold tabular-nums text-white leading-none">
+                  LRD {(moneySupply.broadMoney.latest.value / 1000).toFixed(1)}B
+                </span>
+                <span className="text-xs text-gray-500 mt-0.5">{moneySupply.broadMoney.latest.date.slice(0, 7)}</span>
+              </div>
+            )}
+          </div>
+
+          {moneySupply.broadMoney.points.length >= 2 && (
+            <div className="mb-3">
+              <Text variant="caption" className="uppercase tracking-wider text-gray-500 mb-2">Broad Money (M2) Trend</Text>
+              <p className="sr-only">
+                Chart showing Liberia broad money supply over the past {moneySupply.broadMoney.points.length} months.
+                {moneySupply.broadMoney.latest ? ` Latest: LRD ${(moneySupply.broadMoney.latest.value / 1000).toFixed(1)} billion.` : ''}
+              </p>
+              <TrendChart points={moneySupply.broadMoney.points} unit="M LRD" height={140} />
+            </div>
+          )}
+
+          {moneySupply.reserveMoney.points.length >= 2 && (
+            <div>
+              <Text variant="caption" className="uppercase tracking-wider text-gray-500 mb-2">Reserve Money Trend</Text>
+              <p className="sr-only">
+                Chart showing Liberia reserve money over the past {moneySupply.reserveMoney.points.length} months.
+              </p>
+              <TrendChart points={moneySupply.reserveMoney.points} unit="M LRD" height={140} />
+            </div>
+          )}
+
+          <Text variant="caption" className="mt-3 leading-relaxed">
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> · monetary surveys
+          </Text>
+        </div>
+
+        {/* Government Debt */}
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+          <div className="mb-4">
+            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Government Debt · MoF</Text>
+            <p className="text-sm text-gray-400 leading-relaxed">Total, domestic, and external public debt from the Ministry of Finance.</p>
+          </div>
+
+          <div className="flex flex-wrap gap-6 mb-5">
+            {debtBreakdown.total.latest && (
+              <div className="flex flex-col gap-0.5">
+                <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">Total Debt</span>
+                <span className="text-xl font-bold tabular-nums text-white leading-none">
+                  ${(debtBreakdown.total.latest.value / 1000).toFixed(2)}B
+                </span>
+                <span className="text-xs text-gray-500 mt-0.5">{debtBreakdown.total.latest.date.slice(0, 7)}</span>
+              </div>
+            )}
+          </div>
+
+          {debtBreakdown.domestic.latest && debtBreakdown.external.latest && (
+            <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-sm tabular-nums mb-5">
+              <li className="flex items-baseline justify-between py-1.5">
+                <span className="font-semibold text-white">Domestic</span>
+                <span className="font-bold text-white">
+                  ${debtBreakdown.domestic.latest.value.toLocaleString('en-US', { maximumFractionDigits: 1 })}M
+                  {debtBreakdown.total.latest && (
+                    <span className="text-xs text-gray-500 ml-1.5">
+                      ({((debtBreakdown.domestic.latest.value / debtBreakdown.total.latest.value) * 100).toFixed(0)}%)
+                    </span>
+                  )}
+                </span>
+              </li>
+              <li className="flex items-baseline justify-between py-1.5">
+                <span className="font-semibold text-white">External</span>
+                <span className="font-bold text-white">
+                  ${debtBreakdown.external.latest.value.toLocaleString('en-US', { maximumFractionDigits: 1 })}M
+                  {debtBreakdown.total.latest && (
+                    <span className="text-xs text-gray-500 ml-1.5">
+                      ({((debtBreakdown.external.latest.value / debtBreakdown.total.latest.value) * 100).toFixed(0)}%)
+                    </span>
+                  )}
+                </span>
+              </li>
+            </ul>
+          )}
+
+          {debtBreakdown.total.points.length >= 2 && (
+            <div>
+              <Text variant="caption" className="uppercase tracking-wider text-gray-500 mb-2">Total Debt Trend</Text>
+              <p className="sr-only">
+                Chart showing Liberia total government debt over the past {debtBreakdown.total.points.length} months.
+                {debtBreakdown.total.latest ? ` Latest: $${(debtBreakdown.total.latest.value / 1000).toFixed(2)} billion.` : ''}
+              </p>
+              <TrendChart points={debtBreakdown.total.points} unit="$M" height={140} />
+            </div>
+          )}
+
+          <Text variant="caption" className="mt-3 leading-relaxed">
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Ministry of Finance</a> via CBL · monthly
+          </Text>
+        </div>
       </section>
 
       {/* ── Lead + What's News ── */}

@@ -1,5 +1,3 @@
-'use client';
-
 import StatCell from './StatCell';
 import type { StatView } from './view-model';
 

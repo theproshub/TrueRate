@@ -16,9 +16,14 @@ import {
   getTradeData,
 } from '@/lib/data/cbl-observations';
 import { CBL_POLICY_RATE, CBL_POLICY_RATE_PERIOD } from '@/lib/data/cbl-rate';
-import TrendChart from '@/components/analytics/terminal/TrendChart';
+import dynamic from 'next/dynamic';
 
-export const revalidate = 3600;
+const TrendChart = dynamic(
+  () => import('@/components/analytics/terminal/TrendChart'),
+  { loading: () => <div className="h-[200px] w-full animate-pulse rounded bg-white/[0.04]" /> },
+);
+
+export const revalidate = 900; // 15 min — matches live CBL chart data freshness
 
 export function generateStaticParams() {
   return ECONOMY_TOPICS.map(t => ({ topic: t.slug }));

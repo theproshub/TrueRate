@@ -1,7 +1,12 @@
 'use client';
 
-import TrendChart from './TrendChart';
+import dynamic from 'next/dynamic';
 import RangeBar from './RangeBar';
+
+const TrendChart = dynamic(() => import('./TrendChart'), {
+  ssr: false,
+  loading: () => <div className="h-[260px] w-full animate-pulse rounded bg-white/[0.04]" />,
+});
 import ContextNote from './ContextNote';
 import SourceTag from './SourceTag';
 import TimeframeTabs from './TimeframeTabs';

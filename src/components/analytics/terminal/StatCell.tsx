@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import Sparkline from './Sparkline';
+import { memo, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const Sparkline = dynamic(() => import('./Sparkline'), { ssr: false });
 import RangeBar from './RangeBar';
 import ContextNote from './ContextNote';
 import SourceTag from './SourceTag';
@@ -14,7 +16,7 @@ import type { StatView } from './view-model';
  *     prior reading, sparkline. Whole glance row selects the focus chart.
  *   DETAIL (expand): range bar, "what this means", Liberia angle, source.
  */
-export default function StatCell({
+export default memo(function StatCell({
   view,
   active,
   onSelect,
@@ -73,7 +75,7 @@ export default function StatCell({
               (view.spark.length >= 2 ? (
                 <Sparkline series={view.spark} direction={view.direction} />
               ) : (
-                <span className="w-[72px] text-right font-mono text-2xs text-gray-700">—</span>
+                <span className="min-w-[48px] max-w-[80px] w-full text-right font-mono text-2xs text-gray-700">—</span>
               ))}
           </div>
         </button>
@@ -119,4 +121,4 @@ export default function StatCell({
       )}
     </div>
   );
-}
+});

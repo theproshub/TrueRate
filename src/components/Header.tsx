@@ -19,12 +19,13 @@ const TOP_NAV: { label: string; href: string }[] = [
 
 /** Bloomberg-style section tabs on the secondary row */
 const SECTIONS_NAV: { label: string; href: string }[] = [
-  { label: 'News',             href: '/news' },
+  { label: 'My Watchlist',     href: '/watchlist' },
+  { label: 'News',             href: '/news/finance' },
   { label: 'Markets',          href: '/markets' },
   { label: 'Analytics',        href: '/analytics' },
   { label: 'Economy',          href: '/economy' },
   { label: 'Technology',       href: '/technology' },
-  { label: 'Entrepreneurship', href: '/small-business' },
+  { label: 'Entertainment',    href: '/entertainment' },
   { label: 'Videos',           href: '/videos' },
 ];
 
@@ -36,7 +37,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'News', href: '/news',
     children: [
-      { label: 'All News',        href: '/news' },
+      { label: 'Finance News',    href: '/news/finance' },
       { label: 'Markets',         href: '/markets' },
       { label: 'Analytics',       href: '/analytics' },
       { label: 'Economy',         href: '/economy' },
@@ -49,7 +50,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'Entertainment', href: '/entertainment',
     children: [
-      { label: 'All Entertainment', href: '/entertainment' },
       { label: 'Movies',            href: '/entertainment/movies' },
       { label: 'TV',                href: '/entertainment/tv' },
       { label: 'Music',             href: '/entertainment/music' },
@@ -60,7 +60,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'Sports', href: '/sports',
     children: [
-      { label: 'All Sports',      href: '/sports' },
       { label: 'Football',        href: '/sports/football' },
       { label: 'Basketball',      href: '/sports/basketball' },
       { label: 'Athletics',       href: '/sports/athletics' },
@@ -77,9 +76,8 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     ],
   },
   {
-    label: 'Finance', href: '/',
+    label: 'Finance', href: '/news/finance',
     children: [
-      { label: 'News',             href: '/news' },
       { label: 'Markets',          href: '/markets' },
       { label: 'Analytics',        href: '/analytics' },
       { label: 'Economy',          href: '/economy' },
@@ -91,7 +89,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
   {
     label: 'Videos', href: '/videos',
     children: [
-      { label: 'All Videos',       href: '/videos' },
       { label: 'Interviews',       href: '/videos/interviews' },
       { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
       { label: 'Investing',        href: '/videos/investing' },
@@ -104,7 +101,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
   { label: 'Entertainment',    href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
   { label: 'Entrepreneurship', href: '/small-business',   desc: 'Liberian small business & founders' },
-  { label: 'Watchlist',        href: '/watchlist',        desc: 'Track your tickers and stories' },
+  { label: 'My Watchlist',     href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'Saved Articles',   href: '/saved',            desc: 'Articles you saved to read later' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
 ];
@@ -117,6 +114,7 @@ const MORE_MENU: MoreColumn[] = [
     title: 'News',
     items: [
       { label: 'All News',        href: '/news' },
+      { label: 'Finance News',    href: '/news/finance' },
       { label: 'Markets',         href: '/markets' },
       { label: 'Analytics',       href: '/analytics' },
       { label: 'Economy',         href: '/economy' },
@@ -166,7 +164,7 @@ const MORE_MENU: MoreColumn[] = [
     title: 'More on TrueRate',
     items: [
       { label: 'Entrepreneurship', href: '/small-business' },
-      { label: 'Watchlist',        href: '/watchlist' },
+      { label: 'My Watchlist',     href: '/watchlist' },
       { label: 'Saved Articles',   href: '/saved' },
       { label: 'About TrueRate',   href: '/about' },
       { label: 'Help',             href: '/help' },
@@ -206,29 +204,20 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
       { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
     ],
   });
-  const MOBILE_ORDER = ['News', 'Analytics', 'Entertainment', 'Finance', 'Sports', 'Watchlist'];
+  const MOBILE_ORDER = ['News', 'Analytics', 'Entertainment', 'Finance', 'Sports', 'My Watchlist'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
 })();
 
 function isActive(pathname: string, href: string): boolean {
-  if (href === '/') return pathname === '/';
+  if (href === '/') return pathname === '/' || pathname.startsWith('/news/finance');
+  if (href === '/news') return pathname === '/news' || (pathname.startsWith('/news/') && !pathname.startsWith('/news/finance'));
   return pathname === href || pathname.startsWith(href + '/');
 }
 
 function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: string }) {
-  // Only Finance auto-expands on the homepage ('/'). Every other accordion
-  // (News, Sports, Videos, Entertainment, Watchlist, About TrueRate)
-  // stays collapsed until the user taps to open it.
-  const [expanded, setExpanded] = useState<Set<string>>(() => {
-    const initial = new Set<string>();
-    if (pathname === '/') {
-      const finance = ACCORDION_ITEMS.find(it => it.href === '/' && it.children && it.children.length > 0);
-      if (finance) initial.add(finance.label);
-    }
-    return initial;
-  });
+  const [expanded, setExpanded] = useState<Set<string>>(new Set(['Finance']));
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   function toggleExpanded(label: string) {
@@ -255,6 +244,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
   }, [onClose]);
 
   const supportLinks = [
+    { label: 'Saved Articles',   href: '/saved' },
     { label: 'About TrueRate',   href: '/about' },
     { label: 'Help',             href: '/help' },
     { label: 'Feedback',         href: '/feedback' },
@@ -292,52 +282,57 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
 
               return (
                 <div key={label} className="relative">
-                  {/* Active section indicator — green left bar (Yahoo-style) */}
+                  {/* Active section indicator — left bar */}
                   {active ? (
                     <span aria-hidden className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-sm bg-brand-accent" />
                   ) : null}
 
-                  {hasChildren ? (
-                    <button
-                      type="button"
-                      onClick={() => toggleExpanded(label)}
-                      aria-expanded={isOpen}
-                      aria-controls={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`}
-                      className="w-full flex items-center justify-between px-5 py-3 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline-none focus-visible:bg-white/[0.06]"
-                    >
-                      <span className="text-md font-bold text-white">{label}</span>
-                      <svg
-                        className={`h-4 w-4 text-white/60 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                  ) : (
+                  <div className="flex items-center">
+                    {/* Label — always navigates to the section page */}
                     <Link
                       href={href}
                       onClick={onClose}
-                      className="flex items-center justify-between min-h-[44px] px-5 py-2.5 no-underline transition-colors hover:bg-white/[0.03]"
+                      className="flex-1 flex items-center min-h-[44px] px-5 py-2.5 no-underline transition-colors hover:bg-white/[0.03]"
                     >
-                      <span className="text-md font-bold text-white">{label}</span>
-                      <svg
-                        className="h-4 w-4 text-white/60"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
+                      <span className={`text-md font-bold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
                     </Link>
-                  )}
 
-                  {hasChildren && isOpen ? (
+                    {/* Expand arrow — toggles submenu (only if children exist) */}
+                    {hasChildren && (
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(label)}
+                        aria-expanded={isOpen}
+                        aria-controls={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`}
+                        aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${label} submenu`}
+                        className="flex h-11 w-11 items-center justify-center shrink-0 mr-2 rounded-full hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                      >
+                        <svg
+                          className={`h-4 w-4 text-white/60 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    )}
+
+                    {/* Simple chevron for items without children */}
+                    {!hasChildren && (
+                      <Link href={href} onClick={onClose} aria-hidden="true" tabIndex={-1} className="flex h-11 w-11 items-center justify-center shrink-0 mr-2 no-underline">
+                        <svg className="h-4 w-4 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
+                    )}
+                  </div>
+
+                  {/* Submenu */}
+                  {hasChildren && isOpen && (
                     <div id={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`} className="pb-1.5">
                       {children!.map((c, ci) => {
                         if (c.heading) {
                           return (
-                            <p
-                              key={`h-${ci}`}
-                              className="px-9 pt-3 pb-1 text-2xs font-bold uppercase tracking-[0.14em] text-gray-500"
-                            >
+                            <p key={`h-${ci}`} className="px-9 pt-3 pb-1 text-2xs font-bold uppercase tracking-[0.14em] text-gray-500">
                               {c.label}
                             </p>
                           );
@@ -361,7 +356,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                         );
                       })}
                     </div>
-                  ) : null}
+                  )}
                 </div>
               );
             })}
@@ -410,7 +405,8 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
 
   const isSports = pathname.startsWith('/sports');
-  const isLight = isSports || pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help') || pathname.startsWith('/entertainment');
+  const isEntertainment = pathname.startsWith('/entertainment');
+  const isLight = isSports || isEntertainment || pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -458,7 +454,7 @@ export default function Header() {
           <span aria-hidden className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
-        {/* Logo — the "truerate sports" lockup on /sports, the default mark elsewhere */}
+        {/* Logo — section-specific lockups on /sports and /entertainment, default mark elsewhere */}
         <div className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center">
           {isSports ? (
             <Link href="/sports" aria-label="TrueRate Sports — section home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
@@ -467,6 +463,17 @@ export default function Header() {
                 src="/trsports1.png"
                 alt="TrueRate Sports"
                 className="h-8 sm:h-9 md:h-10 w-auto shrink-0"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </Link>
+          ) : isEntertainment ? (
+            <Link href="/entertainment" aria-label="TrueRate Entertainment — section home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/truerateent.png"
+                alt="TrueRate Entertainment"
+                className="h-[27px] sm:h-[31px] md:h-[35px] w-auto shrink-0"
                 fetchPriority="high"
                 decoding="async"
               />
@@ -640,13 +647,16 @@ export default function Header() {
             /* Videos-specific tabs */
             <>
               {[
+                { label: 'My Watchlist', href: '/watchlist' },
+                { label: 'News',       href: '/news/finance' },
                 { label: 'Markets',    href: '/markets' },
+                { label: 'Analytics',  href: '/analytics' },
                 { label: 'Economy',    href: '/economy' },
                 { label: 'Technology', href: '/technology' },
-                { label: 'Entrepreneurship',   href: '/small-business' },
+                { label: 'Entertainment',   href: '/entertainment' },
                 { label: 'Videos',     href: '/videos' },
               ].map(({ label, href }) => {
-                const isActive = href === '/videos' ? pathname.startsWith('/videos') : pathname === href;
+                const isActive = (href === '/videos' || href === '/entertainment') ? pathname.startsWith(href) : pathname === href;
                 return (
                   <Link key={label} href={href}
                     className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${

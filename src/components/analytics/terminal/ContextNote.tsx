@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * <ContextNote/> — static editorial one-liner (never AI-generated per load).
  * `variant="meaning"` = what the number means for a decision.

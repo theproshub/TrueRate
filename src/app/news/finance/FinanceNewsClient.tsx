@@ -8,7 +8,6 @@ import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
 
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
-const GENERAL_TABS = ['For You', 'Finance', 'Sports', 'Entertainment', 'Technology', 'Economy', 'World'];
 
 function timeAgo(d: string) {
   const days = Math.floor((new Date('2026-04-04').getTime() - new Date(d).getTime()) / 86400000);
@@ -111,74 +110,6 @@ export function NewsFeedTabs() {
         </div>
       </div>
       <FeedList tab={activeTab} />
-    </>
-  );
-}
-
-/** General news tabs — broader topic mix for the /news hub page. */
-export function GeneralNewsTabs() {
-  const [activeTab, setActiveTab] = useState('For You');
-
-  // Map general tab labels to the underlying category slugs used in newsItems
-  const categoryMap: Record<string, string[]> = {
-    'Finance': ['forex', 'economy', 'policy', 'Mining', 'commodities'],
-    'Sports': ['sports', 'football', 'basketball', 'athletics'],
-    'Entertainment': ['entertainment', 'movies', 'music', 'tv', 'celebrity'],
-    'Technology': ['technology'],
-    'Economy': ['economy'],
-    'World': ['world', 'trade'],
-  };
-
-  function GeneralFeedList({ tab }: { tab: string }) {
-    const all = newsItems;
-    const slugs = categoryMap[tab];
-    const filtered = slugs
-      ? all.filter(n => slugs.includes(n.category.toLowerCase()))
-      : all;
-    const items = (filtered.length ? filtered : all).slice(0, 8);
-
-    return (
-      <div className="flex flex-col divide-y divide-gray-100">
-        {items.map((item) => (
-          <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
-            <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
-            <div className="min-w-0 flex-1">
-              <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-              <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
-              <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
-              <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
-                <span className="font-medium text-gray-500">{item.source}</span>
-                <span>&middot;</span>
-                <span>{timeAgo(item.date)}</span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <div className="mb-5">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-3">
-            <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-            <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Top Stories</Heading>
-          </div>
-        </div>
-        <div className="flex gap-0 overflow-x-auto border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {GENERAL_TABS.map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap px-4 py-2.5 text-base font-medium transition-colors border-b-2 -mb-px ${
-                activeTab === tab ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-800'
-              }`}>
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-      <GeneralFeedList tab={activeTab} />
     </>
   );
 }

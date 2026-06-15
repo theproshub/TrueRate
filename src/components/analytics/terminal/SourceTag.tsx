@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * <SourceTag/> — provenance line. Critical for trust in Liberian econ data:
  * names the real published source + last-updated date. No icon, just text.

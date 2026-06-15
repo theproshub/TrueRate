@@ -5,7 +5,7 @@ import { NewsThumbnail, VideoThumbnail, AuthorAvatar } from '@/components/NewsTh
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
 import { Heading, Text } from '@/components/ui';
-import { HeroCarousel, NewsFeedTabs } from './NewsClient';
+import { HeroCarousel, GeneralNewsTabs } from './NewsClient';
 import PlayableVideo from '@/components/PlayableVideo';
 
 /* ── helpers ── */
@@ -16,34 +16,34 @@ function timeAgo(d: string) {
   return `${days} days ago`;
 }
 
-/* ── static data ── */
+/* ── static data: general / multi-topic ── */
 
-const BREAKING = [
-  { label: 'FOREX', text: 'Liberian dollar ended March 2026 at L$183.93 per US dollar — about 8% stronger than a year earlier (CBL)' },
-  { label: 'POLICY', text: 'CBL held the Monetary Policy Rate at 16.3% through May 2026, after a one-point cut from 17.3% (CBL)' },
-  { label: 'INFLATION', text: 'Headline inflation eased to 4.5% year-on-year in March 2026, though core prices held near 6% (CBL)' },
+const TRENDING = [
+  { label: 'BREAKING', text: "Boakai administration approves rebate for foreign productions shooting in Liberia — Lagos studios already inquiring" },
+  { label: 'FINANCE', text: 'Liberian dollar ended March 2026 at L$183.93 per US dollar — about 8% stronger than a year earlier (CBL)' },
+  { label: 'SPORTS', text: 'LISCR FC clinches LPL title with three matches to spare — first unbeaten season in league history' },
+  { label: 'ENTERTAINMENT', text: "Nollywood-Liberia co-production 'Sundown in Sinkor' opens to record diaspora pre-sales" },
+  { label: 'TECH', text: 'LTA 5G spectrum consultation opens April 12 — Monrovia could see commercial 5G by late 2026' },
   { label: 'ECONOMY', text: 'Real GDP grew 4.6% in 2025, up from 4.0% a year earlier; nominal GDP reached US$5.16bn (LISGIS)' },
-  { label: 'TRADE', text: 'Exports jumped 58% to US$2.07bn in 2025, led by gold; imports rose 55% to US$2.35bn (CBL)' },
-  { label: 'MONEY', text: 'Broad money grew 10.7% to L$299.4bn in March 2026; reserve money rose 31% year-on-year (CBL)' },
-  { label: 'COMMODITIES', text: 'Gold exports more than doubled year-on-year to about US$175m in March 2026; rubber earnings fell ~54% (CBL)' },
-  { label: 'MINING', text: 'Gold output rose 15% and diamond output more than doubled year-on-year in March 2026; rubber fell ~30% (LISGIS)' },
+  { label: 'WORLD', text: 'IMF staff mission begins April 22 — Liberia expects a positive fourth review under the Extended Credit Facility' },
+  { label: 'HEALTH', text: "WHO and Liberia sign US$40m five-year health-systems pact covering malaria, nutrition, and primary care" },
 ];
 
 const OPINION = [
   { title: "Liberia's rubber pricing model leaves smallholders exposed. Here's how to fix it.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '2d ago' },
-  { title: "Liberia needs a sovereign wealth framework before the mining boom peaks.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '3d ago' },
   { title: "A West African single currency is still coming. Liberia should help shape it, not just join it.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '4d ago' },
-  { title: "Mobile money is racing ahead of the electricity and connectivity it depends on.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '5d ago' },
+  { title: "The film rebate is a start, but Liberia needs a creative-economy strategy, not a tax break.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '5d ago' },
   { title: "The Freeport handles most of Liberia's trade. The roads behind it haven't kept up.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '6d ago' },
+  { title: "Mobile money is racing ahead of the electricity and connectivity it depends on.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '7d ago' },
 ];
 
 const DATA_STORIES = [
   { href: '/news/5', stat: '4.6%',     statLabel: 'GDP growth',    title: "Liberia's Economy Grew 4.6% in 2025 as Nominal GDP Reached US$5.2 Billion",  time: '1d ago', category: 'economy' },
-  { href: '/news/3', stat: '16.3%',    statLabel: 'Policy rate',   title: "Broad Money Grows 11% as the CBL Holds Its Rate at 16.3%",                   time: '2d ago', category: 'policy' },
+  { href: '/sports/football', stat: '22-0-0', statLabel: 'Unbeaten',  title: "LISCR FC's Historic Unbeaten Season in Numbers",                             time: '2d ago', category: 'sports' },
   { href: '/news/2', stat: '4.5%',     statLabel: 'Inflation',     title: "Inflation Eases to 4.5% in March, but Core Prices Stay Near 6%",             time: '3d ago', category: 'economy' },
-  { href: '/news/4', stat: 'US$2.1bn', statLabel: 'Exports 2025',  title: "Liberia's Exports Jump 58% to US$2.1 Billion in 2025, Led by Gold",          time: '4d ago', category: 'economy' },
+  { href: '/entertainment', stat: '25%', statLabel: 'Rebate',       title: "The Film Rebate Explained: What Producers Get and What Liberia Hopes to Gain", time: '4d ago', category: 'entertainment' },
   { href: '/news/1', stat: 'L$183.9',  statLabel: 'LRD / US$',     title: "Liberian Dollar Ends March Near L$184 to the US Dollar, Up 8% on the Year",  time: '5d ago', category: 'forex' },
-  { href: '/news/6', stat: '+112%',    statLabel: 'Gold exports',  title: "Mining Output Climbs as Gold and Iron Ore Lead; Rubber Falls",               time: '6d ago', category: 'commodities' },
+  { href: '/technology', stat: '5G',    statLabel: 'Consultation',  title: "What 5G Could Mean for Monrovia — and Why It's Still Years Away for Most Liberians", time: '6d ago', category: 'technology' },
 ];
 
 const EDITORS_PICKS = [
@@ -57,34 +57,34 @@ const EDITORS_PICKS = [
     time: '1d ago',
   },
   {
-    href: '/news/4',
-    category: 'Deep Dive',
-    title: "Liberia's Exports Jumped 58% in 2025. Gold Did the Heavy Lifting.",
-    excerpt: "Export earnings reached US$2.07 billion as gold and iron-ore shipments surged. We break down which commodities drove the boom, why the trade deficit still widened, and what it means for foreign-exchange earnings.",
-    author: 'TrueRate Economics',
-    readTime: '4 min read',
+    href: '/sports',
+    category: 'Feature',
+    title: "LISCR FC's Community-Ownership Model Is Reshaping West African Football.",
+    excerpt: "An unbeaten season is the headline, but the club's deeper story is a governance model that gives supporters a real stake. We look at how it works and whether it can be replicated across WAFU.",
+    author: 'TrueRate Sports',
+    readTime: '5 min read',
     time: '2d ago',
   },
   {
-    href: '/news/3',
-    category: 'Explainer',
-    title: "Why the CBL Is Holding Its Rate at 16.3% as Money Supply Climbs",
-    excerpt: "Broad money grew nearly 11% and reserve money surged 31% over the year, yet the Central Bank has kept its policy rate steady. We explain the balancing act between liquidity, inflation and the cost of credit.",
-    author: 'TrueRate Economics',
+    href: '/entertainment',
+    category: 'Deep Dive',
+    title: "From Nollywood Co-Productions to a Film Rebate: Liberia's Bet on the Creative Economy.",
+    excerpt: "'Sundown in Sinkor' broke diaspora pre-sale records. The new 25% rebate aims to make Monrovia a production hub. We trace the policy path and what it means for local crews and studios.",
+    author: 'TrueRate Culture',
     readTime: '4 min read',
     time: '3d ago',
   },
 ];
 
 const ARCHIVES = [
-  { title: "Thirty Years of Missed Opportunity: Why Liberia's Rubber Sector Has Never Matched Its Potential",   date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
-  { title: "From Post-War Reconstruction to Rate Decisions: The Long Road to CBL Independence",                  date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
-  { title: "Iron Ore, Timber, Rubber: The Three-Commodity Trap That Has Defined Liberia's Economy for 60 Years", date: 'Sep 2025', category: 'Mining',      readTime: '10 min read' },
-  { title: "The Invisible Economy: How Monrovia's Informal Sector Powers Half the City — and Gets None of the Credit", date: 'Jul 2025', category: 'economy', readTime: '9 min read' },
+  { title: "From Post-War Reconstruction to a Sporting Identity: How Football Rebuilt Community in Liberia", date: 'Feb 2026', category: 'sports',        readTime: '12 min read' },
+  { title: "Thirty Years of Missed Opportunity: Why Liberia's Rubber Sector Has Never Matched Its Potential", date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
+  { title: "The Long Road to CBL Independence: Rate Decisions and Post-War Recovery",                        date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
+  { title: "The Invisible Economy: How Monrovia's Informal Sector Powers Half the City",                     date: 'Jul 2025', category: 'economy',     readTime: '9 min read' },
 ];
 
 const UPCOMING_EVENTS = [
-  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Monetary Policy' },
+  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Policy' },
   { date: 'Apr 10', title: 'Q1 2026 GDP Advance Estimate Release',       type: 'Data' },
   { date: 'Apr 12', title: 'LTA 5G Spectrum Consultation — Monrovia',    type: 'Tech' },
   { date: 'Apr 14', title: 'Mid-Year Budget Review — Legislature',        type: 'Fiscal' },
@@ -96,21 +96,21 @@ const UPCOMING_EVENTS = [
 ];
 
 const VIDEOS = [
-  { title: "Why the CBL Is Holding Its Policy Rate at 16.25%", duration: '2:48', category: 'policy', time: '55m ago', youtubeId: '' },
-  { title: "How 'Pay Na-Na' Connects MTN and Orange Mobile Money", duration: '1:52', category: 'economy', time: '3h ago', youtubeId: '' },
-  { title: "Mining Drove 2025 Growth: Iron Ore and Gold, Explained", duration: '2:31', category: 'Mining', time: '12h ago', youtubeId: '' },
-  { title: "Liberia's Dual-Currency Economy, Explained in Two Minutes", duration: '3:14', category: 'economy', time: '1d ago', youtubeId: '' },
-  { title: "Foreign Reserves and Import Cover: What About US$576M Buys", duration: '4:05', category: 'policy', time: '2d ago', youtubeId: '' },
-  { title: "Inflation Cooled to About 3% in Early 2026 — Here's How", duration: '3:22', category: 'economy', time: '3d ago', youtubeId: '' },
+  { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'entertainment', time: '30m ago', youtubeId: '' },
+  { title: "LISCR FC's Unbeaten Season: The Key Moments", duration: '3:45', category: 'sports', time: '2h ago', youtubeId: '' },
+  { title: "Why the CBL Is Holding Its Policy Rate at 16.25%", duration: '2:48', category: 'policy', time: '6h ago', youtubeId: '' },
+  { title: "How 'Pay Na-Na' Connects MTN and Orange Mobile Money", duration: '1:52', category: 'economy', time: '12h ago', youtubeId: '' },
+  { title: "Mining Drove 2025 Growth: Iron Ore and Gold, Explained", duration: '2:31', category: 'Mining', time: '1d ago', youtubeId: '' },
+  { title: "5G in Monrovia: What It Means and When It's Coming", duration: '2:05', category: 'technology', time: '2d ago', youtubeId: '' },
 ];
 
 const COMMUNITY_VOICES = [
   {
-    title: "Local-content rules in mining still aren't translating into local contracts",
-    excerpt: "Liberia has local-content legislation, but enforcement remains the gap between policy and the businesses it is meant to grow. TrueRate examines where the rules fall short across the mining supply chain.",
-    author: 'TrueRate Business',
+    title: "The film rebate is signed — but where are the local crews going to train?",
+    excerpt: "Liberia's new production incentive could attract international shoots, but the domestic talent pipeline is thin. Industry voices say training infrastructure is the missing link between policy and production.",
+    author: 'TrueRate Culture',
     role: 'Analysis',
-    time: '3d ago',
+    time: '2d ago',
   },
   {
     title: "Mobile money is reaching rural Liberia faster than electricity and connectivity",
@@ -127,9 +127,9 @@ const COMMUNITY_VOICES = [
     time: '5d ago',
   },
   {
-    title: "The Lofa corridor's farm-to-market potential keeps running into unpaved roads",
-    excerpt: "Studies repeatedly point to Lofa's agricultural belt as a major opportunity if cold-chain logistics and roads connect it to Monrovia. The constraint has long been infrastructure, not potential.",
-    author: 'TrueRate Economics',
+    title: "LISCR FC proved community ownership works — can other clubs follow?",
+    excerpt: "An unbeaten LPL season has put the spotlight on LISCR's governance model. Supporters own a real stake. But replicating the structure means solving funding, transparency and political interference.",
+    author: 'TrueRate Sports',
     role: 'Analysis',
     time: '6d ago',
   },
@@ -198,7 +198,7 @@ export default async function NewsPage({
               </Text>
             </div>
             <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">
-              ← All news
+              &larr; All news
             </Link>
           </div>
 
@@ -206,7 +206,7 @@ export default async function NewsPage({
             <div className="border-b border-gray-200 py-10 text-center">
               <Heading level={4} as="h2" className="mb-1 font-bold text-gray-900">No results found</Heading>
               <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500">
-                Try searching for &ldquo;inflation&rdquo;, &ldquo;forex&rdquo;, &ldquo;rubber&rdquo; or &ldquo;CBL&rdquo;.
+                Try searching for &ldquo;inflation&rdquo;, &ldquo;sports&rdquo;, &ldquo;entertainment&rdquo; or &ldquo;technology&rdquo;.
               </Text>
             </div>
           ) : (
@@ -225,7 +225,7 @@ export default async function NewsPage({
                       <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
                       <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
                         <span className="font-medium text-gray-500">{item.source}</span>
-                        <span>·</span>
+                        <span>&middot;</span>
                         <span>{timeAgo(item.date)}</span>
                       </div>
                     </div>
@@ -240,14 +240,14 @@ export default async function NewsPage({
       {/* ── Normal news view (hidden when searching) ── */}
       {!query && (<>
 
-      {/* Breaking ticker */}
+      {/* Trending ticker */}
       <div className="mb-5 flex items-center gap-0 border-b border-gray-200 overflow-hidden">
         <div className="shrink-0 bg-brand-accent px-3 py-2.5 z-10">
-          <span className="text-2xs font-black uppercase tracking-widest text-brand-dark">Live</span>
+          <span className="text-2xs font-black uppercase tracking-widest text-brand-dark">Trending</span>
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
-            {[...BREAKING, ...BREAKING].map((b, i) => (
+            {[...TRENDING, ...TRENDING].map((b, i) => (
               <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
                 <span className={`text-2xs font-black uppercase tracking-widest ${getCatColor(b.label)}`}>{b.label}</span>
                 <span className="text-base font-medium text-gray-700 group-hover:text-gray-950 transition-colors">{b.text}</span>
@@ -273,7 +273,7 @@ export default async function NewsPage({
           <SubStoryRow />
 
           {/* Tab bar + feed (client island) */}
-          <NewsFeedTabs />
+          <GeneralNewsTabs />
 
           {/* Editor's Picks */}
           <div className="mt-6">
@@ -287,7 +287,7 @@ export default async function NewsPage({
               {EDITORS_PICKS.map((p, i) => (
                 <Link key={i} href={p.href} className="group flex flex-col sm:flex-row gap-3 sm:gap-4 py-5 first:pt-0 no-underline hover:opacity-75 transition-opacity">
                   <div className="shrink-0 overflow-hidden rounded-xl order-first sm:order-last">
-                    <NewsThumbnail category={i === 0 ? 'Mining' : i === 1 ? 'economy' : 'policy'} className="h-[180px] w-full sm:h-[110px] sm:w-[160px]" />
+                    <NewsThumbnail category={i === 0 ? 'economy' : i === 1 ? 'sports' : 'entertainment'} className="h-[180px] w-full sm:h-[110px] sm:w-[160px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -310,7 +310,7 @@ export default async function NewsPage({
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
                 <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">More Stories</Heading>
               </div>
-              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">All stories ›</Link>
+              <Link href="/news/finance" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">All stories ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 sm:divide-x divide-y sm:divide-y-0 divide-gray-100 border-t border-b border-gray-100">
               {newsItems.slice(20, 24).map((item) => (
@@ -357,7 +357,6 @@ export default async function NewsPage({
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
                 <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Analysis &amp; Opinion</Heading>
               </div>
-              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">View all ›</Link>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
               {OPINION.map((op, i) => (
@@ -382,7 +381,7 @@ export default async function NewsPage({
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
                 <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Data Stories</Heading>
               </div>
-              <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">More ›</Link>
+              <Link href="/news/finance" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {DATA_STORIES.map((s, i) => (
@@ -427,7 +426,7 @@ export default async function NewsPage({
             </div>
           </div>
 
-          {/* Community Voices */}
+          {/* From the Newsroom */}
           <div className="mt-6">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
@@ -455,12 +454,12 @@ export default async function NewsPage({
             </div>
           </div>
 
-          {/* Upcoming Economic Events */}
+          {/* Upcoming Events */}
           <div className="mt-10 mb-4">
             <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Upcoming Economic Events</Heading>
+                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Upcoming Events</Heading>
               </div>
               <Link href="/economy" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">Full calendar ›</Link>
             </div>

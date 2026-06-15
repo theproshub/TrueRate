@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumb from '@/components/Breadcrumb';
 import EntertainmentTopicTabs from '@/components/EntertainmentTopicTabs';
-import { NewsThumbnail } from '@/components/NewsThumbnail';
+import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { ENTERTAINMENT_TOPIC_BY_SLUG, ENTERTAINMENT_TOPICS } from '@/lib/entertainment-topics';
-import { ENTERTAINMENT_TOPIC_CONTENT, type Kpi } from '@/lib/entertainment-topic-content';
+import { ENTERTAINMENT_TOPIC_CONTENT } from '@/lib/entertainment-topic-content';
 
 export function generateStaticParams() {
   return ENTERTAINMENT_TOPICS.map(t => ({ topic: t.slug }));
@@ -21,25 +21,12 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
   };
 }
 
-function deltaClasses(direction?: Kpi['deltaDirection']): string {
-  switch (direction) {
-    case 'up':   return 'text-pos';
-    case 'down': return 'text-neg';
-    case 'flat': return 'text-gray-500';
-    default:     return 'text-gray-500';
-  }
-}
-
-/** Slugs whose topic-header strap and "By the numbers" KPI grid are hidden — the hero stat panel covers it. */
-const HIDE_TOPIC_INTRO = new Set(['movies', 'tv', 'music', 'celebrity', 'how-to-watch']);
-
 export default async function EntertainmentTopicPage({ params }: { params: Promise<{ topic: string }> }) {
   const { topic: slug } = await params;
   const topic = ENTERTAINMENT_TOPIC_BY_SLUG[slug];
   if (!topic) notFound();
 
   const content = ENTERTAINMENT_TOPIC_CONTENT[topic.slug];
-  const showIntro = !HIDE_TOPIC_INTRO.has(topic.slug);
 
   return (
     <main className="bg-white min-h-screen">
@@ -48,35 +35,6 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
           <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'Entertainment', href: '/entertainment' }, { label: topic.label }]} />
           <EntertainmentTopicTabs activeSlug={topic.slug} />
         </div>
-
-        {showIntro && (
-          <header className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Entertainment &middot; {topic.label}</p>
-            <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label} — the business behind it</h1>
-            <p className="text-md text-gray-600 leading-relaxed max-w-[720px]">{topic.blurb}</p>
-          </header>
-        )}
-
-        {showIntro && content && (
-          <section aria-labelledby={`${topic.slug}-kpi-heading`} className="mb-10 border-y border-gray-200 py-5">
-            <h2 id={`${topic.slug}-kpi-heading`} className="sr-only">Key {topic.label} numbers</h2>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-4">By the numbers</p>
-            <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5">
-              {content.kpis.map(k => (
-                <div key={k.label}>
-                  <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500 leading-snug">{k.label}</dt>
-                  <dd className="mt-1.5 text-2xl sm:text-2xl font-black tracking-tight text-gray-900 tabular-nums">{k.value}</dd>
-                  {k.delta && (
-                    <p className={`mt-0.5 text-sm font-bold tabular-nums ${deltaClasses(k.deltaDirection)}`}>{k.delta}</p>
-                  )}
-                  {k.note && (
-                    <p className="mt-1 text-xs text-gray-500 leading-snug">{k.note}</p>
-                  )}
-                </div>
-              ))}
-            </dl>
-          </section>
-        )}
 
         {!content ? (
           <section className="border-t border-gray-200 pt-6 pb-10 text-center">
@@ -91,68 +49,67 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
             {/* Main column */}
             <div className="flex-1 min-w-0">
 
-              {/* Hero — editorial layout with stat panel */}
-              <article className="mb-10 pb-10 border-b border-gray-200">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8 items-start">
-                  <div className="md:col-span-7 min-w-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-dark">Top Story</span>
-                      <span className="text-2xs font-bold uppercase tracking-widest text-gray-500">
-                        {content.hero.category}
-                      </span>
-                    </div>
-                    <Link href="/news" className="no-underline group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-4 rounded">
-                      {showIntro ? (
-                        <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
-                          {content.hero.title}
-                        </h2>
-                      ) : (
-                        <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.05] text-gray-900 group-hover:text-gray-700 transition-colors mb-4 tracking-tight text-balance">
-                          {content.hero.title}
-                        </h1>
-                      )}
-                    </Link>
-                    <p className="text-md leading-relaxed text-gray-700 mb-4 max-w-[640px]">{content.hero.summary}</p>
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500">
-                      {content.hero.byline && (
-                        <>
-                          <span className="font-semibold text-gray-700">{content.hero.byline}</span>
-                          <span aria-hidden>·</span>
-                        </>
-                      )}
-                      <span className="font-semibold text-gray-600">{content.hero.source}</span>
-                      <span aria-hidden>·</span>
-                      <time>{content.hero.time}</time>
-                      {content.hero.readTime && (
-                        <>
-                          <span aria-hidden>·</span>
-                          <span>{content.hero.readTime}</span>
-                        </>
-                      )}
-                    </div>
+              {/* Hero — full-width stacked image with overlay */}
+              <Link href="/news" className="group relative block rounded-xl overflow-hidden mb-6 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-4">
+                <HeroVisual category={content.hero.category} className="w-full h-[260px] sm:h-[360px] lg:h-[420px] group-hover:scale-[1.02] transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-dark">Top Story</span>
+                    <span className="text-2xs font-bold uppercase tracking-widest text-white/70">
+                      {content.hero.category}
+                    </span>
                   </div>
-
-                  <aside aria-label="Headline number" className="md:col-span-5 md:border-l md:border-gray-200 md:pl-8">
-                    <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">The Number</p>
-                    <p className="text-3xl sm:text-3xl font-black leading-[0.95] tracking-tight text-gray-900 tabular-nums">
-                      {content.heroStat.value}
-                    </p>
-                    <p className="mt-2 text-base font-semibold text-gray-700 leading-snug">
-                      {content.heroStat.label}
-                    </p>
-                    {content.heroStat.delta && (
-                      <p className={`mt-3 text-base font-bold tabular-nums ${deltaClasses(content.heroStat.deltaDirection)}`}>
-                        {content.heroStat.delta}
-                      </p>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-[1.08] text-white mb-3 tracking-tight text-balance max-w-[720px]">
+                    {content.hero.title}
+                  </h1>
+                  <p className="text-base sm:text-md leading-relaxed text-white/80 line-clamp-2 mb-3 max-w-[640px]">{content.hero.summary}</p>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/60">
+                    {content.hero.byline && (
+                      <>
+                        <span className="font-semibold text-white/80">{content.hero.byline}</span>
+                        <span aria-hidden>·</span>
+                      </>
                     )}
-                    {content.heroStat.sub && (
-                      <p className="mt-2 text-sm text-gray-500 leading-snug">
-                        {content.heroStat.sub}
-                      </p>
+                    <span className="font-semibold text-white/80">{content.hero.source}</span>
+                    <span aria-hidden>·</span>
+                    <time>{content.hero.time}</time>
+                    {content.hero.readTime && (
+                      <>
+                        <span aria-hidden>·</span>
+                        <span>{content.hero.readTime}</span>
+                      </>
                     )}
-                  </aside>
+                  </div>
                 </div>
-              </article>
+              </Link>
+
+              {/* Top stories — 3-up card row */}
+              {content.strip.length >= 3 && (
+                <section className="mb-8 pb-8 border-b border-gray-200" aria-labelledby={`${topic.slug}-top-heading`}>
+                  <h2 id={`${topic.slug}-top-heading`} className="sr-only">Top {topic.label} stories</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
+                    {content.strip.slice(0, 3).map((card, i) => (
+                      <Link key={i} href="/news" className="group flex flex-col no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 rounded">
+                        <div className="overflow-hidden rounded-lg mb-3">
+                          <NewsThumbnail category={card.category} className="w-full h-[160px] group-hover:scale-[1.03] transition-transform duration-500" />
+                        </div>
+                        <span className="text-2xs font-bold uppercase tracking-widest mb-1.5 text-gray-500">
+                          {card.category}
+                        </span>
+                        <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:text-gray-700 transition-colors line-clamp-3 text-pretty">
+                          {card.title}
+                        </h3>
+                        <p className="mt-2 text-xs text-gray-500 truncate">
+                          <span className="text-gray-600">{card.source}</span>
+                          <span aria-hidden className="mx-1.5 text-gray-300">·</span>
+                          <time>{card.time}</time>
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               {/* Strip */}
               <section className="mb-10" aria-labelledby={`${topic.slug}-strip-heading`}>
@@ -164,7 +121,7 @@ export default async function EntertainmentTopicPage({ params }: { params: Promi
                   <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
                 </div>
                 <ul className="flex flex-col divide-y divide-gray-200 list-none p-0 m-0">
-                  {content.strip.map((card, i) => (
+                  {content.strip.slice(3).map((card, i) => (
                     <li key={i}>
                       <Link href="/news" className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-gray-50 -mx-2 px-2 rounded">
                         <p className="text-2xs font-bold uppercase tracking-[0.12em] mb-1.5 text-gray-500">

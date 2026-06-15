@@ -39,7 +39,7 @@ function Sparkline({ data, positive }: { data: number[]; positive: boolean }) {
     .map((v, i) => `${(i / (data.length - 1)) * w},${(h - ((v - min) / range) * h).toFixed(1)}`)
     .join(' ');
   return (
-    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" className="overflow-visible">
+    <svg viewBox={`0 0 ${w} ${h}`} aria-hidden="true" className="overflow-visible w-full min-w-[48px] max-w-[80px] h-5">
       <polyline points={pts} fill="none" strokeWidth="1.5" className={positive ? 'stroke-pos' : 'stroke-neg'} />
     </svg>
   );

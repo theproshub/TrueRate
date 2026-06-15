@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cache } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { newsItems } from '@/data/news';
@@ -29,41 +30,29 @@ interface DbArticle {
   hero_alt: string | null;
   published_at: string | null;
   updated_at: string;
+  category_id: string | null;
   category: { slug: string; label: string } | null;
   author:   { name: string }                | null;
   source_name?: string | null;
   source_url?: string | null;
 }
 
-async function fetchDbArticle(slug: string): Promise<DbArticle | null> {
+const fetchDbArticle = cache(async (slug: string): Promise<DbArticle | null> => {
   const { data } = await publicClient
     .from('articles')
     .select(
       `id, slug, title, dek, body, hero_image, hero_alt, published_at, updated_at,
+       source_name, source_url, category_id,
        category:categories(slug, label),
        author:authors(name)`,
     )
     .eq('slug', slug)
     .eq('status', 'published')
     .maybeSingle();
-  const article = (data as unknown as DbArticle | null) ?? null;
-  if (!article) return null;
+  return (data as unknown as DbArticle | null) ?? null;
+});
 
-  // Best-effort outlet attribution (only if migration 009 has been applied).
-  const { data: srcRow } = await publicClient
-    .from('articles')
-    .select('source_name, source_url')
-    .eq('id', article.id)
-    .maybeSingle();
-  const src = srcRow as unknown as
-    | { source_name: string | null; source_url: string | null }
-    | null;
-  if (src) {
-    article.source_name = src.source_name;
-    article.source_url = src.source_url;
-  }
-  return article;
-}
+export const revalidate = 3600; // 1 hr — articles rarely change after publish
 
 export function generateStaticParams() {
   // Only the static seed articles are statically generated. DB-sourced
@@ -175,6 +164,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                 {item.body?.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
+              </div>
+
+              {/* Save button */}
+              <div className="mb-6">
+                <SaveArticleButton
+                  articleId={item.id}
+                  initialSaved={false}
+                  authed={false}
+                  returnTo={`/news/${item.id}`}
+                />
               </div>
 
               {/* Tags */}
@@ -292,23 +291,19 @@ async function DbArticleView({ article }: { article: DbArticle }) {
   const bodyHtml      = renderMarkdown(article.body);
   const dateIso       = article.published_at ?? article.updated_at;
 
-  // Look up the category UUID via the slug so we can pull related articles.
-  const { data: categoryRow } = await publicClient
-    .from('categories')
-    .select('id')
-    .eq('slug', categorySlug)
-    .maybeSingle();
-  const categoryId = (categoryRow as { id: string } | null)?.id ?? null;
+  // Fetch related articles, more stories, and saved state in parallel.
+  // category_id is now included in the article SELECT, eliminating the
+  // extra categories lookup that previously created a waterfall.
+  const categoryId = article.category_id;
 
-  const related = await fetchRelatedDbArticles(categoryId, article.id, 3);
+  const [related, { authed, saved }] = await Promise.all([
+    fetchRelatedDbArticles(categoryId, article.id, 3),
+    isArticleSaved(article.id),
+  ]);
   const moreStories = await fetchMoreDbArticles(
     [article.id, ...related.map(r => r.id)],
     8,
   );
-
-  // Session-aware saved state (cookie client). Only DB articles can be saved,
-  // since saved_articles.article_id is a FK to articles.id.
-  const { authed, saved } = await isArticleSaved(article.id);
 
   return (
     <div className="bg-brand-surface min-h-screen">
@@ -375,15 +370,6 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                 <span>{timeAgo(dateIso)}</span>
               </div>
 
-              <div className="mb-6">
-                <SaveArticleButton
-                  articleId={article.id}
-                  initialSaved={saved}
-                  authed={authed}
-                  returnTo={`/news/${article.slug}`}
-                />
-              </div>
-
               {article.hero_image ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
@@ -399,6 +385,16 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                 className="article-body"
                 dangerouslySetInnerHTML={{ __html: bodyHtml }}
               />
+
+              {/* Save button */}
+              <div className="mt-8 mb-6">
+                <SaveArticleButton
+                  articleId={article.id}
+                  initialSaved={saved}
+                  authed={authed}
+                  returnTo={`/news/${article.slug}`}
+                />
+              </div>
 
               <div className="flex flex-wrap gap-2 pt-5 mt-8 border-t border-gray-100">
                 {[categoryLabel, 'Liberia', 'West Africa', 'Economy'].map(tag => (

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';

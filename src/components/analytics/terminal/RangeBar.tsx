@@ -1,5 +1,3 @@
-'use client';
-
 import { DIRECTION_HEX, type Direction } from './colors';
 
 /**

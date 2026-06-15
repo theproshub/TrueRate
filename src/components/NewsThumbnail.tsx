@@ -1,5 +1,3 @@
-'use client';
-
 import { getCatStyle } from '@/lib/category-colors';
 import { storyPhoto } from '@/lib/story-photos';
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { directionClass, arrow } from './colors';
 import { toTickerView } from './view-model';
 import type { AnalyticsItem } from '@/lib/analytics/types';

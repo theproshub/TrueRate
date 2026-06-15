@@ -1,8 +1,7 @@
-'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Heading, Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
+import FooterVisibility from './FooterVisibility';
 
 const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
   'Explore Further': [
@@ -50,9 +49,8 @@ const LEGAL_LINKS = [
 ];
 
 export default function Footer() {
-  const pathname = usePathname();
-  if (pathname.startsWith('/news') || pathname.startsWith('/sports') || pathname.startsWith('/admin')) return null;
   return (
+    <FooterVisibility>
     <footer className="mt-4 sm:mt-10 border-t border-white/[0.06] bg-brand-dark">
 
       <div className="mx-auto max-w-container px-4 py-5">
@@ -133,5 +131,6 @@ export default function Footer() {
 
       </div>
     </footer>
+    </FooterVisibility>
   );
 }
