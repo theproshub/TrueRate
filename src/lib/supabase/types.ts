@@ -443,6 +443,80 @@ export type Database = {
           },
         ]
       }
+      cbl_series: {
+        Row: {
+          mnemonic: string
+          databank: string
+          databank_name: string | null
+          name_of_series: string | null
+          unit_of_measure: string | null
+          frequency: string | null
+          first_observation: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          mnemonic: string
+          databank: string
+          databank_name?: string | null
+          name_of_series?: string | null
+          unit_of_measure?: string | null
+          frequency?: string | null
+          first_observation?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          mnemonic?: string
+          databank?: string
+          databank_name?: string | null
+          name_of_series?: string | null
+          unit_of_measure?: string | null
+          frequency?: string | null
+          first_observation?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      cbl_observations: {
+        Row: {
+          id: number
+          mnemonic: string
+          period_date: string
+          period_label: string
+          value: number | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: number
+          mnemonic: string
+          period_date: string
+          period_label: string
+          value?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: number
+          mnemonic?: string
+          period_date?: string
+          period_label?: string
+          value?: number | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cbl_observations_mnemonic_fkey"
+            columns: ["mnemonic"]
+            isOneToOne: false
+            referencedRelation: "cbl_series"
+            referencedColumns: ["mnemonic"]
+          },
+        ]
+      }
       macro_series: {
         Row: {
           category: string
