@@ -229,6 +229,21 @@ const TOOLS = [
       required: ["query"],
     },
   },
+  {
+    name: "search_indicator",
+    description:
+      "Cross-domain search: queries both TrueRate articles and CBL statistical series simultaneously and returns unified results.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description: "Keyword to search for across articles and CBL series.",
+        },
+      },
+      required: ["query"],
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -494,6 +509,42 @@ async function callTool(
         .limit(30);
       if (error) throw new RpcError(INTERNAL_ERROR, error.message);
       return textContent(data);
+    }
+
+    // ── search_indicator (cross-domain) ───────────────────────────────────
+    case "search_indicator": {
+      const query = requireString(args, "query");
+
+      const [articlesResult, seriesResult] = await Promise.all([
+        supabase
+          .from("articles")
+          .select("id, slug, title, dek, published_at, authors(name), categories(label)")
+          .eq("status", "published")
+          .or(`title.ilike.%${query}%,dek.ilike.%${query}%,body.ilike.%${query}%`)
+          .order("published_at", { ascending: false })
+          .limit(10),
+        supabase
+          .from("cbl_series")
+          .select("mnemonic, databank, databank_name, name_of_series, unit_of_measure, frequency")
+          .or(`name_of_series.ilike.%${query}%,databank_name.ilike.%${query}%,unit_of_measure.ilike.%${query}%`)
+          .order("databank")
+          .limit(20),
+      ]);
+
+      if (articlesResult.error) throw new RpcError(INTERNAL_ERROR, articlesResult.error.message);
+      if (seriesResult.error) throw new RpcError(INTERNAL_ERROR, seriesResult.error.message);
+
+      return textContent({
+        query,
+        articles: {
+          count: articlesResult.data?.length ?? 0,
+          results: articlesResult.data ?? [],
+        },
+        cbl_series: {
+          count: seriesResult.data?.length ?? 0,
+          results: seriesResult.data ?? [],
+        },
+      });
     }
 
     default:
