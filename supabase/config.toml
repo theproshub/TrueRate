@@ -1,13 +1,13 @@
 
 [functions.cbl-statistics-mcp]
 enabled = true
-verify_jwt = true
+verify_jwt = false
 import_map = "./functions/cbl-statistics-mcp/deno.json"
 entrypoint = "./functions/cbl-statistics-mcp/index.ts"
 
 [functions.truerate-mcp]
 enabled = true
-verify_jwt = true
+verify_jwt = false
 import_map = "./functions/truerate-mcp/deno.json"
 # Uncomment to specify a custom file path to the entrypoint.
 # Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
