@@ -85,6 +85,35 @@ export async function fetchCblUsdLrd(): Promise<CblUsdLrd | null> {
 }
 
 /**
+ * CBL rate from the `cbl_observations` table, populated nightly by the
+ * sync-cbl cron from the CBL DataWarehousePro API. Uses the end-of-period
+ * USD/LRD rate (mnemonic LBR_EXR_EPR_1) — monthly frequency, up to ~1 month
+ * stale but authoritative official CBL data.
+ *
+ * Preferred over `quotes_daily` as a fallback because it is sourced directly
+ * from the CBL's own statistical database rather than a secondary scrape.
+ */
+export async function fetchCblRateFromObservations(): Promise<{ date: string; mid: number } | null> {
+  try {
+    const { data: row } = await publicClient
+      .from('cbl_observations')
+      .select('period_date, value')
+      .eq('mnemonic', 'LBR_EXR_EPR_1')
+      .not('value', 'is', null)
+      .neq('value', 0)
+      .order('period_date', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const mid = Number(row?.value);
+    if (!row?.period_date || !Number.isFinite(mid) || mid < 50 || mid > 500) return null;
+    return { date: String(row.period_date), mid };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Last-known-good CBL rate: the most recent USD/LRD close we previously stored
  * in `quotes_daily` (written by the snapshot cron + the history backfill, both
  * sourced from the CBL). Used as an authoritative fallback when the live scrape
@@ -117,13 +146,20 @@ export async function fetchLastKnownCblUsdLrd(): Promise<{ date: string; mid: nu
 }
 
 /**
- * Resolve the CBL USD/LRD rate, preferring the live scrape and falling back to
- * the last-known-good stored value. `live` is false when the cached value was
- * used — callers must not persist a cached rate as a fresh daily close.
+ * Resolve the CBL USD/LRD rate with a three-tier fallback:
+ *  1. Live HTML scrape  — daily, most current
+ *  2. cbl_observations  — official CBL DataWarehousePro data, monthly cadence
+ *  3. quotes_daily      — last snapshot we stored from a prior successful scrape
+ *
+ * `live` is true only for tier 1 — callers must not persist tier 2/3 results
+ * as a fresh daily close.
  */
 export async function resolveCblUsdLrd(): Promise<{ date: string; mid: number; live: boolean } | null> {
   const live = await fetchCblUsdLrd();
   if (live) return { date: live.date, mid: live.mid, live: true };
+
+  const obs = await fetchCblRateFromObservations();
+  if (obs) return { date: obs.date, mid: obs.mid, live: false };
 
   const cached = await fetchLastKnownCblUsdLrd();
   if (cached) return { date: cached.date, mid: cached.mid, live: false };
