@@ -1,0 +1,22 @@
+{
+  "name": "TrueRate",
+  "short_name": "TrueRate",
+  "description": "Liberia's financial intelligence platform: markets, the economy, business, technology, and policy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050d11",
+  "theme_color": "#050d11",
+  "icons": [
+    {
+      "src": "/icon-light.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-dark.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

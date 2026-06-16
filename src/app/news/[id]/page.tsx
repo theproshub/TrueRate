@@ -12,6 +12,7 @@ import { publicClient } from '@/lib/supabase/public';
 import { renderMarkdown } from '@/lib/markdown';
 import { isArticleSaved } from '@/lib/saved-articles';
 import SaveArticleButton from '@/components/SaveArticleButton';
+import { ArticleJsonLd } from '@/components/JsonLd';
 
 function timeAgo(d: string) {
   const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
@@ -129,6 +130,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="bg-brand-surface min-h-screen">
+      <ArticleJsonLd
+        title={item.title}
+        description={item.summary ?? item.title}
+        slug={item.id}
+        publishedTime={item.date}
+        authorName={item.author ?? undefined}
+        categoryLabel={item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+        categorySlug={item.category}
+      />
       <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category.charAt(0).toUpperCase() + item.category.slice(1), color: getCatColor(item.category) }]} light />
@@ -307,6 +317,18 @@ async function DbArticleView({ article }: { article: DbArticle }) {
 
   return (
     <div className="bg-brand-surface min-h-screen">
+      <ArticleJsonLd
+        title={article.title}
+        description={article.dek ?? article.title}
+        slug={article.slug}
+        publishedTime={article.published_at ?? undefined}
+        modifiedTime={article.updated_at}
+        authorName={article.author?.name}
+        heroImage={article.hero_image ?? undefined}
+        heroAlt={article.hero_alt ?? undefined}
+        categoryLabel={categoryLabel}
+        categorySlug={categorySlug}
+      />
       <main className="mx-auto max-w-container px-4 py-6">
 
         <Breadcrumb

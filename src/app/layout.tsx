@@ -3,6 +3,7 @@ import { Inter, Montserrat, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SiteJsonLd } from '@/components/JsonLd';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -83,17 +84,19 @@ export const metadata: Metadata = {
     // favicon.ico (app/ convention) is the universal fallback.
     // These swap with the user's browser / system appearance.
     icon: [
-      { url: '/icon-light.png', type: 'image/png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark.png', type: 'image/png', media: '(prefers-color-scheme: dark)' },
+      { url: '/icon-light.png', type: 'image/png', sizes: '512x512', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark.png', type: 'image/png', sizes: '512x512', media: '(prefers-color-scheme: dark)' },
     ],
   },
   category: 'news',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} ${robotoMono.variable}`}>
       <body className={inter.className}>
+        <SiteJsonLd />
         <Header />
         {children}
         <Footer />
