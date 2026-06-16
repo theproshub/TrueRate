@@ -12,38 +12,33 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.4"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
-      sports_clubs: {
-        Row: { id: string; rank: number; club: string; est_value: string | null; yoy: string | null; up: boolean | null; capacity: string | null; founded: number | null; revenue: string | null; wages: string | null; profit: string | null; profitable: boolean | null; margin: string | null; created_at: string | null; updated_at: string | null }
-        Insert: { id?: string; rank: number; club: string; est_value?: string | null; yoy?: string | null; up?: boolean | null; capacity?: string | null; founded?: number | null; revenue?: string | null; wages?: string | null; profit?: string | null; profitable?: boolean | null; margin?: string | null; created_at?: string | null; updated_at?: string | null }
-        Update: { id?: string; rank?: number; club?: string; est_value?: string | null; yoy?: string | null; up?: boolean | null; capacity?: string | null; founded?: number | null; revenue?: string | null; wages?: string | null; profit?: string | null; profitable?: boolean | null; margin?: string | null; created_at?: string | null; updated_at?: string | null }
-        Relationships: []
-      }
-      sports_athletes: {
-        Row: { id: string; rank: number; name: string; pos: string | null; club: string | null; market_value: string | null; trend: string | null; up: boolean | null; created_at: string | null; updated_at: string | null }
-        Insert: { id?: string; rank: number; name: string; pos?: string | null; club?: string | null; market_value?: string | null; trend?: string | null; up?: boolean | null; created_at?: string | null; updated_at?: string | null }
-        Update: { id?: string; rank?: number; name?: string; pos?: string | null; club?: string | null; market_value?: string | null; trend?: string | null; up?: boolean | null; created_at?: string | null; updated_at?: string | null }
-        Relationships: []
-      }
-      sports_sponsorships: {
-        Row: { id: string; rank: number; party: string; sponsor: string; category: string | null; annual: string | null; total_value: string | null; since_year: number | null; expiry_year: number | null; status: string | null; created_at: string | null; updated_at: string | null }
-        Insert: { id?: string; rank: number; party: string; sponsor: string; category?: string | null; annual?: string | null; total_value?: string | null; since_year?: number | null; expiry_year?: number | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
-        Update: { id?: string; rank?: number; party?: string; sponsor?: string; category?: string | null; annual?: string | null; total_value?: string | null; since_year?: number | null; expiry_year?: number | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
-        Relationships: []
-      }
-      sports_transfers: {
-        Row: { id: string; rank: number; player: string; pos: string | null; from_club: string | null; to_club: string | null; fee: string | null; contract: string | null; status: string | null; deal_date: string | null; direction: string | null; created_at: string | null; updated_at: string | null }
-        Insert: { id?: string; rank: number; player: string; pos?: string | null; from_club?: string | null; to_club?: string | null; fee?: string | null; contract?: string | null; status?: string | null; deal_date?: string | null; direction?: string | null; created_at?: string | null; updated_at?: string | null }
-        Update: { id?: string; rank?: number; player?: string; pos?: string | null; from_club?: string | null; to_club?: string | null; fee?: string | null; contract?: string | null; status?: string | null; deal_date?: string | null; direction?: string | null; created_at?: string | null; updated_at?: string | null }
-        Relationships: []
-      }
-      sports_broadcast_deals: {
-        Row: { id: string; sort_order: number; comp: string; rights: string | null; value: string | null; per_season: string | null; territory: string | null; expiry: string | null; status: string | null; created_at: string | null; updated_at: string | null }
-        Insert: { id?: string; sort_order?: number; comp: string; rights?: string | null; value?: string | null; per_season?: string | null; territory?: string | null; expiry?: string | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
-        Update: { id?: string; sort_order?: number; comp?: string; rights?: string | null; value?: string | null; per_season?: string | null; territory?: string | null; expiry?: string | null; status?: string | null; created_at?: string | null; updated_at?: string | null }
-        Relationships: []
-      }
       alerts: {
         Row: {
           active: boolean | null
@@ -173,6 +168,8 @@ export type Database = {
           id: string
           published_at: string | null
           slug: string
+          source_name: string | null
+          source_url: string | null
           status: string
           title: string
           updated_at: string | null
@@ -188,6 +185,8 @@ export type Database = {
           id?: string
           published_at?: string | null
           slug: string
+          source_name?: string | null
+          source_url?: string | null
           status?: string
           title: string
           updated_at?: string | null
@@ -203,6 +202,8 @@ export type Database = {
           id?: string
           published_at?: string | null
           slug?: string
+          source_name?: string | null
+          source_url?: string | null
           status?: string
           title?: string
           updated_at?: string | null
@@ -337,6 +338,119 @@ export type Database = {
         }
         Relationships: []
       }
+      cbl_observations: {
+        Row: {
+          mnemonic: string
+          period_date: string
+          period_label: string
+          value: number | null
+        }
+        Insert: {
+          mnemonic: string
+          period_date: string
+          period_label: string
+          value?: number | null
+        }
+        Update: {
+          mnemonic?: string
+          period_date?: string
+          period_label?: string
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cbl_observations_mnemonic_fkey"
+            columns: ["mnemonic"]
+            isOneToOne: false
+            referencedRelation: "cbl_series"
+            referencedColumns: ["mnemonic"]
+          },
+        ]
+      }
+      cbl_series: {
+        Row: {
+          data_family: string | null
+          data_source: string | null
+          databank: string
+          databank_name: string
+          first_observation: string | null
+          frequency: string
+          mnemonic: string
+          name_of_series: string
+          notes: string | null
+          unit_of_measure: string | null
+          updated_at: string
+        }
+        Insert: {
+          data_family?: string | null
+          data_source?: string | null
+          databank: string
+          databank_name: string
+          first_observation?: string | null
+          frequency: string
+          mnemonic: string
+          name_of_series: string
+          notes?: string | null
+          unit_of_measure?: string | null
+          updated_at?: string
+        }
+        Update: {
+          data_family?: string | null
+          data_source?: string | null
+          databank?: string
+          databank_name?: string
+          first_observation?: string | null
+          frequency?: string
+          mnemonic?: string
+          name_of_series?: string
+          notes?: string | null
+          unit_of_measure?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      content_cards: {
+        Row: {
+          category: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_ai_generated: boolean
+          payload: Json
+          priority: number
+          published_at: string | null
+          source_note: string | null
+          status: string
+          type: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_ai_generated?: boolean
+          payload: Json
+          priority?: number
+          published_at?: string | null
+          source_note?: string | null
+          status?: string
+          type: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_ai_generated?: boolean
+          payload?: Json
+          priority?: number
+          published_at?: string | null
+          source_note?: string | null
+          status?: string
+          type?: string
+        }
+        Relationships: []
+      }
       currencies: {
         Row: {
           code: string
@@ -352,6 +466,36 @@ export type Database = {
           code?: string
           name?: string
           symbol?: string | null
+        }
+        Relationships: []
+      }
+      economic_indicators: {
+        Row: {
+          category: string | null
+          code: string | null
+          created_at: string | null
+          frequency: string | null
+          id: string
+          source: string | null
+          title: string | null
+        }
+        Insert: {
+          category?: string | null
+          code?: string | null
+          created_at?: string | null
+          frequency?: string | null
+          id?: string
+          source?: string | null
+          title?: string | null
+        }
+        Update: {
+          category?: string | null
+          code?: string | null
+          created_at?: string | null
+          frequency?: string | null
+          id?: string
+          source?: string | null
+          title?: string | null
         }
         Relationships: []
       }
@@ -387,6 +531,95 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "currencies"
             referencedColumns: ["code"]
+          },
+        ]
+      }
+      feedback: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          message: string
+          type: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          message: string
+          type?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          message?: string
+          type?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      generation_log: {
+        Row: {
+          cards_created: number
+          detail: Json | null
+          error: string | null
+          id: string
+          run_at: string
+          status: string
+        }
+        Insert: {
+          cards_created?: number
+          detail?: Json | null
+          error?: string | null
+          id?: string
+          run_at?: string
+          status?: string
+        }
+        Update: {
+          cards_created?: number
+          detail?: Json | null
+          error?: string | null
+          id?: string
+          run_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      indicator_values: {
+        Row: {
+          created_at: string | null
+          id: string
+          indicator_id: string | null
+          period: string | null
+          value: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          indicator_id?: string | null
+          period?: string | null
+          value?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          indicator_id?: string | null
+          period?: string | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "indicator_values_indicator_id_fkey"
+            columns: ["indicator_id"]
+            isOneToOne: false
+            referencedRelation: "economic_indicators"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -440,80 +673,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "sectors"
             referencedColumns: ["id"]
-          },
-        ]
-      }
-      cbl_series: {
-        Row: {
-          mnemonic: string
-          databank: string
-          databank_name: string | null
-          name_of_series: string | null
-          unit_of_measure: string | null
-          frequency: string | null
-          first_observation: string | null
-          created_at: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          mnemonic: string
-          databank: string
-          databank_name?: string | null
-          name_of_series?: string | null
-          unit_of_measure?: string | null
-          frequency?: string | null
-          first_observation?: string | null
-          created_at?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          mnemonic?: string
-          databank?: string
-          databank_name?: string | null
-          name_of_series?: string | null
-          unit_of_measure?: string | null
-          frequency?: string | null
-          first_observation?: string | null
-          created_at?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      cbl_observations: {
-        Row: {
-          id: number
-          mnemonic: string
-          period_date: string
-          period_label: string
-          value: number | null
-          created_at: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          id?: number
-          mnemonic: string
-          period_date: string
-          period_label: string
-          value?: number | null
-          created_at?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          id?: number
-          mnemonic?: string
-          period_date?: string
-          period_label?: string
-          value?: number | null
-          created_at?: string | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cbl_observations_mnemonic_fkey"
-            columns: ["mnemonic"]
-            isOneToOne: false
-            referencedRelation: "cbl_series"
-            referencedColumns: ["mnemonic"]
           },
         ]
       }
@@ -585,6 +744,42 @@ export type Database = {
           },
         ]
       }
+      markets_snapshot: {
+        Row: {
+          asset_class: string
+          change: number | null
+          change_pct: number | null
+          id: string
+          name: string
+          price: number
+          sparkline: Json
+          ticker: string
+          updated_at: string
+        }
+        Insert: {
+          asset_class: string
+          change?: number | null
+          change_pct?: number | null
+          id?: string
+          name: string
+          price: number
+          sparkline?: Json
+          ticker: string
+          updated_at?: string
+        }
+        Update: {
+          asset_class?: string
+          change?: number | null
+          change_pct?: number | null
+          id?: string
+          name?: string
+          price?: number
+          sparkline?: Json
+          ticker?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -653,36 +848,6 @@ export type Database = {
           },
         ]
       }
-      feedback: {
-        Row: {
-          created_at: string | null
-          email: string | null
-          id: string
-          message: string
-          type: string
-          user_agent: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          email?: string | null
-          id?: string
-          message: string
-          type?: string
-          user_agent?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string | null
-          id?: string
-          message?: string
-          type?: string
-          user_agent?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       saved_articles: {
         Row: {
           article_id: string
@@ -741,6 +906,234 @@ export type Database = {
           },
         ]
       }
+      sports_athletes: {
+        Row: {
+          club: string | null
+          created_at: string | null
+          id: string
+          market_value: string | null
+          name: string
+          pos: string | null
+          rank: number
+          trend: string | null
+          up: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          club?: string | null
+          created_at?: string | null
+          id?: string
+          market_value?: string | null
+          name: string
+          pos?: string | null
+          rank: number
+          trend?: string | null
+          up?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          club?: string | null
+          created_at?: string | null
+          id?: string
+          market_value?: string | null
+          name?: string
+          pos?: string | null
+          rank?: number
+          trend?: string | null
+          up?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      sports_broadcast_deals: {
+        Row: {
+          comp: string
+          created_at: string | null
+          expiry: string | null
+          id: string
+          per_season: string | null
+          rights: string | null
+          sort_order: number
+          status: string | null
+          territory: string | null
+          updated_at: string | null
+          value: string | null
+        }
+        Insert: {
+          comp: string
+          created_at?: string | null
+          expiry?: string | null
+          id?: string
+          per_season?: string | null
+          rights?: string | null
+          sort_order?: number
+          status?: string | null
+          territory?: string | null
+          updated_at?: string | null
+          value?: string | null
+        }
+        Update: {
+          comp?: string
+          created_at?: string | null
+          expiry?: string | null
+          id?: string
+          per_season?: string | null
+          rights?: string | null
+          sort_order?: number
+          status?: string | null
+          territory?: string | null
+          updated_at?: string | null
+          value?: string | null
+        }
+        Relationships: []
+      }
+      sports_clubs: {
+        Row: {
+          capacity: string | null
+          club: string
+          created_at: string | null
+          est_value: string | null
+          founded: number | null
+          id: string
+          margin: string | null
+          profit: string | null
+          profitable: boolean | null
+          rank: number
+          revenue: string | null
+          up: boolean | null
+          updated_at: string | null
+          wages: string | null
+          yoy: string | null
+        }
+        Insert: {
+          capacity?: string | null
+          club: string
+          created_at?: string | null
+          est_value?: string | null
+          founded?: number | null
+          id?: string
+          margin?: string | null
+          profit?: string | null
+          profitable?: boolean | null
+          rank: number
+          revenue?: string | null
+          up?: boolean | null
+          updated_at?: string | null
+          wages?: string | null
+          yoy?: string | null
+        }
+        Update: {
+          capacity?: string | null
+          club?: string
+          created_at?: string | null
+          est_value?: string | null
+          founded?: number | null
+          id?: string
+          margin?: string | null
+          profit?: string | null
+          profitable?: boolean | null
+          rank?: number
+          revenue?: string | null
+          up?: boolean | null
+          updated_at?: string | null
+          wages?: string | null
+          yoy?: string | null
+        }
+        Relationships: []
+      }
+      sports_sponsorships: {
+        Row: {
+          annual: string | null
+          category: string | null
+          created_at: string | null
+          expiry_year: number | null
+          id: string
+          party: string
+          rank: number
+          since_year: number | null
+          sponsor: string
+          status: string | null
+          total_value: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          annual?: string | null
+          category?: string | null
+          created_at?: string | null
+          expiry_year?: number | null
+          id?: string
+          party: string
+          rank: number
+          since_year?: number | null
+          sponsor: string
+          status?: string | null
+          total_value?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          annual?: string | null
+          category?: string | null
+          created_at?: string | null
+          expiry_year?: number | null
+          id?: string
+          party?: string
+          rank?: number
+          since_year?: number | null
+          sponsor?: string
+          status?: string | null
+          total_value?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      sports_transfers: {
+        Row: {
+          contract: string | null
+          created_at: string | null
+          deal_date: string | null
+          direction: string | null
+          fee: string | null
+          from_club: string | null
+          id: string
+          player: string
+          pos: string | null
+          rank: number
+          status: string | null
+          to_club: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          contract?: string | null
+          created_at?: string | null
+          deal_date?: string | null
+          direction?: string | null
+          fee?: string | null
+          from_club?: string | null
+          id?: string
+          player: string
+          pos?: string | null
+          rank: number
+          status?: string | null
+          to_club?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          contract?: string | null
+          created_at?: string | null
+          deal_date?: string | null
+          direction?: string | null
+          fee?: string | null
+          from_club?: string | null
+          id?: string
+          player?: string
+          pos?: string | null
+          rank?: number
+          status?: string | null
+          to_club?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       symbols: {
         Row: {
           asset_class: string
@@ -757,6 +1150,7 @@ export type Database = {
           mic: string | null
           name: string
           quote_currency: string | null
+          region: string
           ticker: string
           unit: string | null
           updated_at: string | null
@@ -776,6 +1170,7 @@ export type Database = {
           mic?: string | null
           name: string
           quote_currency?: string | null
+          region?: string
           ticker: string
           unit?: string | null
           updated_at?: string | null
@@ -795,6 +1190,7 @@ export type Database = {
           mic?: string | null
           name?: string
           quote_currency?: string | null
+          region?: string
           ticker?: string
           unit?: string | null
           updated_at?: string | null
@@ -1041,6 +1437,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },
