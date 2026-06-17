@@ -3,6 +3,7 @@ import { cache } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { newsItems } from '@/data/news';
+import { getNewsItems } from '@/lib/news-source';
 import { notFound } from 'next/navigation';
 import { HeroVisual, NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
@@ -53,7 +54,7 @@ const fetchDbArticle = cache(async (slug: string): Promise<DbArticle | null> => 
   return (data as unknown as DbArticle | null) ?? null;
 });
 
-export const revalidate = 3600; // 1 hr — articles rarely change after publish
+export const revalidate = 0; // always read the latest article from the DB
 
 export function generateStaticParams() {
   // Only the static seed articles are statically generated. DB-sourced
@@ -127,6 +128,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   const related = newsItems.filter(n => n.id !== id && n.category === item.category).slice(0, 3);
   const relatedIds = new Set(related.map(r => r.id));
   const moreStories = newsItems.filter(n => n.id !== id && !relatedIds.has(n.id)).slice(0, 8);
+  const sidebarItems = await getNewsItems();
 
   return (
     <div className="bg-brand-surface min-h-screen">
@@ -143,10 +145,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.category.charAt(0).toUpperCase() + item.category.slice(1), color: getCatColor(item.category) }]} light />
 
-        <div className="flex gap-6 items-start">
+        <div className="flex gap-4 sm:gap-6 items-start">
 
           {/* ── Left: Trending + Markets + In Focus ── */}
-          <TrendingPanel />
+          <TrendingPanel items={sidebarItems} />
 
           {/* ── Centre: article ── */}
           <div className="flex-1 min-w-0 pb-8">
@@ -243,7 +245,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           </div>
 
           {/* ── Right: Newsletter + Events + Most Read + Premium ── */}
-          <RightRail />
+          <RightRail items={sidebarItems} />
 
         </div>
       </main>
@@ -314,6 +316,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
     [article.id, ...related.map(r => r.id)],
     8,
   );
+  const sidebarItems = await getNewsItems();
 
   return (
     <div className="bg-brand-surface min-h-screen">
@@ -340,9 +343,9 @@ async function DbArticleView({ article }: { article: DbArticle }) {
           light
         />
 
-        <div className="flex gap-6 items-start">
+        <div className="flex gap-4 sm:gap-6 items-start">
 
-          <TrendingPanel />
+          <TrendingPanel items={sidebarItems} />
 
           <div className="flex-1 min-w-0 pb-8">
 
@@ -419,7 +422,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
               </div>
 
               <div className="flex flex-wrap gap-2 pt-5 mt-8 border-t border-gray-100">
-                {[categoryLabel, 'Liberia', 'West Africa', 'Economy'].map(tag => (
+                {[...new Set([categoryLabel, 'Liberia', 'West Africa', 'Economy'])].map(tag => (
                   <Link
                     key={tag}
                     href="/news"
@@ -495,7 +498,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
 
           </div>
 
-          <RightRail />
+          <RightRail items={sidebarItems} />
 
         </div>
       </main>

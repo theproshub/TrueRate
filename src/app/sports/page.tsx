@@ -109,7 +109,7 @@ export default async function SportsPage() {
         {/* Across the Desks — the sports-business verticals */}
         <section aria-labelledby="desks-h" className="mt-10">
           <h2 id="desks-h" className="text-sm font-black uppercase tracking-[0.16em] text-gray-900 border-b-2 border-gray-900 pb-2 mb-6">Across the Desks</h2>
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {DESKS.map((d) => (
               <DeskColumn key={d.label} label={d.label} href={d.href} items={sportsStoriesBySection(d.section, { includeHero: true }).slice(0, 3)} />
             ))}
@@ -117,7 +117,7 @@ export default async function SportsPage() {
         </section>
 
         {/* Latest river + editorial sidebar */}
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+        <div className="mt-8 sm:mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
           <section aria-labelledby="latest-h" className="lg:col-span-2 min-w-0">
             <Rule label="Latest in Sports Business" href="/sports/transfers-deals" />
             <div className="flex flex-col divide-y divide-gray-200">

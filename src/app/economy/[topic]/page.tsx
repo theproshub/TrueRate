@@ -5,7 +5,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import EconomyTopicTabs from '@/components/EconomyTopicTabs';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
-import { newsItems } from '@/data/news';
+import { getNewsItems } from '@/lib/news-source';
 import { timeAgo } from '@/lib/utils';
 import { ECONOMY_TOPIC_BY_SLUG, ECONOMY_TOPICS } from '@/lib/economy-topics';
 import {
@@ -23,7 +23,7 @@ const TrendChart = dynamic(
   { loading: () => <div className="h-[200px] w-full animate-pulse rounded bg-white/[0.04]" /> },
 );
 
-export const revalidate = 900; // 15 min — matches live CBL chart data freshness
+export const revalidate = 0; // always read the latest articles + live CBL data from the DB
 
 export function generateStaticParams() {
   return ECONOMY_TOPICS.map(t => ({ topic: t.slug }));
@@ -43,7 +43,7 @@ function StatCell({ label, value, sub }: { label: string; value: string; sub?: s
   return (
     <div className="flex flex-col gap-0.5">
       <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">{label}</span>
-      <span className="text-2xl font-bold tabular-nums text-white leading-none">{value}</span>
+      <span className="text-xl sm:text-2xl font-bold tabular-nums text-white leading-none">{value}</span>
       {sub && <span className="text-xs text-gray-500 mt-0.5">{sub}</span>}
     </div>
   );
@@ -59,7 +59,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
   const topic = ECONOMY_TOPIC_BY_SLUG[slug];
   if (!topic) notFound();
 
-  const items = newsItems
+  const items = (await getNewsItems())
     .filter(topic.matches)
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
@@ -101,7 +101,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-8 mb-6">
+          <div className="flex flex-wrap gap-4 sm:gap-8 mb-6">
             {cpi.latest ? (
               <StatCell
                 label="Latest CPI"
@@ -150,7 +150,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-8 mb-6">
+          <div className="flex flex-wrap gap-4 sm:gap-8 mb-6">
             <StatCell
               label="Policy Rate"
               value={`${CBL_POLICY_RATE.toFixed(2)}%`}
@@ -195,7 +195,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-8 mb-6">
+          <div className="flex flex-wrap gap-4 sm:gap-8 mb-6">
             {gdp.nominal.latest ? (
               <StatCell
                 label="Nominal GDP"
@@ -242,7 +242,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-8 mb-6">
+          <div className="flex flex-wrap gap-4 sm:gap-8 mb-6">
             {fiscal.debt.latest ? (
               <StatCell
                 label="Total Govt Debt"
@@ -296,7 +296,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-8 mb-6">
+          <div className="flex flex-wrap gap-4 sm:gap-8 mb-6">
             {trade.balance.latest ? (
               <StatCell
                 label="Trade Balance"

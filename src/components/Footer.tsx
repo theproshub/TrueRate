@@ -118,7 +118,7 @@ export default function Footer() {
 
         {/* Legal */}
         <div className="mt-6 border-t border-white/[0.05] pt-6">
-          <div className="flex flex-wrap gap-x-5 gap-y-1 mb-3">
+          <div className="flex flex-wrap gap-x-3 sm:gap-x-5 gap-y-1 mb-3">
             {LEGAL_LINKS.map(({ label, href }) => (
               <Link key={label} href={href} className="text-xs text-gray-500 hover:text-white no-underline transition-colors">
                 {label}

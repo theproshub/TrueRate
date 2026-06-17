@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo, useId } from 'react';
 import { useRouter } from 'next/navigation';
 import { newsItems } from '@/data/news';
+import type { NewsItem } from '@/lib/types';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { getCatColor } from '@/lib/category-colors';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
@@ -34,10 +35,23 @@ export default function SearchBox({
   const rootRef = useRef<HTMLFormElement>(null);
   const listId = useId();
 
+  // Live published articles for typeahead, fetched once from the slim index.
+  // Falls back to the in-repo seed until the request resolves (or if it fails),
+  // so search always works offline/empty-DB.
+  const [index, setIndex] = useState<Pick<NewsItem, 'id' | 'title' | 'summary' | 'category' | 'source'>[]>(newsItems);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/news')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (alive && d?.items?.length) setIndex(d.items); })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, []);
+
   const stories = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return newsItems
+    return index
       .filter(
         (n) =>
           n.title.toLowerCase().includes(q) ||
@@ -159,8 +173,8 @@ export default function SearchBox({
           // Mobile: fixed panel anchored under the header so it escapes the
           // header's overflow-hidden collapse container. Desktop: absolute.
           style={variant === 'mobile' ? { top: 'calc(var(--header-h, 56px) - 4px)' } : undefined}
-          className={`z-50 max-h-[70vh] overflow-auto rounded-xl border py-1 shadow-2xl ${
-            variant === 'mobile' ? 'fixed left-4 right-4' : 'absolute left-0 right-0 top-full mt-1.5'
+          className={`z-50 max-h-[60vh] sm:max-h-[70vh] overflow-auto rounded-xl border py-1 shadow-2xl ${
+            variant === 'mobile' ? 'fixed left-3 right-3 sm:left-4 sm:right-4' : 'absolute left-0 right-0 top-full mt-1.5'
           } ${
             isLight ? 'bg-white border-gray-200 shadow-gray-300/60' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
           }`}

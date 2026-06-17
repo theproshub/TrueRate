@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { newsItems } from '@/data/news';
+import { getNewsItems } from '@/lib/news-source';
+import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail, VideoThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
@@ -8,9 +9,13 @@ import { Heading, Text } from '@/components/ui';
 import { HeroCarousel, GeneralNewsTabs } from './NewsClient';
 import PlayableVideo from '@/components/PlayableVideo';
 
+// Always render from the live database — no ISR cache, so newly published
+// articles appear immediately.
+export const dynamic = 'force-dynamic';
+
 /* ── helpers ── */
 function timeAgo(d: string) {
-  const days = Math.floor((new Date('2026-04-04').getTime() - new Date(d).getTime()) / 86400000);
+  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
   if (days === 0) return 'Today';
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
@@ -18,70 +23,8 @@ function timeAgo(d: string) {
 
 /* ── static data: general / multi-topic ── */
 
-const TRENDING = [
-  { label: 'BREAKING', text: "Boakai administration approves rebate for foreign productions shooting in Liberia — Lagos studios already inquiring" },
-  { label: 'FINANCE', text: 'Liberian dollar ended March 2026 at L$183.93 per US dollar — about 8% stronger than a year earlier (CBL)' },
-  { label: 'SPORTS', text: 'LISCR FC clinches LPL title with three matches to spare — first unbeaten season in league history' },
-  { label: 'ENTERTAINMENT', text: "Nollywood-Liberia co-production 'Sundown in Sinkor' opens to record diaspora pre-sales" },
-  { label: 'TECH', text: 'LTA 5G spectrum consultation opens April 12 — Monrovia could see commercial 5G by late 2026' },
-  { label: 'ECONOMY', text: 'Real GDP grew 4.6% in 2025, up from 4.0% a year earlier; nominal GDP reached US$5.16bn (LISGIS)' },
-  { label: 'WORLD', text: 'IMF staff mission begins April 22 — Liberia expects a positive fourth review under the Extended Credit Facility' },
-  { label: 'HEALTH', text: "WHO and Liberia sign US$40m five-year health-systems pact covering malaria, nutrition, and primary care" },
-];
-
-const OPINION = [
-  { title: "Liberia's rubber pricing model leaves smallholders exposed. Here's how to fix it.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '2d ago' },
-  { title: "A West African single currency is still coming. Liberia should help shape it, not just join it.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '4d ago' },
-  { title: "The film rebate is a start, but Liberia needs a creative-economy strategy, not a tax break.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '5d ago' },
-  { title: "The Freeport handles most of Liberia's trade. The roads behind it haven't kept up.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '6d ago' },
-  { title: "Mobile money is racing ahead of the electricity and connectivity it depends on.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '7d ago' },
-];
-
-const DATA_STORIES = [
-  { href: '/news/5', stat: '4.6%',     statLabel: 'GDP growth',    title: "Liberia's Economy Grew 4.6% in 2025 as Nominal GDP Reached US$5.2 Billion",  time: '1d ago', category: 'economy' },
-  { href: '/sports/football', stat: '22-0-0', statLabel: 'Unbeaten',  title: "LISCR FC's Historic Unbeaten Season in Numbers",                             time: '2d ago', category: 'sports' },
-  { href: '/news/2', stat: '4.5%',     statLabel: 'Inflation',     title: "Inflation Eases to 4.5% in March, but Core Prices Stay Near 6%",             time: '3d ago', category: 'economy' },
-  { href: '/entertainment', stat: '25%', statLabel: 'Rebate',       title: "The Film Rebate Explained: What Producers Get and What Liberia Hopes to Gain", time: '4d ago', category: 'entertainment' },
-  { href: '/news/1', stat: 'L$183.9',  statLabel: 'LRD / US$',     title: "Liberian Dollar Ends March Near L$184 to the US Dollar, Up 8% on the Year",  time: '5d ago', category: 'forex' },
-  { href: '/technology', stat: '5G',    statLabel: 'Consultation',  title: "What 5G Could Mean for Monrovia — and Why It's Still Years Away for Most Liberians", time: '6d ago', category: 'technology' },
-];
-
-const EDITORS_PICKS = [
-  {
-    href: '/news/5',
-    category: 'Explainer',
-    title: "Liberia Grew 4.6% in 2025. Here's What That Number Means for the Average Liberian.",
-    excerpt: "Mining-led growth sounds like good news, but the gains have historically concentrated at the top. We map which sectors drove the expansion — iron ore, trade and services — and where the economy is still failing most people.",
-    author: 'TrueRate Economics',
-    readTime: '4 min read',
-    time: '1d ago',
-  },
-  {
-    href: '/sports',
-    category: 'Feature',
-    title: "LISCR FC's Community-Ownership Model Is Reshaping West African Football.",
-    excerpt: "An unbeaten season is the headline, but the club's deeper story is a governance model that gives supporters a real stake. We look at how it works and whether it can be replicated across WAFU.",
-    author: 'TrueRate Sports',
-    readTime: '5 min read',
-    time: '2d ago',
-  },
-  {
-    href: '/entertainment',
-    category: 'Deep Dive',
-    title: "From Nollywood Co-Productions to a Film Rebate: Liberia's Bet on the Creative Economy.",
-    excerpt: "'Sundown in Sinkor' broke diaspora pre-sale records. The new 25% rebate aims to make Monrovia a production hub. We trace the policy path and what it means for local crews and studios.",
-    author: 'TrueRate Culture',
-    readTime: '4 min read',
-    time: '3d ago',
-  },
-];
-
-const ARCHIVES = [
-  { title: "From Post-War Reconstruction to a Sporting Identity: How Football Rebuilt Community in Liberia", date: 'Feb 2026', category: 'sports',        readTime: '12 min read' },
-  { title: "Thirty Years of Missed Opportunity: Why Liberia's Rubber Sector Has Never Matched Its Potential", date: 'Jan 2026', category: 'Agriculture', readTime: '12 min read' },
-  { title: "The Long Road to CBL Independence: Rate Decisions and Post-War Recovery",                        date: 'Nov 2025', category: 'policy',      readTime: '15 min read' },
-  { title: "The Invisible Economy: How Monrovia's Informal Sector Powers Half the City",                     date: 'Jul 2025', category: 'economy',     readTime: '9 min read' },
-];
+/* Article-bearing sections are derived from the live DB inside the component
+   (see NewsPage). Only non-article widgets (events, videos) remain static. */
 
 const UPCOMING_EVENTS = [
   { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Policy' },
@@ -104,40 +47,10 @@ const VIDEOS = [
   { title: "5G in Monrovia: What It Means and When It's Coming", duration: '2:05', category: 'technology', time: '2d ago', youtubeId: '' },
 ];
 
-const COMMUNITY_VOICES = [
-  {
-    title: "The film rebate is signed — but where are the local crews going to train?",
-    excerpt: "Liberia's new production incentive could attract international shoots, but the domestic talent pipeline is thin. Industry voices say training infrastructure is the missing link between policy and production.",
-    author: 'TrueRate Culture',
-    role: 'Analysis',
-    time: '2d ago',
-  },
-  {
-    title: "Mobile money is reaching rural Liberia faster than electricity and connectivity",
-    excerpt: "Adoption is climbing outside Monrovia, but agents in counties like Bong and Lofa face generator costs and unreliable data. The infrastructure gap, not demand, is the real constraint on fintech's reach.",
-    author: 'TrueRate Tech',
-    role: 'Analysis',
-    time: '4d ago',
-  },
-  {
-    title: "Agriculture keeps growing — and keeps getting less attention than mining",
-    excerpt: "Mining drives the headline numbers, but smallholder farming and agro-processing remain central to how most Liberians earn and eat. TrueRate looks at why the sector stays under-covered.",
-    author: 'TrueRate Economics',
-    role: 'Analysis',
-    time: '5d ago',
-  },
-  {
-    title: "LISCR FC proved community ownership works — can other clubs follow?",
-    excerpt: "An unbeaten LPL season has put the spotlight on LISCR's governance model. Supporters own a real stake. But replicating the structure means solving funding, transparency and political interference.",
-    author: 'TrueRate Sports',
-    role: 'Analysis',
-    time: '6d ago',
-  },
-];
 
 /* ── server-rendered sub-stories ── */
-function SubStoryRow() {
-  const items = newsItems.slice(5, 8);
+function SubStoryRow({ items: all }: { items: NewsItem[] }) {
+  const items = all.slice(5, 8);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
       {items.map((item) => (
@@ -167,8 +80,51 @@ export default async function NewsPage({
   const { q } = await searchParams;
   const query = q?.trim() ?? '';
 
+  const items = await getNewsItems();
+
+  // Editorial sections, all sourced from the live articles table.
+  const analysisItems = items.filter((n) => ['analysis', 'opinion'].includes(n.category.toLowerCase()));
+  const ticker = items.slice(0, 8).map((n) => ({ label: n.category, text: n.title, href: `/news/${n.id}` }));
+  const editorsPicks = items.slice(0, 3).map((n) => ({
+    href: `/news/${n.id}`,
+    category: n.category,
+    title: n.title,
+    excerpt: n.summary,
+    author: n.author ?? n.source,
+    readTime: n.readTime ?? '',
+    time: timeAgo(n.date),
+  }));
+  const dataStories = items.slice(8, 14).map((n) => ({
+    href: `/news/${n.id}`,
+    category: n.category,
+    title: n.title,
+    time: timeAgo(n.date),
+  }));
+  const archives = items.slice(-4).map((n) => ({
+    href: `/news/${n.id}`,
+    title: n.title,
+    category: n.category,
+    readTime: n.readTime ?? '',
+    date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  }));
+  const opinion = (analysisItems.length ? analysisItems : items).slice(0, 5).map((n) => ({
+    href: `/news/${n.id}`,
+    title: n.title,
+    author: n.author ?? n.source,
+    role: n.category.toLowerCase() === 'opinion' ? 'Opinion' : 'Analysis',
+    time: timeAgo(n.date),
+  }));
+  const communityVoices = (analysisItems.length ? analysisItems : items).slice(0, 4).map((n) => ({
+    href: `/news/${n.id}`,
+    title: n.title,
+    excerpt: n.summary,
+    author: n.author ?? n.source,
+    role: n.category.toLowerCase() === 'opinion' ? 'Opinion' : 'Analysis',
+    time: timeAgo(n.date),
+  }));
+
   const searchResults = query
-    ? newsItems.filter(n => {
+    ? items.filter(n => {
         const lower = query.toLowerCase();
         return (
           n.title.toLowerCase().includes(lower) ||
@@ -214,7 +170,7 @@ export default async function NewsPage({
               <div className="flex-1 min-w-0 flex flex-col divide-y divide-gray-100">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
-                    <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
+                    <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
@@ -247,8 +203,8 @@ export default async function NewsPage({
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
-            {[...TRENDING, ...TRENDING].map((b, i) => (
-              <Link key={i} href="/news" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
+            {[...ticker, ...ticker].map((b, i) => (
+              <Link key={i} href={b.href} className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
                 <span className={`text-2xs font-black uppercase tracking-widest ${getCatColor(b.label)}`}>{b.label}</span>
                 <span className="text-base font-medium text-gray-700 group-hover:text-gray-950 transition-colors">{b.text}</span>
               </Link>
@@ -258,22 +214,22 @@ export default async function NewsPage({
       </div>
 
       {/* Three-column layout */}
-      <div className="flex gap-6 items-start">
+      <div className="flex gap-4 sm:gap-6 items-start">
 
         {/* Left: Trending */}
-        <TrendingPanel />
+        <TrendingPanel items={items} />
 
         {/* Center: main feed */}
         <div className="flex-1 min-w-0 pb-8">
 
           {/* Hero carousel (client island) */}
-          <HeroCarousel />
+          <HeroCarousel items={items} />
 
           {/* 3 sub-stories */}
-          <SubStoryRow />
+          <SubStoryRow items={items} />
 
           {/* Tab bar + feed (client island) */}
-          <GeneralNewsTabs />
+          <GeneralNewsTabs items={items} />
 
           {/* Editor's Picks */}
           <div className="mt-6">
@@ -284,10 +240,10 @@ export default async function NewsPage({
               </div>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {EDITORS_PICKS.map((p, i) => (
+              {editorsPicks.map((p, i) => (
                 <Link key={i} href={p.href} className="group flex flex-col sm:flex-row gap-3 sm:gap-4 py-5 first:pt-0 no-underline hover:opacity-75 transition-opacity">
                   <div className="shrink-0 overflow-hidden rounded-xl order-first sm:order-last">
-                    <NewsThumbnail category={i === 0 ? 'economy' : i === 1 ? 'sports' : 'entertainment'} className="h-[180px] w-full sm:h-[110px] sm:w-[160px]" />
+                    <NewsThumbnail category={p.category} className="h-[180px] w-full sm:h-[110px] sm:w-[160px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -312,8 +268,8 @@ export default async function NewsPage({
               </div>
               <Link href="/news/finance" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">All stories ›</Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-4 sm:divide-x divide-y sm:divide-y-0 divide-gray-100 border-t border-b border-gray-100">
-              {newsItems.slice(20, 24).map((item) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:divide-x divide-y sm:divide-y-0 divide-gray-100 border-t border-b border-gray-100">
+              {items.slice(20, 24).map((item) => (
                 <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-row sm:flex-col gap-3 sm:gap-2.5 p-4 no-underline hover:bg-gray-50 transition-colors">
                   <div className="shrink-0 sm:shrink overflow-hidden rounded-lg">
                     <NewsThumbnail category={item.category} id={item.id} className="h-[80px] w-[110px] sm:w-full" />
@@ -359,8 +315,8 @@ export default async function NewsPage({
               </div>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {OPINION.map((op, i) => (
-                <Link key={i} href="/news" className="group flex items-center gap-4 py-4 first:pt-0 no-underline">
+              {opinion.map((op, i) => (
+                <Link key={i} href={op.href} className="group flex items-center gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-full">
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
@@ -384,7 +340,7 @@ export default async function NewsPage({
               <Link href="/news/finance" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {DATA_STORIES.map((s, i) => (
+              {dataStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex flex-col no-underline">
                   <div className="overflow-hidden rounded-xl mb-3">
                     <NewsThumbnail category={s.category} className="w-full h-[140px]" />
@@ -407,8 +363,8 @@ export default async function NewsPage({
               <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">Browse archive ›</Link>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {ARCHIVES.map((a, i) => (
-                <Link key={i} href="/news" className="group flex gap-4 py-4 first:pt-0 no-underline">
+              {archives.map((a, i) => (
+                <Link key={i} href={a.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-xl">
                     <NewsThumbnail category={a.category} className="h-[80px] w-[120px]" />
                   </div>
@@ -436,8 +392,8 @@ export default async function NewsPage({
               <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">More ›</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {COMMUNITY_VOICES.map((cv, i) => (
-                <Link key={i} href="/news" className="group flex flex-col no-underline border-t border-gray-100 pt-4">
+              {communityVoices.map((cv, i) => (
+                <Link key={i} href={cv.href} className="group flex flex-col no-underline border-t border-gray-100 pt-4">
                   <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-2">{cv.title}</Heading>
                   <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 line-clamp-3 mb-3 flex-1">{cv.excerpt}</Text>
                   <div className="flex items-center gap-3">
@@ -477,7 +433,7 @@ export default async function NewsPage({
         </div>
 
         {/* Right rail */}
-        <RightRail />
+        <RightRail items={items} />
       </div>
     </>)}
 

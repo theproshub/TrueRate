@@ -3,7 +3,7 @@ import { NewsItem } from '@/lib/types';
 export const newsItems: NewsItem[] = [
   {
     id: '1',
-    title: "A Stronger Currency Eases Import Costs as the US Dollar Slips to L$184",
+    title: "Liberian Dollar Ends March Near L$184 to the US Dollar, Up 8% on the Year",
     summary: "The Liberian dollar closed March 2026 at L$183.93 per US dollar — about 8% stronger than a year earlier, supported by booming gold exports and steady remittances, though it has given back ground since the end of 2025. In a dual-currency, import-dependent economy, the rate shapes everything from fuel prices to inflation.",
     source: 'TrueRate',
     date: '2026-04-02',
@@ -24,7 +24,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '2',
-    title: "Inflation Cools to 4.5%, but the Core Tells a Tougher Story",
+    title: "Liberia's Inflation Eases to 4.5% in March, but Core Prices Stay Near 6%",
     summary: "Headline inflation slowed to 4.5% year-on-year in March 2026 as domestic food prices fell, capping a long disinflation from 2025's double-digit average. But core inflation held near 6% and imported fuel jumped 12% in the month, leaving the Central Bank with reason for caution.",
     source: 'TrueRate',
     date: '2026-04-03',
@@ -44,7 +44,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '3',
-    title: "Money Supply Swells 11% While the Central Bank Holds Steady",
+    title: "Liberia's Broad Money Grows 11% as Central Bank Holds Rate at 16.3%",
     summary: "Broad money reached L$299.4 billion in March 2026, up 10.7% year-on-year, while the Central Bank held its policy rate at 16.3%. Reserve money surged 31% — fast enough to bear watching against the inflation goal — even as commercial lending rates edged up rather than down.",
     source: 'TrueRate',
     date: '2026-04-03',
@@ -64,7 +64,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '4',
-    title: "Exports Surge 58% to US$2.1 Billion, Powered by Gold",
+    title: "Liberia's Exports Jump 58% to US$2.1 Billion in 2025, Led by Gold",
     summary: "Total exports rose 57.9% to US$2.07 billion in 2025 on surging gold and iron-ore shipments, while imports climbed 55.4% to US$2.35 billion, widening the merchandise trade deficit to about US$281 million. The boom has reshaped Liberia's export base around gold.",
     source: 'TrueRate',
     date: '2026-04-01',
@@ -84,7 +84,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '5',
-    title: "The Economy Grew 4.6% in 2025 — or 5.1%, Depending on Who's Counting",
+    title: "Liberia's Economy Grew 4.6% in 2025 as Mining Led — Though the World Bank Counts It Higher",
     summary: "Liberia's economy expanded 4.6% in 2025, its strongest pace in three years, lifting GDP to US$5.16 billion as mining output jumped 23%. National statistics put growth half a point below the World Bank's 5.1% estimate — a reminder that headline numbers still depend on who is counting.",
     source: 'TrueRate',
     date: '2026-04-01',
@@ -105,7 +105,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '6',
-    title: "Gold and Iron Ore Drive Mining Higher as Rubber Falls",
+    title: "Liberia's Mining Output Climbs as Gold and Iron Ore Lead; Rubber Falls",
     summary: "Gold, diamond and cement output rose sharply in early 2026, with diamonds more than doubling year-on-year and cement up 52%, while rubber, cocoa and timber production fell. The split captures an economy where mining surges and traditional agriculture struggles.",
     source: 'TrueRate',
     date: '2026-04-02',
@@ -125,7 +125,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '7',
-    title: "A Rare Current-Account Surplus, at Least by the Central Bank's Count",
+    title: "Liberia Ran a Current-Account Surplus in 2025 — by the Central Bank's Count",
     summary: "Liberia recorded a current-account surplus of about US$77 million for 2025 on the Central Bank's balance-of-payments data, sustained by US$941 million in remittances and transfers, even as the goods balance ran a US$281 million deficit. The World Bank, using a different method, reports a deficit — a divergence worth watching.",
     source: 'TrueRate',
     date: '2026-03-31',
@@ -145,7 +145,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '8',
-    title: "Business Loans Get Pricier Even as Consumer Rates Fall",
+    title: "Liberia's Business Lending Rate Edges Up to 13% as Consumer Loan Rates Fall",
     summary: "The average lending rate rose to 13.1% in February 2026 from 12.3% a year earlier, even as personal-loan and mortgage rates fell. Deposit returns stayed near 2%, keeping banks' margins wide and credit costly in an economy where formal borrowing is already scarce.",
     source: 'TrueRate',
     date: '2026-03-31',
@@ -186,7 +186,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '10',
-    title: "Iron-Ore Output Rebounds to 2.3 Million Tonnes in March",
+    title: "Liberia's Iron-Ore Output Rebounds to 2.3 Million Tonnes in March",
     summary: "Iron-ore production reached 2.33 million metric tons in March 2026, far above the depressed level of a year earlier, while export earnings rose 47% to US$69 million. Volumes remain volatile and tied closely to global steel demand.",
     source: 'TrueRate',
     date: '2026-04-01',
@@ -206,7 +206,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '11',
-    title: "Rubber Slumps: Output Down 30%, Export Earnings Cut in Half",
+    title: "Liberia's Rubber Slumps: Output Down 30%, Export Earnings Cut in Half",
     summary: "Rubber production fell about 30% year-on-year in March 2026 and export earnings dropped 54% to US$7 million — a sharp setback for a traditional cash crop and major rural employer, and a stark contrast to Liberia's booming mineral exports.",
     source: 'TrueRate',
     date: '2026-03-30',
@@ -288,7 +288,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '15',
-    title: "Services Quietly Remain the Biggest Engine of the Economy",
+    title: "Services Stay Liberia's Largest Sector at US$2 Billion in 2025",
     summary: "Services output reached US$2.01 billion in 2025, up about 7%, remaining the biggest part of Liberia's economy ahead of agriculture and mining. The sector's breadth — trade, transport, hospitality and government — makes it the quiet backbone of domestic activity.",
     source: 'TrueRate',
     date: '2026-03-30',
@@ -308,7 +308,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '16',
-    title: "Agriculture Employs the Most People but Grew the Slowest",
+    title: "Liberia's Agriculture Grew Slowly in 2025 Despite Being the Top Employer",
     summary: "Agriculture and fisheries output reached US$1.40 billion in 2025, up just 1.3% in value, even as the sector remains the country's largest source of livelihoods. The gap between agriculture's employment and its growth is a defining feature of Liberia's uneven expansion.",
     source: 'TrueRate',
     date: '2026-03-29',
@@ -328,7 +328,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '17',
-    title: "Cement and Beverages Push Manufacturing Up 9%",
+    title: "Liberia's Manufacturing Grew 9% in 2025 on Cement and Beverages",
     summary: "Manufacturing output rose to US$331 million in 2025, up about 9%, with cement and beverage production posting strong gains. Small as a share of GDP, the sector's growth points to expanding domestic industry that could ease reliance on imports.",
     source: 'TrueRate',
     date: '2026-03-28',
@@ -348,7 +348,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '18',
-    title: "Imports More Than Doubled in March, Exposing a Deep Dependence",
+    title: "Liberia's Imports More Than Doubled in March, Underscoring Import Reliance",
     summary: "Imports reached US$329 million in March 2026, more than double a year earlier, and totaled US$2.35 billion for 2025. The figures lay bare how dependent Liberia remains on foreign goods — from fuel and food to machinery — and the pressure that puts on the trade balance.",
     source: 'TrueRate',
     date: '2026-03-31',
@@ -410,7 +410,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '21',
-    title: "Banks Are Lending to the Government, Not to Business",
+    title: "Liberia's Banks Lent More to Government, Barely More to Business",
     summary: "Banks' claims on the private sector rose just 0.7% in the year to March 2026 — a decline in real terms — while lending to the central government jumped about 40%. The pattern points to private credit being crowded out, and squares with Liberia's stubbornly high borrowing costs.",
     source: 'TrueRate',
     date: '2026-04-03',
@@ -432,7 +432,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '22',
-    title: "Public Debt Climbs to US$2.82 Billion as the Bill Mounts",
+    title: "Liberia's Public Debt Climbs to US$2.82 Billion at End-2025",
     summary: "Total government debt reached US$2.82 billion in December 2025, up about 7.2% on the year, with external creditors holding nearly 58% of the stock. The rising burden narrows the fiscal room for a state already leaning on a handful of commodity exports.",
     source: 'TrueRate',
     date: '2026-04-05',
@@ -452,7 +452,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '23',
-    title: "Foreign Lenders Hold Almost 60% of the National Debt",
+    title: "Foreign Lenders Hold Nearly 58% of Liberia's Government Debt",
     summary: "External debt reached US$1.63 billion at the end of 2025, about 57.7% of the total stock, against US$1.20 billion owed at home. The split leaves Liberia's repayments tied to foreign currency and the export earnings that supply it.",
     source: 'TrueRate',
     date: '2026-04-07',
@@ -472,7 +472,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '24',
-    title: "Government Spending Lurches Month to Month, Bunching at Year-End",
+    title: "Liberia's Government Spending Swings Sharply, Bunching at Year-End",
     summary: "Total government spending ranged from US$33 million in January 2026 to US$193 million in December 2025, a volatility that complicates budgeting and service delivery. Recurrent costs dominate, leaving little that is steady or predictable.",
     source: 'TrueRate',
     date: '2026-04-10',
@@ -492,7 +492,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '25',
-    title: "Running Costs Crowd Out Investment in the National Budget",
+    title: "Capital Investment Squeezed as Liberia's Budget Goes to Running Costs",
     summary: "Capital spending collapsed to near zero in early 2026 before a US$50 million March outlay, while recurrent costs absorbed the bulk of the budget. The imbalance leaves little for the roads, power and water that growth depends on.",
     source: 'TrueRate',
     date: '2026-04-12',
@@ -512,7 +512,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '26',
-    title: "The Public Payroll Eats a Large Slice of the Budget",
+    title: "Public-Sector Wages Claim a Large Share of Liberia's Budget",
     summary: "Government salaries reached US$40.5 million in December 2025 and dominate recurrent spending, a wage bill that competes directly with investment and debt service. Containing it is among the hardest tasks in Liberian fiscal policy.",
     source: 'TrueRate',
     date: '2026-04-15',
@@ -532,7 +532,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '27',
-    title: "Taxpayers, Not Donors, Are Now Funding the Budget",
+    title: "Tax Revenue Carries Liberia's Budget as Recorded Grants Stay at Zero",
     summary: "Tax revenue totaled about US$187.3 million in the first quarter of 2026, holding near US$60 million a month, while grants recorded in the monthly data stayed at zero. The figures show a budget leaning almost entirely on what the country collects itself.",
     source: 'TrueRate',
     date: '2026-04-17',
@@ -552,7 +552,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '28',
-    title: "Keeping the Lights On Costs 6% More This Year",
+    title: "Housing and Utility Costs Rise 6% for Liberian Households",
     summary: "The cost of housing, water, electricity and fuels rose about 6.1% in the year to March 2026, outpacing headline inflation. With shelter and utilities a fixed monthly burden, the increase squeezes household budgets that have little room to adjust.",
     source: 'TrueRate',
     date: '2026-04-20',
@@ -572,7 +572,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '29',
-    title: "Health-Care Costs Climb 6%, and Families Pay Out of Pocket",
+    title: "Health-Care Costs Climbed 6% in Liberia Over the Year",
     summary: "The health price index rose about 6.1% in the year to March 2026, with a sharp mid-2025 spike, adding to the cost of care in a country where most medical spending is out of pocket. Health carries a 9% weight in the consumer basket.",
     source: 'TrueRate',
     date: '2026-04-22',
@@ -592,7 +592,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '30',
-    title: "Why School Fees Make Education Costs Jump Once a Year",
+    title: "School Fees Lift Liberia's Education Costs in Annual Steps",
     summary: "Education prices rose about 3.2% over the year to March 2026, moving in a single step rather than gradually — the signature of fees set once a year. For families, the cost of schooling is a recurring strain in a country betting on its young population.",
     source: 'TrueRate',
     date: '2026-04-25',
@@ -612,7 +612,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '31',
-    title: "The One Bill That's Getting Cheaper: Phone and Data",
+    title: "Communication Costs Fall in Liberia as Telecom Prices Ease",
     summary: "Communication prices dropped about 5.0% in the year to March 2026, one of the few categories getting cheaper, as mobile and data competition pushes costs down. The decline is a quiet dividend of Liberia's expanding digital economy.",
     source: 'TrueRate',
     date: '2026-04-27',
@@ -632,7 +632,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '32',
-    title: "Eating Out Gets 15% Pricier — the Fastest-Rising Cost of All",
+    title: "Eating Out Gets Pricier as Liberia's Restaurant and Hotel Costs Jump 15%",
     summary: "Prices for restaurants and hotels rose about 14.8% in the year to March 2026, the fastest of any major category and a heavy one at 17% of the basket. The climb reflects rising food, labor and energy costs feeding through to prepared meals and lodging.",
     source: 'TrueRate',
     date: '2026-04-30',
@@ -652,7 +652,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '33',
-    title: "Imported Goods Hold Steady; It's Local Prices That Are Rising",
+    title: "Imported Prices Hold Flat While Liberia's Domestic Costs Climb",
     summary: "Imported-item prices were essentially flat over the year to March 2026, up just 0.1%, while domestic prices rose about 5.8%. The split overturns the usual story and points to home-grown costs, not imports, as the live inflation risk.",
     source: 'TrueRate',
     date: '2026-05-02',
@@ -672,7 +672,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '34',
-    title: "A Building Boom Pushes Construction Past US$270 Million",
+    title: "Liberia's Construction Sector Tops US$270 Million as Building Picks Up",
     summary: "Construction output reached US$270 million in 2025, up about 8.9% on the year and nearly double its 2020 level, as cement production hit records. The building boom is one of the clearest signs of domestic investment beyond the mines.",
     source: 'TrueRate',
     date: '2026-05-05',
@@ -692,7 +692,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '35',
-    title: "Moving People and Data Grows Into a US$257 Million Business",
+    title: "Transport and Communications Sector Nears US$257 Million in Liberia",
     summary: "The transport and communications sector grew about 7.8% to US$257 million in 2025, lifted by mobile services, logistics and the movement of goods. Its steady expansion underpins commerce across an economy where moving goods is costly.",
     source: 'TrueRate',
     date: '2026-05-07',
@@ -712,7 +712,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '36',
-    title: "The Financial Sector Keeps Growing — but Not by Lending to Business",
+    title: "Liberia's Financial Sector Grows to US$161 Million",
     summary: "The financial-institutions sector expanded about 6.8% to US$161 million in 2025, a steady climb even as banks lent more to the government than to business. The sector's growth outpaces the credit reaching the private economy.",
     source: 'TrueRate',
     date: '2026-05-10',
@@ -732,7 +732,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '37',
-    title: "More Power Flows, yet Few Are Still Connected",
+    title: "Liberia's Power Output Rises as Electricity Sector Expands",
     summary: "Electricity generation climbed about 30.7% over the year to March 2026, and the electricity and water sector grew nearly 13% in 2025 to US$50 million. Yet access remains among the world's lowest, leaving most Liberians reliant on costly alternatives.",
     source: 'TrueRate',
     date: '2026-05-12',
@@ -752,7 +752,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '38',
-    title: "Vast Forests, Idle Trade: Why Forestry Is Stuck",
+    title: "Liberia's Forestry Sector Stalls as Log Exports Stay Idle",
     summary: "Forestry output from logs and timber was about US$18 million in 2025, below its 2020 level, while recorded round-log production sat at zero through early 2026. A sector with vast resource potential remains one of the economy's quiet underperformers.",
     source: 'TrueRate',
     date: '2026-05-15',
@@ -772,7 +772,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '39',
-    title: "Rice: The US$296 Million Staple With Outsized Political Weight",
+    title: "Rice, Liberia's Staple, Is a US$296 Million Question for the Economy",
     summary: "Rice output was valued at about US$296 million in 2025, down from US$350 million a year earlier, even as the grain remains the country's politically charged staple. Heavy import reliance keeps rice prices a perennial flashpoint.",
     source: 'TrueRate',
     date: '2026-05-17',
@@ -792,7 +792,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '40',
-    title: "Homegrown Steel Output More Than Doubles in a Year",
+    title: "Liberia's Steel Output Scales Up, More Than Doubling on the Year",
     summary: "Steel production rose to about 4,267 metric tons in March 2026, up roughly 162.3% from a year earlier, as a domestic industry geared to construction expands. The growth points to import substitution in building materials.",
     source: 'TrueRate',
     date: '2026-05-20',
@@ -812,7 +812,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '41',
-    title: "Palm Oil Rebounds to US$173 Million After Volatile Years",
+    title: "Liberia's Palm Oil Sector Recovers to US$173 Million",
     summary: "Palm oil output was valued at about US$173 million in 2025, up nearly 8.8% on the year and well above its 2020 level, as a crop Liberia has long sought to scale shows signs of recovery. Smallholders and concessions both shape the outcome.",
     source: 'TrueRate',
     date: '2026-05-22',
@@ -832,7 +832,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '42',
-    title: "The State's Own Economic Output Barely Grew Last Year",
+    title: "Liberia's Government-Services Sector Inches Up to US$169 Million",
     summary: "The value of government services rose about 2.7% to US$169 million in 2025, the slowest-growing major part of the economy. Tight budgets and a heavy wage bill leave little room for the state's own contribution to output to expand.",
     source: 'TrueRate',
     date: '2026-05-25',
@@ -852,7 +852,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '43',
-    title: "Incomes Per Person Are Still Climbing Back to 2018 Levels",
+    title: "Liberia's Income Per Person Edges Back Toward Pre-Pandemic Level",
     summary: "Real GDP per capita rose about 2.4% in 2025 and is up roughly 12.5% from its 2020 low, but still sits just below where it stood in 2018. The slow climb shows how population growth eats into headline gains.",
     source: 'TrueRate',
     date: '2026-05-27',
@@ -872,7 +872,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '44',
-    title: "Cement Output Hits a Record as the Building Boom Rolls On",
+    title: "Liberia's Cement Production Hits Record on Construction Demand",
     summary: "Cement output reached about 89,000 metric tons in March 2026, a record in the monthly series and up about 52.5% on the year, after rising for several straight months. The climb is a clear read on a building upturn.",
     source: 'TrueRate',
     date: '2026-05-30',
@@ -892,7 +892,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '45',
-    title: "Bottlers Ramp Up 20% as Consumer Spending Holds",
+    title: "Liberia's Beverage Production Climbs 20% as Consumer Demand Holds",
     summary: "Beverage output rose about 20.3% in the year to March 2026, to roughly 4.0 million liters, one of the country's most established manufacturing lines. The growth points to resilient consumer spending and a broadening industrial base.",
     source: 'TrueRate',
     date: '2026-06-01',
@@ -912,7 +912,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '46',
-    title: "Steady Taxes, Volatile Spending, Rising Debt: The 2026 Budget",
+    title: "Liberia's 2026 Fiscal Picture: Steady Taxes, Volatile Spending, Rising Debt",
     summary: "Tax revenue is holding near US$60 million a month, but spending swings wildly, capital investment is squeezed and debt has climbed past US$2.8 billion. The combination leaves Liberia growing but with little fiscal room to spare.",
     source: 'TrueRate',
     date: '2026-06-04',
@@ -932,7 +932,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '47',
-    title: "A Two-Speed Economy: Minerals Race Ahead, Most People Don't",
+    title: "Liberia's Two-Speed Economy: Minerals Race Ahead, Farming and Services Lag",
     summary: "Mining surged past US$1 billion and gold and iron-ore exports boomed in 2025, while agriculture grew barely 1% and most Liberians work in sectors expanding far more slowly. The split defines who benefits from the country's growth.",
     source: 'TrueRate',
     date: '2026-06-06',
@@ -952,7 +952,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     id: '48',
-    title: "Why Prices Still Feel High Even as Inflation Cools",
+    title: "Why Liberia's Underlying Inflation Stays Sticky as Headline Prices Cool",
     summary: "Headline inflation has eased to 4.5%, but services prices — restaurants, housing, health — are climbing 6% to 15%, keeping core inflation firm. The split explains why the central bank is holding rates even as the headline rate falls.",
     source: 'TrueRate',
     date: '2026-06-09',

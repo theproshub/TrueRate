@@ -5,9 +5,11 @@ import Breadcrumb from '@/components/Breadcrumb';
 import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
-import { newsItems } from '@/data/news';
+import { getNewsItems } from '@/lib/news-source';
 import { timeAgo } from '@/lib/utils';
 import { TECHNOLOGY_TOPIC_BY_SLUG, TECHNOLOGY_TOPICS } from '@/lib/technology-topics';
+
+export const revalidate = 0; // always read the latest articles from the DB
 
 export function generateStaticParams() {
   return TECHNOLOGY_TOPICS.map(t => ({ topic: t.slug }));
@@ -28,7 +30,7 @@ export default async function TechnologyTopicPage({ params }: { params: Promise<
   const topic = TECHNOLOGY_TOPIC_BY_SLUG[slug];
   if (!topic) notFound();
 
-  const items = newsItems
+  const items = (await getNewsItems())
     .filter(topic.matches)
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 

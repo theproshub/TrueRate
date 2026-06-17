@@ -1,22 +1,20 @@
 import Link from 'next/link';
 import { newsItems } from '@/data/news';
+import type { NewsItem } from '@/lib/types';
+import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { Heading, Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
-const TRENDING = [
-  { rank: 1,  href: '/news/1',  title: "Why the CBL is holding its policy rate at 16.25% even as inflation cools" },
-  { rank: 2,  href: '/news/3',  title: "ArcelorMittal's Nimba expansion: three scenarios for Liberia's fiscal future" },
-  { rank: 3,  href: '/news/22', title: "Iron ore and gold powered a 17% mining expansion in 2025" },
-  { rank: 4,  href: '/news/5',  title: "How Firestone's Harbel estate anchors Liberia's rubber sector" },
-  { rank: 5,  href: '/news/10', title: "Liberia's reserves near US$576M — about two months of import cover" },
-  { rank: 6,  href: '/news/18', title: "Inside 'Pay Na-Na': mobile-money interoperability, explained" },
-  { rank: 7,  href: '/news/17', title: "Gold's strength gives Liberia's miners a tailwind in 2026" },
-  { rank: 8,  href: '/news/25', title: "Agriculture keeps growing — and keeps getting less attention than mining" },
-  { rank: 9,  href: '/news/30', title: "Off-grid solar is quietly reaching homes beyond the national grid" },
-  { rank: 10, href: '/news/28', title: "Public debt reached 54.6% of GDP — what it means for monetary policy" },
-];
-
-export function TrendingPanel() {
+export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
+  // Trending list is the most recent published articles from the DB — no
+  // hardcoded story list, so it never goes stale.
+  const trending = items.slice(0, 5).map((n, i) => ({
+    rank: i + 1,
+    id: n.id,
+    href: `/news/${n.id}`,
+    title: n.title,
+    category: n.category,
+  }));
   return (
     <aside className="hidden lg:block w-[270px] shrink-0 sticky self-end" style={{ bottom: '16px' }}>
       <div>
@@ -27,10 +25,11 @@ export function TrendingPanel() {
           <Heading level={5} as="h2" className="font-bold text-gray-900 uppercase tracking-wide">Trending</Heading>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100">
-          {TRENDING.map(item => (
+          {trending.map(item => (
             <Link key={item.rank} href={item.href} className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
-              <div className="min-w-0 flex-1">
-                <p className="text-base font-semibold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</p>
+              <NewsThumbnail category={item.category} id={item.id} className="h-[72px] w-[72px] shrink-0 rounded-md" />
+              <div className="min-w-0 flex-1 self-center">
+                <p className="text-base font-semibold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
               </div>
             </Link>
           ))}
@@ -63,7 +62,7 @@ export function TrendingPanel() {
   );
 }
 
-export function RightRail() {
+export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
   return (
     <aside className="hidden xl:block w-[300px] shrink-0 sticky self-end" style={{ bottom: '16px' }}>
       <div className="flex flex-col gap-5">
@@ -108,7 +107,7 @@ export function RightRail() {
             <h3 className="text-sm font-bold text-gray-900">Most Read</h3>
           </div>
           <div className="divide-y divide-gray-100">
-            {newsItems.slice(0, 5).map((item) => (
+            {items.slice(0, 5).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                 <p className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
               </Link>

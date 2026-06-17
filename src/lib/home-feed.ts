@@ -18,7 +18,7 @@ export type HomeArticle = {
   date: string;            // ISO (live) or seed date string
 };
 
-const FEED_LIMIT = 40;
+const FEED_LIMIT = 60;
 
 type DbArticle = {
   slug: string;
@@ -72,6 +72,10 @@ export async function getHomeFeed(): Promise<{ articles: HomeArticle[]; live: bo
         categoryLabel: a.category?.label ?? 'News',
         byline: a.author?.name ?? null,
         src: a.hero_image,
+        // Seed-imported articles keep their slug === original seed id, so the
+        // story-photo lookup (e.g. /images/samoi.png) still resolves when no
+        // hero_image is set. Harmless for genuinely new articles.
+        seedId: a.slug,
         date: a.published_at ?? new Date().toISOString(),
       }));
       return { articles, live: true };

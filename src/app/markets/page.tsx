@@ -21,11 +21,11 @@ const TrendChart = dynamic(
   () => import('@/components/analytics/terminal/TrendChart'),
   { loading: () => <div className="h-[140px] w-full animate-pulse rounded bg-white/[0.04]" /> },
 );
-import { newsItems } from '@/data/news';
+import { getNewsItems } from '@/lib/news-source';
 import type { NewsItem } from '@/lib/types';
 import { Heading, Text } from '@/components/ui';
 
-export const revalidate = 900; // 15 min
+export const revalidate = 0; // always read the latest articles + live data from the DB
 
 export const metadata: Metadata = {
   title: 'Markets & Finance — Liberia',
@@ -79,8 +79,8 @@ function timeAgo(d: string) {
   return `${days} days ago`;
 }
 
-const byCategory = (cat: string) =>
-  newsItems.filter(n => n.category.toLowerCase() === cat.toLowerCase());
+const byCategory = (items: NewsItem[], cat: string) =>
+  items.filter(n => n.category.toLowerCase() === cat.toLowerCase());
 
 // ── small story card / row helpers ──────────────────────────────────────────
 
@@ -187,13 +187,14 @@ export default async function MarketsPage() {
   const laggards = [...movers].sort((a, b) => a.change - b.change).slice(0, 5);
 
   // ── News by category ──
-  const forexNews       = byCategory('forex');
-  const commoditiesNews = byCategory('commodities');
-  const economyNews     = byCategory('economy');
-  const policyNews      = byCategory('policy');
-  const analysisNews    = byCategory('analysis');
-  const bankingNews     = byCategory('banking');
-  const investingNews   = byCategory('investing');
+  const newsItems = await getNewsItems();
+  const forexNews       = byCategory(newsItems, 'forex');
+  const commoditiesNews = byCategory(newsItems, 'commodities');
+  const economyNews     = byCategory(newsItems, 'economy');
+  const policyNews      = byCategory(newsItems, 'policy');
+  const analysisNews    = byCategory(newsItems, 'analysis');
+  const bankingNews     = byCategory(newsItems, 'banking');
+  const investingNews   = byCategory(newsItems, 'investing');
 
   // Lead block — derive from available articles (resilient to dataset changes)
   const byId = (id: string) => newsItems.find(n => n.id === id);
@@ -251,11 +252,12 @@ export default async function MarketsPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-6">
             {/* Leaders */}
             <div>
               <Text variant="meta" className="font-bold uppercase tracking-wider text-pos mb-2">Leaders</Text>
-              <table className="w-full text-base tabular-nums">
+              <div className="overflow-x-auto">
+              <table className="w-full text-sm sm:text-base tabular-nums">
                 <caption className="sr-only">Commodities leading by daily percent change.</caption>
                 <thead>
                   <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
@@ -267,7 +269,7 @@ export default async function MarketsPage() {
                 <tbody className="divide-y divide-white/[0.06]">
                   {leaders.map(c => (
                     <tr key={c.symbol} className="hover:bg-white/[0.02]">
-                      <td className="py-2 pr-2 font-bold text-white">{c.name}</td>
+                      <td className="py-2 pr-2 font-bold text-white truncate max-w-[120px] sm:max-w-none">{c.name}</td>
                       <td className="py-2 text-right font-bold text-white">
                         {c.price !== null ? c.price.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'}
                       </td>
@@ -278,12 +280,14 @@ export default async function MarketsPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
 
             {/* Laggards */}
             <div>
               <Text variant="meta" className="font-bold uppercase tracking-wider text-neg mb-2">Laggards</Text>
-              <table className="w-full text-base tabular-nums">
+              <div className="overflow-x-auto">
+              <table className="w-full text-sm sm:text-base tabular-nums">
                 <caption className="sr-only">Commodities lagging by daily percent change.</caption>
                 <thead>
                   <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
@@ -295,7 +299,7 @@ export default async function MarketsPage() {
                 <tbody className="divide-y divide-white/[0.06]">
                   {laggards.map(c => (
                     <tr key={c.symbol} className="hover:bg-white/[0.02]">
-                      <td className="py-2 pr-2 font-bold text-white">{c.name}</td>
+                      <td className="py-2 pr-2 font-bold text-white truncate max-w-[120px] sm:max-w-none">{c.name}</td>
                       <td className="py-2 text-right font-bold text-white">
                         {c.price !== null ? c.price.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'}
                       </td>
@@ -306,6 +310,7 @@ export default async function MarketsPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
           <Text variant="caption" className="mt-3 leading-relaxed">
@@ -364,7 +369,7 @@ export default async function MarketsPage() {
         <h2 id="financial-heading" className="sr-only">Liberia Financial Markets Data</h2>
 
         {/* Interest Rates */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 sm:p-5">
           <div className="mb-4">
             <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Interest Rates · CBL</Text>
             <p className="text-sm text-gray-400 leading-relaxed">Industry-average banking rates and CBL policy rate, monthly.</p>
@@ -416,7 +421,7 @@ export default async function MarketsPage() {
         </div>
 
         {/* Money Supply */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 sm:p-5">
           <div className="mb-4">
             <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Money Supply · CBL</Text>
             <p className="text-sm text-gray-400 leading-relaxed">Reserve money (monetary base) and broad money (M2), monthly.</p>
@@ -470,7 +475,7 @@ export default async function MarketsPage() {
         </div>
 
         {/* Government Debt */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 sm:p-5">
           <div className="mb-4">
             <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Government Debt · MoF</Text>
             <p className="text-sm text-gray-400 leading-relaxed">Total, domestic, and external public debt from the Ministry of Finance.</p>

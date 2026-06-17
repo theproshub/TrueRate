@@ -1,94 +1,43 @@
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { newsItems } from '@/data/news';
+import { getNewsItems } from '@/lib/news-source';
+import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
 import { NewsFeedTabs } from './FinanceNewsClient';
 
+// Always render from the live database — no ISR cache, so newly published
+// articles appear immediately.
+export const dynamic = 'force-dynamic';
+
 /* ── helpers ── */
 function timeAgo(d: string) {
-  const days = Math.floor((new Date('2026-04-04').getTime() - new Date(d).getTime()) / 86400000);
+  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
   if (days === 0) return 'Today';
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
 }
 
-/* ── static data: finance / economy / business ── */
-
-const TRENDING = [
-  { label: 'FOREX', text: 'Liberian dollar ended March 2026 at L$183.93 per US dollar — about 8% stronger than a year earlier (CBL)' },
-  { label: 'POLICY', text: 'CBL held the Monetary Policy Rate at 16.3% through May 2026, after a one-point cut from 17.3% (CBL)' },
-  { label: 'INFLATION', text: 'Headline inflation eased to 4.5% year-on-year in March 2026, though core prices held near 6% (CBL)' },
-  { label: 'ECONOMY', text: 'Real GDP grew 4.6% in 2025, up from 4.0% a year earlier; nominal GDP reached US$5.16bn (LISGIS)' },
-  { label: 'TRADE', text: 'Exports jumped 58% to US$2.07bn in 2025, led by gold; imports rose 55% to US$2.35bn (CBL)' },
-  { label: 'MONEY', text: 'Broad money grew 10.7% to L$299.4bn in March 2026; reserve money rose 31% year-on-year (CBL)' },
-  { label: 'COMMODITIES', text: 'Gold exports more than doubled year-on-year to about US$175m in March 2026; rubber earnings fell ~54% (CBL)' },
-  { label: 'MINING', text: 'Gold output rose 15% and diamond output more than doubled year-on-year in March 2026; rubber fell ~30% (LISGIS)' },
-];
-
-const HERO_STORIES = [
-  {
-    category: 'Forex',
-    title: "Liberian Dollar Ends March Near L$184 — Up 8% on the Year as CBL Reserves Climb",
-    summary: "The Liberian dollar's strongest quarterly performance since 2019, backed by rising foreign-exchange reserves and a central bank holding its policy rate steady at 16.3%.",
-    source: 'TrueRate',
-    time: '1d ago',
-    href: '/news/1',
-  },
-  {
-    category: 'Economy',
-    title: "Liberia's Economy Grew 4.6% in 2025 — Mining and Services Led the Expansion",
-    summary: "Nominal GDP reached US$5.16 billion as iron ore, gold, and trade services drove the acceleration from 4.0% in 2024. Agriculture and construction also contributed.",
-    source: 'TrueRate',
-    time: '3d ago',
-    href: '/news/5',
-  },
-];
-
-const ECONOMY_STORIES = [
-  { href: '/news/5', category: 'economy', title: "Liberia's Economy Grew 4.6% in 2025 as Nominal GDP Reached US$5.2 Billion", source: 'TrueRate', time: '1d ago' },
-  { href: '/news/2', category: 'economy', title: "Inflation Eases to 4.5% in March, but Core Prices Stay Near 6%", source: 'TrueRate', time: '2d ago' },
-  { href: '/news/4', category: 'economy', title: "Exports Jump 58% to US$2.1 Billion in 2025, Led by Gold", source: 'TrueRate', time: '4d ago' },
-];
-
-const MARKETS_STORIES = [
-  { href: '/news/1', category: 'forex', title: "Liberian Dollar Ends March Near L$184, Up 8% on the Year", source: 'TrueRate', time: '1d ago' },
-  { href: '/news/3', category: 'policy', title: "Broad Money Grows 11% as the CBL Holds Its Rate at 16.3%", source: 'TrueRate', time: '2d ago' },
-  { href: '/news/6', category: 'commodities', title: "Mining Output Climbs as Gold and Iron Ore Lead; Rubber Falls", source: 'TrueRate', time: '6d ago' },
-];
-
-const TRADE_STORIES = [
-  { category: 'Trade', title: "Exports Jumped 58% to US$2.07bn in 2025 — Gold Did the Heavy Lifting", source: 'TrueRate', time: '2d ago', href: '/news/4' },
-  { category: 'Trade', title: "Imports Rose 55% to US$2.35bn, Widening the Trade Deficit to US$280m", source: 'TrueRate', time: '3d ago', href: '/news/4' },
-  { category: 'Mining', title: "Gold Output Rose 15% and Diamond Output More Than Doubled Year-on-Year", source: 'TrueRate', time: '4d ago', href: '/news/6' },
-  { category: 'Agriculture', title: "Rubber Earnings Fell 54% as Global Prices and Liberian Output Declined", source: 'TrueRate', time: '5d ago', href: '/news/6' },
-];
-
-const POLICY_STORIES = [
-  { category: 'Monetary Policy', title: "CBL Held the Policy Rate at 16.3% Through May 2026", source: 'TrueRate', time: '1d ago', href: '/news/3' },
-  { category: 'Fiscal', title: "Mid-Year Budget Review Due April 14 — Legislature Expected to Push for Mining Revenue Transparency", source: 'TrueRate', time: '3d ago', href: '/economy' },
-  { category: 'IMF', title: "IMF Staff Mission Begins April 22 — Fourth Review Under the Extended Credit Facility", source: 'TrueRate', time: '5d ago', href: '/economy' },
-];
-
-const OPINION = [
-  { title: "Liberia's rubber pricing model leaves smallholders exposed. Here's how to fix it.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '2d ago' },
-  { title: "Liberia needs a sovereign wealth framework before the mining boom peaks.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '3d ago' },
-  { title: "A West African single currency is still coming. Liberia should help shape it, not just join it.", author: 'TrueRate Editorial Board', role: 'Opinion', time: '4d ago' },
-];
-
-const MOST_READ = [
-  { title: "Liberian dollar ends March near L$184, up 8% on the year", tag: 'Forex' },
-  { title: "Inflation eases to 4.5% but core prices stay near 6%", tag: 'Economy' },
-  { title: "Liberia's economy grew 4.6% in 2025", tag: 'Economy' },
-  { title: "Broad money grows 11% as the CBL holds its rate at 16.3%", tag: 'Policy' },
-  { title: "Exports jump 58% to US$2.1 billion in 2025, led by gold", tag: 'Trade' },
-  { title: "Mining output climbs as gold and iron ore lead; rubber falls", tag: 'Commodities' },
-  { title: "Gold exports more than doubled year-on-year in March 2026", tag: 'Mining' },
-  { title: "IMF staff mission begins April 22", tag: 'IMF' },
-  { title: "ArcelorMittal's Nimba expansion: three scenarios for fiscal future", tag: 'Mining' },
-  { title: "Public debt reached 54.6% of GDP — what it means for policy", tag: 'Fiscal' },
-];
+/* ── DB-derived card helpers ───────────────────────────────────────────────
+   Every section below is built from the live `articles` table (via
+   getNewsItems()) instead of hardcoded story lists, so all published articles
+   surface and stay in sync with the CMS. */
+type Card = {
+  id: string; href: string; category: string;
+  title: string; summary: string; source: string; time: string;
+};
+const toCard = (n: NewsItem): Card => ({
+  id: n.id,
+  href: `/news/${n.id}`,
+  category: n.category,
+  title: n.title,
+  summary: n.summary,
+  source: n.source,
+  time: timeAgo(n.date),
+});
+const inCats = (items: NewsItem[], cats: string[]) =>
+  items.filter(n => cats.includes(n.category.toLowerCase()));
 
 /* ── page (server component) ── */
 export default async function FinanceNewsPage({
@@ -99,8 +48,27 @@ export default async function FinanceNewsPage({
   const { q } = await searchParams;
   const query = q?.trim() ?? '';
 
+  const items = await getNewsItems();
+
+  // Section feeds, all sourced from the live articles table.
+  const heroStory       = items[0] ? toCard(items[0]) : null;
+  const economyStories  = inCats(items, ['economy']).slice(0, 4).map(toCard);
+  const marketsStories  = inCats(items, ['forex', 'markets', 'commodities']).slice(0, 4).map(toCard);
+  const tradeStories    = inCats(items, ['commodities', 'forex']).slice(0, 4).map(toCard);
+  const policyStories   = inCats(items, ['policy', 'banking']).slice(0, 4).map(toCard);
+  const opinionStories  = inCats(items, ['analysis', 'opinion']).slice(0, 3).map((n) => ({
+    id: n.id,
+    href: `/news/${n.id}`,
+    title: n.title,
+    author: n.author ?? n.source,
+    role: n.category.toLowerCase() === 'opinion' ? 'Opinion' : 'Analysis',
+    time: timeAgo(n.date),
+  }));
+  const mostRead        = items.slice(0, 6).map(toCard);
+  const ticker          = items.slice(0, 8).map((n) => ({ label: n.category, text: n.title, href: `/news/${n.id}` }));
+
   const searchResults = query
-    ? newsItems.filter(n => {
+    ? items.filter(n => {
         const lower = query.toLowerCase();
         return (
           n.title.toLowerCase().includes(lower) ||
@@ -179,8 +147,8 @@ export default async function FinanceNewsPage({
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">
-            {[...TRENDING, ...TRENDING].map((b, i) => (
-              <Link key={i} href="/news/finance" className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
+            {[...ticker, ...ticker].map((b, i) => (
+              <Link key={i} href={b.href} className="flex items-center gap-2 px-5 py-2.5 no-underline whitespace-nowrap group shrink-0 border-l border-gray-200">
                 <span className={`text-2xs font-black uppercase tracking-widest ${getCatColor(b.label)}`}>{b.label}</span>
                 <span className="text-base font-medium text-gray-700 group-hover:text-gray-950 transition-colors">{b.text}</span>
               </Link>
@@ -190,27 +158,29 @@ export default async function FinanceNewsPage({
       </div>
 
       {/* ── Main layout: two columns + sidebar ── */}
-      <div className="flex gap-6 items-start">
+      <div className="flex gap-4 sm:gap-6 items-start">
 
         {/* ── Left: main content ── */}
         <div className="flex-1 min-w-0 pb-8">
 
-          {/* Hero story */}
-          <Link href={HERO_STORIES[0].href} className="group relative block no-underline overflow-hidden rounded-xl mb-6">
-            <NewsThumbnail category={HERO_STORIES[0].category.toLowerCase()} className="w-full h-[300px] sm:h-[380px]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-            <div className="absolute top-4 left-4">
-              <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(HERO_STORIES[0].category.toLowerCase())}`}>{HERO_STORIES[0].category}</span>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <Heading level={2} as="h1" className="leading-snug text-white group-hover:text-brand-accent transition-colors drop-shadow-lg line-clamp-3 mb-2">{HERO_STORIES[0].title}</Heading>
-              <Text className="text-sm text-white/70 line-clamp-2 mb-1.5">{HERO_STORIES[0].summary}</Text>
-              <Text className="text-xs text-white/50">{HERO_STORIES[0].source} &middot; {HERO_STORIES[0].time}</Text>
-            </div>
-          </Link>
+          {/* Hero story (newest published article) */}
+          {heroStory && (
+            <Link href={heroStory.href} className="group relative block no-underline overflow-hidden rounded-xl mb-6">
+              <NewsThumbnail category={heroStory.category} id={heroStory.id} className="w-full h-[220px] sm:h-[380px]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute top-4 left-4">
+                <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(heroStory.category)}`}>{heroStory.category}</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <Heading level={2} as="h1" className="leading-snug text-white group-hover:text-brand-accent transition-colors drop-shadow-lg line-clamp-3 mb-2">{heroStory.title}</Heading>
+                <Text className="text-sm text-white/70 line-clamp-2 mb-1.5">{heroStory.summary}</Text>
+                <Text className="text-xs text-white/50">{heroStory.source} &middot; {heroStory.time}</Text>
+              </div>
+            </Link>
+          )}
 
           {/* Tabbed finance feed */}
-          <NewsFeedTabs />
+          <NewsFeedTabs items={items} />
 
           {/* ── Economy section ── */}
           <section className="mt-8">
@@ -222,9 +192,9 @@ export default async function FinanceNewsPage({
               <Link href="/economy" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">More economy &rsaquo;</Link>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {ECONOMY_STORIES.map((s, i) => (
+              {economyStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category} id={s.id} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
@@ -249,9 +219,9 @@ export default async function FinanceNewsPage({
               <Link href="/markets" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">More markets &rsaquo;</Link>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {MARKETS_STORIES.map((s, i) => (
+              {marketsStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category} id={s.id} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
@@ -275,9 +245,9 @@ export default async function FinanceNewsPage({
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {TRADE_STORIES.map((s, i) => (
+              {tradeStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-3 no-underline border-t border-gray-100 pt-4 first:border-t-0 first:pt-0 [&:nth-child(2)]:border-t-0 [&:nth-child(2)]:pt-0 sm:[&:nth-child(2)]:border-t-0">
-                  <NewsThumbnail category={s.category.toLowerCase()} className="shrink-0 h-[80px] w-[100px] rounded-xl" />
+                  <NewsThumbnail category={s.category.toLowerCase()} id={s.id} className="shrink-0 h-[80px] w-[100px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{s.title}</Heading>
@@ -297,9 +267,9 @@ export default async function FinanceNewsPage({
               </div>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {POLICY_STORIES.map((s, i) => (
+              {policyStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} id={s.id} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
@@ -323,8 +293,8 @@ export default async function FinanceNewsPage({
               </div>
             </div>
             <div className="flex flex-col divide-y divide-gray-100">
-              {OPINION.map((op, i) => (
-                <Link key={i} href="/news/finance" className="group flex items-center gap-4 py-4 first:pt-0 no-underline">
+              {opinionStories.map((op, i) => (
+                <Link key={i} href={op.href} className="group flex items-center gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-full">
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
@@ -384,12 +354,12 @@ export default async function FinanceNewsPage({
               <Heading level={6} as="h3" className="text-gray-900">Most Read</Heading>
             </div>
             <div className="divide-y divide-gray-100">
-              {MOST_READ.slice(0, 6).map((item, i) => (
-                <Link key={i} href="/news/finance" className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+              {mostRead.map((item, i) => (
+                <Link key={i} href={item.href} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                   <span className="shrink-0 text-lg font-black text-gray-200 tabular-nums w-5 text-right">{i + 1}</span>
                   <div className="min-w-0 flex-1">
                     <Text className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Text>
-                    <span className="text-2xs font-semibold uppercase tracking-wide text-gray-400 mt-1 block">{item.tag}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-wide text-gray-400 mt-1 block">{item.category}</span>
                   </div>
                 </Link>
               ))}

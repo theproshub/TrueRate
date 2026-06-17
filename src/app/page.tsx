@@ -15,24 +15,22 @@ export const metadata = {
   alternates: { canonical: '/' },
 };
 
-export const revalidate = 300; // refresh the homepage feed every 5 min
+export const revalidate = 0; // always read the latest published articles from the DB
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SHARED PIECES
 ───────────────────────────────────────────────────────────────────────────── */
 
-/** Category eyebrow · source · time meta line. */
+/** Byline · time meta line. Category badges are reserved for the news pages. */
 function Meta({ a, byline = true }: { a: HomeArticle; byline?: boolean }) {
   return (
     <Text variant="meta" className="mt-2 leading-relaxed text-gray-500">
-      <span className={`text-2xs font-semibold uppercase tracking-wide ${getCatColor(a.categorySlug)}`}>{a.categoryLabel}</span>
       {byline && a.byline && (
         <>
+          <span>{a.byline}</span>
           <span className="mx-1.5 text-gray-700">·</span>
-          {a.byline}
         </>
       )}
-      <span className="mx-1.5 text-gray-700">·</span>
       {timeAgo(a.date)}
     </Text>
   );
@@ -133,7 +131,7 @@ function NewsListColumn({ items }: { items: HomeArticle[] }) {
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{a.title}</h3>
-              <Meta a={a} byline={false} />
+              <Meta a={a} />
             </div>
           </Link>
         ))}
@@ -158,7 +156,7 @@ function LatestColumn({ items }: { items: HomeArticle[] }) {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm sm:text-md font-bold leading-snug text-white line-clamp-3 group-hover:text-white/80 transition-colors">{a.title}</h3>
-              <Meta a={a} byline={false} />
+              <Meta a={a} />
             </div>
           </Link>
         ))}
@@ -183,7 +181,6 @@ function DeepReadsColumn({ items }: { items: HomeArticle[] }) {
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.categorySlug} id={lead.seedId} src={lead.src} className="w-full h-[180px]" />
         </div>
-        <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(lead.categorySlug)} mb-1.5`}>{lead.categoryLabel}</div>
         <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/80 transition-colors">{lead.title}</h3>
         <div className="mt-2 text-xs text-gray-500">{lead.byline ? `${lead.byline} · ` : ''}{timeAgo(lead.date)}</div>
       </Link>
@@ -229,16 +226,14 @@ function QuickReadsColumn({ items }: { items: HomeArticle[] }) {
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.categorySlug} id={lead.seedId} src={lead.src} className="w-full h-[180px]" />
         </div>
-        <span className={`block text-2xs font-bold uppercase tracking-wide mb-1 ${getCatColor(lead.categorySlug)}`}>{lead.categoryLabel}</span>
         <h3 className="text-md font-bold leading-snug text-white group-hover:text-white/80 transition-colors text-balance mb-1">{lead.title}</h3>
         <Text variant="meta" className="text-gray-500">{lead.byline ? `${lead.byline} · ` : ''}{timeAgo(lead.date)}</Text>
       </Link>
 
-      {/* Follow list — category eyebrow + headline + source · time */}
+      {/* Follow list — headline + source · time */}
       <div className="flex flex-col divide-y divide-white/[0.06] border-t border-white/[0.06]">
         {rest.map((a) => (
           <Link key={a.href} href={a.href} className="group block py-3 no-underline">
-            <span className={`block text-2xs font-bold uppercase tracking-wide mb-1 ${getCatColor(a.categorySlug)}`}>{a.categoryLabel}</span>
             <h4 className="text-sm font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1 text-pretty">{a.title}</h4>
             <Text variant="meta" className="text-gray-500">{a.byline ? `${a.byline} · ` : ''}{timeAgo(a.date)}</Text>
           </Link>
@@ -320,7 +315,7 @@ export default async function Home() {
     <div className="min-h-screen">
       <IndicatorsStrip initial={SEED_INDICATORS} />
 
-      <main className="mx-auto max-w-container px-5 py-8 pb-4 sm:pb-8">
+      <main className="mx-auto max-w-container px-4 sm:px-5 py-6 sm:py-8 pb-4 sm:pb-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-6">
 
           {/* LEFT — col 1-5 */}

@@ -12,10 +12,11 @@ export const metadata = {
   alternates: { canonical: '/economy' },
 };
 
-export const revalidate = 300; // refresh every 5 min
+export const revalidate = 0; // always read the latest published articles from the DB
 
-// Categories that belong on the Economy front.
-const ECONOMY_CATEGORY_SLUGS = ['economy', 'markets', 'business', 'analysis', 'opinion', 'world'];
+// Categories that belong on the Economy front. Includes the finance desks
+// (policy, forex, commodities, banking) so every economic story surfaces here.
+const ECONOMY_CATEGORY_SLUGS = ['economy', 'markets', 'business', 'analysis', 'opinion', 'world', 'policy', 'forex', 'commodities', 'banking'];
 
 interface EconomyArticle {
   id: string;
@@ -99,7 +100,7 @@ async function fetchEconomyArticles(): Promise<EconomyArticle[]> {
     .eq('status', 'published')
     .in('category_id', ids)
     .order('published_at', { ascending: false })
-    .limit(13);
+    .limit(50);
 
   const rows = (data ?? []) as unknown as EconomyArticle[];
   return rows.length > 0 ? rows : economyFallbackArticles();
@@ -117,7 +118,7 @@ export default async function EconomyPage() {
 
   const hero = articles[0] ?? null;
   const topStories = articles.slice(1, 6);
-  const grid = articles.slice(6, 13);
+  const grid = articles.slice(6);
 
   return (
     <main className="mx-auto max-w-container px-4 py-6">
@@ -150,7 +151,7 @@ export default async function EconomyPage() {
           </Link>
 
           {topStories.length > 0 && (
-            <div className="w-full sm:w-[280px] shrink-0 flex flex-col justify-between gap-4">
+            <div className="w-full sm:w-[280px] shrink-0 flex flex-col gap-4">
               {topStories.map((s) => (
                 <Link key={s.id} href={`/news/${s.slug}`} className="group flex gap-3 no-underline">
                   <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
@@ -186,7 +187,7 @@ export default async function EconomyPage() {
       )}
 
       {/* Main content + right rail */}
-      <div className="flex flex-col sm:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
         <div className="flex-1 min-w-0 space-y-10">
           {grid.length > 0 && (
             <section aria-labelledby="latest-economy">
@@ -220,8 +221,8 @@ export default async function EconomyPage() {
           )}
         </div>
 
-        {/* Right rail */}
-        <aside className="w-full sm:w-[260px] shrink-0 space-y-5">
+        {/* Right rail (sticky on desktop, matching the news sidebars) */}
+        <aside className="w-full lg:w-[260px] shrink-0 space-y-5 lg:sticky lg:top-24 lg:self-start">
           {/* Data snapshot — live from Supabase (World Bank series) */}
           <div>
             <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">Data Snapshot</h2>

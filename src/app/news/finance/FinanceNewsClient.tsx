@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { newsItems } from '@/data/news';
+import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
@@ -10,7 +11,7 @@ import { Heading, Text } from '@/components/ui';
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
 
 function timeAgo(d: string) {
-  const days = Math.floor((new Date('2026-04-04').getTime() - new Date(d).getTime()) / 86400000);
+  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
   if (days === 0) return 'Today';
   if (days === 1) return '1 day ago';
   return `${days} days ago`;
@@ -24,7 +25,7 @@ export function HeroCarousel() {
 
   return (
     <div className="relative overflow-hidden group">
-      <NewsThumbnail category={item.category} id={item.id} className="w-full h-[380px]" />
+      <NewsThumbnail category={item.category} id={item.id} className="w-full h-[240px] sm:h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
         <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
@@ -59,16 +60,16 @@ export function HeroCarousel() {
   );
 }
 
-function FeedList({ tab }: { tab: string }) {
-  const all = newsItems.slice(8);
+function FeedList({ tab, items }: { tab: string; items: NewsItem[] }) {
+  const all = items.slice(8);
   const filtered = tab === 'For You' ? all : all.filter(n => n.category === tab.toLowerCase());
-  const items = filtered.length ? filtered : all;
+  const list = filtered.length ? filtered : all;
 
   return (
     <div className="flex flex-col divide-y divide-gray-100">
-      {items.map((item) => (
+      {list.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
-          <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
+          <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
@@ -86,7 +87,7 @@ function FeedList({ tab }: { tab: string }) {
 }
 
 /** Tabbed "For You" feed with client-side category filtering (client island). */
-export function NewsFeedTabs() {
+export function NewsFeedTabs({ items = newsItems }: { items?: NewsItem[] }) {
   const [activeTab, setActiveTab] = useState('For You');
 
   return (
@@ -109,7 +110,7 @@ export function NewsFeedTabs() {
           ))}
         </div>
       </div>
-      <FeedList tab={activeTab} />
+      <FeedList tab={activeTab} items={items} />
     </>
   );
 }

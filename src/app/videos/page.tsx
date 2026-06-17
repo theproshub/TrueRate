@@ -152,7 +152,7 @@ export default function VideosPage() {
 
         {/* Hero — plays inline */}
         <div className="flex-1 min-w-0">
-          <PlayableVideo id={HERO.youtubeId} label={HERO.title} className="w-full overflow-hidden rounded-2xl" style={{ aspectRatio: '16/9', maxHeight: '420px' }}>
+          <PlayableVideo id={HERO.youtubeId} label={HERO.title} className="w-full overflow-hidden rounded-2xl max-h-[280px] sm:max-h-[360px] lg:max-h-[420px]" style={{ aspectRatio: '16/9' }}>
             <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -243,7 +243,7 @@ export default function VideosPage() {
       <section className="mb-10 -mx-4 px-4 py-8 bg-white/[0.02] border-y border-white/[0.05]" aria-labelledby="videos-podcasts">
         <div className="max-w-container">
           <SectionHeader title="TrueRate Finance Network" sub="Podcasts on entrepreneurship, investing, leadership & technology" href={CHANNEL_URL} label="All episodes ›" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {PODCASTS.map((pod, i) => (
               <div key={i} className="group flex flex-col">
                 <PlayableVideo id={pod.youtubeId} label={pod.title} className="overflow-hidden rounded-xl mb-3 aspect-square">
