@@ -77,11 +77,11 @@ function FeaturedColumn({ items }: { items: HomeArticle[] }) {
             <span className="mx-2 text-gray-700">·</span>
             <span className={getCatColor(lead.categorySlug)}>{lead.categoryLabel}</span>
           </Text>
-          <h1 className="text-xl sm:text-2xl font-bold leading-[1.2] text-white group-hover:text-white/80 transition-colors mb-2 tracking-tight text-balance">
+          <h1 className="text-2xl sm:text-4xl font-extrabold leading-[1.15] text-white group-hover:text-white/80 transition-colors mb-3 tracking-tight text-balance">
             {lead.title}
           </h1>
           {lead.dek && (
-            <p className="text-md leading-snug text-gray-400 mb-2 text-pretty line-clamp-2">{lead.dek}</p>
+            <p className="text-base sm:text-lg font-medium leading-relaxed text-gray-300 mb-3 text-pretty line-clamp-3">{lead.dek}</p>
           )}
           <Text variant="meta" className="text-gray-500 mb-2">
             {lead.byline && (

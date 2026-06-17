@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { newsItems } from '@/data/news';
 import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
@@ -18,46 +18,152 @@ function timeAgo(d: string) {
   return `${days} days ago`;
 }
 
+/** Single hero card used in the mobile swipe view. */
+function HeroCard({ item }: { item: NewsItem }) {
+  return (
+    <Link href={`/news/${item.id}`} className="block w-full shrink-0 no-underline relative overflow-hidden rounded-xl">
+      <NewsThumbnail category={item.category} id={item.id} className="w-full h-[340px]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+      {/* Category badge */}
+      <div className="absolute top-3 left-4">
+        <span className={`inline-block rounded bg-black/50 backdrop-blur-sm px-2.5 py-1 text-2xs font-bold uppercase tracking-widest ${getCatColor(item.category)}`}>{item.category}</span>
+      </div>
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <h2 className="text-xl font-extrabold leading-[1.15] text-white drop-shadow-lg line-clamp-3 tracking-tight text-balance">
+          {item.title}
+        </h2>
+        <p className="mt-2 text-sm font-medium leading-relaxed text-white/75 line-clamp-2 drop-shadow">
+          {item.summary}
+        </p>
+        <div className="mt-2 flex items-center gap-2 text-xs text-white/60">
+          <span className="font-semibold text-white/80">{item.source}</span>
+          <span aria-hidden="true">&middot;</span>
+          <time>{timeAgo(item.date)}</time>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 /** Interactive hero carousel (client island). */
 export function HeroCarousel({ items = newsItems }: { items?: NewsItem[] }) {
   const [idx, setIdx] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const startX = useRef(0);
   const slides = items.slice(0, 5);
   const item = slides[idx];
 
+  const goNext = useCallback(() => setIdx(i => (i + 1) % slides.length), [slides.length]);
+  const goPrev = useCallback(() => setIdx(i => (i - 1 + slides.length) % slides.length), [slides.length]);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX;
+    setDragging(true);
+    setDragOffset(0);
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!dragging) return;
+    setDragOffset(e.touches[0].clientX - startX.current);
+  }, [dragging]);
+
+  const onTouchEnd = useCallback(() => {
+    setDragging(false);
+    if (dragOffset < -50) goNext();
+    else if (dragOffset > 50) goPrev();
+    setDragOffset(0);
+  }, [dragOffset, goNext, goPrev]);
+
   return (
-    <div className="relative overflow-hidden group">
-      <NewsThumbnail category={item.category} id={item.id} className="w-full h-[240px] sm:h-[380px]" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-      <div className="absolute top-4 left-4 flex items-center gap-2">
-        <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
+    <>
+      {/* ── Mobile: horizontal slideshow ── */}
+      <div
+        className="sm:hidden overflow-hidden"
+        role="region"
+        aria-label="Top stories carousel"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* All cards laid out side-by-side, translated as a strip */}
+        <div
+          className={`flex ${dragging ? '' : 'transition-transform duration-500 ease-out'}`}
+          style={{ transform: `translateX(calc(-${idx * 100}% + ${dragOffset}px))` }}
+        >
+          {slides.map((slide) => (
+            <HeroCard key={slide.id} item={slide} />
+          ))}
+        </div>
+
+        {/* Dots + counter below the card */}
+        <div className="mt-3 flex items-center justify-between px-1">
+          <div className="flex gap-2">
+            {slides.map((_, i) => (
+              <button key={i} onClick={() => setIdx(i)}
+                aria-label={`Go to story ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${i === idx ? 'w-7 bg-gray-900' : 'w-3 bg-gray-300'}`} />
+            ))}
+          </div>
+          <span className="text-xs font-medium text-gray-400 tabular-nums">{idx + 1} / {slides.length}</span>
+        </div>
       </div>
-      <div className="absolute top-4 right-4 bg-black/60 px-2.5 py-1 text-xs font-semibold text-white tabular-nums">
-        {idx + 1} / {slides.length}
+
+      {/* ── Desktop: overlay carousel ── */}
+      <div className="hidden sm:block relative overflow-hidden rounded-xl group" role="region" aria-label="Top stories carousel">
+        <NewsThumbnail category={item.category} id={item.id} className="w-full h-[480px]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+
+        {/* Category badge */}
+        <div className="absolute top-4 left-5">
+          <span className={`inline-block rounded bg-black/50 backdrop-blur-sm px-2.5 py-1 text-2xs font-bold uppercase tracking-widest ${getCatColor(item.category)}`}>{item.category}</span>
+        </div>
+
+        {/* Slide counter */}
+        <div className="absolute top-4 right-5 rounded bg-black/50 backdrop-blur-sm px-2.5 py-1 text-xs font-semibold text-white/80 tabular-nums">
+          {idx + 1} / {slides.length}
+        </div>
+
+        {/* Headline + summary overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-8">
+          <Link href={`/news/${item.id}`} className="no-underline block">
+            <h2 className="text-4xl font-extrabold leading-[1.15] text-white drop-shadow-lg line-clamp-3 tracking-tight text-balance hover:text-brand-accent transition-colors">
+              {item.title}
+            </h2>
+            <p className="mt-3 text-lg font-medium leading-relaxed text-white/75 line-clamp-2 max-w-[640px] drop-shadow">
+              {item.summary}
+            </p>
+          </Link>
+          <div className="mt-3 flex items-center gap-3 text-sm text-white/60">
+            <span className="font-semibold text-white/80">{item.source}</span>
+            <span aria-hidden="true">&middot;</span>
+            <time>{timeAgo(item.date)}</time>
+          </div>
+
+          {/* Dot indicators */}
+          <div className="mt-4 flex gap-2">
+            {slides.map((_, i) => (
+              <button key={i} onClick={(e) => { e.stopPropagation(); setIdx(i); }}
+                aria-label={`Go to story ${i + 1}`}
+                className={`h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${i === idx ? 'w-8 bg-white' : 'w-4 bg-white/30 hover:bg-white/50'}`} />
+            ))}
+          </div>
+        </div>
+
+        {/* Nav arrows */}
+        <button onClick={goPrev}
+          aria-label="Previous story"
+          className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 hover:bg-black/60 transition-all focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+          <svg className="h-5 w-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <button onClick={goNext}
+          aria-label="Next story"
+          className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 hover:bg-black/60 transition-all focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+          <svg className="h-5 w-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+        </button>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <Link href={`/news/${item.id}`} className="no-underline">
-          <Heading level={2} className="leading-snug text-white hover:text-brand-accent transition-colors drop-shadow-lg line-clamp-3">{item.title}</Heading>
-        </Link>
-        <Text className="mt-1.5 text-base text-white/70 line-clamp-1">{item.source} · {timeAgo(item.date)}</Text>
-      </div>
-      <button onClick={() => setIdx(i => (i - 1 + slides.length) % slides.length)}
-        aria-label="Previous story"
-        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
-        <svg className="h-4 w-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-      </button>
-      <button onClick={() => setIdx(i => (i + 1) % slides.length)}
-        aria-label="Next story"
-        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
-        <svg className="h-4 w-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-      </button>
-      <div className="absolute bottom-4 right-5 flex gap-1.5">
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => setIdx(i)}
-            aria-label={`Go to story ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${i === idx ? 'w-5 bg-white' : 'w-1.5 bg-white/40'}`} />
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 
