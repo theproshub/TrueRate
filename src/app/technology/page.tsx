@@ -79,6 +79,7 @@ type Card = {
   source: string;
   time: string;
   href: string;
+  image?: string | null;
 };
 
 function storyToCard(s: TechStory): Card {
@@ -90,6 +91,7 @@ function storyToCard(s: TechStory): Card {
     source: s.author ?? 'TrueRate Tech',
     time: s.time,
     href: s.href,
+    image: s.image,
   };
 }
 
@@ -143,7 +145,12 @@ export default async function TechnologyPage() {
             {/* Hero */}
             <Link href={hero.href} className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-white/[0.07]">
               <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
-                <HeroVisual category={hero.categorySlug ?? hero.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
+                {hero.image ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={hero.image} alt="" className="w-full h-[220px] sm:h-[320px] object-cover group-hover:scale-[1.02] transition-transform duration-500" />
+                ) : (
+                  <HeroVisual category={hero.categorySlug ?? hero.category} className="w-full h-[220px] sm:h-[320px] group-hover:scale-[1.02] transition-transform duration-500" />
+                )}
               </div>
               <div className="flex flex-col justify-center flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-3">
@@ -172,7 +179,7 @@ export default async function TechnologyPage() {
                   {leads.map((card, i) => (
                     <Link key={card.href + i} href={card.href} className="group flex flex-col no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark rounded">
                       <div className="overflow-hidden rounded-lg mb-3">
-                        <NewsThumbnail category={card.categorySlug ?? card.category} className="w-full h-[160px] group-hover:scale-[1.03] transition-transform duration-500" />
+                        <NewsThumbnail category={card.categorySlug ?? card.category} src={card.image ?? undefined} className="w-full h-[160px] group-hover:scale-[1.03] transition-transform duration-500" />
                       </div>
                       <span className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
                         {card.category}
@@ -236,7 +243,7 @@ export default async function TechnologyPage() {
                   {feed.map((item, i) => (
                     <Link key={item.href + i} href={item.href} className="group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline">
                       <div className="shrink-0 overflow-hidden rounded-lg">
-                        <NewsThumbnail category={item.categorySlug ?? item.category} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
+                        <NewsThumbnail category={item.categorySlug ?? item.category} src={item.image ?? undefined} className="h-[72px] w-[96px] sm:h-[90px] sm:w-[140px]" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.categorySlug ?? item.category)}`}>

@@ -351,7 +351,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
           {items.map(item => (
             <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-col no-underline">
               <div className="overflow-hidden rounded-xl mb-3">
-                <NewsThumbnail category={item.category} className="w-full h-[170px]" />
+                <NewsThumbnail category={item.category} src={item.image} className="w-full h-[170px]" />
               </div>
               <p className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(item.category)}`}>{item.category}</p>
               <h2 className="text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-2">{item.title}</h2>
