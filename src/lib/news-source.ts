@@ -22,6 +22,7 @@ type DbRow = {
   title: string;
   dek: string | null;
   body: string;
+  hero_image: string | null;
   published_at: string | null;
   source_name: string | null;
   category: { slug: string } | null;
@@ -38,6 +39,7 @@ function toNewsItem(a: DbRow): NewsItem {
     id: a.slug,
     title: a.title,
     summary: a.dek ?? '',
+    image: a.hero_image ?? undefined,
     source: a.source_name ?? 'TrueRate',
     date: a.published_at ?? new Date().toISOString(),
     category: (a.category?.slug ?? 'economy') as NewsItem['category'],
@@ -57,7 +59,7 @@ export const getNewsItems = cache(async (): Promise<NewsItem[]> => {
     const { data } = await publicClient
       .from('articles')
       .select(
-        `slug, title, dek, body, published_at, source_name,
+        `slug, title, dek, body, hero_image, published_at, source_name,
          category:categories(slug),
          author:authors(name)`,
       )

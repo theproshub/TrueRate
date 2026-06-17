@@ -56,7 +56,7 @@ function SubStoryRow({ items: all }: { items: NewsItem[] }) {
       {items.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group no-underline">
           <div className="overflow-hidden rounded-xl">
-            <NewsThumbnail category={item.category} id={item.id} className="w-full h-[130px]" />
+            <NewsThumbnail category={item.category} id={item.id} src={item.image} className="w-full h-[130px]" />
           </div>
           <div className="mt-2.5">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
@@ -90,6 +90,7 @@ export default async function NewsPage({
     category: n.category,
     title: n.title,
     excerpt: n.summary,
+    image: n.image,
     author: n.author ?? n.source,
     readTime: n.readTime ?? '',
     time: timeAgo(n.date),
@@ -98,12 +99,14 @@ export default async function NewsPage({
     href: `/news/${n.id}`,
     category: n.category,
     title: n.title,
+    image: n.image,
     time: timeAgo(n.date),
   }));
   const archives = items.slice(-4).map((n) => ({
     href: `/news/${n.id}`,
     title: n.title,
     category: n.category,
+    image: n.image,
     readTime: n.readTime ?? '',
     date: new Date(n.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
   }));
@@ -170,7 +173,7 @@ export default async function NewsPage({
               <div className="flex-1 min-w-0 flex flex-col divide-y divide-gray-100">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
-                    <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
+                    <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
@@ -243,7 +246,7 @@ export default async function NewsPage({
               {editorsPicks.map((p, i) => (
                 <Link key={i} href={p.href} className="group flex flex-col sm:flex-row gap-3 sm:gap-4 py-5 first:pt-0 no-underline hover:opacity-75 transition-opacity">
                   <div className="shrink-0 overflow-hidden rounded-xl order-first sm:order-last">
-                    <NewsThumbnail category={p.category} className="h-[180px] w-full sm:h-[110px] sm:w-[160px]" />
+                    <NewsThumbnail category={p.category} src={p.image} className="h-[180px] w-full sm:h-[110px] sm:w-[160px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -272,7 +275,7 @@ export default async function NewsPage({
               {items.slice(20, 24).map((item) => (
                 <Link key={item.id} href={`/news/${item.id}`} className="group flex flex-row sm:flex-col gap-3 sm:gap-2.5 p-4 no-underline hover:bg-gray-50 transition-colors">
                   <div className="shrink-0 sm:shrink overflow-hidden rounded-lg">
-                    <NewsThumbnail category={item.category} id={item.id} className="h-[80px] w-[110px] sm:w-full" />
+                    <NewsThumbnail category={item.category} id={item.id} src={item.image} className="h-[80px] w-[110px] sm:w-full" />
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col gap-1.5 sm:gap-2.5">
                     <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
@@ -343,7 +346,7 @@ export default async function NewsPage({
               {dataStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex flex-col no-underline">
                   <div className="overflow-hidden rounded-xl mb-3">
-                    <NewsThumbnail category={s.category} className="w-full h-[140px]" />
+                    <NewsThumbnail category={s.category} src={s.image} className="w-full h-[140px]" />
                   </div>
                   <span className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${getCatColor(s.category)}`}>{s.category}</span>
                   <Heading level={6} as="h3" className="leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3 mb-2">{s.title}</Heading>
@@ -366,7 +369,7 @@ export default async function NewsPage({
               {archives.map((a, i) => (
                 <Link key={i} href={a.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-xl">
-                    <NewsThumbnail category={a.category} className="h-[80px] w-[120px]" />
+                    <NewsThumbnail category={a.category} src={a.image} className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1.5">{a.title}</Heading>

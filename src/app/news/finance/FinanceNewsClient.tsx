@@ -25,7 +25,7 @@ export function HeroCarousel() {
 
   return (
     <div className="relative overflow-hidden group">
-      <NewsThumbnail category={item.category} id={item.id} className="w-full h-[240px] sm:h-[380px]" />
+      <NewsThumbnail category={item.category} id={item.id} src={item.image} className="w-full h-[240px] sm:h-[380px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute top-4 left-4 flex items-center gap-2">
         <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
@@ -69,7 +69,7 @@ function FeedList({ tab, items }: { tab: string; items: NewsItem[] }) {
     <div className="flex flex-col divide-y divide-gray-100">
       {list.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
-          <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
+          <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>

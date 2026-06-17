@@ -14,6 +14,7 @@ export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
     href: `/news/${n.id}`,
     title: n.title,
     category: n.category,
+    image: n.image,
   }));
   return (
     <aside className="hidden lg:block w-[270px] shrink-0 sticky self-end" style={{ bottom: '16px' }}>
@@ -27,7 +28,7 @@ export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100">
           {trending.map(item => (
             <Link key={item.rank} href={item.href} className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
-              <NewsThumbnail category={item.category} id={item.id} className="h-[72px] w-[72px] shrink-0 rounded-md" />
+              <NewsThumbnail category={item.category} id={item.id} src={item.image} className="h-[72px] w-[72px] shrink-0 rounded-md" />
               <div className="min-w-0 flex-1 self-center">
                 <p className="text-base font-semibold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
               </div>

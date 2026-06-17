@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { cache } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { newsItems } from '@/data/news';
@@ -362,12 +363,6 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                 {article.title}
               </Heading>
 
-              {article.dek && (
-                <p className="text-lg leading-relaxed text-gray-700 mb-5">
-                  {article.dek}
-                </p>
-              )}
-
               <div className="flex flex-wrap items-center gap-2 text-base text-gray-500 pb-5 border-b border-gray-100 mb-6">
                 {article.author && (
                   <>
@@ -396,14 +391,19 @@ async function DbArticleView({ article }: { article: DbArticle }) {
               </div>
 
               {article.hero_image ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={article.hero_image}
-                  alt={article.hero_alt ?? ''}
-                  className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8 object-cover"
-                />
+                <div className="relative w-full aspect-[16/9] mb-8 overflow-hidden rounded-xl">
+                  <Image
+                    src={article.hero_image}
+                    alt={article.hero_alt ?? ''}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 820px"
+                    quality={90}
+                    priority
+                    className="object-cover"
+                  />
+                </div>
               ) : (
-                <HeroVisual category={categorySlug} className="w-full rounded-xl h-[260px] sm:h-[340px] mb-8" />
+                <HeroVisual category={categorySlug} className="w-full rounded-xl aspect-[16/9] mb-8" />
               )}
 
               <div
@@ -446,12 +446,11 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                     const catLabel = r.category?.label ?? 'News';
                     return (
                       <Link key={r.id} href={`/news/${r.slug}`} className="group no-underline">
-                        <div className="overflow-hidden rounded-xl mb-2.5">
+                        <div className="relative overflow-hidden rounded-xl mb-2.5 aspect-[16/9]">
                           {r.hero_image ? (
-                            /* eslint-disable-next-line @next/next/no-img-element */
-                            <img src={r.hero_image} alt={r.hero_alt ?? ''} className="w-full h-[110px] object-cover" />
+                            <Image src={r.hero_image} alt={r.hero_alt ?? ''} fill sizes="(max-width: 640px) 100vw, 33vw" quality={85} className="object-cover" />
                           ) : (
-                            <NewsThumbnail category={catSlug} className="w-full h-[110px]" />
+                            <NewsThumbnail category={catSlug} className="w-full h-full" />
                           )}
                         </div>
                         <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(catSlug)} mb-1`}>{catLabel}</div>
@@ -476,10 +475,9 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                     const catLabel = s.category?.label ?? 'News';
                     return (
                       <Link key={s.id} href={`/news/${s.slug}`} className="group flex gap-3.5 py-4 first:pt-0 no-underline">
-                        <div className="shrink-0 overflow-hidden rounded-lg">
+                        <div className="relative shrink-0 overflow-hidden rounded-lg h-[70px] w-[105px]">
                           {s.hero_image ? (
-                            /* eslint-disable-next-line @next/next/no-img-element */
-                            <img src={s.hero_image} alt={s.hero_alt ?? ''} className="h-[70px] w-[105px] object-cover" />
+                            <Image src={s.hero_image} alt={s.hero_alt ?? ''} fill sizes="105px" quality={80} className="object-cover" />
                           ) : (
                             <NewsThumbnail category={catSlug} className="h-[70px] w-[105px]" />
                           )}

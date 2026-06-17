@@ -22,7 +22,7 @@ function timeAgo(d: string) {
 function HeroCard({ item }: { item: NewsItem }) {
   return (
     <Link href={`/news/${item.id}`} className="block w-full shrink-0 no-underline relative overflow-hidden rounded-xl">
-      <NewsThumbnail category={item.category} id={item.id} className="w-full h-[340px]" />
+      <NewsThumbnail category={item.category} id={item.id} src={item.image} className="w-full h-[340px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
       {/* Category badge */}
       <div className="absolute top-3 left-4">
@@ -49,70 +49,30 @@ function HeroCard({ item }: { item: NewsItem }) {
 /** Interactive hero carousel (client island). */
 export function HeroCarousel({ items = newsItems }: { items?: NewsItem[] }) {
   const [idx, setIdx] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const startX = useRef(0);
   const slides = items.slice(0, 5);
   const item = slides[idx];
 
   const goNext = useCallback(() => setIdx(i => (i + 1) % slides.length), [slides.length]);
   const goPrev = useCallback(() => setIdx(i => (i - 1 + slides.length) % slides.length), [slides.length]);
 
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
-    startX.current = e.touches[0].clientX;
-    setDragging(true);
-    setDragOffset(0);
-  }, []);
-
-  const onTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!dragging) return;
-    setDragOffset(e.touches[0].clientX - startX.current);
-  }, [dragging]);
-
-  const onTouchEnd = useCallback(() => {
-    setDragging(false);
-    if (dragOffset < -50) goNext();
-    else if (dragOffset > 50) goPrev();
-    setDragOffset(0);
-  }, [dragOffset, goNext, goPrev]);
-
   return (
     <>
-      {/* ── Mobile: horizontal slideshow ── */}
+      {/* ── Mobile: native horizontal scroll, one card at a time ── */}
       <div
-        className="sm:hidden overflow-hidden"
+        className="sm:hidden -mx-4 px-4 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="region"
-        aria-label="Top stories carousel"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
+        aria-label="Top stories"
       >
-        {/* All cards laid out side-by-side, translated as a strip */}
-        <div
-          className={`flex ${dragging ? '' : 'transition-transform duration-500 ease-out'}`}
-          style={{ transform: `translateX(calc(-${idx * 100}% + ${dragOffset}px))` }}
-        >
-          {slides.map((slide) => (
-            <HeroCard key={slide.id} item={slide} />
-          ))}
-        </div>
-
-        {/* Dots + counter below the card */}
-        <div className="mt-3 flex items-center justify-between px-1">
-          <div className="flex gap-2">
-            {slides.map((_, i) => (
-              <button key={i} onClick={() => setIdx(i)}
-                aria-label={`Go to story ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${i === idx ? 'w-7 bg-gray-900' : 'w-3 bg-gray-300'}`} />
-            ))}
+        {slides.map((slide) => (
+          <div key={slide.id} className="snap-center shrink-0 w-[85vw]">
+            <HeroCard item={slide} />
           </div>
-          <span className="text-xs font-medium text-gray-400 tabular-nums">{idx + 1} / {slides.length}</span>
-        </div>
+        ))}
       </div>
 
       {/* ── Desktop: overlay carousel ── */}
       <div className="hidden sm:block relative overflow-hidden rounded-xl group" role="region" aria-label="Top stories carousel">
-        <NewsThumbnail category={item.category} id={item.id} className="w-full h-[480px]" />
+        <NewsThumbnail category={item.category} id={item.id} src={item.image} className="w-full aspect-[16/9]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
 
         {/* Category badge */}
@@ -176,7 +136,7 @@ function FeedList({ tab, items }: { tab: string; items: NewsItem[] }) {
     <div className="flex flex-col divide-y divide-gray-100">
       {list.map((item) => (
         <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
-          <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
+          <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
@@ -248,7 +208,7 @@ export function GeneralNewsTabs({ items = newsItems }: { items?: NewsItem[] }) {
       <div className="flex flex-col divide-y divide-gray-100">
         {list.map((item) => (
           <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-0 no-underline">
-            <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
+            <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
             <div className="min-w-0 flex-1">
               <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
               <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>

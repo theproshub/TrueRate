@@ -1,13 +1,31 @@
+import Image from 'next/image';
 import { getCatStyle } from '@/lib/category-colors';
 import { storyPhoto } from '@/lib/story-photos';
 
 export { getCatStyle };
 
-/* eslint-disable @next/next/no-img-element */
+/** Whether a src can be optimised by next/image (remote http(s) or local /public). */
+function isOptimisable(src: string): boolean {
+  return src.startsWith('http') || src.startsWith('/');
+}
+
 function StoryImage({ src }: { src: string }) {
+  if (isOptimisable(src)) {
+    return (
+      <Image
+        src={src}
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        quality={85}
+        className="object-cover object-top"
+      />
+    );
+  }
+  /* eslint-disable-next-line @next/next/no-img-element */
   return <img src={src} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-top" />;
 }
-/* eslint-enable @next/next/no-img-element */
 
 /** Small/medium news thumbnail — real photo when the story has one, else a category gradient */
 export function NewsThumbnail({ category, className, id, src }: { category: string; className: string; id?: string; src?: string | null }) {

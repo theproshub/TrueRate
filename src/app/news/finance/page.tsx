@@ -6,6 +6,7 @@ import { NewsThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
 import { NewsFeedTabs } from './FinanceNewsClient';
+import { HeroCarousel } from '../NewsClient';
 
 // Always render from the live database — no ISR cache, so newly published
 // articles appear immediately.
@@ -26,6 +27,7 @@ function timeAgo(d: string) {
 type Card = {
   id: string; href: string; category: string;
   title: string; summary: string; source: string; time: string;
+  image?: string;
 };
 const toCard = (n: NewsItem): Card => ({
   id: n.id,
@@ -33,6 +35,7 @@ const toCard = (n: NewsItem): Card => ({
   category: n.category,
   title: n.title,
   summary: n.summary,
+  image: n.image,
   source: n.source,
   time: timeAgo(n.date),
 });
@@ -51,7 +54,6 @@ export default async function FinanceNewsPage({
   const items = await getNewsItems();
 
   // Section feeds, all sourced from the live articles table.
-  const heroStory       = items[0] ? toCard(items[0]) : null;
   const economyStories  = inCats(items, ['economy']).slice(0, 4).map(toCard);
   const marketsStories  = inCats(items, ['forex', 'markets', 'commodities']).slice(0, 4).map(toCard);
   const tradeStories    = inCats(items, ['commodities', 'forex']).slice(0, 4).map(toCard);
@@ -114,7 +116,7 @@ export default async function FinanceNewsPage({
               <div className="flex-1 min-w-0 flex flex-col divide-y divide-gray-100">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
-                    <NewsThumbnail category={item.category} id={item.id} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
+                    <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
@@ -163,21 +165,10 @@ export default async function FinanceNewsPage({
         {/* ── Left: main content ── */}
         <div className="flex-1 min-w-0 pb-8">
 
-          {/* Hero story (newest published article) */}
-          {heroStory && (
-            <Link href={heroStory.href} className="group relative block no-underline overflow-hidden rounded-xl mb-6">
-              <NewsThumbnail category={heroStory.category} id={heroStory.id} className="w-full h-[220px] sm:h-[380px]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute top-4 left-4">
-                <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(heroStory.category)}`}>{heroStory.category}</span>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <Heading level={2} as="h1" className="leading-snug text-white group-hover:text-brand-accent transition-colors drop-shadow-lg line-clamp-3 mb-2">{heroStory.title}</Heading>
-                <Text className="text-sm text-white/70 line-clamp-2 mb-1.5">{heroStory.summary}</Text>
-                <Text className="text-xs text-white/50">{heroStory.source} &middot; {heroStory.time}</Text>
-              </div>
-            </Link>
-          )}
+          {/* Hero carousel — swipeable cards on mobile, overlay on desktop */}
+          <div className="mb-6">
+            <HeroCarousel items={items} />
+          </div>
 
           {/* Tabbed finance feed */}
           <NewsFeedTabs items={items} />
@@ -194,7 +185,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-col divide-y divide-gray-100">
               {economyStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category} id={s.id} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
@@ -221,7 +212,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-col divide-y divide-gray-100">
               {marketsStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category} id={s.id} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
@@ -247,7 +238,7 @@ export default async function FinanceNewsPage({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {tradeStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-3 no-underline border-t border-gray-100 pt-4 first:border-t-0 first:pt-0 [&:nth-child(2)]:border-t-0 [&:nth-child(2)]:pt-0 sm:[&:nth-child(2)]:border-t-0">
-                  <NewsThumbnail category={s.category.toLowerCase()} id={s.id} className="shrink-0 h-[80px] w-[100px] rounded-xl" />
+                  <NewsThumbnail category={s.category.toLowerCase()} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[100px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{s.title}</Heading>
@@ -269,7 +260,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-col divide-y divide-gray-100">
               {policyStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} id={s.id} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
