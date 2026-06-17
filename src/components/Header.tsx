@@ -400,7 +400,7 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [scrolledDown, setScrolledDown] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(() => typeof window !== 'undefined' && window.scrollY > 10);
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -424,10 +424,12 @@ export default function Header() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      if (y > lastScrollY.current && y > 60) setScrolledDown(true);
-      else if (y < lastScrollY.current) setScrolledDown(false);
+      // Search bar only visible when fully at the top of the page
+      setScrolledDown(y > 10);
       lastScrollY.current = y;
     };
+    // Set initial state in case page loads already scrolled
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -494,13 +496,15 @@ export default function Header() {
           )}
         </div>
 
-        {/* Search. On /sports the section's "clubs, athletes, deals" search
-            lives here in the header (moved out of the section masthead). */}
-        {isSports ? (
-          <SportsSearchBox inputId="sports-header-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
-        ) : (
-          <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
-        )}
+        {/* Search — collapses on scroll down, reappears on scroll up.
+            On /sports the section's "clubs, athletes, deals" search lives here. */}
+        <div className={`hidden sm:flex flex-1 ml-4 mr-2 overflow-hidden motion-safe:transition-[max-width,opacity,margin] ${scrolledDown ? 'max-w-0 opacity-0 mx-0 ml-0 mr-0 motion-safe:duration-150 motion-safe:ease-out' : 'max-w-[600px] opacity-100 motion-safe:duration-200 motion-safe:ease-in'}`}>
+          {isSports ? (
+            <SportsSearchBox inputId="sports-header-search" className="flex flex-1 min-w-0" />
+          ) : (
+            <SearchBox isLight={isLight} inputId="site-search" className="flex flex-1 min-w-0" />
+          )}
+        </div>
 
         {/* Top super-nav — compact pills next to the search bar */}
         <div className="hidden sm:flex items-center gap-0.5 shrink-0">
@@ -603,7 +607,7 @@ export default function Header() {
 
       {/* Mobile search — collapses on scroll. On /sports it's the section's
           "clubs, athletes, deals" search (moved out of the section masthead). */}
-      <div className={`sm:hidden overflow-hidden transition-all motion-safe:duration-300 ${scrolledDown ? 'max-h-0 opacity-0 py-0' : 'max-h-20 opacity-100 pb-3'}`} aria-hidden={scrolledDown}>
+      <div className={`sm:hidden overflow-hidden motion-safe:transition-[max-height,opacity,padding] ${scrolledDown ? 'max-h-0 opacity-0 py-0 motion-safe:duration-150 motion-safe:ease-out' : 'max-h-20 opacity-100 pb-3 motion-safe:duration-200 motion-safe:ease-in'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
           {isSports ? (
             <SportsSearchBox inputId="sports-header-search-mobile" variant="mobile" className="flex w-full" />
