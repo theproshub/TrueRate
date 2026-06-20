@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { setArticleMacroTags, setArticleSymbolTags } from '../../_actions';
+import MacroTagForm from './_MacroTagForm';
 
 interface MacroRow {
   id: string;
@@ -17,6 +18,8 @@ interface SymbolRow {
 
 interface TagsEditorProps {
   articleId: string;
+  articleTitle: string;
+  articleBody: string;
 }
 
 const SECTION =
@@ -31,7 +34,7 @@ const CHECKBOX =
 const SAVE_BUTTON =
   'rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
 
-export default async function TagsEditor({ articleId }: TagsEditorProps) {
+export default async function TagsEditor({ articleId, articleTitle, articleBody }: TagsEditorProps) {
   const supabase = await createClient();
 
   const [allMacrosResult, allSymbolsResult, currentMacrosResult, currentSymbolsResult] =
@@ -77,48 +80,18 @@ export default async function TagsEditor({ articleId }: TagsEditorProps) {
   const saveMacros  = setArticleMacroTags.bind(null, articleId);
   const saveSymbols = setArticleSymbolTags.bind(null, articleId);
 
+  const articleText = `${articleTitle} ${articleBody}`;
+
   return (
     <div id="tags" className="space-y-6">
-      {/* Macro tags */}
-      <form action={saveMacros} className={SECTION}>
-        <div className={SECTION_HEADER}>
-          <div>
-            <h2 className={SECTION_TITLE}>Macro indicators referenced</h2>
-            <p className={SECTION_HINT}>
-              {currentMacroIds.size === 0
-                ? 'None tagged yet. Tagging makes the article appear on each indicator&apos;s page.'
-                : `${currentMacroIds.size} tagged.`}
-            </p>
-          </div>
-          <button type="submit" className={SAVE_BUTTON}>Save macro tags</button>
-        </div>
-        <div className="space-y-5">
-          {Array.from(macrosByCategory.entries()).map(([category, items]) => (
-            <fieldset key={category}>
-              <legend className="mb-2 text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
-                {category}
-              </legend>
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {items.map((m) => (
-                  <label key={m.id} className={CHECKBOX_LABEL}>
-                    <input
-                      type="checkbox"
-                      name="macro_id"
-                      value={m.id}
-                      defaultChecked={currentMacroIds.has(m.id)}
-                      className={CHECKBOX}
-                    />
-                    <span>
-                      <span className="font-medium text-white group-hover:text-white">{m.label}</span>
-                      <span className="ml-2 text-xs text-gray-500">{m.series_id}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          ))}
-        </div>
-      </form>
+      {/* Macro tags — client component for auto-detect */}
+      <MacroTagForm
+        macros={allMacros}
+        macrosByCategory={Array.from(macrosByCategory.entries())}
+        initialChecked={Array.from(currentMacroIds)}
+        articleText={articleText}
+        action={saveMacros}
+      />
 
       {/* Symbol tags */}
       <form action={saveSymbols} className={SECTION}>

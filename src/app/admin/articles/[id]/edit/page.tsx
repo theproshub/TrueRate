@@ -90,7 +90,7 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
           related-news widgets on indicator and symbol pages.
         </p>
       </header>
-      <TagsEditor articleId={id} />
+      <TagsEditor articleId={id} articleTitle={article.title ?? ''} articleBody={article.body ?? ''} />
     </section>
   );
 }

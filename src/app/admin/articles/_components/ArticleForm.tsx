@@ -80,7 +80,9 @@ export default function ArticleForm({
 
   const [title, setTitle] = useState(d.title ?? '');
   const [slug, setSlug] = useState(d.slug ?? '');
-  const [slugTouched, setSlugTouched] = useState(Boolean(d.slug));
+  const [slugTouched, setSlugTouched] = useState(
+    Boolean(d.slug) && d.slug !== slugify(d.title ?? ''),
+  );
   const [dek, setDek] = useState(d.dek ?? '');
   const [body, setBody] = useState(d.body ?? '');
   const [categoryId, setCategoryId] = useState(d.category_id ?? '');

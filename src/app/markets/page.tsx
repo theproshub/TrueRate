@@ -90,7 +90,7 @@ function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolea
     <li className="border-b border-white/[0.06] last:border-0 pb-3.5 mb-3.5 last:pb-0 last:mb-0">
       <Link href={`/news/${n.id}`} className="group flex items-start gap-3 no-underline">
         <div className="shrink-0 overflow-hidden rounded-lg">
-          <NewsThumbnail category={n.category} className="h-[60px] w-[88px]" />
+          <NewsThumbnail category={n.category} id={n.id} src={n.image} className="h-[60px] w-[88px]" />
         </div>
         <div className="min-w-0 flex-1">
           <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
@@ -132,7 +132,7 @@ function DeskColumn({ title, href, items }: { title: string; href: string; items
       {/* Lead — large image + headline */}
       <Link href={`/news/${lead.id}`} className="group block no-underline mb-4">
         <div className="overflow-hidden rounded-xl mb-3">
-          <NewsThumbnail category={lead.category} className="w-full h-[200px]" />
+          <NewsThumbnail category={lead.category} id={lead.id} src={lead.image} className="w-full h-[200px]" />
         </div>
         <h3 className="text-md sm:text-lg font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5 text-balance">
           {lead.title}
@@ -544,7 +544,7 @@ export default async function MarketsPage() {
           {/* Flagship lead story — FT-style hero */}
           <Link href={`/news/${lead.id}`} className="group block no-underline">
             <div className="overflow-hidden rounded-xl mb-4">
-              <NewsThumbnail category={lead.category} className="w-full h-[280px] sm:h-[360px]" />
+              <NewsThumbnail category={lead.category} id={lead.id} src={lead.image} className="w-full h-[280px] sm:h-[360px]" />
             </div>
             <Text variant="caption" className={`font-semibold uppercase tracking-[0.18em] mb-2 ${getNewsCatColor(lead.category)}`}>
               <span>Markets lead</span>
@@ -570,7 +570,7 @@ export default async function MarketsPage() {
             {subFeatures.map(s => (
               <Link key={s.id} href={`/news/${s.id}`} className="group block no-underline">
                 <div className="overflow-hidden rounded-xl mb-3">
-                  <NewsThumbnail category={s.category} className="w-full h-[180px] sm:h-[220px]" />
+                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="w-full h-[180px] sm:h-[220px]" />
                 </div>
                 <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(s.category)}`}>{s.category}</p>
                 <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
@@ -680,7 +680,7 @@ export default async function MarketsPage() {
           {morePicks.map(n => (
             <Link key={n.id} href={`/news/${n.id}`} className="group block no-underline">
               <div className="overflow-hidden rounded-xl mb-3">
-                <NewsThumbnail category={n.category} className="w-full h-[140px]" />
+                <NewsThumbnail category={n.category} id={n.id} src={n.image} className="w-full h-[140px]" />
               </div>
               <article>
                 <p className={`text-2xs font-semibold uppercase tracking-wide mb-1.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>

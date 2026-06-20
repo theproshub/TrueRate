@@ -129,51 +129,49 @@ export default async function EconomyPage() {
 
       {/* Hero + Top Stories */}
       {hero ? (
-        <div className="flex flex-col sm:flex-row gap-6 mb-10">
-          <Link href={`/news/${hero.slug}`} className="group relative flex-1 min-w-0 overflow-hidden -mx-2 sm:mx-0 no-underline block rounded-xl">
-            {hero.hero_image ? (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={hero.hero_image} alt={hero.hero_alt ?? ''} className="w-full h-[200px] sm:h-[260px] object-cover" />
-            ) : (
-              <HeroVisual category={hero.category?.slug ?? 'economy'} className="w-full h-[200px] sm:h-[260px]" />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-              <span className={`text-2xs font-bold uppercase tracking-widest mb-1.5 block ${getCatColor(hero.category?.slug ?? 'economy')}`}>
+        <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-8 border-b border-white/[0.08]">
+          {/* Lead feature */}
+          <div className="lg:col-span-2">
+            <Link href={`/news/${hero.slug}`} className="group block no-underline">
+              <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl mb-4">
+                <HeroVisual category={hero.category?.slug ?? 'economy'} src={hero.hero_image} className="w-full h-[280px] sm:h-[380px]" />
+              </div>
+              <span className={`text-2xs font-bold uppercase tracking-[0.18em] mb-2 block ${getCatColor(hero.category?.slug ?? 'economy')}`}>
                 {hero.category?.label ?? 'Economy'}
               </span>
-              <h2 className="text-sm sm:text-2xl font-bold leading-snug text-white mb-2 line-clamp-2">{hero.title}</h2>
-              {hero.dek && <p className="text-base text-white/60 line-clamp-2 mb-2 hidden sm:block">{hero.dek}</p>}
-              <div className="text-sm text-white/60">
-                {hero.author?.name ? `${hero.author.name} · ` : ''}{timeAgo(hero.published_at)}
+              <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-white group-hover:text-white/80 transition-colors mb-3 text-balance">
+                {hero.title}
+              </h2>
+              {hero.dek && (
+                <p className="text-base leading-relaxed text-gray-400 mb-3 line-clamp-3 max-w-[680px]">{hero.dek}</p>
+              )}
+              <div className="text-xs text-gray-500">
+                {hero.author?.name && <><span className="font-semibold text-gray-300">{hero.author.name}</span><span className="mx-1.5 text-gray-700">&middot;</span></>}
+                <span>{timeAgo(hero.published_at)}</span>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
+          {/* Top Stories sidebar */}
           {topStories.length > 0 && (
-            <div className="w-full sm:w-[280px] shrink-0 flex flex-col gap-4">
-              {topStories.map((s) => (
-                <Link key={s.id} href={`/news/${s.slug}`} className="group flex gap-3 no-underline">
-                  <div className="relative shrink-0 overflow-hidden rounded-lg w-[100px]">
-                    {s.hero_image ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img src={s.hero_image} alt={s.hero_alt ?? ''} className="w-full h-[60px] object-cover" />
-                    ) : (
-                      <NewsThumbnail category={s.category?.slug ?? 'economy'} className="w-full h-[60px]" />
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className={`text-2xs font-bold uppercase tracking-widest mb-1 block ${getCatColor(s.category?.slug ?? 'economy')}`}>
-                      {s.category?.label ?? 'Economy'}
-                    </span>
-                    <h3 className="text-base font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{s.title}</h3>
-                    <span className="text-xs text-gray-400">{timeAgo(s.published_at)}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <aside className="lg:border-l lg:border-white/[0.08] lg:pl-6">
+              <h2 className="text-sm font-black text-white uppercase tracking-wide pb-3 mb-4 border-b border-white/[0.07]">Top Stories</h2>
+              <div className="flex flex-col divide-y divide-white/[0.06]">
+                {topStories.map((s) => (
+                  <Link key={s.id} href={`/news/${s.slug}`} className="group flex gap-3 py-3 first:pt-0 no-underline">
+                    <div className="shrink-0 overflow-hidden rounded-lg">
+                      <NewsThumbnail category={s.category?.slug ?? 'economy'} src={s.hero_image} className="h-[64px] w-[96px]" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                      <span className="text-xs text-gray-500">{timeAgo(s.published_at)}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </aside>
           )}
-        </div>
+        </section>
       ) : (
         <div className="mb-10 rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
           <p className="text-base text-gray-400">
@@ -204,7 +202,7 @@ export default async function EconomyPage() {
                     <div className="relative overflow-hidden rounded-xl mb-3">
                       {s.hero_image ? (
                         /* eslint-disable-next-line @next/next/no-img-element */
-                        <img src={s.hero_image} alt={s.hero_alt ?? ''} className="w-full h-[170px] object-cover" />
+                        <img src={s.hero_image} alt={s.hero_alt ?? ''} className="block w-full h-[170px] object-cover rounded-xl" />
                       ) : (
                         <NewsThumbnail category={s.category?.slug ?? 'economy'} className="w-full h-[170px]" />
                       )}
