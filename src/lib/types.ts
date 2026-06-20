@@ -49,6 +49,7 @@ export interface NewsItem {
   body?: string[];          // Full article paragraphs
   readTime?: string;        // e.g. "6 min read"
   author?: string;          // Byline
+  macroTags?: string[];     // CBL mnemonics referenced — enables MCP fact-checking
 }
 
 export type TimeRange = '1W' | '1M' | '3M' | '6M' | '1Y' | '5Y';

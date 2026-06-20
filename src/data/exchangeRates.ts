@@ -1,11 +1,16 @@
 /**
- * Exchange rates — seed / fallback data.
+ * Exchange rates — SEED / FALLBACK data.
  *
- * Rates reflect approximate CBL/market values as of Q1 2026.
- * Historical data is generated from real annual USD/LRD anchor points
- * sourced from CBL annual reports and IMF Article IV data.
+ * DATA INTEGRITY NOTICE:
+ * These are static seed values used only when live APIs are unavailable.
+ * Live rates are fetched at runtime via /api/rates and override everything here.
+ * DO NOT treat these as authoritative for content or reporting.
  *
- * Live rates are fetched at runtime via /api/rates (fawazahmed0 currency API).
+ * For verified CBL exchange rate data, use MCP tools:
+ *   - get_series('LBR_EXR_EPR_1') for exact end-of-period rates
+ *   - series_statistics('LBR_EXR_EPR_1') for full analysis
+ *
+ * Seed anchors sourced from CBL annual reports and IMF Article IV data.
  */
 
 import { ExchangeRate } from '@/lib/types';

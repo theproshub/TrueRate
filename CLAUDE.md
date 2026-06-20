@@ -2,6 +2,102 @@
 
 Liberia-focused financial news / Yahoo-Finance-style product. Next.js App Router, Tailwind, Recharts.
 
+## CBL Data Warehouse (MCP)
+
+The `truerate-mcp` Supabase edge function exposes all CBL statistical data as MCP tools. When writing, editing, or fact-checking any article with economic data:
+
+1. **Never fabricate numbers.** Every figure must come from an MCP tool call (`series_statistics`, `get_series`, `fact_check`, etc.).
+2. **Use exact values.** Write "189.45 LRD per USD" not "approximately 190 LRD". Use the `value` field as-is.
+3. **Always cite the period.** Every figure needs its period label: "in March 2026" or "(Mar-26)".
+4. **Fact-check before publishing.** Run `fact_check` on any numerical claim against the relevant mnemonic.
+5. **Check data freshness first.** Run `data_quality_report` before writing any content to ensure series are current.
+6. **Cross-validate multi-indicator stories.** Run `cross_validate` when citing 2+ indicators together to verify directional consistency.
+7. **Never claim correlation without data.** Only use "correlated" when Pearson |r| ≥ 0.5 from `compare_series`. Use "associated" for 0.3–0.5. Say "no meaningful correlation" below 0.3.
+8. **Never claim causation.** Use "coincided with", "associated with", "correlated with" — never "caused by" or "driven by".
+
+### Automated workflow triggers
+
+These workflows fire automatically based on the request — no manual `/skill` invocation needed. Detect the intent and run the full pipeline.
+
+#### WRITE — "write an article", "create a story", "draft a piece about", "new article on"
+1. `search_series` → identify relevant CBL mnemonics from topic
+2. `data_quality_report` → gate: abort if any series is stale
+3. `article_data_sheet` → assemble formatted data sheet (every number comes from here)
+4. `trend_analysis` + `outlier_detection` → deeper context for primary series
+5. If 2+ indicators: `compare_series` + `cross_validate` → correlation + consistency check
+6. Write the article body using **only** values from the data sheet
+7. `verify_article_data` → automated claim-by-claim fact-check
+8. Fix any MISMATCH, re-verify until all pass
+9. Output: article with macroTags, data box, source attribution
+
+#### VERIFY — "check this article", "verify", "audit", "is this accurate", "fact check"
+1. Load article (from `src/data/news.ts` by ID, or `get_article` by slug, or inline text)
+2. `data_quality_report` → freshness check on all macroTags
+3. `verify_article_data` → automated extraction and matching of every number
+4. Recompute all percentage claims from raw values
+5. If 2+ indicators: `cross_validate` → directional consistency
+6. `outlier_detection` → flag unacknowledged anomalies
+7. Output: claim-by-claim verdict table + corrections list
+
+#### DATA BRIEF — "what's the latest on", "give me the data on", "data brief", "numbers for"
+1. `search_series` → find relevant mnemonics
+2. `data_quality_report` → freshness gate
+3. `article_data_sheet` → formatted values + YoY + trends
+4. `series_statistics` → Bloomberg-style summary per series
+5. `trend_analysis` → moving averages, volatility, momentum
+6. If multi-indicator: `compare_series` + `cross_validate`
+7. `outlier_detection` → anomaly flags
+8. Output: structured brief with key figures, technicals, correlations
+
+#### CORRELATE — "compare", "correlation between", "how does X relate to Y", "X vs Y"
+1. Resolve series: mnemonics or `search_series` for keywords
+2. `data_quality_report` → freshness gate
+3. `compare_series` → Pearson coefficients + aligned data
+4. `cross_validate` → directional consistency
+5. `series_statistics` + `trend_analysis` → per-series context
+6. `outlier_detection` → coincident anomalies
+7. Output: correlation matrix, editorial guidance, optional narrative paragraph
+
+#### EDIT — "update article", "change the number", "fix this article", "edit the piece"
+1. Load article from `src/data/news.ts` or CMS
+2. `article_data_sheet` → pull latest data for all macroTags
+3. Apply edits using only values from the data sheet
+4. `verify_article_data` → re-verify after edits
+5. Fix any MISMATCH, re-verify until clean
+6. Output: updated article with verification report
+
+#### ECONOMY SNAPSHOT — "how's the economy", "macro overview", "economy dashboard"
+1. `macro_snapshot` → latest value for every CBL series
+2. `data_quality_report` → freshness check on key series
+3. Highlight: FX rate, CPI, GDP, policy rate, trade balance, debt, money supply
+4. Output: structured dashboard with trends and changes
+
+### Key MCP tools for content
+
+| Tool | Purpose |
+|------|---------|
+| `series_statistics` | Bloomberg-style summary: latest, change, YoY, min/max/mean, trend |
+| `compare_series` | Correlate 2–6 series with aligned data + Pearson coefficients |
+| `macro_snapshot` | Full economy dashboard — latest value for every CBL series |
+| `fact_check` | Verify a claim against actual data for a specific period |
+| `article_data_context` | All tagged CBL series + values for a given article |
+| `get_series` / `search_series` | Look up series by mnemonic or keyword |
+| `trend_analysis` | Moving averages (3/6/12), volatility, momentum, support/resistance |
+| `data_quality_report` | Pre-publication freshness + completeness check (1–10 series) |
+| `period_comparison` | Compare any two time ranges (QoQ, HoH, custom) with exact values |
+| `outlier_detection` | Z-score anomaly detection with severity levels |
+| `cross_validate` | Directional consistency check between 2–6 related series |
+| `verify_article_data` | **Automated fact-checker**: extracts every number from article text, matches against CBL data with unit conversion, returns claim-by-claim EXACT/SUPPORTED/MISMATCH verdicts. Mandatory before publishing. |
+| `article_data_sheet` | **Pre-write data assembly**: given mnemonics, returns formatted data sheet with publication-ready values (US$2.82B, L$299.4B, 16.3%), YoY changes, trends. Build the article from this sheet — no other source of numbers. |
+
+### Skills (also invocable manually via `/skill-name`)
+
+- `/data-brief <topic>` — Generate a publication-ready data brief with exact CBL figures
+- `/fact-check <slug>` — Verify all numbers in an article against real data
+- `/write-article <topic>` — Write a data-backed article at Bloomberg/Yahoo Finance quality
+- `/verify-article <id>` — Automated data integrity audit of an article against the CBL warehouse
+- `/correlate <series...>` — Multi-series correlation analysis with Pearson coefficients and editorial guidance
+
 ## HCI guidelines (apply to every UI change)
 
 These rules are non-negotiable for any new or edited interactive UI. They blend WCAG 2.2 AA, Nielsen heuristics, and platform conventions. When a rule conflicts with a request, surface it — don't silently break it.

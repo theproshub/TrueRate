@@ -1,15 +1,21 @@
 /**
- * Liberia economic indicators — seed data.
+ * Liberia economic indicators — SEED / FALLBACK data.
  *
- * Values are sourced from:
+ * DATA INTEGRITY NOTICE:
+ * These are static seed values used only when live APIs are unavailable.
+ * Live values are fetched at runtime via /api/indicators (World Bank API)
+ * and override everything here. DO NOT treat these as authoritative.
+ *
+ * For verified, real-time CBL data, use the MCP tools:
+ *   - series_statistics / get_series for exact figures
+ *   - data_quality_report to check freshness
+ *   - fact_check to verify any claim
+ *
+ * Original sources (seed anchors only):
  *  - World Bank Open Data  (https://data.worldbank.org/country/liberia)
  *  - IMF World Economic Outlook (April 2024)
  *  - Central Bank of Liberia annual reports
  *  - LISGIS (Liberia Institute of Statistics and Geo-Information Services)
- *
- * This file is the fallback / static layer.
- * Live values are fetched at runtime via /api/indicators (World Bank API).
- * Historical data is generated from real annual anchors for realistic charts.
  */
 
 import { EconomicIndicator } from '@/lib/types';

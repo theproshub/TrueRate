@@ -1,3 +1,11 @@
+/**
+ * Stock market data — SEED / FALLBACK data.
+ *
+ * DATA INTEGRITY NOTICE:
+ * Illustrative placeholders only. No live stock exchange API is connected.
+ * DO NOT cite these figures in content or reporting.
+ */
+
 export interface Stock {
   name: string;
   ticker: string;

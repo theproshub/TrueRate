@@ -1,3 +1,12 @@
+/**
+ * Commodity prices — SEED / FALLBACK data.
+ *
+ * DATA INTEGRITY NOTICE:
+ * Static placeholders only. Live prices are fetched at runtime via
+ * /api/commodities (Yahoo Finance) and override these values.
+ * DO NOT cite these figures in content or reporting.
+ */
+
 import { Commodity } from '@/lib/types';
 import { generateHistoricalData } from '@/lib/utils';
 
