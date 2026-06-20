@@ -496,15 +496,13 @@ export default function Header() {
           )}
         </div>
 
-        {/* Search — collapses on scroll down, reappears on scroll up.
+        {/* Search — always visible on desktop.
             On /sports the section's "clubs, athletes, deals" search lives here. */}
-        <div className={`hidden sm:flex flex-1 ml-4 mr-2 overflow-hidden motion-safe:transition-[max-width,opacity,margin] ${scrolledDown ? 'max-w-0 opacity-0 mx-0 ml-0 mr-0 motion-safe:duration-150 motion-safe:ease-out' : 'max-w-[600px] opacity-100 motion-safe:duration-200 motion-safe:ease-in'}`}>
-          {isSports ? (
-            <SportsSearchBox inputId="sports-header-search" className="flex flex-1 min-w-0" />
-          ) : (
-            <SearchBox isLight={isLight} inputId="site-search" className="flex flex-1 min-w-0" />
-          )}
-        </div>
+        {isSports ? (
+          <SportsSearchBox inputId="sports-header-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
+        ) : (
+          <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
+        )}
 
         {/* Top super-nav — compact pills next to the search bar */}
         <div className="hidden sm:flex items-center gap-0.5 shrink-0">
