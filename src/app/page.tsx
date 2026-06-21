@@ -147,8 +147,8 @@ function LatestColumn({ items }: { items: HomeArticle[] }) {
   return (
     <section aria-labelledby="latest-feed-heading">
       <div className="border-b border-white/20 pb-3 mb-4">
-        <Link href="/markets" className="group inline-flex items-center gap-1.5 no-underline">
-          <h2 id="latest-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Markets &amp; Economy</h2>
+        <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+          <h2 id="latest-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Latest</h2>
           <span className="text-xl text-white/40 group-hover:text-brand-accent transition-colors">›</span>
         </Link>
       </div>
@@ -277,32 +277,37 @@ function MostReadWidget({ items }: { items: HomeArticle[] }) {
   );
 }
 
-function LatestSidebar({ latest, mostRead }: { latest: HomeArticle[]; mostRead: HomeArticle[] }) {
+function ExploreMore() {
+  const events = [
+    { label: 'CBL Monetary Policy Meeting', date: 'Jul 15, 2026' },
+    { label: 'LISGIS Q2 GDP Release', date: 'Jul 28, 2026' },
+    { label: 'West Africa Fintech Summit', date: 'Aug 5–7, 2026' },
+    { label: 'CBL Inflation Report (Jun)', date: 'Aug 12, 2026' },
+    { label: 'ECOWAS Trade Forum', date: 'Sep 3–4, 2026' },
+  ];
+  return (
+    <div className="border-t border-white/[0.05] pt-5">
+      <div className="mb-3">
+        <Heading level={6} className="text-white uppercase tracking-[0.12em]">Upcoming Events</Heading>
+      </div>
+      <div className="flex flex-col gap-1">
+        {events.map((e) => (
+          <div key={e.label} className="flex items-start justify-between py-2.5 border-b border-white/[0.04] last:border-0">
+            <span className="text-sm font-semibold text-white/70 leading-snug">{e.label}</span>
+            <span className="text-xs text-gray-500 whitespace-nowrap ml-3 pt-0.5">{e.date}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LatestSidebar({ mostRead }: { mostRead: HomeArticle[] }) {
   return (
     <div className="flex flex-col gap-6">
-      {/* Live market data (FX + macro indicators) */}
       <LiveMarketRail />
-
-      {/* Latest headlines */}
-      {latest.length > 0 && (
-        <div className="border-t border-white/[0.05] pt-5">
-          <div className="mb-3">
-            <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
-              <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Latest</h2>
-              <span className="text-lg text-white/40 group-hover:text-brand-accent transition-colors">›</span>
-            </Link>
-          </div>
-          <div className="flex flex-col divide-y divide-white/[0.05]">
-            {latest.map((a) => (
-              <Link key={a.href} href={a.href} className="block py-3 first:pt-0 no-underline group">
-                <span className="text-base font-medium leading-snug text-white/80 group-hover:text-white/80 transition-colors">{a.title}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
       <MostReadWidget items={mostRead} />
+      <ExploreMore />
     </div>
   );
 }
@@ -311,19 +316,39 @@ function LatestSidebar({ latest, mostRead }: { latest: HomeArticle[]; mostRead: 
    PAGE
 ───────────────────────────────────────────────────────────────────────────── */
 
+const FINANCE_CATS = new Set(['economy','forex','commodities','policy','banking','markets','investing','analysis']);
+const DEPTH_CATS   = new Set(['analysis','economy','policy']);
+const BRIEF_CATS   = new Set(['business','small-business','startups','technology','ai']);
+
+function claim(
+  pool: HomeArticle[],
+  used: Set<string>,
+  n: number,
+  filter?: Set<string>,
+): HomeArticle[] {
+  const out: HomeArticle[] = [];
+  for (const a of pool) {
+    if (out.length >= n) break;
+    if (used.has(a.href)) continue;
+    if (filter && !filter.has(a.categorySlug)) continue;
+    out.push(a);
+    used.add(a.href);
+  }
+  return out;
+}
+
 export default async function Home() {
   const { articles } = await getHomeFeed();
+  const used = new Set<string>();
 
-  // Slice the pool into the layout's sections. Main columns are sequential and
-  // distinct; the sidebar widgets reuse the top stories (Latest / Most Read).
-  const featured = articles.slice(0, 4);
-  const newsList = articles.slice(4, 8);
-  const latest = articles.slice(9, 17);
-  const deepReads = articles.slice(17, 27);
-  const moreNews = articles.slice(27, 35);
-  const quickReads = articles.slice(9, 13);
-  const sidebarLatest = articles.slice(0, 8);
-  const mostRead = articles.slice(0, 5);
+  // Each call removes claimed articles from future sections — no duplicates.
+  const featured    = claim(articles, used, 4, FINANCE_CATS);
+  const newsList    = claim(articles, used, 4, FINANCE_CATS);
+  const deepReads   = claim(articles, used, 7, DEPTH_CATS);
+  const latest      = claim(articles, used, 5);
+  const quickReads  = claim(articles, used, 4, BRIEF_CATS);
+  const moreNews    = claim(articles, used, 6);
+  const mostRead    = articles.slice(0, 5);
 
   return (
     <div className="min-h-screen">
@@ -353,14 +378,14 @@ export default async function Home() {
           {/* CENTER — col 6-9 */}
           <div className="order-2 lg:col-span-4 lg:border-l lg:border-white/[0.05] lg:pl-5 flex flex-col gap-5">
             <NewsListColumn items={newsList} />
-            {latest.length > 0 && (
-              <div className="border-t border-white/[0.05] pt-5">
-                <LatestColumn items={latest} />
-              </div>
-            )}
             {deepReads.length > 0 && (
               <div className="border-t border-white/[0.05] pt-5">
                 <DeepReadsColumn items={deepReads} />
+              </div>
+            )}
+            {latest.length > 0 && (
+              <div className="border-t border-white/[0.05] pt-5">
+                <LatestColumn items={latest} />
               </div>
             )}
           </div>
@@ -368,7 +393,7 @@ export default async function Home() {
           {/* RIGHT — col 10-12 (desktop only) */}
           <aside className="hidden lg:block order-3 lg:col-span-3 lg:border-l lg:border-white/[0.05] lg:pl-5">
             <StickySidebar>
-              <LatestSidebar latest={sidebarLatest} mostRead={mostRead} />
+              <LatestSidebar mostRead={mostRead} />
             </StickySidebar>
           </aside>
 
