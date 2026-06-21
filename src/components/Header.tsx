@@ -69,7 +69,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     label: 'Entrepreneurship', href: '/small-business',
   },
   {
-    label: 'Finance', href: '/news/finance',
+    label: 'Finance', href: '/',
     children: [
       { label: 'Markets',          href: '/markets' },
       { label: 'Analytics',        href: '/analytics' },
@@ -119,15 +119,15 @@ const MORE_MENU: MoreColumn[] = [
   {
     title: 'Sports',
     items: [
-      { label: 'LPL',           href: '/sports' },
-      { label: 'LWPL',          href: '/sports' },
-      { label: 'LBA',           href: '/sports' },
-      { label: 'National Team', href: '/sports' },
-      { label: 'Athletics',     href: '/sports' },
-      { label: 'Diaspora',      href: '/sports' },
-      { label: 'Transfers',     href: '/sports/transfers-deals' },
-      { label: 'Youth',         href: '/sports' },
-      { label: 'Watch',         href: '/videos' },
+      { label: 'Football',        href: '/sports/football' },
+      { label: "Women's Sports",   href: '/sports/womens-sports' },
+      { label: 'Basketball',      href: '/sports/basketball' },
+      { label: 'Athletics',       href: '/sports/athletics' },
+      { label: 'Transfers',       href: '/sports/transfers-deals' },
+      { label: 'Youth Sports',    href: '/sports/youth-sports' },
+      { label: 'Sports Business', href: '/sports/sponsorship' },
+      { label: 'Club Finance',    href: '/sports/club-finance' },
+      { label: 'Governance',      href: '/sports/governance' },
     ],
   },
   {
@@ -185,7 +185,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
       { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
     ],
   });
-  const MOBILE_ORDER = ['News', 'Analytics', 'Entertainment', 'Finance', 'Sports', 'My Watchlist'];
+  const MOBILE_ORDER = ['News', 'Analytics', 'Finance', 'Sports', 'Videos', 'My Watchlist'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));

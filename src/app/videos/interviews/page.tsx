@@ -18,16 +18,16 @@ const HERO = {
   duration: '42:11',
   category: 'Leadership',
   source: 'TrueRate Interviews',
-  time: '3h ago',
+  time: 'Jun 20, 2026',
   badge: 'Featured',
   youtubeId: '',
 };
 
 const LATEST = [
-  { title: "Sandra Kollie: How I Built Liberia’s Fastest-Growing Logistics Company", duration: '24:18', category: 'Entrepreneurship', time: '1d ago' },
-  { title: "CBL Governor on rates, reserves, and the road to 6% growth", duration: '31:40', category: 'Leadership', time: '2d ago' },
-  { title: "Marcus Doe: Why I left Wall Street to build a fintech in Monrovia", duration: '18:44', category: 'Technology', time: '3d ago' },
-  { title: "ArcelorMittal CFO: “We’re doubling down on Liberia through 2030”", duration: '14:30', category: 'Business', time: '4d ago' },
+  { title: "Sandra Kollie: How I Built Liberia’s Fastest-Growing Logistics Company", duration: '24:18', category: 'Entrepreneurship', time: 'Jun 19, 2026' },
+  { title: "CBL Governor on rates, reserves, and the road to 6% growth", duration: '31:40', category: 'Leadership', time: 'Jun 18, 2026' },
+  { title: "Marcus Doe: Why I left Wall Street to build a fintech in Monrovia", duration: '18:44', category: 'Technology', time: 'Jun 17, 2026' },
+  { title: "ArcelorMittal CFO: “We’re doubling down on Liberia through 2030”", duration: '14:30', category: 'Business', time: 'Jun 16, 2026' },
 ];
 
 const SERIES = [
@@ -37,12 +37,12 @@ const SERIES = [
 ];
 
 const MORE = [
-  { title: "How James Tarr turned a $500 idea into Liberia’s top catering brand", duration: '16:05', category: 'Entrepreneurship', time: '5d ago' },
-  { title: "The woman digitising Liberia’s informal market — one receipt at a time", duration: '20:33', category: 'Technology', time: '6d ago' },
-  { title: "Bong County agribusiness built a $1M export engine from one family farm", duration: '13:48', category: 'Business', time: '1w ago' },
-  { title: "Liberia’s most decorated female CEO on leadership lessons", duration: '22:10', category: 'Leadership', time: '1w ago' },
-  { title: "Orange Money VP on mobile finance’s record quarter", duration: '9:55', category: 'Technology', time: '1w ago' },
-  { title: "Port of Monrovia managing director on the Phase II rebuild", duration: '17:22', category: 'Infrastructure', time: '2w ago' },
+  { title: "How James Tarr turned a $500 idea into Liberia’s top catering brand", duration: '16:05', category: 'Entrepreneurship', time: 'Jun 15, 2026' },
+  { title: "The woman digitising Liberia’s informal market — one receipt at a time", duration: '20:33', category: 'Technology', time: 'Jun 14, 2026' },
+  { title: "Bong County agribusiness built a $1M export engine from one family farm", duration: '13:48', category: 'Business', time: 'Jun 13, 2026' },
+  { title: "Liberia’s most decorated female CEO on leadership lessons", duration: '22:10', category: 'Leadership', time: 'Jun 13, 2026' },
+  { title: "Orange Money VP on mobile finance’s record quarter", duration: '9:55', category: 'Technology', time: 'Jun 13, 2026' },
+  { title: "Port of Monrovia managing director on the Phase II rebuild", duration: '17:22', category: 'Infrastructure', time: 'Jun 6, 2026' },
 ];
 
 function PlayIcon() {

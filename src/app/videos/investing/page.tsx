@@ -18,15 +18,15 @@ const HERO = {
   duration: '28:47',
   category: 'Investing',
   source: 'Invest Liberia',
-  time: '2h ago',
+  time: 'Jun 20, 2026',
   youtubeId: '',
 };
 
 const EXPLAINERS = [
-  { title: "How to read the CBL monetary policy statement in 5 minutes", duration: '6:12', category: 'Policy', time: '1d ago' },
-  { title: "Rubber vs iron ore vs gold: which commodity play makes sense now?", duration: '12:44', category: 'Commodities', time: '2d ago' },
-  { title: "Understanding the LRD/USD peg — the basics, and the risks", duration: '9:20', category: 'Forex', time: '3d ago' },
-  { title: "What the GSE Composite really tells you about West Africa", duration: '14:08', category: 'Markets', time: '4d ago' },
+  { title: "How to read the CBL monetary policy statement in 5 minutes", duration: '6:12', category: 'Policy', time: 'Jun 19, 2026' },
+  { title: "Rubber vs iron ore vs gold: which commodity play makes sense now?", duration: '12:44', category: 'Commodities', time: 'Jun 18, 2026' },
+  { title: "Understanding the LRD/USD peg — the basics, and the risks", duration: '9:20', category: 'Forex', time: 'Jun 17, 2026' },
+  { title: "What the GSE Composite really tells you about West Africa", duration: '14:08', category: 'Markets', time: 'Jun 16, 2026' },
 ];
 
 const GUIDES = [
@@ -36,10 +36,10 @@ const GUIDES = [
 ];
 
 const MARKET_DESK = [
-  { title: "Weekly market wrap: what moved LRD this week", duration: '8:55', category: 'Markets', time: '1h ago' },
-  { title: "AfDB upgrades Liberia to 5.8% growth — portfolio implications", duration: '7:30', category: 'Analysis', time: '1d ago' },
-  { title: "ArcelorMittal’s capex plan and what it means for iron ore", duration: '11:10', category: 'Mining', time: '2d ago' },
-  { title: "Ecobank’s record quarter — reading the bank’s numbers", duration: '13:45', category: 'Banking', time: '3d ago' },
+  { title: "Weekly market wrap: what moved LRD this week", duration: '8:55', category: 'Markets', time: 'Jun 20, 2026' },
+  { title: "AfDB upgrades Liberia to 5.8% growth — portfolio implications", duration: '7:30', category: 'Analysis', time: 'Jun 19, 2026' },
+  { title: "ArcelorMittal’s capex plan and what it means for iron ore", duration: '11:10', category: 'Mining', time: 'Jun 18, 2026' },
+  { title: "Ecobank’s record quarter — reading the bank’s numbers", duration: '13:45', category: 'Banking', time: 'Jun 17, 2026' },
 ];
 
 function PlayIcon() {

@@ -43,13 +43,13 @@ export const HERO_STORY: Story = {
   title: '15 things every Liberian small business owner should know going into 2026',
   dek: 'From mobile-money adoption and LRA compliance to capital access and ECOWAS trade — how the Liberian SME landscape is shifting, and which moves matter before Q2.',
   source: 'TrueRate Analysis',
-  time: '2h ago',
+  time: 'Jun 20, 2026',
 };
 
 export const SECONDARY_STORIES: Story[] = [
-  { href: '/news/12', category: 'Policy',   title: 'The new federal SME standard reshaping Liberian franchising',          source: 'Daily Observer',   time: '5h ago' },
-  { href: '/news/15', category: 'Founders', title: 'Monrovia founder Marc Tarpeh on his plan to take Konnect public',     source: 'TrueRate Business',time: '7h ago' },
-  { href: '/news/7',  category: 'SMEs',     title: 'Why most networking advice fails Liberian founders',                  source: 'FrontPage Africa', time: '11h ago' },
+  { href: '/news/12', category: 'Policy',   title: 'The new federal SME standard reshaping Liberian franchising',          source: 'Daily Observer',   time: 'Jun 20, 2026' },
+  { href: '/news/15', category: 'Founders', title: 'Monrovia founder Marc Tarpeh on his plan to take Konnect public',     source: 'TrueRate Business',time: 'Jun 20, 2026' },
+  { href: '/news/7',  category: 'SMEs',     title: 'Why most networking advice fails Liberian founders',                  source: 'FrontPage Africa', time: 'Jun 20, 2026' },
 ];
 
 /* ─── Latest News (2-col text grid) ─── */
@@ -113,14 +113,14 @@ export const FRANCHISE_CARDS: Card[] = [
 
 /* ─── More Business Stories (vertical list) ─── */
 export const MORE_STORIES: Story[] = [
-  { href: '/news/5',  category: 'AgriTech', title: 'Cassava SMEs hit record output as Ministry of Agriculture pricing reform kicks in',                      source: 'The New Dawn',     time: '1d ago' },
-  { href: '/news/12', category: 'Fintech',  title: 'Liberia\'s Small Businesses Are Booming, Just Not Their Retirement Plans',                                source: 'TrueRate',         time: '1d ago' },
-  { href: '/news/3',  category: 'Trade',    title: 'Mom-and-Pop Liberian businesses hit by brutal job losses as iron-ore slowdown bites',                     source: 'FrontPage Africa', time: '2d ago' },
-  { href: '/news/27', category: 'Women',    title: 'Women-led Bong County agri-co-op secures $180K AfDB grant',                                              source: 'AfDB',             time: '2d ago' },
-  { href: '/news/7',  category: 'Policy',   title: 'New LRA digital filing system cuts SME compliance time by 60%',                                          source: 'Daily Observer',   time: '3d ago' },
-  { href: '/news/15', category: 'Fintech',  title: 'Diaspora-backed Monrovia fintech crosses 50,000 SME accounts',                                           source: 'TrueRate',         time: '3d ago' },
-  { href: '/news/3',  category: 'SMEs',     title: "Why Ganta is emerging as Liberia's next SME hotspot",                                                    source: 'The New Dawn',     time: '4d ago' },
-  { href: '/news/29', category: 'Security', title: 'Mobile money fraud is rising — how Liberian SMEs are fighting back',                                     source: 'Reuters',          time: '5d ago' },
+  { href: '/news/5',  category: 'AgriTech', title: 'Cassava SMEs hit record output as Ministry of Agriculture pricing reform kicks in',                      source: 'The New Dawn',     time: 'Jun 19, 2026' },
+  { href: '/news/12', category: 'Fintech',  title: 'Liberia\'s Small Businesses Are Booming, Just Not Their Retirement Plans',                                source: 'TrueRate',         time: 'Jun 19, 2026' },
+  { href: '/news/3',  category: 'Trade',    title: 'Mom-and-Pop Liberian businesses hit by brutal job losses as iron-ore slowdown bites',                     source: 'FrontPage Africa', time: 'Jun 18, 2026' },
+  { href: '/news/27', category: 'Women',    title: 'Women-led Bong County agri-co-op secures $180K AfDB grant',                                              source: 'AfDB',             time: 'Jun 18, 2026' },
+  { href: '/news/7',  category: 'Policy',   title: 'New LRA digital filing system cuts SME compliance time by 60%',                                          source: 'Daily Observer',   time: 'Jun 17, 2026' },
+  { href: '/news/15', category: 'Fintech',  title: 'Diaspora-backed Monrovia fintech crosses 50,000 SME accounts',                                           source: 'TrueRate',         time: 'Jun 17, 2026' },
+  { href: '/news/3',  category: 'SMEs',     title: "Why Ganta is emerging as Liberia's next SME hotspot",                                                    source: 'The New Dawn',     time: 'Jun 16, 2026' },
+  { href: '/news/29', category: 'Security', title: 'Mobile money fraud is rising — how Liberian SMEs are fighting back',                                     source: 'Reuters',          time: 'Jun 15, 2026' },
 ];
 
 /* ─── Right rail data ─── */

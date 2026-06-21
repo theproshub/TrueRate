@@ -4,6 +4,7 @@ import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { Heading, Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
+import NewsletterWidget from '@/components/NewsletterWidget';
 
 export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
   // Trending list is the most recent published articles from the DB — no
@@ -54,7 +55,7 @@ export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
           <h3 className="text-sm font-bold text-gray-900 mb-3">In Focus</h3>
           <div className="flex flex-wrap gap-2">
             {['Iron Ore', 'LRD/USD', 'Rubber', 'CBL Rate', 'Remittances', 'ECOWAS', 'Mining Policy', 'Inflation', 'Gold', 'ESG Bonds'].map(t => (
-              <Link key={t} href="/news" className="rounded-lg border border-gray-300 px-4 py-1.5 text-base font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
+              <Link key={t} href={`/news?q=${encodeURIComponent(t)}`} className="rounded-lg border border-gray-300 px-4 py-1.5 text-base font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
             ))}
           </div>
         </div>
@@ -69,13 +70,7 @@ export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
       <div className="flex flex-col gap-5">
 
         {/* Newsletter */}
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
-          <h3 className="text-sm font-bold text-gray-900 mb-1">TrueRate Daily Brief</h3>
-          <p className="text-sm text-gray-500 mb-3">Liberia business & economy, delivered every morning.</p>
-          <input type="email" placeholder="Email address"
-            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors mb-2" />
-          <button className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition">Sign up free</button>
-        </div>
+        <NewsletterWidget />
 
         {/* Upcoming events */}
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
@@ -84,14 +79,14 @@ export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
           </div>
           <div className="divide-y divide-gray-100">
             {[
-              { date: 'Apr 7',  label: 'CBL Monetary Policy Meeting',   type: 'Policy'      },
-              { date: 'Apr 10', label: 'Q1 GDP Advance Estimate',        type: 'Economy'     },
-              { date: 'Apr 14', label: 'Mid-Year Budget Review',         type: 'Policy'      },
-              { date: 'Apr 14', label: 'Liberia Investment Forum',       type: 'Trade'       },
-              { date: 'Apr 18', label: 'World Bank Country Dialogue',    type: 'Development' },
-              { date: 'Apr 22', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets'     },
+              { date: 'Apr 7',  label: 'CBL Monetary Policy Meeting',   type: 'Policy',      href: '/economy/monetary-policy' },
+              { date: 'Apr 10', label: 'Q1 GDP Advance Estimate',        type: 'Economy',     href: '/economy/growth' },
+              { date: 'Apr 14', label: 'Mid-Year Budget Review',         type: 'Policy',      href: '/economy/fiscal' },
+              { date: 'Apr 14', label: 'Liberia Investment Forum',       type: 'Trade',       href: '/economy/trade' },
+              { date: 'Apr 18', label: 'World Bank Country Dialogue',    type: 'Development', href: '/economy' },
+              { date: 'Apr 22', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets',     href: '/markets' },
             ].map((ev, i) => (
-              <Link key={i} href="/economy" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
+              <Link key={i} href={ev.href} className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                 <span className="shrink-0 w-[40px] text-xs font-medium text-gray-400 tabular-nums">{ev.date}</span>
                 <div className="min-w-0 flex-1 border-l border-gray-100 pl-3">
                   <p className="text-sm font-semibold text-gray-700 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.label}</p>

@@ -1,7 +1,7 @@
 /** Unified per-category accent palette.
  *  Every category gets its own Tailwind text-color class. Used everywhere a
  *  category badge / tag is rendered — homepage, news, economy, technology,
- *  entertainment, sports, markets, etc.
+ *  sports, markets, etc.
  *
  *  Color choice principle: stay in the -400 / -500 saturation band so the
  *  same class reads well on both the dark site shell (bg-brand-dark) and
@@ -71,14 +71,6 @@ const ACCENT_COLORS: Record<string, string> = {
   explainer:         'text-purple-400',
   investigation:     'text-red-500',
   development:       'text-teal-400',
-
-  // ── Entertainment ───────────────────────────────────────────────
-  movies:            'text-rose-400',
-  tv:                'text-cyan-400',
-  music:             'text-violet-400',
-  celebrity:         'text-pink-400',
-  'film finance':    'text-rose-400',
-  deals:             'text-orange-400',
 
   // ── Sports ──────────────────────────────────────────────────────
   sports:            'text-green-500',
@@ -226,11 +218,6 @@ const CAT_MAP: Record<string, [keyof typeof STYLES, string]> = {
   'kit':               ['sports',        'Kit'],
   'shirt':             ['sports',        'Shirt'],
   'title':             ['sports',        'Title'],
-  // Entertainment
-  'celebrity':         ['celebrity',     'Celebrity'],
-  'music':             ['music',         'Music'],
-  'tv':                ['tv',            'TV'],
-  'movies':            ['movies',        'Movies'],
 };
 
 export function getCatStyle(cat: string): CatStyle {
@@ -275,8 +262,6 @@ export const TOPIC_TAGS = [
   'Sponsorship', 'Broadcast', 'Broadcast Rights', 'Transfers', 'Club Finance', 'Sports Finance', 'Stadium',
   // Sports
   'Football', 'Basketball', 'Athletics', 'Cricket', 'Tennis', 'Golf', 'Kit', 'Shirt', 'Title',
-  // Entertainment
-  'Celebrity', 'Music', 'TV', 'Movies',
   // Required fallback
   'General',
 ] as const;

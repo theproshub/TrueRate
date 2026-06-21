@@ -119,9 +119,11 @@ function NewsListColumn({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
     <section aria-labelledby="top-stories-heading">
-      <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
-        <h2 id="top-stories-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Top Stories</h2>
-        <Link href="/news" className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+      <div className="border-b border-white/20 pb-3 mb-4">
+        <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+          <h2 id="top-stories-heading" className="text-base font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Top Stories</h2>
+          <span className="text-xl text-white/40 group-hover:text-brand-accent transition-colors">›</span>
+        </Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {items.map((a) => (
@@ -144,9 +146,11 @@ function LatestColumn({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
     <section aria-labelledby="latest-feed-heading">
-      <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
-        <h2 id="latest-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Markets &amp; Economy</h2>
-        <Link href="/news" className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+      <div className="border-b border-white/20 pb-3 mb-4">
+        <Link href="/markets" className="group inline-flex items-center gap-1.5 no-underline">
+          <h2 id="latest-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Markets &amp; Economy</h2>
+          <span className="text-xl text-white/40 group-hover:text-brand-accent transition-colors">›</span>
+        </Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {items.map((a) => (
@@ -170,12 +174,14 @@ function DeepReadsColumn({ items }: { items: HomeArticle[] }) {
   if (!lead) return null;
   return (
     <div>
-      <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-4">
-        <div>
-          <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Long reads</Text>
-          <Heading level={5} className="text-white">In depth</Heading>
-        </div>
-        <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">More ›</Link>
+      <div className="border-b border-white/20 pb-3 mb-4">
+        <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+          <div>
+            <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Long reads</Text>
+            <Heading level={5} className="text-white group-hover:text-white/80 transition-colors">In depth</Heading>
+          </div>
+          <span className="text-xl text-white/40 group-hover:text-brand-accent transition-colors self-end">›</span>
+        </Link>
       </div>
       <Link href={lead.href} className="group block no-underline mb-5">
         <div className="overflow-hidden rounded-xl mb-3">
@@ -197,9 +203,11 @@ function MoreNewsColumn({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
     <section aria-labelledby="across-liberia-heading">
-      <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
-        <h2 id="across-liberia-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Across Liberia</h2>
-        <Link href="/news" className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+      <div className="border-b border-white/20 pb-3 mb-4">
+        <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+          <h2 id="across-liberia-heading" className="text-base font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Across Liberia</h2>
+          <span className="text-xl text-white/40 group-hover:text-brand-accent transition-colors">›</span>
+        </Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {items.map((a) => <StoryRow key={a.href} a={a} thumb="right" />)}
@@ -213,12 +221,14 @@ function QuickReadsColumn({ items }: { items: HomeArticle[] }) {
   if (!lead) return null;
   return (
     <div>
-      <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-4">
-        <div>
-          <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Desk notes</Text>
-          <Heading level={5} className="text-white">In brief</Heading>
-        </div>
-        <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">More ›</Link>
+      <div className="border-b border-white/20 pb-3 mb-4">
+        <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+          <div>
+            <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Desk notes</Text>
+            <Heading level={5} className="text-white group-hover:text-white/80 transition-colors">In brief</Heading>
+          </div>
+          <span className="text-xl text-white/40 group-hover:text-brand-accent transition-colors self-end">›</span>
+        </Link>
       </div>
 
       {/* Lead — image + headline + meta */}
@@ -247,9 +257,11 @@ function MostReadWidget({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
     <div className="border-t border-white/[0.05] pt-5">
-      <div className="flex items-center justify-between mb-3">
-        <Heading level={6} className="text-white uppercase tracking-[0.12em]">Most Read</Heading>
-        <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+      <div className="mb-3">
+        <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+          <Heading level={6} className="text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Most Read</Heading>
+          <span className="text-lg text-white/40 group-hover:text-brand-accent transition-colors">›</span>
+        </Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
         {items.map((a) => (
@@ -274,9 +286,11 @@ function LatestSidebar({ latest, mostRead }: { latest: HomeArticle[]; mostRead: 
       {/* Latest headlines */}
       {latest.length > 0 && (
         <div className="border-t border-white/[0.05] pt-5">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Latest</h2>
-            <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-white/50 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
+          <div className="mb-3">
+            <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
+              <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Latest</h2>
+              <span className="text-lg text-white/40 group-hover:text-brand-accent transition-colors">›</span>
+            </Link>
           </div>
           <div className="flex flex-col divide-y divide-white/[0.05]">
             {latest.map((a) => (

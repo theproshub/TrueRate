@@ -18,16 +18,16 @@ const HERO = {
   duration: '24:18',
   category: 'Entrepreneurship',
   source: 'TrueRate Interviews',
-  time: '2h ago',
+  time: 'Jun 20, 2026',
   badge: 'Featured Interview',
   youtubeId: '',
 };
 
 const LATEST = [
-  { title: "Marcus Doe: Why I Left Wall Street to Build a Fintech in Monrovia", duration: '18:44', category: 'Technology', time: '4h ago', youtubeId: '' },
-  { title: "5 Investing Mistakes Every Liberian First-Timer Makes — And How to Avoid Them", duration: '11:02', category: 'Investing', time: '7h ago', youtubeId: '' },
-  { title: "ArcelorMittal CFO on Why They're Doubling Down on Liberia Through 2030", duration: '14:30', category: 'Business', time: '1d ago', youtubeId: '' },
-  { title: "Orange Money's Record Quarter — VP of Digital Finance on What Comes Next", duration: '9:55', category: 'Technology', time: '1d ago', youtubeId: '' },
+  { title: "Marcus Doe: Why I Left Wall Street to Build a Fintech in Monrovia", duration: '18:44', category: 'Technology', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "5 Investing Mistakes Every Liberian First-Timer Makes — And How to Avoid Them", duration: '11:02', category: 'Investing', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "ArcelorMittal CFO on Why They're Doubling Down on Liberia Through 2030", duration: '14:30', category: 'Business', time: 'Jun 19, 2026', youtubeId: '' },
+  { title: "Orange Money's Record Quarter — VP of Digital Finance on What Comes Next", duration: '9:55', category: 'Technology', time: 'Jun 19, 2026', youtubeId: '' },
 ];
 
 const ORIGINALS = [
@@ -37,17 +37,17 @@ const ORIGINALS = [
 ];
 
 const ENTREPRENEUR_SPOTLIGHTS = [
-  { title: "How James Tarr Turned a $500 Idea into Liberia's Top Catering Brand", duration: '16:05', category: 'Entrepreneurship', source: 'TrueRate Interviews', time: '3d ago', youtubeId: '' },
-  { title: "The Woman Digitising Liberia's Informal Market — One Receipt at a Time", duration: '20:33', category: 'Technology', source: 'TrueRate Interviews', time: '4d ago', youtubeId: '' },
-  { title: "From Farming to Exporting: How One Bong County Family Built a $1M Agribusiness", duration: '13:48', category: 'Business', source: 'TrueRate Video', time: '5d ago', youtubeId: '' },
-  { title: "Leadership Lessons from Liberia's Most Decorated Female CEO", duration: '22:10', category: 'Leadership', source: 'TrueRate Interviews', time: '6d ago', youtubeId: '' },
+  { title: "How James Tarr Turned a $500 Idea into Liberia's Top Catering Brand", duration: '16:05', category: 'Entrepreneurship', source: 'TrueRate Interviews', time: 'Jun 17, 2026', youtubeId: '' },
+  { title: "The Woman Digitising Liberia's Informal Market — One Receipt at a Time", duration: '20:33', category: 'Technology', source: 'TrueRate Interviews', time: 'Jun 16, 2026', youtubeId: '' },
+  { title: "From Farming to Exporting: How One Bong County Family Built a $1M Agribusiness", duration: '13:48', category: 'Business', source: 'TrueRate Video', time: 'Jun 15, 2026', youtubeId: '' },
+  { title: "Leadership Lessons from Liberia's Most Decorated Female CEO", duration: '22:10', category: 'Leadership', source: 'TrueRate Interviews', time: 'Jun 14, 2026', youtubeId: '' },
 ];
 
 const INVESTING_INSIGHTS = [
-  { title: "How to Build a Portfolio on the Liberia Stock Exchange With Under $500", duration: '17:20', category: 'Investing', source: 'TrueRate Video', time: '1d ago', youtubeId: '' },
-  { title: "Gold, Rubber & Iron Ore: Which Commodity Play Makes Sense in 2026?", duration: '12:44', category: 'Investing', source: 'TrueRate Video', time: '2d ago', youtubeId: '' },
-  { title: "AfDB Upgrades Liberia to 5.8% Growth — What It Means for Your Investments", duration: '8:55', category: 'Business', source: 'TrueRate Analysis', time: '3d ago', youtubeId: '' },
-  { title: "Real Estate vs Equities in Monrovia: A Practical Guide for New Investors", duration: '19:07', category: 'Investing', source: 'TrueRate Video', time: '4d ago', youtubeId: '' },
+  { title: "How to Build a Portfolio on the Liberia Stock Exchange With Under $500", duration: '17:20', category: 'Investing', source: 'TrueRate Video', time: 'Jun 19, 2026', youtubeId: '' },
+  { title: "Gold, Rubber & Iron Ore: Which Commodity Play Makes Sense in 2026?", duration: '12:44', category: 'Investing', source: 'TrueRate Video', time: 'Jun 18, 2026', youtubeId: '' },
+  { title: "AfDB Upgrades Liberia to 5.8% Growth — What It Means for Your Investments", duration: '8:55', category: 'Business', source: 'TrueRate Analysis', time: 'Jun 17, 2026', youtubeId: '' },
+  { title: "Real Estate vs Equities in Monrovia: A Practical Guide for New Investors", duration: '19:07', category: 'Investing', source: 'TrueRate Video', time: 'Jun 16, 2026', youtubeId: '' },
 ];
 
 const PODCASTS = [

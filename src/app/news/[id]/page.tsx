@@ -17,10 +17,10 @@ import SaveArticleButton from '@/components/SaveArticleButton';
 import { ArticleJsonLd } from '@/components/JsonLd';
 
 function timeAgo(d: string) {
-  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
-  if (days === 0) return 'Today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 interface DbArticle {
@@ -191,7 +191,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 pt-5 border-t border-gray-100">
-                {[item.category, 'Liberia', 'West Africa', 'Economy'].map(tag => (
+                {[item.category.charAt(0).toUpperCase() + item.category.slice(1), 'Liberia', 'West Africa'].map(tag => (
                   <Link key={tag} href="/news" className="rounded-lg border border-gray-200 px-3 py-1 text-sm text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors no-underline">
                     {tag}
                   </Link>

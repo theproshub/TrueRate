@@ -42,10 +42,6 @@ const KEYWORDS: Record<string, RegExp[]> = {
     /internet/, /mobile money/, /broadband/, /\bai\b/, /artificial intelligence/,
     /platform/,
   ],
-  entertainment: [
-    /\bmusic\b/, /\bfilm\b/, /\bmovie/, /celebrit/, /culture/, /lifestyle/, /\bartist/,
-    /concert/, /fashion/, /entertainment/,
-  ],
   sports: [
     /football/, /soccer/, /\blpl\b/, /\blwpl\b/, /\blba\b/, /lone star/, /athletic/,
     /\bmatch\b/, /\bleague\b/, /tournament/, /\bsports?\b/,

@@ -17,15 +17,15 @@ const HERO = {
   duration: '21:45',
   category: 'Fintech',
   source: 'TrueRate Interviews',
-  time: '5h ago',
+  time: 'Jun 20, 2026',
   youtubeId: '',
 };
 
 const FEATURED = [
-  { title: "The fintech map of West Africa in 2026", duration: '14:10', category: 'Fintech', time: '1d ago' },
-  { title: "AI for small business in Liberia — hype vs. reality", duration: '12:44', category: 'AI', time: '2d ago' },
-  { title: "How a cashier’s terminal became Liberia’s most-used app", duration: '9:55', category: 'Technology', time: '2d ago' },
-  { title: "Mobile infrastructure: what 5G will (and won’t) change", duration: '16:30', category: 'Telecom', time: '3d ago' },
+  { title: "The fintech map of West Africa in 2026", duration: '14:10', category: 'Fintech', time: 'Jun 19, 2026' },
+  { title: "AI for small business in Liberia — hype vs. reality", duration: '12:44', category: 'AI', time: 'Jun 18, 2026' },
+  { title: "How a cashier’s terminal became Liberia’s most-used app", duration: '9:55', category: 'Technology', time: 'Jun 18, 2026' },
+  { title: "Mobile infrastructure: what 5G will (and won’t) change", duration: '16:30', category: 'Telecom', time: 'Jun 17, 2026' },
 ];
 
 const DEEP_DIVES = [
@@ -35,10 +35,10 @@ const DEEP_DIVES = [
 ];
 
 const LAUNCHES = [
-  { title: "Paystack vs Flutterwave: how they’re playing Liberia", duration: '13:12', category: 'Fintech', time: '4h ago' },
-  { title: "The new LiberAgro export platform, reviewed", duration: '11:05', category: 'AgriTech', time: '1d ago' },
-  { title: "Liberia’s first e-commerce aggregator, inside look", duration: '10:28', category: 'E-Commerce', time: '2d ago' },
-  { title: "Open-source tools we saw at WestAfricaHack 2026", duration: '8:15', category: 'Technology', time: '3d ago' },
+  { title: "Paystack vs Flutterwave: how they’re playing Liberia", duration: '13:12', category: 'Fintech', time: 'Jun 20, 2026' },
+  { title: "The new LiberAgro export platform, reviewed", duration: '11:05', category: 'AgriTech', time: 'Jun 19, 2026' },
+  { title: "Liberia’s first e-commerce aggregator, inside look", duration: '10:28', category: 'E-Commerce', time: 'Jun 18, 2026' },
+  { title: "Open-source tools we saw at WestAfricaHack 2026", duration: '8:15', category: 'Technology', time: 'Jun 17, 2026' },
 ];
 
 function PlayIcon() {

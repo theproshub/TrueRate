@@ -12,7 +12,6 @@ const sectionRoutes = [
   '/small-business',
   '/technology',
   '/sports',
-  '/entertainment',
   '/videos',
   '/news',
   '/about',

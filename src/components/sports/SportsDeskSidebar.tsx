@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SportsNewsletterSection from './SportsNewsletterSection';
 
 /**
  * Right-hand reader rail for the sports desk pages. Gives every desk real
@@ -79,15 +80,7 @@ export default function SportsDeskSidebar({
       )}
 
       {/* Newsletter */}
-      <section aria-labelledby="desk-nl" className="border-t-2 border-gray-900 pt-4">
-        <h2 id="desk-nl" className="text-sm font-black uppercase tracking-wide text-gray-900 mb-1">Sports Business Brief</h2>
-        <p className="text-sm text-gray-500 mb-3">The money behind Liberian sport, in your inbox every week.</p>
-        <form aria-label="Sign up for the Sports Business Brief">
-          <label htmlFor="desk-nl-email" className="sr-only">Email address</label>
-          <input id="desk-nl-email" type="email" required placeholder="Email address" className="w-full bg-transparent border-b border-gray-300 px-0 py-2 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 transition-colors mb-3" />
-          <button type="submit" className="w-full rounded-md bg-gray-900 py-2.5 text-base font-bold text-white hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink focus-visible:ring-offset-2">Sign up free</button>
-        </form>
-      </section>
+      <SportsNewsletterSection />
 
       {/* Browse desks */}
       <nav aria-label="Browse sports desks" className="border-t-2 border-gray-900 pt-4">

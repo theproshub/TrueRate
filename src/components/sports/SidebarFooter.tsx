@@ -3,11 +3,11 @@ import { Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
 const LINKS: { label: string; href: string }[] = [
-  { label: 'About TrueRate', href: '/about' },
-  { label: 'Terms of Service',  href: '/terms' },
-  { label: 'Privacy Policy',    href: '/privacy' },
-  { label: 'Advertise with Us', href: '/advertise' },
-  { label: 'Contact',           href: '/contact' },
+  { label: 'About TrueRate',    href: '/about' },
+  { label: 'Terms of Service',  href: '/about/terms' },
+  { label: 'Privacy Policy',    href: '/about/privacy' },
+  { label: 'About Our Ads',     href: '/about/ads' },
+  { label: 'Help',              href: '/help' },
   { label: 'Send Feedback',     href: '/feedback' },
 ];
 
@@ -40,7 +40,7 @@ export default function SidebarFooter() {
           LFA
         </a>
         {' '}and{' '}
-        <a href="#" className="text-gray-600 hover:text-brand-accent-ink transition-colors">
+        <a href="https://www.facebook.com/LiberiaBasketballAssociation/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-brand-accent-ink transition-colors">
           LBA
         </a>
         . Diaspora coverage powered by TrueRate correspondents.

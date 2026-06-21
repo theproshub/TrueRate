@@ -9,13 +9,13 @@ import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
 
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
-const GENERAL_TABS = ['For You', 'Finance', 'Sports', 'Entertainment', 'Technology', 'Economy', 'World'];
+const GENERAL_TABS = ['For You', 'Finance', 'Sports', 'Technology', 'Economy', 'World'];
 
 function timeAgo(d: string) {
-  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
-  if (days === 0) return 'Today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 /** Single hero card used in the mobile swipe view. */
@@ -190,7 +190,6 @@ export function GeneralNewsTabs({ items = newsItems }: { items?: NewsItem[] }) {
   const categoryMap: Record<string, string[]> = {
     'Finance': ['forex', 'economy', 'policy', 'Mining', 'commodities'],
     'Sports': ['sports', 'football', 'basketball', 'athletics'],
-    'Entertainment': ['entertainment', 'movies', 'music', 'tv', 'celebrity'],
     'Technology': ['technology'],
     'Economy': ['economy'],
     'World': ['world', 'trade'],

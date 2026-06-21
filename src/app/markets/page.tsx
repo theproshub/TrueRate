@@ -73,10 +73,10 @@ function deltaSign(delta: number | null): string {
 }
 
 function timeAgo(d: string) {
-  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
-  if (days <= 0) return 'Today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 const byCategory = (items: NewsItem[], cat: string) =>

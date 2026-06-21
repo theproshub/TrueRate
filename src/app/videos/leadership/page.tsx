@@ -17,15 +17,15 @@ const HERO = {
   duration: '35:22',
   category: 'Leadership',
   source: 'The Leadership Circle',
-  time: '6h ago',
+  time: 'Jun 20, 2026',
   youtubeId: '',
 };
 
 const CONVERSATIONS = [
-  { title: "Finance Minister on the mid-year budget review", duration: '28:55', category: 'Leadership', time: '1d ago' },
-  { title: "ArcelorMittal CFO: why we’re doubling down on Liberia", duration: '14:30', category: 'Business', time: '2d ago' },
-  { title: "Ecobank West Africa CEO on leading through uncertainty", duration: '35:22', category: 'Banking', time: '3d ago' },
-  { title: "Port of Monrovia MD on Phase II and the decade ahead", duration: '17:22', category: 'Infrastructure', time: '4d ago' },
+  { title: "Finance Minister on the mid-year budget review", duration: '28:55', category: 'Leadership', time: 'Jun 19, 2026' },
+  { title: "ArcelorMittal CFO: why we’re doubling down on Liberia", duration: '14:30', category: 'Business', time: 'Jun 18, 2026' },
+  { title: "Ecobank West Africa CEO on leading through uncertainty", duration: '35:22', category: 'Banking', time: 'Jun 17, 2026' },
+  { title: "Port of Monrovia MD on Phase II and the decade ahead", duration: '17:22', category: 'Infrastructure', time: 'Jun 16, 2026' },
 ];
 
 const MASTERCLASS = [
@@ -35,10 +35,10 @@ const MASTERCLASS = [
 ];
 
 const PROFILES = [
-  { title: "Liberia’s most decorated female CEO on leadership lessons", duration: '22:10', category: 'Women', time: '4d ago' },
-  { title: "Three COOs on executing fast without breaking things", duration: '18:45', category: 'Leadership', time: '5d ago' },
-  { title: "What a great board chair looks like in a West African SME", duration: '21:12', category: 'Governance', time: '6d ago' },
-  { title: "How two rival executives became co-CEOs — and made it work", duration: '27:05', category: 'Leadership', time: '1w ago' },
+  { title: "Liberia’s most decorated female CEO on leadership lessons", duration: '22:10', category: 'Women', time: 'Jun 16, 2026' },
+  { title: "Three COOs on executing fast without breaking things", duration: '18:45', category: 'Leadership', time: 'Jun 15, 2026' },
+  { title: "What a great board chair looks like in a West African SME", duration: '21:12', category: 'Governance', time: 'Jun 14, 2026' },
+  { title: "How two rival executives became co-CEOs — and made it work", duration: '27:05', category: 'Leadership', time: 'Jun 13, 2026' },
 ];
 
 function PlayIcon() {

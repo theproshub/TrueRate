@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 
 export default function SignInPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get('next') ?? '/';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +25,7 @@ export default function SignInPage() {
       setError(error.message);
       return;
     }
-    router.push('/');
+    router.push(next);
     router.refresh();
   }
 
@@ -93,7 +95,7 @@ export default function SignInPage() {
           </div>
           <p className="mt-6 text-center text-sm text-gray-400">
             New to TrueRate?{' '}
-            <Link href="/sign-up" className="text-brand-accent hover:underline">
+            <Link href={next !== '/' ? `/sign-up?next=${encodeURIComponent(next)}` : '/sign-up'} className="text-brand-accent hover:underline">
               Create an account
             </Link>
           </p>

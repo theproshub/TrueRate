@@ -30,7 +30,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'beIN Sports and SuperSport are circling the next Premier League Africa rights cycle, with the package value approaching $180M as both bidders pitch new streaming bundles to retain subscribers.',
     source: 'Reuters',
-    time: '2h ago',
+    time: 'Jun 20, 2026',
     body: [
       'The next Premier League Sub-Saharan Africa rights cycle, expected to run from the 2026/27 season through 2028/29, is shaping into a head-to-head between MultiChoice-owned SuperSport — the long-time incumbent — and Doha-based beIN Sports, whose Africa expansion has accelerated since it secured AFCON 2027 co-production rights last year. The package, sources close to the auction process say, has now been valued by both bidders at between $170M and $185M for the three-year cycle, up roughly 12% from the current $160M deal.',
       'SuperSport has held exclusive Premier League rights in the region since 2007, building its DStv subscription base in part on the back of the property. A loss would be commercially significant: internal MultiChoice modelling, reported by Reuters last quarter, attributes between 18% and 22% of premium DStv subscriber retention in West and Southern Africa to Premier League access. beIN, meanwhile, is offering a hybrid model that pairs linear coverage with a direct-to-consumer streaming app priced between $4 and $7 per month — undercutting DStv\'s premium tier by a wide margin.',
@@ -46,7 +46,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'NBA Africa has confirmed Monrovia as a Series 2026 host city, with a venue and ticket allocation locked in. Independent estimates put the local economic impact at roughly $4.2M.',
     source: 'NBA Africa',
-    time: '4h ago',
+    time: 'Jun 20, 2026',
     body: [
       'NBA Africa announced this week that Monrovia will host two NBA Africa Series exhibition games in November 2026, with Rivers Hoopers and the Cape Town Tigers confirmed as the participating BAL franchises. The games will be staged at the Samuel Kanyon Doe Sports Complex following a $2.4M government-funded refurbishment of the arena floor and broadcast infrastructure.',
       'Independent economic-impact modelling commissioned by the Liberia Football Association and reviewed by TrueRate puts the gross local impact at $4.2M, comprising direct ticket and concession spending of $1.6M, an estimated $1.1M in inbound tourism (an estimated 1,400 visitors travelling for the matches), and a $1.5M multiplier in hospitality and ancillary services. The number is consistent with NBA Africa Series impact figures recorded in Dakar (2022) and Kigali (2023), adjusted for Monrovia\'s lower hospitality-sector base price.',
@@ -62,7 +62,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'World Athletics has agreed an $80M multi-year sponsorship with MTN Group to fund youth and development programmes across West Africa, including Liberia.',
     source: 'World Athletics',
-    time: '6h ago',
+    time: 'Jun 20, 2026',
     body: [
       'World Athletics and MTN Group signed an $80M, six-year development sponsorship in Lagos this week — the largest single track-and-field investment in West Africa\'s history. The deal funds grassroots coaching, athlete travel grants, and a continental talent-identification programme that will operate in 14 countries, including Liberia.',
       'For Liberia, the immediate allocation is approximately $2.4M over the deal\'s life: $1.1M earmarked for an annual elite-development camp at the National Stadium, $800K for travel and accommodation grants for promising under-20 athletes attending continental meets, and $500K for coach certification under World Athletics\' Level 2 framework. The country\'s federation, the Liberia Athletics Federation, will jointly administer the funds with World Athletics\' Africa office.',
@@ -86,7 +86,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     dateline: 'MONROVIA',
     flag: 'Exclusive',
     readTime: '7 min read',
-    time: '1h ago',
+    time: 'Jun 20, 2026',
     body: [
       'When Liberia qualified for AFCON 2027 last month — the country\'s first appearance in 24 years — CAF\'s commercial team in Cairo took notice. Within a fortnight, the confederation\'s rights advisors had revised regional viewership projections for the tournament upward by an estimated 12%, citing both the size of Liberia\'s domestic audience and, crucially, the West African diaspora in North America and Europe that historically over-indexes for Lone Star matches.',
       'The headline number behind AFCON 2027 is the $340M global broadcast package, jointly held by SuperSport and beIN Sports. That deal — agreed in 2024 — was struck on a base assumption that 22 of Africa\'s top 24 ranked nations would qualify; Liberia\'s entry, alongside Comoros, was not modelled. Both rightsholders now treat Liberia as upside, particularly for the African diaspora streaming markets in the U.S. and U.K., where SuperSport\'s OTT product Showmax is targeting subscriber acquisition.',
@@ -103,7 +103,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "The club's groundbreaking public-private partnership with the Liberian government and a Ghanaian construction firm could transform club revenues within three seasons.",
     source: 'TrueRate Sports',
-    time: '3h ago',
+    time: 'Jun 20, 2026',
     body: [
       "Monrovia FC, the LFA League's reigning champions, last week signed a public-private partnership agreement with the government of Liberia and Accra-based Adeshina Construction to build a new 12,000-capacity stadium in Paynesville, on the eastern edge of the capital. The total project cost is $18M, financed through a 60/30/10 split: the developer covers 60%, the club 30%, and the government 10% in the form of land contribution and infrastructure access.",
       'The structure is unusual for African football. Most club-developed stadiums on the continent are either fully government-funded — a model that ties construction timelines to fiscal cycles and political turnover — or fully privately financed, which restricts ownership to the wealthiest clubs. The PPP model splits risk between the parties and grants Monrovia FC a 30-year operating concession, including non-football event revenue.',
@@ -119,7 +119,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'Growing sponsorship and gate receipts mask a structural funding gap that the Football Association has yet to close with broadcast income.',
     source: 'LFA / TrueRate',
-    time: '5h ago',
+    time: 'Jun 20, 2026',
     body: [
       'The Liberia Football Association\'s 2025 financial statements, released this week, show commercial revenue at $4.6M — a 31% year-over-year increase driven primarily by the new CBL/Government federation sponsorship and a 22% rise in matchday gate receipts following Liberia\'s AFCON qualification. Yet the federation continues to run an annual operating deficit of approximately $2.1M, funded by a combination of FIFA forward grants and CAF development payments.',
       "The gap is structural rather than operational. The LFA's two largest cost lines — international travel for the senior men's national team (approximately $1.8M in 2025) and domestic competition operating costs ($2.4M) — are both growing in line with international football economics, and have outpaced the federation's own commercial growth.",
@@ -135,7 +135,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'A new NBA Africa-backed franchise report estimates $6M entry fee and $2.8M annual operating costs against projected $4.1M in revenue by year three.',
     source: 'NBA Africa',
-    time: '7h ago',
+    time: 'Jun 20, 2026',
     body: [
       'NBA Africa\'s confidential franchise expansion brief, prepared by Boston Consulting Group and shared with three Liberian-led investor groups, prices a Monrovia BAL franchise at a $6M entry fee, payable across three tranches between 2026 and 2028. The brief, parts of which TrueRate has reviewed, projects annual operating costs of $2.8M against revenue of $4.1M by year three — a 32% operating margin if performance lands within the central case.',
       'The cost stack is mostly fixed. Player and coaching salaries are the largest line at $1.4M annually, governed by the BAL\'s soft cap structure. Travel, training, and game-day operations sit at approximately $750K, with administration and league fees at $650K. The variable component — player bonuses, playoff travel, and arena fit-out — is approximately $400K per year on top.',
@@ -151,7 +151,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "Rivers Hoopers' $840K contract and pre-draft NBA valuation make Pewee the highest-earning Liberian athlete in active competition.",
     source: 'TrueRate Sports',
-    time: '9h ago',
+    time: 'Jun 20, 2026',
     body: [
       "Marcus Pewee, the 22-year-old shooting guard who signed a two-year, $840K contract with Nigeria's Rivers Hoopers in March, has become the highest-earning Liberian athlete in active competition — surpassing Comfort Brown's $220K annual sponsorship total and outstripping any active Liberian footballer outside George Weah's 1990s peak.",
       'Pewee\'s valuation is built on three layers. The Rivers Hoopers base salary is $360K/year, the largest in the BAL outside the Petro de Luanda squad. His pre-draft NBA combine in Chicago last summer added a six-figure signing bonus on top. And a separate sponsorship slate — comprising Orange Liberia, NBA Africa\'s endemic partners, and a Lagos-based sportswear deal — adds approximately $140K/year. The package gives him an effective annual income above $500K when amortised across the contract.',
@@ -167,7 +167,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "A survey of 40 top-flight clubs finds median jersey deal values of $120K/year — with Monrovia FC's Orange partnership among the region's top 10.",
     source: 'Sportcal',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     body: [
       'Sportcal\'s 2026 West Africa shirt sponsorship survey, covering 40 top-flight clubs across eight leagues, places median jersey deal value at $120K per year — up 8% on 2025 — and total annual top-flight shirt-deal spend at approximately $48M across the region. The survey is the most comprehensive of its kind since 2022.',
       "Telco operators dominate the category. Orange (France-based, with subsidiaries in Liberia, Senegal, Ivory Coast, and Burkina Faso) and MTN (South African, with subsidiaries in Nigeria, Ghana, and Liberia) together account for 38% of total shirt-deal spend in the region. The brands' rationale, summarised in industry reports, is consistent: young male subscribers are the most over-indexing demographic for football fandom, and shirt sponsorship is one of the few media properties in West Africa that delivers them at scale and with low ad fragmentation.",
@@ -183,7 +183,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'After breaking the West African 100m record, the sprinter has attracted Puma, MTN, and Liberia Petroleum as sponsors in a six-month window.',
     source: 'TrueRate Sports',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     body: [
       'Comfort Brown, the 23-year-old sprinter who broke the West African 100m record in Dakar last October with a time of 9.87 seconds, has assembled a $220K annual sponsorship package across three core partners — Puma (kit and footwear, $110K), MTN (telco endorsement, $70K), and Liberia Petroleum (presenting partner for her domestic appearances, $40K). Her commercial value has tripled in the six months since the record run.',
       "Brown's representation by Lagos-based Athletes Africa Group has been central to the trajectory. The agency negotiated each deal individually rather than bundling, a structure that allowed her to retain higher per-partner economics but created higher administrative overhead than is typical for an African athlete at her career stage. Her Puma deal, signed in February, includes performance escalators tied to medalling at the World Championships and Olympic Games — a structure rarely seen in African athletics endorsements before 2024.",
@@ -199,7 +199,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "Liberia's Lone Star faces Guinea in the WAFU Cup semi-final. We break down the prize money at stake, the tactics, and what a final appearance would mean commercially.",
     source: 'TrueRate Sports',
-    time: '2d ago',
+    time: 'Jun 18, 2026',
     body: [
       "Liberia's Lone Star faces Guinea on Saturday in the WAFU Cup semi-final, with $400K in additional prize money on the line for the winner alongside the title-bound prize of $800K. The match, staged in Bamako under CAF supervision, will be Liberia's first competitive semi-final appearance in the WAFU Cup since the 2017 tournament.",
       "Tactically, the match is between a Guinean side built around Bayer Leverkusen midfielder Mohamed Diaby and a Liberian side that has, throughout this WAFU Cup, played a 4-3-3 with high pressing rooted in Coach Mario Marinica's possession-first philosophy. Liberia's most reliable attacker through the tournament has been Tiawan Kollie, the Monrovia FC striker on a six-month loan from FC Sheriff (Moldova), who has scored four goals in three matches.",
@@ -215,7 +215,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'With a venue confirmed and ticket sales open, we model the $4.2M economic impact — and ask whether a permanent NBA Africa franchise in Liberia is now realistic.',
     source: 'TrueRate Sports',
-    time: '2d ago',
+    time: 'Jun 18, 2026',
     body: [
       'The NBA Africa Series 2026 in Monrovia, scheduled for November at the refurbished Samuel Kanyon Doe Sports Complex, has crystallised a question that until last year was speculative: is Liberia ready for a permanent BAL franchise? The answer, on the operational and commercial criteria the BAL evaluates, is closer to yes than industry observers initially expected.',
       "The Series itself is a commercial showcase. Independent modelling commissioned by the Liberia Football Association puts gross local economic impact at $4.2M, of which approximately $1.6M is direct ticket and concession revenue and the balance is hospitality and tourism uplift. Tickets, priced from $12 to $180, are tracking ahead of the BAL's pre-launch sell-through projections in similar host markets — early-bird allocation cleared 40% of capacity within 72 hours.",
@@ -231,7 +231,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'With four Liberian under-20s attracting European scout interest, the LFA is exploring a $500K academy partnership model with a Premier League club.',
     source: 'TrueRate Sports',
-    time: '3d ago',
+    time: 'Jun 17, 2026',
     body: [
       "Four Liberian under-20s — Kollie, Sumo, Pewee (the footballer, no relation to the basketball player), and Toe — have been on European scout watchlists since the 2025 WAFU U20 tournament, where Liberia reached the semi-finals. The interest has prompted the LFA to formally scope a $500K academy partnership with a Premier League club to monetise the pipeline.",
       'The proposed structure, modelled on FA-Brighton and FA-City Group academy partnerships in West Africa, would have the Premier League partner fund a residential academy in Monrovia and acquire a right of first refusal on academy graduates aged 18 and over. The LFA would receive an annual licensing fee of approximately $200K and a 15% share of any subsequent transfer fee on partner-developed players.',
@@ -247,7 +247,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       'The continental circuit event returns after a two-year absence, with prize money up 60% and broadcast coverage confirmed on SuperSport.',
     source: 'World Athletics',
-    time: '3d ago',
+    time: 'Jun 17, 2026',
     body: [
       'World Athletics has confirmed Monrovia as host of the 2026 West Africa Athletics Grand Prix, with a meet date of 14 June at the National Stadium. The $180K prize pool is a 60% increase on the 2023 edition and the largest single-meet prize purse offered in Liberian athletics history.',
       "Prize money is structured by event group. The 100m and 200m sprints — expected to feature Comfort Brown — carry a $25,000 first-place prize, the highest in the meet. Middle-distance and field-event prizes scale from $15,000 to $5,000 across podium finishes. The structure is consistent with the World Athletics Continental Tour bronze-tier framework.",
@@ -266,7 +266,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "A survey of 40 top-flight clubs finds median jersey deal values of $120K/yr — with Monrovia FC's Orange partnership among the region's top 10. Here are the full numbers.",
     source: 'TrueRate Sports Business',
-    time: '3h ago',
+    time: 'Jun 20, 2026',
     body: [
       "TrueRate Sports Business has compiled a ranked list of West Africa's 10 largest shirt sponsorship deals — a snapshot of the commercial depth in the region's top-flight football clubs as of April 2026. The ten deals together account for roughly $4.8M of annual rights value, dominated by Nigerian Premier League clubs but with strong Liberian and Ghanaian representation.",
       "The top deal is Enyimba's $720K/yr partnership with Dangote Cement, signed in late 2024 and running through 2027. Nasarawa United's $580K/yr Konga deal sits second; Hearts of Oak's $510K/yr deal with MTN Ghana is third. Liberia's Monrovia FC enters the list at number nine, with its $320K/yr Orange Liberia agreement — the only Liberian deal in the top 10 and one of two telco-led deals in the top half of the ranking.",
@@ -281,7 +281,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: 'Orange vs MTN: the Liberian telco sponsorship arms race',
     summary: 'Both carriers are expanding football portfolios to reach young male subscribers.',
     source: 'TrueRate Sports',
-    time: '5h ago',
+    time: 'Jun 20, 2026',
     body: [
       "Orange Liberia and Lonestar Cell MTN — the two licensed mobile network operators in Liberia — have committed approximately $1.2M between them to football sponsorships in 2026, a 38% increase on 2024 levels. The race is structural: both carriers compete for the same demographic of 18-to-34 male subscribers, where football fandom is the highest-indexing media property available.",
       "Orange's portfolio is anchored by the Monrovia FC shirt deal ($320K/yr, running through 2026 with a renewal under negotiation) and supplementary partnerships with the LFA League ($180K presenting-sponsor placement) and the Lone Star Foundation, the LFA's grassroots arm. The carrier's strategy, according to its commercial director Mariama Kromah, is to bundle football access into post-paid subscriber tiers — a model that delivered a 14% post-paid uplift in 2025.",
@@ -296,7 +296,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: "How Comfort Brown's brand value tripled in six months",
     summary: 'A record run, a US agent, and the first Liberian athlete to clear $200K in sponsorships.',
     source: 'TrueRate Sports',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     body: [
       "Comfort Brown's $220K/yr sponsorship total — a tripling of her commercial value in the six months since her 9.87s West African 100m record — is the result of three concrete decisions that, taken together, restructured how Liberian athletics talent is monetised.",
       'The first was choice of representation. Brown signed with Lagos-based Athletes Africa Group in November 2025, three weeks after her record. The agency, founded by former Nigerian sprinter Blessing Okagbare, specialises in sub-Saharan African athletics talent and has the rare combination of regional brand relationships and access to global rights structures that Brown\'s previous Liberian-only representation could not offer.',
@@ -312,7 +312,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: "The LFA's federation sponsorship up for renewal — bidders lining up",
     summary: 'CBL, Orange, and a new entrant have all signalled interest.',
     source: 'TrueRate Sports',
-    time: '2d ago',
+    time: 'Jun 18, 2026',
     body: [
       "The Liberia Football Association's federation-level sponsorship — currently held jointly by the Central Bank of Liberia and the Government of Liberia at a combined $600K/year — expires at the end of 2026, and three bidders have formally signalled interest in the next cycle. The renewal negotiation is the most consequential federation-sponsorship review in Liberian football since 2018.",
       "The incumbent bidder — the joint CBL/Government structure — has indicated willingness to extend at the current rate of $600K/year for a further three-year term. That offer is expected to land formally with the LFA's commercial committee by May. The political weight of a CBL/Government renewal is not negligible: the structure carries goodwill across Liberian institutional stakeholders that a new entrant could not replicate.",
@@ -327,7 +327,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: "NBA Africa's SAP title deal: what comes next at $8M/yr",
     summary: 'Three options on the table, including a pivot to a consumer brand.',
     source: 'TrueRate Sports',
-    time: '2d ago',
+    time: 'Jun 18, 2026',
     body: [
       'NBA Africa\'s title sponsorship with SAP — the league\'s name has carried "presented by SAP" since 2021 — runs through the end of 2026 at $8M/year, the largest single sponsorship in African basketball. With the renewal window now open, NBA Africa\'s commercial team is weighing three structurally different options for the next cycle.',
       'The simplest is a SAP renewal. SAP has indicated commitment to the property at slightly higher economics — a renewed deal is expected to land at $9–10M/year for three years — and the relationship has matured into one of the most stable enterprise-software partnerships in African sport. The argument against is exposure: SAP\'s renewal would leave NBA Africa with concentration risk in a single enterprise sponsor.',
@@ -347,7 +347,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "A forensic breakdown of the negotiation that took Rivers Hoopers' newest star from free agent to the highest-earning Liberian athlete in active competition — and what it signals for the NBL Africa market.",
     source: 'TrueRate Sports Business',
-    time: '2h ago',
+    time: 'Jun 20, 2026',
     body: [
       "The Marcus Pewee–Rivers Hoopers deal, signed on 14 March, is structured as a two-year agreement worth $840,000 — $360K in year one, $400K in year two, with a $80K signing bonus payable on completion of the medical. It is the largest single-player contract in NBL Africa history outside the Petro de Luanda squad and the largest contract any Liberian athlete has signed in any sport since 2008.",
       "The negotiation began in early February, three weeks after Pewee's NBA combine in Chicago. Rivers Hoopers' general manager Akin Ladipo had identified Pewee as the team's priority free-agent signing in late 2025; what changed in February was the financial scope. After Pewee's combine performance — particularly his shooting splits — Ladipo went back to ownership and secured authorisation to bid above the BAL\\'s typical $250K/year ceiling for non-Angolan free agents.",
@@ -363,7 +363,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: 'Why Rivers Hoopers were willing to pay record money for Pewee',
     summary: "The Nigerian club's scouting file, the counter-offers, and the playmaking metrics that closed the deal.",
     source: 'TrueRate Sports',
-    time: '3h ago',
+    time: 'Jun 20, 2026',
     body: [
       "Rivers Hoopers' decision to bid $420K/year for Marcus Pewee — almost double the BAL's prior ceiling for non-marquee free agents — was rooted in a 14-month scouting cycle that began at the 2024 BAL playoffs. The team's analytics team, led by data scientist Ifeoma Eze, had flagged Pewee's true-shooting percentage and assist-to-turnover ratio as outliers among NBL Africa qualifiers.",
       'The internal model the Hoopers used — a roster-fit projection adapted from MLB sabermetrics frameworks — projected Pewee\'s offensive value at approximately 6.4 wins above replacement over a two-year contract. At the league\'s implicit $50K-per-win benchmark for franchise players, that placed his ceiling value around $640K — well above the $250K/year threshold the BAL had historically supported for free agents.',
@@ -378,7 +378,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: "Monrovia FC's summer plan: three outgoing, two incoming — and a new CFO",
     summary: "With budget tightening and a league title push, the club's sporting director explains the trade-offs.",
     source: 'TrueRate Sports',
-    time: '6h ago',
+    time: 'Jun 20, 2026',
     body: [
       "Monrovia FC's summer 2026 transfer plan, briefed to TrueRate by sporting director Daniel Bardor, is built around three outgoing transfers, two incoming signings, and a structural change in the club's commercial leadership. The strategy is shaped by a 14% reduction in the club's player budget for 2026/27 and the priority of defending the LFA League title.",
       'The three outgoing players — defender Ibrahim Kamara (sold to Williamsville AC, $310K), striker Emmanuel Kollie (loan to LISCR FC, with a $280K option to buy), and goalkeeper Patrick Toe (released as a free agent) — together free up approximately $480K of annual wage budget. The largest single saving is on Kamara, whose departure also delivers a $310K transfer fee.',
@@ -393,7 +393,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: 'How West African clubs price players: the hidden factors',
     summary: 'Age, position, international appearances — and the big one nobody names: social media following.',
     source: 'Sportcal',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     body: [
       'TrueRate has reviewed the player-pricing models used by 18 top-flight West African clubs across six leagues. The factors that explicitly enter the models are predictable — age (sharply positive between 19 and 24, declining thereafter), position (centre-forward and central midfield premium), international appearances (a roughly $35K-per-cap uplift for senior internationals), and goals/assists per 90 minutes.',
       'What these models miss — and what increasingly drives transactional pricing — is social media following. Players with verified Instagram followings above 100,000 carry a price premium of, on average, 22% above their model value. Above 500,000 followers the premium reaches 38%. The mechanism is straightforward: social presence is, for clubs, a proxy for the player\'s capacity to drive shirt and merchandise revenue, regional broadcast pickup, and post-career sponsorship.',
@@ -408,7 +408,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: 'Agent commissions in Liberia: unregulated, opaque, and growing',
     summary: 'A survey of 22 recent deals finds median commissions of 12% — well above FIFA guidance.',
     source: 'TrueRate Sports',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     body: [
       "TrueRate's survey of 22 Liberian player transfers completed between January 2025 and March 2026 finds median agent commissions of 12% of total transfer value — substantially above FIFA's 3% guidance for non-affiliated clubs and well above the 5–7% range typical in larger West African markets. The figure varies widely (from 5% to 22%), suggesting that the absence of standardised pricing is itself a market failure.",
       "The structural drivers are well-documented. Liberia has no licensed football agent register; agents do not need to clear a background or competency test to operate; and the LFA has no enforcement mechanism for FIFA's intermediary regulations beyond a moral-suasion role. The result is a market where commission is set bilaterally between agent and player, with the buyer-side club typically uninformed of the commission structure.",
@@ -427,7 +427,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     summary:
       "Liberia's qualification has lifted regional viewership projections 12%. We map the rights-holders, the prize pool, and what CAF's next auction cycle will look like.",
     source: 'TrueRate Sports Business',
-    time: '1h ago',
+    time: 'Jun 20, 2026',
     body: [
       "The AFCON 2027 broadcast package, structured by CAF and sold through IMG, generates $340M in total rights revenue across global markets. The package is split into nine territorial buckets, with the largest single market — Sub-Saharan Africa — accounting for $145M of the total, sold jointly to SuperSport and beIN Sports under a co-production structure unique to this tournament cycle.",
       "The remaining $195M comes from eight territorial sales: North America ($45M, sold to ESPN and TUDN), Europe ($55M, primarily to Eurosport and a syndicated FTA package), MENA ($28M to beIN), the UK ($24M to BBC/ITV jointly), and four smaller territorial buckets totalling $43M. The package value represents a 22% uplift on AFCON 2025 — a number that already reflected COVID-recovery growth in continental sport.",
@@ -443,7 +443,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: 'SuperSport vs beIN: the AFCON auction strategy, decoded',
     summary: 'Two bidders, one territory, and a three-year negotiation. Inside the commercial playbook.',
     source: 'TrueRate Sports',
-    time: '3h ago',
+    time: 'Jun 20, 2026',
     body: [
       "The Sub-Saharan Africa AFCON 2027 rights — sold for $145M jointly to SuperSport and beIN Sports — were the product of a three-year negotiation between CAF, IMG, and the two bidders. The co-production structure that emerged is the first of its kind in African football and reflects a strategic concession from both bidders rather than a competitive auction outcome.",
       "SuperSport, the long-time incumbent, opened bidding in early 2023 at $110M for exclusive Sub-Saharan Africa rights. beIN Sports — historically focused on MENA — entered the auction with a $135M bid that targeted the Sub-Saharan market for the first time. Both bids fell short of CAF's $150M floor.",
@@ -458,7 +458,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: 'Why Canal+ lost the Premier League — and what it pays next',
     summary: 'Subscription churn, currency exposure, and the pivot to rugby and Ligue 1.',
     source: 'Sportcal',
-    time: '8h ago',
+    time: 'Jun 20, 2026',
     body: [
       "Canal+ — the French-owned pay-TV operator that holds rights to Premier League football in francophone West and Central Africa — confirmed in March that it will not bid for the next Premier League rights cycle. The decision ends a 14-year incumbency and represents the largest single rights-strategy reversal by Canal+ in its African operations.",
       'Three factors drove the decision. The first was subscription churn: Canal+ had reported 18% year-over-year churn in its francophone Africa business in 2025, with internal modelling attributing approximately 40% of the churn to Premier League price-elasticity issues — the property had become loss-leading at retail prices that customers would still pay. The second was currency: the West African franc\'s weakness against the euro had eroded the operating margin on the rights deal by an estimated 22% over three years.',
@@ -473,7 +473,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: "NBA Africa's streaming push: DStv renewal or direct-to-consumer?",
     summary: 'Ad-supported streaming numbers look strong, but retention remains the open question.',
     source: 'TrueRate Sports',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     body: [
       "NBA Africa's broadcast strategy is at a strategic inflection point. The league's current pay-TV deal with DStv — which generates approximately $11M/year in rights value across Sub-Saharan Africa — expires at the end of 2026. NBA Africa's commercial team is weighing whether to renew with DStv or pivot to a direct-to-consumer streaming model.",
       "The DStv renewal offer, briefed to TrueRate by industry sources, is approximately $13M/year for three years — a 15% uplift on the current deal. The structure is conventional pay-TV: DStv distributes the BAL across its premium tier in 14 African markets and provides production support for NBA Africa-branded long-form content.",
@@ -488,7 +488,7 @@ export const SPORTS_STORIES: SportsStory[] = [
     title: "The LFA's $1.8M TV deal: is it enough to cover referee wages?",
     summary: 'A breakdown of where every dollar of broadcast revenue goes in Liberian football.',
     source: 'TrueRate Sports',
-    time: '2d ago',
+    time: 'Jun 18, 2026',
     body: [
       "The Liberia Football Association's domestic broadcast deal, jointly held by ELBC and Orange Liberia at $1.8M/year, is the smallest top-flight football broadcast deal among the eight LFA-comparable West African leagues. The deal generates an average of $90K per top-flight club — well below operational requirements.",
       "Where the money actually goes is instructive. The first $400K covers production costs (camera operators, lighting, mobile production unit hire, satellite uplink). The next $300K funds match-day operating costs across the LFA League's 15-match-per-week schedule, including security, ticketing infrastructure, and stewarding.",

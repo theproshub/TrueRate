@@ -15,10 +15,10 @@ export const dynamic = 'force-dynamic';
 
 /* ── helpers ── */
 function timeAgo(d: string) {
-  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
-  if (days === 0) return 'Today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 /* ── static data: general / multi-topic ── */
@@ -27,24 +27,24 @@ function timeAgo(d: string) {
    (see NewsPage). Only non-article widgets (events, videos) remain static. */
 
 const UPCOMING_EVENTS = [
-  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Policy' },
-  { date: 'Apr 10', title: 'Q1 2026 GDP Advance Estimate Release',       type: 'Data' },
-  { date: 'Apr 12', title: 'LTA 5G Spectrum Consultation — Monrovia',    type: 'Tech' },
-  { date: 'Apr 14', title: 'Mid-Year Budget Review — Legislature',        type: 'Fiscal' },
-  { date: 'Apr 14', title: 'Liberia Investment Forum — Monrovia',         type: 'Trade' },
-  { date: 'Apr 18', title: 'West Africa Trade Facilitation Summit',       type: 'Trade' },
-  { date: 'Apr 22', title: 'IMF Staff Mission Begins',                    type: 'IMF' },
-  { date: 'Apr 28', title: 'ArcelorMittal Q1 Earnings Call',             type: 'Markets' },
-  { date: 'May 5',  title: 'African Development Bank Annual Meetings',    type: 'Development' },
+  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Policy',      href: '/economy/monetary-policy' },
+  { date: 'Apr 10', title: 'Q1 2026 GDP Advance Estimate Release',       type: 'Data',        href: '/economy/growth' },
+  { date: 'Apr 12', title: 'LTA 5G Spectrum Consultation — Monrovia',    type: 'Tech',        href: '/technology' },
+  { date: 'Apr 14', title: 'Mid-Year Budget Review — Legislature',        type: 'Fiscal',      href: '/economy/fiscal' },
+  { date: 'Apr 14', title: 'Liberia Investment Forum — Monrovia',         type: 'Trade',       href: '/economy/trade' },
+  { date: 'Apr 18', title: 'West Africa Trade Facilitation Summit',       type: 'Trade',       href: '/economy/trade' },
+  { date: 'Apr 22', title: 'IMF Staff Mission Begins',                    type: 'IMF',         href: '/economy/fiscal' },
+  { date: 'Apr 28', title: 'ArcelorMittal Q1 Earnings Call',             type: 'Markets',     href: '/markets' },
+  { date: 'May 5',  title: 'African Development Bank Annual Meetings',    type: 'Development', href: '/economy' },
 ];
 
 const VIDEOS = [
-  { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'entertainment', time: '30m ago', youtubeId: '' },
-  { title: "LISCR FC's Unbeaten Season: The Key Moments", duration: '3:45', category: 'sports', time: '2h ago', youtubeId: '' },
-  { title: "Why the CBL Is Holding Its Policy Rate at 16.25%", duration: '2:48', category: 'policy', time: '6h ago', youtubeId: '' },
-  { title: "How 'Pay Na-Na' Connects MTN and Orange Mobile Money", duration: '1:52', category: 'economy', time: '12h ago', youtubeId: '' },
-  { title: "Mining Drove 2025 Growth: Iron Ore and Gold, Explained", duration: '2:31', category: 'Mining', time: '1d ago', youtubeId: '' },
-  { title: "5G in Monrovia: What It Means and When It's Coming", duration: '2:05', category: 'technology', time: '2d ago', youtubeId: '' },
+  { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'entertainment', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "LISCR FC's Unbeaten Season: The Key Moments", duration: '3:45', category: 'sports', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "Why the CBL Is Holding Its Policy Rate at 16.25%", duration: '2:48', category: 'policy', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "How 'Pay Na-Na' Connects MTN and Orange Mobile Money", duration: '1:52', category: 'economy', time: 'Jun 19, 2026', youtubeId: '' },
+  { title: "Mining Drove 2025 Growth: Iron Ore and Gold, Explained", duration: '2:31', category: 'Mining', time: 'Jun 19, 2026', youtubeId: '' },
+  { title: "5G in Monrovia: What It Means and When It's Coming", duration: '2:05', category: 'technology', time: 'Jun 18, 2026', youtubeId: '' },
 ];
 
 
@@ -165,7 +165,7 @@ export default async function NewsPage({
             <div className="border-b border-gray-200 py-10 text-center">
               <Heading level={4} as="h2" className="mb-1 font-bold text-gray-900">No results found</Heading>
               <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500">
-                Try searching for &ldquo;inflation&rdquo;, &ldquo;sports&rdquo;, &ldquo;entertainment&rdquo; or &ldquo;technology&rdquo;.
+                Try searching for &ldquo;inflation&rdquo;, &ldquo;sports&rdquo; or &ldquo;technology&rdquo;.
               </Text>
             </div>
           ) : (
@@ -424,7 +424,7 @@ export default async function NewsPage({
             </div>
             <div className="divide-y divide-gray-100">
               {UPCOMING_EVENTS.map((ev, i) => (
-                <Link key={i} href="/economy" className="group flex items-center gap-4 py-3 no-underline">
+                <Link key={i} href={ev.href} className="group flex items-center gap-4 py-3 no-underline">
                   <span className="shrink-0 w-[52px] text-sm font-medium text-gray-400 tabular-nums">{ev.date}</span>
                   <Text className="flex-1 text-base font-semibold text-gray-800 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.title}</Text>
                   <span className="shrink-0 text-2xs font-medium text-gray-400 uppercase tracking-wide">{ev.type}</span>

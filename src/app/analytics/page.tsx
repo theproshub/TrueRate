@@ -3,10 +3,9 @@ import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import TickerTape from '@/components/analytics/terminal/TickerTape';
 import TrendsTerminal from '@/components/analytics/terminal/TrendsTerminal';
-import { getMcpAnalyticsPayload, type MarketTicker } from '@/lib/analytics/mcp-data';
+import { getMcpAnalyticsPayload } from '@/lib/analytics/mcp-data';
 import { SECTION_CONFIG } from '@/components/analytics/terminal/editorial';
 import type { AnalyticsItem } from '@/lib/analytics/types';
-import { formatPct } from '@/lib/analytics/format';
 
 export const revalidate = 900; // ISR: rebuild every 15 min
 
@@ -17,66 +16,6 @@ export const metadata: Metadata = {
     'TrueRate Trends & Analytics — Liberia macro indicators, central bank data and global market benchmarks powered by the CBL statistical database.',
 };
 
-/* ── Market ticker card ── */
-function MarketCard({ ticker }: { ticker: MarketTicker }) {
-  const isUp = (ticker.changePct ?? 0) > 0;
-  const isDown = (ticker.changePct ?? 0) < 0;
-  const dirClass = isUp ? 'text-pos' : isDown ? 'text-neg' : 'text-gray-400';
-  const arrow = isUp ? '▲' : isDown ? '▼' : '';
-
-  return (
-    <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3.5">
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-semibold uppercase tracking-[0.08em] text-gray-400 truncate">
-          {ticker.symbol}
-        </span>
-        <span className={`font-mono text-xs tabular-nums ${dirClass}`}>
-          {arrow && <span className="mr-0.5">{arrow}</span>}
-          {formatPct(ticker.changePct)}
-        </span>
-      </div>
-      <span className="font-mono text-xl tabular-nums leading-none text-white">
-        {ticker.price.toLocaleString('en-US', { maximumFractionDigits: 2 })}
-      </span>
-      <div className="flex items-center justify-between">
-        <span className="text-2xs text-gray-500 truncate">{ticker.name}</span>
-        {/* Mini sparkline via inline SVG */}
-        {ticker.sparkline.length >= 2 && (
-          <MiniSparkline values={ticker.sparkline} up={isUp} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function MiniSparkline({ values, up }: { values: number[]; up: boolean }) {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  const w = 48;
-  const h = 20;
-  const step = w / (values.length - 1);
-  const points = values.map((v, i) => `${i * step},${h - ((v - min) / range) * h}`).join(' ');
-
-  return (
-    <svg
-      className="shrink-0"
-      width={w}
-      height={h}
-      viewBox={`0 0 ${w} ${h}`}
-      fill="none"
-      aria-hidden="true"
-    >
-      <polyline
-        points={points}
-        stroke={up ? '#22c55e' : '#ef4444'}
-        strokeWidth={1.5}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 
 /* ── Data source badge ── */
 function SourceBadge({ label, count }: { label: string; count: number }) {
@@ -112,7 +51,6 @@ export default async function AnalyticsPage() {
   const sectionCounts = [
     { label: 'CBL Series', n: payload.items.length },
     { label: 'Sections', n: sections.length },
-    { label: 'Market Tickers', n: payload.tickers.length },
   ];
 
   return (
@@ -156,23 +94,6 @@ export default async function AnalyticsPage() {
             </dl>
           </div>
         </header>
-
-        {/* ── Global Market Tickers ── */}
-        {payload.tickers.length > 0 && (
-          <section className="mb-10" aria-labelledby="market-tickers-heading">
-            <h2
-              id="market-tickers-heading"
-              className="mb-4 border-b border-white/15 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-gray-400"
-            >
-              Global Markets
-            </h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {payload.tickers.map((t) => (
-                <MarketCard key={t.symbol} ticker={t} />
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* ── CBL Terminal ── */}
         {sections.length > 0 ? (

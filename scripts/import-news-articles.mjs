@@ -42,12 +42,15 @@ const CATEGORY_BACKFILL = {
   commodities: { label: 'Commodities', description: 'Gold, iron ore, rubber, oil and other exports', display_order: 130 },
   banking:     { label: 'Banking',     description: 'Banks, credit, and financial-sector news', display_order: 140 },
   policy:      { label: 'Policy',      description: 'Monetary, fiscal, and regulatory policy', display_order: 150 },
+  startups:    { label: 'Startups',    description: 'Liberian and African startups, founders, and venture news', display_order: 160 },
+  ai:          { label: 'AI',          description: 'Artificial intelligence, machine learning, and automation', display_order: 170 },
 };
 
 // Seed byline → canonical author name. 'TrueRate Markets' was never canonical
 // (migration 017 folds markets into economics), so it maps across.
 const AUTHOR_REMAP = {
   'TrueRate Markets': 'TrueRate Economics',
+  'TrueRate Technology': 'TrueRate Tech',
 };
 
 /** Load newsItems out of the TS seed without a TS toolchain: strip the type-only

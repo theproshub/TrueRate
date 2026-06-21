@@ -55,7 +55,7 @@ export const DASHBOARD_HERO = {
   author: 'Sarah Kollie',
   authorRole: 'Sports Business Editor',
   readTime: '6 min read',
-  time: '2 days ago',
+  time: 'Jun 18, 2026',
   updated: 'Updated Jun 6, 3:42 PM GMT',
   href: '/sports/sponsorship',
 };
@@ -82,7 +82,7 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     dateline: 'MONROVIA',
     readTime: '5 min read',
     flag: 'Exclusive',
-    time: '1d ago',
+    time: 'Jun 19, 2026',
     href: '/sports/club-finance',
   },
   {
@@ -92,7 +92,7 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     author: 'Tina Mensah',
     dateline: 'MONROVIA',
     readTime: '4 min read',
-    time: '2d ago',
+    time: 'Jun 18, 2026',
     href: '/sports/broadcast-rights',
   },
   {
@@ -103,7 +103,7 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     dateline: 'TUNIS',
     readTime: '3 min read',
     flag: 'Analysis',
-    time: '4d ago',
+    time: 'Jun 16, 2026',
     href: '/sports/transfers-deals',
   },
   {
@@ -113,7 +113,7 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     author: 'Patrice Williams',
     dateline: 'MONROVIA',
     readTime: '7 min read',
-    time: '5d ago',
+    time: 'Jun 15, 2026',
     href: '/sports/club-finance',
   },
   {
@@ -123,7 +123,7 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     author: 'Sarah Kollie',
     dateline: 'MONROVIA',
     readTime: '4 min read',
-    time: '6d ago',
+    time: 'Jun 14, 2026',
     href: '/sports/sponsorship',
   },
   {
@@ -133,7 +133,7 @@ export const DASHBOARD_TOP_STORIES: TopStory[] = [
     author: 'Comfort Davies',
     dateline: 'MONACO',
     readTime: '3 min read',
-    time: '1w ago',
+    time: 'Jun 13, 2026',
     href: '/sports',
   },
 ];
@@ -224,7 +224,7 @@ export const DASHBOARD_EDITORIAL: EditorialItem[] = [
     title: 'Why Liberian Club Football Is Finally Bankable',
     dek: "After two decades in the red, three of the four largest LPL clubs cleared profit in 2025. Inside the structural shifts that turned the league's economics around.",
     source: 'TrueRate Analysis',
-    time: '1 day ago',
+    time: 'Jun 19, 2026',
     href: '/sports/club-finance',
   },
   {
@@ -232,7 +232,7 @@ export const DASHBOARD_EDITORIAL: EditorialItem[] = [
     title: 'How Lonestar and Orange Are Rewriting West African Sports Sponsorship',
     dek: "Telecom operators now account for the majority of LPL sponsorship spend — and they're doing it because the alternative customer-acquisition channels in Liberia have stopped working at scale.",
     source: 'TrueRate Sports',
-    time: '3 days ago',
+    time: 'Jun 17, 2026',
     href: '/sports/sponsorship',
   },
   {
@@ -240,7 +240,7 @@ export const DASHBOARD_EDITORIAL: EditorialItem[] = [
     title: 'Stadium Economics: Can Antoinette Tubman Pay for Itself?',
     dek: "A major renovation. A 22,000-seat capacity. The path to break-even runs through concerts, conferences, and a new commercial concourse.",
     source: 'FrontPage Africa',
-    time: '4 days ago',
+    time: 'Jun 16, 2026',
     href: '/sports/club-finance',
   },
 ];
@@ -260,10 +260,10 @@ export type WestAfricaCard = {
 };
 
 export const DASHBOARD_WEST_AFRICA: WestAfricaCard[] = [
-  { country: 'Ghana',         dateline: 'ACCRA',    category: 'Sponsorship',     headline: 'GFA signs Betway extension — title sponsorship locked in for three more years.',               stat: 'GFA Title Deal', value: 'US$4.2M',  delta: '+18% on prior cycle', up: true,  byline: 'Adanna Okonkwo', time: '4h ago',  href: '/sports' },
-  { country: 'Nigeria',       dateline: 'LAGOS',    category: 'Broadcast',       headline: 'NPFL broadcast rights hit a record on the back of a streaming-only carve-out won by NBCi.',      stat: 'NPFL Rights',     value: 'US$9.0M',  delta: '+62% YoY',           up: true,  byline: 'Tope Akande',    time: '6h ago',  href: '/sports/broadcast-rights' },
-  { country: "Côte d'Ivoire", dateline: 'ABIDJAN',  category: 'Club Finance',    headline: 'AFCON 2024 legacy keeps boosting Abidjan club valuations, led by ASEC Mimosas.',                 stat: 'ASEC Valuation',  value: 'US$14.6M', delta: '+22% YoY',           up: true,  byline: 'James Dweh',     time: '9h ago',  href: '/sports/club-finance' },
-  { country: 'Senegal',       dateline: 'DAKAR',    category: 'Development',     headline: 'Faye government commits major funding to football academies — biggest single public investment in W. Africa youth development.', stat: 'State Funding',  value: 'US$30M', delta: '5-yr programme',      up: null,  byline: 'Sarah Kollie',   time: '12h ago', href: '/sports' },
+  { country: 'Ghana',         dateline: 'ACCRA',    category: 'Sponsorship',     headline: 'GFA signs Betway extension — title sponsorship locked in for three more years.',               stat: 'GFA Title Deal', value: 'US$4.2M',  delta: '+18% on prior cycle', up: true,  byline: 'Adanna Okonkwo', time: 'Jun 20, 2026',  href: '/sports' },
+  { country: 'Nigeria',       dateline: 'LAGOS',    category: 'Broadcast',       headline: 'NPFL broadcast rights hit a record on the back of a streaming-only carve-out won by NBCi.',      stat: 'NPFL Rights',     value: 'US$9.0M',  delta: '+62% YoY',           up: true,  byline: 'Tope Akande',    time: 'Jun 20, 2026',  href: '/sports/broadcast-rights' },
+  { country: "Côte d'Ivoire", dateline: 'ABIDJAN',  category: 'Club Finance',    headline: 'AFCON 2024 legacy keeps boosting Abidjan club valuations, led by ASEC Mimosas.',                 stat: 'ASEC Valuation',  value: 'US$14.6M', delta: '+22% YoY',           up: true,  byline: 'James Dweh',     time: 'Jun 20, 2026',  href: '/sports/club-finance' },
+  { country: 'Senegal',       dateline: 'DAKAR',    category: 'Development',     headline: 'Faye government commits major funding to football academies — biggest single public investment in W. Africa youth development.', stat: 'State Funding',  value: 'US$30M', delta: '5-yr programme',      up: null,  byline: 'Sarah Kollie',   time: 'Jun 19, 2026', href: '/sports' },
 ];
 
 export const DASHBOARD_CALENDAR: { date: string; title: string; type: string }[] = [
@@ -290,7 +290,7 @@ export const TRANSFERS_HERO = {
   to: 'ES Tunis',
   contract: '4-year contract',
   source: 'TrueRate Sports',
-  time: '4 days ago',
+  time: 'Jun 16, 2026',
 };
 
 export type Transfer = {
@@ -349,9 +349,9 @@ export const TRANSFERS_MONTHLY = [
 ];
 
 export const TRANSFERS_EDITORIAL: EditorialItem[] = [
-  { category: 'Analysis',  title: "The Diaspora Pipeline — Liberia's Hidden Football Export Industry",     dek: 'Roughly 340 Liberian footballers earn a wage abroad. Their combined remittances now register on the country external accounts.',                                                            source: 'TrueRate Analysis', time: '1d ago', href: '/sports/transfers-deals' },
-  { category: 'Profile',   title: 'Who Is Mannah Williams? Inside the US$145K Move That Reset the Window',   dek: "From a Mighty Barrolle academy graduate to a North African contract worth more than every other 2026 LPL transfer combined.",                                                                source: 'Daily Observer',    time: '2d ago', href: '/sports/transfers-deals' },
-  { category: 'Investigation', title: 'Where Does the Transfer Fee Actually Go? Tracing US$1.2M of LPL Outbound Sales', dek: "Fees are advertised in headlines but rarely accounted for in detail. We followed five completed deals through every intermediary, fee, and currency conversion.", source: 'TrueRate Investigation', time: '4d ago', href: '/sports/transfers-deals' },
+  { category: 'Analysis',  title: "The Diaspora Pipeline — Liberia's Hidden Football Export Industry",     dek: 'Roughly 340 Liberian footballers earn a wage abroad. Their combined remittances now register on the country external accounts.',                                                            source: 'TrueRate Analysis', time: 'Jun 19, 2026', href: '/sports/transfers-deals' },
+  { category: 'Profile',   title: 'Who Is Mannah Williams? Inside the US$145K Move That Reset the Window',   dek: "From a Mighty Barrolle academy graduate to a North African contract worth more than every other 2026 LPL transfer combined.",                                                                source: 'Daily Observer',    time: 'Jun 18, 2026', href: '/sports/transfers-deals' },
+  { category: 'Investigation', title: 'Where Does the Transfer Fee Actually Go? Tracing US$1.2M of LPL Outbound Sales', dek: "Fees are advertised in headlines but rarely accounted for in detail. We followed five completed deals through every intermediary, fee, and currency conversion.", source: 'TrueRate Investigation', time: 'Jun 16, 2026', href: '/sports/transfers-deals' },
 ];
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -365,7 +365,7 @@ export const BROADCAST_HERO = {
   title: 'LBA Negotiates Multi-Year Broadcast Deal With ClarTV — Estimated US$1.4M Total Value',
   dek: "The Liberia Basketball Association's first multi-year regional broadcast deal in over a decade includes a digital streaming carve-out and a guaranteed Saturday primetime slot.",
   source: 'FrontPage Africa',
-  time: '5 days ago',
+  time: 'Jun 15, 2026',
 };
 
 export type BroadcastDeal = {
@@ -417,9 +417,9 @@ export const BROADCAST_ECONOMICS: { label: string; value: string; sub: string }[
 ];
 
 export const BROADCAST_EDITORIAL: EditorialItem[] = [
-  { category: 'Analysis',     title: 'The Economics of Broadcasting the LPL: Who Profits, Who Loses',         dek: "LNTV's US$300K-per-season rights deal looks small next to AFCON. But its margin profile, advertiser mix, and digital tail make it one of the more profitable African league broadcasts.",     source: 'Daily Observer',   time: '2d ago', href: '/sports/broadcast-rights' },
-  { category: 'Investigation', title: 'Inside the AFCON 2027 Rights Race — beIN, SuperSport, and the US$340M Number', dek: 'The bidding process behind the largest sports media deal in African history, reconstructed from filings, interviews, and an unredacted IMG term sheet.',                              source: 'Reuters',           time: '5d ago', href: '/sports/broadcast-rights' },
-  { category: 'Explainer',    title: 'How a Streaming Carve-Out Could Double Liberian Premier League Reach',  dek: "If the LFA awards linear and digital separately, the league's potential audience grows from 480K households to roughly 1.1M unique viewers per season — even before the Lagos diaspora.", source: 'TrueRate Sports',  time: '6d ago', href: '/sports/broadcast-rights' },
+  { category: 'Analysis',     title: 'The Economics of Broadcasting the LPL: Who Profits, Who Loses',         dek: "LNTV's US$300K-per-season rights deal looks small next to AFCON. But its margin profile, advertiser mix, and digital tail make it one of the more profitable African league broadcasts.",     source: 'Daily Observer',   time: 'Jun 18, 2026', href: '/sports/broadcast-rights' },
+  { category: 'Investigation', title: 'Inside the AFCON 2027 Rights Race — beIN, SuperSport, and the US$340M Number', dek: 'The bidding process behind the largest sports media deal in African history, reconstructed from filings, interviews, and an unredacted IMG term sheet.',                              source: 'Reuters',           time: 'Jun 15, 2026', href: '/sports/broadcast-rights' },
+  { category: 'Explainer',    title: 'How a Streaming Carve-Out Could Double Liberian Premier League Reach',  dek: "If the LFA awards linear and digital separately, the league's potential audience grows from 480K households to roughly 1.1M unique viewers per season — even before the Lagos diaspora.", source: 'TrueRate Sports',  time: 'Jun 14, 2026', href: '/sports/broadcast-rights' },
 ];
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -433,7 +433,7 @@ export const CLUB_FINANCE_HERO = {
   title: 'Mighty Barrolle Reports First Profitable Quarter Since 2018 — Wage Discipline and a Shirt Renewal Drive the Turnaround',
   dek: "Three deliberate decisions — capping the senior squad wage bill at 58% of revenue, renegotiating the CBL Bank shirt deal up 33%, and outsourcing matchday catering — moved Mighty Barrolle from an operating loss of US$90K in Q1 2025 to a US$180K surplus a year later.",
   source: 'Daily Observer',
-  time: '1 day ago',
+  time: 'Jun 19, 2026',
 };
 
 export type ClubValuation = {
@@ -506,9 +506,9 @@ export const SPEND_VS_PERF: SpendPerf[] = [
 ];
 
 export const CLUB_FINANCE_EDITORIAL: EditorialItem[] = [
-  { category: 'Analysis',  title: 'Why Liberian Club Football Is Finally Bankable',                            dek: 'After two decades in the red, three of the four largest LPL clubs cleared profit in 2025. The structural shifts behind the turnaround.', source: 'TrueRate Analysis', time: '1d ago', href: '/sports/club-finance' },
-  { category: 'Profile',   title: "Inside Mighty Barrolle's Profit Turnaround — Three Decisions",              dek: 'Wage cap, shirt-deal renegotiation, catering outsourcing. The board memo that reset the club.',                                            source: 'Daily Observer',    time: '2d ago', href: '/sports/club-finance' },
-  { category: 'Stadium',   title: 'Stadium Economics: Can Antoinette Tubman Pay for Itself?',                   dek: 'An US$8M renovation. A 22,000-seat capacity. The path to break-even runs through concerts, conferences, and the new commercial concourse.', source: 'FrontPage Africa',  time: '4d ago', href: '/sports/club-finance' },
+  { category: 'Analysis',  title: 'Why Liberian Club Football Is Finally Bankable',                            dek: 'After two decades in the red, three of the four largest LPL clubs cleared profit in 2025. The structural shifts behind the turnaround.', source: 'TrueRate Analysis', time: 'Jun 19, 2026', href: '/sports/club-finance' },
+  { category: 'Profile',   title: "Inside Mighty Barrolle's Profit Turnaround — Three Decisions",              dek: 'Wage cap, shirt-deal renegotiation, catering outsourcing. The board memo that reset the club.',                                            source: 'Daily Observer',    time: 'Jun 18, 2026', href: '/sports/club-finance' },
+  { category: 'Stadium',   title: 'Stadium Economics: Can Antoinette Tubman Pay for Itself?',                   dek: 'An US$8M renovation. A 22,000-seat capacity. The path to break-even runs through concerts, conferences, and the new commercial concourse.', source: 'FrontPage Africa',  time: 'Jun 16, 2026', href: '/sports/club-finance' },
 ];
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -522,7 +522,7 @@ export const SPONSORSHIP_HERO = {
   title: 'LFA Secures US$1.8M Orange Liberia Title Sponsorship — Biggest in League History',
   dek: "Orange Liberia's three-year title agreement with the Liberian Premier League is the largest single sponsorship deal in the LFA's history. The US$5.4M total package includes US$1.8M annually in cash, plus US$600K of telecom infrastructure for stadiums and a US$400K youth-academy commitment.",
   source: 'TrueRate Sports',
-  time: '2 days ago',
+  time: 'Jun 18, 2026',
 };
 
 export type Sponsorship = {
@@ -578,9 +578,9 @@ export const SPONSORSHIP_FEDERATION: { fed: string; sponsor: string; annual: str
 ];
 
 export const SPONSORSHIP_EDITORIAL: EditorialItem[] = [
-  { category: 'Analysis',  title: 'How Lonestar and Orange Are Rewriting West African Sports Sponsorship', dek: 'Telecoms now account for 61% of all LPL sponsorship spend. The reasons run deeper than logo placement.',           source: 'TrueRate Sports', time: '3d ago', href: '/sports/sponsorship' },
-  { category: 'Investigation', title: 'The Real Value of the US$1.8M Orange Deal — Cash, Kind, and the Fine Print', dek: 'US$1.8M annually in cash. US$600K in telecom infrastructure. US$400K of youth-academy commitments. We read every clause.', source: 'TrueRate Investigation', time: '4d ago', href: '/sports/sponsorship' },
-  { category: 'Explainer', title: 'Why Athlete Endorsements Are the Fastest-Growing Bucket',              dek: "Comfort Brown alone now earns more than half the entire LBA sponsorship pool. Inside the rise of athlete-led commercial value.",  source: 'Daily Observer',  time: '5d ago', href: '/sports/sponsorship' },
+  { category: 'Analysis',  title: 'How Lonestar and Orange Are Rewriting West African Sports Sponsorship', dek: 'Telecoms now account for 61% of all LPL sponsorship spend. The reasons run deeper than logo placement.',           source: 'TrueRate Sports', time: 'Jun 17, 2026', href: '/sports/sponsorship' },
+  { category: 'Investigation', title: 'The Real Value of the US$1.8M Orange Deal — Cash, Kind, and the Fine Print', dek: 'US$1.8M annually in cash. US$600K in telecom infrastructure. US$400K of youth-academy commitments. We read every clause.', source: 'TrueRate Investigation', time: 'Jun 16, 2026', href: '/sports/sponsorship' },
+  { category: 'Explainer', title: 'Why Athlete Endorsements Are the Fastest-Growing Bucket',              dek: "Comfort Brown alone now earns more than half the entire LBA sponsorship pool. Inside the rise of athlete-led commercial value.",  source: 'Daily Observer',  time: 'Jun 15, 2026', href: '/sports/sponsorship' },
 ];
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -664,7 +664,7 @@ export const EXECUTIVE_INTERVIEWS: ExecutiveInterview[] = [
     role: 'President, Liberia Football Association',
     topic: 'Governance',
     quote: 'A centralised wage floor is not charity — it is the only way the league becomes investable for sponsors who want governance, not guesswork.',
-    time: '2 days ago',
+    time: 'Jun 18, 2026',
     href: '/sports/sponsorship',
   },
   {
@@ -672,7 +672,7 @@ export const EXECUTIVE_INTERVIEWS: ExecutiveInterview[] = [
     role: 'Chairman, Mighty Barrolle',
     topic: 'Club Finance',
     quote: 'We capped the senior wage bill at 58% of revenue and renegotiated the shirt deal up a third. Profit was a decision, not luck.',
-    time: '3 days ago',
+    time: 'Jun 17, 2026',
     href: '/sports/club-finance',
   },
   {
@@ -680,7 +680,7 @@ export const EXECUTIVE_INTERVIEWS: ExecutiveInterview[] = [
     role: 'Sprinter & Olympian',
     topic: 'Athlete Economics',
     quote: 'My endorsements now fund three junior athletes a year. The market for a Liberian athlete finally exists — we built it ourselves.',
-    time: '5 days ago',
+    time: 'Jun 15, 2026',
     href: '/sports/sponsorship',
   },
   {
@@ -688,7 +688,7 @@ export const EXECUTIVE_INTERVIEWS: ExecutiveInterview[] = [
     role: 'Commercial Director, Orange Liberia',
     topic: 'Sponsorship',
     quote: 'Sport is the most efficient customer-acquisition channel left in this market. The title deal pays for itself in airtime alone.',
-    time: '1 week ago',
+    time: 'Jun 13, 2026',
     href: '/sports/sponsorship',
   },
 ];

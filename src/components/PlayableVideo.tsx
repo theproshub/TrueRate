@@ -10,6 +10,8 @@ type Props = {
   label: string;
   className?: string;
   style?: React.CSSProperties;
+  /** Start playing immediately on mount (muted per browser autoplay policy). */
+  autoPlay?: boolean;
   /** The existing thumbnail + overlay markup shown before playback. */
   children: React.ReactNode;
 };
@@ -19,8 +21,8 @@ type Props = {
  * design, and on click swaps it in place for the real player iframe (no heavy
  * YouTube script loads until the user actually plays). Keeps the page fast.
  */
-export default function PlayableVideo({ id, label, className = '', style, children }: Props) {
-  const [playing, setPlaying] = useState(false);
+export default function PlayableVideo({ id, label, className = '', style, autoPlay, children }: Props) {
+  const [playing, setPlaying] = useState(autoPlay && !!id);
 
   // No video linked yet → keep the facade but open the channel on click.
   if (!id) {
@@ -41,7 +43,7 @@ export default function PlayableVideo({ id, label, className = '', style, childr
     return (
       <div className={`relative ${className}`} style={style}>
         <iframe
-          src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`}
+          src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0${autoPlay ? '&mute=1' : ''}`}
           title={label}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen

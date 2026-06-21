@@ -18,7 +18,7 @@ const HERO = {
   duration: '24:18',
   category: 'Entrepreneurship',
   source: 'TrueRate Interviews',
-  time: '4h ago',
+  time: 'Jun 20, 2026',
   youtubeId: '',
 };
 
@@ -29,18 +29,18 @@ const PLAYBOOKS = [
 ];
 
 const SPOTLIGHTS = [
-  { title: "James Tarr: $500 idea to Liberia’s top catering brand", duration: '16:05', category: 'Entrepreneurship', time: '3d ago' },
-  { title: "The woman digitising Liberia’s informal market", duration: '20:33', category: 'Technology', time: '4d ago' },
-  { title: "Bong County family built a $1M agribusiness from one farm", duration: '13:48', category: 'Business', time: '5d ago' },
-  { title: "Inside Monrovia’s most successful female-led startup", duration: '22:10', category: 'Leadership', time: '6d ago' },
-  { title: "How three cofounders split equity without fighting", duration: '11:48', category: 'Entrepreneurship', time: '1w ago' },
-  { title: "Paynesville’s fastest-growing SME on unit economics", duration: '15:22', category: 'Business', time: '1w ago' },
+  { title: "James Tarr: $500 idea to Liberia’s top catering brand", duration: '16:05', category: 'Entrepreneurship', time: 'Jun 17, 2026' },
+  { title: "The woman digitising Liberia’s informal market", duration: '20:33', category: 'Technology', time: 'Jun 16, 2026' },
+  { title: "Bong County family built a $1M agribusiness from one farm", duration: '13:48', category: 'Business', time: 'Jun 15, 2026' },
+  { title: "Inside Monrovia’s most successful female-led startup", duration: '22:10', category: 'Leadership', time: 'Jun 14, 2026' },
+  { title: "How three cofounders split equity without fighting", duration: '11:48', category: 'Entrepreneurship', time: 'Jun 13, 2026' },
+  { title: "Paynesville’s fastest-growing SME on unit economics", duration: '15:22', category: 'Business', time: 'Jun 13, 2026' },
 ];
 
 const FUNDING_STORIES = [
-  { title: "LiberAgro’s $12M IPO: the cap table, step by step", duration: '19:40', category: 'Investing', time: '2d ago' },
-  { title: "How to raise seed capital in Liberia without giving up control", duration: '14:10', category: 'Entrepreneurship', time: '5d ago' },
-  { title: "Inside the Liberia Venture Forum — who wrote cheques", duration: '22:30', category: 'Investing', time: '1w ago' },
+  { title: "LiberAgro’s $12M IPO: the cap table, step by step", duration: '19:40', category: 'Investing', time: 'Jun 18, 2026' },
+  { title: "How to raise seed capital in Liberia without giving up control", duration: '14:10', category: 'Entrepreneurship', time: 'Jun 15, 2026' },
+  { title: "Inside the Liberia Venture Forum — who wrote cheques", duration: '22:30', category: 'Investing', time: 'Jun 13, 2026' },
 ];
 
 function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {

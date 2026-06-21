@@ -6,85 +6,125 @@ import { videoHref } from '@/lib/youtube';
 
 const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
+const CAT_COLORS: Record<string, string> = {
+  'Startups':         'text-violet-400',
+  'Economy':          'text-brand-accent',
+  'Technology':       'text-sky-400',
+  'Investing':        'text-emerald-400',
+  'Entrepreneurship': 'text-violet-400',
+  'Leadership':       'text-amber-400',
+  'Business':         'text-rose-400',
+};
+
+function catColor(c: string) {
+  return CAT_COLORS[c] ?? 'text-gray-400';
+}
+
 export default function VideosSection({ videos }: { videos: Video[] }) {
   const [featured, ...rest] = videos;
   return (
     <section aria-labelledby="todays-videos">
-      {/* Section header — matches homepage typography */}
       <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-5">
-        <h2 id="todays-videos" className="text-md font-bold text-white">Today&apos;s Videos</h2>
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-5 w-5 items-center justify-center rounded bg-red-600">
+            <svg className="h-3 w-3 translate-x-[0.5px] text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+          <h2 id="todays-videos" className="text-md font-bold text-white">Today&apos;s Videos</h2>
+        </div>
         <Link
           href="/videos"
-          className="text-sm text-gray-300 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline"
+          className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline"
         >
-          Explore more ›
+          All videos ›
         </Link>
       </div>
 
-      {/* Stacked: full-width featured player with a large headline below
-          (Yahoo-style on desktop), then the list. Mobile was already
-          stacked, so only desktop changes from the old side-by-side split. */}
-      <div className="flex flex-col gap-5">
-        {/* Featured — plays inline */}
+      <div className="flex flex-col gap-0">
+        {/* Featured — large inline player */}
         <div className="group flex flex-col">
-          <PlayableVideo id={featured.youtubeId} label={featured.title} className="overflow-hidden rounded-xl mb-3 aspect-video">
+          <PlayableVideo id={featured.youtubeId} label={featured.title} autoPlay className="overflow-hidden rounded-xl mb-3 aspect-video">
             {featured.youtubeId ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={`https://img.youtube.com/vi/${featured.youtubeId}/maxresdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover" />
             ) : (
               <VideoThumbnail category={featured.category} className="absolute inset-0 w-full h-full" />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/50 pointer-events-none" />
-            {/* Yahoo-style title caption on the player (desktop only) */}
-            <span className="hidden lg:block absolute top-3 left-4 right-4 text-md font-semibold leading-snug text-white drop-shadow-lg line-clamp-2 pointer-events-none">
-              {featured.title}
-            </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 pointer-events-none" />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50 backdrop-blur-sm group-hover:bg-black/70 transition-colors">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-md ring-1 ring-white/30 group-hover:bg-white/30 group-hover:scale-110 transition-all duration-200">
                 <svg className="h-5 w-5 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
             </div>
-            <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums backdrop-blur-sm">
+            {/* Duration badge */}
+            <span className="absolute bottom-2.5 right-2.5 rounded-md bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums backdrop-blur-sm">
               {featured.duration}
             </span>
+            {/* Category badge */}
+            <span className={`absolute top-2.5 left-2.5 rounded-md bg-black/60 backdrop-blur-sm px-2 py-0.5 text-2xs font-bold uppercase tracking-wider ${catColor(featured.category)}`}>
+              {featured.category}
+            </span>
           </PlayableVideo>
-          <h3 className="text-md lg:text-2xl font-bold leading-[1.25] lg:leading-[1.2] tracking-tight text-white mb-2 lg:mb-3 line-clamp-2">
+          <h3 className="text-base lg:text-lg font-bold leading-snug tracking-tight text-white mb-1.5 line-clamp-2">
             {featured.title}
           </h3>
           {featured.description && (
-            <p className="text-sm lg:text-md leading-relaxed text-gray-400 line-clamp-3 mb-3">
+            <p className="text-sm leading-relaxed text-gray-400 line-clamp-2 mb-2">
               {featured.description}
             </p>
           )}
-          <p className="text-xs lg:text-sm text-gray-500 mt-auto">
-            <span>{featured.source}</span>
+          <p className="text-xs text-gray-500">
+            <span className="font-medium text-gray-400">{featured.source}</span>
             <span aria-hidden className="mx-1.5">·</span>
             <span>{featured.time}</span>
           </p>
         </div>
 
-        {/* List below the featured — links out */}
-        <div className="flex flex-col divide-y divide-white/[0.05]">
-          {rest.map((v, i) => (
-            <a key={i} href={videoHref(v.youtubeId)} {...ext} className="group flex gap-3 py-3 first:pt-0 no-underline">
-              <div className="shrink-0 overflow-hidden rounded-lg w-[120px] h-[72px]">
-                <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
-              </div>
-              <div className="min-w-0 flex-1 flex flex-col justify-center">
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">
-                  {v.title}
-                </h3>
-                <p className="text-xs text-gray-500">
-                  <span>{v.source}</span>
-                  <span aria-hidden className="mx-1.5">·</span>
-                  <span>{v.time}</span>
-                </p>
-              </div>
-            </a>
-          ))}
-        </div>
+        {/* Up Next playlist */}
+        {rest.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-white/[0.06]">
+            <p className="text-2xs font-bold uppercase tracking-[0.14em] text-gray-500 mb-3">Up next</p>
+            <div className="flex flex-col gap-3">
+              {rest.map((v, i) => (
+                <a key={i} href={videoHref(v.youtubeId)} {...ext} className="group flex gap-3 no-underline">
+                  <div className="relative shrink-0 overflow-hidden rounded-lg w-[120px] h-[68px]">
+                    {v.youtubeId ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={`https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                    ) : (
+                      <VideoThumbnail category={v.category} className="w-full h-full" />
+                    )}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                    <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-px text-[10px] font-semibold text-white tabular-nums backdrop-blur-sm">
+                      {v.duration}
+                    </span>
+                    {/* Hover play icon */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/25 backdrop-blur-sm">
+                        <svg className="h-3 w-3 translate-x-[0.5px] text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1 flex flex-col justify-center">
+                    <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">
+                      {v.title}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      <span>{v.source}</span>
+                      <span aria-hidden className="mx-1">·</span>
+                      <span>{v.time}</span>
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

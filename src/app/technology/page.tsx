@@ -4,6 +4,7 @@ import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 import { fetchTechnologyArticles, toTechStory, type TechStory } from '@/lib/technology/feed';
+import { newsItems } from '@/data/news';
 
 export const metadata = {
   alternates: { canonical: '/technology' },
@@ -24,21 +25,21 @@ const MOCK_HERO = {
   title: "Orange Money Leads Expansion in Liberia's Mobile Money Market",
   summary: 'Orange Money Liberia is widening its lead as rural adoption and merchant-payment integrations push mobile money deeper into the formal economy.',
   source: 'TrueRate Tech',
-  time: '1h ago',
+  time: 'Jun 20, 2026',
   href: '/news',
 };
 
 const MOCK_STRIP: { category: string; title: string; source: string; time: string; href: string }[] = [
-  { category: 'Fintech',    title: 'Monrovia startup Ducor Pay closes Series A to expand USSD lending across West Africa',                        source: 'TechCabal',      time: '2h ago',  href: '/news' },
-  { category: 'Hardware',   title: 'iPhone 16 demand surges in Monrovia, but Randall Street retailers pull units as import duty hike bites margins', source: 'FrontPage Africa', time: '4h ago', href: '/news' },
-  { category: 'Startups',   title: 'Orange Digital Center Liberia opens DevOps sandbox — first cohort of engineers begins residency',                source: 'TrueRate Tech',    time: '5h ago',  href: '/news' },
-  { category: 'Education',  title: 'BlueCrest University lines up its biggest class yet of CS and software engineering graduates',                   source: 'Liberian Observer', time: '6h ago', href: '/news' },
-  { category: 'Government', title: 'Audit finds ministry offices still running Windows 7; cybersecurity team warns of patch exposure',               source: 'The New Dawn',     time: '8h ago',  href: '/news' },
-  { category: 'Government', title: 'National registry database crashes again — MoICT pledges full infrastructure audit',                            source: 'FrontPage Africa', time: '10h ago', href: '/news' },
-  { category: 'AI',         title: 'Liberia joins AU AI Task Force, plans national AI policy framework',                                            source: 'The New Dawn',     time: '12h ago', href: '/news' },
-  { category: 'Telecom',    title: 'Lonestar MTN extends 4G to more counties, widening national coverage',                                          source: 'FrontPage Africa', time: '14h ago', href: '/news' },
-  { category: 'Startups',   title: "Liberia's first tech hub, iCampus, secures USAID funding to expand coding bootcamps",                           source: 'Liberian Observer', time: '16h ago', href: '/news' },
-  { category: 'E-Commerce', title: "Jumia Liberia's sales climb as smartphone penetration deepens",                                                 source: 'Reuters',          time: '1 day ago', href: '/news' },
+  { category: 'Fintech',    title: 'Monrovia startup Ducor Pay closes Series A to expand USSD lending across West Africa',                        source: 'TechCabal',      time: 'Jun 20, 2026',  href: '/news' },
+  { category: 'Hardware',   title: 'iPhone 16 demand surges in Monrovia, but Randall Street retailers pull units as import duty hike bites margins', source: 'FrontPage Africa', time: 'Jun 20, 2026', href: '/news' },
+  { category: 'Startups',   title: 'Orange Digital Center Liberia opens DevOps sandbox — first cohort of engineers begins residency',                source: 'TrueRate Tech',    time: 'Jun 20, 2026',  href: '/news' },
+  { category: 'Education',  title: 'BlueCrest University lines up its biggest class yet of CS and software engineering graduates',                   source: 'Liberian Observer', time: 'Jun 20, 2026', href: '/news' },
+  { category: 'Government', title: 'Audit finds ministry offices still running Windows 7; cybersecurity team warns of patch exposure',               source: 'The New Dawn',     time: 'Jun 20, 2026',  href: '/news' },
+  { category: 'Government', title: 'National registry database crashes again — MoICT pledges full infrastructure audit',                            source: 'FrontPage Africa', time: 'Jun 20, 2026', href: '/news' },
+  { category: 'AI',         title: 'Liberia joins AU AI Task Force, plans national AI policy framework',                                            source: 'The New Dawn',     time: 'Jun 19, 2026', href: '/news' },
+  { category: 'Telecom',    title: 'Lonestar MTN extends 4G to more counties, widening national coverage',                                          source: 'FrontPage Africa', time: 'Jun 19, 2026', href: '/news' },
+  { category: 'Startups',   title: "Liberia's first tech hub, iCampus, secures USAID funding to expand coding bootcamps",                           source: 'Liberian Observer', time: 'Jun 19, 2026', href: '/news' },
+  { category: 'E-Commerce', title: "Jumia Liberia's sales climb as smartphone penetration deepens",                                                 source: 'Reuters',          time: 'Jun 19, 2026', href: '/news' },
 ];
 
 const MOCK_FEED: { category: string; title: string; summary: string; source: string; time: string; href: string }[] = [
@@ -96,16 +97,28 @@ function storyToCard(s: TechStory): Card {
 }
 
 export default async function TechnologyPage() {
-  // Backend-first: real published technology articles drive every surface.
-  // Until any are published, the mock content keeps the design preview full and
-  // a "Sample data" banner makes the placeholder status unmistakable.
   const db = await fetchTechnologyArticles({ limit: 24 });
   const useDb = db.length > 0;
   const stories = db.map(toTechStory);
 
-  const hero: Card = useDb ? storyToCard(stories[0]) : MOCK_HERO;
-  const leads: Card[] = useDb ? stories.slice(1, 4).map(storyToCard) : MOCK_STRIP.slice(0, 3);
-  const strip: Card[] = useDb ? stories.slice(4, 12).map(storyToCard) : MOCK_STRIP.slice(3);
+  const TECH_CATS = new Set(['technology', 'startups', 'ai']);
+  const seedArticles: Card[] = newsItems
+    .filter((n) => TECH_CATS.has(n.category))
+    .map((n) => ({
+      category: n.category.charAt(0).toUpperCase() + n.category.slice(1),
+      categorySlug: n.category,
+      title: n.title,
+      summary: n.summary,
+      source: n.author ?? n.source,
+      time: (() => { const d = new Date(n.date); const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return `${m[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`; })(),
+      href: `/news/${n.id}`,
+      image: n.image ?? null,
+    }));
+  const hasSeed = seedArticles.length > 0;
+
+  const hero: Card = useDb ? storyToCard(stories[0]) : hasSeed ? seedArticles[0] : MOCK_HERO;
+  const leads: Card[] = useDb ? stories.slice(1, 4).map(storyToCard) : hasSeed ? seedArticles.slice(1, 4) : MOCK_STRIP.slice(0, 3);
+  const strip: Card[] = useDb ? stories.slice(4, 12).map(storyToCard) : MOCK_STRIP;
   const feed: Card[] = useDb
     ? stories.slice(1).filter((s) => s.dek).slice(0, 10).map(storyToCard)
     : MOCK_FEED;
@@ -113,7 +126,7 @@ export default async function TechnologyPage() {
   return (
     <>
       {/* Sample-data notice — only while running on placeholder content. */}
-      {!useDb && (
+      {!useDb && !hasSeed && (
         <div role="note" aria-label="Sample data notice" className="bg-amber-400 text-amber-950">
           <div className="mx-auto max-w-container px-4 py-2 flex items-start gap-2 text-sm">
             <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0">
@@ -275,13 +288,22 @@ export default async function TechnologyPage() {
               {/* More from / Most Read — real recent articles in DB mode (no
                   fabricated "most read"), mock list only in preview mode. */}
               <div className="hidden lg:block">
-                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">{useDb ? 'More from Technology' : 'Most Read'}</h3>
+                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">{useDb || hasSeed ? 'More from Technology' : 'Most Read'}</h3>
                 <ol className="flex flex-col divide-y divide-white/[0.05]">
                   {useDb
                     ? stories.slice(0, 6).map((s, i) => (
                         <li key={s.href + i} className="py-2.5 first:pt-0">
                           <Link href={s.href} className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
                             <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug)}`}>{s.category}</span>
+                            {s.title}
+                          </Link>
+                        </li>
+                      ))
+                    : hasSeed
+                    ? seedArticles.map((s, i) => (
+                        <li key={s.href + i} className="py-2.5 first:pt-0">
+                          <Link href={s.href} className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                            <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug ?? s.category)}`}>{s.category}</span>
                             {s.title}
                           </Link>
                         </li>

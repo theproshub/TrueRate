@@ -11,7 +11,6 @@ const FOOTER_LINKS: Record<string, Array<{ label: string; href: string }>> = {
     { label: 'Technology',        href: '/technology' },
   ],
   'Life & Culture': [
-    { label: 'Entertainment',     href: '/entertainment' },
     { label: 'Sports',            href: '/sports' },
     { label: 'Entrepreneurship',          href: '/small-business' },
     { label: 'Videos',            href: '/videos' },
@@ -33,7 +32,6 @@ const TRENDING_LINKS = [
   { label: 'Economy',           href: '/economy' },
   { label: 'Technology',        href: '/technology' },
   { label: 'Entrepreneurship',          href: '/small-business' },
-  { label: 'Entertainment',     href: '/entertainment' },
   { label: 'Sports',            href: '/sports' },
   { label: 'Videos',            href: '/videos' },
   { label: 'Watchlist',         href: '/watchlist' },

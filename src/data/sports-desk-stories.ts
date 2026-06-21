@@ -16,7 +16,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'youth-academy-economy-who-pays', topic: 'youth-sports', section: 'main',
     category: 'Youth Sports', flag: 'Analysis', author: 'Sarah Kollie', dateline: 'MONROVIA', readTime: '7 min read',
-    source: 'TrueRate Sports', time: '2 days ago',
+    source: 'TrueRate Sports', time: 'Jun 18, 2026',
     title: 'The Academy Economy: Who Actually Pays to Develop Liberia’s Talent',
     summary: 'Club academies, NGO programmes and private camps compete for the same young players. We trace where the money comes from — and where it goes.',
     body: [
@@ -27,7 +27,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'youth-school-championships-corporate-backing', topic: 'youth-sports', section: 'main',
-    category: 'Youth Sports', author: 'James Dweh', source: 'TrueRate Sports', time: '3 days ago',
+    category: 'Youth Sports', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 17, 2026',
     title: 'School Championships Return With Corporate Backing for the First Time',
     summary: 'A national schools competition returns with a title sponsor — and a template other youth events are already studying.',
     body: [
@@ -37,7 +37,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'youth-academy-player-sales-business-model', topic: 'youth-sports', section: 'main',
-    category: 'Youth Sports', author: 'Comfort Davies', source: 'TrueRate Sports', time: '5 days ago',
+    category: 'Youth Sports', author: 'Comfort Davies', source: 'TrueRate Sports', time: 'Jun 15, 2026',
     title: 'How One Monrovia Academy Turned Player Sales Into a Business Model',
     summary: 'A single academy has built a sustainable operation around sell-on clauses and structured transfers — and others are copying it.',
     body: [
@@ -47,7 +47,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'youth-academy-safeguarding-standards', topic: 'youth-sports', section: 'main',
-    category: 'Youth Sports', author: 'Patrice Williams', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Youth Sports', author: 'Patrice Williams', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'The Safeguarding Standards Liberian Academies Still Lack',
     summary: 'As academies professionalise commercially, child-protection standards have not kept pace. The gap is becoming a liability.',
     body: [
@@ -60,7 +60,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'womens-football-fastest-growing-underfunded', topic: 'womens-sports', section: 'main',
     category: "Women's Sports", flag: 'Analysis', author: 'Tina Mensah', dateline: 'MONROVIA', readTime: '6 min read',
-    source: 'TrueRate Sports', time: '2 days ago',
+    source: 'TrueRate Sports', time: 'Jun 18, 2026',
     title: 'Women’s Football Is Liberia’s Fastest-Growing Audience — and Its Most Underfunded',
     summary: 'Attendance and broadcast interest are rising faster than the men’s game in places. The commercial money has not yet followed.',
     body: [
@@ -71,7 +71,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'lwpl-first-standalone-title-sponsor', topic: 'womens-sports', section: 'main',
-    category: "Women's Sports", author: 'Sarah Kollie', source: 'TrueRate Sports', time: '4 days ago',
+    category: "Women's Sports", author: 'Sarah Kollie', source: 'TrueRate Sports', time: 'Jun 16, 2026',
     title: 'LWPL Lands Its First Standalone Title Sponsor',
     summary: 'The women’s league secures a title partner of its own rather than a bundled afterthought to the men’s deal.',
     body: [
@@ -81,7 +81,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'womens-national-team-qualifying-domestic-league', topic: 'womens-sports', section: 'main',
-    category: "Women's Sports", author: 'Comfort Davies', source: 'TrueRate Sports', time: '6 days ago',
+    category: "Women's Sports", author: 'Comfort Davies', source: 'TrueRate Sports', time: 'Jun 14, 2026',
     title: 'The National Team’s Qualifying Run Is Reshaping the Domestic League',
     summary: 'Success for the senior women’s side is pulling investment, attention and players back into the home league.',
     body: [
@@ -91,7 +91,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'womens-sport-equal-pay-conversations', topic: 'womens-sports', section: 'main',
-    category: "Women's Sports", author: 'James Dweh', source: 'TrueRate Sports', time: '1 week ago',
+    category: "Women's Sports", author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'Equal-Pay Conversations Reach Liberian Sport — Slowly',
     summary: 'The global debate over pay parity is arriving in Liberia, where the gap is structural as much as it is about wages.',
     body: [
@@ -104,7 +104,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'lfa-2026-budget-vote-on-the-table', topic: 'governance', section: 'main',
     category: 'Governance', flag: 'Exclusive', author: 'Emmanuel Toe', dateline: 'MONROVIA', readTime: '8 min read',
-    source: 'TrueRate Sports', time: '1 day ago',
+    source: 'TrueRate Sports', time: 'Jun 19, 2026',
     title: 'LFA’s 2026 Budget Vote: What’s Actually on the Table',
     summary: 'Ahead of the AGM, the draft operating budget proposes a centralised referee-payment scheme, a club-licensing deadline, and a contested reserve fund.',
     body: [
@@ -115,7 +115,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'caf-club-licensing-liberian-clubs-deadline', topic: 'governance', section: 'main',
-    category: 'Governance', author: 'Sarah Kollie', source: 'TrueRate Sports', time: '3 days ago',
+    category: 'Governance', author: 'Sarah Kollie', source: 'TrueRate Sports', time: 'Jun 17, 2026',
     title: 'CAF Club Licensing: Which Liberian Clubs Risk Missing the Deadline',
     summary: 'Continental licensing rules demand financial and infrastructure standards several Liberian clubs are not yet meeting.',
     body: [
@@ -125,7 +125,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'governance-integrity-unit-liberian-sport', topic: 'governance', section: 'main',
-    category: 'Governance', author: 'James Dweh', source: 'TrueRate Sports', time: '5 days ago',
+    category: 'Governance', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 15, 2026',
     title: 'The Integrity Unit Liberian Sport Keeps Promising to Build',
     summary: 'Match-fixing and refereeing concerns have prompted repeated pledges of an integrity body. None has yet materialised.',
     body: [
@@ -135,7 +135,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'governance-federation-elections-sponsorship-money', topic: 'governance', section: 'main',
-    category: 'Governance', author: 'Patrice Williams', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Governance', author: 'Patrice Williams', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'How Federation Elections Shape Where Sponsorship Money Flows',
     summary: 'Who runs a federation decides which clubs, regions and disciplines see commercial investment. The politics is the economics.',
     body: [
@@ -148,7 +148,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'tech-streaming-carve-out-lpl-reach', topic: 'technology', section: 'main',
     category: 'Technology', flag: 'Analysis', author: 'Tina Mensah', dateline: 'MONROVIA', readTime: '6 min read',
-    source: 'TrueRate Sports', time: '2 days ago',
+    source: 'TrueRate Sports', time: 'Jun 18, 2026',
     title: 'A Streaming Carve-Out Could Double the LPL’s Reach Overnight',
     summary: 'Awarding linear and digital rights separately would push the league’s potential audience past a million viewers — including the diaspora.',
     body: [
@@ -159,7 +159,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'tech-clubs-adopt-performance-tracking', topic: 'technology', section: 'main',
-    category: 'Technology', author: 'James Dweh', source: 'TrueRate Sports', time: '4 days ago',
+    category: 'Technology', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 16, 2026',
     title: 'Clubs Begin Adopting Basic Performance-Tracking for the First Time',
     summary: 'A handful of Liberian clubs are deploying low-cost tracking tools — and discovering how much they didn’t know.',
     body: [
@@ -169,7 +169,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'tech-mobile-money-sport-ticketing', topic: 'technology', section: 'main',
-    category: 'Technology', author: 'Comfort Davies', source: 'TrueRate Sports', time: '6 days ago',
+    category: 'Technology', author: 'Comfort Davies', source: 'TrueRate Sports', time: 'Jun 14, 2026',
     title: 'Mobile Money Is Quietly Becoming Liberian Sport’s Ticketing Layer',
     summary: 'Orange Money and MTN MoMo are turning matchday payments into data — and a new revenue and marketing channel.',
     body: [
@@ -179,7 +179,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'tech-data-gap-scouting-liberian-athletes', topic: 'technology', section: 'main',
-    category: 'Technology', author: 'Sarah Kollie', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Technology', author: 'Sarah Kollie', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'The Data Gap That Makes Liberian Athletes Hard to Scout',
     summary: 'Foreign buyers price what they can verify. Liberia’s thin data trail quietly discounts its players.',
     body: [
@@ -192,7 +192,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'interview-cassell-kuoh-barrolle-profitable', topic: 'interviews', section: 'main',
     category: 'Interviews', flag: 'Interview', author: 'Sarah Kollie', authorRole: 'Sports Business Editor', dateline: 'MONROVIA', readTime: '9 min read',
-    source: 'TrueRate Sports', time: '2 days ago',
+    source: 'TrueRate Sports', time: 'Jun 18, 2026',
     title: 'The Chairman Who Made Mighty Barrolle Profitable — In His Own Words',
     summary: 'Cassell Kuoh on the wage cap, the shirt-deal renegotiation, and why he thinks the rest of the league is still mispricing its own players.',
     body: [
@@ -206,7 +206,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'data-liberian-sport-money-map', topic: 'data-research', section: 'main',
     category: 'Data & Research', flag: 'Data', author: 'James Dweh', dateline: 'MONROVIA', readTime: '10 min read',
-    source: 'TrueRate Sports', time: '2 days ago',
+    source: 'TrueRate Sports', time: 'Jun 18, 2026',
     title: 'The Liberian Sport Money Map: Where the Money Actually Flows',
     summary: 'We pulled together sponsorship, broadcast, transfer and gate figures across the major competitions to map the real size — and shape — of the market.',
     body: [
@@ -220,7 +220,7 @@ export const DESK_STORIES: SportsStory[] = [
   {
     slug: 'opinion-balance-sheet-not-talent-problem', topic: 'opinion', section: 'main',
     category: 'Opinion', flag: 'Opinion', author: 'TrueRate Editorial Board', readTime: '5 min read',
-    source: 'TrueRate Sports', time: '1 day ago',
+    source: 'TrueRate Sports', time: 'Jun 19, 2026',
     title: 'Liberian Sport Doesn’t Have a Talent Problem. It Has a Balance-Sheet Problem.',
     summary: 'The players keep coming. The institutions to monetise and retain them do not.',
     body: [
@@ -230,7 +230,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'opinion-stop-celebrating-transfer-fees', topic: 'opinion', section: 'main',
-    category: 'Opinion', author: 'Sarah Kollie', source: 'TrueRate Sports', time: '3 days ago',
+    category: 'Opinion', author: 'Sarah Kollie', source: 'TrueRate Sports', time: 'Jun 17, 2026',
     title: 'Stop Celebrating Transfer Fees. Start Asking Where the Money Goes.',
     summary: 'A record fee is only good news if the selling club, and Liberian football, actually keep a meaningful share of it.',
     body: [
@@ -240,7 +240,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'opinion-centralised-broadcast-rights-body', topic: 'opinion', section: 'main',
-    category: 'Analysis', author: 'James Dweh', source: 'TrueRate Sports', time: '5 days ago',
+    category: 'Analysis', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 15, 2026',
     title: 'The Case for One Centralised Liberian Sports Broadcast Rights Body',
     summary: 'Fragmented, deal-by-deal rights selling leaves money on the table. A central body could change the league’s bargaining position.',
     body: [
@@ -250,7 +250,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'opinion-womens-sport-best-investment', topic: 'opinion', section: 'main',
-    category: 'Opinion', author: 'Comfort Davies', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Opinion', author: 'Comfort Davies', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'Women’s Sport Is the Best Investment Nobody in Liberia Is Making',
     summary: 'The audience is already there and the entry price is low. The sponsors who move first will look prescient in five years.',
     body: [
@@ -262,7 +262,7 @@ export const DESK_STORIES: SportsStory[] = [
   // ── Interviews ──────────────────────────────────────────────────────────
   {
     slug: 'interview-lwpl-commissioner-title-sponsor', topic: 'interviews', section: 'main',
-    category: 'Interviews', flag: 'Interview', author: 'Tina Mensah', source: 'TrueRate Sports', time: '4 days ago',
+    category: 'Interviews', flag: 'Interview', author: 'Tina Mensah', source: 'TrueRate Sports', time: 'Jun 16, 2026',
     title: 'The Commissioner Who Sold the LWPL’s First Title Sponsorship — On What It Took',
     summary: 'Two years of pitches, one rewritten media kit, and a pricing decision that divided the board. The LWPL’s commissioner walks through the deal.',
     body: [
@@ -273,7 +273,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'interview-liscr-fc-ceo-shirt-renewal', topic: 'interviews', section: 'main',
-    category: 'Interviews', flag: 'Interview', author: 'James Dweh', source: 'TrueRate Sports', time: '6 days ago',
+    category: 'Interviews', flag: 'Interview', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 14, 2026',
     title: 'LISCR FC’s Chief Executive on Renewing a Shirt Deal in a Rising Market',
     summary: 'With telco money chasing Liberian football, the club boss explains how he is repricing the front of his shirt — and what he refuses to bundle.',
     body: [
@@ -284,7 +284,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'interview-athletes-africa-agent-liberia', topic: 'interviews', section: 'main',
-    category: 'Interviews', flag: 'Interview', author: 'Comfort Davies', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Interviews', flag: 'Interview', author: 'Comfort Davies', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'The Agent Building Liberia’s Athlete Market: ‘The Talent Was Never the Problem’',
     summary: 'The Lagos-based agent behind several Liberian breakout deals on contract structure, FX clauses, and why representation is the missing institution.',
     body: [
@@ -297,7 +297,7 @@ export const DESK_STORIES: SportsStory[] = [
   // ── Data & Research ─────────────────────────────────────────────────────
   {
     slug: 'data-lpl-attendance-tracker-2026', topic: 'data-research', section: 'main',
-    category: 'Data & Research', flag: 'Data', author: 'Patrice Williams', source: 'TrueRate Sports', time: '4 days ago',
+    category: 'Data & Research', flag: 'Data', author: 'Patrice Williams', source: 'TrueRate Sports', time: 'Jun 16, 2026',
     title: 'The LPL Attendance Tracker: What the Turnstiles Say About the League’s Recovery',
     summary: 'We compiled match-by-match attendance across the season. The headline: crowds are back — but the growth is concentrated in four clubs.',
     body: [
@@ -308,7 +308,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'data-liberian-transfer-fees-database', topic: 'data-research', section: 'main',
-    category: 'Data & Research', flag: 'Data', author: 'James Dweh', source: 'TrueRate Sports', time: '6 days ago',
+    category: 'Data & Research', flag: 'Data', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 14, 2026',
     title: 'Every Recorded Liberian Transfer Fee Since 2015, in One Database',
     summary: 'A decade of deals, standardised and sourced. What the dataset shows about where Liberian players go — and what the market actually pays.',
     body: [
@@ -319,7 +319,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'data-sports-sponsorship-census-method', topic: 'data-research', section: 'main',
-    category: 'Data & Research', flag: 'Analysis', author: 'Sarah Kollie', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Data & Research', flag: 'Analysis', author: 'Sarah Kollie', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'How We Count Sponsorship Money: Inside the TrueRate Sports Census Method',
     summary: 'Deal values in African sport are routinely inflated. Here is the verification standard behind every figure this desk publishes.',
     body: [
@@ -332,7 +332,7 @@ export const DESK_STORIES: SportsStory[] = [
   // ── Athletics (desk-specific additions to the category pool) ───────────
   {
     slug: 'athletics-diamond-league-appearance-economics', topic: 'athletics', section: 'main',
-    category: 'Athletics', flag: 'Analysis', author: 'Comfort Davies', source: 'TrueRate Sports', time: '5 days ago',
+    category: 'Athletics', flag: 'Analysis', author: 'Comfort Davies', source: 'TrueRate Sports', time: 'Jun 15, 2026',
     title: 'What a Diamond League Lane Is Actually Worth to a Liberian Sprinter',
     summary: 'Appearance fees, prize structure, and the sponsorship halo: the full economics of a single top-tier meet invitation.',
     body: [
@@ -343,7 +343,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'athletics-national-stadium-track-certification', topic: 'athletics', section: 'main',
-    category: 'Athletics', author: 'Emmanuel Toe', source: 'TrueRate Sports', time: '1 week ago',
+    category: 'Athletics', author: 'Emmanuel Toe', source: 'TrueRate Sports', time: 'Jun 13, 2026',
     title: 'The Track Certification Standing Between Monrovia and World-Ranking Meets',
     summary: 'Times run on an uncertified track don’t count. The resurfacing and audit that would change what Liberian athletes can prove at home.',
     body: [
@@ -356,7 +356,7 @@ export const DESK_STORIES: SportsStory[] = [
   // ── One more each for the editorial desks ───────────────────────────────
   {
     slug: 'youth-county-meet-scouting-economy', topic: 'youth-sports', section: 'main',
-    category: 'Youth Sports', author: 'James Dweh', source: 'TrueRate Sports', time: '2 weeks ago',
+    category: 'Youth Sports', author: 'James Dweh', source: 'TrueRate Sports', time: 'Jun 6, 2026',
     title: 'The County Meet Has Quietly Become Liberia’s Biggest Scouting Market',
     summary: 'Agents, academy recruiters and club scouts now treat the national county meet as a talent exchange. Nobody regulates it.',
     body: [
@@ -367,7 +367,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'womens-broadcast-slot-experiment', topic: 'womens-sports', section: 'main',
-    category: "Women's Sports", author: 'Tina Mensah', source: 'TrueRate Sports', time: '2 weeks ago',
+    category: "Women's Sports", author: 'Tina Mensah', source: 'TrueRate Sports', time: 'Jun 6, 2026',
     title: 'The Saturday-Slot Experiment: What Happened When Women’s Football Got Primetime',
     summary: 'A half-season scheduling change put LWPL matches in the weekend broadcast window. The audience response surprised everyone but the players.',
     body: [
@@ -378,7 +378,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'governance-club-licensing-financial-disclosure', topic: 'governance', section: 'main',
-    category: 'Governance', author: 'Emmanuel Toe', source: 'TrueRate Sports', time: '2 weeks ago',
+    category: 'Governance', author: 'Emmanuel Toe', source: 'TrueRate Sports', time: 'Jun 6, 2026',
     title: 'Club Licensing’s Quietest Clause: The Financial Disclosure Nobody Has Complied With',
     summary: 'The licensing framework requires audited club accounts. As the deadline approaches, the compliance rate is effectively zero.',
     body: [
@@ -389,7 +389,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'technology-var-lite-officiating-pilot', topic: 'technology', section: 'main',
-    category: 'Technology', author: 'Sarah Kollie', source: 'TrueRate Sports', time: '2 weeks ago',
+    category: 'Technology', author: 'Sarah Kollie', source: 'TrueRate Sports', time: 'Jun 6, 2026',
     title: 'VAR Is Out of Reach. The League Is Piloting Something Cheaper.',
     summary: 'Full video review costs more than the league’s broadcast deal. A two-camera review protocol is being tested instead.',
     body: [
@@ -400,7 +400,7 @@ export const DESK_STORIES: SportsStory[] = [
   },
   {
     slug: 'opinion-county-meet-commercial-underuse', topic: 'opinion', section: 'main',
-    category: 'Opinion', author: 'Patrice Williams', source: 'TrueRate Sports', time: '2 weeks ago',
+    category: 'Opinion', author: 'Patrice Williams', source: 'TrueRate Sports', time: 'Jun 6, 2026',
     title: 'The County Meet Is Liberia’s Biggest Sports Property. We Treat It Like a Festival.',
     summary: 'The country’s most-watched competition has no rights strategy, no sponsorship architecture and no data. That is a choice.',
     body: [
