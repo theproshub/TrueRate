@@ -145,7 +145,7 @@ function LatestColumn({ items }: { items: HomeArticle[] }) {
   return (
     <section aria-labelledby="latest-feed-heading">
       <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
-        <h2 id="latest-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Latest</h2>
+        <h2 id="latest-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">Markets &amp; Economy</h2>
         <Link href="/news" className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline">See all ›</Link>
       </div>
       <div className="flex flex-col divide-y divide-white/[0.05]">
@@ -302,8 +302,8 @@ export default async function Home() {
 
   // Slice the pool into the layout's sections. Main columns are sequential and
   // distinct; the sidebar widgets reuse the top stories (Latest / Most Read).
-  const featured = articles.slice(0, 5);
-  const newsList = articles.slice(5, 9);
+  const featured = articles.slice(0, 4);
+  const newsList = articles.slice(4, 8);
   const latest = articles.slice(9, 17);
   const deepReads = articles.slice(17, 27);
   const moreNews = articles.slice(27, 35);

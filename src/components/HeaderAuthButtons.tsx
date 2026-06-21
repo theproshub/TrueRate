@@ -47,7 +47,7 @@ function SignedInButtons({
     <>
       <Link
         href="/saved"
-        className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
+        className={`hidden sm:flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
           isLight
             ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
             : 'text-gray-400 hover:text-white hover:bg-white/[0.06]'
@@ -59,7 +59,7 @@ function SignedInButtons({
         </svg>
       </Link>
       <span
-        className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ring-2 ${
+        className={`hidden sm:inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ring-2 ${
           isLight
             ? 'bg-gray-200 text-gray-700 ring-gray-300'
             : 'bg-white/10 text-white ring-white/10'
@@ -113,7 +113,6 @@ export default function HeaderAuthButtons() {
   const isLight =
     pathname.startsWith('/news') ||
     pathname.startsWith('/sports') ||
-    pathname.startsWith('/entertainment') ||
     pathname.startsWith('/about') ||
     pathname.startsWith('/help');
 

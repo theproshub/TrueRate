@@ -1,8 +1,7 @@
 export type Video = { title: string; duration: string; category: string; source: string; time: string; description?: string; youtubeId?: string };
 
 export const TODAYS_VIDEOS: Video[] = [
-  { title: "CBL Governor: 'We're Not Ready to Cut Rates. Here's What We're Waiting For.'", duration: '2:48', category: 'policy',      source: 'TrueRate', time: '55m ago', youtubeId: '', description: "Executive Governor Henry F. Saamoi sits down with TrueRate to explain the cautious tightening bias behind the 16.25% hold — and what March CPI data would need to show before the MPC pivots." },
-  { title: "ArcelorMittal's Nimba Expansion, Explained: What $120M Buys Liberia — and What It Doesn't", duration: '1:52', category: 'Mining',      source: 'TrueRate', time: '3h ago', youtubeId: '' },
-  { title: "Rubber at a Decade High: Why Liberia Is Winning — and How Long It Can Last",               duration: '3:14', category: 'commodities', source: 'TrueRate', time: '8h ago', youtubeId: '' },
-  { title: "$680M and Rising: Inside the Liberian Diaspora's Outsized Role in the National Economy",   duration: '2:31', category: 'economy',     source: 'TrueRate', time: '3h ago', youtubeId: '' },
+  { title: "Inside HUIX-2099: The Monrovia Studio Building VR, AI and 3D Products for a Global Market", duration: '2:48', category: 'Startups',      source: 'TrueRate', time: 'Jun 20, 2026', youtubeId: 'tSBJfEjlklk', description: "Founded in 2024, HUIX-2099 is a one-person technology studio in Monrovia working across VR, XR, AI and 3D visualization — testing whether a Liberian company can build globally competitive immersive technology." },
+  { title: "Why Prices Still Feel High Even as Inflation Cools", duration: '1:52', category: 'Economy',      source: 'TrueRate', time: 'Jun 9, 2026', youtubeId: '' },
+  { title: "A Two-Speed Economy: Minerals Race Ahead, Most People Don't",               duration: '3:14', category: 'Economy', source: 'TrueRate', time: 'Jun 6, 2026', youtubeId: '' },
 ];

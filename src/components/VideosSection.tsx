@@ -28,12 +28,24 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
         {/* Featured — plays inline */}
         <div className="group flex flex-col">
           <PlayableVideo id={featured.youtubeId} label={featured.title} className="overflow-hidden rounded-xl mb-3 aspect-video">
-            <VideoThumbnail category={featured.category} className="absolute inset-0 w-full h-full" />
+            {featured.youtubeId ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={`https://img.youtube.com/vi/${featured.youtubeId}/maxresdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <VideoThumbnail category={featured.category} className="absolute inset-0 w-full h-full" />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/50 pointer-events-none" />
             {/* Yahoo-style title caption on the player (desktop only) */}
             <span className="hidden lg:block absolute top-3 left-4 right-4 text-md font-semibold leading-snug text-white drop-shadow-lg line-clamp-2 pointer-events-none">
               {featured.title}
             </span>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50 backdrop-blur-sm group-hover:bg-black/70 transition-colors">
+                <svg className="h-5 w-5 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
             <span className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums backdrop-blur-sm">
               {featured.duration}
             </span>

@@ -25,7 +25,7 @@ const SECTIONS_NAV: { label: string; href: string }[] = [
   { label: 'Analytics',        href: '/analytics' },
   { label: 'Economy',          href: '/economy' },
   { label: 'Technology',       href: '/technology' },
-  { label: 'Entertainment',    href: '/entertainment' },
+  { label: 'Entrepreneurship', href: '/small-business' },
   { label: 'Videos',           href: '/videos' },
 ];
 
@@ -48,16 +48,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     ],
   },
   {
-    label: 'Entertainment', href: '/entertainment',
-    children: [
-      { label: 'Movies',            href: '/entertainment/movies' },
-      { label: 'TV',                href: '/entertainment/tv' },
-      { label: 'Music',             href: '/entertainment/music' },
-      { label: 'Celebrity',         href: '/entertainment/celebrity' },
-      { label: 'How To Watch',      href: '/entertainment/how-to-watch' },
-    ],
-  },
-  {
     label: 'Sports', href: '/sports',
     children: [
       { label: 'Football',        href: '/sports/football' },
@@ -74,6 +64,9 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
       { label: 'Data & Research', href: '/sports/data-research' },
       { label: 'Opinion',         href: '/sports/opinion' },
     ],
+  },
+  {
+    label: 'Entrepreneurship', href: '/small-business',
   },
   {
     label: 'Finance', href: '/news/finance',
@@ -99,7 +92,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 ];
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
-  { label: 'Entertainment',    href: '/entertainment',    desc: 'Film, music, TV and lifestyle' },
   { label: 'Entrepreneurship', href: '/small-business',   desc: 'Liberian small business & founders' },
   { label: 'My Watchlist',     href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'Saved Articles',   href: '/saved',            desc: 'Articles you saved to read later' },
@@ -136,17 +128,6 @@ const MORE_MENU: MoreColumn[] = [
       { label: 'Transfers',     href: '/sports/transfers-deals' },
       { label: 'Youth',         href: '/sports' },
       { label: 'Watch',         href: '/videos' },
-    ],
-  },
-  {
-    title: 'Entertainment',
-    items: [
-      { label: 'All Entertainment', href: '/entertainment' },
-      { label: 'Movies',            href: '/entertainment/movies' },
-      { label: 'TV',                href: '/entertainment/tv' },
-      { label: 'Music',             href: '/entertainment/music' },
-      { label: 'Celebrity',         href: '/entertainment/celebrity' },
-      { label: 'How To Watch',      href: '/entertainment/how-to-watch' },
     ],
   },
   {
@@ -400,13 +381,12 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [scrolledDown, setScrolledDown] = useState(() => typeof window !== 'undefined' && window.scrollY > 10);
+  const [scrolledDown, setScrolledDown] = useState(false);
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
   const isSports = pathname.startsWith('/sports');
-  const isEntertainment = pathname.startsWith('/entertainment');
-  const isLight = isSports || isEntertainment || pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help');
+  const isLight = isSports || pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -456,7 +436,7 @@ export default function Header() {
           <span aria-hidden className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
-        {/* Logo — section-specific lockups on /sports and /entertainment, default mark elsewhere */}
+        {/* Logo — section-specific lockup on /sports, default mark elsewhere */}
         <div className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center">
           {isSports ? (
             <Link href="/sports" aria-label="TrueRate Sports — section home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
@@ -465,17 +445,6 @@ export default function Header() {
                 src="/trsports1.png"
                 alt="TrueRate Sports"
                 className="h-8 sm:h-9 md:h-10 w-auto shrink-0"
-                fetchPriority="high"
-                decoding="async"
-              />
-            </Link>
-          ) : isEntertainment ? (
-            <Link href="/entertainment" aria-label="TrueRate Entertainment — section home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/truerateent.png"
-                alt="TrueRate Entertainment"
-                className="h-[27px] sm:h-[31px] md:h-[35px] w-auto shrink-0"
                 fetchPriority="high"
                 decoding="async"
               />
@@ -655,10 +624,10 @@ export default function Header() {
                 { label: 'Analytics',  href: '/analytics' },
                 { label: 'Economy',    href: '/economy' },
                 { label: 'Technology', href: '/technology' },
-                { label: 'Entertainment',   href: '/entertainment' },
+                { label: 'Entrepreneurship', href: '/small-business' },
                 { label: 'Videos',     href: '/videos' },
               ].map(({ label, href }) => {
-                const isActive = (href === '/videos' || href === '/entertainment') ? pathname.startsWith(href) : pathname === href;
+                const isActive = href === '/videos' ? pathname.startsWith(href) : pathname === href;
                 return (
                   <Link key={label} href={href}
                     className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
