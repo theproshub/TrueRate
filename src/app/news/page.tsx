@@ -40,7 +40,7 @@ const UPCOMING_EVENTS = [
 
 const VIDEOS = [
   { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'entertainment', time: 'Jun 20, 2026', youtubeId: '' },
-  { title: "LISCR FC's Unbeaten Season: The Key Moments", duration: '3:45', category: 'sports', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "How Mining Drove Liberia's 2025 GDP Growth", duration: '3:45', category: 'economy', time: 'Jun 20, 2026', youtubeId: '' },
   { title: "Why the CBL Is Holding Its Policy Rate at 16.25%", duration: '2:48', category: 'policy', time: 'Jun 20, 2026', youtubeId: '' },
   { title: "How 'Pay Na-Na' Connects MTN and Orange Mobile Money", duration: '1:52', category: 'economy', time: 'Jun 19, 2026', youtubeId: '' },
   { title: "Mining Drove 2025 Growth: Iron Ore and Gold, Explained", duration: '2:31', category: 'Mining', time: 'Jun 19, 2026', youtubeId: '' },
@@ -165,7 +165,7 @@ export default async function NewsPage({
             <div className="border-b border-gray-200 py-10 text-center">
               <Heading level={4} as="h2" className="mb-1 font-bold text-gray-900">No results found</Heading>
               <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500">
-                Try searching for &ldquo;inflation&rdquo;, &ldquo;sports&rdquo; or &ldquo;technology&rdquo;.
+                Try searching for &ldquo;inflation&rdquo;, &ldquo;markets&rdquo; or &ldquo;technology&rdquo;.
               </Text>
             </div>
           ) : (
@@ -217,13 +217,13 @@ export default async function NewsPage({
       </div>
 
       {/* Three-column layout */}
-      <div className="flex gap-4 sm:gap-6 items-start">
+      <div className="flex gap-0 items-start">
 
         {/* Left: Trending */}
         <TrendingPanel items={items} />
 
         {/* Center: main feed */}
-        <div className="flex-1 min-w-0 pb-8">
+        <div className="flex-1 min-w-0 pb-8 lg:px-1">
 
           {/* Hero carousel (client island) */}
           <HeroCarousel items={items} />

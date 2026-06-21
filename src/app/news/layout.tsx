@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     default: 'News',
     template: '%s | TrueRate',
   },
-  description: "The latest news from Liberia — finance, sports, technology, and more.",
+  description: "The latest news from Liberia — finance, economy, technology, and more.",
   alternates: { canonical: '/news' },
 };
 

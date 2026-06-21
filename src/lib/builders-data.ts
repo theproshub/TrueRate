@@ -38,36 +38,36 @@ export type EconEvent = { date: string; title: string };
 
 /* ─── Top Stories (Builders | Top Stories) ─── */
 export const HERO_STORY: Story = {
-  href: '/news/15',
-  category: 'SME',
-  title: '15 things every Liberian small business owner should know going into 2026',
-  dek: 'From mobile-money adoption and LRA compliance to capital access and ECOWAS trade — how the Liberian SME landscape is shifting, and which moves matter before Q2.',
-  source: 'TrueRate Analysis',
+  href: '/news/cost-of-credit-liberian-business-borrowing',
+  category: 'Credit',
+  title: "The Cost of Credit: Why Liberian Businesses Pay 13% to Borrow",
+  dek: 'The average lending rate stands at 13.11% while savings accounts pay 1.94% — an 11-point spread that prices most small businesses out of formal credit and keeps bank lending nearly flat.',
+  source: 'TrueRate Business',
   time: 'Jun 20, 2026',
 };
 
 export const SECONDARY_STORIES: Story[] = [
-  { href: '/news/12', category: 'Policy',   title: 'The new federal SME standard reshaping Liberian franchising',          source: 'Daily Observer',   time: 'Jun 20, 2026' },
-  { href: '/news/15', category: 'Founders', title: 'Monrovia founder Marc Tarpeh on his plan to take Konnect public',     source: 'TrueRate Business',time: 'Jun 20, 2026' },
-  { href: '/news/7',  category: 'SMEs',     title: 'Why most networking advice fails Liberian founders',                  source: 'FrontPage Africa', time: 'Jun 20, 2026' },
+  { href: '/news/liberia-5-billion-economy-sectoral-breakdown', category: 'Economy',  title: "Where Liberia's $5.2 Billion Economy Really Comes From",                      source: 'TrueRate Business', time: 'Jun 19, 2026' },
+  { href: '/news/liberia-exports-two-billion-europe-dominance',  category: 'Trade',    title: "Exports Top $2 Billion — Europe Takes 82% of Everything Liberia Sells",       source: 'TrueRate Business', time: 'Jun 18, 2026' },
+  { href: '/news/cement-output-surges-construction-boom',        category: 'Industry', title: "Cement Output Surges 52% as Liberia Builds",                                  source: 'TrueRate Business', time: 'Jun 17, 2026' },
 ];
 
 /* ─── Latest News (2-col text grid) ─── */
 export const LATEST_NEWS: Headline[] = [
-  { href: '/news/5',  title: 'Vietnamese sneaker supply shift opens window for Liberian rubber SMEs',           source: 'Reuters' },
-  { href: '/news/3',  title: 'Private employment accelerated in Q1 as Monrovia SMEs drive job growth',          source: 'TrueRate' },
-  { href: '/news/12', title: 'Ecobank Liberia expands SME desk with five new appointments in Ganta',            source: 'FrontPage Africa' },
-  { href: '/news/7',  title: 'LRA warns 30% trust tax proposal would hit small businesses and families',        source: 'Daily Observer' },
-  { href: '/news/27', title: 'Orange Money for Business hits 24,000 active SME merchants',                      source: 'The New Dawn' },
-  { href: '/news/29', title: 'AfDB approves $12M SME credit line for Liberian women-led enterprises',           source: 'AfDB' },
+  { href: '/news/iron-ore-production-quintuples-mining-revival',       title: "Iron Ore Output Quintuples in a Year, Reshaping Liberia's Mining Economy",         source: 'TrueRate Business' },
+  { href: '/news/private-sector-credit-stalls-money-supply-swells',    title: 'Bank Lending to Business Barely Grows While Deposits Pile Up',                     source: 'TrueRate Business' },
+  { href: '/news/government-revenue-surges-march-2026',                title: 'Government Revenue Hits $304 Million in March — What It Means for State Vendors',  source: 'TrueRate Business' },
+  { href: '/news/trade-hospitality-sector-services-boom',              title: "Liberia's Trade and Hospitality Sector Hits $506 Million",                         source: 'TrueRate Business' },
+  { href: '/news/cost-of-credit-liberian-business-borrowing',          title: 'Personal Loans Cost 16.16% — The Hidden Tax on Informal Entrepreneurs',           source: 'TrueRate Business' },
+  { href: '/news/liberia-exports-two-billion-europe-dominance',        title: "China Buys $134 Million of Liberian Exports After Near-Zero in 2024",              source: 'TrueRate Business' },
 ];
 
 /* ─── Entrepreneur | Build Your Business ─── */
 export const ENTREPRENEUR_CARDS: Card[] = [
-  { href: '/news/15', category: 'Founders', title: 'The One Trait That Quietly Determines Whether Liberian Founders Win or Fade Out',                source: 'TrueRate Founders' },
-  { href: '/news/3',  category: 'Branding', title: 'Why a Well-Designed Website Is No Longer Enough — and What Actually Turns Liberian Visitors Into Buyers', source: 'TrueRate Founders' },
-  { href: '/news/12', category: 'Policy',   title: 'Free Webinar | June 3: How to Build a Legit Liberian Business Without the LRA Headaches',         source: 'TrueRate Founders' },
-  { href: '/news/29', category: 'Trade',    title: 'Liberian Retail Returns Climbed to $85M Last Year — Try These 3 Fixes Before Your Margins Disappear', source: 'TrueRate Founders' },
+  { href: '/news/cost-of-credit-liberian-business-borrowing',          category: 'Credit',   title: 'What 13% Lending Rates Really Mean for Your Business Expansion Plan',                                source: 'TrueRate Business' },
+  { href: '/news/cement-output-surges-construction-boom',              category: 'Industry', title: 'Cement Is Up 52%, Electricity Is at Record Highs — Where the Supply-Chain Openings Are',              source: 'TrueRate Business' },
+  { href: '/news/government-revenue-surges-march-2026',                category: 'Policy',   title: 'Government Spending Hit $136.57M in March — How to Position Your Business as a State Vendor',        source: 'TrueRate Business' },
+  { href: '/news/trade-hospitality-sector-services-boom',              category: 'Trade',    title: "The $506 Million Services Sector Is Where Most Small Businesses Compete — Here's How It's Growing",  source: 'TrueRate Business' },
 ];
 
 /* ─── Top Videos ─── */
@@ -89,38 +89,38 @@ export const VIDEO_THUMBS: Video[] = [
 
 /* ─── Start a Side Hustle ─── */
 export const SIDE_HUSTLE_CARDS: Card[] = [
-  { href: '/news/3',  category: 'SMEs',     title: 'This Dry Season Is the Perfect Time to Start a Consulting Side Hustle in Monrovia. Here\'s Your Game Plan.', source: 'TrueRate Founders' },
-  { href: '/news/27', category: 'Founders', title: 'I Was a Hiring Manager at a Ministry. Here\'s the Biggest CV Mistake — and How I Turned It Into a $40K Side Hustle.', source: 'TrueRate Founders' },
-  { href: '/news/12', category: 'Finance',  title: 'How to Make Money While You Sleep Is Only Partially Real — The Honest Truth About Passive Income in Liberia in 2026', source: 'TrueRate Founders' },
-  { href: '/news/5',  category: 'AgriTech', title: "This 34-Year-Old's $5K-a-Month Buchanan Side Hustle Started With a Family Tradition — Now Tracking for $100K in Year One",     source: 'TrueRate Founders' },
+  { href: '/news/iron-ore-production-quintuples-mining-revival',       category: 'Mining',    title: 'Mining Output Quintupled — 5 Side Businesses That Serve the Concession Supply Chain',               source: 'TrueRate Business' },
+  { href: '/news/liberia-5-billion-economy-sectoral-breakdown',        category: 'Economy',   title: "Manufacturing Is Just 6.4% of GDP — That's a Gap You Could Fill",                                   source: 'TrueRate Business' },
+  { href: '/news/liberia-exports-two-billion-europe-dominance',        category: 'Trade',     title: "Liberia Imports $2.35 Billion a Year — What if You Could Make 1% of That Locally?",                 source: 'TrueRate Business' },
+  { href: '/news/private-sector-credit-stalls-money-supply-swells',    category: 'Finance',   title: 'Banks Won\'t Lend? 4 Alternative Capital Sources Liberian Entrepreneurs Are Actually Using',        source: 'TrueRate Business' },
 ];
 
 /* ─── The Hustle ─── */
 export const THE_HUSTLE_CARDS: Card[] = [
-  { href: '/news/3',  category: 'AgriTech', title: 'Ball of fire',                                                            source: 'The Hustle' },
-  { href: '/news/12', category: 'Food',     title: 'Soft serve, hard margins',                                                 source: 'The Hustle' },
-  { href: '/news/29', category: 'Trade',    title: 'Cold-chain gold',                                                          source: 'The Hustle' },
-  { href: '/news/7',  category: 'Policy',   title: 'End of the line',                                                          source: 'The Hustle' },
+  { href: '/news/cement-output-surges-construction-boom',              category: 'Industry', title: 'Building boom',                                                              source: 'The Hustle' },
+  { href: '/news/trade-hospitality-sector-services-boom',              category: 'Food',     title: 'Cookshop economics',                                                         source: 'The Hustle' },
+  { href: '/news/iron-ore-production-quintuples-mining-revival',       category: 'Mining',   title: 'Iron rush',                                                                   source: 'The Hustle' },
+  { href: '/news/government-revenue-surges-march-2026',                category: 'Policy',   title: 'The LRA is watching',                                                         source: 'The Hustle' },
 ];
 
 /* ─── Franchise ─── */
 export const FRANCHISE_CARDS: Card[] = [
-  { href: '/news/15', category: 'Founders', title: "Total Energies' Expanded Monrovia Map Is Beating Expectations — And Franchisees Are Seeing the Value", source: 'TrueRate Business', badge: 'TOT +1.20%' },
-  { href: '/news/27', category: 'Women',    title: "'It Was Hard, Be Honest' — How This Liberian Couple Divorced, But Still Grew Their Bakery to 16 Locations and $1.4M In Revenue",  source: 'TrueRate Business' },
-  { href: '/news/12', category: 'Founders', title: "Capitol Hill Coffee's CEO Took Calls From 1,500 Customers. What Happened Next Is Already Showing Up in Sinkor Cafés.",            source: 'TrueRate Business' },
-  { href: '/news/3',  category: 'Trade',    title: "Why Monrovia's Hot Bread Co. Is Hitting Pause on Franchising: 'We Have a Lot to Prove'",                                          source: 'TrueRate Business' },
+  { href: '/news/cement-output-surges-construction-boom',              category: 'Industry', title: "Construction GDP Hit $200.86M — Cement Distributors and Hardware Dealers Are Expanding Fast",        source: 'TrueRate Business' },
+  { href: '/news/trade-hospitality-sector-services-boom',              category: 'Trade',    title: "Trade & Hotels Is a $506M Sector Growing 5.5% — Where Franchise Models Are Gaining Traction",       source: 'TrueRate Business' },
+  { href: '/news/liberia-5-billion-economy-sectoral-breakdown',        category: 'Economy',  title: "Services Are 38.7% of GDP — The Sectors Where Chain Operations Could Scale in Liberia",             source: 'TrueRate Business' },
+  { href: '/news/cost-of-credit-liberian-business-borrowing',          category: 'Credit',   title: "Financing a Franchise at 13% Interest: The Math on Expansion Capital in Liberia",                   source: 'TrueRate Business' },
 ];
 
 /* ─── More Business Stories (vertical list) ─── */
 export const MORE_STORIES: Story[] = [
-  { href: '/news/5',  category: 'AgriTech', title: 'Cassava SMEs hit record output as Ministry of Agriculture pricing reform kicks in',                      source: 'The New Dawn',     time: 'Jun 19, 2026' },
-  { href: '/news/12', category: 'Fintech',  title: 'Liberia\'s Small Businesses Are Booming, Just Not Their Retirement Plans',                                source: 'TrueRate',         time: 'Jun 19, 2026' },
-  { href: '/news/3',  category: 'Trade',    title: 'Mom-and-Pop Liberian businesses hit by brutal job losses as iron-ore slowdown bites',                     source: 'FrontPage Africa', time: 'Jun 18, 2026' },
-  { href: '/news/27', category: 'Women',    title: 'Women-led Bong County agri-co-op secures $180K AfDB grant',                                              source: 'AfDB',             time: 'Jun 18, 2026' },
-  { href: '/news/7',  category: 'Policy',   title: 'New LRA digital filing system cuts SME compliance time by 60%',                                          source: 'Daily Observer',   time: 'Jun 17, 2026' },
-  { href: '/news/15', category: 'Fintech',  title: 'Diaspora-backed Monrovia fintech crosses 50,000 SME accounts',                                           source: 'TrueRate',         time: 'Jun 17, 2026' },
-  { href: '/news/3',  category: 'SMEs',     title: "Why Ganta is emerging as Liberia's next SME hotspot",                                                    source: 'The New Dawn',     time: 'Jun 16, 2026' },
-  { href: '/news/29', category: 'Security', title: 'Mobile money fraud is rising — how Liberian SMEs are fighting back',                                     source: 'Reuters',          time: 'Jun 15, 2026' },
+  { href: '/news/cost-of-credit-liberian-business-borrowing',          category: 'Credit',   title: 'The Cost of Credit: Why Liberian Businesses Pay 13% to Borrow',                                     source: 'TrueRate Business', time: 'Jun 20, 2026' },
+  { href: '/news/liberia-5-billion-economy-sectoral-breakdown',        category: 'Economy',  title: "Where Liberia's $5.2 Billion Economy Really Comes From",                                            source: 'TrueRate Business', time: 'Jun 19, 2026' },
+  { href: '/news/liberia-exports-two-billion-europe-dominance',        category: 'Trade',    title: "Exports Top $2 Billion — Europe Takes 82% of Everything Liberia Sells",                              source: 'TrueRate Business', time: 'Jun 18, 2026' },
+  { href: '/news/cement-output-surges-construction-boom',              category: 'Industry', title: 'Cement Output Surges 52% as Liberia Builds',                                                         source: 'TrueRate Business', time: 'Jun 17, 2026' },
+  { href: '/news/iron-ore-production-quintuples-mining-revival',       category: 'Mining',   title: "Iron Ore Output Quintuples in a Year, Reshaping Liberia's Mining Economy",                            source: 'TrueRate Business', time: 'Jun 16, 2026' },
+  { href: '/news/private-sector-credit-stalls-money-supply-swells',    category: 'Finance',  title: 'Bank Lending to Business Barely Grows While Deposits Pile Up',                                       source: 'TrueRate Business', time: 'Jun 15, 2026' },
+  { href: '/news/government-revenue-surges-march-2026',                category: 'Policy',   title: 'Government Revenue Hits $304 Million in March — What It Means for State Vendors',                    source: 'TrueRate Business', time: 'Jun 14, 2026' },
+  { href: '/news/trade-hospitality-sector-services-boom',              category: 'Services', title: "Liberia's Trade and Hospitality Sector Hits $506 Million — Inside the Quiet Services Boom",          source: 'TrueRate Business', time: 'Jun 13, 2026' },
 ];
 
 /* ─── Right rail data ─── */

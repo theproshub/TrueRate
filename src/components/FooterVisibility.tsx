@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 
-/** Thin client wrapper: hides Footer on /sports and /admin routes. */
+/** Thin client wrapper: hides Footer on /admin routes. */
 export default function FooterVisibility({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   if (pathname.startsWith('/admin')) return null;

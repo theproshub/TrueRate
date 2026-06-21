@@ -30,7 +30,7 @@ export default function FocusPanel({
   const isMacro = view.kind === 'macro';
 
   return (
-    <figure className="m-0">
+    <figure className="m-0 rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
       {/* Header: value + change + timeframe */}
       <figcaption className="mb-4 border-b border-white/15 pb-3">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">

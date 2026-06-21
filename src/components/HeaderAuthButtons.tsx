@@ -112,7 +112,6 @@ export default function HeaderAuthButtons() {
 
   const isLight =
     pathname.startsWith('/news') ||
-    pathname.startsWith('/sports') ||
     pathname.startsWith('/about') ||
     pathname.startsWith('/help');
 

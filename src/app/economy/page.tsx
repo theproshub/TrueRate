@@ -7,6 +7,7 @@ import { publicClient } from '@/lib/supabase/public';
 import { getDashboardIndicators } from '@/lib/data/indicators';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
 import { newsItems } from '@/data/news';
+import StickySidebar from '@/components/StickySidebar';
 
 export const metadata = {
   alternates: { canonical: '/economy' },
@@ -184,8 +185,8 @@ export default async function EconomyPage() {
       )}
 
       {/* Main content + right rail */}
-      <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
-        <div className="flex-1 min-w-0 space-y-10">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 lg:items-start">
+        <div className="flex-1 min-w-0 space-y-10 lg:pr-5">
           {grid.length > 0 && (
             <section aria-labelledby="latest-economy">
               <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
@@ -218,11 +219,12 @@ export default async function EconomyPage() {
           )}
         </div>
 
-        {/* Right rail (sticky on desktop, matching the news sidebars) */}
-        <aside className="w-full lg:w-[260px] shrink-0 space-y-5 lg:sticky lg:top-24 lg:self-start">
+        {/* Right rail */}
+        <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-white/[0.08] lg:pl-5">
+          <StickySidebar className="space-y-5">
           {/* Data snapshot — live from Supabase (World Bank series) */}
-          <div>
-            <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">Data Snapshot</h2>
+          <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+            <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-3">Data Snapshot</h2>
             {wbIndicators.length === 0 ? (
               <p className="text-sm text-gray-500">Indicator data unavailable.</p>
             ) : (
@@ -251,8 +253,8 @@ export default async function EconomyPage() {
 
           {/* More from Economy — recent published articles (no fabricated "most read") */}
           {articles.length > 0 && (
-            <div>
-              <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-4">More from Economy</h2>
+            <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+              <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-3">More from Economy</h2>
               <ol className="flex flex-col divide-y divide-white/[0.05]">
                 {articles.slice(0, 6).map((item) => (
                   <li key={item.id} className="py-2.5 first:pt-0">
@@ -264,6 +266,7 @@ export default async function EconomyPage() {
               </ol>
             </div>
           )}
+          </StickySidebar>
         </aside>
       </div>
     </main>

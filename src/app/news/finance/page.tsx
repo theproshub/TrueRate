@@ -7,6 +7,8 @@ import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
 import { NewsFeedTabs } from './FinanceNewsClient';
 import { HeroCarousel } from '../NewsClient';
+import StickySidebar from '@/components/StickySidebar';
+import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
 // Always render from the live database — no ISR cache, so newly published
 // articles appear immediately.
@@ -160,10 +162,10 @@ export default async function FinanceNewsPage({
       </div>
 
       {/* ── Main layout: two columns + sidebar ── */}
-      <div className="flex gap-4 sm:gap-6 items-start">
+      <div className="flex gap-0 items-start">
 
         {/* ── Left: main content ── */}
-        <div className="flex-1 min-w-0 pb-8">
+        <div className="flex-1 min-w-0 pb-8 lg:pr-5">
 
           {/* Hero carousel — swipeable cards on mobile, overlay on desktop */}
           <div className="mb-6">
@@ -302,7 +304,8 @@ export default async function FinanceNewsPage({
         </div>
 
         {/* ── Right sidebar (desktop) ── */}
-        <aside className="hidden lg:block w-[300px] shrink-0 sticky top-24" aria-label="Sidebar">
+        <aside className="hidden lg:block w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-gray-200 lg:pl-5" aria-label="Sidebar">
+          <StickySidebar>
 
           {/* Newsletter */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 mb-5">
@@ -347,10 +350,12 @@ export default async function FinanceNewsPage({
             <div className="divide-y divide-gray-100">
               {mostRead.map((item, i) => (
                 <Link key={i} href={item.href} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                  <span className="shrink-0 text-lg font-black text-gray-200 tabular-nums w-5 text-right">{i + 1}</span>
+                  <div className="shrink-0 overflow-hidden rounded-lg">
+                    <NewsThumbnail category={item.category} id={item.id} src={item.image} className="h-[60px] w-[80px]" />
+                  </div>
                   <div className="min-w-0 flex-1">
                     <Text className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Text>
-                    <span className="text-2xs font-semibold uppercase tracking-wide text-gray-400 mt-1 block">{item.category}</span>
+                    <span className={`text-2xs font-semibold uppercase tracking-wide mt-1 block ${getCatColor(item.category)}`}>{item.category}</span>
                   </div>
                 </Link>
               ))}
@@ -374,29 +379,79 @@ export default async function FinanceNewsPage({
             </div>
           </div>
 
-          {/* Quick links */}
+          {/* Explore more — Yahoo-style colored icons */}
           <div className="rounded-xl bg-gray-50 border border-gray-200 p-5">
-            <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em] mb-4">Explore</Heading>
-            <nav aria-label="Quick links">
-              <ul className="flex flex-col gap-2 list-none p-0 m-0">
+            <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em] mb-3">Explore More</Heading>
+            <nav aria-label="Explore more sections">
+              <ul className="flex flex-col list-none p-0 m-0">
                 {[
-                  { label: 'All News', href: '/news' },
-                  { label: 'Markets', href: '/markets' },
-                  { label: 'Economy', href: '/economy' },
-                  { label: 'Analytics', href: '/analytics' },
-                  { label: 'Small Business', href: '/small-business' },
-                  { label: 'Videos', href: '/videos' },
+                  { label: 'News', href: '/news', color: 'text-blue-600', icon: (
+                    <svg aria-hidden="true" className="shrink-0 h-[18px] w-[18px] text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zM4 6h7v5H4V6zm0 12v-5h7v5H4zm16 0h-7v-3h7v3zm0-5h-7v-3h7v3zm0-5h-7V6h7v2z"/>
+                    </svg>
+                  )},
+                  { label: 'Markets', href: '/markets', color: 'text-emerald-600', icon: (
+                    <svg aria-hidden="true" className="shrink-0 h-[18px] w-[18px] text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                    </svg>
+                  )},
+                  { label: 'Economy', href: '/economy', color: 'text-amber-600', icon: (
+                    <svg aria-hidden="true" className="shrink-0 h-[18px] w-[18px] text-amber-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M6.5 10h-2v7h2v-7zm6 0h-2v7h2v-7zm8.5 9H1v2h20v-2zm-2.5-9h-2v7h2v-7zm-7-6.74L16.71 6H5.29l5.21-2.74zM10.5 1L1 6v2h19V6l-9.5-5z"/>
+                    </svg>
+                  )},
+                  { label: 'Analytics', href: '/analytics', color: 'text-violet-600', icon: (
+                    <svg aria-hidden="true" className="shrink-0 h-[18px] w-[18px] text-violet-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                  )},
+                  { label: 'Business', href: '/small-business', color: 'text-cyan-600', icon: (
+                    <svg aria-hidden="true" className="shrink-0 h-[18px] w-[18px] text-cyan-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20 7h-4V5l-2-2h-4L8 5v2H4c-1.1 0-2 .9-2 2v5c0 .75.4 1.38 1 1.73V19c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-3.28c.59-.35 1-.99 1-1.72V9c0-1.1-.9-2-2-2zM10 5h4v2h-4V5zM4 9h16v5h-5v-3H9v3H4V9zm9 6v2h-2v-2H9v-2h6v2h-2zm7 4H4v-2.78c.3.06.46.05.78.05h14.44c.32 0 .48.01.78-.05V19z"/>
+                    </svg>
+                  )},
+                  { label: 'Videos', href: '/videos', color: 'text-red-600', icon: (
+                    <svg aria-hidden="true" className="shrink-0 h-[18px] w-[18px] text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M21 3H3c-1.11 0-2 .89-2 2v12a2 2 0 002 2h5v2h8v-2h5a2 2 0 002-2V5c0-1.11-.89-2-2-2zm0 14H3V5h18v12zM10 8v6l5-3-5-3z"/>
+                    </svg>
+                  )},
                 ].map(link => (
                   <li key={link.href}>
-                    <Link href={link.href} className="flex items-center min-h-[44px] -my-1 text-base font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline">
+                    <Link href={link.href} className="flex items-center gap-3 min-h-[40px] px-2 -mx-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors no-underline">
+                      {link.icon}
                       {link.label}
-                      <svg className="ml-auto h-4 w-4 text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </Link>
                   </li>
                 ))}
               </ul>
             </nav>
           </div>
+
+          {/* Compact site footer */}
+          <div className="pt-2 pb-4">
+            <div className="flex items-center justify-center gap-4 mb-3">
+              {ACTIVE_SOCIAL_LINKS.map(s => (
+                <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-300 text-gray-900 hover:bg-gray-400 transition-colors no-underline" aria-label={`TrueRate on ${s.label}`}>
+                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d={s.path} /></svg>
+                </a>
+              ))}
+            </div>
+            <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mb-2">
+              {[
+                { label: 'About', href: '/about' },
+                { label: 'Advertise', href: '/about' },
+                { label: 'Careers', href: '/about' },
+                { label: 'Help', href: '/help' },
+                { label: 'Feedback', href: '/feedback' },
+                { label: 'Privacy', href: '/about/privacy' },
+                { label: 'Terms', href: '/about/terms' },
+              ].map(l => (
+                <Link key={l.label} href={l.href} className="text-xs text-gray-400 hover:text-gray-700 transition-colors no-underline">{l.label}</Link>
+              ))}
+            </div>
+            <Text variant="meta" className="text-center">&copy; 2026 TrueRate. All rights reserved.</Text>
+          </div>
+          </StickySidebar>
         </aside>
       </div>
     </>)}

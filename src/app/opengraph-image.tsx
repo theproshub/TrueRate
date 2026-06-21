@@ -23,7 +23,7 @@ export default async function Image() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#050d11',
+          backgroundColor: '#1d1f23',
         }}
       >
         {/* Logo 3 is 3750×2409 (~1.557:1); 720×462 keeps the aspect ratio. */}

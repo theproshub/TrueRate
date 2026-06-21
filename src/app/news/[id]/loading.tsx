@@ -23,7 +23,7 @@ export default function ArticleLoading() {
               ))}
             </div>
           </div>
-          <div className="hidden lg:block w-[280px] shrink-0 space-y-4">
+          <div className="hidden lg:block w-[300px] shrink-0 space-y-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="h-16 w-full rounded bg-gray-200 animate-pulse" />
             ))}

@@ -5,16 +5,15 @@ import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import HeaderAuthButtons from './HeaderAuthButtons';
 import SearchBox from './SearchBox';
-import SportsSearchBox from './sports/SportsSearchBox';
 import { Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
 
 /** Compact pills shown next to the search bar — top super-nav */
 const TOP_NAV: { label: string; href: string }[] = [
-  { label: 'News',    href: '/news' },
-  { label: 'Finance', href: '/' },
-  { label: 'Sports',  href: '/sports' },
+  { label: 'News',     href: '/news' },
+  { label: 'Finance',  href: '/' },
+  { label: 'Business', href: '/small-business' },
 ];
 
 /** Bloomberg-style section tabs on the secondary row */
@@ -25,7 +24,6 @@ const SECTIONS_NAV: { label: string; href: string }[] = [
   { label: 'Analytics',        href: '/analytics' },
   { label: 'Economy',          href: '/economy' },
   { label: 'Technology',       href: '/technology' },
-  { label: 'Entrepreneurship', href: '/small-business' },
   { label: 'Videos',           href: '/videos' },
 ];
 
@@ -48,34 +46,13 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     ],
   },
   {
-    label: 'Sports', href: '/sports',
-    children: [
-      { label: 'Football',        href: '/sports/football' },
-      { label: 'Basketball',      href: '/sports/basketball' },
-      { label: 'Athletics',       href: '/sports/athletics' },
-      { label: 'Youth Sports',    href: '/sports/youth-sports' },
-      { label: "Women's Sports",  href: '/sports/womens-sports' },
-      { label: 'Transfers',       href: '/sports/transfers-deals' },
-      { label: 'Sports Business', href: '/sports/sponsorship' },
-      { label: 'Sports Finance',  href: '/sports/club-finance' },
-      { label: 'Governance',      href: '/sports/governance' },
-      { label: 'Technology',      href: '/sports/technology' },
-      { label: 'Interviews',      href: '/sports/interviews' },
-      { label: 'Data & Research', href: '/sports/data-research' },
-      { label: 'Opinion',         href: '/sports/opinion' },
-    ],
-  },
-  {
-    label: 'Entrepreneurship', href: '/small-business',
-  },
-  {
     label: 'Finance', href: '/',
     children: [
       { label: 'Markets',          href: '/markets' },
       { label: 'Analytics',        href: '/analytics' },
       { label: 'Economy',          href: '/economy' },
       { label: 'Technology',       href: '/technology' },
-      { label: 'Entrepreneurship', href: '/small-business' },
+      { label: 'Business',          href: '/small-business' },
       { label: 'Videos',           href: '/videos' },
     ],
   },
@@ -83,7 +60,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
     label: 'Videos', href: '/videos',
     children: [
       { label: 'Interviews',       href: '/videos/interviews' },
-      { label: 'Entrepreneurship', href: '/videos/entrepreneurship' },
+      { label: 'Business',         href: '/videos/entrepreneurship' },
       { label: 'Investing',        href: '/videos/investing' },
       { label: 'Technology',       href: '/videos/technology' },
       { label: 'Leadership',       href: '/videos/leadership' },
@@ -92,7 +69,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 ];
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
-  { label: 'Entrepreneurship', href: '/small-business',   desc: 'Liberian small business & founders' },
   { label: 'My Watchlist',     href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'Saved Articles',   href: '/saved',            desc: 'Articles you saved to read later' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
@@ -117,20 +93,6 @@ const MORE_MENU: MoreColumn[] = [
     ],
   },
   {
-    title: 'Sports',
-    items: [
-      { label: 'Football',        href: '/sports/football' },
-      { label: "Women's Sports",   href: '/sports/womens-sports' },
-      { label: 'Basketball',      href: '/sports/basketball' },
-      { label: 'Athletics',       href: '/sports/athletics' },
-      { label: 'Transfers',       href: '/sports/transfers-deals' },
-      { label: 'Youth Sports',    href: '/sports/youth-sports' },
-      { label: 'Sports Business', href: '/sports/sponsorship' },
-      { label: 'Club Finance',    href: '/sports/club-finance' },
-      { label: 'Governance',      href: '/sports/governance' },
-    ],
-  },
-  {
     title: 'Videos',
     items: [
       { label: 'All Videos',       href: '/videos' },
@@ -144,7 +106,7 @@ const MORE_MENU: MoreColumn[] = [
   {
     title: 'More on TrueRate',
     items: [
-      { label: 'Entrepreneurship', href: '/small-business' },
+      { label: 'Business',          href: '/small-business' },
       { label: 'My Watchlist',     href: '/watchlist' },
       { label: 'Saved Articles',   href: '/saved' },
       { label: 'About TrueRate',   href: '/about' },
@@ -185,7 +147,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
       { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
     ],
   });
-  const MOBILE_ORDER = ['News', 'Analytics', 'Finance', 'Sports', 'Videos', 'My Watchlist'];
+  const MOBILE_ORDER = ['News', 'Analytics', 'Finance', 'Business', 'Videos', 'My Watchlist'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -385,8 +347,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isSports = pathname.startsWith('/sports');
-  const isLight = isSports || pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help');
+  const isLight = pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help');
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -436,42 +397,24 @@ export default function Header() {
           <span aria-hidden className={`block h-[2px] w-4 transition-transform origin-center ${isLight ? 'bg-gray-900' : 'bg-white'} ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
         </button>
 
-        {/* Logo — section-specific lockup on /sports, default mark elsewhere */}
+        {/* Logo */}
         <div className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex shrink-0 items-center">
-          {isSports ? (
-            <Link href="/sports" aria-label="TrueRate Sports — section home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/trsports1.png"
-                alt="TrueRate Sports"
-                className="h-8 sm:h-9 md:h-10 w-auto shrink-0"
-                fetchPriority="high"
-                decoding="async"
-              />
-            </Link>
-          ) : (
-            <Link href="/" aria-label="TrueRate home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/logo-tight.png"
-                alt=""
-                aria-hidden="true"
-                className="h-[27px] sm:h-[31px] md:h-[35px] w-auto shrink-0"
-                fetchPriority="high"
-                decoding="async"
-                style={{ filter: isLight ? 'brightness(0)' : 'none' }}
-              />
-            </Link>
-          )}
+          <Link href="/" aria-label="TrueRate home" className="flex shrink-0 items-center no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-tight.png"
+              alt=""
+              aria-hidden="true"
+              className="h-[27px] sm:h-[31px] md:h-[35px] w-auto shrink-0"
+              fetchPriority="high"
+              decoding="async"
+              style={{ filter: isLight ? 'brightness(0)' : 'none' }}
+            />
+          </Link>
         </div>
 
-        {/* Search — always visible on desktop.
-            On /sports the section's "clubs, athletes, deals" search lives here. */}
-        {isSports ? (
-          <SportsSearchBox inputId="sports-header-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
-        ) : (
-          <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
-        )}
+        {/* Search — always visible on desktop */}
+        <SearchBox isLight={isLight} inputId="site-search" className="hidden sm:flex flex-1 ml-4 mr-2" />
 
         {/* Top super-nav — compact pills next to the search bar */}
         <div className="hidden sm:flex items-center gap-0.5 shrink-0">
@@ -572,25 +515,18 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile search — collapses on scroll. On /sports it's the section's
-          "clubs, athletes, deals" search (moved out of the section masthead). */}
+      {/* Mobile search — collapses on scroll */}
       <div className={`sm:hidden overflow-hidden motion-safe:transition-[max-height,opacity,padding] ${scrolledDown ? 'max-h-0 opacity-0 py-0 motion-safe:duration-150 motion-safe:ease-out' : 'max-h-20 opacity-100 pb-3 motion-safe:duration-200 motion-safe:ease-in'}`} aria-hidden={scrolledDown}>
         <div className="px-4">
-          {isSports ? (
-            <SportsSearchBox inputId="sports-header-search-mobile" variant="mobile" className="flex w-full" />
-          ) : (
-            <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
-          )}
+          <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
         </div>
       </div>
 
-      {/* Bloomberg-style secondary nav — hidden on /sports/* (SportsChrome owns it there) */}
-      {!pathname.startsWith('/sports') && (
-      <nav aria-label="Sections" className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.06]'}`}>
-        <div className="mx-auto flex max-w-container items-center px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-0">
+      {/* Secondary nav */}
+      <nav aria-label="Sections" className={`hidden sm:block border-t ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-brand-nav border-white/[0.08]'}`}>
+        <div className="mx-auto flex max-w-container items-center px-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-1">
 
           {pathname.startsWith('/about') ? (
-            /* About-specific links */
             <>
               {[
                 { label: 'About',                 href: '/about' },
@@ -604,36 +540,10 @@ export default function Header() {
                 const isActive = pathname === href;
                 return (
                   <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
+                    className={`flex items-center whitespace-nowrap px-3 py-2 my-1 rounded-md text-base font-semibold transition-colors no-underline ${
                       isActive
-                        ? 'border-gray-900 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:text-gray-900'
-                    }`}>
-                    {label}
-                  </Link>
-                );
-              })}
-            </>
-          ) : pathname.startsWith('/videos') ? (
-            /* Videos-specific tabs */
-            <>
-              {[
-                { label: 'My Watchlist', href: '/watchlist' },
-                { label: 'News',       href: '/news/finance' },
-                { label: 'Markets',    href: '/markets' },
-                { label: 'Analytics',  href: '/analytics' },
-                { label: 'Economy',    href: '/economy' },
-                { label: 'Technology', href: '/technology' },
-                { label: 'Entrepreneurship', href: '/small-business' },
-                { label: 'Videos',     href: '/videos' },
-              ].map(({ label, href }) => {
-                const isActive = href === '/videos' ? pathname.startsWith(href) : pathname === href;
-                return (
-                  <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
-                      isActive
-                        ? 'border-brand-accent text-brand-accent'
-                        : 'border-transparent text-white/70 hover:text-brand-accent'
+                        ? 'bg-gray-200 text-gray-900'
+                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                     }`}>
                     {label}
                   </Link>
@@ -641,28 +551,36 @@ export default function Header() {
               })}
             </>
           ) : (
-            /* Section tabs — Bloomberg-style secondary row */
             <>
-              {SECTIONS_NAV.map(({ label, href }) => {
+              {(pathname.startsWith('/videos')
+                ? [
+                    { label: 'My Watchlist', href: '/watchlist' },
+                    { label: 'News',       href: '/news/finance' },
+                    { label: 'Markets',    href: '/markets' },
+                    { label: 'Analytics',  href: '/analytics' },
+                    { label: 'Economy',    href: '/economy' },
+                    { label: 'Technology', href: '/technology' },
+                    { label: 'Videos',     href: '/videos' },
+                  ]
+                : SECTIONS_NAV
+              ).map(({ label, href }) => {
                 const active = isActive(pathname, href);
                 return (
                   <Link key={label} href={href}
-                    className={`flex items-center whitespace-nowrap px-4 py-3 text-base font-semibold border-b-2 transition-colors no-underline ${
+                    className={`flex items-center whitespace-nowrap px-3 py-2 my-1 rounded-md text-base font-semibold transition-colors no-underline ${
                       active
-                        ? (isLight ? 'border-brand-accent-ink text-brand-accent-ink' : 'border-brand-accent text-brand-accent')
-                        : isLight ? 'border-transparent text-gray-500 hover:text-brand-accent-ink' : 'border-transparent text-white/70 hover:text-brand-accent'
+                        ? (isLight ? 'bg-gray-200 text-brand-accent-ink' : 'bg-white/[0.1] text-brand-accent')
+                        : isLight ? 'text-gray-500 hover:bg-gray-100 hover:text-brand-accent-ink' : 'text-gray-400 hover:bg-white/[0.06] hover:text-white'
                     }`}>
                     {label}
                   </Link>
                 );
               })}
-
             </>
           )}
 
         </div>
       </nav>
-      )}
 
       {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} pathname={pathname} />}
     </header>

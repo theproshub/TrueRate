@@ -5,6 +5,7 @@ import { getCatColor } from '@/lib/category-colors';
 import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 import { fetchTechnologyArticles, toTechStory, type TechStory } from '@/lib/technology/feed';
 import { newsItems } from '@/data/news';
+import StickySidebar from '@/components/StickySidebar';
 
 export const metadata = {
   alternates: { canonical: '/technology' },
@@ -151,9 +152,9 @@ export default async function TechnologyPage() {
           <TechnologyTopicTabs activeSlug="all" />
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-5">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-0">
           {/* Main column */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 lg:pr-5">
 
             {/* Hero */}
             <Link href={hero.href} className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-white/[0.07]">
@@ -282,13 +283,13 @@ export default async function TechnologyPage() {
 
           {/* Right rail — visible on mobile too (newsletter + calendar);
               Most Read is desktop-only since it duplicates the main feed. */}
-          <aside className="w-full lg:w-[280px] shrink-0" aria-label="Technology sidebar">
-            <div className="lg:sticky lg:top-header-lg flex flex-col gap-5">
+          <aside className="w-full lg:w-[280px] shrink-0 lg:border-l lg:border-white/[0.08] lg:pl-5" aria-label="Technology sidebar">
+            <StickySidebar>
 
               {/* More from / Most Read — real recent articles in DB mode (no
                   fabricated "most read"), mock list only in preview mode. */}
-              <div className="hidden lg:block">
-                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">{useDb || hasSeed ? 'More from Technology' : 'Most Read'}</h3>
+              <div className="hidden lg:block rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">{useDb || hasSeed ? 'More from Technology' : 'Most Read'}</h3>
                 <ol className="flex flex-col divide-y divide-white/[0.05]">
                   {useDb
                     ? stories.slice(0, 6).map((s, i) => (
@@ -322,8 +323,8 @@ export default async function TechnologyPage() {
               {/* Tech Calendar — forward-looking schedule with no live source,
                   shown ONLY in design-preview (mock) mode. */}
               {!useDb && (
-                <div>
-                  <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-4">Tech Calendar</h3>
+                <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+                  <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">Tech Calendar</h3>
                   <div className="flex flex-col divide-y divide-white/[0.05]">
                     {MOCK_UPCOMING.map((ev, i) => (
                       <div key={i} className="py-2.5 first:pt-0">
@@ -336,7 +337,7 @@ export default async function TechnologyPage() {
               )}
 
               {/* Newsletter */}
-              <div className="border-t border-white/[0.07] pt-6">
+              <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
                 <h3 className="text-sm font-black text-white uppercase tracking-wide mb-1">Tech Brief</h3>
                 <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 mb-4">Liberia&apos;s digital economy stories, weekly in your inbox.</p>
                 <form aria-label="Sign up for the Tech Brief newsletter">
@@ -348,7 +349,7 @@ export default async function TechnologyPage() {
                 </form>
               </div>
 
-            </div>
+            </StickySidebar>
           </aside>
         </div>
       </main>

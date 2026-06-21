@@ -12,11 +12,11 @@
   --color-brand-accent:       #BFEA36;
   --color-brand-accent-hover: #a8d42a;
   --color-brand-accent-ink:   #4d7c0f;
-  --color-brand-dark:         #050d11;
-  --color-brand-muted:        #030a0e;
-  --color-brand-header:       #061520;
-  --color-brand-card:         #040f18;
-  --color-brand-azure:        #061E29;
+  --color-brand-dark:         #1E1E1E;
+  --color-brand-muted:        #181818;
+  --color-brand-header:       #262626;
+  --color-brand-card:         #262626;
+  --color-brand-azure:        #333538;
   --color-brand-light:        #F3F4F4;
   --color-brand-surface:      #f8f9fa;
   --color-brand-ink:          #0a0a0d;
@@ -39,8 +39,8 @@
   --content-max-w:    760px;
 
   /* Scrollbar */
-  --scrollbar-thumb: #0d3248;
-  --scrollbar-thumb-hover: #1a4060;
+  --scrollbar-thumb: #3a3c40;
+  --scrollbar-thumb-hover: #4a4c50;
 }
 
 @layer base {

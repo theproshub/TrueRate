@@ -26,6 +26,16 @@ const nextConfig = {
         destination: '/small-business',
         permanent: true,
       },
+      {
+        source: '/sports',
+        destination: '/news',
+        permanent: true,
+      },
+      {
+        source: '/sports/:path*',
+        destination: '/news',
+        permanent: true,
+      },
     ];
   },
 };

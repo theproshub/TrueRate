@@ -4,7 +4,7 @@ import { timeAgo } from '@/lib/utils';
 import IndicatorsStrip from '@/components/IndicatorsStrip';
 import VideosSection from '@/components/VideosSection';
 import LiveMarketRail from '@/components/LiveMarketRail';
-import StickySidebar from '@/components/sports/StickySidebar';
+import StickySidebar from '@/components/StickySidebar';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
@@ -256,24 +256,29 @@ function QuickReadsColumn({ items }: { items: HomeArticle[] }) {
 function MostReadWidget({ items }: { items: HomeArticle[] }) {
   if (items.length === 0) return null;
   return (
-    <div className="border-t border-white/[0.05] pt-5">
-      <div className="mb-3">
+    <section aria-label="Most Read" className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-3">
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
-          <Heading level={6} className="text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Most Read</Heading>
+          <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] group-hover:text-white/80 transition-colors">Most Read</h3>
           <span className="text-lg text-white/40 group-hover:text-brand-accent transition-colors">›</span>
         </Link>
       </div>
-      <div className="flex flex-col divide-y divide-white/[0.05]">
+      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
         {items.map((a) => (
-          <Link key={a.href} href={a.href} className="flex items-start gap-3.5 py-3 first:pt-0 no-underline group">
-            <div className="min-w-0">
-              <p className="text-base font-semibold leading-snug text-white/80 group-hover:text-white/80 transition-colors line-clamp-2">{a.title}</p>
-              <Text variant="meta" className="mt-1">{a.byline ? `${a.byline} · ` : ''}{timeAgo(a.date)}</Text>
-            </div>
-          </Link>
+          <li key={a.href} className="py-2.5 first:pt-0 last:pb-0">
+            <Link href={a.href} className="flex items-start gap-3 no-underline group">
+              <div className="shrink-0 overflow-hidden rounded-lg">
+                <NewsThumbnail category={a.categorySlug} src={a.src ?? undefined} className="h-[52px] w-[72px]" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold leading-snug text-white/80 group-hover:text-white transition-colors line-clamp-2">{a.title}</p>
+                <Text variant="meta" className="mt-1">{a.byline ? `${a.byline} · ` : ''}{timeAgo(a.date)}</Text>
+              </div>
+            </Link>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }
 
@@ -286,19 +291,17 @@ function ExploreMore() {
     { label: 'ECOWAS Trade Forum', date: 'Sep 3–4, 2026' },
   ];
   return (
-    <div className="border-t border-white/[0.05] pt-5">
-      <div className="mb-3">
-        <Heading level={6} className="text-white uppercase tracking-[0.12em]">Upcoming Events</Heading>
-      </div>
-      <div className="flex flex-col gap-1">
+    <section aria-label="Upcoming Events" className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+      <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">Upcoming Events</h3>
+      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
         {events.map((e) => (
-          <div key={e.label} className="flex items-start justify-between py-2.5 border-b border-white/[0.04] last:border-0">
+          <li key={e.label} className="flex items-start justify-between py-2.5 first:pt-0 last:pb-0">
             <span className="text-sm font-semibold text-white/70 leading-snug">{e.label}</span>
             <span className="text-xs text-gray-500 whitespace-nowrap ml-3 pt-0.5">{e.date}</span>
-          </div>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }
 

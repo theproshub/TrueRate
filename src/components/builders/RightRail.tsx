@@ -4,6 +4,7 @@ import {
   ECON_EVENTS,
 } from '@/lib/builders-data';
 import LiveMarketsMini from '@/components/builders/LiveMarketsMini';
+import StickySidebar from '@/components/StickySidebar';
 
 function RightRailPanel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -75,13 +76,13 @@ function EventsListPanel() {
 
 export default function RightRail() {
   return (
-    <aside className="w-full sm:w-[300px] shrink-0">
-      <div className="sm:sticky sm:top-header-md flex flex-col gap-5">
+    <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-white/[0.08] lg:pl-5">
+      <StickySidebar>
         <MarketsMini />
         <TrendingSMEsPanel />
         <TopGainersPanel />
         <EventsListPanel />
-      </div>
+      </StickySidebar>
     </aside>
   );
 }

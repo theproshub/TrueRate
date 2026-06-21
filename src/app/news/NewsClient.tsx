@@ -9,7 +9,7 @@ import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
 import { Heading, Text } from '@/components/ui';
 
 const TABS = ['For You', 'Economy', 'Markets', 'Policy', 'Trade', 'Mining', 'Agriculture'];
-const GENERAL_TABS = ['For You', 'Finance', 'Sports', 'Technology', 'Economy', 'World'];
+const GENERAL_TABS = ['For You', 'Finance', 'Technology', 'Economy', 'World'];
 
 function timeAgo(d: string) {
   const date = new Date(d);
@@ -189,7 +189,6 @@ export function GeneralNewsTabs({ items = newsItems }: { items?: NewsItem[] }) {
   // Map general tab labels to the underlying category slugs used in newsItems
   const categoryMap: Record<string, string[]> = {
     'Finance': ['forex', 'economy', 'policy', 'Mining', 'commodities'],
-    'Sports': ['sports', 'football', 'basketball', 'athletics'],
     'Technology': ['technology'],
     'Economy': ['economy'],
     'World': ['world', 'trade'],

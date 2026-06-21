@@ -11,7 +11,6 @@ const sectionRoutes = [
   '/economy',
   '/small-business',
   '/technology',
-  '/sports',
   '/videos',
   '/news',
   '/about',

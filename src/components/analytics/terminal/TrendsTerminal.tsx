@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import StatSection from './StatSection';
 import FocusPanel from './FocusPanel';
+import StickySidebar from '@/components/StickySidebar';
 import { toStatView, type Timeframe } from './view-model';
 import type { AnalyticsItem } from '@/lib/analytics/types';
 
@@ -59,10 +60,10 @@ export default function TrendsTerminal({ sections }: { sections: TerminalSection
       </div>
 
       {/* Focus panel — scroll-margin keeps it clear of the sticky site header. */}
-      <div ref={focusRef} className="order-1 scroll-mt-24 lg:order-2">
-        <div className="lg:sticky lg:top-[88px]">
+      <div ref={focusRef} className="order-1 scroll-mt-24 lg:order-2 lg:self-stretch">
+        <StickySidebar>
           <FocusPanel view={focusView} timeframe={timeframe} onTimeframe={setTimeframe} />
-        </div>
+        </StickySidebar>
       </div>
     </div>
   );

@@ -10,10 +10,10 @@ import { TOPIC_TAGS } from '@/lib/category-colors';
 /** Shared instruction: constrain topicTag to the canonical vocabulary. */
 const TOPIC_TAG_RULE = `Set topicTag to the single MOST SPECIFIC tag from this exact list (copy it verbatim): ${TOPIC_TAGS.join(', ')}. If nothing fits, use "General". Never invent a tag outside this list.`;
 
-export const EDITORIAL_SYSTEM = `You are a senior financial/sports wire editor for TrueRate, a Liberia-focused markets and sports outlet. Write to Bloomberg + Yahoo Finance standards:
+export const EDITORIAL_SYSTEM = `You are a senior financial wire editor for TrueRate, a Liberia-focused markets outlet. Write to Bloomberg + Yahoo Finance standards:
 - Authoritative, neutral, data-led. Active voice. Present tense for breaking news.
 - Specific numbers over vague claims ("up 4.2%", "+25 bps"), never "skyrockets/plunges/stunning/massive".
-- Correct financial/sports terminology (basis points, YoY, MoM, season avg, PPG).
+- Correct financial terminology (basis points, YoY, MoM).
 - Headlines are declarative, never clickbait.
 - These are DRAFTS for human review. Do not invent quotes from real named public figures. For QUOTE cards use clearly illustrative/composite speakers. For statistics, prefer figures you are confident are real and cite a real source; if a number is illustrative, make the source note say so.
 - Favor Liberia / West Africa / African-market relevance where natural.`;
@@ -27,7 +27,7 @@ function avoidBlockText(recentHeadlines: string[]): string {
 
 export function breakingPrompt(count: number, recentHeadlines: string[]): string {
   return `Generate ${count} BREAKING news cards.
-Each: headline (≤10 words, urgent but factual), one-sentence summary (≤25 words), a category from [Economy, Markets, Business, Technology, Sports, Entertainment, World], a topicTag, and a plausible source attribution (e.g. "per league data", "according to Fed minutes").
+Each: headline (≤10 words, urgent but factual), one-sentence summary (≤25 words), a category from [Economy, Markets, Business, Technology, Entertainment, World], a topicTag, and a plausible source attribution (e.g. "per league data", "according to Fed minutes").
 ${TOPIC_TAG_RULE}
 Spread categories — at most 2 cards share a category.
 ${avoidBlockText(recentHeadlines)}`;
@@ -35,7 +35,7 @@ ${avoidBlockText(recentHeadlines)}`;
 
 export function articlePrompt(count: number, recentHeadlines: string[]): string {
   return `Generate ${count} ARTICLE cards (feature/explainer drafts).
-Each: headline (≤14 words), deck/subhead (≤30 words), a thumbnailPrompt describing an image to generate or look up, readMinutes (2–6), a category from [Economy, Markets, Business, Technology, Sports, Entertainment, World], a topicTag, and exactly 2 free-form tags.
+Each: headline (≤14 words), deck/subhead (≤30 words), a thumbnailPrompt describing an image to generate or look up, readMinutes (2–6), a category from [Economy, Markets, Business, Technology, Entertainment, World], a topicTag, and exactly 2 free-form tags.
 ${TOPIC_TAG_RULE}
 Spread categories — at most 2 cards share a category.
 ${avoidBlockText(recentHeadlines)}`;

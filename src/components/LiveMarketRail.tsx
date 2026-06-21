@@ -88,11 +88,13 @@ export default function LiveMarketRail() {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-2" aria-busy="true" aria-label="Loading market data">
-        {[0, 1, 2, 3].map(i => (
-          <div key={i} className="h-10 rounded bg-white/[0.04] motion-safe:animate-pulse" />
-        ))}
-      </div>
+      <section className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4" aria-busy="true" aria-label="Loading market data">
+        <div className="flex flex-col gap-2">
+          {[0, 1, 2, 3].map(i => (
+            <div key={i} className="h-10 rounded bg-white/[0.04] motion-safe:animate-pulse" />
+          ))}
+        </div>
+      </section>
     );
   }
 
@@ -112,65 +114,69 @@ export default function LiveMarketRail() {
     : null;
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       {/* Exchange rates */}
       {fx.length > 0 && (
-        <div>
-          <div className="flex items-end justify-between mb-1">
-            <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Exchange rates</h2>
+        <section aria-label="Exchange rates" className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-3">
+            <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Exchange Rates</h2>
             <Link href="/markets" className="text-2xs text-gray-500 hover:text-brand-accent transition-colors no-underline">Converter ›</Link>
           </div>
-          <p className="text-xs text-gray-500 mb-3 pb-3 border-b border-white/[0.07]">
+          <p className="text-xs text-gray-500 mb-3">
             Indicative mid · LRD{rateDate ? ` · ${rateDate}` : ''}
           </p>
-          <div className="divide-y divide-white/[0.04]">
+          <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
             {fx.map(r => (
-              <Link key={r.pair} href="/markets" className="flex items-center justify-between gap-3 py-3 hover:opacity-75 transition-opacity no-underline group">
-                <span className="text-sm font-semibold text-white/85 tabular-nums">{r.pair}</span>
-                <span className="text-base font-bold text-white tabular-nums">{formatRate(r.rate)}</span>
-              </Link>
+              <li key={r.pair} className="py-2.5 first:pt-0 last:pb-0">
+                <Link href="/markets" className="flex items-center justify-between gap-3 hover:opacity-75 transition-opacity no-underline group">
+                  <span className="text-sm font-semibold text-white/85 tabular-nums">{r.pair}</span>
+                  <span className="text-base font-bold text-white tabular-nums">{formatRate(r.rate)}</span>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
           <p className="text-2xs text-gray-500 mt-3 leading-relaxed">
             Source: live currency feed. Indicative mid-rate, not a dealing rate.
           </p>
-        </div>
+        </section>
       )}
 
       {/* Liberia at a glance */}
       {macro.length > 0 && (
-        <div className={fx.length > 0 ? 'border-t border-white/[0.05] pt-5' : ''}>
-          <div className="flex items-end justify-between mb-1">
-            <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Liberia at a glance</h2>
+        <section aria-label="Liberia at a glance" className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-3">
+            <h2 className="text-sm font-bold text-white uppercase tracking-[0.12em]">Liberia at a Glance</h2>
             <Link href="/economy" className="text-2xs text-gray-500 hover:text-brand-accent transition-colors no-underline">All ›</Link>
           </div>
-          <p className="text-xs text-gray-500 mb-3 pb-3 border-b border-white/[0.07]">
+          <p className="text-xs text-gray-500 mb-3">
             Macro indicators{asOfDate ? ` · as of ${asOfDate}` : ''}
           </p>
-          <div className="divide-y divide-white/[0.04]">
+          <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
             {macro.map(ind => {
               const d = deltaParts(ind.change);
               return (
-                <Link key={ind.key} href="/economy" className="flex items-start justify-between gap-3 py-3 hover:opacity-75 transition-opacity no-underline group">
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold text-white/85">{ind.name}</div>
-                    <div className="text-2xs text-gray-500 mt-0.5">{ind.period} · {ind.source}</div>
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <div className="text-base font-bold text-white tabular-nums">{formatIndicator(ind.value, ind.unit)}</div>
-                    {d.arrow && (
-                      <div className={`text-xs font-semibold tabular-nums ${d.cls}`}>
-                        <span aria-hidden className="mr-0.5">{d.arrow}</span>
-                        {ind.change! > 0 ? '+' : ''}{ind.change}
-                      </div>
-                    )}
-                  </div>
-                </Link>
+                <li key={ind.key} className="py-2.5 first:pt-0 last:pb-0">
+                  <Link href="/economy" className="flex items-start justify-between gap-3 hover:opacity-75 transition-opacity no-underline group">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-white/85">{ind.name}</div>
+                      <div className="text-2xs text-gray-500 mt-0.5">{ind.period} · {ind.source}</div>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <div className="text-base font-bold text-white tabular-nums">{formatIndicator(ind.value, ind.unit)}</div>
+                      {d.arrow && (
+                        <div className={`text-xs font-semibold tabular-nums ${d.cls}`}>
+                          <span aria-hidden className="mr-0.5">{d.arrow}</span>
+                          {ind.change! > 0 ? '+' : ''}{ind.change}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                </li>
               );
             })}
-          </div>
-        </div>
+          </ul>
+        </section>
       )}
-    </div>
+    </>
   );
 }

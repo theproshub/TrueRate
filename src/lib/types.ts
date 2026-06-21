@@ -44,7 +44,7 @@ export interface NewsItem {
   summary: string;
   source: string;
   date: string;
-  category: 'economy' | 'forex' | 'commodities' | 'policy' | 'analysis' | 'banking' | 'investing' | 'technology' | 'startups' | 'ai';
+  category: 'economy' | 'forex' | 'commodities' | 'policy' | 'analysis' | 'banking' | 'investing' | 'technology' | 'startups' | 'ai' | 'business';
   image?: string;            // Hero image URL (from Supabase storage)
   body?: string[];          // Full article paragraphs
   readTime?: string;        // e.g. "6 min read"

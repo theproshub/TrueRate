@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { toggleWatchlistItem } from '@/app/analytics/watchlist-actions';
 import { formatValueWithUnit, formatPct, deltaColor, deltaArrow } from '@/lib/analytics/format';
 import type { AnalyticsItem } from '@/lib/analytics/types';
+import StickySidebar from '@/components/StickySidebar';
 
 /** A slim, serializable projection passed from the server component. */
 export interface WatchRow {
@@ -258,36 +259,38 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
           )}
         </div>
 
-        <aside className="space-y-6">
-          {/* The empty state already offers an add button; only show this when
-              the list has items (otherwise it's a duplicate). */}
-          {!isEmpty && (
-            <button
-              onClick={() => setShowModal(true)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-base font-semibold text-gray-400 transition-colors hover:border-brand-accent/50 hover:text-brand-accent"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-              Add to watchlist
-            </button>
-          )}
+        <aside className="w-full lg:w-[300px] shrink-0">
+          <StickySidebar>
+            {!isEmpty && (
+              <button
+                onClick={() => setShowModal(true)}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.10] bg-white/[0.02] py-4 text-base font-semibold text-gray-400 transition-colors hover:border-brand-accent/50 hover:text-brand-accent"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Add to watchlist
+              </button>
+            )}
 
-          <div>
-            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-accent">Quick links</h3>
-            <div className="divide-y divide-white/[0.05]">
-              {[
-                { href: '/analytics', label: 'Trends & Analytics' },
-                { href: '/markets', label: 'Markets' },
-                { href: '/economy', label: 'Economy Dashboard' },
-              ].map((l) => (
-                <Link key={l.href} href={l.href} className="flex items-center justify-between py-3 text-base text-gray-400 no-underline transition-colors hover:text-white">
-                  {l.label}
-                  <span className="text-gray-600" aria-hidden="true">→</span>
-                </Link>
-              ))}
-            </div>
-          </div>
+            <section aria-label="Quick links" className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+              <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">Quick Links</h3>
+              <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
+                {[
+                  { href: '/analytics', label: 'Trends & Analytics' },
+                  { href: '/markets', label: 'Markets' },
+                  { href: '/economy', label: 'Economy Dashboard' },
+                ].map((l) => (
+                  <li key={l.href} className="py-2.5 first:pt-0 last:pb-0">
+                    <Link href={l.href} className="flex items-center justify-between text-base text-gray-400 no-underline transition-colors hover:text-white">
+                      {l.label}
+                      <span className="text-gray-600" aria-hidden="true">→</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </StickySidebar>
         </aside>
       </div>
     </>

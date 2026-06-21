@@ -14,12 +14,12 @@ const config: Config = {
         'brand-accent':        '#BFEA36',   // Yellow-green — primary CTA, active states (dark surfaces)
         'brand-accent-hover':  '#a8d42a',   // CTA hover — one shade darker than accent
         'brand-accent-ink':    '#4d7c0f',   // Dark lime — interactive accent on LIGHT surfaces (AA on white)
-        'brand-dark':          '#050d11',   // Page background — near-black with dark azure undertone
-        'brand-muted':         '#030a0e',   // Deeper dark — innermost header layer
-        'brand-header':        '#061520',   // Header / nav background
-        'brand-card':          '#040f18',   // Card / panel background
-        'brand-nav':           '#040f18',   // Secondary nav bar (alias of card)
-        'brand-azure':         '#061E29',   // Dark Azure — borders / accents
+        'brand-dark':          '#1E1E1E',   // Page background — dark chrome gray (Yahoo-style)
+        'brand-muted':         '#181818',   // Deeper dark — innermost header layer
+        'brand-header':        '#262626',   // Header / nav background
+        'brand-card':          '#262626',   // Card / panel background
+        'brand-nav':           '#262626',   // Secondary nav bar (alias of card)
+        'brand-azure':         '#333538',   // Borders / accents
         'brand-light':         '#F3F4F4',   // Light grey — surfaces / subtle text
         'brand-surface':       '#f8f9fa',   // Light page background (news / article pages)
         'brand-ink':           '#0a0a0d',   // Near-black text on light surfaces
@@ -34,8 +34,8 @@ const config: Config = {
         accent:       '#BFEA36',
         'accent-hover': '#a8d42a',
         page:         '#F3F4F4',
-        card:         '#0a2535',
-        border:       '#0d3248',
+        card:         '#242628',
+        border:       '#333538',
         't1':         '#F3F4F4',
         't2':         '#94a3b8',
         't3':         '#64748b',
