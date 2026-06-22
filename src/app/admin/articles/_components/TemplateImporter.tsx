@@ -53,18 +53,18 @@ Body:
 `,
   },
   {
-    name: 'Sports story',
-    description: 'Match / club-finance report.',
+    name: 'Data story',
+    description: 'Data-driven economic / market report.',
     template: `Title:
 Standfirst:
 Body:
-## What happened
+## The headline number
 
-## The numbers
+## What it means
 
-## Reaction
+## The detail
 
-## The wider picture
+## What’s next
 `,
   },
 ];

@@ -1,7 +1,7 @@
 /** Unified per-category accent palette.
  *  Every category gets its own Tailwind text-color class. Used everywhere a
  *  category badge / tag is rendered — homepage, news, economy, technology,
- *  sports, markets, etc.
+ *  markets, etc.
  *
  *  Color choice principle: stay in the -400 / -500 saturation band so the
  *  same class reads well on both the dark site shell (bg-brand-dark) and
@@ -72,27 +72,10 @@ const ACCENT_COLORS: Record<string, string> = {
   investigation:     'text-red-500',
   development:       'text-teal-400',
 
-  // ── Sports ──────────────────────────────────────────────────────
-  sports:            'text-green-500',
-  football:          'text-green-500',
-  basketball:        'text-orange-500',
-  athletics:         'text-red-400',
-  cricket:           'text-brand-accent',
-  tennis:            'text-amber-500',
-  golf:              'text-emerald-500',
-  kit:               'text-green-500',
-  shirt:             'text-green-500',
-  title:             'text-green-500',
-
-  // ── Sports-finance verticals ────────────────────────────────────
+  // ── Business-finance verticals ───────────────────────────────────
   sponsorship:       'text-sky-400',
   broadcast:         'text-sky-400',
   'broadcast rights':'text-sky-400',
-  transfers:         'text-violet-400',
-  'transfers & deals':'text-violet-400',
-  'club finance':    'text-emerald-600',
-  'sports finance':  'text-emerald-600',
-  stadium:           'text-teal-400',
 
   // ── Research ────────────────────────────────────────────────────
   sector:            'text-blue-400',
@@ -126,7 +109,6 @@ const STYLES = {
   tech:         { bg: 'bg-gradient-to-br from-sky-950 to-[#030a12]',      accent: 'text-sky-300' },
   analysis:     { bg: 'bg-gradient-to-br from-indigo-950 to-[#04000f]',   accent: 'text-indigo-300' },
   development:  { bg: 'bg-gradient-to-br from-teal-950 to-[#030f0b]',     accent: 'text-teal-300' },
-  sports:       { bg: 'bg-gradient-to-br from-green-950 to-[#020f02]',    accent: 'text-green-400' },
   music:        { bg: 'bg-gradient-to-br from-violet-950 to-[#07000f]',   accent: 'text-violet-300' },
   movies:       { bg: 'bg-gradient-to-br from-rose-950 to-[#0f0205]',     accent: 'text-rose-300' },
   celebrity:    { bg: 'bg-gradient-to-br from-pink-950 to-[#0f0006]',     accent: 'text-pink-300' },
@@ -199,25 +181,10 @@ const CAT_MAP: Record<string, [keyof typeof STYLES, string]> = {
   'explainer':         ['analysis',      'Explainer'],
   'investigation':     ['investigation', 'Investigation'],
   'development':       ['development',   'Development'],
-  // Sports finance verticals
+  // Business-finance verticals
   'sponsorship':       ['markets',       'Sponsorship'],
   'broadcast':         ['tech',          'Broadcast'],
   'broadcast rights':  ['tech',          'Broadcast Rights'],
-  'transfers':         ['trade',         'Transfers'],
-  'transfers & deals': ['trade',         'Transfers'],
-  'club finance':      ['banking',       'Club Finance'],
-  'sports finance':    ['banking',       'Sports Finance'],
-  'stadium':           ['development',   'Stadium'],
-  // Sports
-  'football':          ['sports',        'Football'],
-  'basketball':        ['commodities',   'Basketball'],
-  'athletics':         ['investigation', 'Athletics'],
-  'cricket':           ['agriculture',   'Cricket'],
-  'tennis':            ['energy',        'Tennis'],
-  'golf':              ['sports',        'Golf'],
-  'kit':               ['sports',        'Kit'],
-  'shirt':             ['sports',        'Shirt'],
-  'title':             ['sports',        'Title'],
 };
 
 export function getCatStyle(cat: string): CatStyle {
@@ -258,10 +225,8 @@ export const TOPIC_TAGS = [
   'Leadership', 'Logistics', 'Women',
   // Analysis / explainer / investigation
   'Analysis', 'Deep Dive', 'Explainer', 'Investigation', 'Development',
-  // Sports-finance verticals
-  'Sponsorship', 'Broadcast', 'Broadcast Rights', 'Transfers', 'Club Finance', 'Sports Finance', 'Stadium',
-  // Sports
-  'Football', 'Basketball', 'Athletics', 'Cricket', 'Tennis', 'Golf', 'Kit', 'Shirt', 'Title',
+  // Business-finance verticals
+  'Sponsorship', 'Broadcast', 'Broadcast Rights',
   // Required fallback
   'General',
 ] as const;

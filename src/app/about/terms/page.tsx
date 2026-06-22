@@ -26,9 +26,9 @@ const SECTIONS = [
   },
   {
     id: 'accounts',
-    title: '3. Accounts and watchlists',
+    title: '3. Accounts and features',
     body: [
-      "Some features \u2014 including watchlists, saved articles, and newsletter preferences \u2014 require an account. You agree to provide accurate information and to keep your credentials secure.",
+      "Some features \u2014 including watchlists, saved articles, newsletter subscriptions, and personalised analytics \u2014 require an account. You agree to provide accurate information and to keep your credentials secure.",
       "You are responsible for activity that happens under your account. If you suspect unauthorised use, contact us immediately via the Feedback page.",
     ],
   },
@@ -36,15 +36,18 @@ const SECTIONS = [
     id: 'content',
     title: '4. Our content',
     body: [
-      "All editorial content, market data, charts, images, and analysis published on TrueRate are owned by TrueRate or sourced from third-party data feeds and public institutions (including the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF).",
+      "All editorial content, market data, charts, analytics dashboards, images, and analysis published on TrueRate are owned by TrueRate or sourced from third-party data feeds and public institutions (including the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF).",
+      "The CBL data warehouse that powers our economic reporting is maintained by TrueRate. Data within it originates from the Central Bank of Liberia and is subject to their terms of publication.",
       "You may share individual articles for personal, non-commercial use with proper attribution. You may not republish, scrape, syndicate, or build derivative products on top of our content without written permission.",
+      "The RSS feed at /feed is provided for personal consumption and integration into personal feed readers. Automated re-syndication or commercial redistribution of the feed is not permitted without written permission.",
     ],
   },
   {
     id: 'not-advice',
     title: '5. Not investment advice',
     body: [
-      "TrueRate publishes reporting and market information. Nothing on the Service \u2014 not prices, charts, articles, newsletters, nor commentary \u2014 constitutes investment, legal, tax, or financial advice.",
+      "TrueRate publishes reporting and market information. Nothing on the Service \u2014 not prices, the live market rail, watchlist data, analytics dashboards, charts, articles, newsletters, nor commentary \u2014 constitutes investment, legal, tax, or financial advice.",
+      "Market rates displayed on TrueRate are indicative and may differ from rates offered by banks, exchanges, or other institutions. See the Data Disclaimer for details on data sources and freshness.",
       "Do your own research. Consult a licensed adviser before making any investment decision. TrueRate is not responsible for losses resulting from decisions based on information published on the Service.",
     ],
   },
@@ -66,7 +69,7 @@ const SECTIONS = [
     id: 'disclaimer',
     title: '8. Disclaimers and limitation of liability',
     body: [
-      "The Service is provided \"as is\" without warranty of any kind. TrueRate does not guarantee accuracy, completeness, or uninterrupted availability. Market data may be delayed or estimated; we flag estimates where possible.",
+      "The Service is provided \"as is\" without warranty of any kind. TrueRate does not guarantee accuracy, completeness, or uninterrupted availability. Market data may be delayed or estimated; we flag estimates where possible. Economic data from the CBL data warehouse reflects figures as published by the Central Bank of Liberia and may lag the latest releases.",
       "To the maximum extent permitted by law, TrueRate is not liable for any indirect, incidental, special, or consequential damages arising from your use of the Service.",
     ],
   },
@@ -100,7 +103,7 @@ export default function TermsPage() {
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             These terms govern your use of TrueRate. Read them carefully &mdash; they cover what we publish, what you can do with it, and where our responsibilities start and end.
           </p>
-          <p className="mt-6 text-sm text-gray-400">Effective: April 1, 2026</p>
+          <p className="mt-6 text-sm text-gray-400">Effective: June 22, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">

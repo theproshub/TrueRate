@@ -8,24 +8,28 @@ export const metadata: Metadata = {
 };
 
 const SOURCES = [
-  { source: 'Open currency-rate feed (CDN)',  data: 'Live USD-base FX rates; LRD cross-rates computed (mid-market reference, not a dealing rate)', freshness: 'Hourly' },
-  { source: 'Yahoo Finance',                  data: 'Commodity prices relevant to Liberia’s export economy (gold, oil, and others)', freshness: '~15 min' },
-  { source: 'Central Bank of Liberia (CBL)',  data: 'Policy rate, gross reserves, and official reference data cited in reporting', freshness: 'As published' },
-  { source: 'LISGIS',                         data: 'Consumer price index (inflation), population, national statistics',          freshness: 'As published' },
-  { source: 'Ministry of Finance (MFDP)',     data: 'National budget, fiscal data, public debt',                                 freshness: 'As published' },
-  { source: 'World Bank Open Data',           data: 'GDP, inflation, debt-to-GDP, employment, trade balance',                    freshness: 'Annual / quarterly' },
-  { source: 'International Monetary Fund',     data: 'Fiscal data, WEO projections, Article IV reports',                          freshness: 'Semi-annual' },
-  { source: 'TrueRate Research',              data: 'Proprietary estimates, company profiles, survey data',                      freshness: 'As published' },
+  { source: "Central Bank of Liberia (CBL)",  data: "Exchange rates, policy rate, reserves, monetary aggregates, banking sector data, trade, and fiscal statistics via the CBL data warehouse", freshness: "As published" },
+  { source: "Open currency-rate feed (CDN)",  data: "Live USD-base FX rates; LRD cross-rates computed (mid-market reference, not a dealing rate)", freshness: "Hourly" },
+  { source: "Yahoo Finance",                  data: "Commodity prices relevant to Liberia’s export economy (gold, oil, iron ore, rubber, palm oil) and global equity indices", freshness: "~15 min" },
+  { source: "LISGIS",                         data: "Consumer price index (inflation), population estimates, national statistics", freshness: "As published" },
+  { source: "Ministry of Finance (MFDP)",     data: "National budget, fiscal data, public debt, revenue and expenditure", freshness: "As published" },
+  { source: "World Bank Open Data",           data: "GDP, inflation, debt-to-GDP, employment, trade balance, development indicators", freshness: "Annual / quarterly" },
+  { source: "International Monetary Fund",     data: "World Economic Outlook projections, Article IV reports, fiscal data", freshness: "Semi-annual" },
+  { source: "TrueRate Research",              data: "Proprietary analysis, company profiles, survey data — always labelled as estimates", freshness: "As published" },
 ];
 
 const NOTES = [
   {
     title: 'Indicative, not executable',
-    body: "Rates and prices shown on TrueRate are indicative market levels aggregated from the sources above. They should not be read as transactable quotes. If you need to trade, use a licensed broker or bank, whose rates may differ.",
+    body: "Rates and prices shown on TrueRate \u2014 including those on the live market rail, watchlist, and analytics dashboards \u2014 are indicative market levels aggregated from the sources above. They should not be read as transactable quotes. If you need to trade, use a licensed broker or bank, whose rates may differ.",
   },
   {
     title: 'Delays and gaps',
     body: "Live market rates refresh frequently from our data providers, but quoted levels can still lag the market and some feeds are delayed. Economic series from institutions like the World Bank, IMF, CBL, and LISGIS are published quarterly or annually and may lag by weeks. We label freshness where we can; when in doubt, check the source.",
+  },
+  {
+    title: 'CBL data warehouse',
+    body: "TrueRate maintains a structured data warehouse of Central Bank of Liberia statistical series used across our reporting, analytics, and economy pages. Every economic figure published in articles is verified against this warehouse before publication using automated fact-checking tools. The warehouse reflects data as published by the CBL; any lag or revision in the original source will be reflected here.",
   },
   {
     title: 'Estimates are flagged',
@@ -55,7 +59,7 @@ export default function DataDisclaimerPage() {
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             Where the numbers come from, how often they update, and what they should &mdash; and should not &mdash; be used for.
           </p>
-          <p className="mt-6 text-sm text-gray-400">Last updated: April 1, 2026</p>
+          <p className="mt-6 text-sm text-gray-400">Last updated: June 22, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
@@ -78,7 +82,7 @@ export default function DataDisclaimerPage() {
             <section id="sources" className="mb-14 scroll-mt-36">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Where our data comes from</h2>
               <p className="text-md text-gray-700 leading-[1.9] mb-6">
-                TrueRate aggregates market and economic data from a handful of primary and licensed sources. This table lists what we use and how often each series refreshes.
+                TrueRate aggregates market and economic data from primary and licensed sources. The Central Bank of Liberia data warehouse is the backbone of our economic reporting; live market feeds power the market rail and watchlist. This table lists what we use and how often each series refreshes.
               </p>
               <div className="overflow-x-auto rounded-xl border border-gray-200">
                 <table className="w-full text-base">

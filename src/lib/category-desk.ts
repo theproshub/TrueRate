@@ -13,7 +13,7 @@ export const CATEGORY_TO_AUTHOR: Record<string, string> = {
   business: 'TrueRate Business',
   'small business': 'TrueRate Business',
   technology: 'TrueRate Tech',
-  sports: 'TrueRate Sports',
+  analytics: 'TrueRate Economics',
   videos: 'TrueRate Newsroom',
   opinion: 'TrueRate Editorial Board',
   analysis: 'TrueRate Editorial Board',

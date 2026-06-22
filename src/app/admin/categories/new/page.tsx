@@ -15,7 +15,7 @@ export default async function NewCategoryPage({ searchParams }: PageProps) {
           New category
         </h1>
         <p className="mt-1 text-sm text-gray-400">
-          Categories group articles under a section (Economy, Markets, Sports, etc.).
+          Categories group articles under a section (Economy, Markets, Business, etc.).
         </p>
       </header>
       <CategoryForm

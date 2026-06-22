@@ -36,7 +36,7 @@ const siteGraphItems = [
     logo,
     sameAs,
     description:
-      'TrueRate is Liberia\u2019s financial intelligence platform covering markets, the economy, business, technology, and policy.',
+      'TrueRate is Liberia\u2019s financial intelligence platform \u2014 news, live market data, economic analytics, business, technology, and videos covering the economy, markets, and policy that shape the country.',
     foundingDate: '2026',
     founders: [{ '@type': 'Person', name: 'Moses Julian Sackey' }],
     address: {

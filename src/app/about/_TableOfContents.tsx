@@ -6,10 +6,12 @@ const focusRing =
   'focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none focus-visible:rounded-sm';
 
 const SECTIONS = [
-  { label: 'Our Story',     id: 'our-story'  },
-  { label: 'What We Cover', id: 'coverage'   },
-  { label: 'Our Standards', id: 'standards'  },
-  { label: 'Disclaimer',    id: 'disclaimer' },
+  { label: 'Our Story',       id: 'our-story'    },
+  { label: 'What We Cover',   id: 'coverage'     },
+  { label: 'Platform',        id: 'platform'     },
+  { label: 'Data Sources',    id: 'data-sources' },
+  { label: 'Our Standards',   id: 'standards'    },
+  { label: 'Disclaimer',      id: 'disclaimer'   },
 ];
 
 export default function TableOfContents() {

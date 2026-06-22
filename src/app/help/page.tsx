@@ -8,11 +8,16 @@ export const metadata: Metadata = {
 };
 
 const FAQS = [
-  { q: 'Is TrueRate free to use?', a: 'Yes. TrueRate’s news, market data, currency converter, and research are free to read — no payment required. You can create a free account to save articles and use the watchlist. We may add premium products later, but our core coverage stays free.' },
-  { q: 'Where does TrueRate get its data?', a: 'Live exchange rates come from a free third-party currency feed (with LRD cross-rates computed as a mid-market reference), commodity prices from Yahoo Finance, and economic figures from primary sources — the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, and the IMF. Primary sources always outrank aggregators.' },
-  { q: 'How do I report an error in the data?', a: 'Please use the Feedback page to report any data issues. Our team reviews all submissions within 24 hours.' },
-  { q: 'Can I access TrueRate on mobile?', a: 'Yes. TrueRate is fully responsive and works on all modern mobile browsers. A dedicated app is coming soon.' },
-  { q: 'Do I need an account to read TrueRate?', a: 'No. All content is freely accessible without an account. Creating an account lets you save articles and use the watchlist.' },
+  { q: "Is TrueRate free to use?", a: "Yes. All news, market data, analytics dashboards, videos, and research on TrueRate are free to read — no payment required. You can create a free account to save articles, build a personalised watchlist, and subscribe to our newsletter. We may add premium products later, but our core coverage stays free." },
+  { q: "Where does TrueRate get its data?", a: "Live exchange rates come from a licensed currency feed (with LRD cross-rates computed as a mid-market reference), commodity prices and global indices from Yahoo Finance, and economic figures from primary sources — the Central Bank of Liberia (via our CBL data warehouse), LISGIS, the Ministry of Finance, the World Bank, and the IMF. TrueRate Research produces proprietary analysis, always labelled as estimates. Primary sources always outrank aggregators. See the Data Disclaimer for full details." },
+  { q: "What is the CBL data warehouse?", a: "TrueRate maintains a structured data warehouse of Central Bank of Liberia statistical series — exchange rates, monetary aggregates, inflation, trade, fiscal data, and more. Every economic figure in our reporting is verified against this warehouse before publication using automated fact-checking tools." },
+  { q: "How does the watchlist work?", a: "Sign in and visit the Watchlist page to add currencies, commodities, and market instruments you want to track. Your watchlist updates in real time and syncs across devices." },
+  { q: "How do I save articles?", a: "Click the bookmark icon on any article to save it. Your saved articles are accessible from the Saved page and sync across devices when you are signed in." },
+  { q: "Is there an RSS feed?", a: "Yes. A full-content RSS feed is available at /feed. You can subscribe with any feed reader." },
+  { q: "How do I subscribe to the newsletter?", a: "Enter your email in the newsletter widget on any page, or visit your account settings to manage your subscription. We send a curated digest of the most important financial news." },
+  { q: "How do I report an error in the data?", a: "Please use the Feedback page to report any data issues. Our team reviews all submissions within 24 hours." },
+  { q: "Can I access TrueRate on mobile?", a: "Yes. TrueRate is fully responsive and works on all modern mobile browsers. A dedicated app is coming soon." },
+  { q: "Do I need an account to read TrueRate?", a: "No. All content is freely accessible without an account. Creating an account unlocks saved articles, the personalised watchlist, and newsletter subscriptions." },
 ];
 
 export default function HelpPage() {

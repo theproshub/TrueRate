@@ -12,14 +12,15 @@ const SECTIONS = [
     id: 'why',
     title: 'Why we show ads',
     body: [
-      "TrueRate is free to read because advertising helps pay for original reporting, data licensing, and the engineers and journalists who build the site. We think keeping business and economic coverage accessible to every Liberian is worth the trade-off.",
+      "TrueRate is free to read because advertising helps pay for original reporting, data licensing, infrastructure, and the engineers and journalists who build the site. We think keeping business and economic coverage accessible to every Liberian is worth the trade-off.",
     ],
   },
   {
     id: 'formats',
     title: 'What you will see',
     body: [
-      "Display ads placed in clearly labeled slots on articles, section pages, and newsletters.",
+      "Display ads placed in clearly labelled slots on articles, section pages, the markets and analytics dashboards, and newsletters.",
+      "Newsletter placements — short ad units inside our email digests, clearly separated from editorial content.",
       "Sponsored content, always marked with a \u201cSponsored\u201d or \u201cPaid partner\u201d label and visually distinct from editorial copy.",
       "Partner integrations \u2014 for example, webinar or event announcements \u2014 where relevance to our readership is meaningful.",
     ],
@@ -60,7 +61,7 @@ const SECTIONS = [
     id: 'advertise',
     title: 'Advertise with TrueRate',
     body: [
-      "Want to reach decision-makers across Liberian business, finance, and technology? Email advertise@truerateliberia.com with your brief and budget. We\u2019ll respond within two business days with available formats and indicative rates.",
+      "Want to reach decision-makers across Liberian business, finance, and technology? Our audience spans news, markets, economy, analytics, business, technology, and video sections \u2014 plus a growing newsletter subscriber base. Email advertise@truerateliberia.com with your brief and budget. We\u2019ll respond within two business days with available formats and indicative rates.",
     ],
   },
 ];
@@ -79,7 +80,7 @@ export default function AdsPage() {
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             Advertising keeps TrueRate free. Here&apos;s how we run commercial relationships, where the lines between editorial and ads sit, and what you can control.
           </p>
-          <p className="mt-6 text-sm text-gray-400">Last updated: April 1, 2026</p>
+          <p className="mt-6 text-sm text-gray-400">Last updated: June 22, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">

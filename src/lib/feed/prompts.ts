@@ -27,7 +27,7 @@ function avoidBlockText(recentHeadlines: string[]): string {
 
 export function breakingPrompt(count: number, recentHeadlines: string[]): string {
   return `Generate ${count} BREAKING news cards.
-Each: headline (≤10 words, urgent but factual), one-sentence summary (≤25 words), a category from [Economy, Markets, Business, Technology, Entertainment, World], a topicTag, and a plausible source attribution (e.g. "per league data", "according to Fed minutes").
+Each: headline (≤10 words, urgent but factual), one-sentence summary (≤25 words), a category from [Economy, Markets, Business, Technology, World], a topicTag, and a plausible source attribution (e.g. "per CBL data", "according to Fed minutes").
 ${TOPIC_TAG_RULE}
 Spread categories — at most 2 cards share a category.
 ${avoidBlockText(recentHeadlines)}`;
@@ -35,7 +35,7 @@ ${avoidBlockText(recentHeadlines)}`;
 
 export function articlePrompt(count: number, recentHeadlines: string[]): string {
   return `Generate ${count} ARTICLE cards (feature/explainer drafts).
-Each: headline (≤14 words), deck/subhead (≤30 words), a thumbnailPrompt describing an image to generate or look up, readMinutes (2–6), a category from [Economy, Markets, Business, Technology, Entertainment, World], a topicTag, and exactly 2 free-form tags.
+Each: headline (≤14 words), deck/subhead (≤30 words), a thumbnailPrompt describing an image to generate or look up, readMinutes (2–6), a category from [Economy, Markets, Business, Technology, World], a topicTag, and exactly 2 free-form tags.
 ${TOPIC_TAG_RULE}
 Spread categories — at most 2 cards share a category.
 ${avoidBlockText(recentHeadlines)}`;

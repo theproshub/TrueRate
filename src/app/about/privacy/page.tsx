@@ -13,7 +13,8 @@ const SECTIONS = [
     title: '1. What we collect',
     body: [
       "Account information you give us: your name, email address, and password when you create an account or subscribe to a newsletter.",
-      "Usage information we collect automatically: pages visited, referring site, device type, rough location based on IP, and interactions with articles and widgets. We use this to understand what our readers care about.",
+      "Feature data tied to your account: your watchlist instruments, saved articles, newsletter preferences, and any personalisation settings you configure.",
+      "Usage information we collect automatically: pages visited, referring site, device type, rough location based on IP, and interactions with articles, the market rail, analytics dashboards, and other widgets. We use this to understand what our readers care about.",
       "Payments, when applicable: if you subscribe to a paid product, we receive your billing email and a tokenised payment reference from our payments processor. We do not store full card numbers on our servers.",
     ],
   },
@@ -21,8 +22,9 @@ const SECTIONS = [
     id: 'how-we-use',
     title: '2. How we use your data',
     body: [
-      "To deliver the service: serving articles, customising your watchlist, sending newsletters you have signed up for, responding to support requests.",
-      "To improve the service: aggregated analytics on what stories resonate, what breaks, and what to build next.",
+      "To deliver the service: serving articles, customising your watchlist, syncing saved articles across devices, delivering newsletters you have subscribed to, powering analytics dashboards, and responding to support requests.",
+      "To improve the service: aggregated analytics on what stories resonate, which market instruments are most tracked, what breaks, and what to build next.",
+      "To serve the RSS feed: our feed at /feed is public and contains article content. No personal data is included in the feed.",
       "To comply with law: responding to lawful requests from authorities and preserving records where required.",
     ],
   },
@@ -38,7 +40,8 @@ const SECTIONS = [
     id: 'sharing',
     title: '4. Who we share data with',
     body: [
-      "Service providers we rely on to run TrueRate: hosting (Vercel), database and authentication (Supabase), caching (Upstash), email delivery, payments, customer support, and analytics. These providers are contractually limited to processing data on our behalf.",
+      "Service providers we rely on to run TrueRate: hosting (Vercel), database and authentication (Supabase), caching (Upstash), email delivery, payments, customer support, analytics, and market data providers. These providers are contractually limited to processing data on our behalf.",
+      "Data sources: we receive data from the Central Bank of Liberia, LISGIS, the Ministry of Finance, the World Bank, the IMF, and licensed market feeds. We do not share your personal data with these sources.",
       "Regulators, law enforcement, or courts when we are legally required to disclose information.",
       "We do not sell your personal information.",
     ],
@@ -101,7 +104,7 @@ export default function PrivacyPage() {
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             Plainly: what we collect, what we do with it, and the controls you have. We take the protection of your data seriously and try to keep this policy readable.
           </p>
-          <p className="mt-6 text-sm text-gray-400">Effective: April 1, 2026</p>
+          <p className="mt-6 text-sm text-gray-400">Effective: June 22, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">

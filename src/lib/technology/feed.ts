@@ -2,9 +2,9 @@ import { publicClient } from '@/lib/supabase/public';
 
 /**
  * Backend feed for the /technology section — same pattern as
- * fetchEconomyArticles (src/app/economy/page.tsx), fetchSportsArticles and
- * fetchEntertainmentArticles. Reads published rows from the Supabase `articles`
- * table, filtered to technology categories, newest first.
+ * fetchEconomyArticles (src/app/economy/page.tsx). Reads published rows
+ * from the Supabase `articles` table, filtered to technology categories,
+ * newest first.
  *
  * TrueRate principle (see CLAUDE.md + memory): never ship fabricated content.
  * The section ships with mock content ONLY for the design preview; this helper

@@ -18,7 +18,6 @@ export const CARD_CATEGORIES = [
   'Markets',
   'Business',
   'Technology',
-  'Sports',
   'World',
 ] as const;
 export const CategoryEnum = z.enum(CARD_CATEGORIES);
