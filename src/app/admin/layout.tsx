@@ -15,48 +15,48 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-brand-dark">
-      <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-brand-card/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-container items-center gap-3 sm:gap-6 px-4 py-3">
           <Link
             href="/admin"
-            className="text-base font-bold tracking-tight text-white no-underline shrink-0"
+            className="text-base font-bold tracking-tight text-gray-900 no-underline shrink-0"
           >
             TrueRate Admin
           </Link>
           <nav aria-label="Admin navigation" className="flex gap-3 sm:gap-4 text-sm overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <Link
               href="/admin/articles"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Articles
             </Link>
             <Link
               href="/admin/authors"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Authors
             </Link>
             <Link
               href="/admin/categories"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Categories
             </Link>
             <Link
               href="/admin/users"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Users
             </Link>
             <Link
               href="/admin/feed"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Feed
             </Link>
             <Link
               href="/admin/security"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Security
             </Link>
@@ -67,7 +67,7 @@ export default async function AdminLayout({
             </span>
             <Link
               href="/"
-              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               ← Back to site
             </Link>

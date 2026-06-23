@@ -105,11 +105,11 @@ export default function SecurityPage() {
       <header>
         <h1
           id="security-heading"
-          className="text-2xl font-bold tracking-tight text-white"
+          className="text-2xl font-bold tracking-tight text-gray-900"
         >
           Security
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           Multi-factor authentication protects your admin account.
         </p>
       </header>
@@ -121,36 +121,36 @@ export default function SecurityPage() {
       )}
 
       {step === 'loading' && (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card px-5 py-8 text-center text-sm text-gray-400">
+        <div className="rounded-2xl border border-gray-200 bg-brand-card px-5 py-8 text-center text-sm text-gray-500">
           Loading MFA status…
         </div>
       )}
 
       {step === 'enrolled' && (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-white/[0.07] bg-brand-card px-5 py-5">
+          <div className="rounded-2xl border border-gray-200 bg-brand-card px-5 py-5">
             <div className="flex items-center gap-3">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-pos/20 text-pos" aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12 2.5 8.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </span>
               <div>
-                <p className="text-sm font-semibold text-white">TOTP enabled</p>
-                <p className="text-xs text-gray-400">
+                <p className="text-sm font-semibold text-gray-900">TOTP enabled</p>
+                <p className="text-xs text-gray-500">
                   {factors.length} factor{factors.length !== 1 ? 's' : ''} enrolled
                 </p>
               </div>
             </div>
-            <ul className="mt-4 divide-y divide-white/[0.05]">
+            <ul className="mt-4 divide-y divide-gray-200">
               {factors.map((f) => (
                 <li key={f.id} className="flex items-center justify-between gap-4 py-2">
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-gray-500">
                     {f.friendly_name || 'TOTP factor'}
                   </span>
                   <button
                     type="button"
                     onClick={() => unenroll(f.id)}
                     disabled={busy}
-                    className="rounded-lg px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent disabled:opacity-50"
+                    className="rounded-lg px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink disabled:opacity-50"
                   >
                     Remove
                   </button>
@@ -162,15 +162,15 @@ export default function SecurityPage() {
       )}
 
       {step === 'enroll' && (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card px-5 py-5">
-          <p className="text-sm text-gray-300">
+        <div className="rounded-2xl border border-gray-200 bg-brand-card px-5 py-5">
+          <p className="text-sm text-gray-500">
             No TOTP factor enrolled. Add one to secure your admin account.
           </p>
           <button
             type="button"
             onClick={startEnroll}
             disabled={busy}
-            className="mt-4 rounded-xl bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-card disabled:opacity-50"
+            className="mt-4 rounded-xl bg-brand-accent px-5 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink focus-visible:ring-offset-2 focus-visible:ring-offset-brand-card disabled:opacity-50"
           >
             {busy ? 'Setting up…' : 'Set up TOTP'}
           </button>
@@ -178,8 +178,8 @@ export default function SecurityPage() {
       )}
 
       {step === 'verify' && (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card px-5 py-5">
-          <p className="mb-4 text-sm font-semibold text-white">
+        <div className="rounded-2xl border border-gray-200 bg-brand-card px-5 py-5">
+          <p className="mb-4 text-sm font-semibold text-gray-900">
             Scan this QR code with your authenticator app
           </p>
           <div className="flex justify-center rounded-xl bg-white p-4">
@@ -192,16 +192,16 @@ export default function SecurityPage() {
             />
           </div>
           <details className="mt-3">
-            <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-300">
+            <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-500">
               Can&apos;t scan? Enter manually
             </summary>
-            <code className="mt-2 block break-all rounded-lg bg-white/[0.05] px-3 py-2 text-xs text-gray-300">
+            <code className="mt-2 block break-all rounded-lg bg-gray-100 px-3 py-2 text-xs text-gray-500">
               {secret}
             </code>
           </details>
 
           <form onSubmit={verify} className="mt-6">
-            <label htmlFor="totp-code" className="block text-sm font-medium text-gray-300">
+            <label htmlFor="totp-code" className="block text-sm font-medium text-gray-500">
               Enter the 6-digit code
             </label>
             <div className="mt-2 flex gap-3">
@@ -216,13 +216,13 @@ export default function SecurityPage() {
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-32 rounded-xl border border-white/[0.12] bg-white/[0.05] px-4 py-2.5 text-center text-lg font-mono tracking-[0.3em] text-white placeholder-gray-600 focus:border-brand-accent focus:outline-none focus:ring-2 focus:ring-brand-accent"
+                className="w-32 rounded-xl border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-lg font-mono tracking-[0.3em] text-gray-900 placeholder-gray-600 focus:border-brand-accent-ink focus:outline-none focus:ring-2 focus:ring-brand-accent-ink"
                 placeholder="000000"
               />
               <button
                 type="submit"
                 disabled={busy || code.length !== 6}
-                className="rounded-xl bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-card disabled:opacity-50"
+                className="rounded-xl bg-brand-accent px-5 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink focus-visible:ring-offset-2 focus-visible:ring-offset-brand-card disabled:opacity-50"
               >
                 {busy ? 'Verifying…' : 'Verify'}
               </button>
@@ -236,8 +236,8 @@ export default function SecurityPage() {
           <span className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-pos/20 text-pos" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12 2.5 8.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </span>
-          <p className="text-sm font-semibold text-white">MFA enabled successfully</p>
-          <p className="mt-1 text-xs text-gray-400">
+          <p className="text-sm font-semibold text-gray-900">MFA enabled successfully</p>
+          <p className="mt-1 text-xs text-gray-500">
             Your admin account is now protected with TOTP.
           </p>
         </div>

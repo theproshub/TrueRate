@@ -32,7 +32,7 @@ const STATUS_LABEL: Record<ArticleRow['status'], string> = {
   archived:  'Archived',
 };
 const STATUS_COLOR: Record<ArticleRow['status'], string> = {
-  draft:     'text-gray-400',
+  draft:     'text-gray-500',
   published: 'text-pos',
   archived:  'text-gray-500',
 };
@@ -47,7 +47,7 @@ function shortDate(iso: string | null): string {
 }
 
 const FILTER_INPUT =
-  'rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-sm text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:border-brand-accent-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink-ink';
 
 export default async function AdminArticlesPage({ searchParams }: PageProps) {
   const sp = await searchParams;
@@ -105,10 +105,10 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
     <section aria-labelledby="articles-heading">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 id="articles-heading" className="text-2xl font-bold tracking-tight text-white">
+          <h1 id="articles-heading" className="text-2xl font-bold tracking-tight text-gray-900">
             Articles
           </h1>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="mt-1 text-sm text-gray-500">
             {hasFilters
               ? `${articles.length} ${articles.length === 1 ? 'match' : 'matches'} for current filters`
               : articles.length === 0
@@ -118,7 +118,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/admin/articles/new"
-          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
         >
           New article
         </Link>
@@ -130,7 +130,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
         action="/admin/articles"
         role="search"
         aria-label="Filter articles"
-        className="mb-4 flex flex-wrap items-end gap-3 rounded-2xl border border-white/[0.07] bg-brand-card px-4 py-3"
+        className="mb-4 flex flex-wrap items-end gap-3 rounded-2xl border border-gray-200 bg-brand-card px-4 py-3"
       >
         <div className="flex min-w-[180px] flex-1 flex-col gap-1">
           <label htmlFor="filter-q" className="text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
@@ -180,14 +180,14 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
         <div className="flex items-center gap-2">
           <button
             type="submit"
-            className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            className="rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
           >
             Apply
           </button>
           {hasFilters && (
             <Link
               href="/admin/articles"
-              className="text-sm text-gray-400 no-underline hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="text-sm text-gray-500 no-underline hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Clear
             </Link>
@@ -196,10 +196,10 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
       </form>
 
       {articles.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
+        <div className="rounded-2xl border border-gray-200 bg-brand-card p-10 text-center">
           {hasFilters ? (
             <>
-              <p className="text-base text-gray-400">No articles match these filters.</p>
+              <p className="text-base text-gray-500">No articles match these filters.</p>
               <Link
                 href="/admin/articles"
                 className="mt-3 inline-block text-sm text-brand-accent no-underline hover:text-brand-accent-hover"
@@ -208,16 +208,16 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
               </Link>
             </>
           ) : (
-            <p className="text-base text-gray-400">
-              Nothing here yet. Click <span className="text-white font-semibold">New article</span> to create your first one.
+            <p className="text-base text-gray-500">
+              Nothing here yet. Click <span className="text-gray-900 font-semibold">New article</span> to create your first one.
             </p>
           )}
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-brand-card">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-brand-card">
           <table className="w-full">
             <caption className="sr-only">List of articles in the CMS</caption>
-            <thead className="border-b border-white/[0.07] bg-white/[0.02]">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr className="text-left text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
                 <th scope="col" className="px-5 py-3">Title</th>
                 <th scope="col" className="px-5 py-3">Category</th>
@@ -227,13 +227,13 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
                 <th scope="col" className="px-5 py-3 sr-only">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.05] text-sm">
+            <tbody className="divide-y divide-gray-200 text-sm">
               {articles.map((a) => (
-                <tr key={a.id} className="text-white">
+                <tr key={a.id} className="text-gray-900">
                   <td className="px-5 py-3">
                     <Link
                       href={`/admin/articles/${a.id}/edit`}
-                      className="font-semibold text-white no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                      className="font-semibold text-gray-900 no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                     >
                       {a.title}
                     </Link>
@@ -241,22 +241,22 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
                       /{a.slug} · {a.author?.name ?? 'No author'}
                     </div>
                   </td>
-                  <td className="px-5 py-3 text-gray-400">
+                  <td className="px-5 py-3 text-gray-500">
                     {a.category?.label ?? '—'}
                   </td>
                   <td className={`px-5 py-3 font-medium ${STATUS_COLOR[a.status]}`}>
                     {STATUS_LABEL[a.status]}
                   </td>
-                  <td className="px-5 py-3 text-gray-400">
+                  <td className="px-5 py-3 text-gray-500">
                     {shortDate(a.published_at)}
                   </td>
-                  <td className="px-5 py-3 text-gray-400">
+                  <td className="px-5 py-3 text-gray-500">
                     {shortDate(a.updated_at)}
                   </td>
                   <td className="px-5 py-3 text-right">
                     <Link
                       href={`/admin/articles/${a.id}/edit`}
-                      className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                      className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                     >
                       Edit
                     </Link>

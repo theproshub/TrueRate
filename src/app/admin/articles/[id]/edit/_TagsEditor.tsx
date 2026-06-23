@@ -23,16 +23,16 @@ interface TagsEditorProps {
 }
 
 const SECTION =
-  'rounded-2xl border border-white/[0.07] bg-brand-card p-6';
+  'rounded-2xl border border-gray-200 bg-brand-card p-6';
 const SECTION_HEADER = 'mb-4 flex items-end justify-between gap-3';
-const SECTION_TITLE  = 'text-base font-bold text-white';
+const SECTION_TITLE  = 'text-base font-bold text-gray-900';
 const SECTION_HINT   = 'mt-1 text-xs text-gray-500';
 const CHECKBOX_LABEL =
-  'group flex items-start gap-2 cursor-pointer text-sm text-gray-300 hover:text-white transition-colors';
+  'group flex items-start gap-2 cursor-pointer text-sm text-gray-600 hover:text-gray-900 transition-colors';
 const CHECKBOX =
-  'mt-0.5 h-4 w-4 shrink-0 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'mt-0.5 h-4 w-4 shrink-0 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink';
 const SAVE_BUTTON =
-  'rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink';
 
 export default async function TagsEditor({ articleId, articleTitle, articleBody }: TagsEditorProps) {
   const supabase = await createClient();
@@ -137,8 +137,8 @@ export default async function TagsEditor({ articleId, articleTitle, articleBody 
                         className={CHECKBOX}
                       />
                       <span>
-                        <span className="font-mono text-xs uppercase text-white">{s.ticker}</span>
-                        <span className="ml-2 text-xs text-gray-400">{s.name}</span>
+                        <span className="font-mono text-xs uppercase text-gray-900">{s.ticker}</span>
+                        <span className="ml-2 text-xs text-gray-500">{s.name}</span>
                       </span>
                     </label>
                   ))}

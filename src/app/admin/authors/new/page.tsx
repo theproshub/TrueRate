@@ -11,10 +11,10 @@ export default async function NewAuthorPage({ searchParams }: PageProps) {
   return (
     <section aria-labelledby="new-author-heading">
       <header className="mb-6">
-        <h1 id="new-author-heading" className="text-2xl font-bold tracking-tight text-white">
+        <h1 id="new-author-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           New author
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           Add a contributor or editorial alias. Authors can be assigned to articles from the article form.
         </p>
       </header>

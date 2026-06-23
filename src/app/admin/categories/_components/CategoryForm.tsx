@@ -19,9 +19,9 @@ interface CategoryFormProps {
 }
 
 const INPUT_BASE =
-  'mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-base text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 placeholder:text-gray-500 focus-visible:border-brand-accent-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink-ink';
 
-const LABEL = 'block text-sm font-semibold text-gray-300';
+const LABEL = 'block text-sm font-semibold text-gray-700';
 const HINT  = 'mt-1 text-xs text-gray-500';
 
 export default function CategoryForm({
@@ -50,7 +50,7 @@ export default function CategoryForm({
         </div>
       )}
 
-      <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">
+      <div className="rounded-2xl border border-gray-200 bg-brand-card p-6 space-y-5">
         <div>
           <label htmlFor="label" className={LABEL}>Display label</label>
           <input
@@ -78,7 +78,7 @@ export default function CategoryForm({
             className={INPUT_BASE}
           />
           <p className={HINT}>
-            This is the URL fragment used in section links (e.g. <code className="text-gray-400">/economy</code>).
+            This is the URL fragment used in section links (e.g. <code className="text-gray-500">/economy</code>).
             Changing it on an existing category may break inbound links.
           </p>
         </div>
@@ -113,13 +113,13 @@ export default function CategoryForm({
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
-          className="rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
         >
           {submitLabel}
         </button>
         <Link
           href="/admin/categories"
-          className="rounded-lg border border-white/[0.08] px-5 py-2.5 text-sm font-semibold text-gray-300 no-underline transition-colors hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-gray-600 no-underline transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
         >
           Cancel
         </Link>

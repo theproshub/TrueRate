@@ -58,9 +58,9 @@ function slugify(input: string): string {
 }
 
 const INPUT_BASE =
-  'mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-base text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 placeholder:text-gray-500 focus-visible:border-brand-accent-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink-ink';
 
-const LABEL = 'block text-sm font-semibold text-gray-300';
+const LABEL = 'block text-sm font-semibold text-gray-700';
 const HINT  = 'mt-1 text-xs text-gray-500';
 
 export default function ArticleForm({
@@ -216,7 +216,7 @@ export default function ArticleForm({
         hasExistingContent={Boolean(title.trim() || body.trim())}
       />
 
-      <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">
+      <div className="rounded-2xl border border-gray-200 bg-brand-card p-6 space-y-5">
         <div>
           <label htmlFor="title" className={LABEL}>Title</label>
           <input
@@ -338,7 +338,7 @@ export default function ArticleForm({
         </p>
       </div>
 
-      <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">
+      <div className="rounded-2xl border border-gray-200 bg-brand-card p-6 space-y-5">
         <div>
           <label htmlFor="hero_image" className={LABEL}>Hero image</label>
           <div className="mt-1 flex flex-wrap items-center gap-3">
@@ -355,7 +355,7 @@ export default function ArticleForm({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/[0.07] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="shrink-0 rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               {uploading ? 'Uploading…' : 'Upload'}
             </button>
@@ -373,11 +373,11 @@ export default function ArticleForm({
             <p role="alert" className="mt-1 text-xs text-red-400">{uploadError}</p>
           )}
           <p className={HINT}>
-            Paste an external URL / <code className="text-gray-400">/public</code> path, or upload to
+            Paste an external URL / <code className="text-gray-500">/public</code> path, or upload to
             Supabase Storage (max 10&nbsp;MB; JPEG, PNG, WebP, AVIF, GIF).
           </p>
           {heroImage && (
-            <div className="mt-3 overflow-hidden rounded-lg border border-white/[0.08] bg-black/20">
+            <div className="mt-3 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={heroImage} alt="" className="max-h-48 w-full object-cover" />
             </div>
@@ -390,19 +390,19 @@ export default function ArticleForm({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6">
+      <div className="rounded-2xl border border-gray-200 bg-brand-card p-6">
         <div className="mb-2 flex items-center justify-between">
           <label htmlFor="body" className={LABEL}>Body (Markdown)</label>
           <div className="flex items-center gap-4">
             <span className="text-xs text-gray-500 tabular-nums">
               {wordCount.toLocaleString()} {wordCount === 1 ? 'word' : 'words'} · {readMinutes} min read
             </span>
-            <div className="inline-flex overflow-hidden rounded-lg border border-white/[0.08] text-xs">
+            <div className="inline-flex overflow-hidden rounded-lg border border-gray-300 text-xs">
               <button
                 type="button"
                 onClick={() => setTab('write')}
                 aria-pressed={tab === 'write'}
-                className={`px-3 py-1 font-medium transition-colors ${tab === 'write' ? 'bg-white/[0.08] text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`px-3 py-1 font-medium transition-colors ${tab === 'write' ? 'bg-gray-100 text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
               >
                 Write
               </button>
@@ -410,7 +410,7 @@ export default function ArticleForm({
                 type="button"
                 onClick={() => setTab('preview')}
                 aria-pressed={tab === 'preview'}
-                className={`px-3 py-1 font-medium transition-colors ${tab === 'preview' ? 'bg-white/[0.08] text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`px-3 py-1 font-medium transition-colors ${tab === 'preview' ? 'bg-gray-100 text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
               >
                 Preview
               </button>
@@ -431,23 +431,23 @@ export default function ArticleForm({
         />
 
         {tab === 'preview' && (
-          <div className="mt-1 min-h-[480px] rounded-lg border border-white/[0.08] bg-white px-6 py-5">
+          <div className="mt-1 min-h-[480px] rounded-lg border border-gray-200 bg-white px-6 py-5">
             <div className="article-body" dangerouslySetInnerHTML={{ __html: previewHtml }} />
           </div>
         )}
 
         <p className={HINT}>
-          Use Markdown — headings <code className="text-gray-400">##</code>, links <code className="text-gray-400">[text](url)</code>, lists, blockquotes.
+          Use Markdown — headings <code className="text-gray-500">##</code>, links <code className="text-gray-500">[text](url)</code>, lists, blockquotes.
         </p>
       </div>
 
-      <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 space-y-5">
+      <div className="rounded-2xl border border-gray-200 bg-brand-card p-6 space-y-5">
         <fieldset>
           <legend className={LABEL}>Status</legend>
           <div className="mt-2 flex flex-wrap gap-4">
             {(['draft', 'published', 'archived'] as const).map((s) => (
-              <label key={s} className="inline-flex items-center gap-2 text-sm text-white">
-                <input type="radio" name="status" value={s} checked={status === s} onChange={() => setStatus(s)} className="h-4 w-4 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent" />
+              <label key={s} className="inline-flex items-center gap-2 text-sm text-gray-900">
+                <input type="radio" name="status" value={s} checked={status === s} onChange={() => setStatus(s)} className="h-4 w-4 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink" />
                 <span>{s.charAt(0).toUpperCase() + s.slice(1)}</span>
               </label>
             ))}
@@ -461,10 +461,10 @@ export default function ArticleForm({
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <button type="submit" className="rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+        <button type="submit" className="rounded-lg bg-brand-accent px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
           {submitLabel}
         </button>
-        <Link href="/admin/articles" className="rounded-lg border border-white/[0.08] px-5 py-2.5 text-sm font-semibold text-gray-300 no-underline transition-colors hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+        <Link href="/admin/articles" className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-gray-600 no-underline transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
           Cancel
         </Link>
         {enableDelete && deleteAction && (

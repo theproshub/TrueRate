@@ -29,10 +29,10 @@ export default async function NewArticlePage({ searchParams }: PageProps) {
   return (
     <section aria-labelledby="new-article-heading" className="mx-auto max-w-3xl">
       <header className="mb-6">
-        <h1 id="new-article-heading" className="text-2xl font-bold tracking-tight text-white">
+        <h1 id="new-article-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           New article
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           Fill in the fields below. Save as Draft to keep working, or set Status to Published to make it live.
         </p>
       </header>

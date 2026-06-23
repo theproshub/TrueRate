@@ -64,10 +64,10 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
 
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 id="categories-heading" className="text-2xl font-bold tracking-tight text-white">
+          <h1 id="categories-heading" className="text-2xl font-bold tracking-tight text-gray-900">
             Categories
           </h1>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="mt-1 text-sm text-gray-500">
             {categories.length === 0
               ? 'No categories yet.'
               : `${categories.length} ${categories.length === 1 ? 'category' : 'categories'}`}
@@ -75,23 +75,23 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/admin/categories/new"
-          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
         >
           New category
         </Link>
       </div>
 
       {categories.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
-          <p className="text-base text-gray-400">
-            Nothing here yet. Click <span className="text-white font-semibold">New category</span> to add one.
+        <div className="rounded-2xl border border-gray-200 bg-brand-card p-10 text-center">
+          <p className="text-base text-gray-500">
+            Nothing here yet. Click <span className="text-gray-900 font-semibold">New category</span> to add one.
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-brand-card">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-brand-card">
           <table className="w-full">
             <caption className="sr-only">List of editorial categories</caption>
-            <thead className="border-b border-white/[0.07] bg-white/[0.02]">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr className="text-left text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
                 <th scope="col" className="px-5 py-3">Label</th>
                 <th scope="col" className="px-5 py-3">Slug</th>
@@ -100,15 +100,15 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
                 <th scope="col" className="px-5 py-3 sr-only">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.05] text-sm">
+            <tbody className="divide-y divide-gray-200 text-sm">
               {categories.map((c) => {
                 const articleCount = articleCountByCategory.get(c.id) ?? 0;
                 return (
-                  <tr key={c.id} className="text-white">
+                  <tr key={c.id} className="text-gray-900">
                     <td className="px-5 py-3">
                       <Link
                         href={`/admin/categories/${c.id}/edit`}
-                        className="font-semibold text-white no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                        className="font-semibold text-gray-900 no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                       >
                         {c.label}
                       </Link>
@@ -118,13 +118,13 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
                         </div>
                       )}
                     </td>
-                    <td className="px-5 py-3 text-gray-400">
+                    <td className="px-5 py-3 text-gray-500">
                       <code className="text-xs">{c.slug}</code>
                     </td>
-                    <td className="px-5 py-3 text-right tabular-nums text-gray-400">
+                    <td className="px-5 py-3 text-right tabular-nums text-gray-500">
                       {c.display_order ?? 0}
                     </td>
-                    <td className="px-5 py-3 text-right tabular-nums text-gray-400">
+                    <td className="px-5 py-3 text-right tabular-nums text-gray-500">
                       {articleCount === 0 ? (
                         <span className="text-gray-500">0</span>
                       ) : (
@@ -139,7 +139,7 @@ export default async function AdminCategoriesPage({ searchParams }: PageProps) {
                     <td className="px-5 py-3 text-right">
                       <Link
                         href={`/admin/categories/${c.id}/edit`}
-                        className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                        className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                       >
                         Edit
                       </Link>

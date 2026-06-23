@@ -33,10 +33,10 @@ export default async function EditCategoryPage({ params, searchParams }: PagePro
   return (
     <section aria-labelledby="edit-category-heading">
       <header className="mb-6">
-        <h1 id="edit-category-heading" className="text-2xl font-bold tracking-tight text-white">
+        <h1 id="edit-category-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           Edit category
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           Slug: <code className="text-gray-300">{category.slug}</code>
         </p>
       </header>

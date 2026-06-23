@@ -84,11 +84,11 @@ export default async function AdminDashboardPage() {
       <header>
         <h1
           id="dashboard-heading"
-          className="text-2xl font-bold tracking-tight text-white"
+          className="text-2xl font-bold tracking-tight text-gray-900"
         >
           Dashboard
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           Overview of TrueRate&apos;s content, data, and users.
         </p>
       </header>
@@ -149,13 +149,13 @@ export default async function AdminDashboardPage() {
           </h2>
           <Link
             href="/admin/articles"
-            className="text-xs text-gray-400 no-underline transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            className="text-xs text-gray-500 no-underline transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
           >
             All articles ›
           </Link>
         </div>
         {recentArticles.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 text-sm text-gray-400">
+          <div className="rounded-2xl border border-gray-200 bg-brand-card p-6 text-sm text-gray-500">
             No articles yet.{' '}
             <Link
               href="/admin/articles/new"
@@ -166,17 +166,17 @@ export default async function AdminDashboardPage() {
             .
           </div>
         ) : (
-          <ul className="overflow-hidden rounded-2xl border border-white/[0.07] bg-brand-card divide-y divide-white/[0.05]">
+          <ul className="overflow-hidden rounded-2xl border border-gray-200 bg-brand-card divide-y divide-gray-200">
             {recentArticles.map((a) => (
               <li key={a.id}>
                 <Link
                   href={`/admin/articles/${a.id}/edit`}
-                  className="flex items-center justify-between gap-4 px-5 py-3 text-sm no-underline transition-colors hover:bg-white/[0.03] focus-visible:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                  className="flex items-center justify-between gap-4 px-5 py-3 text-sm no-underline transition-colors hover:bg-gray-50 focus-visible:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                 >
-                  <span className="min-w-0 flex-1 truncate font-semibold text-white">
+                  <span className="min-w-0 flex-1 truncate font-semibold text-gray-900">
                     {a.title}
                   </span>
-                  <span className="hidden shrink-0 text-xs text-gray-400 sm:inline">
+                  <span className="hidden shrink-0 text-xs text-gray-500 sm:inline">
                     {a.category?.label ?? '—'}
                   </span>
                   <span
@@ -185,7 +185,7 @@ export default async function AdminDashboardPage() {
                         ? 'text-pos'
                         : a.status === 'archived'
                           ? 'text-gray-500'
-                          : 'text-gray-400'
+                          : 'text-gray-500'
                     }`}
                   >
                     {a.status}
@@ -218,13 +218,13 @@ function StatCard({
     tone === 'positive'
       ? 'text-pos'
       : tone === 'neutral'
-        ? 'text-amber-400'
+        ? 'text-amber-500'
         : tone === 'muted'
           ? 'text-gray-500'
-          : 'text-white';
+          : 'text-gray-900';
 
   const card = (
-    <div className="rounded-2xl border border-white/[0.07] bg-brand-card px-5 py-4 transition-colors hover:bg-white/[0.03]">
+    <div className="rounded-2xl border border-gray-200 bg-brand-card px-5 py-4 transition-colors hover:bg-gray-50">
       <div className="text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
         {label}
       </div>
@@ -238,7 +238,7 @@ function StatCard({
     return (
       <Link
         href={href}
-        className="no-underline focus-visible:rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+        className="no-underline focus-visible:rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
       >
         {card}
       </Link>

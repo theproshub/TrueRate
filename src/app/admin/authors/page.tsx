@@ -63,10 +63,10 @@ export default async function AdminAuthorsPage({ searchParams }: PageProps) {
 
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 id="authors-heading" className="text-2xl font-bold tracking-tight text-white">
+          <h1 id="authors-heading" className="text-2xl font-bold tracking-tight text-gray-900">
             Authors
           </h1>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="mt-1 text-sm text-gray-500">
             {authors.length === 0
               ? 'No authors yet.'
               : `${authors.length} ${authors.length === 1 ? 'author' : 'authors'}`}
@@ -74,23 +74,23 @@ export default async function AdminAuthorsPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/admin/authors/new"
-          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
         >
           New author
         </Link>
       </div>
 
       {authors.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
-          <p className="text-base text-gray-400">
-            No authors yet. Click <span className="text-white font-semibold">New author</span> to add one.
+        <div className="rounded-2xl border border-gray-200 bg-brand-card p-10 text-center">
+          <p className="text-base text-gray-500">
+            No authors yet. Click <span className="text-gray-900 font-semibold">New author</span> to add one.
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-brand-card">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-brand-card">
           <table className="w-full">
             <caption className="sr-only">List of authors</caption>
-            <thead className="border-b border-white/[0.07] bg-white/[0.02]">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr className="text-left text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
                 <th scope="col" className="px-5 py-3">Name</th>
                 <th scope="col" className="px-5 py-3">Slug</th>
@@ -98,15 +98,15 @@ export default async function AdminAuthorsPage({ searchParams }: PageProps) {
                 <th scope="col" className="px-5 py-3 sr-only">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.05] text-sm">
+            <tbody className="divide-y divide-gray-200 text-sm">
               {authors.map((a) => {
                 const articleCount = articleCountByAuthor.get(a.id) ?? 0;
                 return (
-                  <tr key={a.id} className="text-white">
+                  <tr key={a.id} className="text-gray-900">
                     <td className="px-5 py-3">
                       <Link
                         href={`/admin/authors/${a.id}/edit`}
-                        className="font-semibold text-white no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                        className="font-semibold text-gray-900 no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                       >
                         {a.name}
                       </Link>
@@ -116,10 +116,10 @@ export default async function AdminAuthorsPage({ searchParams }: PageProps) {
                         </div>
                       )}
                     </td>
-                    <td className="px-5 py-3 text-gray-400">
+                    <td className="px-5 py-3 text-gray-500">
                       <code className="text-xs">{a.slug}</code>
                     </td>
-                    <td className="px-5 py-3 tabular-nums text-gray-400">
+                    <td className="px-5 py-3 tabular-nums text-gray-500">
                       {articleCount === 0 ? (
                         <span className="text-gray-500">0</span>
                       ) : (
@@ -134,7 +134,7 @@ export default async function AdminAuthorsPage({ searchParams }: PageProps) {
                     <td className="px-5 py-3 text-right">
                       <Link
                         href={`/admin/authors/${a.id}/edit`}
-                        className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                        className="text-brand-accent no-underline transition-colors hover:text-brand-accent-hover focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
                       >
                         Edit
                       </Link>

@@ -58,10 +58,10 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
   return (
     <section aria-labelledby="edit-article-heading" className="mx-auto max-w-3xl">
       <header className="mb-6">
-        <h1 id="edit-article-heading" className="text-2xl font-bold tracking-tight text-white">
+        <h1 id="edit-article-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           Edit article
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           {article.status === 'published' ? (
             <>Public URL: <code className="text-gray-300">/news/{article.slug}</code></>
           ) : (
@@ -81,11 +81,11 @@ export default async function EditArticlePage({ params, searchParams }: PageProp
         deleteAction={boundDelete}
       />
 
-      <div className="my-10 border-t border-white/[0.07]" />
+      <div className="my-10 border-t border-gray-200" />
 
       <header className="mb-6">
-        <h2 className="text-xl font-bold tracking-tight text-white">Tags</h2>
-        <p className="mt-1 text-sm text-gray-400">
+        <h2 className="text-xl font-bold tracking-tight text-gray-900">Tags</h2>
+        <p className="mt-1 text-sm text-gray-500">
           Link this article to the macro indicators and symbols it discusses. Tags drive
           related-news widgets on indicator and symbol pages.
         </p>

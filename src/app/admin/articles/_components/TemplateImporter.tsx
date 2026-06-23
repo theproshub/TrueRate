@@ -70,7 +70,7 @@ Body:
 ];
 
 const PANEL_BTN =
-  'rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-gray-300 transition-colors hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'rounded-lg border border-gray-300 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-600 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink';
 
 export default function TemplateImporter({
   onApply,
@@ -140,25 +140,25 @@ export default function TemplateImporter({
   }
 
   return (
-    <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-6">
+    <div className="rounded-2xl border border-gray-200 bg-brand-card p-6">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="flex w-full items-center justify-between gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+        className="flex w-full items-center justify-between gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
       >
         <span>
-          <span className="block text-sm font-semibold text-white">
+          <span className="block text-sm font-semibold text-gray-900">
             Start from a draft or template
           </span>
-          <span className="mt-1 block text-xs text-gray-400">
+          <span className="mt-1 block text-xs text-gray-500">
             Drop a Word doc (.docx), Markdown or text file to auto-fill the
             fields below — or paste a structure. Check the Preview tab to see how
             it renders.
           </span>
         </span>
-        <span aria-hidden="true" className="text-lg leading-none text-gray-400">
+        <span aria-hidden="true" className="text-lg leading-none text-gray-500">
           {open ? '−' : '+'}
         </span>
       </button>
@@ -176,11 +176,11 @@ export default function TemplateImporter({
             className={`rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
               dragging
                 ? 'border-brand-accent bg-brand-accent/[0.06]'
-                : 'border-white/[0.12] bg-white/[0.02]'
+                : 'border-gray-300 bg-gray-50'
             }`}
           >
-            <p className="text-sm text-gray-300">
-              <span className="font-semibold text-white">Drop your draft here</span>{' '}
+            <p className="text-sm text-gray-600">
+              <span className="font-semibold text-gray-900">Drop your draft here</span>{' '}
               to auto-fill the form
             </p>
             <p className="mt-1 text-xs text-gray-500">
@@ -191,7 +191,7 @@ export default function TemplateImporter({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={reading}
-                className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
               >
                 {reading ? 'Reading…' : 'Choose file'}
               </button>
@@ -220,7 +220,7 @@ export default function TemplateImporter({
 
           {/* ── Or paste a structure ───────────────────────────────────── */}
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-gray-400">
+            <span className="text-xs font-semibold text-gray-500">
               Or start from a preset:
             </span>
             {PRESETS.map((p) => (
@@ -239,7 +239,7 @@ export default function TemplateImporter({
           <div>
             <label
               htmlFor={textareaId}
-              className="block text-sm font-semibold text-gray-300"
+              className="block text-sm font-semibold text-gray-700"
             >
               Template / pasted text
             </label>
@@ -250,21 +250,21 @@ export default function TemplateImporter({
               rows={10}
               placeholder={'Title: …\nStandfirst: …\nBody:\n## Lead\n…'}
               aria-describedby={`${textareaId}-hint`}
-              className="mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 font-mono text-sm leading-relaxed text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 font-mono text-sm leading-relaxed text-gray-900 placeholder:text-gray-500 focus-visible:border-brand-accent-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink-ink"
             />
             <p id={`${textareaId}-hint`} className="mt-1 text-xs text-gray-500">
               Reads field-sheet labels —{' '}
-              <code className="text-gray-400">TITLE:</code>,{' '}
-              <code className="text-gray-400">STANDFIRST:</code>,{' '}
-              <code className="text-gray-400">CATEGORY:</code>,{' '}
-              <code className="text-gray-400">AUTHOR:</code>,{' '}
-              <code className="text-gray-400">HERO ALT TEXT:</code>,{' '}
-              <code className="text-gray-400">BODY:</code>,{' '}
-              <code className="text-gray-400">STATUS:</code> — with the value on
-              the next line, and stops at a <code className="text-gray-400">---</code>{' '}
+              <code className="text-gray-500">TITLE:</code>,{' '}
+              <code className="text-gray-500">STANDFIRST:</code>,{' '}
+              <code className="text-gray-500">CATEGORY:</code>,{' '}
+              <code className="text-gray-500">AUTHOR:</code>,{' '}
+              <code className="text-gray-500">HERO ALT TEXT:</code>,{' '}
+              <code className="text-gray-500">BODY:</code>,{' '}
+              <code className="text-gray-500">STATUS:</code> — with the value on
+              the next line, and stops at a <code className="text-gray-500">---</code>{' '}
               divider. Also accepts inline{' '}
-              <code className="text-gray-400">Label: value</code> or a leading{' '}
-              <code className="text-gray-400"># Heading</code>.
+              <code className="text-gray-500">Label: value</code> or a leading{' '}
+              <code className="text-gray-500"># Heading</code>.
             </p>
           </div>
 
@@ -273,7 +273,7 @@ export default function TemplateImporter({
               type="button"
               onClick={handleApply}
               disabled={!value.trim()}
-              className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
               Apply to draft
             </button>
@@ -285,7 +285,7 @@ export default function TemplateImporter({
                   setFileName(null);
                   setFileError(null);
                 }}
-                className="rounded-lg px-2 py-1 text-sm font-semibold text-gray-400 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                className="rounded-lg px-2 py-1 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
               >
                 Clear
               </button>

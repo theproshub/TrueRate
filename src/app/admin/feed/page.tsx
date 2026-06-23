@@ -39,15 +39,15 @@ function CardPreview({ card }: { card: CardRow }) {
     case 'breaking':
       return (
         <>
-          <p className="font-bold text-white">{String(p.headline ?? '')}</p>
-          <p className="mt-1 text-sm text-gray-400">{String(p.summary ?? '')}</p>
+          <p className="font-bold text-gray-900">{String(p.headline ?? '')}</p>
+          <p className="mt-1 text-sm text-gray-500">{String(p.summary ?? '')}</p>
         </>
       );
     case 'article':
       return (
         <>
-          <p className="font-bold text-white">{String(p.headline ?? '')}</p>
-          <p className="mt-1 text-sm text-gray-400">{String(p.deck ?? '')}</p>
+          <p className="font-bold text-gray-900">{String(p.headline ?? '')}</p>
+          <p className="mt-1 text-sm text-gray-500">{String(p.deck ?? '')}</p>
           <p className="mt-1 text-xs text-gray-500">
             {String(p.readMinutes ?? '?')} min · {Array.isArray(p.tags) ? p.tags.join(', ') : ''}
           </p>
@@ -56,8 +56,8 @@ function CardPreview({ card }: { card: CardRow }) {
     case 'quote':
       return (
         <>
-          <p className="font-medium italic text-white">&ldquo;{String(p.quote ?? '')}&rdquo;</p>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="font-medium italic text-gray-900">&ldquo;{String(p.quote ?? '')}&rdquo;</p>
+          <p className="mt-1 text-sm text-gray-500">
             — {String(p.speakerName ?? '')}, {String(p.speakerTitle ?? '')}, {String(p.speakerOrg ?? '')}
           </p>
         </>
@@ -65,14 +65,14 @@ function CardPreview({ card }: { card: CardRow }) {
     case 'big_stat':
       return (
         <>
-          <p className="text-2xl font-black text-white tabular-nums">{String(p.value ?? '')}</p>
-          <p className="mt-1 text-sm text-gray-400">{String(p.descriptor ?? '')} · {String(p.context ?? '')}</p>
+          <p className="text-2xl font-black text-gray-900 tabular-nums">{String(p.value ?? '')}</p>
+          <p className="mt-1 text-sm text-gray-500">{String(p.descriptor ?? '')} · {String(p.context ?? '')}</p>
         </>
       );
     case 'markets': {
       const tickers = Array.isArray(p.tickers) ? (p.tickers as Array<{ symbol: string }>) : [];
       return (
-        <p className="text-sm text-gray-300">
+        <p className="text-sm text-gray-600">
           Markets snapshot — {tickers.length} tickers: {tickers.map((t) => t.symbol).join(', ')}
         </p>
       );
@@ -96,12 +96,12 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
   if (error) {
     return (
       <section>
-        <h1 className="text-2xl font-bold tracking-tight text-white">Content Feed</h1>
-        <div role="alert" className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/[0.06] p-6 text-sm text-amber-200">
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Content Feed</h1>
+        <div role="alert" className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/[0.06] p-6 text-sm text-amber-700">
           Couldn&apos;t load feed cards: {error.message}
-          <p className="mt-2 text-amber-300/80">
+          <p className="mt-2 text-amber-600">
             If this says the relation doesn&apos;t exist, apply{' '}
-            <code className="text-amber-100">supabase/migrations/008_content_feed.sql</code> in the Supabase SQL editor.
+            <code className="text-amber-800">supabase/migrations/008_content_feed.sql</code> in the Supabase SQL editor.
           </p>
         </div>
       </section>
@@ -126,8 +126,8 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
       )}
 
       <header className="mb-6">
-        <h1 id="feed-heading" className="text-2xl font-bold tracking-tight text-white">Content Feed</h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <h1 id="feed-heading" className="text-2xl font-bold tracking-tight text-gray-900">Content Feed</h1>
+        <p className="mt-1 text-sm text-gray-500">
           Review AI-drafted cards before they go live. {drafts.length} pending · {published.length} live.
         </p>
       </header>
@@ -135,20 +135,20 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
       {/* Draft review queue */}
       <h2 className="mb-3 text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">Pending review</h2>
       {drafts.length === 0 ? (
-        <div className="mb-8 rounded-2xl border border-white/[0.07] bg-brand-card p-8 text-center text-sm text-gray-400">
+        <div className="mb-8 rounded-2xl border border-gray-200 bg-brand-card p-8 text-center text-sm text-gray-500">
           No drafts awaiting review. The daily cron adds AI-drafted cards here.
         </div>
       ) : (
         <ul className="mb-10 space-y-3">
           {drafts.map((card) => (
-            <li key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
+            <li key={card.id} className="rounded-2xl border border-gray-200 bg-brand-card p-5">
               <div className="mb-3 flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-white/[0.1] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-gray-300">
+                <span className="rounded-full border border-gray-300 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-gray-600">
                   {TYPE_LABEL[card.type]}
                 </span>
                 {card.category && <span className="text-2xs font-bold uppercase tracking-wide text-gray-500">{card.category}</span>}
                 {card.is_ai_generated && (
-                  <span className="rounded-full border border-amber-500/30 bg-amber-500/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-amber-400">
+                  <span className="rounded-full border border-amber-500/30 bg-amber-500/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-amber-500">
                     AI draft
                   </span>
                 )}
@@ -157,7 +157,7 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
               {card.source_note && <p className="mt-2 text-xs text-gray-600">Source: {card.source_note}</p>}
               <div className="mt-4 flex items-center gap-2">
                 <form action={publishCard.bind(null, card.id)}>
-                  <button type="submit" className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+                  <button type="submit" className="rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
                     Publish
                   </button>
                 </form>
@@ -175,25 +175,25 @@ export default async function AdminFeedPage({ searchParams }: PageProps) {
       {/* Currently live */}
       <h2 className="mb-3 text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">Live on feed</h2>
       {published.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-8 text-center text-sm text-gray-400">
+        <div className="rounded-2xl border border-gray-200 bg-brand-card p-8 text-center text-sm text-gray-500">
           Nothing published yet.
         </div>
       ) : (
         <ul className="space-y-3">
           {published.map((card) => (
-            <li key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
+            <li key={card.id} className="rounded-2xl border border-gray-200 bg-brand-card p-5">
               <div className="mb-3 flex flex-wrap items-center gap-2">
                 <span className="rounded-full border border-pos/30 bg-pos/[0.08] px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-pos">
                   {TYPE_LABEL[card.type]} · Live
                 </span>
                 {card.is_ai_generated && (
-                  <span className="text-2xs font-bold uppercase tracking-wide text-amber-400/70">AI</span>
+                  <span className="text-2xs font-bold uppercase tracking-wide text-amber-500">AI</span>
                 )}
               </div>
               <CardPreview card={card} />
               <div className="mt-4 flex items-center gap-2">
                 <form action={unpublishCard.bind(null, card.id)}>
-                  <button type="submit" className="rounded-lg border border-white/[0.08] px-4 py-2 text-sm font-semibold text-gray-300 transition-colors hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+                  <button type="submit" className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-600 transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
                     Unpublish
                   </button>
                 </form>

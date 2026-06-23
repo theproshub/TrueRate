@@ -11,10 +11,10 @@ export default async function NewCategoryPage({ searchParams }: PageProps) {
   return (
     <section aria-labelledby="new-category-heading">
       <header className="mb-6">
-        <h1 id="new-category-heading" className="text-2xl font-bold tracking-tight text-white">
+        <h1 id="new-category-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           New category
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           Categories group articles under a section (Economy, Markets, Business, etc.).
         </p>
       </header>

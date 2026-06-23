@@ -76,16 +76,16 @@ function detectMacros(text: string, macros: MacroRow[]): Set<string> {
 }
 
 const SECTION =
-  'rounded-2xl border border-white/[0.07] bg-brand-card p-6';
+  'rounded-2xl border border-gray-200 bg-brand-card p-6';
 const SECTION_HEADER = 'mb-4 flex items-end justify-between gap-3';
-const SECTION_TITLE  = 'text-base font-bold text-white';
+const SECTION_TITLE  = 'text-base font-bold text-gray-900';
 const SECTION_HINT   = 'mt-1 text-xs text-gray-500';
 const CHECKBOX_LABEL =
-  'group flex items-start gap-2 cursor-pointer text-sm text-gray-300 hover:text-white transition-colors';
+  'group flex items-start gap-2 cursor-pointer text-sm text-gray-600 hover:text-gray-900 transition-colors';
 const CHECKBOX =
-  'mt-0.5 h-4 w-4 shrink-0 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'mt-0.5 h-4 w-4 shrink-0 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink';
 const SAVE_BUTTON =
-  'rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent';
+  'rounded-lg bg-brand-accent px-4 py-2 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink';
 
 export default function MacroTagForm({
   macros,
@@ -133,7 +133,7 @@ export default function MacroTagForm({
           <button
             type="button"
             onClick={autoDetect}
-            className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            className="rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
           >
             Auto-detect
           </button>
@@ -173,7 +173,7 @@ export default function MacroTagForm({
                     className={CHECKBOX}
                   />
                   <span>
-                    <span className={`font-medium ${detected?.has(m.id) ? 'text-brand-accent' : 'text-white'} group-hover:text-white`}>
+                    <span className={`font-medium ${detected?.has(m.id) ? 'text-brand-accent' : 'text-gray-900'} group-hover:text-gray-900`}>
                       {m.label}
                     </span>
                     <span className="ml-2 text-xs text-gray-500">{m.series_id}</span>

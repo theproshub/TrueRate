@@ -77,23 +77,23 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
       )}
 
       <header className="mb-6">
-        <h1 id="users-heading" className="text-2xl font-bold tracking-tight text-white">
+        <h1 id="users-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           Users
         </h1>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           {users.length} registered · {adminCount} admin{adminCount === 1 ? '' : 's'}
         </p>
       </header>
 
       {users.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
-          <p className="text-base text-gray-400">No registered users yet.</p>
+        <div className="rounded-2xl border border-gray-200 bg-brand-card p-10 text-center">
+          <p className="text-base text-gray-500">No registered users yet.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-brand-card">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-brand-card">
           <table className="w-full">
             <caption className="sr-only">Registered users and their admin status</caption>
-            <thead className="border-b border-white/[0.07] bg-white/[0.02]">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr className="text-left text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
                 <th scope="col" className="px-5 py-3">User</th>
                 <th scope="col" className="px-5 py-3">Role</th>
@@ -102,21 +102,21 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
                 <th scope="col" className="px-5 py-3 sr-only">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.05] text-sm">
+            <tbody className="divide-y divide-gray-200 text-sm">
               {users.map((u) => {
                 const isSelf = u.id === currentUser.id;
                 const toggle = setUserAdmin.bind(null, u.id, !u.isAdmin);
                 return (
-                  <tr key={u.id} className="text-white">
+                  <tr key={u.id} className="text-gray-900">
                     <td className="px-5 py-3">
-                      <div className="font-semibold text-white">
+                      <div className="font-semibold text-gray-900">
                         {u.displayName ?? u.email}
                         {isSelf && <span className="ml-2 text-2xs font-bold uppercase tracking-wider text-brand-accent">You</span>}
                       </div>
                       <div className="mt-0.5 text-xs text-gray-500">
                         {u.email}
                         {!u.hasProfile && (
-                          <span className="ml-2 text-amber-400">no profile row</span>
+                          <span className="ml-2 text-amber-500">no profile row</span>
                         )}
                       </div>
                     </td>
@@ -129,15 +129,15 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
                         <span className="text-gray-500">User</span>
                       )}
                     </td>
-                    <td className="px-5 py-3 text-gray-400">{shortDate(u.createdAt)}</td>
-                    <td className="px-5 py-3 text-gray-400">{shortDate(u.lastSignIn)}</td>
+                    <td className="px-5 py-3 text-gray-500">{shortDate(u.createdAt)}</td>
+                    <td className="px-5 py-3 text-gray-500">{shortDate(u.lastSignIn)}</td>
                     <td className="px-5 py-3 text-right">
                       <form action={toggle}>
                         <button
                           type="submit"
                           disabled={isSelf && u.isAdmin}
                           title={isSelf && u.isAdmin ? "You can't remove your own admin access" : undefined}
-                          className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent disabled:cursor-not-allowed disabled:opacity-40 ${
+                          className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink disabled:cursor-not-allowed disabled:opacity-40 ${
                             u.isAdmin
                               ? 'border-red-500/30 text-red-300 hover:bg-red-500/[0.08]'
                               : 'border-pos/30 text-pos hover:bg-pos/[0.08]'
