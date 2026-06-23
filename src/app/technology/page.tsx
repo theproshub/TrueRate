@@ -168,7 +168,7 @@ export default async function TechnologyPage() {
               </div>
               <div className="flex flex-col justify-center flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-dark">Top Story</span>
+                  <span className="rounded px-2 py-0.5 text-2xs font-black uppercase tracking-widest bg-brand-accent text-brand-accent-ink">Top Story</span>
                   <span className={`text-2xs font-bold uppercase tracking-widest ${getCatColor(hero.categorySlug ?? hero.category)}`}>
                     {hero.category}
                   </span>

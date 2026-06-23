@@ -61,7 +61,7 @@ export default function VideosInterviewsPage() {
       </div>
 
       <div className="mb-6 flex items-center gap-3">
-        <span className="rounded bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-dark">Interviews</span>
+        <span className="rounded bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-accent-ink">Interviews</span>
         <p className="text-base text-gray-500">Unfiltered conversations with founders, executives, and policymakers.</p>
       </div>
 
@@ -70,7 +70,7 @@ export default function VideosInterviewsPage() {
           <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
-          <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-dark">{HERO.badge}</span>
+          <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-accent-ink">{HERO.badge}</span>
           <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">{HERO.duration}</span>
           <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
             <h2 className="text-sm sm:text-2xl font-bold leading-tight text-gray-900 mb-2 line-clamp-2">{HERO.title}</h2>
@@ -153,7 +153,7 @@ export default function VideosInterviewsPage() {
           <p className="text-xs font-black uppercase tracking-widest text-brand-accent-ink mb-1">Nominate a guest</p>
           <p className="text-md text-gray-900">Know a Liberian leader whose story should be told? We read every suggestion.</p>
         </div>
-        <Link href="/feedback" className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-dark no-underline hover:brightness-90 transition">Send a suggestion</Link>
+        <Link href="/feedback" className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-accent-ink no-underline hover:brightness-90 transition">Send a suggestion</Link>
       </section>
     </main>
   );

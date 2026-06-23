@@ -203,7 +203,7 @@ export default async function NewsPage({
       {/* Trending ticker */}
       <div className="mb-5 flex items-center gap-0 border-b border-gray-200 overflow-hidden">
         <div className="shrink-0 bg-brand-accent px-3 py-2.5 z-10">
-          <span className="text-2xs font-black uppercase tracking-widest text-brand-dark">Trending</span>
+          <span className="text-2xs font-black uppercase tracking-widest text-brand-accent-ink">Trending</span>
         </div>
         <div className="flex-1 overflow-hidden">
           <div className="ticker-scroll flex w-max">

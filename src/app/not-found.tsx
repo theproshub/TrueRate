@@ -11,7 +11,7 @@ export default function NotFound() {
         The page may have been moved, renamed, or never existed. Try one of these instead:
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
-        <Link href="/" className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-bold text-brand-dark hover:bg-brand-accent-hover transition-colors no-underline">
+        <Link href="/" className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-bold text-brand-accent-ink hover:bg-brand-accent-hover transition-colors no-underline">
           Homepage
         </Link>
         <Link href="/news" className="rounded-lg border border-gray-200 px-5 py-2.5 text-base font-semibold text-gray-900 hover:bg-white transition-colors no-underline">

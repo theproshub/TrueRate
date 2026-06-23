@@ -159,7 +159,7 @@ export default function VideosPage() {
             <div className="absolute inset-0 flex items-center justify-center">
               <PlayIcon size="lg" />
             </div>
-            <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-dark">
+            <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-accent-ink">
               {HERO.badge}
             </span>
             <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">
@@ -309,7 +309,7 @@ export default function VideosPage() {
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <PlayIcon size="md" />
                 </div>
-                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
+                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-accent-ink bg-brand-accent">{item.label}</span>
               </PlayableVideo>
               <div className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
               <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 mb-2 line-clamp-2">{item.title}</h3>

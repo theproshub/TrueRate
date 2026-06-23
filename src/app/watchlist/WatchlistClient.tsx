@@ -195,7 +195,7 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
         <div className="flex justify-center gap-3">
           <Link
             href="/sign-in?next=/watchlist"
-            className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark no-underline transition hover:brightness-90"
+            className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-accent-ink no-underline transition hover:brightness-90"
           >
             Sign in
           </Link>
@@ -235,7 +235,7 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
               </p>
               <button
                 onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-2 rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark transition hover:brightness-90"
+                className="inline-flex items-center gap-2 rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-accent-ink transition hover:brightness-90"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

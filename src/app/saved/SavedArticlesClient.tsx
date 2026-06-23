@@ -57,7 +57,7 @@ export default function SavedArticlesClient({ authed, initialRows }: Props) {
         <div className="flex justify-center gap-3">
           <Link
             href="/sign-in?next=/saved"
-            className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark no-underline transition hover:brightness-90"
+            className="rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-accent-ink no-underline transition hover:brightness-90"
           >
             Sign in
           </Link>
@@ -82,7 +82,7 @@ export default function SavedArticlesClient({ authed, initialRows }: Props) {
         </p>
         <Link
           href="/news"
-          className="inline-flex items-center gap-2 rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-dark no-underline transition hover:brightness-90"
+          className="inline-flex items-center gap-2 rounded-lg bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-accent-ink no-underline transition hover:brightness-90"
         >
           Browse news
         </Link>

@@ -109,7 +109,7 @@ export default function VideosTechnologyPage() {
             <div key={i} className="group flex flex-col">
               <PlayableVideo id={p.youtubeId} label={p.title} className="overflow-hidden mb-4 aspect-video rounded-xl">
                 <VideoThumbnail category={p.category} duration={p.duration} className="absolute inset-0 w-full h-full" />
-                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{p.label}</span>
+                <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-accent-ink bg-brand-accent">{p.label}</span>
               </PlayableVideo>
               <h3 className="text-sm font-bold leading-snug text-gray-900 mb-2 line-clamp-2">{p.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">{p.desc}</p>
@@ -143,7 +143,7 @@ export default function VideosTechnologyPage() {
           <p className="text-xs font-black uppercase tracking-widest text-sky-300 mb-1">Tech Disruptors podcast</p>
           <p className="text-md text-gray-900">A weekly deep-dive on mobile money, AI, and the builders to watch.</p>
         </div>
-        <a href={CHANNEL_URL} {...ext} className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-dark no-underline hover:brightness-90 transition">Browse episodes</a>
+        <a href={CHANNEL_URL} {...ext} className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-accent-ink no-underline hover:brightness-90 transition">Browse episodes</a>
       </section>
     </main>
   );
