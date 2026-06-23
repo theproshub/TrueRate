@@ -41,7 +41,7 @@ export default function SecurityPage() {
 
     // Clean up any stale unverified factors before enrolling
     const { data: existing } = await supabase.auth.mfa.listFactors();
-    const unverified = (existing?.totp ?? []).filter((f) => f.status === 'unverified');
+    const unverified = (existing?.totp ?? []).filter((f) => (f.status as string) !== 'verified');
     for (const f of unverified) {
       await supabase.auth.mfa.unenroll({ factorId: f.id });
     }
