@@ -351,24 +351,33 @@ export default function Header() {
 
   const isLight = true;
 
-  // Set --header-h CSS variable so pages can size themselves accurately
+  // Set --header-h CSS variable so pages can size themselves accurately.
+  // Update on resize AND after scroll-triggered height changes (mobile search collapse).
   useEffect(() => {
+    let prevH = 0;
     const update = () => {
       if (headerRef.current) {
-        document.documentElement.style.setProperty('--header-h', `${headerRef.current.offsetHeight}px`);
+        const h = headerRef.current.offsetHeight;
+        if (h !== prevH) {
+          prevH = h;
+          document.documentElement.style.setProperty('--header-h', `${h}px`);
+        }
       }
     };
     update();
     window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    window.addEventListener('scroll', update, { passive: true });
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update);
+    };
   }, []);
 
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      // Search bar only visible when fully at the top of the page
-      setScrolledDown(y > 10);
+      setScrolledDown(y > 60);
       lastScrollY.current = y;
     };
     // Set initial state in case page loads already scrolled
@@ -508,7 +517,10 @@ export default function Header() {
       </div>
 
       {/* Mobile search — collapses on scroll */}
-      <div className={`sm:hidden overflow-hidden motion-safe:transition-[max-height,opacity,padding] ${scrolledDown ? 'max-h-0 opacity-0 py-0 motion-safe:duration-150 motion-safe:ease-out' : 'max-h-20 opacity-100 pb-3 motion-safe:duration-200 motion-safe:ease-in'}`} aria-hidden={scrolledDown}>
+      <div
+        className={`sm:hidden ${scrolledDown ? 'hidden' : 'pb-3'}`}
+        aria-hidden={scrolledDown}
+      >
         <div className="px-4">
           <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
         </div>

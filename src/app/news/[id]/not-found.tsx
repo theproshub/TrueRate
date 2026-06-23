@@ -13,7 +13,7 @@ export default function ArticleNotFound() {
           The story you&apos;re looking for may have been removed or the link might be wrong. Browse our latest coverage instead.
         </Text>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link href="/news" className="rounded-lg bg-gray-900 px-5 py-2.5 text-base font-bold text-white hover:bg-black transition-colors no-underline">
+          <Link href="/news" className="rounded-lg bg-[#1E1E1E] px-5 py-2.5 text-base font-bold text-white hover:bg-[#2a2a2a] transition-colors no-underline">
             All news
           </Link>
           <Link href="/" className="rounded-lg border border-gray-300 px-5 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-100 transition-colors no-underline">

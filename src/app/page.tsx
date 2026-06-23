@@ -5,6 +5,7 @@ import IndicatorsStrip from '@/components/IndicatorsStrip';
 import VideosSection from '@/components/VideosSection';
 import LiveMarketRail from '@/components/LiveMarketRail';
 import StickySidebar from '@/components/StickySidebar';
+import MobileSidebar from '@/components/MobileSidebar';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
@@ -402,6 +403,11 @@ export default async function Home() {
 
         </div>
       </main>
+
+      {/* Mobile sidebar drawer — surfaces the desktop-only sidebar content */}
+      <MobileSidebar>
+        <LatestSidebar mostRead={mostRead} />
+      </MobileSidebar>
     </div>
   );
 }

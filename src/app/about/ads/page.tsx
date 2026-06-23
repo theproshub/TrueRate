@@ -118,7 +118,7 @@ export default function AdsPage() {
             <div className="mt-2 rounded-xl border border-gray-200 bg-gray-50 p-6">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-2">Advertise with us</p>
               <p className="text-md text-gray-900 mb-3">Reach business decision-makers across Liberia and West Africa.</p>
-              <a href="mailto:advertise@truerateliberia.com" className="inline-block rounded-lg bg-gray-900 text-white px-4 py-2 text-base font-semibold no-underline hover:bg-gray-800 transition-colors">advertise@truerateliberia.com</a>
+              <a href="mailto:advertise@truerateliberia.com" className="inline-block rounded-lg bg-[#1E1E1E] text-white px-4 py-2 text-base font-semibold no-underline hover:bg-[#2a2a2a] transition-colors">advertise@truerateliberia.com</a>
             </div>
 
             <div className="border-t border-gray-100 pt-8 mt-10 flex flex-wrap gap-x-8 gap-y-3">

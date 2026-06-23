@@ -23,7 +23,7 @@ function SignedOutButtons({ isLight }: { isLight: boolean }) {
         href="/sign-up"
         className={`hidden sm:inline-flex items-center min-h-[44px] rounded-lg px-5 py-2 text-base font-semibold transition no-underline whitespace-nowrap ${
           isLight
-            ? 'bg-gray-900 text-white hover:bg-gray-700'
+            ? 'bg-[#1E1E1E] text-white hover:bg-[#2a2a2a]'
             : 'bg-white text-brand-ink shadow-lg shadow-white/10 hover:brightness-110'
         }`}
       >

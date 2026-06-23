@@ -23,7 +23,7 @@ export default function ArticleReadingBar({ title, backHref, backLabel }: Articl
   return (
     <div
       aria-hidden={!visible}
-      className={`sticky z-40 border-b border-gray-200 bg-white/95 backdrop-blur-sm motion-safe:transition-[transform,opacity] motion-safe:duration-200 ${
+      className={`fixed left-0 right-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur-sm motion-safe:transition-[transform,opacity] motion-safe:duration-200 ${
         visible
           ? 'translate-y-0 opacity-100'
           : '-translate-y-full opacity-0 pointer-events-none'
