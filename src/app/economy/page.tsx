@@ -129,7 +129,7 @@ export default async function EconomyPage() {
 
       {/* Hero + Top Stories */}
       {hero ? (
-        <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-8 border-b border-white/[0.08]">
+        <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-8 border-b border-gray-200">
           {/* Lead feature */}
           <div className="lg:col-span-2">
             <Link href={`/news/${hero.slug}`} className="group block no-underline">
@@ -139,14 +139,14 @@ export default async function EconomyPage() {
               <span className={`text-2xs font-bold uppercase tracking-[0.18em] mb-2 block ${getCatColor(hero.category?.slug ?? 'economy')}`}>
                 {hero.category?.label ?? 'Economy'}
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-white group-hover:text-white/80 transition-colors mb-3 text-balance">
+              <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:text-gray-600 transition-colors mb-3 text-balance">
                 {hero.title}
               </h2>
               {hero.dek && (
-                <p className="text-base leading-relaxed text-gray-400 mb-3 line-clamp-3 max-w-[680px]">{hero.dek}</p>
+                <p className="text-base leading-relaxed text-gray-500 mb-3 line-clamp-3 max-w-[680px]">{hero.dek}</p>
               )}
               <div className="text-xs text-gray-500">
-                {hero.author?.name && <><span className="font-semibold text-gray-300">{hero.author.name}</span><span className="mx-1.5 text-gray-700">&middot;</span></>}
+                {hero.author?.name && <><span className="font-semibold text-gray-600">{hero.author.name}</span><span className="mx-1.5 text-gray-700">&middot;</span></>}
                 <span>{timeAgo(hero.published_at)}</span>
               </div>
             </Link>
@@ -154,16 +154,16 @@ export default async function EconomyPage() {
 
           {/* Top Stories sidebar */}
           {topStories.length > 0 && (
-            <aside className="lg:border-l lg:border-white/[0.08] lg:pl-6">
-              <h2 className="text-sm font-black text-white uppercase tracking-wide pb-3 mb-4 border-b border-white/[0.07]">Top Stories</h2>
-              <div className="flex flex-col divide-y divide-white/[0.06]">
+            <aside className="lg:border-l lg:border-gray-200 lg:pl-6">
+              <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide pb-3 mb-4 border-b border-gray-200">Top Stories</h2>
+              <div className="flex flex-col divide-y divide-gray-200">
                 {topStories.map((s) => (
                   <Link key={s.id} href={`/news/${s.slug}`} className="group flex gap-3 py-3 first:pt-0 no-underline">
                     <div className="shrink-0 overflow-hidden rounded-lg">
                       <NewsThumbnail category={s.category?.slug ?? 'economy'} src={s.hero_image} className="h-[64px] w-[96px]" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                      <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/70 transition-colors line-clamp-3 mb-1">{s.title}</h3>
                       <span className="text-xs text-gray-500">{timeAgo(s.published_at)}</span>
                     </div>
                   </Link>
@@ -173,10 +173,10 @@ export default async function EconomyPage() {
           )}
         </section>
       ) : (
-        <div className="mb-10 rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
-          <p className="text-base text-gray-400">
+        <div className="mb-10 rounded-2xl border border-gray-200 bg-white p-10 text-center">
+          <p className="text-base text-gray-500">
             No economy stories published yet.{' '}
-            <Link href="/admin/articles/new" className="text-brand-accent no-underline hover:text-brand-accent-hover">
+            <Link href="/admin/articles/new" className="text-brand-accent-ink no-underline hover:text-brand-accent-hover">
               Publish one
             </Link>{' '}
             to populate this page.
@@ -189,12 +189,12 @@ export default async function EconomyPage() {
         <div className="flex-1 min-w-0 space-y-10 lg:pr-5">
           {grid.length > 0 && (
             <section aria-labelledby="latest-economy">
-              <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                 <div className="flex items-center gap-3">
                   <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                  <h2 id="latest-economy" className="text-base font-bold text-white uppercase tracking-[0.12em]">Latest in Economy</h2>
+                  <h2 id="latest-economy" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">Latest in Economy</h2>
                 </div>
-                <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-white transition-colors no-underline">All stories ›</Link>
+                <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-900 transition-colors no-underline">All stories ›</Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {grid.map((s) => (
@@ -210,8 +210,8 @@ export default async function EconomyPage() {
                     <span className={`text-2xs font-bold uppercase tracking-widest mb-1 ${getCatColor(s.category?.slug ?? 'economy')}`}>
                       {s.category?.label ?? 'Economy'}
                     </span>
-                    <h3 className="text-sm font-bold leading-snug text-white group-hover:text-white/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
-                    <span className="text-xs text-gray-400">{timeAgo(s.published_at)}</span>
+                    <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
+                    <span className="text-xs text-gray-500">{timeAgo(s.published_at)}</span>
                   </Link>
                 ))}
               </div>
@@ -220,11 +220,11 @@ export default async function EconomyPage() {
         </div>
 
         {/* Right rail */}
-        <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-white/[0.08] lg:pl-5">
+        <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-gray-200 lg:pl-5">
           <StickySidebar className="space-y-5">
           {/* Data snapshot — live from Supabase (World Bank series) */}
-          <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-            <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-3">Data Snapshot</h2>
+          <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">Data Snapshot</h2>
             {wbIndicators.length === 0 ? (
               <p className="text-sm text-gray-500">Indicator data unavailable.</p>
             ) : (
@@ -235,9 +235,9 @@ export default async function EconomyPage() {
                     const up = (ind.changePercent ?? 0) >= 0;
                     return (
                       <div key={ind.key} className="flex items-center justify-between">
-                        <dt className="text-sm text-gray-400">{ind.name}</dt>
+                        <dt className="text-sm text-gray-500">{ind.name}</dt>
                         <dd className="flex items-center gap-2">
-                          <span className="text-base font-bold text-white tabular-nums">{formatIndicatorValue(ind)}</span>
+                          <span className="text-base font-bold text-gray-900 tabular-nums">{formatIndicatorValue(ind)}</span>
                           {change && (
                             <span className={`text-xs font-semibold ${up ? 'text-pos' : 'text-neg'}`}>{change}</span>
                           )}
@@ -253,12 +253,12 @@ export default async function EconomyPage() {
 
           {/* More from Economy — recent published articles (no fabricated "most read") */}
           {articles.length > 0 && (
-            <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-              <h2 className="text-sm font-black text-white uppercase tracking-wide border-b border-white/[0.07] pb-3 mb-3">More from Economy</h2>
-              <ol className="flex flex-col divide-y divide-white/[0.05]">
+            <div className="rounded-xl border border-gray-200 bg-white p-4">
+              <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">More from Economy</h2>
+              <ol className="flex flex-col divide-y divide-gray-200">
                 {articles.slice(0, 6).map((item) => (
                   <li key={item.id} className="py-2.5 first:pt-0">
-                    <Link href={`/news/${item.slug}`} className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                    <Link href={`/news/${item.slug}`} className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                       {item.title}
                     </Link>
                   </li>

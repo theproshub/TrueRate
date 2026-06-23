@@ -7,10 +7,9 @@ import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 import NewsletterWidget from '@/components/NewsletterWidget';
 import StickySidebar from '@/components/StickySidebar';
 
-export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
-  // Trending list is the most recent published articles from the DB — no
-  // hardcoded story list, so it never goes stale.
-  const trending = items.slice(0, 5).map((n, i) => ({
+export function TrendingPanel({ items = newsItems, popularItems }: { items?: NewsItem[]; popularItems?: NewsItem[] }) {
+  const source = popularItems && popularItems.length >= 3 ? popularItems : items;
+  const trending = source.slice(0, 5).map((n, i) => ({
     rank: i + 1,
     id: n.id,
     href: `/news/${n.id}`,
@@ -38,7 +37,7 @@ export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
           ))}
           <Link href="/news" className="flex items-center justify-between px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
             <span className="text-base text-gray-500 group-hover:text-brand-accent-ink transition-colors">See more stories</span>
-            <svg className="h-4 w-4 text-gray-400 group-hover:text-brand-accent-ink transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-4 w-4 text-gray-500 group-hover:text-brand-accent-ink transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -84,7 +83,8 @@ export function TrendingPanel({ items = newsItems }: { items?: NewsItem[] }) {
   );
 }
 
-export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
+export function RightRail({ items = newsItems, popularItems }: { items?: NewsItem[]; popularItems?: NewsItem[] }) {
+  const mostReadSource = popularItems && popularItems.length >= 3 ? popularItems : items;
   return (
     <aside className="hidden xl:block w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-gray-200 lg:pl-5 lg:ml-5">
       <StickySidebar>
@@ -107,10 +107,10 @@ export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
               { date: 'Apr 22', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets',     href: '/markets' },
             ].map((ev, i) => (
               <Link key={i} href={ev.href} className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                <span className="shrink-0 w-[40px] text-xs font-medium text-gray-400 tabular-nums">{ev.date}</span>
+                <span className="shrink-0 w-[40px] text-xs font-medium text-gray-500 tabular-nums">{ev.date}</span>
                 <div className="min-w-0 flex-1 border-l border-gray-100 pl-3">
                   <p className="text-sm font-semibold text-gray-700 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.label}</p>
-                  <span className="text-2xs font-medium text-gray-400 uppercase tracking-wide">{ev.type}</span>
+                  <span className="text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
                 </div>
               </Link>
             ))}
@@ -123,7 +123,7 @@ export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
             <h3 className="text-sm font-bold text-gray-900">Most Read</h3>
           </div>
           <div className="divide-y divide-gray-100">
-            {items.slice(0, 5).map((item) => (
+            {mostReadSource.slice(0, 5).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                 <p className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
               </Link>
@@ -142,7 +142,7 @@ export function RightRail({ items = newsItems }: { items?: NewsItem[] }) {
           </div>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mb-2">
             {['About', 'Advertise', 'Careers', 'Help', 'Feedback', 'Privacy', 'Terms'].map(l => (
-              <Link key={l} href="/about" className="text-xs text-gray-400 hover:text-gray-700 transition-colors no-underline">{l}</Link>
+              <Link key={l} href="/about" className="text-xs text-gray-500 hover:text-gray-700 transition-colors no-underline">{l}</Link>
             ))}
           </div>
           <Text variant="meta" className="text-center">© 2026 TrueRate. All rights reserved.</Text>

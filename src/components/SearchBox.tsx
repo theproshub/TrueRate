@@ -113,7 +113,7 @@ export default function SearchBox({
   }
 
   const groupLabel = `text-2xs font-bold uppercase tracking-widest px-3 pt-2.5 pb-1 ${
-    isLight ? 'text-gray-400' : 'text-gray-500'
+    isLight ? 'text-gray-500' : 'text-gray-500'
   }`;
 
   return (
@@ -127,7 +127,7 @@ export default function SearchBox({
       className={`relative items-center rounded-xl border transition ${
         isLight
           ? 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400'
-          : 'bg-white/[0.06] border-white/[0.06] focus-within:bg-white/[0.08] focus-within:border-white/20'
+          : 'bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400'
       } ${className}`}
     >
       <label htmlFor={inputId} className="sr-only">
@@ -151,14 +151,14 @@ export default function SearchBox({
         onKeyDown={onKeyDown}
         placeholder="Search stories, companies, or topics"
         className={`flex-1 bg-transparent px-4 py-2.5 text-md outline-none min-w-0 ${
-          isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-white placeholder:text-gray-400'
+          isLight ? 'text-gray-900 placeholder:text-gray-500' : 'text-gray-900 placeholder:text-gray-500'
         }`}
         autoComplete="off"
       />
       <button
         type="submit"
         aria-label="Search"
-        className="shrink-0 flex items-center justify-center h-11 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+        className="shrink-0 flex items-center justify-center h-11 w-11 bg-brand-accent hover:brightness-90 transition-colors m-0.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
       >
         <svg aria-hidden="true" className="h-4 w-4 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -176,11 +176,11 @@ export default function SearchBox({
           className={`z-50 max-h-[60vh] sm:max-h-[70vh] overflow-auto rounded-xl border py-1 shadow-2xl ${
             variant === 'mobile' ? 'fixed left-3 right-3 sm:left-4 sm:right-4' : 'absolute left-0 right-0 top-full mt-1.5'
           } ${
-            isLight ? 'bg-white border-gray-200 shadow-gray-300/60' : 'bg-brand-dark border-white/[0.08] shadow-black/60'
+            isLight ? 'bg-white border-gray-200 shadow-gray-300/60' : 'bg-white border-gray-200 shadow-gray-300/60'
           }`}
         >
           {stories.length === 0 && markets.length === 0 && (
-            <p className={`px-4 py-3 text-sm ${isLight ? 'text-gray-500' : 'text-gray-400'}`}>
+            <p className={`px-4 py-3 text-sm ${isLight ? 'text-gray-500' : 'text-gray-500'}`}>
               No matches. Press Enter to search anyway.
             </p>
           )}
@@ -196,13 +196,13 @@ export default function SearchBox({
                     onMouseEnter={() => setActive(i)}
                     onClick={() => go(`/news/${s.id}`)}
                     className={`flex w-full items-center gap-3 px-3 py-2 text-left no-underline transition-colors ${
-                      i === active ? (isLight ? 'bg-gray-100' : 'bg-white/[0.06]') : ''
+                      i === active ? 'bg-gray-100' : ''
                     }`}
                   >
                     <NewsThumbnail category={s.category} id={s.id} className="h-10 w-16 shrink-0 rounded-md" />
                     <span className="min-w-0 flex flex-col items-start gap-0.5">
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
-                      <span className={`text-sm leading-snug line-clamp-1 ${isLight ? 'text-gray-900' : 'text-white'}`}>{s.title}</span>
+                      <span className={`text-sm leading-snug line-clamp-1 ${isLight ? 'text-gray-900' : 'text-gray-900'}`}>{s.title}</span>
                     </span>
                   </button>
                 </div>
@@ -213,19 +213,19 @@ export default function SearchBox({
           {/* Markets / tickers */}
           {markets.length > 0 && (
             <>
-              <p className={`${groupLabel} ${stories.length > 0 ? 'border-t mt-1 ' : ''}${isLight ? 'border-gray-100' : 'border-white/[0.06]'}`}>Markets</p>
+              <p className={`${groupLabel} ${stories.length > 0 ? 'border-t mt-1 ' : ''}${isLight ? 'border-gray-100' : 'border-gray-200'}`}>Markets</p>
               {markets.map((m) => (
                 <button
                   key={m.label}
                   type="button"
                   onClick={() => go('/markets')}
                   className={`flex w-full items-center justify-between gap-3 px-4 py-2 text-left transition-colors ${
-                    isLight ? 'hover:bg-gray-100' : 'hover:bg-white/[0.06]'
+                    isLight ? 'hover:bg-gray-100' : 'hover:bg-gray-100'
                   }`}
                 >
-                  <span className={`text-sm font-medium ${isLight ? 'text-gray-900' : 'text-white'}`}>{m.label}</span>
+                  <span className={`text-sm font-medium ${isLight ? 'text-gray-900' : 'text-gray-900'}`}>{m.label}</span>
                   <span className="flex items-center gap-2 tabular-nums">
-                    <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-gray-300'}`}>{m.value}</span>
+                    <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-gray-600'}`}>{m.value}</span>
                     <span className={`text-2xs font-semibold ${m.up ? 'text-pos' : 'text-neg'}`}>{m.pct}</span>
                   </span>
                 </button>
@@ -238,7 +238,7 @@ export default function SearchBox({
             type="button"
             onClick={submit}
             className={`flex w-full items-center gap-2 border-t mt-1 px-4 py-2.5 text-left text-sm font-medium transition-colors ${
-              isLight ? 'border-gray-100 text-brand-accent-ink hover:bg-gray-100' : 'border-white/[0.06] text-brand-accent hover:bg-white/[0.06]'
+              isLight ? 'border-gray-100 text-brand-accent-ink hover:bg-gray-100' : 'border-gray-100 text-brand-accent-ink hover:bg-gray-100'
             }`}
           >
             Search for &ldquo;{query.trim()}&rdquo; →

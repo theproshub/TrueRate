@@ -35,7 +35,7 @@ export function HeroCarousel() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <Link href={`/news/${item.id}`} className="no-underline">
-          <Heading level={2} className="leading-snug text-white hover:text-brand-accent transition-colors drop-shadow-lg line-clamp-3">{item.title}</Heading>
+          <Heading level={2} className="leading-snug text-white hover:text-brand-accent-ink transition-colors drop-shadow-lg line-clamp-3">{item.title}</Heading>
         </Link>
         <Text className="mt-1.5 text-base text-white/70 line-clamp-1">{item.source} · {timeAgo(item.date)}</Text>
       </div>
@@ -74,7 +74,7 @@ function FeedList({ tab, items }: { tab: string; items: NewsItem[] }) {
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
             <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
-            <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+            <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
               <span className="font-medium text-gray-500">{item.source}</span>
               <span>·</span>
               <span>{timeAgo(item.date)}</span>

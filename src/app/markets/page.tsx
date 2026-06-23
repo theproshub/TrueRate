@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
+import SectionEndNav from '@/components/SectionEndNav';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getNewsCatColor } from '@/lib/category-colors';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
@@ -19,7 +20,7 @@ import dynamic from 'next/dynamic';
 
 const TrendChart = dynamic(
   () => import('@/components/analytics/terminal/TrendChart'),
-  { loading: () => <div className="h-[140px] w-full animate-pulse rounded bg-white/[0.04]" /> },
+  { loading: () => <div className="h-[140px] w-full animate-pulse rounded bg-white" /> },
 );
 import { getNewsItems } from '@/lib/news-source';
 import type { NewsItem } from '@/lib/types';
@@ -58,7 +59,7 @@ function deltaClass(delta: number | null): string {
   if (delta === null) return 'text-gray-500';
   if (delta > 0) return 'text-pos';
   if (delta < 0) return 'text-neg';
-  return 'text-gray-400';
+  return 'text-gray-500';
 }
 
 function deltaArrow(delta: number | null): string {
@@ -87,16 +88,16 @@ const byCategory = (items: NewsItem[], cat: string) =>
 /** Horizontal card: thumbnail left, category+title+meta right */
 function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolean }) {
   return (
-    <li className="border-b border-white/[0.06] last:border-0 pb-3.5 mb-3.5 last:pb-0 last:mb-0">
+    <li className="border-b border-gray-200 last:border-0 pb-3.5 mb-3.5 last:pb-0 last:mb-0">
       <Link href={`/news/${n.id}`} className="group flex items-start gap-3 no-underline">
         <div className="shrink-0 overflow-hidden rounded-lg">
           <NewsThumbnail category={n.category} id={n.id} src={n.image} className="h-[60px] w-[88px]" />
         </div>
         <div className="min-w-0 flex-1">
           <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
-          <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3">{n.title}</h3>
+          <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3">{n.title}</h3>
           <Text variant="meta" className="leading-relaxed text-gray-500 mt-1">
-            {withByline && n.author ? <><span className="font-semibold text-gray-400">{n.author}</span><span className="mx-1 text-gray-700">·</span></> : null}
+            {withByline && n.author ? <><span className="font-semibold text-gray-500">{n.author}</span><span className="mx-1 text-gray-700">·</span></> : null}
             {timeAgo(n.date)}
           </Text>
         </div>
@@ -107,10 +108,10 @@ function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolea
 
 function SectionHeader({ title, href }: { title: string; href?: string }) {
   return (
-    <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
-      <Heading level={5} className="text-white">{title}</Heading>
+    <div className="flex items-baseline justify-between border-b border-gray-200 pb-2 mb-4">
+      <Heading level={5} className="text-gray-900">{title}</Heading>
       {href && (
-        <Link href={href} className="text-2xs uppercase tracking-wider text-brand-accent hover:underline no-underline">
+        <Link href={href} className="text-2xs uppercase tracking-wider text-brand-accent-ink hover:underline no-underline">
           View all ›
         </Link>
       )}
@@ -134,24 +135,24 @@ function DeskColumn({ title, href, items }: { title: string; href: string; items
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.category} id={lead.id} src={lead.image} className="w-full h-[200px]" />
         </div>
-        <h3 className="text-md sm:text-lg font-bold leading-snug text-white group-hover:text-white/80 transition-colors mb-1.5 text-balance">
+        <h3 className="text-md sm:text-lg font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors mb-1.5 text-balance">
           {lead.title}
         </h3>
         <Text variant="meta" className="text-gray-500">
-          {lead.author && <><span className="text-gray-400">{lead.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
+          {lead.author && <><span className="text-gray-500">{lead.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
           {timeAgo(lead.date)}
         </Text>
       </Link>
 
       {/* Follow list — headline-only rows with hairline dividers */}
-      <div className="flex flex-col divide-y divide-white/[0.06] border-t border-white/[0.06]">
+      <div className="flex flex-col divide-y divide-gray-200 border-t border-gray-200">
         {rest.map(n => (
           <Link key={n.id} href={`/news/${n.id}`} className="group block py-3 no-underline">
-            <h4 className="text-sm font-bold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">
+            <h4 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">
               {n.title}
             </h4>
             <Text variant="meta" className="text-gray-500">
-              {n.author && <><span className="text-gray-400">{n.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
+              {n.author && <><span className="text-gray-500">{n.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
               {timeAgo(n.date)}
             </Text>
           </Link>
@@ -242,12 +243,12 @@ export default async function MarketsPage() {
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Markets & Finance' }]} />
 
       {/* ── Top Movers + Today's Markets ── */}
-      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]" aria-labelledby="movers-heading">
+      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-gray-200" aria-labelledby="movers-heading">
         {/* Top Movers — Leaders / Laggards */}
         <div className="lg:col-span-2">
-          <div className="flex items-baseline justify-between border-b border-white/20 pb-2 mb-4">
-            <h2 id="movers-heading" className="text-md font-bold text-white">Top Movers · Commodities</h2>
-            <Link href="/analytics" className="text-2xs uppercase tracking-wider text-brand-accent hover:underline no-underline">
+          <div className="flex items-baseline justify-between border-b border-gray-200 pb-2 mb-4">
+            <h2 id="movers-heading" className="text-md font-bold text-gray-900">Top Movers · Commodities</h2>
+            <Link href="/analytics" className="text-2xs uppercase tracking-wider text-brand-accent-ink hover:underline no-underline">
               Trends &amp; Analytics ›
             </Link>
           </div>
@@ -260,17 +261,17 @@ export default async function MarketsPage() {
               <table className="w-full text-sm sm:text-base tabular-nums">
                 <caption className="sr-only">Commodities leading by daily percent change.</caption>
                 <thead>
-                  <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                  <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-gray-200">
                     <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
                     <th scope="col" className="py-1.5 text-right font-semibold">Last</th>
                     <th scope="col" className="py-1.5 pl-2 text-right font-semibold">Chg</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.06]">
+                <tbody className="divide-y divide-gray-200">
                   {leaders.map(c => (
-                    <tr key={c.symbol} className="hover:bg-white/[0.02]">
-                      <td className="py-2 pr-2 font-bold text-white truncate max-w-[120px] sm:max-w-none">{c.name}</td>
-                      <td className="py-2 text-right font-bold text-white">
+                    <tr key={c.symbol} className="hover:bg-white">
+                      <td className="py-2 pr-2 font-bold text-gray-900 truncate max-w-[120px] sm:max-w-none">{c.name}</td>
+                      <td className="py-2 text-right font-bold text-gray-900">
                         {c.price !== null ? c.price.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'}
                       </td>
                       <td className={`py-2 pl-2 text-right font-semibold ${deltaClass(c.change)}`}>
@@ -290,17 +291,17 @@ export default async function MarketsPage() {
               <table className="w-full text-sm sm:text-base tabular-nums">
                 <caption className="sr-only">Commodities lagging by daily percent change.</caption>
                 <thead>
-                  <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                  <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-gray-200">
                     <th scope="col" className="py-1.5 text-left font-semibold">Commodity</th>
                     <th scope="col" className="py-1.5 text-right font-semibold">Last</th>
                     <th scope="col" className="py-1.5 pl-2 text-right font-semibold">Chg</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.06]">
+                <tbody className="divide-y divide-gray-200">
                   {laggards.map(c => (
-                    <tr key={c.symbol} className="hover:bg-white/[0.02]">
-                      <td className="py-2 pr-2 font-bold text-white truncate max-w-[120px] sm:max-w-none">{c.name}</td>
-                      <td className="py-2 text-right font-bold text-white">
+                    <tr key={c.symbol} className="hover:bg-white">
+                      <td className="py-2 pr-2 font-bold text-gray-900 truncate max-w-[120px] sm:max-w-none">{c.name}</td>
+                      <td className="py-2 text-right font-bold text-gray-900">
                         {c.price !== null ? c.price.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'}
                       </td>
                       <td className={`py-2 pl-2 text-right font-semibold ${deltaClass(c.change)}`}>
@@ -314,31 +315,31 @@ export default async function MarketsPage() {
             </div>
           </div>
           <Text variant="caption" className="mt-3 leading-relaxed">
-            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://finance.yahoo.com" target="_blank" rel="noopener noreferrer">Yahoo Finance</a> · cached 15 min · iron ore proxied via BHP ADR. Liberia-relevant futures only — no equities feed available for the LSE.
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://finance.yahoo.com" target="_blank" rel="noopener noreferrer">Yahoo Finance</a> · cached 15 min · iron ore proxied via BHP ADR. Liberia-relevant futures only — no equities feed available for the LSE.
           </Text>
         </div>
 
         {/* Today's Markets — FX + Macro side panel */}
-        <aside className="lg:border-l lg:border-white/[0.08] lg:pl-8">
-          <Heading level={5} className="text-white mb-3 pb-2 border-b-2 border-white/30">Today&rsquo;s Markets</Heading>
+        <aside className="lg:border-l lg:border-gray-200 lg:pl-8">
+          <Heading level={5} className="text-gray-900 mb-3 pb-2 border-b-2 border-gray-200">Today&rsquo;s Markets</Heading>
 
           {/* FX */}
-          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent mb-2">FX · vs LRD</Text>
-          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-sm tabular-nums mb-5">
+          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent-ink mb-2">FX · vs LRD</Text>
+          <ul className="m-0 p-0 list-none divide-y divide-gray-200 text-sm tabular-nums mb-5">
             {FX_DISPLAY.map(({ from, label }) => {
               const r = lrdRates[from];
               return (
                 <li key={from} className="flex items-baseline justify-between py-1.5">
-                  <span className="font-semibold text-white">{label}</span>
-                  <span className="font-bold text-white">{r ? r.toLocaleString('en-US', { maximumFractionDigits: 4 }) : '—'}</span>
+                  <span className="font-semibold text-gray-900">{label}</span>
+                  <span className="font-bold text-gray-900">{r ? r.toLocaleString('en-US', { maximumFractionDigits: 4 }) : '—'}</span>
                 </li>
               );
             })}
           </ul>
 
           {/* Macro */}
-          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent mb-2">Macro · World Bank</Text>
-          <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-sm tabular-nums">
+          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent-ink mb-2">Macro · World Bank</Text>
+          <ul className="m-0 p-0 list-none divide-y divide-gray-200 text-sm tabular-nums">
             {[
               { key: WB_INDICATORS.GDP_GROWTH, label: 'GDP growth' },
               { key: WB_INDICATORS.INFLATION,  label: 'Inflation (CPI)' },
@@ -351,48 +352,48 @@ export default async function MarketsPage() {
               const isUsd = key === WB_INDICATORS.GDP || key === WB_INDICATORS.RESERVES;
               return (
                 <li key={key} className="flex items-baseline justify-between py-1.5">
-                  <span className="font-semibold text-white">{label}</span>
-                  <span className="font-bold text-white">{v != null ? (isUsd ? formatUSD(v) : formatPct(v)) : '—'}</span>
+                  <span className="font-semibold text-gray-900">{label}</span>
+                  <span className="font-bold text-gray-900">{v != null ? (isUsd ? formatUSD(v) : formatPct(v)) : '—'}</span>
                 </li>
               );
             })}
           </ul>
 
           <Text variant="caption" className="mt-4 leading-relaxed">
-            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
+            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
           </Text>
         </aside>
       </section>
 
       {/* ── Financial Markets: Interest Rates / Money Supply / Govt Debt ── */}
-      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]" aria-labelledby="financial-heading">
+      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-gray-200" aria-labelledby="financial-heading">
         <h2 id="financial-heading" className="sr-only">Liberia Financial Markets Data</h2>
 
         {/* Interest Rates */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 sm:p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-5">
           <div className="mb-4">
-            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Interest Rates · CBL</Text>
-            <p className="text-sm text-gray-400 leading-relaxed">Industry-average banking rates and CBL policy rate, monthly.</p>
+            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">Interest Rates · CBL</Text>
+            <p className="text-sm text-gray-500 leading-relaxed">Industry-average banking rates and CBL policy rate, monthly.</p>
           </div>
 
           {interestRates.rows.length > 0 ? (
             <table className="w-full text-sm tabular-nums">
               <caption className="sr-only">Liberia interest rates by type and currency.</caption>
               <thead>
-                <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-white/[0.08]">
+                <tr className="text-2xs uppercase tracking-wider text-gray-500 border-b border-gray-200">
                   <th scope="col" className="py-1.5 text-left font-semibold">Rate</th>
                   <th scope="col" className="py-1.5 text-right font-semibold">LRD</th>
                   <th scope="col" className="py-1.5 text-right font-semibold">USD</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.06]">
+              <tbody className="divide-y divide-gray-200">
                 {interestRates.rows.map(r => (
-                  <tr key={r.label} className="hover:bg-white/[0.02]">
-                    <td className="py-2 pr-2 font-semibold text-white">{r.label}</td>
-                    <td className="py-2 text-right font-bold text-white">
+                  <tr key={r.label} className="hover:bg-white">
+                    <td className="py-2 pr-2 font-semibold text-gray-900">{r.label}</td>
+                    <td className="py-2 text-right font-bold text-gray-900">
                       {r.lrd ? `${r.lrd.value.toFixed(2)}%` : '—'}
                     </td>
-                    <td className="py-2 text-right font-bold text-white">
+                    <td className="py-2 text-right font-bold text-gray-900">
                       {r.usd ? `${r.usd.value.toFixed(2)}%` : '—'}
                     </td>
                   </tr>
@@ -415,23 +416,23 @@ export default async function MarketsPage() {
           )}
 
           <Text variant="caption" className="mt-3 leading-relaxed">
-            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> · monthly industry average
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> · monthly industry average
             {interestRates.rows[0]?.lrd ? ` · as of ${interestRates.rows[0].lrd.date.slice(0, 7)}` : ''}
           </Text>
         </div>
 
         {/* Money Supply */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 sm:p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-5">
           <div className="mb-4">
-            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Money Supply · CBL</Text>
-            <p className="text-sm text-gray-400 leading-relaxed">Reserve money (monetary base) and broad money (M2), monthly.</p>
+            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">Money Supply · CBL</Text>
+            <p className="text-sm text-gray-500 leading-relaxed">Reserve money (monetary base) and broad money (M2), monthly.</p>
           </div>
 
           <div className="flex flex-wrap gap-6 mb-5">
             {moneySupply.reserveMoney.latest && (
               <div className="flex flex-col gap-0.5">
                 <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">Reserve Money</span>
-                <span className="text-xl font-bold tabular-nums text-white leading-none">
+                <span className="text-xl font-bold tabular-nums text-gray-900 leading-none">
                   LRD {(moneySupply.reserveMoney.latest.value / 1000).toFixed(1)}B
                 </span>
                 <span className="text-xs text-gray-500 mt-0.5">{moneySupply.reserveMoney.latest.date.slice(0, 7)}</span>
@@ -440,7 +441,7 @@ export default async function MarketsPage() {
             {moneySupply.broadMoney.latest && (
               <div className="flex flex-col gap-0.5">
                 <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">Broad Money (M2)</span>
-                <span className="text-xl font-bold tabular-nums text-white leading-none">
+                <span className="text-xl font-bold tabular-nums text-gray-900 leading-none">
                   LRD {(moneySupply.broadMoney.latest.value / 1000).toFixed(1)}B
                 </span>
                 <span className="text-xs text-gray-500 mt-0.5">{moneySupply.broadMoney.latest.date.slice(0, 7)}</span>
@@ -470,22 +471,22 @@ export default async function MarketsPage() {
           )}
 
           <Text variant="caption" className="mt-3 leading-relaxed">
-            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> · monetary surveys
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> · monetary surveys
           </Text>
         </div>
 
         {/* Government Debt */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 sm:p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-5">
           <div className="mb-4">
-            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">Government Debt · MoF</Text>
-            <p className="text-sm text-gray-400 leading-relaxed">Total, domestic, and external public debt from the Ministry of Finance.</p>
+            <Text variant="caption" className="font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">Government Debt · MoF</Text>
+            <p className="text-sm text-gray-500 leading-relaxed">Total, domestic, and external public debt from the Ministry of Finance.</p>
           </div>
 
           <div className="flex flex-wrap gap-6 mb-5">
             {debtBreakdown.total.latest && (
               <div className="flex flex-col gap-0.5">
                 <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">Total Debt</span>
-                <span className="text-xl font-bold tabular-nums text-white leading-none">
+                <span className="text-xl font-bold tabular-nums text-gray-900 leading-none">
                   ${(debtBreakdown.total.latest.value / 1000).toFixed(2)}B
                 </span>
                 <span className="text-xs text-gray-500 mt-0.5">{debtBreakdown.total.latest.date.slice(0, 7)}</span>
@@ -494,10 +495,10 @@ export default async function MarketsPage() {
           </div>
 
           {debtBreakdown.domestic.latest && debtBreakdown.external.latest && (
-            <ul className="m-0 p-0 list-none divide-y divide-white/[0.06] text-sm tabular-nums mb-5">
+            <ul className="m-0 p-0 list-none divide-y divide-gray-200 text-sm tabular-nums mb-5">
               <li className="flex items-baseline justify-between py-1.5">
-                <span className="font-semibold text-white">Domestic</span>
-                <span className="font-bold text-white">
+                <span className="font-semibold text-gray-900">Domestic</span>
+                <span className="font-bold text-gray-900">
                   ${debtBreakdown.domestic.latest.value.toLocaleString('en-US', { maximumFractionDigits: 1 })}M
                   {debtBreakdown.total.latest && (
                     <span className="text-xs text-gray-500 ml-1.5">
@@ -507,8 +508,8 @@ export default async function MarketsPage() {
                 </span>
               </li>
               <li className="flex items-baseline justify-between py-1.5">
-                <span className="font-semibold text-white">External</span>
-                <span className="font-bold text-white">
+                <span className="font-semibold text-gray-900">External</span>
+                <span className="font-bold text-gray-900">
                   ${debtBreakdown.external.latest.value.toLocaleString('en-US', { maximumFractionDigits: 1 })}M
                   {debtBreakdown.total.latest && (
                     <span className="text-xs text-gray-500 ml-1.5">
@@ -532,13 +533,13 @@ export default async function MarketsPage() {
           )}
 
           <Text variant="caption" className="mt-3 leading-relaxed">
-            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-white" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Ministry of Finance</a> via CBL · monthly
+            Source: <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">Ministry of Finance</a> via CBL · monthly
           </Text>
         </div>
       </section>
 
       {/* ── Lead + What's News ── */}
-      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-gray-200">
         {/* Lead feature */}
         <div className="lg:col-span-2">
           {/* Flagship lead story — FT-style hero */}
@@ -551,14 +552,14 @@ export default async function MarketsPage() {
               <span className="mx-2 text-gray-700">·</span>
               <span>{lead.category}</span>
             </Text>
-            <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-white group-hover:text-white/80 transition-colors mb-3 text-balance">
+            <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:text-gray-600 transition-colors mb-3 text-balance">
               {lead.title}
             </h2>
-            <p className="text-md leading-relaxed text-gray-400 mb-3 line-clamp-3 max-w-[680px]">
+            <p className="text-md leading-relaxed text-gray-500 mb-3 line-clamp-3 max-w-[680px]">
               {lead.summary}
             </p>
             <Text variant="meta" className="text-gray-500">
-              {lead.author && <><span className="font-semibold text-gray-300">{lead.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
+              {lead.author && <><span className="font-semibold text-gray-600">{lead.author}</span><span className="mx-1.5 text-gray-700">·</span></>}
               <span>{lead.source}</span>
               <span className="mx-1.5 text-gray-700">·</span>
               <time>{timeAgo(lead.date)}</time>
@@ -566,14 +567,14 @@ export default async function MarketsPage() {
           </Link>
 
           {/* Sub-features — vertical card style with large thumbnail */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6 pt-6 border-t border-white/[0.06]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6 pt-6 border-t border-gray-200">
             {subFeatures.map(s => (
               <Link key={s.id} href={`/news/${s.id}`} className="group block no-underline">
                 <div className="overflow-hidden rounded-xl mb-3">
                   <NewsThumbnail category={s.category} id={s.id} src={s.image} className="w-full h-[180px] sm:h-[220px]" />
                 </div>
                 <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(s.category)}`}>{s.category}</p>
-                <h3 className="text-sm sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
                 <Text variant="meta" className="leading-relaxed text-gray-500">{timeAgo(s.date)}</Text>
               </Link>
             ))}
@@ -581,8 +582,8 @@ export default async function MarketsPage() {
         </div>
 
         {/* What's News sidebar — horizontal card list */}
-        <aside className="lg:border-l lg:border-white/[0.08] lg:pl-8">
-          <Heading level={5} className="text-white mb-3 pb-2 border-b-2 border-white/30">What&rsquo;s News</Heading>
+        <aside className="lg:border-l lg:border-gray-200 lg:pl-8">
+          <Heading level={5} className="text-gray-900 mb-3 pb-2 border-b-2 border-gray-200">What&rsquo;s News</Heading>
           <ul className="m-0 p-0 list-none">
             {whatsNews.map(n => (
               <StoryCard key={n.id} n={n} />
@@ -592,21 +593,21 @@ export default async function MarketsPage() {
       </section>
 
       {/* ── Desk grid: Heard / Banking / Investing — Yahoo-style lead + list ── */}
-      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-6 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-6 border-b border-gray-200">
         <DeskColumn title="Heard on the Street" href="/news" items={heardOnTheStreet} />
         <DeskColumn title="Banking & Capital" href="/news" items={banking} />
         <DeskColumn title="Investing" href="/news" items={investing} />
       </section>
 
       {/* ── Desk grid: Macro / Commodities / Currencies ── */}
-      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-6 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-6 border-b border-gray-200">
         <DeskColumn title="Macro & Growth" href="/economy" items={stocks} />
         <DeskColumn title="Commodities & Futures" href="/news" items={commoditiesStories} />
         <DeskColumn title="Currencies" href="/news" items={currenciesStories} />
       </section>
 
       {/* ── Regulation + Most Recent Desks + Related Topics ── */}
-      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-white/[0.08]">
+      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 border-b border-gray-200">
         <div>
           <SectionHeader title="Regulation &amp; Policy" href="/news" />
           <ul className="m-0 p-0 list-none">
@@ -617,14 +618,14 @@ export default async function MarketsPage() {
           <SectionHeader title="Most Recent Desks" />
           <ul className="m-0 p-0 list-none space-y-3">
             {topAuthors.map(({ author, count, latest }) => (
-              <li key={author} className="flex gap-3 items-start border-b border-white/[0.06] pb-3 last:border-0">
-                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent text-sm font-bold flex items-center justify-center shrink-0">
+              <li key={author} className="flex gap-3 items-start border-b border-gray-200 pb-3 last:border-0">
+                <div className="h-10 w-10 rounded-full bg-brand-accent/15 border border-brand-accent/30 text-brand-accent-ink text-sm font-bold flex items-center justify-center shrink-0">
                   {author.split(' ').map(w => w[0]).slice(0, 2).join('')}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-base font-bold text-white">{author}</p>
+                  <p className="text-base font-bold text-gray-900">{author}</p>
                   <Text variant="caption" className="uppercase tracking-wider mb-1">{count} {count === 1 ? 'story' : 'stories'} this month</Text>
-                  <Link href={`/news/${latest.id}`} className="text-sm text-gray-300 hover:text-white no-underline line-clamp-2">{latest.title}</Link>
+                  <Link href={`/news/${latest.id}`} className="text-sm text-gray-600 hover:text-gray-900 no-underline line-clamp-2">{latest.title}</Link>
                 </div>
               </li>
             ))}
@@ -652,7 +653,7 @@ export default async function MarketsPage() {
               <Link
                 key={t.label}
                 href={t.href}
-                className="inline-block rounded-sm border border-white/15 px-2.5 py-1 text-xs font-semibold text-white/80 hover:bg-white/[0.06] hover:text-white no-underline transition-colors"
+                className="inline-block rounded-sm border border-gray-200 px-2.5 py-1 text-xs font-semibold text-gray-700 hover:bg-white hover:text-gray-900 no-underline transition-colors"
               >
                 {t.label}
               </Link>
@@ -660,10 +661,10 @@ export default async function MarketsPage() {
           </div>
 
           <Text variant="caption" className="mt-6 font-bold uppercase tracking-wider mb-2">TrueRate Desks</Text>
-          <ul className="m-0 p-0 list-none flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400">
+          <ul className="m-0 p-0 list-none flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
             {Array.from(new Set(newsItems.map(n => n.author).filter(Boolean) as string[])).slice(0, 8).map(a => (
               <li key={a}>
-                <span className="text-gray-300">{a}</span>
+                <span className="text-gray-600">{a}</span>
               </li>
             ))}
           </ul>
@@ -672,9 +673,9 @@ export default async function MarketsPage() {
 
       {/* ── More in Markets & Finance ── */}
       <section className="mb-8">
-        <div className="flex items-baseline justify-between border-b-2 border-white/30 pb-2 mb-5">
-          <Heading level={5} className="text-white">More in Markets &amp; Finance</Heading>
-          <Link href="/news" className="text-xs uppercase tracking-wider text-brand-accent hover:underline no-underline">All news ›</Link>
+        <div className="flex items-baseline justify-between border-b-2 border-gray-200 pb-2 mb-5">
+          <Heading level={5} className="text-gray-900">More in Markets &amp; Finance</Heading>
+          <Link href="/news" className="text-xs uppercase tracking-wider text-brand-accent-ink hover:underline no-underline">All news ›</Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
           {morePicks.map(n => (
@@ -684,10 +685,10 @@ export default async function MarketsPage() {
               </div>
               <article>
                 <p className={`text-2xs font-semibold uppercase tracking-wide mb-1.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
-                <h3 className="text-base sm:text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-2">{n.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed line-clamp-2 mb-2">{n.summary}</p>
+                <h3 className="text-base sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-2">{n.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">{n.summary}</p>
                 <Text variant="meta" className="text-gray-500">
-                  {n.author && <><span className="font-semibold text-gray-300">{n.author}</span><span className="mx-1 text-gray-700">·</span></>}
+                  {n.author && <><span className="font-semibold text-gray-600">{n.author}</span><span className="mx-1 text-gray-700">·</span></>}
                   {timeAgo(n.date)}
                 </Text>
               </article>
@@ -696,15 +697,18 @@ export default async function MarketsPage() {
         </div>
       </section>
 
+      <SectionEndNav currentHref="/markets" />
+
       {/* ── Methodology ── */}
-      <section className="mt-8 border-t border-white/[0.08] pt-5" aria-labelledby="method-heading">
-        <h2 id="method-heading" className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">How this page works</h2>
-        <ul className="space-y-2 text-base text-gray-300 leading-relaxed max-w-[760px]">
+      <section className="mt-8 border-t border-gray-200 pt-5" aria-labelledby="method-heading">
+        <h2 id="method-heading" className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">How this page works</h2>
+        <ul className="space-y-2 text-base text-gray-600 leading-relaxed max-w-[760px]">
           <li>· The USD/LRD anchor is the Central Bank of Liberia&rsquo;s published daily mid-rate; EUR/GBP/CNY use European Central Bank reference rates and GHS/NGN a free CDN feed, both refreshed hourly; commodities every 15 minutes from Yahoo Finance; macro indicators every 24 hours from the World Bank.</li>
+          <li>· Interest rates, money supply, and government debt figures are sourced from the Central Bank of Liberia&rsquo;s statistical warehouse and synced daily. Interest rates reflect industry-average banking rates; money supply covers reserve money (monetary base) and broad money (M2); debt is broken into domestic and external components via the Ministry of Finance.</li>
           <li>· If an upstream feed is unreachable, the affected card shows a dash &mdash; we never silently substitute stale or fabricated data.</li>
           <li>· LRD cross-rates are computed from USD-base rates; mid-market reference only, not a dealing rate.</li>
           <li>· No equities feed for the Liberian Stock Exchange is available; Top Movers is restricted to the commodities universe relevant to Liberia&rsquo;s export economy.</li>
-          <li>· Tip a deal or correction: <a className="text-brand-accent hover:underline" href="mailto:tips@truerateliberia.com">tips@truerateliberia.com</a></li>
+          <li>· Tip a deal or correction: <a className="text-brand-accent-ink hover:underline" href="mailto:tips@truerateliberia.com">tips@truerateliberia.com</a></li>
         </ul>
       </section>
 

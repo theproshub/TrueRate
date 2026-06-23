@@ -57,7 +57,7 @@ export default function TableOfContents() {
                   className={`h-px bg-current motion-safe:transition-all motion-safe:duration-200 ${
                     isActive
                       ? 'w-5 text-brand-accent-ink'
-                      : 'w-3 text-gray-300 motion-safe:group-hover:w-5 group-hover:text-gray-900'
+                      : 'w-3 text-gray-500 motion-safe:group-hover:w-5 group-hover:text-gray-900'
                   }`}
                   aria-hidden="true"
                 />

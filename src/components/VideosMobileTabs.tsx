@@ -26,7 +26,7 @@ export default function VideosTopicTabs() {
     <div className="mx-auto max-w-container px-4 pt-4">
       <nav
         aria-label="Videos topics"
-        className="flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-0 border-b border-gray-200 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {TABS.map(t => {
           const active = t.href === activeHref;
@@ -35,10 +35,10 @@ export default function VideosTopicTabs() {
               key={t.href}
               href={t.href}
               aria-current={active ? 'page' : undefined}
-              className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-brand-accent ${
+              className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-brand-accent-ink ${
                 active
-                  ? 'border-brand-accent text-brand-accent'
-                  : 'border-transparent text-gray-400 hover:text-gray-200'
+                  ? 'border-brand-accent text-brand-accent-ink'
+                  : 'border-transparent text-gray-500 hover:text-gray-900'
               }`}
             >
               {t.label}

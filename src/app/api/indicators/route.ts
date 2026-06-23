@@ -9,17 +9,27 @@
  * Response shape: { updatedAt: string | null; indicators: NormalizedIndicator[] }
  */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
 import { getDashboardIndicators } from '@/lib/data/indicators';
 import { economicIndicators } from '@/data/economicIndicators';
+import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 // ISR: cache the route for 24h, revalidate in the background.
 export const revalidate = 86400;
 
 export type { NormalizedIndicator };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const { allowed, remaining } = rateLimit(`api-indicators:${ip}`, 60, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: rateLimitHeaders(remaining, 60, 60_000) },
+    );
+  }
+
   try {
     const indicators = await getDashboardIndicators();
     if (indicators.length === 0) {

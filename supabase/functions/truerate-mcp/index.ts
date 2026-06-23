@@ -3,16 +3,30 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const MCP_API_KEY = Deno.env.get("MCP_API_KEY");
 
 const SERVER_INFO = { name: "TrueRate MCP", version: "1.0.0" };
 const PROTOCOL_VERSION = "2025-06-18";
 
-const CORS_HEADERS: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers":
-    "Content-Type, Authorization, Mcp-Session-Id, MCP-Protocol-Version",
-};
+const ALLOWED_ORIGINS = new Set([
+  "https://truerateliberia.com",
+  "https://www.truerateliberia.com",
+  "https://true-rate.vercel.app",
+]);
+
+function corsHeaders(req?: Request): Record<string, string> {
+  const origin = req?.headers.get("origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin) ? origin : "https://truerateliberia.com",
+    "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Content-Type, Authorization, Mcp-Session-Id, MCP-Protocol-Version",
+    "Vary": "Origin",
+  };
+}
+
+// Default for helpers called outside request context
+const CORS_HEADERS = corsHeaders();
 
 // JSON-RPC 2.0 error codes
 const PARSE_ERROR = -32700;
@@ -53,6 +67,10 @@ function requireString(
     );
   }
   return value;
+}
+
+function escapePostgrest(input: string): string {
+  return input.replace(/[\\%_,.()"']/g, (c) => '\\' + c);
 }
 
 function optionalInt(
@@ -529,7 +547,7 @@ async function callTool(
 
     // ── search_articles ──────────────────────────────────────────────────
     case "search_articles": {
-      const query = requireString(args, "query");
+      const query = escapePostgrest(requireString(args, "query"));
 
       const { data, error } = await supabase
         .from("articles")
@@ -749,7 +767,7 @@ async function callTool(
 
     // ── CBL: search_series ────────────────────────────────────────────────
     case "search_series": {
-      const query = requireString(args, "query");
+      const query = escapePostgrest(requireString(args, "query"));
       const { data, error } = await supabase
         .from("cbl_series")
         .select("mnemonic, databank, name_of_series, unit_of_measure, frequency")
@@ -1130,7 +1148,7 @@ async function callTool(
 
     // ── search_indicator (cross-domain) ───────────────────────────────────
     case "search_indicator": {
-      const query = requireString(args, "query");
+      const query = escapePostgrest(requireString(args, "query"));
 
       const [articlesResult, seriesResult] = await Promise.all([
         supabase
@@ -1998,24 +2016,24 @@ async function handleRpc(message: Record<string, unknown>): Promise<Response | n
 // ---------------------------------------------------------------------------
 
 Deno.serve(async (req: Request) => {
+  const cors = corsHeaders(req);
+
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS_HEADERS });
+    return new Response(null, { status: 204, headers: cors });
   }
 
-  // GET is used by some clients to open an SSE stream; we are a stateless
-  // request/response server, so signal that no stream is available.
-  if (req.method === "GET") {
-    return new Response("Method Not Allowed", {
-      status: 405,
-      headers: CORS_HEADERS,
-    });
+  if (req.method === "GET" || req.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 405, headers: cors });
   }
 
-  if (req.method !== "POST") {
-    return new Response("Method Not Allowed", {
-      status: 405,
-      headers: CORS_HEADERS,
-    });
+  if (MCP_API_KEY) {
+    const auth = req.headers.get("authorization");
+    if (auth !== `Bearer ${MCP_API_KEY}`) {
+      return new Response(
+        JSON.stringify({ jsonrpc: "2.0", id: null, error: { code: -32000, message: "Unauthorized" } }),
+        { status: 401, headers: { ...cors, "Content-Type": "application/json" } },
+      );
+    }
   }
 
   let payload: unknown;
@@ -2025,7 +2043,6 @@ Deno.serve(async (req: Request) => {
     return rpcError(null, PARSE_ERROR, "Invalid JSON payload.");
   }
 
-  // A client MAY send a batch (array) of requests.
   if (Array.isArray(payload)) {
     const responses: unknown[] = [];
     for (const msg of payload) {
@@ -2041,7 +2058,7 @@ Deno.serve(async (req: Request) => {
       if (res) responses.push(await res.json());
     }
     if (responses.length === 0) {
-      return new Response(null, { status: 202, headers: CORS_HEADERS });
+      return new Response(null, { status: 202, headers: cors });
     }
     return jsonResponse(responses);
   }
@@ -2051,6 +2068,5 @@ Deno.serve(async (req: Request) => {
   }
 
   const response = await handleRpc(payload as Record<string, unknown>);
-  // Notifications produce no body → 202 Accepted.
-  return response ?? new Response(null, { status: 202, headers: CORS_HEADERS });
+  return response ?? new Response(null, { status: 202, headers: cors });
 });

@@ -102,7 +102,7 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
     <div
       role="region"
       aria-label="Live Liberian markets ticker"
-      className="bg-brand-muted border-b border-white/[0.05]"
+      className="bg-[#1E1E1E] border-b border-white/[0.05]"
     >
       <div className="mx-auto max-w-container overflow-hidden">
         <div className="ticker-scroll flex items-center h-9">

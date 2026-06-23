@@ -1,21 +1,27 @@
 import { Marked } from 'marked';
+import sanitize from 'sanitize-html';
 
-// Per-process instance with our defaults — keeps the global `marked` clean
-// in case anything else imports it.
 const renderer = new Marked({
-  breaks: true,   // single newline → <br>
-  gfm: true,      // GitHub-flavored markdown (tables, strikethrough, autolinks)
+  breaks: true,
+  gfm: true,
   async: false,
 });
 
-/**
- * Render trusted Markdown (admin-authored only) to HTML.
- *
- * We do not sanitize — only `is_admin = true` users can write articles, and
- * RLS enforces that on the server. If we ever open up authoring to less
- * trusted users (e.g. user-submitted op-eds), add DOMPurify or sanitize-html
- * around the output.
- */
+const SANITIZE_OPTIONS: sanitize.IOptions = {
+  allowedTags: [
+    ...sanitize.defaults.allowedTags,
+    'img', 'figure', 'figcaption', 'details', 'summary',
+    'del', 'ins', 'sup', 'sub', 'mark',
+  ],
+  allowedAttributes: {
+    ...sanitize.defaults.allowedAttributes,
+    img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
+    a: ['href', 'title', 'target', 'rel'],
+  },
+  allowedSchemes: ['http', 'https', 'mailto'],
+};
+
 export function renderMarkdown(md: string): string {
-  return renderer.parse(md) as string;
+  const raw = renderer.parse(md) as string;
+  return sanitize(raw, SANITIZE_OPTIONS);
 }

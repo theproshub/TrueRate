@@ -25,6 +25,7 @@ type DbRow = {
   hero_image: string | null;
   published_at: string | null;
   source_name: string | null;
+  view_count?: number;
   category: { slug: string } | null;
   author: { name: string } | null;
 };
@@ -72,4 +73,29 @@ export const getNewsItems = cache(async (): Promise<NewsItem[]> => {
     // fall through to seed
   }
   return seedNewsItems;
+});
+
+export const getPopularNewsItems = cache(async (): Promise<NewsItem[]> => {
+  try {
+    const { data } = await publicClient
+      .from('articles')
+      .select(
+        `slug, title, dek, body, hero_image, published_at, source_name, view_count,
+         category:categories(slug),
+         author:authors(name)`,
+      )
+      .eq('status', 'published')
+      .order('view_count', { ascending: false })
+      .order('published_at', { ascending: false })
+      .limit(20);
+
+    const rows = (data ?? []) as unknown as DbRow[];
+    if (rows.length > 0) {
+      const withViews = rows.filter((r) => (r.view_count ?? 0) > 0);
+      if (withViews.length >= 3) return withViews.map(toNewsItem);
+    }
+  } catch {
+    // fall through
+  }
+  return [];
 });

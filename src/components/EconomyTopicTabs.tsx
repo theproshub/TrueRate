@@ -15,7 +15,7 @@ export default function EconomyTopicTabs({ activeSlug }: Props) {
   return (
     <nav
       aria-label="Economy topics"
-      className="mb-6 flex gap-0 border-b border-white/[0.06] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="mb-6 flex gap-0 border-b border-gray-200 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {items.map(t => {
         const active = t.slug === activeSlug;
@@ -24,10 +24,10 @@ export default function EconomyTopicTabs({ activeSlug }: Props) {
             key={t.slug}
             href={t.href}
             aria-current={active ? 'page' : undefined}
-            className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-brand-accent ${
+            className={`inline-flex items-center min-h-[44px] whitespace-nowrap px-4 sm:px-5 py-2.5 text-base font-semibold border-b-2 -mb-px no-underline transition-colors focus-visible:outline-none focus-visible:text-brand-accent-ink ${
               active
-                ? 'border-brand-accent text-brand-accent'
-                : 'border-transparent text-gray-400 hover:text-gray-200'
+                ? 'border-brand-accent text-brand-accent-ink'
+                : 'border-transparent text-gray-500 hover:text-gray-900'
             }`}
           >
             {t.label}

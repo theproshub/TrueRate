@@ -10,9 +10,9 @@ function RightRailPanel({ title, children }: { title: string; children: React.Re
   return (
     <section
       aria-label={title}
-      className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4"
+      className="rounded-xl border border-gray-200 bg-white p-4"
     >
-      <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">
+      <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">
         {title}
       </h3>
       {children}
@@ -32,10 +32,10 @@ function MarketsMini() {
 function TrendingSMEsPanel() {
   return (
     <RightRailPanel title="Trending SMEs">
-      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
+      <ul className="list-none p-0 m-0 divide-y divide-gray-200">
         {TRENDING_SMES.map((s, i) => (
           <li key={i} className="py-2.5 first:pt-0 last:pb-0">
-            <p className="text-base font-bold text-white leading-tight">{s.name}</p>
+            <p className="text-base font-bold text-gray-900 leading-tight">{s.name}</p>
             <p className="text-xs text-gray-500 mt-0.5">{s.sector} · {s.signal}</p>
           </li>
         ))}
@@ -47,10 +47,10 @@ function TrendingSMEsPanel() {
 function TopGainersPanel() {
   return (
     <RightRailPanel title="Top Gainers">
-      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
+      <ul className="list-none p-0 m-0 divide-y divide-gray-200">
         {TOP_GAINERS.map((g, i) => (
           <li key={i} className="flex items-baseline justify-between py-2 first:pt-0 last:pb-0 gap-3">
-            <span className="text-sm font-semibold text-white/85">{g.label}</span>
+            <span className="text-sm font-semibold text-gray-700">{g.label}</span>
             <span className="text-xs font-bold tabular-nums text-pos shrink-0">{g.change}</span>
           </li>
         ))}
@@ -62,11 +62,11 @@ function TopGainersPanel() {
 function EventsListPanel() {
   return (
     <RightRailPanel title="Top Economic Events">
-      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
+      <ul className="list-none p-0 m-0 divide-y divide-gray-200">
         {ECON_EVENTS.map((e, i) => (
           <li key={i} className="py-2.5 first:pt-0 last:pb-0">
-            <p className="text-xs font-semibold text-brand-accent mb-0.5 tabular-nums">{e.date}</p>
-            <p className="text-sm font-semibold text-white/85 leading-snug">{e.title}</p>
+            <p className="text-xs font-semibold text-brand-accent-ink mb-0.5 tabular-nums">{e.date}</p>
+            <p className="text-sm font-semibold text-gray-700 leading-snug">{e.title}</p>
           </li>
         ))}
       </ul>
@@ -76,7 +76,7 @@ function EventsListPanel() {
 
 export default function RightRail() {
   return (
-    <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-white/[0.08] lg:pl-5">
+    <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-gray-200 lg:pl-5">
       <StickySidebar>
         <MarketsMini />
         <TrendingSMEsPanel />

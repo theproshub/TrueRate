@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { feedPublicClient } from '@/lib/feed/db';
 import type { CardType } from '@/lib/feed/schemas';
+import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,16 @@ interface FeedCard {
   published_at: string | null;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const { allowed, remaining } = rateLimit(`api-feed:${ip}`, 60, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: rateLimitHeaders(remaining, 60, 60_000) },
+    );
+  }
+
   // RLS already restricts anon reads to published + unexpired, but we filter
   // explicitly too so the contract is clear and resilient to policy changes.
   const nowIso = new Date().toISOString();

@@ -1,14 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { publicClient } from '@/lib/supabase/public';
+import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 export const revalidate = 0;
 
-/**
- * Slim published-article index for the global search typeahead. Returns just
- * the fields the SearchBox filters/renders, mapped into the NewsItem-compatible
- * shape (id === slug) so existing client code works unchanged.
- */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const { allowed, remaining } = rateLimit(`api-news:${ip}`, 60, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: rateLimitHeaders(remaining, 60, 60_000) },
+    );
+  }
+
   const { data, error } = await publicClient
     .from('articles')
     .select('slug, title, dek, source_name, category:categories(slug)')

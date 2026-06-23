@@ -20,7 +20,7 @@ import dynamic from 'next/dynamic';
 
 const TrendChart = dynamic(
   () => import('@/components/analytics/terminal/TrendChart'),
-  { loading: () => <div className="h-[200px] w-full animate-pulse rounded bg-white/[0.04]" /> },
+  { loading: () => <div className="h-[200px] w-full animate-pulse rounded bg-white" /> },
 );
 
 export const revalidate = 0; // always read the latest articles + live CBL data from the DB
@@ -43,7 +43,7 @@ function StatCell({ label, value, sub }: { label: string; value: string; sub?: s
   return (
     <div className="flex flex-col gap-0.5">
       <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">{label}</span>
-      <span className="text-xl sm:text-2xl font-bold tabular-nums text-white leading-none">{value}</span>
+      <span className="text-xl sm:text-2xl font-bold tabular-nums text-gray-900 leading-none">{value}</span>
       {sub && <span className="text-xs text-gray-500 mt-0.5">{sub}</span>}
     </div>
   );
@@ -79,9 +79,9 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
       <EconomyTopicTabs activeSlug={topic.slug} />
 
       <header className="mb-8">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-2">Economy &middot; {topic.label}</p>
-        <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-white mb-3">{topic.label}</h1>
-        <p className="text-md text-gray-300 leading-relaxed max-w-[720px]">{topic.blurb}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent-ink mb-2">Economy &middot; {topic.label}</p>
+        <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label}</h1>
+        <p className="text-md text-gray-600 leading-relaxed max-w-[720px]">{topic.blurb}</p>
         <p className="mt-3 text-sm text-gray-500 tabular-nums">
           {items.length} {items.length === 1 ? 'story' : 'stories'} matched from the TrueRate newsroom.
         </p>
@@ -89,13 +89,13 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Inflation data panel ─────────────────────────────────────────── */}
       {slug === 'inflation' && cpi && (
-        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia CPI data">
+        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia CPI data">
           <div className="flex items-start justify-between mb-5 gap-4 flex-wrap">
             <div>
-              <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+              <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
                 CBL Statistical Data &middot; Harmonized CPI
               </p>
-              <p className="text-sm text-gray-400 leading-relaxed">
+              <p className="text-sm text-gray-500 leading-relaxed">
                 Consumer Price Index for Liberia (LBR_CPI_0), sourced from the Central Bank of Liberia DataWarehousePro. Monthly series.
               </p>
             </div>
@@ -140,12 +140,12 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Monetary policy data panel ───────────────────────────────────── */}
       {slug === 'monetary-policy' && (
-        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="CBL monetary policy data">
+        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="CBL monetary policy data">
           <div className="mb-5">
-            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; Monetary Policy
             </p>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-500 leading-relaxed">
               CBL benchmark rate and USD/LRD end-of-period exchange rate, sourced from the Central Bank of Liberia.
             </p>
           </div>
@@ -185,12 +185,12 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Growth data panel ────────────────────────────────────────────── */}
       {slug === 'growth' && gdp && (
-        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia GDP data">
+        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia GDP data">
           <div className="mb-5">
-            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; National Accounts
             </p>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-500 leading-relaxed">
               Gross domestic product at market prices (LBR_NAT_0) and constant 1992 prices (LBR_NAT_00). Annual series.
             </p>
           </div>
@@ -232,12 +232,12 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Fiscal data panel ────────────────────────────────────────────── */}
       {slug === 'fiscal' && fiscal && (
-        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia fiscal data">
+        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia fiscal data">
           <div className="mb-5">
-            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; Government Finance
             </p>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-500 leading-relaxed">
               Total government debt (LBR_FIS_DEBT_1), revenue, and expenditure. Monthly series, million USD.
             </p>
           </div>
@@ -286,12 +286,12 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Trade data panel ─────────────────────────────────────────────── */}
       {slug === 'trade' && trade && (
-        <section className="mb-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-5" aria-label="Liberia trade data">
+        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia trade data">
           <div className="mb-5">
-            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent mb-1">
+            <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; Balance of Payments
             </p>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-500 leading-relaxed">
               Goods trade balance (LBR_BOP_1_4) with export and import flows. Quarterly series, million USD.
             </p>
           </div>
@@ -339,8 +339,8 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
       )}
 
       {items.length === 0 ? (
-        <section className="border-t border-white/[0.06] pt-6 pb-10 text-center">
-          <p className="text-md text-gray-300 mb-2">No published stories tagged for this topic yet.</p>
+        <section className="border-t border-gray-200 pt-6 pb-10 text-center">
+          <p className="text-md text-gray-600 mb-2">No published stories tagged for this topic yet.</p>
           <p className="text-base text-gray-500 mb-6">Browse the newsroom or check back as coverage develops.</p>
           <Link href="/news" className="inline-block rounded-lg bg-brand-accent px-5 py-2.5 text-base font-bold text-brand-dark hover:bg-brand-accent-hover transition-colors no-underline">
             All news
@@ -354,8 +354,8 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
                 <NewsThumbnail category={item.category} src={item.image} className="w-full h-[170px]" />
               </div>
               <p className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(item.category)}`}>{item.category}</p>
-              <h2 className="text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-2">{item.title}</h2>
-              <p className="text-sm text-gray-400 line-clamp-2 mb-2">{item.summary}</p>
+              <h2 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 mb-2">{item.title}</h2>
+              <p className="text-sm text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
               <div className="mt-auto text-xs text-gray-500">{item.source} &middot; {timeAgo(item.date)}</div>
             </Link>
           ))}

@@ -1,4 +1,5 @@
 import Breadcrumb from '@/components/Breadcrumb';
+import SectionEndNav from '@/components/SectionEndNav';
 import { VideoThumbnail, NewsThumbnail } from '@/components/NewsThumbnail';
 import PlayableVideo from '@/components/PlayableVideo';
 import { CHANNEL_URL, videoHref } from '@/lib/youtube';
@@ -74,14 +75,14 @@ const GROWTH_PLAYBOOK = [
 const CAT_COLORS: Record<string, string> = {
   'Entrepreneurship': 'text-violet-400',
   'Technology':       'text-sky-400',
-  'Investing':        'text-brand-accent',
+  'Investing':        'text-brand-accent-ink',
   'Leadership':       'text-amber-400',
   'Business':         'text-rose-400',
   'Mining':           'text-orange-400',
 };
 
 function catColor(c: string) {
-  return CAT_COLORS[c] ?? 'text-gray-400';
+  return CAT_COLORS[c] ?? 'text-gray-500';
 }
 
 function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
@@ -89,7 +90,7 @@ function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const icon = size === 'lg' ? 'h-6 w-6' : size === 'sm' ? 'h-3.5 w-3.5' : 'h-5 w-5';
   return (
     <div className={`flex ${dim} items-center justify-center rounded-full bg-black/60 backdrop-blur-sm transition-transform duration-200 group-hover:scale-110 group-hover:bg-black/80`}>
-      <svg className={`${icon} translate-x-0.5 text-white`} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <svg className={`${icon} translate-x-0.5 text-gray-900`} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M8 5v14l11-7z" />
       </svg>
     </div>
@@ -98,13 +99,13 @@ function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
 
 function SectionHeader({ title, sub, href, label = 'View all ›' }: { title: string; sub?: string; href?: string; label?: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-5">
+    <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
       <div>
-        <h2 className="text-md font-bold text-white">{title}</h2>
+        <h2 className="text-md font-bold text-gray-900">{title}</h2>
         {sub && <p className="text-xs text-gray-500 mt-0.5">{sub}</p>}
       </div>
       {href !== undefined && (
-        <a href={href} {...ext} className="text-sm text-gray-500 hover:text-brand-accent transition-colors no-underline shrink-0 focus-visible:outline-none focus-visible:underline">{label}</a>
+        <a href={href} {...ext} className="text-sm text-gray-500 hover:text-brand-accent-ink transition-colors no-underline shrink-0 focus-visible:outline-none focus-visible:underline">{label}</a>
       )}
     </div>
   );
@@ -118,7 +119,7 @@ function VideoCard({ title, duration, category, source, time, youtubeId }: { tit
         <VideoThumbnail category={category} duration={duration} className="w-full h-full" />
       </div>
       <div className="min-w-0 flex-1 flex flex-col justify-center">
-        <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">{title}</h3>
+        <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{title}</h3>
         <div className="text-xs text-gray-500">{source ? `${source} · ` : ''}{time}</div>
       </div>
     </a>
@@ -161,16 +162,16 @@ export default function VideosPage() {
             <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-dark">
               {HERO.badge}
             </span>
-            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">
+            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">
               {HERO.duration}
             </span>
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h1 className="text-xl sm:text-2xl font-bold leading-[1.2] tracking-tight text-white mb-2 line-clamp-2">{HERO.title}</h1>
-              <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+              <h1 className="text-xl sm:text-2xl font-bold leading-[1.2] tracking-tight text-gray-900 mb-2 line-clamp-2">{HERO.title}</h1>
+              <p className="text-base text-gray-900/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
               <div className="flex items-center gap-2 text-sm">
-                <span className="font-semibold text-white/70">{HERO.source}</span>
-                <span className="text-white/30">·</span>
-                <span className="text-white/40">{HERO.time}</span>
+                <span className="font-semibold text-gray-600">{HERO.source}</span>
+                <span className="text-gray-900/30">·</span>
+                <span className="text-gray-500">{HERO.time}</span>
               </div>
             </div>
           </PlayableVideo>
@@ -178,18 +179,18 @@ export default function VideosPage() {
 
         {/* Latest sidebar — links out */}
         <div className="w-full lg:w-[280px] shrink-0 flex flex-col">
-          <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
-            <span className="text-md font-bold text-white">Latest</span>
-            <a href={CHANNEL_URL} {...ext} className="text-sm text-gray-500 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline">View more ›</a>
+          <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+            <span className="text-md font-bold text-gray-900">Latest</span>
+            <a href={CHANNEL_URL} {...ext} className="text-sm text-gray-500 hover:text-brand-accent-ink transition-colors no-underline focus-visible:outline-none focus-visible:underline">View more ›</a>
           </div>
-          <div className="flex flex-col divide-y divide-white/[0.05] flex-1">
+          <div className="flex flex-col divide-y divide-gray-200 flex-1">
             {LATEST.map((v, i) => (
               <a key={i} href={videoHref(v.youtubeId)} {...ext} className="group flex gap-3 py-3 first:pt-0 no-underline">
                 <div className="shrink-0 overflow-hidden rounded-lg w-[100px] h-[60px]">
                   <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
                 </div>
                 <div className="min-w-0 flex-1 flex flex-col justify-center">
-                  <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
+                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
               </a>
@@ -209,10 +210,10 @@ export default function VideosPage() {
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <PlayIcon size="md" />
               </div>
-              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{v.duration}</span>
+              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">{v.duration}</span>
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <div className={`text-2xs font-black uppercase tracking-widest mb-1 ${catColor(v.category)}`}>{v.show} · {v.ep}</div>
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white line-clamp-2">{v.title}</h3>
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 line-clamp-2">{v.title}</h3>
               </div>
             </PlayableVideo>
           ))}
@@ -223,7 +224,7 @@ export default function VideosPage() {
       <div className="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         <section aria-labelledby="videos-spotlights">
           <SectionHeader title="Entrepreneur Spotlights" href={CHANNEL_URL} label="View more ›" />
-          <div className="flex flex-col divide-y divide-white/[0.05]">
+          <div className="flex flex-col divide-y divide-gray-200">
             {ENTREPRENEUR_SPOTLIGHTS.map((v, i) => (
               <VideoCard key={i} {...v} />
             ))}
@@ -231,7 +232,7 @@ export default function VideosPage() {
         </section>
         <section aria-labelledby="videos-investing">
           <SectionHeader title="Investing Insights" href={CHANNEL_URL} label="View more ›" />
-          <div className="flex flex-col divide-y divide-white/[0.05]">
+          <div className="flex flex-col divide-y divide-gray-200">
             {INVESTING_INSIGHTS.map((v, i) => (
               <VideoCard key={i} {...v} />
             ))}
@@ -240,7 +241,7 @@ export default function VideosPage() {
       </div>
 
       {/* ── TrueRate Finance Network (Podcasts) — play inline ── */}
-      <section className="mb-10 -mx-4 px-4 py-8 bg-white/[0.02] border-y border-white/[0.05]" aria-labelledby="videos-podcasts">
+      <section className="mb-10 -mx-4 px-4 py-8 bg-white border-y border-gray-200" aria-labelledby="videos-podcasts">
         <div className="max-w-container">
           <SectionHeader title="TrueRate Finance Network" sub="Podcasts on entrepreneurship, investing, leadership & technology" href={CHANNEL_URL} label="All episodes ›" />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -251,14 +252,14 @@ export default function VideosPage() {
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <PlayIcon size="md" />
                   </div>
-                  <span className="absolute bottom-2 right-2 rounded-md bg-black/80 px-1.5 py-0.5 text-2xs font-semibold text-white tabular-nums backdrop-blur-sm">
+                  <span className="absolute bottom-2 right-2 rounded-md bg-black/80 px-1.5 py-0.5 text-2xs font-semibold text-gray-900 tabular-nums backdrop-blur-sm">
                     {pod.duration}
                   </span>
                 </PlayableVideo>
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className={`text-2xs font-black uppercase tracking-wide ${catColor(pod.category)}`}>{pod.ep}</span>
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white line-clamp-2 mb-1.5">{pod.title}</h3>
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 line-clamp-2 mb-1.5">{pod.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">{pod.desc}</p>
               </div>
             ))}
@@ -276,7 +277,7 @@ export default function VideosPage() {
                 <VideoThumbnail category={item.category} className="absolute inset-0 w-full h-full" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute top-2.5 left-2.5">
-                  <span className={`rounded px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-white' : 'bg-black/70 text-white/60 border border-white/10'}`}>
+                  <span className={`rounded px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-gray-900' : 'bg-black/70 text-gray-900/60 border border-gray-200'}`}>
                     {item.badge}
                   </span>
                 </div>
@@ -285,7 +286,7 @@ export default function VideosPage() {
                 </div>
               </PlayableVideo>
               <div className={`text-2xs font-bold uppercase tracking-wide mb-1 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white line-clamp-2 mb-1">{item.title}</h3>
+              <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 line-clamp-2 mb-1">{item.title}</h3>
               <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
                 <span>{item.channel}</span>
                 <span>·</span>
@@ -311,12 +312,14 @@ export default function VideosPage() {
                 <span className="absolute top-3 left-3 rounded-md px-2 py-0.5 text-2xs font-black uppercase tracking-wide text-brand-dark bg-brand-accent">{item.label}</span>
               </PlayableVideo>
               <div className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${catColor(item.category)}`}>{item.category}</div>
-              <h3 className="text-sm sm:text-base font-semibold leading-snug text-white mb-2 line-clamp-2">{item.title}</h3>
+              <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 mb-2 line-clamp-2">{item.title}</h3>
               <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">{item.desc}</p>
             </div>
           ))}
         </div>
       </section>
+
+      <SectionEndNav currentHref="/videos" />
 
     </main>
     </>

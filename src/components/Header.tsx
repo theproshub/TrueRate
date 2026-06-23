@@ -52,9 +52,11 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
       { label: 'Analytics',        href: '/analytics' },
       { label: 'Economy',          href: '/economy' },
       { label: 'Technology',       href: '/technology' },
-      { label: 'Business',          href: '/small-business' },
       { label: 'Videos',           href: '/videos' },
     ],
+  },
+  {
+    label: 'Business', href: '/small-business',
   },
   {
     label: 'Videos', href: '/videos',
@@ -147,7 +149,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
       { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
     ],
   });
-  const MOBILE_ORDER = ['News', 'Analytics', 'Finance', 'Business', 'Videos', 'My Watchlist'];
+  const MOBILE_ORDER = ['News', 'Analytics', 'Business', 'Finance', 'Videos', 'My Watchlist'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -200,7 +202,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
   return (
     <div id="mobile-menu" className="sm:hidden fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Main menu">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]" onClick={onClose} />
-      <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-brand-dark h-full shadow-2xl animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
+      <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-white h-full shadow-2xl animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
 
         {/* Close button — floated top-right, no dedicated row */}
         <button
@@ -208,7 +210,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="absolute top-2 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent z-10"
+          className="absolute top-2 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent z-10"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -235,9 +237,9 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                     <Link
                       href={href}
                       onClick={onClose}
-                      className="flex-1 flex items-center min-h-[44px] px-5 py-2.5 no-underline transition-colors hover:bg-white/[0.03]"
+                      className="flex-1 flex items-center min-h-[44px] px-5 py-2.5 no-underline transition-colors hover:bg-gray-50"
                     >
-                      <span className={`text-md font-bold ${active ? 'text-brand-accent' : 'text-white'}`}>{label}</span>
+                      <span className={`text-md font-bold ${active ? 'text-brand-accent-ink' : 'text-gray-900'}`}>{label}</span>
                     </Link>
 
                     {/* Expand arrow — toggles submenu (only if children exist) */}
@@ -248,10 +250,10 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                         aria-expanded={isOpen}
                         aria-controls={`mobile-section-${label.replace(/\s+/g, '-').toLowerCase()}`}
                         aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${label} submenu`}
-                        className="flex h-11 w-11 items-center justify-center shrink-0 mr-2 rounded-full hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                        className="flex h-11 w-11 items-center justify-center shrink-0 mr-2 rounded-full hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                       >
                         <svg
-                          className={`h-4 w-4 text-white/60 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                          className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -262,7 +264,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                     {/* Simple chevron for items without children */}
                     {!hasChildren && (
                       <Link href={href} onClick={onClose} aria-hidden="true" tabIndex={-1} className="flex h-11 w-11 items-center justify-center shrink-0 mr-2 no-underline">
-                        <svg className="h-4 w-4 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                       </Link>
@@ -288,11 +290,11 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
                             href={c.href!}
                             onClick={onClose}
                             className={`flex items-center justify-between min-h-[44px] ${indented ? 'px-12' : 'px-9'} py-2 text-base no-underline transition-colors ${
-                              subActive ? 'text-brand-accent' : 'text-white/85 hover:text-white'
+                              subActive ? 'text-brand-accent' : 'text-gray-700 hover:text-gray-900'
                             }`}
                           >
                             <span>{c.label}</span>
-                            <svg className="h-3.5 w-3.5 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="h-3.5 w-3.5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                             </svg>
                           </Link>
@@ -306,13 +308,13 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
           </nav>
 
           {/* Quiet legal/support footer block */}
-          <div className="border-t border-white/[0.06] mt-2 pt-3 pb-5 px-5">
+          <div className="border-t border-gray-200 mt-2 pt-3 pb-5 px-5">
             {supportLinks.map(({ label, href }) => (
               <Link
                 key={label}
                 href={href}
                 onClick={onClose}
-                className="flex items-center min-h-[44px] py-1.5 text-sm text-white/60 hover:text-white no-underline transition-colors"
+                className="flex items-center min-h-[44px] py-1.5 text-sm text-gray-500 hover:text-gray-900 no-underline transition-colors"
               >
                 {label}
               </Link>
@@ -321,7 +323,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
         </div>
 
         {/* Footer: socials */}
-        <div className="border-t border-white/[0.06] px-5 pt-2.5 pb-3 shrink-0 bg-brand-muted">
+        <div className="border-t border-gray-200 px-5 pt-2.5 pb-3 shrink-0 bg-gray-50">
           <div className="flex items-center justify-center gap-2">
             {ACTIVE_SOCIAL_LINKS.map((s) => (
               <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
@@ -332,7 +334,7 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
               </a>
             ))}
           </div>
-          <Text variant="caption" className="mt-1.5 text-center">© 2026 <span className="font-bold text-white/70">TrueRate</span></Text>
+          <Text variant="caption" className="mt-1.5 text-center">© 2026 <span className="font-bold text-gray-700">TrueRate</span></Text>
         </div>
       </div>
     </div>
@@ -347,7 +349,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  const isLight = pathname.startsWith('/news') || pathname.startsWith('/about') || pathname.startsWith('/help');
+  const isLight = true;
 
   // Set --header-h CSS variable so pages can size themselves accurately
   useEffect(() => {
@@ -462,20 +464,12 @@ export default function Header() {
               <div
                 id="more-menu"
                 role="menu"
-                className={`absolute right-0 top-full z-50 mt-1 w-[min(960px,calc(100vw-2rem))] border rounded-b-lg overflow-hidden shadow-2xl ${
-                  isLight
-                    ? 'bg-white border-gray-200 shadow-gray-300/60'
-                    : 'bg-brand-dark border-white/[0.08] shadow-black/60'
-                }`}
+                className="absolute right-0 top-full z-50 mt-1 w-[min(960px,calc(100vw-2rem))] border rounded-b-lg overflow-hidden shadow-2xl bg-[#1E1E1E] border-white/[0.08] shadow-black/60"
               >
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-6 p-6">
                   {MORE_MENU.map(column => (
                     <div key={column.title} role="none">
-                      <h3
-                        className={`text-md font-bold mb-3 ${
-                          isLight ? 'text-gray-900' : 'text-white'
-                        }`}
-                      >
+                      <h3 className="text-md font-bold mb-3 text-white">
                         {column.title}
                       </h3>
                       <ul className="space-y-2" role="none">
@@ -489,10 +483,8 @@ export default function Header() {
                                 onClick={() => setMoreOpen(false)}
                                 className={`block text-base no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded ${
                                   active
-                                    ? (isLight ? 'text-brand-accent-ink font-semibold' : 'text-brand-accent font-semibold')
-                                    : isLight
-                                      ? 'text-gray-700 hover:text-brand-accent-ink'
-                                      : 'text-gray-300 hover:text-brand-accent'
+                                    ? 'text-brand-accent font-semibold'
+                                    : 'text-gray-300 hover:text-brand-accent'
                                 }`}
                               >
                                 {item.label}

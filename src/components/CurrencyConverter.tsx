@@ -69,10 +69,10 @@ export default function CurrencyConverter({ initialLookup }: Props) {
       : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
 
   return (
-    <div className="rounded-xl border border-white/[0.07] bg-brand-card overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
+    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
         <div>
-          <Heading level={5} as="h2" className="font-bold text-white">Currency Converter</Heading>
+          <Heading level={5} as="h2" className="font-bold text-gray-900">Currency Converter</Heading>
           <Text variant="meta" className="mt-0.5">LRD-based · rates from CBL / open market</Text>
         </div>
         {loading && (
@@ -86,13 +86,13 @@ export default function CurrencyConverter({ initialLookup }: Props) {
       <div className="px-5 py-5">
         {/* Amount input */}
         <div className="mb-4">
-          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">Amount</label>
+          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">Amount</label>
           <input
             type="number"
             min="0"
             value={amount}
             onChange={e => setAmount(e.target.value)}
-            className="w-full rounded-lg border border-white/[0.1] bg-white/[0.05] px-4 py-2.5 text-lg font-bold text-white outline-none focus:border-brand-accent-ink/50 focus:bg-white/[0.07] transition tabular-nums"
+            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-lg font-bold text-gray-900 outline-none focus:border-brand-accent-ink/50 focus:bg-white transition tabular-nums"
             placeholder="Enter amount"
           />
         </div>
@@ -100,11 +100,11 @@ export default function CurrencyConverter({ initialLookup }: Props) {
         {/* From / Swap / To row */}
         <div className="flex items-end gap-2 mb-5">
           <div className="flex-1">
-            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">From</label>
+            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">From</label>
             <select
               value={from}
               onChange={e => setFrom(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-md font-semibold text-white outline-none focus:border-brand-accent-ink/50 transition appearance-none cursor-pointer"
+              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-md font-semibold text-gray-900 outline-none focus:border-brand-accent-ink/50 transition appearance-none cursor-pointer"
             >
               {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
                 <option key={c} value={c}>{c} — {LABELS[c]}</option>
@@ -116,7 +116,7 @@ export default function CurrencyConverter({ initialLookup }: Props) {
             onClick={swap}
             aria-label="Swap currencies"
             title="Swap currencies"
-            className="shrink-0 mb-0.5 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.1] bg-white/[0.05] text-gray-400 hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition"
+            className="shrink-0 mb-0.5 flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-200 hover:bg-white transition"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
@@ -124,11 +124,11 @@ export default function CurrencyConverter({ initialLookup }: Props) {
           </button>
 
           <div className="flex-1">
-            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">To</label>
+            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">To</label>
             <select
               value={to}
               onChange={e => setTo(e.target.value)}
-              className="w-full rounded-lg border border-white/[0.1] bg-brand-card px-3 py-2.5 text-md font-semibold text-white outline-none focus:border-brand-accent-ink/50 transition appearance-none cursor-pointer"
+              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-md font-semibold text-gray-900 outline-none focus:border-brand-accent-ink/50 transition appearance-none cursor-pointer"
             >
               {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
                 <option key={c} value={c}>{c} — {LABELS[c]}</option>
@@ -138,11 +138,11 @@ export default function CurrencyConverter({ initialLookup }: Props) {
         </div>
 
         {/* Result */}
-        <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] px-4 py-4 text-center">
-          <p className="text-base text-gray-400 mb-1">
+        <div className="rounded-lg bg-white border border-gray-200 px-4 py-4 text-center">
+          <p className="text-base text-gray-500 mb-1">
             {amount || '1'} {from} =
           </p>
-          <p className="text-3xl font-black text-white tabular-nums leading-tight">
+          <p className="text-3xl font-black text-gray-900 tabular-nums leading-tight">
             {result !== null ? fmt(result) : '—'}{' '}
             <span className="text-xl text-brand-accent-ink">{to}</span>
           </p>

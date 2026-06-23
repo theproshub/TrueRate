@@ -110,10 +110,7 @@ export default function HeaderAuthButtons() {
     };
   }, []);
 
-  const isLight =
-    pathname.startsWith('/news') ||
-    pathname.startsWith('/about') ||
-    pathname.startsWith('/help');
+  const isLight = true;
 
   if (!loaded) {
     return <div aria-hidden="true" className="h-11 w-[140px]" />;

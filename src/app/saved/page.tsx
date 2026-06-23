@@ -30,7 +30,7 @@ export default async function SavedArticlesPage() {
   return (
     <main className="mx-auto max-w-container px-4 py-8">
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Saved' }]} />
-      <h1 className="mb-6 text-3xl font-bold tracking-tight text-white">Saved articles</h1>
+      <h1 className="mb-6 text-3xl font-bold tracking-tight text-gray-900">Saved articles</h1>
       <SavedArticlesClient authed={authed} initialRows={clientRows} />
     </main>
   );

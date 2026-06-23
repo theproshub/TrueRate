@@ -9,7 +9,7 @@ const variantMap: Record<Variant, string> = {
   danger:  'bg-neg/10        text-neg    border border-neg/30',
   warning: 'bg-warning/10    text-warning border border-warning/30',
   info:    'bg-info/10       text-info    border border-info/30',
-  neutral: 'bg-white/5       text-gray-400 border border-white/10',
+  neutral: 'bg-gray-100      text-gray-600 border border-gray-200',
 };
 
 const sizeMap: Record<Size, string> = {

@@ -48,7 +48,7 @@ export default async function WatchlistPage() {
   return (
     <main className="mx-auto max-w-container px-4 py-8">
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Watchlist' }]} />
-      <h1 className="mb-6 text-3xl font-bold tracking-tight text-white">Watchlist</h1>
+      <h1 className="mb-6 text-3xl font-bold tracking-tight text-gray-900">Watchlist</h1>
       <WatchlistClient authed={wl.authed} watched={watched} options={allRows} />
     </main>
   );

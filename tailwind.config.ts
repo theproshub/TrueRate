@@ -14,13 +14,13 @@ const config: Config = {
         'brand-accent':        '#BFEA36',   // Yellow-green — primary CTA, active states (dark surfaces)
         'brand-accent-hover':  '#a8d42a',   // CTA hover — one shade darker than accent
         'brand-accent-ink':    '#4d7c0f',   // Dark lime — interactive accent on LIGHT surfaces (AA on white)
-        'brand-dark':          '#1E1E1E',   // Page background — dark chrome gray (Yahoo-style)
-        'brand-muted':         '#181818',   // Deeper dark — innermost header layer
-        'brand-header':        '#262626',   // Header / nav background
-        'brand-card':          '#262626',   // Card / panel background
-        'brand-nav':           '#262626',   // Secondary nav bar (alias of card)
-        'brand-azure':         '#333538',   // Borders / accents
-        'brand-light':         '#F3F4F4',   // Light grey — surfaces / subtle text
+        'brand-dark':          '#F5F5F5',   // Page background — light gray
+        'brand-muted':         '#E8E8E8',   // Subtle background layer
+        'brand-header':        '#FFFFFF',   // Header / nav background
+        'brand-card':          '#FFFFFF',   // Card / panel background
+        'brand-nav':           '#FFFFFF',   // Secondary nav bar
+        'brand-azure':         '#D1D5DB',   // Borders / accents
+        'brand-light':         '#374151',   // Secondary text (dark on light)
         'brand-surface':       '#f8f9fa',   // Light page background (news / article pages)
         'brand-ink':           '#0a0a0d',   // Near-black text on light surfaces
 

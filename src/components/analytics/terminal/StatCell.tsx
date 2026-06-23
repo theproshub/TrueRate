@@ -30,7 +30,7 @@ export default memo(function StatCell({
   const isMacro = view.kind === 'macro';
 
   return (
-    <div className={`transition-colors ${active ? 'bg-white/[0.03]' : 'hover:bg-white/[0.02]'}`}>
+    <div className={`transition-colors ${active ? 'bg-white' : 'hover:bg-white'}`}>
       {/* ── Glance layer ── */}
       <div className="flex items-center gap-4 py-3.5">
         <button
@@ -48,7 +48,7 @@ export default memo(function StatCell({
               {active && <span aria-hidden className="h-1 w-1 rounded-full bg-brand-accent" />}
             </div>
             <div className="mt-1 flex items-baseline gap-1">
-              <span className="font-mono text-2xl leading-none tabular-nums text-white">
+              <span className="font-mono text-2xl leading-none tabular-nums text-gray-900">
                 {view.value}
               </span>
               {view.unit && view.kind === 'commodity' && (
@@ -87,7 +87,7 @@ export default memo(function StatCell({
           aria-expanded={open}
           aria-controls={detailId}
           aria-label={open ? `Hide details for ${view.label}` : `Show details for ${view.label}`}
-          className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded text-gray-600 transition-colors hover:text-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent sm:min-h-0 sm:min-w-0 sm:p-1"
+          className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded text-gray-600 transition-colors hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent sm:min-h-0 sm:min-w-0 sm:p-1"
         >
           <svg
             className={`h-3.5 w-3.5 transition-transform ${open ? 'rotate-180' : ''}`}

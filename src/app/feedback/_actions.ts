@@ -2,24 +2,24 @@
 
 import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
+import { rateLimit } from '@/lib/rate-limit';
 
 const TYPES = ['general', 'data_error', 'feature_request', 'bug_report', 'content_issue'] as const;
 type FeedbackType = (typeof TYPES)[number];
 
 export type FeedbackResult = { ok: true } | { ok: false; error: string };
 
-/**
- * Store a feedback submission from the public /feedback page.
- *
- * Writes to the `feedback` table (migration 012), whose RLS allows anyone to
- * INSERT but only admins to read. Validation is mirrored on the client for UX,
- * and enforced again here because client checks are not a security boundary.
- */
 export async function submitFeedback(input: {
   type: string;
   email: string;
   message: string;
 }): Promise<FeedbackResult> {
+  const ip = (await headers()).get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const { allowed } = rateLimit(`feedback:${ip}`, 5, 60_000 * 15);
+  if (!allowed) {
+    return { ok: false, error: 'Too many submissions. Please try again in a few minutes.' };
+  }
+
   const message = (input.message ?? '').trim();
   if (message.length < 5) {
     return { ok: false, error: 'Please enter a message (at least 5 characters).' };

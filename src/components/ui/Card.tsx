@@ -4,7 +4,7 @@ type Variant = 'default' | 'surface' | 'transparent';
 type Padding = 'none' | 'sm' | 'md' | 'lg';
 
 const variantMap: Record<Variant, string> = {
-  default:     'bg-brand-card border border-white/[0.06]',
+  default:     'bg-white border border-gray-200',
   surface:     'bg-brand-surface border border-gray-200',    // light pages (news articles)
   transparent: 'bg-transparent',
 };

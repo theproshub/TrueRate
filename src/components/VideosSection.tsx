@@ -8,7 +8,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
 const CAT_COLORS: Record<string, string> = {
   'Startups':         'text-violet-400',
-  'Economy':          'text-brand-accent',
+  'Economy':          'text-brand-accent-ink',
   'Technology':       'text-sky-400',
   'Investing':        'text-emerald-400',
   'Entrepreneurship': 'text-violet-400',
@@ -17,27 +17,22 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 function catColor(c: string) {
-  return CAT_COLORS[c] ?? 'text-gray-400';
+  return CAT_COLORS[c] ?? 'text-gray-500';
 }
 
 export default function VideosSection({ videos }: { videos: Video[] }) {
   const [featured, ...rest] = videos;
   return (
     <section aria-labelledby="todays-videos">
-      <div className="flex items-end justify-between border-b border-white/20 pb-3 mb-5">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-5 w-5 items-center justify-center rounded bg-red-600">
-            <svg className="h-3 w-3 translate-x-[0.5px] text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </div>
-          <h2 id="todays-videos" className="text-md font-bold text-white">Today&apos;s Videos</h2>
-        </div>
+      <div className="flex items-center gap-3 border-b border-gray-200 pb-3 mb-5">
         <Link
           href="/videos"
-          className="text-sm text-gray-400 hover:text-brand-accent transition-colors no-underline focus-visible:outline-none focus-visible:underline"
+          className="text-sm font-semibold text-brand-accent-ink hover:text-gray-900 transition-colors no-underline focus-visible:outline-none focus-visible:underline flex items-center gap-1"
         >
-          All videos ›
+          Watch NOW
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+          </svg>
         </Link>
       </div>
 
@@ -68,16 +63,16 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
               {featured.category}
             </span>
           </PlayableVideo>
-          <h3 className="text-base lg:text-lg font-bold leading-snug tracking-tight text-white mb-1.5 line-clamp-2">
+          <h3 className="text-base lg:text-lg font-bold leading-snug tracking-tight text-gray-900 mb-1.5 line-clamp-2">
             {featured.title}
           </h3>
           {featured.description && (
-            <p className="text-sm leading-relaxed text-gray-400 line-clamp-2 mb-2">
+            <p className="text-sm leading-relaxed text-gray-600 line-clamp-2 mb-2">
               {featured.description}
             </p>
           )}
           <p className="text-xs text-gray-500">
-            <span className="font-medium text-gray-400">{featured.source}</span>
+            <span className="font-medium text-gray-600">{featured.source}</span>
             <span aria-hidden className="mx-1.5">·</span>
             <span>{featured.time}</span>
           </p>
@@ -85,7 +80,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
 
         {/* Up Next playlist */}
         {rest.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-white/[0.06]">
+          <div className="mt-4 pt-4 border-t border-gray-200">
             <p className="text-2xs font-bold uppercase tracking-[0.14em] text-gray-500 mb-3">Up next</p>
             <div className="flex flex-col gap-3">
               {rest.map((v, i) => (
@@ -111,7 +106,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
                     </div>
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col justify-center">
-                    <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-2 mb-1">
+                    <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">
                       {v.title}
                     </h3>
                     <p className="text-xs text-gray-500">

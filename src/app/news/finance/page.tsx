@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
+import SectionEndNav from '@/components/SectionEndNav';
 import { getNewsItems } from '@/lib/news-source';
 import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
@@ -127,7 +128,7 @@ export default async function FinanceNewsPage({
                         {item.title}
                       </Heading>
                       <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
-                      <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+                      <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                         <span className="font-medium text-gray-500">{item.source}</span>
                         <span>&middot;</span>
                         <span>{timeAgo(item.date)}</span>
@@ -191,7 +192,7 @@ export default async function FinanceNewsPage({
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
-                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                       <span className="font-medium text-gray-500">{s.source}</span>
                       <span>&middot;</span>
                       <span>{s.time}</span>
@@ -218,7 +219,7 @@ export default async function FinanceNewsPage({
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
-                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                       <span className="font-medium text-gray-500">{s.source}</span>
                       <span>&middot;</span>
                       <span>{s.time}</span>
@@ -244,7 +245,7 @@ export default async function FinanceNewsPage({
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{s.title}</Heading>
-                    <Text className="mt-1.5 text-xs text-gray-400">{s.source} &middot; {s.time}</Text>
+                    <Text className="mt-1.5 text-xs text-gray-500">{s.source} &middot; {s.time}</Text>
                   </div>
                 </Link>
               ))}
@@ -266,7 +267,7 @@ export default async function FinanceNewsPage({
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
-                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                       <span className="font-medium text-gray-500">{s.source}</span>
                       <span>&middot;</span>
                       <span>{s.time}</span>
@@ -293,9 +294,9 @@ export default async function FinanceNewsPage({
                   </div>
                   <div className="min-w-0 flex-1">
                     <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{op.title}</Heading>
-                    <Text className="text-sm text-gray-500">{op.author} &middot; <span className="text-gray-400">{op.role}</span> &middot; <span className="text-gray-400">{op.time}</span></Text>
+                    <Text className="text-sm text-gray-500">{op.author} &middot; <span className="text-gray-500">{op.role}</span> &middot; <span className="text-gray-500">{op.time}</span></Text>
                   </div>
-                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-500 transition-colors" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </Link>
               ))}
             </div>
@@ -313,7 +314,7 @@ export default async function FinanceNewsPage({
             <Text className="text-sm text-gray-500 mb-3">Forex, policy, commodities and macro — delivered every morning.</Text>
             <label htmlFor="finance-email" className="sr-only">Email address</label>
             <input id="finance-email" type="email" placeholder="Email address"
-              className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors mb-2" />
+              className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-400 transition-colors mb-2" />
             <button className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none">Sign up free</button>
           </div>
 
@@ -332,10 +333,10 @@ export default async function FinanceNewsPage({
                 { date: 'Apr 28', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets' },
               ].map((ev, i) => (
                 <Link key={i} href="/economy" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                  <span className="shrink-0 w-[40px] text-xs font-medium text-gray-400 tabular-nums">{ev.date}</span>
+                  <span className="shrink-0 w-[40px] text-xs font-medium text-gray-500 tabular-nums">{ev.date}</span>
                   <div className="min-w-0 flex-1 border-l border-gray-100 pl-3">
                     <Text className="text-sm font-semibold text-gray-700 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.label}</Text>
-                    <span className="text-2xs font-medium text-gray-400 uppercase tracking-wide">{ev.type}</span>
+                    <span className="text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
                   </div>
                 </Link>
               ))}
@@ -364,7 +365,7 @@ export default async function FinanceNewsPage({
 
           {/* Markets link */}
           <div className="rounded-xl border border-gray-200 bg-white p-4 mb-5">
-            <Heading level={6} as="h3" className="text-xs font-bold uppercase tracking-[0.12em] text-gray-400 mb-2">Markets</Heading>
+            <Heading level={6} as="h3" className="text-xs font-bold uppercase tracking-[0.12em] text-gray-500 mb-2">Markets</Heading>
             <Text className="text-sm text-gray-500 mb-3">Live USD/LRD, commodities, and indicators — updated from our data providers.</Text>
             <Link href="/markets" className="block text-center text-sm font-semibold text-gray-900 hover:text-brand-accent-ink transition-colors no-underline">Open the markets page ›</Link>
           </div>
@@ -446,7 +447,7 @@ export default async function FinanceNewsPage({
                 { label: 'Privacy', href: '/about/privacy' },
                 { label: 'Terms', href: '/about/terms' },
               ].map(l => (
-                <Link key={l.label} href={l.href} className="text-xs text-gray-400 hover:text-gray-700 transition-colors no-underline">{l.label}</Link>
+                <Link key={l.label} href={l.href} className="text-xs text-gray-500 hover:text-gray-700 transition-colors no-underline">{l.label}</Link>
               ))}
             </div>
             <Text variant="meta" className="text-center">&copy; 2026 TrueRate. All rights reserved.</Text>
@@ -455,6 +456,8 @@ export default async function FinanceNewsPage({
         </aside>
       </div>
     </>)}
+
+    <SectionEndNav currentHref="/news" />
 
     </main>
     </div>

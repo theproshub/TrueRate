@@ -46,7 +46,7 @@ export default function TrendChart({
   if (points.length < 2) {
     return (
       <div
-        className="flex items-center justify-center rounded border border-white/[0.06] text-2xs uppercase tracking-[0.1em] text-gray-600"
+        className="flex items-center justify-center rounded border border-gray-200 text-2xs uppercase tracking-[0.1em] text-gray-600"
         style={{ width: '100%', height }}
       >
         Building history — updates daily
@@ -107,7 +107,7 @@ export default function TrendChart({
           </defs>
 
           <CartesianGrid
-            stroke="rgba(255,255,255,0.05)"
+            stroke="rgba(0,0,0,0.06)"
             strokeDasharray="2 5"
             vertical={false}
           />
@@ -137,7 +137,7 @@ export default function TrendChart({
           {isPct && (
             <ReferenceLine
               y={0}
-              stroke="rgba(255,255,255,0.22)"
+              stroke="rgba(0,0,0,0.15)"
               strokeWidth={1}
             />
           )}
@@ -153,10 +153,10 @@ export default function TrendChart({
           />
 
           <Tooltip
-            cursor={{ stroke: 'rgba(255,255,255,0.14)', strokeWidth: 1 }}
+            cursor={{ stroke: 'rgba(0,0,0,0.1)', strokeWidth: 1 }}
             contentStyle={{
               background: 'rgba(4,16,26,0.95)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(0,0,0,0.08)',
               borderRadius: 6,
               fontFamily: 'var(--font-mono)',
               fontSize: 11,

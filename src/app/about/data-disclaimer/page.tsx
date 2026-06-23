@@ -52,23 +52,23 @@ export default function DataDisclaimerPage() {
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Data Disclaimer' }]} />
 
         <div className="border-b border-gray-200 pb-10 mb-10">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Data</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">Data</p>
           <h1 className="text-3xl sm:text-3xl font-bold leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Data disclaimer
           </h1>
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             Where the numbers come from, how often they update, and what they should &mdash; and should not &mdash; be used for.
           </p>
-          <p className="mt-6 text-sm text-gray-400">Last updated: June 22, 2026</p>
+          <p className="mt-6 text-sm text-gray-500">Last updated: June 22, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
             <div className="sticky top-36">
-              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
+              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">On this page</p>
               <ul className="space-y-1">
-                <li><a href="#sources" className="block py-1.5 text-base text-gray-400 hover:text-gray-900 no-underline">Data sources</a></li>
-                <li><a href="#notes" className="block py-1.5 text-base text-gray-400 hover:text-gray-900 no-underline">Important notes</a></li>
+                <li><a href="#sources" className="block py-1.5 text-base text-gray-500 hover:text-gray-900 no-underline">Data sources</a></li>
+                <li><a href="#notes" className="block py-1.5 text-base text-gray-500 hover:text-gray-900 no-underline">Important notes</a></li>
               </ul>
               <div className="mt-8 pt-6 border-t border-gray-100">
                 <Link href="/about/terms" className="block text-base text-gray-500 hover:text-gray-900 transition-colors no-underline mb-2">Terms of Service →</Link>

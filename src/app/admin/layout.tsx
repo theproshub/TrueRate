@@ -54,6 +54,12 @@ export default async function AdminLayout({
             >
               Feed
             </Link>
+            <Link
+              href="/admin/security"
+              className="whitespace-nowrap text-gray-400 transition-colors hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            >
+              Security
+            </Link>
           </nav>
           <div className="ml-auto flex items-center gap-2 sm:gap-4 text-sm shrink-0">
             <span className="text-gray-500 hidden sm:inline">

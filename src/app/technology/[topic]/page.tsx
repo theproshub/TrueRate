@@ -42,17 +42,17 @@ export default async function TechnologyTopicPage({ params }: { params: Promise<
       </div>
 
       <header className="mb-8">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent mb-2">Technology &middot; {topic.label}</p>
-        <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-white mb-3">{topic.label}</h1>
-        <p className="text-md text-gray-300 leading-relaxed max-w-[720px]">{topic.blurb}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent-ink mb-2">Technology &middot; {topic.label}</p>
+        <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label}</h1>
+        <p className="text-md text-gray-600 leading-relaxed max-w-[720px]">{topic.blurb}</p>
         <p className="mt-3 text-sm text-gray-500 tabular-nums">
           {items.length} {items.length === 1 ? 'story' : 'stories'} matched from the TrueRate newsroom.
         </p>
       </header>
 
       {items.length === 0 ? (
-        <section className="border-t border-white/[0.06] pt-6 pb-10 text-center">
-          <p className="text-md text-gray-300 mb-2">No published stories tagged for this topic yet.</p>
+        <section className="border-t border-gray-200 pt-6 pb-10 text-center">
+          <p className="text-md text-gray-600 mb-2">No published stories tagged for this topic yet.</p>
           <p className="text-base text-gray-500 mb-6">Browse the newsroom or check back as coverage develops.</p>
           <Link href="/news" className="inline-block rounded-lg bg-brand-accent px-5 py-2.5 text-base font-bold text-brand-dark hover:bg-brand-accent-hover transition-colors no-underline">
             All news
@@ -66,8 +66,8 @@ export default async function TechnologyTopicPage({ params }: { params: Promise<
                 <NewsThumbnail category={item.category} src={item.image} className="w-full h-[170px]" />
               </div>
               <p className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(item.category)}`}>{item.category}</p>
-              <h2 className="text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 mb-2">{item.title}</h2>
-              <p className="text-sm text-gray-400 line-clamp-2 mb-2">{item.summary}</p>
+              <h2 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 mb-2">{item.title}</h2>
+              <p className="text-sm text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
               <div className="mt-auto text-xs text-gray-500">{item.source} &middot; {timeAgo(item.date)}</div>
             </Link>
           ))}

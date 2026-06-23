@@ -7,25 +7,35 @@
  * Response shape: { date: string; rates: NormalizedRate[] }
  */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
 import { exchangeRates } from '@/data/exchangeRates';
+import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 // ISR: revalidate hourly
 export const revalidate = 3600;
 
 export interface NormalizedRate {
-  pair: string;       // e.g. "USD/LRD"
-  from: string;       // e.g. "USD"
-  to: string;         // "LRD"
-  rate: number;       // how many LRD per 1 unit of `from`
+  pair: string;
+  from: string;
+  to: string;
+  rate: number;
   change: number;
   changePercent: number;
   high52w: number;
   low52w: number;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const { allowed, remaining } = rateLimit(`api-rates:${ip}`, 60, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: rateLimitHeaders(remaining, 60, 60_000) },
+    );
+  }
+
   try {
     const live = await fetchLiveRates();
     const lrdRates = toLRDRates(live);

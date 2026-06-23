@@ -26,7 +26,7 @@ export default function RangeBar({
         <span className="text-2xs uppercase tracking-[0.1em] text-gray-500">{label}</span>
       </div>
       <div
-        className="relative h-[3px] w-full rounded-full bg-white/12"
+        className="relative h-[3px] w-full rounded-full bg-gray-200"
         role="img"
         aria-label={`${label}: ${lowLabel} to ${highLabel}, current near ${pct} of range`}
       >

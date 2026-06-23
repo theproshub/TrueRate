@@ -3,6 +3,7 @@ import { Inter, Montserrat, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BackToTop from '@/components/BackToTop';
 import { SiteJsonLd } from '@/components/JsonLd';
 
 const inter = Inter({
@@ -106,6 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteJsonLd />
         <Header />
         {children}
+        <BackToTop />
         <Footer />
       </body>
     </html>

@@ -15,7 +15,7 @@ type Props = {
 export default function SectionFourCards({ id, title, badge, subtitle, items }: Props) {
   return (
     <section aria-labelledby={id} className="mb-10">
-      <div className="flex items-center gap-2 border-b border-white/20 pb-3 mb-5">
+      <div className="flex items-center gap-2 border-b border-gray-200 pb-3 mb-5">
         {badge && (
           <span
             aria-hidden="true"
@@ -24,12 +24,12 @@ export default function SectionFourCards({ id, title, badge, subtitle, items }: 
             {badge}
           </span>
         )}
-        <h2 id={id} className="text-md font-bold text-white">
+        <h2 id={id} className="text-md font-bold text-gray-900">
           {title}
           {subtitle && (
             <>
               {' '}
-              <span className="font-light text-white/40 mx-1">|</span>{' '}
+              <span className="font-light text-gray-500 mx-1">|</span>{' '}
               <span>{subtitle}</span>
             </>
           )}
@@ -40,7 +40,7 @@ export default function SectionFourCards({ id, title, badge, subtitle, items }: 
         {items.map((c, i) => (
           <Link key={i} href={c.href} className="group no-underline flex flex-col">
             <NewsThumbnail category={c.category} className="w-full aspect-[16/10] rounded-lg mb-3" />
-            <h3 className="text-sm sm:text-base font-semibold leading-snug text-white group-hover:text-white/80 transition-colors line-clamp-3 mb-1.5 flex-1">
+            <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1.5 flex-1">
               {c.title}
             </h3>
             <div className="flex items-center gap-2 flex-wrap">

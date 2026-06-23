@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import { newsItems } from '@/data/news';
-import { getNewsItems } from '@/lib/news-source';
+import { getNewsItems, getPopularNewsItems } from '@/lib/news-source';
 import { notFound } from 'next/navigation';
 import { HeroVisual, NewsThumbnail } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
@@ -14,7 +14,10 @@ import { publicClient } from '@/lib/supabase/public';
 import { renderMarkdown } from '@/lib/markdown';
 import { isArticleSaved } from '@/lib/saved-articles';
 import SaveArticleButton from '@/components/SaveArticleButton';
+import ViewTracker from '@/components/ViewTracker';
 import { ArticleJsonLd } from '@/components/JsonLd';
+import ArticleReadingBar from '@/components/ArticleReadingBar';
+import ArticleEndNav from '@/components/ArticleEndNav';
 
 function timeAgo(d: string) {
   const date = new Date(d);
@@ -129,10 +132,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   const related = newsItems.filter(n => n.id !== id && n.category === item.category).slice(0, 3);
   const relatedIds = new Set(related.map(r => r.id));
   const moreStories = newsItems.filter(n => n.id !== id && !relatedIds.has(n.id)).slice(0, 8);
-  const sidebarItems = await getNewsItems();
+  const [sidebarItems, popularItems] = await Promise.all([getNewsItems(), getPopularNewsItems()]);
 
   return (
     <div className="bg-brand-surface min-h-screen">
+      <ArticleReadingBar
+        title={item.title}
+        backHref="/news"
+        backLabel="News"
+      />
+      <ViewTracker slug={id} />
       <ArticleJsonLd
         title={item.title}
         description={item.summary ?? item.title}
@@ -149,7 +158,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
         <div className="flex gap-4 sm:gap-6 items-start">
 
           {/* ── Left: Trending + Markets + In Focus ── */}
-          <TrendingPanel items={sidebarItems} />
+          <TrendingPanel items={sidebarItems} popularItems={popularItems} />
 
           {/* ── Centre: article ── */}
           <div className="flex-1 min-w-0 pb-8">
@@ -199,12 +208,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
+            <ArticleEndNav
+              categoryLabel={item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+              categoryHref={`/news`}
+            />
+
             {/* Related Articles */}
             {related.length > 0 && (
               <div className="mb-8">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                   <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Related</Heading>
-                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
+                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-700 transition-colors no-underline">More ›</Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {related.map(r => (
@@ -214,7 +228,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                       </div>
                       <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
                       <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</Heading>
-                      <div className="text-xs text-gray-400">{r.source} · {timeAgo(r.date)}</div>
+                      <div className="text-xs text-gray-500">{r.source} · {timeAgo(r.date)}</div>
                     </Link>
                   ))}
                 </div>
@@ -225,7 +239,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             <div>
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
                 <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">More Stories</Heading>
-                <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
+                <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
               </div>
               <div className="flex flex-col divide-y divide-gray-100">
                 {moreStories.map(s => (
@@ -236,7 +250,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     <div className="min-w-0 flex-1">
                       <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
                       <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</Heading>
-                      <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400">{s.source} · {timeAgo(s.date)}</Text>
+                      <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">{s.source} · {timeAgo(s.date)}</Text>
                     </div>
                   </Link>
                 ))}
@@ -246,7 +260,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           </div>
 
           {/* ── Right: Newsletter + Events + Most Read + Premium ── */}
-          <RightRail items={sidebarItems} />
+          <RightRail items={sidebarItems} popularItems={popularItems} />
 
         </div>
       </main>
@@ -309,9 +323,10 @@ async function DbArticleView({ article }: { article: DbArticle }) {
   // extra categories lookup that previously created a waterfall.
   const categoryId = article.category_id;
 
-  const [related, { authed, saved }] = await Promise.all([
+  const [related, { authed, saved }, popularItems] = await Promise.all([
     fetchRelatedDbArticles(categoryId, article.id, 3),
     isArticleSaved(article.id),
+    getPopularNewsItems(),
   ]);
   const moreStories = await fetchMoreDbArticles(
     [article.id, ...related.map(r => r.id)],
@@ -321,6 +336,12 @@ async function DbArticleView({ article }: { article: DbArticle }) {
 
   return (
     <div className="bg-brand-surface min-h-screen">
+      <ArticleReadingBar
+        title={article.title}
+        backHref="/news"
+        backLabel={categoryLabel}
+      />
+      <ViewTracker slug={article.slug} />
       <ArticleJsonLd
         title={article.title}
         description={article.dek ?? article.title}
@@ -346,7 +367,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
 
         <div className="flex gap-4 sm:gap-6 items-start">
 
-          <TrendingPanel items={sidebarItems} />
+          <TrendingPanel items={sidebarItems} popularItems={popularItems} />
 
           <div className="flex-1 min-w-0 pb-8">
 
@@ -434,11 +455,16 @@ async function DbArticleView({ article }: { article: DbArticle }) {
               </div>
             </article>
 
+            <ArticleEndNav
+              categoryLabel={categoryLabel}
+              categoryHref={`/news`}
+            />
+
             {related.length > 0 && (
               <section aria-labelledby="related-heading" className="mb-8">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                   <Heading level={6} as="h2" id="related-heading" className="text-gray-900 uppercase tracking-[0.12em]">Related</Heading>
-                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">More ›</Link>
+                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-700 transition-colors no-underline">More ›</Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {related.map(r => {
@@ -455,7 +481,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                         </div>
                         <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(catSlug)} mb-1`}>{catLabel}</div>
                         <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</Heading>
-                        <div className="text-xs text-gray-400">TrueRate · {r.published_at ? timeAgo(r.published_at) : ''}</div>
+                        <div className="text-xs text-gray-500">TrueRate · {r.published_at ? timeAgo(r.published_at) : ''}</div>
                       </Link>
                     );
                   })}
@@ -467,7 +493,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
               <section aria-labelledby="more-heading">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
                   <Heading level={6} as="h2" id="more-heading" className="text-gray-900 uppercase tracking-[0.12em]">More Stories</Heading>
-                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
+                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-700 transition-colors no-underline">All news ›</Link>
                 </div>
                 <div className="flex flex-col divide-y divide-gray-100">
                   {moreStories.map(s => {
@@ -485,7 +511,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                         <div className="min-w-0 flex-1">
                           <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(catSlug)} mb-1`}>{catLabel}</div>
                           <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</Heading>
-                          <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400">TrueRate · {s.published_at ? timeAgo(s.published_at) : ''}</Text>
+                          <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">TrueRate · {s.published_at ? timeAgo(s.published_at) : ''}</Text>
                         </div>
                       </Link>
                     );
@@ -496,7 +522,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
 
           </div>
 
-          <RightRail items={sidebarItems} />
+          <RightRail items={sidebarItems} popularItems={popularItems} />
 
         </div>
       </main>

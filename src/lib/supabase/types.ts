@@ -156,6 +156,35 @@ export type Database = {
           },
         ]
       }
+      article_views: {
+        Row: {
+          id: string
+          article_id: string
+          viewer_hash: string
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          article_id: string
+          viewer_hash: string
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          article_id?: string
+          viewer_hash?: string
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_views_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       articles: {
         Row: {
           author_id: string | null
@@ -173,6 +202,7 @@ export type Database = {
           status: string
           title: string
           updated_at: string | null
+          view_count: number
         }
         Insert: {
           author_id?: string | null
@@ -190,6 +220,7 @@ export type Database = {
           status?: string
           title: string
           updated_at?: string | null
+          view_count?: number
         }
         Update: {
           author_id?: string | null
@@ -207,6 +238,7 @@ export type Database = {
           status?: string
           title?: string
           updated_at?: string | null
+          view_count?: number
         }
         Relationships: [
           {
@@ -1308,7 +1340,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      increment_view_count: {
+        Args: { target_id: string }
+        Returns: undefined
+      }
       is_admin: { Args: never; Returns: boolean }
+      trending_articles: {
+        Args: { hours?: number; max_results?: number }
+        Returns: { article_id: string; recent_views: number }[]
+      }
     }
     Enums: {
       [_ in never]: never

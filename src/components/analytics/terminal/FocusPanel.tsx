@@ -5,7 +5,7 @@ import RangeBar from './RangeBar';
 
 const TrendChart = dynamic(() => import('./TrendChart'), {
   ssr: false,
-  loading: () => <div className="h-[260px] w-full animate-pulse rounded bg-white/[0.04]" />,
+  loading: () => <div className="h-[260px] w-full animate-pulse rounded bg-white" />,
 });
 import ContextNote from './ContextNote';
 import SourceTag from './SourceTag';
@@ -30,16 +30,16 @@ export default function FocusPanel({
   const isMacro = view.kind === 'macro';
 
   return (
-    <figure className="m-0 rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+    <figure className="m-0 rounded-xl border border-gray-200 bg-white p-4">
       {/* Header: value + change + timeframe */}
-      <figcaption className="mb-4 border-b border-white/15 pb-3">
+      <figcaption className="mb-4 border-b border-gray-200 pb-3">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.1em] text-gray-500">
               {view.label}
             </div>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="font-mono text-3xl leading-none tabular-nums text-white">
+              <span className="font-mono text-3xl leading-none tabular-nums text-gray-900">
                 {view.value}
               </span>
               {view.unit && view.kind === 'commodity' && (

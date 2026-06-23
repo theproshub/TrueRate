@@ -29,7 +29,7 @@ export function Input({ label, labelHidden = false, error, className = '', id: e
         className={
           labelHidden
             ? 'sr-only'
-            : 'text-sm text-gray-400 font-sans font-medium'
+            : 'text-sm text-gray-500 font-sans font-medium'
         }
       >
         {label}
@@ -40,11 +40,11 @@ export function Input({ label, labelHidden = false, error, className = '', id: e
         aria-describedby={error ? errId : undefined}
         className={[
           'w-full rounded-md px-3 py-2',
-          'bg-white/5 border border-white/10',
-          'text-base text-white placeholder:text-gray-500',
+          'bg-gray-50 border border-gray-200',
+          'text-base text-gray-900 placeholder:text-gray-500',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent',
           'transition-colors duration-150',
-          error ? 'border-neg/50' : 'hover:border-white/20',
+          error ? 'border-neg/50' : 'hover:border-gray-200',
           className,
         ]
           .filter(Boolean)

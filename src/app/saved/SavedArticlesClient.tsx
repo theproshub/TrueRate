@@ -49,8 +49,8 @@ export default function SavedArticlesClient({ authed, initialRows }: Props) {
   // ── Signed out ──
   if (!authed) {
     return (
-      <div className="mx-auto max-w-md rounded-2xl border border-dashed border-white/[0.10] bg-white/[0.02] p-8 text-center">
-        <h2 className="mb-1 text-lg font-bold text-white">Sign in to see your saved articles</h2>
+      <div className="mx-auto max-w-md rounded-2xl border border-dashed border-gray-200 bg-white p-8 text-center">
+        <h2 className="mb-1 text-lg font-bold text-gray-900">Sign in to see your saved articles</h2>
         <p className="mb-6 text-base text-gray-500">
           Save articles to read later. Your saved list is tied to your account and syncs across devices.
         </p>
@@ -63,7 +63,7 @@ export default function SavedArticlesClient({ authed, initialRows }: Props) {
           </Link>
           <Link
             href="/sign-up?next=/saved"
-            className="rounded-lg border border-white/20 px-5 py-2.5 text-base font-semibold text-white no-underline transition hover:bg-white/[0.06]"
+            className="rounded-lg border border-gray-200 px-5 py-2.5 text-base font-semibold text-gray-900 no-underline transition hover:bg-white"
           >
             Create account
           </Link>
@@ -75,8 +75,8 @@ export default function SavedArticlesClient({ authed, initialRows }: Props) {
   // ── Empty ──
   if (rows.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-white/[0.10] bg-white/[0.02] p-8 text-center">
-        <h2 className="mb-1 text-lg font-bold text-white">No saved articles yet</h2>
+      <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-8 text-center">
+        <h2 className="mb-1 text-lg font-bold text-gray-900">No saved articles yet</h2>
         <p className="mb-6 text-base text-gray-500">
           Tap “Save” on any article to keep it here for later.
         </p>
@@ -92,16 +92,16 @@ export default function SavedArticlesClient({ authed, initialRows }: Props) {
 
   // ── List ──
   return (
-    <ul className="divide-y divide-white/[0.05]">
+    <ul className="divide-y divide-gray-200">
       {rows.map((r) => (
         <li key={r.id} className="flex items-start justify-between gap-4 py-4">
           <Link href={`/news/${r.slug}`} className="group min-w-0 no-underline">
             {r.categoryLabel && (
-              <div className="mb-1 text-2xs font-bold uppercase tracking-wide text-brand-accent">
+              <div className="mb-1 text-2xs font-bold uppercase tracking-wide text-brand-accent-ink">
                 {r.categoryLabel}
               </div>
             )}
-            <div className="text-md font-bold leading-snug text-white transition-colors line-clamp-2 group-hover:text-gray-300">
+            <div className="text-md font-bold leading-snug text-gray-900 transition-colors line-clamp-2 group-hover:text-gray-600">
               {r.title}
             </div>
             {r.dek && <div className="mt-0.5 truncate text-xs text-gray-500">{r.dek}</div>}

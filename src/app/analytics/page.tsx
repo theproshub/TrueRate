@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
+import SectionEndNav from '@/components/SectionEndNav';
 import TickerTape from '@/components/analytics/terminal/TickerTape';
 import TrendsTerminal from '@/components/analytics/terminal/TrendsTerminal';
 import { getMcpAnalyticsPayload } from '@/lib/analytics/mcp-data';
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 function SourceBadge({ label, count }: { label: string; count: number }) {
   return (
     <div className="text-right">
-      <dd className="font-mono text-2xl font-semibold tabular-nums leading-none text-white">{count}</dd>
+      <dd className="font-mono text-2xl font-semibold tabular-nums leading-none text-gray-900">{count}</dd>
       <dt className="mt-1 text-2xs font-semibold uppercase tracking-[0.14em] text-gray-500">{label}</dt>
     </div>
   );
@@ -63,17 +64,17 @@ export default async function AnalyticsPage() {
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Trends & Analytics' }]} />
 
         {/* ── Header ── */}
-        <header className="mb-8 mt-1 border-b border-white/10 pb-5">
+        <header className="mb-8 mt-1 border-b border-gray-200 pb-5">
           <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-            <span className="inline-flex items-center gap-1.5 text-2xs font-bold uppercase tracking-[0.18em] text-brand-accent">
+            <span className="inline-flex items-center gap-1.5 text-2xs font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
               CBL Market Data
             </span>
-            <span aria-hidden className="h-3 w-px bg-white/15" />
+            <span aria-hidden className="h-3 w-px bg-gray-50" />
             <span className="font-mono text-2xs uppercase tracking-wide text-gray-500">
               Updated <time dateTime={payload.updatedAt}>{updated} GMT</time>
             </span>
-            <span aria-hidden className="h-3 w-px bg-white/15" />
+            <span aria-hidden className="h-3 w-px bg-gray-50" />
             <span className="font-mono text-2xs uppercase tracking-wide text-gray-500">
               Source: TrueRate MCP
             </span>
@@ -81,8 +82,8 @@ export default async function AnalyticsPage() {
 
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-white">Trends &amp; Analytics</h1>
-              <p className="mt-1.5 max-w-[600px] text-sm leading-relaxed text-gray-400">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">Trends &amp; Analytics</h1>
+              <p className="mt-1.5 max-w-[600px] text-sm leading-relaxed text-gray-500">
                 Liberia macro indicators, central bank data &amp; global market benchmarks — all powered by the CBL statistical database via TrueRate MCP. Click any figure to chart its history.
               </p>
             </div>
@@ -104,21 +105,23 @@ export default async function AnalyticsPage() {
           </p>
         )}
 
+        <SectionEndNav currentHref="/analytics" />
+
         {/* ── Data Sources footer ── */}
-        <footer className="mt-12 border-t border-white/10 pt-6">
+        <footer className="mt-12 border-t border-gray-200 pt-6">
           <div className="flex flex-wrap gap-6 text-2xs text-gray-500">
             <div>
-              <span className="font-semibold uppercase tracking-wide text-gray-400">Data Sources</span>
+              <span className="font-semibold uppercase tracking-wide text-gray-500">Data Sources</span>
               <p className="mt-1">Central Bank of Liberia &middot; Ministry of Finance &middot; LISGIS &middot; Yahoo Finance</p>
             </div>
             <div>
-              <span className="font-semibold uppercase tracking-wide text-gray-400">Databanks</span>
+              <span className="font-semibold uppercase tracking-wide text-gray-500">Databanks</span>
               <p className="mt-1">EXR &middot; CPI &middot; MON &middot; FIS &middot; BOP &middot; NAT &middot; INR &middot; INT &middot; PRO &middot; POP</p>
             </div>
             <div>
-              <span className="font-semibold uppercase tracking-wide text-gray-400">Powered by</span>
+              <span className="font-semibold uppercase tracking-wide text-gray-500">Powered by</span>
               <p className="mt-1">
-                <Link href="/about" className="text-brand-accent hover:text-brand-accent/80 transition-colors">
+                <Link href="/about" className="text-brand-accent-ink hover:text-brand-accent-ink/80 transition-colors">
                   TrueRate MCP
                 </Link>
                 {' '}&middot; 366 series across 10 databanks

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
-import { getNewsItems } from '@/lib/news-source';
+import SectionEndNav from '@/components/SectionEndNav';
+import { getNewsItems, getPopularNewsItems } from '@/lib/news-source';
 import type { NewsItem } from '@/lib/types';
 import { NewsThumbnail, VideoThumbnail, AuthorAvatar } from '@/components/NewsThumbnail';
 import { getNewsCatColor as getCatColor } from '@/lib/category-colors';
@@ -61,7 +62,7 @@ function SubStoryRow({ items: all }: { items: NewsItem[] }) {
           <div className="mt-2.5">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
             <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</Heading>
-            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-gray-400">
+            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-gray-500">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
             </div>
           </div>
@@ -80,7 +81,7 @@ export default async function NewsPage({
   const { q } = await searchParams;
   const query = q?.trim() ?? '';
 
-  const items = await getNewsItems();
+  const [items, popularItems] = await Promise.all([getNewsItems(), getPopularNewsItems()]);
 
   // Editorial sections, all sourced from the live articles table.
   const analysisItems = items.filter((n) => ['analysis', 'opinion'].includes(n.category.toLowerCase()));
@@ -182,7 +183,7 @@ export default async function NewsPage({
                         {item.title}
                       </Heading>
                       <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
-                      <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
+                      <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                         <span className="font-medium text-gray-500">{item.source}</span>
                         <span>&middot;</span>
                         <span>{timeAgo(item.date)}</span>
@@ -220,7 +221,7 @@ export default async function NewsPage({
       <div className="flex gap-0 items-start">
 
         {/* Left: Trending */}
-        <TrendingPanel items={items} />
+        <TrendingPanel items={items} popularItems={popularItems} />
 
         {/* Center: main feed */}
         <div className="flex-1 min-w-0 pb-8 lg:px-1">
@@ -251,11 +252,11 @@ export default async function NewsPage({
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-2xs font-bold uppercase tracking-wide text-gray-500">{p.category}</span>
-                      <span className="text-xs text-gray-400">{p.readTime}</span>
+                      <span className="text-xs text-gray-500">{p.readTime}</span>
                     </div>
                     <Heading level={4} as="h3" className="font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors mb-2">{p.title}</Heading>
                     <Text className="text-sm sm:text-base text-gray-500 leading-relaxed line-clamp-2 sm:line-clamp-2 mb-2">{p.excerpt}</Text>
-                    <div className="text-xs sm:text-sm text-gray-400">{p.author} · {p.time}</div>
+                    <div className="text-xs sm:text-sm text-gray-500">{p.author} · {p.time}</div>
                   </div>
                 </Link>
               ))}
@@ -280,7 +281,7 @@ export default async function NewsPage({
                   <div className="min-w-0 flex-1 flex flex-col gap-1.5 sm:gap-2.5">
                     <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
                     <Heading level={6} as="h3" className="text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</Heading>
-                    <div className="text-2xs text-gray-400 mt-auto">{item.source} · {timeAgo(item.date)}</div>
+                    <div className="text-2xs text-gray-500 mt-auto">{item.source} · {timeAgo(item.date)}</div>
                   </div>
                 </Link>
               ))}
@@ -303,7 +304,7 @@ export default async function NewsPage({
                     <VideoThumbnail category={v.category} duration={v.duration} className="absolute inset-0 w-full h-full" />
                   </PlayableVideo>
                   <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 line-clamp-2 mb-1">{v.title}</Heading>
-                  <span className="text-xs text-gray-400">{v.time}</span>
+                  <span className="text-xs text-gray-500">{v.time}</span>
                 </div>
               ))}
             </div>
@@ -325,9 +326,9 @@ export default async function NewsPage({
                   </div>
                   <div className="min-w-0 flex-1">
                     <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{op.title}</Heading>
-                    <div className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">{op.author} · <span className="text-gray-400">{op.role}</span> · <span className="text-gray-400">{op.time}</span></div>
+                    <div className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">{op.author} · <span className="text-gray-500">{op.role}</span> · <span className="text-gray-500">{op.time}</span></div>
                   </div>
-                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-500 transition-colors" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </Link>
               ))}
             </div>
@@ -350,7 +351,7 @@ export default async function NewsPage({
                   </div>
                   <span className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${getCatColor(s.category)}`}>{s.category}</span>
                   <Heading level={6} as="h3" className="leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3 mb-2">{s.title}</Heading>
-                  <span className="text-xs text-gray-400 mt-auto">{s.time}</span>
+                  <span className="text-xs text-gray-500 mt-auto">{s.time}</span>
                 </Link>
               ))}
             </div>
@@ -373,13 +374,13 @@ export default async function NewsPage({
                   </div>
                   <div className="min-w-0 flex-1">
                     <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1.5">{a.title}</Heading>
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
                       <span>{a.date}</span>
                       <span>·</span>
                       <span>{a.readTime}</span>
                     </div>
                   </div>
-                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-400 transition-colors self-center" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-500 transition-colors self-center" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </Link>
               ))}
             </div>
@@ -405,7 +406,7 @@ export default async function NewsPage({
                     </div>
                     <div className="min-w-0">
                       <Text className="text-sm font-semibold text-gray-700 truncate">{cv.author}</Text>
-                      <Text variant="meta" className="text-gray-400 truncate">{cv.role} · {cv.time}</Text>
+                      <Text variant="meta" className="text-gray-500 truncate">{cv.role} · {cv.time}</Text>
                     </div>
                   </div>
                 </Link>
@@ -425,9 +426,9 @@ export default async function NewsPage({
             <div className="divide-y divide-gray-100">
               {UPCOMING_EVENTS.map((ev, i) => (
                 <Link key={i} href={ev.href} className="group flex items-center gap-4 py-3 no-underline">
-                  <span className="shrink-0 w-[52px] text-sm font-medium text-gray-400 tabular-nums">{ev.date}</span>
+                  <span className="shrink-0 w-[52px] text-sm font-medium text-gray-500 tabular-nums">{ev.date}</span>
                   <Text className="flex-1 text-base font-semibold text-gray-800 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.title}</Text>
-                  <span className="shrink-0 text-2xs font-medium text-gray-400 uppercase tracking-wide">{ev.type}</span>
+                  <span className="shrink-0 text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
                 </Link>
               ))}
             </div>
@@ -436,9 +437,11 @@ export default async function NewsPage({
         </div>
 
         {/* Right rail */}
-        <RightRail items={items} />
+        <RightRail items={items} popularItems={popularItems} />
       </div>
     </>)}
+
+    <SectionEndNav currentHref="/news" />
 
     </main>
     </div>

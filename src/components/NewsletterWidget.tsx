@@ -39,7 +39,7 @@ export default function NewsletterWidget() {
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? `${id}-err` : undefined}
             placeholder="Email address"
-            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors mb-2"
+            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-400 transition-colors mb-2"
           />
           {error && <p id={`${id}-err`} role="alert" className="text-sm text-red-500 mb-2">{error}</p>}
           <button type="submit" className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">

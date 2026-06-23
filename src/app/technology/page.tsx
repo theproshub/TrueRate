@@ -157,7 +157,7 @@ export default async function TechnologyPage() {
           <div className="flex-1 min-w-0 lg:pr-5">
 
             {/* Hero */}
-            <Link href={hero.href} className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-white/[0.07]">
+            <Link href={hero.href} className="group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-gray-200">
               <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
                 {hero.image ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
@@ -173,12 +173,12 @@ export default async function TechnologyPage() {
                     {hero.category}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:text-gray-600 transition-colors mb-4 tracking-tight">
                   {hero.title}
                 </h1>
-                {hero.summary && <p className="text-md leading-relaxed text-gray-400 line-clamp-3 mb-4">{hero.summary}</p>}
+                {hero.summary && <p className="text-md leading-relaxed text-gray-500 line-clamp-3 mb-4">{hero.summary}</p>}
                 <div className="flex items-center gap-2 mt-auto text-sm text-gray-500">
-                  <span className="font-semibold text-gray-400">{hero.source}</span>
+                  <span className="font-semibold text-gray-500">{hero.source}</span>
                   <span>·</span>
                   <span>{hero.time}</span>
                 </div>
@@ -189,7 +189,7 @@ export default async function TechnologyPage() {
             {leads.length > 0 && (
               <section className="mb-8" aria-labelledby="top-stories-heading">
                 <h2 id="top-stories-heading" className="sr-only">More top stories</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 pb-6 border-b border-white/[0.07]">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 pb-6 border-b border-gray-200">
                   {leads.map((card, i) => (
                     <Link key={card.href + i} href={card.href} className="group flex flex-col no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark rounded">
                       <div className="overflow-hidden rounded-lg mb-3">
@@ -198,11 +198,11 @@ export default async function TechnologyPage() {
                       <span className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
                         {card.category}
                       </span>
-                      <h3 className="text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 text-pretty">
+                      <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 text-pretty">
                         {card.title}
                       </h3>
                       <p className="mt-2 text-xs text-gray-500 truncate">
-                        <span className="text-gray-400">{card.source}</span>
+                        <span className="text-gray-500">{card.source}</span>
                         <span aria-hidden className="mx-1.5 text-gray-700">·</span>
                         <time>{card.time}</time>
                       </p>
@@ -215,25 +215,25 @@ export default async function TechnologyPage() {
             {/* Strip — single column list */}
             {strip.length > 0 && (
               <section className="mb-6" aria-labelledby="latest-signals-heading">
-                <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-2">
+                <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-2">
                   <div className="flex items-center gap-3">
                     <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-brand-accent motion-safe:animate-pulse" />
-                    <h2 id="latest-signals-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">{useDb ? 'Latest in Technology' : 'Latest Signals'}</h2>
+                    <h2 id="latest-signals-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">{useDb ? 'Latest in Technology' : 'Latest Signals'}</h2>
                   </div>
-                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-white transition-colors no-underline">More ›</Link>
+                  <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-900 transition-colors no-underline">More ›</Link>
                 </div>
-                <ul className="flex flex-col divide-y divide-white/[0.05] list-none p-0 m-0">
+                <ul className="flex flex-col divide-y divide-gray-200 list-none p-0 m-0">
                   {strip.map((card, i) => (
                     <li key={card.href + i}>
-                      <Link href={card.href} className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-white/[0.03] -mx-2 px-2 rounded">
+                      <Link href={card.href} className="group block py-4 no-underline focus-visible:outline-none focus-visible:bg-white -mx-2 px-2 rounded">
                         <p className={`text-2xs font-bold uppercase tracking-[0.12em] mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
                           {card.category}
                         </p>
-                        <h3 className="text-sm sm:text-md font-semibold leading-snug text-white group-hover:text-white/75 transition-colors text-pretty">
+                        <h3 className="text-sm sm:text-md font-semibold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors text-pretty">
                           {card.title}
                         </h3>
                         <p className="mt-1.5 text-xs text-gray-500 truncate">
-                          <span className="text-gray-400">{card.source}</span>
+                          <span className="text-gray-500">{card.source}</span>
                           <span aria-hidden className="mx-1.5 text-gray-700">·</span>
                           <time>{card.time}</time>
                         </p>
@@ -247,13 +247,13 @@ export default async function TechnologyPage() {
             {/* In-Depth feed */}
             {feed.length > 0 && (
               <div className="mb-5">
-                <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+                <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                   <div className="flex items-center gap-3">
                     <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                    <h2 className="text-base font-bold text-white uppercase tracking-[0.12em]">In-Depth Analysis</h2>
+                    <h2 className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">In-Depth Analysis</h2>
                   </div>
                 </div>
-                <div className="flex flex-col divide-y divide-white/[0.05]">
+                <div className="flex flex-col divide-y divide-gray-200">
                   {feed.map((item, i) => (
                     <Link key={item.href + i} href={item.href} className="group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline">
                       <div className="shrink-0 overflow-hidden rounded-lg">
@@ -263,11 +263,11 @@ export default async function TechnologyPage() {
                         <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.categorySlug ?? item.category)}`}>
                           {item.category}
                         </span>
-                        <h3 className="text-base sm:text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                        <h3 className="text-base sm:text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                           {item.title}
                         </h3>
                         {item.summary && <p className="hidden sm:block text-base leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>}
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
+                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500">
                           <span className="text-gray-500 truncate">{item.source}</span>
                           <span>·</span>
                           <span className="whitespace-nowrap">{item.time}</span>
@@ -283,18 +283,18 @@ export default async function TechnologyPage() {
 
           {/* Right rail — visible on mobile too (newsletter + calendar);
               Most Read is desktop-only since it duplicates the main feed. */}
-          <aside className="w-full lg:w-[280px] shrink-0 lg:border-l lg:border-white/[0.08] lg:pl-5" aria-label="Technology sidebar">
+          <aside className="w-full lg:w-[280px] shrink-0 lg:border-l lg:border-gray-200 lg:pl-5" aria-label="Technology sidebar">
             <StickySidebar>
 
               {/* More from / Most Read — real recent articles in DB mode (no
                   fabricated "most read"), mock list only in preview mode. */}
-              <div className="hidden lg:block rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">{useDb || hasSeed ? 'More from Technology' : 'Most Read'}</h3>
-                <ol className="flex flex-col divide-y divide-white/[0.05]">
+              <div className="hidden lg:block rounded-xl border border-gray-200 bg-white p-4">
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">{useDb || hasSeed ? 'More from Technology' : 'Most Read'}</h3>
+                <ol className="flex flex-col divide-y divide-gray-200">
                   {useDb
                     ? stories.slice(0, 6).map((s, i) => (
                         <li key={s.href + i} className="py-2.5 first:pt-0">
-                          <Link href={s.href} className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                          <Link href={s.href} className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                             <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug)}`}>{s.category}</span>
                             {s.title}
                           </Link>
@@ -303,7 +303,7 @@ export default async function TechnologyPage() {
                     : hasSeed
                     ? seedArticles.map((s, i) => (
                         <li key={s.href + i} className="py-2.5 first:pt-0">
-                          <Link href={s.href} className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                          <Link href={s.href} className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                             <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug ?? s.category)}`}>{s.category}</span>
                             {s.title}
                           </Link>
@@ -311,7 +311,7 @@ export default async function TechnologyPage() {
                       ))
                     : MOCK_MOST_READ.map((t, i) => (
                         <li key={i} className="py-2.5 first:pt-0">
-                          <Link href="/news" className="text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block">
+                          <Link href="/news" className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                             <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(t.tag)}`}>{t.tag}</span>
                             {t.title}
                           </Link>
@@ -323,13 +323,13 @@ export default async function TechnologyPage() {
               {/* Tech Calendar — forward-looking schedule with no live source,
                   shown ONLY in design-preview (mock) mode. */}
               {!useDb && (
-                <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">Tech Calendar</h3>
-                  <div className="flex flex-col divide-y divide-white/[0.05]">
+                <div className="rounded-xl border border-gray-200 bg-white p-4">
+                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">Tech Calendar</h3>
+                  <div className="flex flex-col divide-y divide-gray-200">
                     {MOCK_UPCOMING.map((ev, i) => (
                       <div key={i} className="py-2.5 first:pt-0">
-                        <p className="text-xs font-semibold text-brand-accent mb-0.5">{ev.date}</p>
-                        <p className="text-sm font-semibold text-white/80 leading-snug">{ev.event}</p>
+                        <p className="text-xs font-semibold text-brand-accent-ink mb-0.5">{ev.date}</p>
+                        <p className="text-sm font-semibold text-gray-700 leading-snug">{ev.event}</p>
                       </div>
                     ))}
                   </div>
@@ -337,12 +337,12 @@ export default async function TechnologyPage() {
               )}
 
               {/* Newsletter */}
-              <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                <h3 className="text-sm font-black text-white uppercase tracking-wide mb-1">Tech Brief</h3>
+              <div className="rounded-xl border border-gray-200 bg-white p-4">
+                <h3 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-1">Tech Brief</h3>
                 <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 mb-4">Liberia&apos;s digital economy stories, weekly in your inbox.</p>
                 <form aria-label="Sign up for the Tech Brief newsletter">
                   <label htmlFor="tech-email" className="sr-only">Email address</label>
-                  <input id="tech-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-base text-white placeholder:text-gray-500 outline-none focus:border-white/60 transition-colors mb-3" />
+                  <input id="tech-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-200 px-0 py-2 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-200 transition-colors mb-3" />
                   <button type="submit" className="w-full rounded-lg bg-white py-2 text-base font-bold text-brand-ink hover:brightness-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark">
                     Sign up free
                   </button>

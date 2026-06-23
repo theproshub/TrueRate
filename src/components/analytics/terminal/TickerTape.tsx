@@ -15,7 +15,7 @@ export default function TickerTape({ items }: { items: AnalyticsItem[] }) {
     <div
       role="marquee"
       aria-label="Live Liberian market ticker"
-      className="border-y border-white/10 bg-brand-muted"
+      className="border-y border-gray-200 bg-gray-50"
     >
       <div className="mx-auto max-w-container overflow-hidden">
         <div className="ticker-scroll flex w-max items-center">
@@ -25,15 +25,15 @@ export default function TickerTape({ items }: { items: AnalyticsItem[] }) {
               key={`${item.id}-${i}`}
               className="flex shrink-0 items-baseline gap-2 whitespace-nowrap px-5 py-2"
             >
-              <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+              <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                 {item.label}
               </span>
-              <span className="font-mono text-sm tabular-nums text-white">{item.value}</span>
+              <span className="font-mono text-sm tabular-nums text-gray-900">{item.value}</span>
               <span className={`font-mono text-xs tabular-nums ${directionClass(item.direction)}`}>
                 {arrow(item.direction) && <span className="mr-0.5">{arrow(item.direction)}</span>}
                 {item.note}
               </span>
-              <span aria-hidden className="ml-3 h-3 w-px bg-white/10" />
+              <span aria-hidden className="ml-3 h-3 w-px bg-gray-100" />
             </span>
           ))}
         </div>

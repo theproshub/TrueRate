@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Heading } from '@/components/ui';
 
 export const metadata: Metadata = {
@@ -23,24 +24,32 @@ const FAQS = [
 export default function HelpPage() {
   return (
     <main className="mx-auto max-w-[860px] px-4 py-12">
-      <Heading level={2} as="h1" className="mb-1 text-white">Help Center</Heading>
+      <Heading level={2} as="h1" className="mb-1 text-gray-900">Help Center</Heading>
       <p className="mb-8 text-base text-gray-500">Answers to common questions about TrueRate</p>
 
-      <div className="divide-y divide-white/[0.07]">
+      <div className="divide-y divide-gray-200">
         {FAQS.map(faq => (
           <div key={faq.q} className="py-5">
-            <h3 className="mb-2 text-sm font-bold text-white">{faq.q}</h3>
+            <h3 className="mb-2 text-sm font-bold text-gray-900">{faq.q}</h3>
             <p className="text-base leading-relaxed text-gray-500">{faq.a}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-10 border-t border-white/[0.07] pt-8 text-center">
-        <h2 className="mb-2 text-lg font-bold text-white">Still need help?</h2>
+      <div className="mt-10 border-t border-gray-200 pt-8 text-center">
+        <h2 className="mb-2 text-lg font-bold text-gray-900">Still need help?</h2>
         <p className="mb-4 text-base text-gray-500">Send us a message and we&apos;ll get back to you within 24 hours.</p>
-        <a href="/feedback" className="inline-block rounded-full bg-white px-6 py-2.5 text-base font-semibold text-brand-ink hover:bg-white/90 transition no-underline">
-          Contact Support
-        </a>
+        <div className="flex items-center justify-center gap-3">
+          <a href="/feedback" className="inline-block rounded-full bg-white px-6 py-2.5 text-base font-semibold text-brand-ink hover:bg-white/90 transition no-underline">
+            Contact Support
+          </a>
+          <Link href="/" className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full border border-gray-300 text-sm font-semibold text-gray-700 no-underline transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
+            <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
+            </svg>
+            Home
+          </Link>
+        </div>
       </div>
     </main>
   );

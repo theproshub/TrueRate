@@ -4,10 +4,10 @@ type Variant = 'body' | 'body-sm' | 'meta' | 'label' | 'caption';
 type As = 'p' | 'span' | 'div' | 'small' | 'label';
 
 const variantMap: Record<Variant, string> = {
-  body:      'text-base text-gray-300 font-body',
-  'body-sm': 'text-sm   text-gray-500 font-body',           // smaller secondary body
-  meta:      'text-xs   text-gray-400 font-body',
-  label:     'text-sm   text-gray-400 font-sans font-medium uppercase tracking-wide',
+  body:      'text-base text-gray-700 font-body',
+  'body-sm': 'text-sm   text-gray-500 font-body',
+  meta:      'text-xs   text-gray-500 font-body',
+  label:     'text-sm   text-gray-600 font-sans font-medium uppercase tracking-wide',
   caption:   'text-2xs  text-gray-500 font-body',
 };
 

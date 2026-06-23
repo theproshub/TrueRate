@@ -12,13 +12,13 @@ export default function ContextNote({
 }) {
   if (variant === 'liberia') {
     return (
-      <p className="border-l-2 border-brand-accent/60 pl-2.5 text-sm leading-relaxed text-gray-300">
-        <span className="mr-1.5 text-2xs font-semibold uppercase tracking-wide text-brand-accent">
+      <p className="border-l-2 border-brand-accent/60 pl-2.5 text-sm leading-relaxed text-gray-600">
+        <span className="mr-1.5 text-2xs font-semibold uppercase tracking-wide text-brand-accent-ink">
           Liberia
         </span>
         {text}
       </p>
     );
   }
-  return <p className="text-sm leading-relaxed text-gray-400">{text}</p>;
+  return <p className="text-sm leading-relaxed text-gray-500">{text}</p>;
 }

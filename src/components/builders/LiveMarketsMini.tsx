@@ -55,7 +55,7 @@ export default function LiveMarketsMini() {
     return (
       <div className="flex flex-col gap-2" aria-busy="true" aria-label="Loading market data">
         {[0, 1, 2, 3].map(i => (
-          <div key={i} className="h-7 rounded bg-white/[0.04] motion-safe:animate-pulse" />
+          <div key={i} className="h-7 rounded bg-white motion-safe:animate-pulse" />
         ))}
       </div>
     );
@@ -67,11 +67,11 @@ export default function LiveMarketsMini() {
 
   return (
     <>
-      <ul className="list-none p-0 m-0 divide-y divide-white/[0.05]">
+      <ul className="list-none p-0 m-0 divide-y divide-gray-200">
         {rows.map(row => (
           <li key={row.label} className="flex items-center justify-between py-2 first:pt-0 last:pb-0">
-            <span className="text-sm font-semibold text-white">{row.label}</span>
-            <span className="text-sm font-bold tabular-nums text-white">{row.value}</span>
+            <span className="text-sm font-semibold text-gray-900">{row.label}</span>
+            <span className="text-sm font-bold tabular-nums text-gray-900">{row.value}</span>
           </li>
         ))}
       </ul>

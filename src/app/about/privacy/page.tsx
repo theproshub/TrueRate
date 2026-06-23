@@ -97,24 +97,24 @@ export default function PrivacyPage() {
         <Breadcrumb light items={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Privacy Policy' }]} />
 
         <div className="border-b border-gray-200 pb-10 mb-10">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">Legal</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">Legal</p>
           <h1 className="text-3xl sm:text-3xl font-bold leading-[1.08] tracking-tight text-gray-900 max-w-[780px] mb-5">
             Privacy Policy
           </h1>
           <p className="text-md text-gray-500 leading-[1.8] max-w-[640px]">
             Plainly: what we collect, what we do with it, and the controls you have. We take the protection of your data seriously and try to keep this policy readable.
           </p>
-          <p className="mt-6 text-sm text-gray-400">Effective: June 22, 2026</p>
+          <p className="mt-6 text-sm text-gray-500">Effective: June 22, 2026</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-8">
           <aside className="hidden lg:block">
             <div className="sticky top-36">
-              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-3">On this page</p>
+              <p className="text-2xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">On this page</p>
               <ul className="space-y-1">
                 {SECTIONS.map(s => (
                   <li key={s.id}>
-                    <a href={`#${s.id}`} className="flex items-center gap-2 py-1.5 text-base text-gray-400 hover:text-gray-900 transition-colors no-underline group">
+                    <a href={`#${s.id}`} className="flex items-center gap-2 py-1.5 text-base text-gray-500 hover:text-gray-900 transition-colors no-underline group">
                       <span className="w-3 h-px bg-gray-300 group-hover:bg-gray-900 group-hover:w-5 transition-all duration-200" />
                       {s.title.replace(/^\d+\.\s/, '')}
                     </a>

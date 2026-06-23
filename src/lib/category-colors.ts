@@ -10,83 +10,83 @@
  */
 const ACCENT_COLORS: Record<string, string> = {
   // ── Policy / macro ──────────────────────────────────────────────
-  policy:            'text-slate-400',
-  'monetary policy': 'text-slate-400',
-  fiscal:            'text-slate-400',
-  'us fed':          'text-slate-400',
-  imf:               'text-slate-400',
-  infrastructure:    'text-slate-400',
-  ports:             'text-slate-400',
-  roads:             'text-slate-400',
-  federation:        'text-slate-400',
+  policy:            'text-slate-600',
+  'monetary policy': 'text-slate-600',
+  fiscal:            'text-slate-600',
+  'us fed':          'text-slate-600',
+  imf:               'text-slate-600',
+  infrastructure:    'text-slate-600',
+  ports:             'text-slate-600',
+  roads:             'text-slate-600',
+  federation:        'text-slate-600',
 
   // ── Forex / markets / finance ───────────────────────────────────
-  forex:             'text-sky-400',
-  markets:           'text-sky-400',
-  'capital markets': 'text-sky-400',
-  finance:           'text-sky-400',
-  investing:         'text-emerald-500',
-  banking:           'text-emerald-600',
+  forex:             'text-sky-600',
+  markets:           'text-sky-600',
+  'capital markets': 'text-sky-600',
+  finance:           'text-sky-600',
+  investing:         'text-emerald-600',
+  banking:           'text-emerald-700',
 
   // ── Economy / trade ─────────────────────────────────────────────
-  economy:           'text-blue-400',
-  business:          'text-blue-400',
-  trade:             'text-violet-400',
-  'eu trade':        'text-violet-400',
-  china:             'text-violet-400',
+  economy:           'text-blue-600',
+  business:          'text-blue-600',
+  trade:             'text-violet-600',
+  'eu trade':        'text-violet-600',
+  china:             'text-violet-600',
 
   // ── Commodities / mining / agri / energy ────────────────────────
-  commodities:       'text-orange-400',
-  commodity:         'text-orange-400',
-  mining:            'text-orange-400',
-  agriculture:       'text-green-500',
-  agri:              'text-green-500',
-  agritech:          'text-green-500',
-  energy:            'text-yellow-500',
+  commodities:       'text-orange-600',
+  commodity:         'text-orange-600',
+  mining:            'text-orange-600',
+  agriculture:       'text-green-600',
+  agri:              'text-green-600',
+  agritech:          'text-green-600',
+  energy:            'text-yellow-600',
 
   // ── Tech / AI / fintech / telecom ───────────────────────────────
-  tech:              'text-sky-400',
-  technology:        'text-sky-400',
-  ai:                'text-indigo-400',
-  fintech:           'text-sky-400',
-  telecom:           'text-sky-400',
-  'e-commerce':      'text-sky-400',
+  tech:              'text-sky-600',
+  technology:        'text-sky-600',
+  ai:                'text-indigo-600',
+  fintech:           'text-sky-600',
+  telecom:           'text-sky-600',
+  'e-commerce':      'text-sky-600',
 
   // ── Startups / entrepreneurship ─────────────────────────────────
-  startups:          'text-fuchsia-400',
-  entrepreneurship:  'text-fuchsia-400',
-  founders:          'text-fuchsia-400',
-  funding:           'text-fuchsia-400',
-  growth:            'text-fuchsia-400',
-  smes:              'text-fuchsia-400',
+  startups:          'text-fuchsia-600',
+  entrepreneurship:  'text-fuchsia-600',
+  founders:          'text-fuchsia-600',
+  funding:           'text-fuchsia-600',
+  growth:            'text-fuchsia-600',
+  smes:              'text-fuchsia-600',
 
   // ── Leadership / logistics / women ──────────────────────────────
-  leadership:        'text-slate-400',
-  logistics:         'text-amber-500',
-  women:             'text-pink-400',
+  leadership:        'text-slate-600',
+  logistics:         'text-amber-600',
+  women:             'text-pink-600',
 
   // ── Analysis / explainer / investigation ────────────────────────
-  analysis:          'text-purple-400',
-  'deep dive':       'text-purple-400',
-  explainer:         'text-purple-400',
-  investigation:     'text-red-500',
-  development:       'text-teal-400',
+  analysis:          'text-purple-600',
+  'deep dive':       'text-purple-600',
+  explainer:         'text-purple-600',
+  investigation:     'text-red-600',
+  development:       'text-teal-600',
 
   // ── Business-finance verticals ───────────────────────────────────
-  sponsorship:       'text-sky-400',
-  broadcast:         'text-sky-400',
-  'broadcast rights':'text-sky-400',
+  sponsorship:       'text-sky-600',
+  broadcast:         'text-sky-600',
+  'broadcast rights':'text-sky-600',
 
   // ── Research ────────────────────────────────────────────────────
-  sector:            'text-blue-400',
-  equity:            'text-emerald-500',
-  macro:             'text-purple-400',
-  'fixed income':    'text-slate-400',
-  general:           'text-gray-400',
+  sector:            'text-blue-600',
+  equity:            'text-emerald-600',
+  macro:             'text-purple-600',
+  'fixed income':    'text-slate-600',
+  general:           'text-gray-500',
 };
 
 export function getCatColor(cat: string): string {
-  return ACCENT_COLORS[cat.toLowerCase()] ?? 'text-gray-400';
+  return ACCENT_COLORS[cat.toLowerCase()] ?? 'text-gray-500';
 }
 
 /** Back-compat alias — homepage and news page imported a separately-named

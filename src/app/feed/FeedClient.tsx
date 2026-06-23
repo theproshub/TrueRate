@@ -45,8 +45,8 @@ function Sparkline({ data, positive }: { data: number[]; positive: boolean }) {
   );
 }
 
-const SECTION_TITLE = 'text-base font-bold text-white uppercase tracking-[0.12em]';
-const SECTION_BAR = 'flex items-center gap-3 border-b border-white/[0.07] pb-3 mb-5';
+const SECTION_TITLE = 'text-base font-bold text-gray-900 uppercase tracking-[0.12em]';
+const SECTION_BAR = 'flex items-center gap-3 border-b border-gray-200 pb-3 mb-5';
 
 function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
@@ -62,7 +62,7 @@ export default function FeedClient() {
 
   if (isLoading && !cards) {
     return (
-      <div role="status" aria-live="polite" className="rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center text-sm text-gray-400">
+      <div role="status" aria-live="polite" className="rounded-2xl border border-gray-200 bg-white p-10 text-center text-sm text-gray-500">
         Loading the feed…
       </div>
     );
@@ -78,8 +78,8 @@ export default function FeedClient() {
 
   if (!cards || count === 0) {
     return (
-      <div className="rounded-2xl border border-white/[0.07] bg-brand-card p-10 text-center">
-        <p className="text-base text-gray-400">No cards published yet.</p>
+      <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center">
+        <p className="text-base text-gray-500">No cards published yet.</p>
         <p className="mt-1 text-sm text-gray-500">
           The daily generator runs at 06:00 UTC; markets publish automatically and editorial cards appear after review.
         </p>
@@ -103,15 +103,15 @@ export default function FeedClient() {
             {breaking.map((card) => {
               const p = card.payload as BreakingPayload;
               return (
-                <li key={card.id} className="rounded-xl border border-white/[0.07] bg-brand-card p-4">
+                <li key={card.id} className="rounded-xl border border-gray-200 bg-white p-4">
                   <div className="mb-1.5 flex flex-wrap items-center gap-2">
                     <span className="rounded bg-red-500/15 px-1.5 py-0.5 text-2xs font-bold uppercase tracking-wide text-red-400">Breaking</span>
                     {p.category && <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(p.category)}`}>{p.category}</span>}
                     <TopicBadge tag={p.topicTag} />
                     <AiBadge card={card} />
                   </div>
-                  <p className="font-bold leading-snug text-white">{p.headline}</p>
-                  <p className="mt-1 text-sm text-gray-400">{p.summary}</p>
+                  <p className="font-bold leading-snug text-gray-900">{p.headline}</p>
+                  <p className="mt-1 text-sm text-gray-500">{p.summary}</p>
                   {p.source && <p className="mt-1.5 text-xs text-gray-600">{p.source}</p>}
                 </li>
               );
@@ -126,10 +126,10 @@ export default function FeedClient() {
         return (
           <section aria-labelledby="feed-markets">
             <SectionHeader><span id="feed-markets">Markets</span></SectionHeader>
-            <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-brand-card">
+            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
               <table className="w-full">
                 <caption className="sr-only">Live market snapshot</caption>
-                <thead className="border-b border-white/[0.07] text-left text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
+                <thead className="border-b border-gray-200 text-left text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
                   <tr>
                     <th scope="col" className="px-4 py-3">Symbol</th>
                     <th scope="col" className="px-4 py-3">Price</th>
@@ -137,13 +137,13 @@ export default function FeedClient() {
                     <th scope="col" className="px-4 py-3 text-right">7-day</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.05] text-sm">
+                <tbody className="divide-y divide-gray-200 text-sm">
                   {p.tickers.map((t) => {
                     const positive = (t.changePct ?? 0) >= 0;
-                    const changeColor = t.changePct == null ? 'text-gray-400' : positive ? 'text-pos' : 'text-neg';
+                    const changeColor = t.changePct == null ? 'text-gray-500' : positive ? 'text-pos' : 'text-neg';
                     const sign = t.changePct == null ? '' : positive ? '+' : '−';
                     return (
-                      <tr key={t.symbol} className="text-white">
+                      <tr key={t.symbol} className="text-gray-900">
                         <td className="px-4 py-3">
                           <span className="font-mono text-xs uppercase">{t.symbol}</span>
                           <span className="ml-2 text-xs text-gray-500">{t.name}</span>
@@ -176,13 +176,13 @@ export default function FeedClient() {
             {bigStats.map((card) => {
               const p = card.payload as BigStatPayload;
               return (
-                <div key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
+                <div key={card.id} className="rounded-2xl border border-gray-200 bg-white p-5">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     <TopicBadge tag={p.topicTag} />
                     <AiBadge card={card} />
                   </div>
-                  <p className="text-3xl font-black text-white tabular-nums leading-none">{p.value}</p>
-                  <p className="mt-2 text-sm font-medium text-gray-300">{p.descriptor}</p>
+                  <p className="text-3xl font-black text-gray-900 tabular-nums leading-none">{p.value}</p>
+                  <p className="mt-2 text-sm font-medium text-gray-600">{p.descriptor}</p>
                   <p className="mt-1 text-xs text-gray-500">{p.context}</p>
                   {p.source && <p className="mt-2 text-2xs text-gray-600">{p.source}</p>}
                 </div>
@@ -200,14 +200,14 @@ export default function FeedClient() {
             {articles.map((card) => {
               const p = card.payload as ArticlePayload;
               return (
-                <article key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
+                <article key={card.id} className="rounded-2xl border border-gray-200 bg-white p-5">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     {p.category && <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(p.category)}`}>{p.category}</span>}
                     <TopicBadge tag={p.topicTag} />
                     <AiBadge card={card} />
                   </div>
-                  <h3 className="font-bold leading-snug text-white">{p.headline}</h3>
-                  <p className="mt-1.5 text-sm text-gray-400 line-clamp-3">{p.deck}</p>
+                  <h3 className="font-bold leading-snug text-gray-900">{p.headline}</h3>
+                  <p className="mt-1.5 text-sm text-gray-500 line-clamp-3">{p.deck}</p>
                   <p className="mt-2 text-xs text-gray-500">
                     {p.readMinutes} min read{Array.isArray(p.tags) && p.tags.length > 0 ? ` · ${p.tags.join(' · ')}` : ''}
                   </p>
@@ -226,13 +226,13 @@ export default function FeedClient() {
             {quotes.map((card) => {
               const p = card.payload as QuotePayload;
               return (
-                <figure key={card.id} className="rounded-2xl border border-white/[0.07] bg-brand-card p-5">
+                <figure key={card.id} className="rounded-2xl border border-gray-200 bg-white p-5">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     <TopicBadge tag={p.topicTag} />
                     <AiBadge card={card} />
                   </div>
-                  <blockquote className="text-lg font-medium leading-snug text-white">&ldquo;{p.quote}&rdquo;</blockquote>
-                  <figcaption className="mt-3 text-sm text-gray-400">
+                  <blockquote className="text-lg font-medium leading-snug text-gray-900">&ldquo;{p.quote}&rdquo;</blockquote>
+                  <figcaption className="mt-3 text-sm text-gray-500">
                     — {p.speakerName}, {p.speakerTitle}, {p.speakerOrg}
                     {p.context && <span className="mt-1 block text-xs text-gray-600">{p.context}</span>}
                   </figcaption>

@@ -77,7 +77,7 @@ export default function AboutPage() {
           <section id="our-story" className="mb-10 scroll-mt-36">
             <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-6">Our Story</h2>
             <p className="text-lg text-gray-800 leading-[1.9] mb-5">
-              TrueRate was founded by <span className="font-bold text-gray-900">Moses Julian Sackey</span> with one conviction: Liberia&apos;s economy deserves accurate, independent, and accessible financial information. Markets move, prices change, and policy decisions affect millions of people — yet most of it goes unreported or is hard to find in one trustworthy place.
+              TrueRate was founded by <span className="font-bold text-gray-900">Moses Julian Sackey</span>{' '}with one conviction: Liberia&apos;s economy deserves accurate, independent, and accessible financial information. Markets move, prices change, and policy decisions affect millions of people — yet most of it goes unreported or is hard to find in one trustworthy place.
             </p>
             <p className="text-lg text-gray-700 leading-[1.9] mb-5">
               Our mission is to improve financial literacy, economic understanding, and access to reliable information across Liberia. We follow the principles of the publications we admire — Bloomberg, Reuters, the Financial Times, and Yahoo Finance — and adapt them for Liberia and, over time, West Africa. Every story aims to answer four questions: what happened, why it matters, who is affected, and what happens next.

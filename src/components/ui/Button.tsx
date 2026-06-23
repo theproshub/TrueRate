@@ -7,9 +7,9 @@ type Size    = 'sm' | 'md' | 'lg';
 
 const variantMap: Record<Variant, string> = {
   primary:   'bg-brand-accent text-brand-ink hover:bg-brand-accent-hover',
-  secondary: 'bg-white/10     text-white     hover:bg-white/15',
-  ghost:     'bg-transparent  text-gray-300  hover:bg-white/5  hover:text-white',
-  outline:   'bg-transparent  text-gray-300  hover:text-white border border-white/20 hover:border-white/40',
+  secondary: 'bg-gray-100     text-gray-900     hover:bg-gray-100',
+  ghost:     'bg-transparent  text-gray-600  hover:bg-gray-50  hover:text-gray-900',
+  outline:   'bg-transparent  text-gray-600  hover:text-gray-900 border border-gray-200 hover:border-gray-300',
 };
 
 const sizeMap: Record<Size, string> = {

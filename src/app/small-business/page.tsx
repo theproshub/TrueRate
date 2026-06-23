@@ -126,7 +126,7 @@ export default async function SmallBusinessPage() {
           <div className="flex-1 min-w-0 lg:pr-5">
 
             {/* Hero */}
-            <Link href={hero.href} className={`group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-white/[0.07] rounded ${focusRing}`}>
+            <Link href={hero.href} className={`group flex flex-col md:flex-row gap-5 md:gap-6 no-underline mb-6 pb-6 border-b border-gray-200 rounded ${focusRing}`}>
               <div className="w-full md:w-[58%] shrink-0 overflow-hidden rounded-xl">
                 {hero.image ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
@@ -142,12 +142,12 @@ export default async function SmallBusinessPage() {
                     {hero.category}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-white group-hover:text-white/80 transition-colors mb-4 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:text-gray-600 transition-colors mb-4 tracking-tight">
                   {hero.title}
                 </h1>
-                {hero.summary && <p className="text-md leading-relaxed text-gray-400 line-clamp-3 mb-4">{hero.summary}</p>}
+                {hero.summary && <p className="text-md leading-relaxed text-gray-500 line-clamp-3 mb-4">{hero.summary}</p>}
                 <div className="flex items-center gap-2 mt-auto text-sm text-gray-500">
-                  <span className="font-semibold text-gray-400">{hero.source}</span>
+                  <span className="font-semibold text-gray-500">{hero.source}</span>
                   <span>&middot;</span>
                   <span>{hero.time}</span>
                 </div>
@@ -158,7 +158,7 @@ export default async function SmallBusinessPage() {
             {leads.length > 0 && (
               <section className="mb-8" aria-labelledby="biz-leads-heading">
                 <h2 id="biz-leads-heading" className="sr-only">More top stories</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 pb-6 border-b border-white/[0.07]">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 pb-6 border-b border-gray-200">
                   {leads.map((card, i) => (
                     <Link key={card.href + i} href={card.href} className={`group flex flex-col no-underline rounded ${focusRing}`}>
                       <div className="overflow-hidden rounded-lg mb-3">
@@ -167,11 +167,11 @@ export default async function SmallBusinessPage() {
                       <span className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
                         {card.category}
                       </span>
-                      <h3 className="text-md font-bold leading-snug text-white group-hover:text-white/75 transition-colors line-clamp-3 text-pretty">
+                      <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 text-pretty">
                         {card.title}
                       </h3>
                       <p className="mt-2 text-xs text-gray-500 truncate">
-                        <span className="text-gray-400">{card.source}</span>
+                        <span className="text-gray-500">{card.source}</span>
                         <span aria-hidden className="mx-1.5 text-gray-700">&middot;</span>
                         <time>{card.time}</time>
                       </p>
@@ -184,18 +184,18 @@ export default async function SmallBusinessPage() {
             {/* Story feed */}
             {feed.length > 0 && (
               <section className="mb-6" aria-labelledby="biz-feed-heading">
-                <div className="flex items-center justify-between border-b border-white/[0.07] pb-3 mb-5">
+                <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
                   <div className="flex items-center gap-3">
                     <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                    <h2 id="biz-feed-heading" className="text-base font-bold text-white uppercase tracking-[0.12em]">
+                    <h2 id="biz-feed-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em]">
                       {useDb || hasSeed ? 'Latest in Business' : 'Business Stories'}
                     </h2>
                   </div>
-                  <Link href="/news" className={`inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-400 hover:text-white transition-colors no-underline ${focusRing}`}>
+                  <Link href="/news" className={`inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-900 transition-colors no-underline ${focusRing}`}>
                     More &#x203A;
                   </Link>
                 </div>
-                <div className="flex flex-col divide-y divide-white/[0.05]">
+                <div className="flex flex-col divide-y divide-gray-200">
                   {feed.map((item, i) => (
                     <Link key={item.href + i} href={item.href} className={`group flex gap-3 sm:gap-4 py-4 sm:py-5 first:pt-0 no-underline rounded ${focusRing}`}>
                       <div className="shrink-0 overflow-hidden rounded-lg">
@@ -205,11 +205,11 @@ export default async function SmallBusinessPage() {
                         <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.categorySlug ?? item.category)}`}>
                           {item.category}
                         </span>
-                        <h3 className="text-base sm:text-sm font-bold leading-snug text-white group-hover:text-white/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                        <h3 className="text-base sm:text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
                           {item.title}
                         </h3>
                         {item.summary && <p className="hidden sm:block text-base leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>}
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
+                        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-500">
                           <span className="text-gray-500 truncate">{item.source}</span>
                           <span>&middot;</span>
                           <span className="whitespace-nowrap">{item.time}</span>
@@ -224,23 +224,23 @@ export default async function SmallBusinessPage() {
           </div>
 
           {/* Right rail */}
-          <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-white/[0.08] lg:pl-5" aria-label="Business sidebar">
+          <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-gray-200 lg:pl-5" aria-label="Business sidebar">
             <StickySidebar>
 
               {/* Live markets */}
-              <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">Liberia Markets</h3>
+              <div className="rounded-xl border border-gray-200 bg-white p-4">
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">Liberia Markets</h3>
                 <LiveMarketsMini />
               </div>
 
               {/* More stories / sidebar list */}
               {sidebarStories && (
-                <div className="hidden lg:block rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-[0.12em] border-b border-white/[0.07] pb-3 mb-3">More from Business</h3>
-                  <ol className="flex flex-col divide-y divide-white/[0.05]">
+                <div className="hidden lg:block rounded-xl border border-gray-200 bg-white p-4">
+                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">More from Business</h3>
+                  <ol className="flex flex-col divide-y divide-gray-200">
                     {sidebarStories.map((s, i) => (
                       <li key={s.href + i} className="py-2.5 first:pt-0">
-                        <Link href={s.href} className={`text-sm font-medium text-white/80 hover:text-brand-accent transition-colors no-underline line-clamp-2 leading-snug block ${focusRing}`}>
+                        <Link href={s.href} className={`text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block ${focusRing}`}>
                           <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug)}`}>{s.category}</span>
                           {s.title}
                         </Link>
@@ -251,12 +251,12 @@ export default async function SmallBusinessPage() {
               )}
 
               {/* Newsletter */}
-              <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-                <h3 className="text-sm font-black text-white uppercase tracking-wide mb-1">Business Brief</h3>
+              <div className="rounded-xl border border-gray-200 bg-white p-4">
+                <h3 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-1">Business Brief</h3>
                 <p className="text-sm text-gray-500 mb-4">Liberia&apos;s business and trade stories, weekly in your inbox.</p>
                 <form aria-label="Sign up for the Business Brief newsletter">
                   <label htmlFor="biz-email" className="sr-only">Email address</label>
-                  <input id="biz-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-base text-white placeholder:text-gray-500 outline-none focus:border-white/60 transition-colors mb-3" />
+                  <input id="biz-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-200 px-0 py-2 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-200 transition-colors mb-3" />
                   <button type="submit" className={`w-full rounded-lg bg-white py-2 text-base font-bold text-brand-ink hover:brightness-90 transition-all ${focusRing}`}>
                     Sign up free
                   </button>

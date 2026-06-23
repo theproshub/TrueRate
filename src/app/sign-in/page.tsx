@@ -8,7 +8,8 @@ import { createClient } from '@/lib/supabase/client';
 export default function SignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get('next') ?? '/';
+  const rawNext = searchParams.get('next') ?? '/';
+  const next = rawNext.startsWith('/') && !rawNext.startsWith('//') ? rawNext : '/';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -33,22 +34,22 @@ export default function SignInPage() {
     <main className="flex min-h-[calc(100vh-140px)] items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
             Welcome back to TrueRate
           </h1>
-          <p className="mt-2 text-md text-gray-400">
+          <p className="mt-2 text-md text-gray-500">
             Liberia&apos;s financial data platform
           </p>
         </div>
 
         <form
           onSubmit={onSubmit}
-          className="rounded-2xl border border-white/[0.07] bg-brand-card p-6 shadow-2xl"
+          className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl"
           noValidate
         >
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-600">
                 Email
               </label>
               <input
@@ -60,11 +61,11 @@ export default function SignInPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 aria-invalid={Boolean(error) || undefined}
-                className="mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-600">
                 Password
               </label>
               <input
@@ -77,7 +78,7 @@ export default function SignInPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 aria-invalid={Boolean(error) || undefined}
                 aria-describedby={error ? 'signin-error' : undefined}
-                className="mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.05] px-3 py-2 text-white placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+                className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-500 focus-visible:border-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
               />
             </div>
             {error && (
@@ -93,9 +94,9 @@ export default function SignInPage() {
               {submitting ? 'Signing in…' : 'Sign in'}
             </button>
           </div>
-          <p className="mt-6 text-center text-sm text-gray-400">
+          <p className="mt-6 text-center text-sm text-gray-500">
             New to TrueRate?{' '}
-            <Link href={next !== '/' ? `/sign-up?next=${encodeURIComponent(next)}` : '/sign-up'} className="text-brand-accent hover:underline">
+            <Link href={next !== '/' ? `/sign-up?next=${encodeURIComponent(next)}` : '/sign-up'} className="text-brand-accent-ink hover:underline">
               Create an account
             </Link>
           </p>

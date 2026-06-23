@@ -12,12 +12,12 @@
   --color-brand-accent:       #BFEA36;
   --color-brand-accent-hover: #a8d42a;
   --color-brand-accent-ink:   #4d7c0f;
-  --color-brand-dark:         #1E1E1E;
-  --color-brand-muted:        #181818;
-  --color-brand-header:       #262626;
-  --color-brand-card:         #262626;
-  --color-brand-azure:        #333538;
-  --color-brand-light:        #F3F4F4;
+  --color-brand-dark:         #F5F5F5;
+  --color-brand-muted:        #E8E8E8;
+  --color-brand-header:       #FFFFFF;
+  --color-brand-card:         #FFFFFF;
+  --color-brand-azure:        #D1D5DB;
+  --color-brand-light:        #374151;
   --color-brand-surface:      #f8f9fa;
   --color-brand-ink:          #0a0a0d;
 
@@ -39,8 +39,8 @@
   --content-max-w:    760px;
 
   /* Scrollbar */
-  --scrollbar-thumb: #3a3c40;
-  --scrollbar-thumb-hover: #4a4c50;
+  --scrollbar-thumb: #c1c5ca;
+  --scrollbar-thumb-hover: #a0a4a8;
 }
 
 @layer base {
@@ -53,7 +53,7 @@
   body {
     font-family: var(--font-sans);
     background: var(--color-brand-dark);
-    color: #e8e8e8;
+    color: #1a1a1a;
     font-size: 13px;
     line-height: 1.385;
     -webkit-font-smoothing: antialiased;
@@ -80,7 +80,7 @@
 
   small { font-size: 12px; line-height: 1.35; }
 
-  a { color: white; text-decoration: none; }
+  a { color: inherit; text-decoration: none; }
   a:hover { text-decoration: none; }
 }
 
