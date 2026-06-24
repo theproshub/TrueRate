@@ -3,8 +3,10 @@
 import { useState, useTransition, useMemo } from 'react';
 import Link from 'next/link';
 import { toggleWatchlistItem } from '@/app/analytics/watchlist-actions';
+import { toggleSavedArticle } from '@/app/news/saved-actions';
 import { formatValueWithUnit, formatPct, deltaColor, deltaArrow } from '@/lib/analytics/format';
 import type { AnalyticsItem } from '@/lib/analytics/types';
+import type { SavedRow } from '@/app/saved/SavedArticlesClient';
 import StickySidebar from '@/components/StickySidebar';
 
 /** A slim, serializable projection passed from the server component. */
@@ -24,6 +26,7 @@ interface Props {
   watched: WatchRow[];
   /** Everything available to add, grouped for the picker. */
   options: WatchRow[];
+  savedArticles: SavedRow[];
 }
 
 const KIND_LABEL: Record<WatchRow['kind'], string> = {
@@ -156,10 +159,61 @@ function AddModal({
   );
 }
 
-export default function WatchlistClient({ authed, watched, options }: Props) {
+function formatDate(d: string | null): string {
+  if (!d) return '';
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+function SavedArticleRow({
+  row,
+  onRemove,
+  pending,
+}: {
+  row: SavedRow;
+  onRemove: (row: SavedRow) => void;
+  pending: boolean;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 py-4">
+      <Link href={`/news/${row.slug}`} className="group min-w-0 no-underline">
+        {row.categoryLabel && (
+          <div className="mb-1 text-2xs font-bold uppercase tracking-wide text-brand-accent-ink">
+            {row.categoryLabel}
+          </div>
+        )}
+        <div className="text-md font-bold leading-snug text-gray-900 transition-colors line-clamp-2 group-hover:text-gray-600">
+          {row.title}
+        </div>
+        {row.dek && <div className="mt-0.5 truncate text-xs text-gray-500">{row.dek}</div>}
+        <div className="mt-1 text-2xs text-gray-600">
+          {row.publishedAt && <span>{formatDate(row.publishedAt)}</span>}
+          {row.savedAt && <span> · Saved {formatDate(row.savedAt)}</span>}
+        </div>
+      </Link>
+      <button
+        type="button"
+        onClick={() => onRemove(row)}
+        disabled={pending}
+        aria-label={`Remove "${row.title}" from saved articles`}
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded text-gray-600 transition-colors hover:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent disabled:opacity-40"
+      >
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
+export default function WatchlistClient({ authed, watched, options, savedArticles }: Props) {
   const [items, setItems] = useState<WatchRow[]>(watched);
+  const [saved, setSaved] = useState<SavedRow[]>(savedArticles);
   const [showModal, setShowModal] = useState(false);
   const [pendingId, setPendingId] = useState<string | null>(null);
+  const [pendingSavedId, setPendingSavedId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
   const optionById = useMemo(() => new Map(options.map((o) => [o.id, o])), [options]);
@@ -167,7 +221,6 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
 
   function toggle(id: string) {
     const wasWatching = watchedIds.has(id);
-    // Optimistic update.
     setItems((prev) =>
       wasWatching ? prev.filter((i) => i.id !== id) : [...prev, optionById.get(id)!].filter(Boolean),
     );
@@ -176,11 +229,21 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
       const res = await toggleWatchlistItem(id);
       setPendingId(null);
       if (!res.ok) {
-        // Roll back on failure.
         setItems((prev) =>
           wasWatching ? [...prev, optionById.get(id)!].filter(Boolean) : prev.filter((i) => i.id !== id),
         );
       }
+    });
+  }
+
+  function removeSaved(row: SavedRow) {
+    const prev = saved;
+    setPendingSavedId(row.id);
+    setSaved((rs) => rs.filter((r) => r.id !== row.id));
+    startTransition(async () => {
+      const res = await toggleSavedArticle(row.articleId);
+      setPendingSavedId(null);
+      if (!res.ok || res.saved) setSaved(prev);
     });
   }
 
@@ -257,6 +320,36 @@ export default function WatchlistClient({ authed, watched, options }: Props) {
               </section>
             ))
           )}
+
+          {/* ── Saved Articles ── */}
+          <section>
+            <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+              Saved Articles
+            </h2>
+            {saved.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 text-center">
+                <p className="text-base text-gray-500">No saved articles yet.</p>
+                <Link
+                  href="/news"
+                  className="mt-3 inline-flex items-center gap-1.5 text-base font-semibold text-brand-accent-ink no-underline transition hover:brightness-90"
+                >
+                  Browse news
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-200">
+                {saved.map((r) => (
+                  <SavedArticleRow
+                    key={r.id}
+                    row={r}
+                    onRemove={removeSaved}
+                    pending={pendingSavedId === r.id}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
         </div>
 
         <aside className="w-full lg:w-[300px] shrink-0">

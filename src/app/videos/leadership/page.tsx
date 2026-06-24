@@ -44,7 +44,7 @@ const PROFILES = [
 function PlayIcon() {
   return (
     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm">
-      <svg className="h-6 w-6 translate-x-0.5 text-gray-900" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+      <svg className="h-6 w-6 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
     </div>
   );
 }
@@ -57,7 +57,7 @@ export default function VideosLeadershipPage() {
       </div>
 
       <div className="mb-6 flex items-center gap-3">
-        <span className="rounded bg-amber-500/20 text-amber-300 px-2.5 py-1 text-2xs font-black uppercase tracking-widest">Leadership</span>
+        <span className="rounded bg-amber-100 text-amber-700 px-2.5 py-1 text-2xs font-black uppercase tracking-widest">Leadership</span>
         <p className="text-base text-gray-500">Executives, ministers, and decision-makers shaping Liberia&rsquo;s economy.</p>
       </div>
 
@@ -66,14 +66,14 @@ export default function VideosLeadershipPage() {
           <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
-          <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">{HERO.duration}</span>
+          <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
           <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-            <h2 className="text-sm sm:text-2xl font-bold leading-tight text-gray-900 mb-2 line-clamp-2">{HERO.title}</h2>
-            <p className="text-base text-gray-900/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+            <h2 className="text-sm sm:text-2xl font-bold leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+            <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
             <div className="flex items-center gap-2 text-sm">
-              <span className="font-semibold text-gray-600">{HERO.source}</span>
-              <span className="text-gray-900/30">·</span>
-              <span className="text-gray-500">{HERO.time}</span>
+              <span className="font-semibold text-white/80">{HERO.source}</span>
+              <span className="text-white/30">·</span>
+              <span className="text-white/60">{HERO.time}</span>
             </div>
           </div>
         </PlayableVideo>

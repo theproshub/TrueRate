@@ -73,12 +73,12 @@ const GROWTH_PLAYBOOK = [
 ];
 
 const CAT_COLORS: Record<string, string> = {
-  'Entrepreneurship': 'text-violet-400',
-  'Technology':       'text-sky-400',
+  'Entrepreneurship': 'text-violet-600',
+  'Technology':       'text-sky-600',
   'Investing':        'text-brand-accent-ink',
-  'Leadership':       'text-amber-400',
-  'Business':         'text-rose-400',
-  'Mining':           'text-orange-400',
+  'Leadership':       'text-amber-600',
+  'Business':         'text-rose-600',
+  'Mining':           'text-orange-600',
 };
 
 function catColor(c: string) {
@@ -90,7 +90,7 @@ function PlayIcon({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const icon = size === 'lg' ? 'h-6 w-6' : size === 'sm' ? 'h-3.5 w-3.5' : 'h-5 w-5';
   return (
     <div className={`flex ${dim} items-center justify-center rounded-full bg-black/60 backdrop-blur-sm transition-transform duration-200 group-hover:scale-110 group-hover:bg-black/80`}>
-      <svg className={`${icon} translate-x-0.5 text-gray-900`} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <svg className={`${icon} translate-x-0.5 text-white`} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M8 5v14l11-7z" />
       </svg>
     </div>
@@ -162,16 +162,16 @@ export default function VideosPage() {
             <span className="absolute top-4 left-4 rounded-md bg-brand-accent px-2.5 py-1 text-2xs font-black uppercase tracking-widest text-brand-accent-ink">
               {HERO.badge}
             </span>
-            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">
+            <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">
               {HERO.duration}
             </span>
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h1 className="text-xl sm:text-2xl font-bold leading-[1.2] tracking-tight text-gray-900 mb-2 line-clamp-2">{HERO.title}</h1>
-              <p className="text-base text-gray-900/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+              <h1 className="text-xl sm:text-2xl font-bold leading-[1.2] tracking-tight text-white mb-2 line-clamp-2">{HERO.title}</h1>
+              <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
               <div className="flex items-center gap-2 text-sm">
-                <span className="font-semibold text-gray-600">{HERO.source}</span>
-                <span className="text-gray-900/30">·</span>
-                <span className="text-gray-500">{HERO.time}</span>
+                <span className="font-semibold text-white/80">{HERO.source}</span>
+                <span className="text-white/30">·</span>
+                <span className="text-white/60">{HERO.time}</span>
               </div>
             </div>
           </PlayableVideo>
@@ -210,10 +210,10 @@ export default function VideosPage() {
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <PlayIcon size="md" />
               </div>
-              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">{v.duration}</span>
+              <span className="absolute bottom-3 right-3 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{v.duration}</span>
               <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className={`text-2xs font-black uppercase tracking-widest mb-1 ${catColor(v.category)}`}>{v.show} · {v.ep}</div>
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 line-clamp-2">{v.title}</h3>
+                <div className="text-2xs font-black uppercase tracking-widest mb-1 text-white/60">{v.show} · {v.ep}</div>
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-white line-clamp-2">{v.title}</h3>
               </div>
             </PlayableVideo>
           ))}
@@ -252,7 +252,7 @@ export default function VideosPage() {
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <PlayIcon size="md" />
                   </div>
-                  <span className="absolute bottom-2 right-2 rounded-md bg-black/80 px-1.5 py-0.5 text-2xs font-semibold text-gray-900 tabular-nums backdrop-blur-sm">
+                  <span className="absolute bottom-2 right-2 rounded-md bg-black/80 px-1.5 py-0.5 text-2xs font-semibold text-white tabular-nums backdrop-blur-sm">
                     {pod.duration}
                   </span>
                 </PlayableVideo>
@@ -277,7 +277,7 @@ export default function VideosPage() {
                 <VideoThumbnail category={item.category} className="absolute inset-0 w-full h-full" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute top-2.5 left-2.5">
-                  <span className={`rounded px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-gray-900' : 'bg-black/70 text-gray-900/60 border border-gray-200'}`}>
+                  <span className={`rounded px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${item.badge === 'LIVE NOW' ? 'bg-red-600 text-white' : 'bg-black/70 text-white/60 border border-white/10'}`}>
                     {item.badge}
                   </span>
                 </div>

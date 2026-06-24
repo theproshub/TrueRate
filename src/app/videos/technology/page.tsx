@@ -44,7 +44,7 @@ const LAUNCHES = [
 function PlayIcon() {
   return (
     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm">
-      <svg className="h-6 w-6 translate-x-0.5 text-gray-900" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+      <svg className="h-6 w-6 translate-x-0.5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
     </div>
   );
 }
@@ -57,7 +57,7 @@ export default function VideosTechnologyPage() {
       </div>
 
       <div className="mb-6 flex items-center gap-3">
-        <span className="rounded bg-sky-500/20 text-sky-300 px-2.5 py-1 text-2xs font-black uppercase tracking-widest">Technology</span>
+        <span className="rounded bg-sky-100 text-sky-700 px-2.5 py-1 text-2xs font-black uppercase tracking-widest">Technology</span>
         <p className="text-base text-gray-500">Fintech, mobile money, AI, and digital infrastructure in Liberia.</p>
       </div>
 
@@ -66,14 +66,14 @@ export default function VideosTechnologyPage() {
           <VideoThumbnail category={HERO.category} className="absolute inset-0 w-full h-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center"><PlayIcon /></div>
-          <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-gray-900 tabular-nums">{HERO.duration}</span>
+          <span className="absolute top-4 right-4 rounded bg-black/80 px-1.5 py-0.5 text-xs font-semibold text-white tabular-nums">{HERO.duration}</span>
           <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-            <h2 className="text-sm sm:text-2xl font-bold leading-tight text-gray-900 mb-2 line-clamp-2">{HERO.title}</h2>
-            <p className="text-base text-gray-900/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
+            <h2 className="text-sm sm:text-2xl font-bold leading-tight text-white mb-2 line-clamp-2">{HERO.title}</h2>
+            <p className="text-base text-white/60 line-clamp-2 mb-3 max-w-[600px] hidden sm:block">{HERO.desc}</p>
             <div className="flex items-center gap-2 text-sm">
-              <span className="font-semibold text-gray-600">{HERO.source}</span>
-              <span className="text-gray-900/30">·</span>
-              <span className="text-gray-500">{HERO.time}</span>
+              <span className="font-semibold text-white/80">{HERO.source}</span>
+              <span className="text-white/30">·</span>
+              <span className="text-white/60">{HERO.time}</span>
             </div>
           </div>
         </PlayableVideo>
@@ -140,7 +140,7 @@ export default function VideosTechnologyPage() {
 
       <section className="rounded-2xl border border-gray-200 bg-white p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-widest text-sky-300 mb-1">Tech Disruptors podcast</p>
+          <p className="text-xs font-black uppercase tracking-widest text-sky-600 mb-1">Tech Disruptors podcast</p>
           <p className="text-md text-gray-900">A weekly deep-dive on mobile money, AI, and the builders to watch.</p>
         </div>
         <a href={CHANNEL_URL} {...ext} className="shrink-0 rounded-lg bg-brand-accent px-4 py-2 text-base font-bold text-brand-accent-ink no-underline hover:brightness-90 transition">Browse episodes</a>

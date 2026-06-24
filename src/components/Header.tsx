@@ -72,7 +72,6 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
   { label: 'My Watchlist',     href: '/watchlist',        desc: 'Track your tickers and stories' },
-  { label: 'Saved Articles',   href: '/saved',            desc: 'Articles you saved to read later' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
 ];
 
@@ -110,7 +109,6 @@ const MORE_MENU: MoreColumn[] = [
     items: [
       { label: 'Business',          href: '/small-business' },
       { label: 'My Watchlist',     href: '/watchlist' },
-      { label: 'Saved Articles',   href: '/saved' },
       { label: 'About TrueRate',   href: '/about' },
       { label: 'Help',             href: '/help' },
       { label: 'Feedback',         href: '/feedback' },
@@ -189,7 +187,6 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
   }, [onClose]);
 
   const supportLinks = [
-    { label: 'Saved Articles',   href: '/saved' },
     { label: 'About TrueRate',   href: '/about' },
     { label: 'Help',             href: '/help' },
     { label: 'Feedback',         href: '/feedback' },

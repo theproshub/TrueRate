@@ -70,7 +70,7 @@ export default function FeedbackForm() {
           className={`w-full rounded-lg bg-white border border-gray-200 px-4 py-3 text-md text-gray-900 outline-none focus:border-brand-accent-ink/50 ${focusRing}`}
         >
           {TYPE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="bg-brand-dark">
+            <option key={o.value} value={o.value} className="bg-white">
               {o.label}
             </option>
           ))}
