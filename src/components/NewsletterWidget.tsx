@@ -2,7 +2,7 @@
 
 import { useId, useState } from 'react';
 
-export default function NewsletterWidget() {
+export default function NewsletterWidget({ title = 'TrueRate Daily Brief', description = 'Liberia business & economy, delivered every morning.' }: { title?: string; description?: string } = {}) {
   const id = useId();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -19,8 +19,8 @@ export default function NewsletterWidget() {
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <h3 className="text-sm font-bold text-gray-900 mb-1">TrueRate Daily Brief</h3>
-      <p className="text-sm text-gray-500 mb-3">Liberia business &amp; economy, delivered every morning.</p>
+      <h3 className="text-sm font-bold text-gray-900 mb-1">{title}</h3>
+      <p className="text-sm text-gray-500 mb-3">{description}</p>
       {done ? (
         <p role="status" className="flex items-center gap-2 text-sm font-semibold text-brand-accent-ink">
           <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 1 1 1.4-1.4l2.8 2.79 6.8-6.79a1 1 0 0 1 1.4 0Z" clipRule="evenodd" /></svg>

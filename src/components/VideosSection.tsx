@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Video } from '@/data/todays-videos';
 import { VideoThumbnail } from '@/components/NewsThumbnail';
@@ -41,8 +42,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
         <div className="group flex flex-col">
           <PlayableVideo id={featured.youtubeId} label={featured.title} autoPlay className="overflow-hidden rounded-xl mb-3 aspect-video">
             {featured.youtubeId ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={`https://img.youtube.com/vi/${featured.youtubeId}/maxresdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <Image src={`https://img.youtube.com/vi/${featured.youtubeId}/maxresdefault.jpg`} alt="" fill sizes="(max-width: 640px) 100vw, 500px" className="object-cover" priority />
             ) : (
               <VideoThumbnail category={featured.category} className="absolute inset-0 w-full h-full" />
             )}
@@ -87,8 +87,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
                 <a key={i} href={videoHref(v.youtubeId)} {...ext} className="group flex gap-3 no-underline">
                   <div className="relative shrink-0 overflow-hidden rounded-lg w-[120px] h-[68px]">
                     {v.youtubeId ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={`https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg`} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                      <Image src={`https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg`} alt="" fill sizes="120px" className="object-cover" loading="lazy" />
                     ) : (
                       <VideoThumbnail category={v.category} className="w-full h-full" />
                     )}

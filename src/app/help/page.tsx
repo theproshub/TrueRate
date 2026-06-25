@@ -40,9 +40,9 @@ export default function HelpPage() {
         <h2 className="mb-2 text-lg font-bold text-gray-900">Still need help?</h2>
         <p className="mb-4 text-base text-gray-500">Send us a message and we&apos;ll get back to you within 24 hours.</p>
         <div className="flex items-center justify-center gap-3">
-          <a href="/feedback" className="inline-block rounded-full bg-white px-6 py-2.5 text-base font-semibold text-brand-ink hover:bg-white/90 transition no-underline">
+          <Link href="/feedback" className="inline-block rounded-full bg-white px-6 py-2.5 text-base font-semibold text-brand-ink hover:bg-white/90 transition no-underline">
             Contact Support
-          </a>
+          </Link>
           <Link href="/" className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full border border-gray-300 text-sm font-semibold text-gray-700 no-underline transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent">
             <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />

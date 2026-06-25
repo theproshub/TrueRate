@@ -6,6 +6,7 @@ import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 import { fetchTechnologyArticles, toTechStory, type TechStory } from '@/lib/technology/feed';
 import { newsItems } from '@/data/news';
 import StickySidebar from '@/components/StickySidebar';
+import NewsletterWidget from '@/components/NewsletterWidget';
 
 export const metadata = {
   alternates: { canonical: '/technology' },
@@ -337,17 +338,7 @@ export default async function TechnologyPage() {
               )}
 
               {/* Newsletter */}
-              <div className="rounded-xl border border-gray-200 bg-white p-4">
-                <h3 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-1">Tech Brief</h3>
-                <p className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 mb-4">Liberia&apos;s digital economy stories, weekly in your inbox.</p>
-                <form aria-label="Sign up for the Tech Brief newsletter">
-                  <label htmlFor="tech-email" className="sr-only">Email address</label>
-                  <input id="tech-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-200 px-0 py-2 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-200 transition-colors mb-3" />
-                  <button type="submit" className="w-full rounded-lg bg-white py-2 text-base font-bold text-brand-ink hover:brightness-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-brand-dark">
-                    Sign up free
-                  </button>
-                </form>
-              </div>
+              <NewsletterWidget title="Tech Brief" description="Liberia's digital economy stories, weekly in your inbox." />
 
             </StickySidebar>
           </aside>

@@ -141,8 +141,15 @@ export function RightRail({ items = newsItems, popularItems }: { items?: NewsIte
             ))}
           </div>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mb-2">
-            {['About', 'Advertise', 'Careers', 'Help', 'Feedback', 'Privacy', 'Terms'].map(l => (
-              <Link key={l} href="/about" className="text-xs text-gray-500 hover:text-gray-700 transition-colors no-underline">{l}</Link>
+            {[
+              { label: 'About', href: '/about' },
+              { label: 'Advertise', href: '/about/ads' },
+              { label: 'Help', href: '/help' },
+              { label: 'Feedback', href: '/feedback' },
+              { label: 'Privacy', href: '/about/privacy' },
+              { label: 'Terms', href: '/about/terms' },
+            ].map(l => (
+              <Link key={l.label} href={l.href} className="text-xs text-gray-500 hover:text-gray-700 transition-colors no-underline">{l.label}</Link>
             ))}
           </div>
           <Text variant="meta" className="text-center">© 2026 TrueRate. All rights reserved.</Text>

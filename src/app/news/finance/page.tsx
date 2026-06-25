@@ -10,6 +10,7 @@ import { NewsFeedTabs } from './FinanceNewsClient';
 import { HeroCarousel } from '../NewsClient';
 import StickySidebar from '@/components/StickySidebar';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
+import NewsletterWidget from '@/components/NewsletterWidget';
 
 // Always render from the live database — no ISR cache, so newly published
 // articles appear immediately.
@@ -309,13 +310,8 @@ export default async function FinanceNewsPage({
           <StickySidebar>
 
           {/* Newsletter */}
-          <div className="rounded-xl border border-gray-200 bg-white p-5 mb-5">
-            <Heading level={6} as="h2" className="text-gray-900 mb-1">TrueRate Finance Brief</Heading>
-            <Text className="text-sm text-gray-500 mb-3">Forex, policy, commodities and macro — delivered every morning.</Text>
-            <label htmlFor="finance-email" className="sr-only">Email address</label>
-            <input id="finance-email" type="email" placeholder="Email address"
-              className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-400 transition-colors mb-2" />
-            <button className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none">Sign up free</button>
+          <div className="mb-5">
+            <NewsletterWidget title="TrueRate Finance Brief" description="Forex, policy, commodities and macro — delivered every morning." />
           </div>
 
           {/* Upcoming economic events */}
@@ -375,7 +371,7 @@ export default async function FinanceNewsPage({
             <Heading level={6} as="h3" className="text-sm font-bold text-gray-900 mb-3">In Focus</Heading>
             <div className="flex flex-wrap gap-2">
               {['Iron Ore', 'LRD/USD', 'Rubber', 'CBL Rate', 'Remittances', 'ECOWAS', 'Mining Policy', 'Inflation', 'Gold', 'ESG Bonds'].map(t => (
-                <Link key={t} href="/news/finance" className="rounded-lg border border-gray-300 px-4 py-1.5 text-base font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
+                <Link key={t} href={`/news?q=${encodeURIComponent(t)}`} className="rounded-lg border border-gray-300 px-4 py-1.5 text-base font-semibold text-gray-700 hover:bg-gray-100 transition-colors no-underline">{t}</Link>
               ))}
             </div>
           </div>
@@ -440,8 +436,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mb-2">
               {[
                 { label: 'About', href: '/about' },
-                { label: 'Advertise', href: '/about' },
-                { label: 'Careers', href: '/about' },
+                { label: 'Advertise', href: '/about/ads' },
                 { label: 'Help', href: '/help' },
                 { label: 'Feedback', href: '/feedback' },
                 { label: 'Privacy', href: '/about/privacy' },

@@ -60,7 +60,7 @@ export default function SearchBox({
           n.source.toLowerCase().includes(q),
       )
       .slice(0, 5);
-  }, [query]);
+  }, [query, index]);
 
   const markets = useMemo(() => {
     const q = query.trim().toLowerCase();

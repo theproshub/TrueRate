@@ -7,6 +7,7 @@ import { fetchBusinessArticles, toBusinessStory, type BusinessStory } from '@/li
 import { newsItems } from '@/data/news';
 import StickySidebar from '@/components/StickySidebar';
 import LiveMarketsMini from '@/components/builders/LiveMarketsMini';
+import NewsletterWidget from '@/components/NewsletterWidget';
 
 export const metadata: Metadata = {
   title: 'Business — Liberian Business & Entrepreneurship',
@@ -251,17 +252,7 @@ export default async function SmallBusinessPage() {
               )}
 
               {/* Newsletter */}
-              <div className="rounded-xl border border-gray-200 bg-white p-4">
-                <h3 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-1">Business Brief</h3>
-                <p className="text-sm text-gray-500 mb-4">Liberia&apos;s business and trade stories, weekly in your inbox.</p>
-                <form aria-label="Sign up for the Business Brief newsletter">
-                  <label htmlFor="biz-email" className="sr-only">Email address</label>
-                  <input id="biz-email" type="email" required placeholder="Your email" className="w-full bg-transparent border-b border-gray-200 px-0 py-2 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-200 transition-colors mb-3" />
-                  <button type="submit" className={`w-full rounded-lg bg-white py-2 text-base font-bold text-brand-ink hover:brightness-90 transition-all ${focusRing}`}>
-                    Sign up free
-                  </button>
-                </form>
-              </div>
+              <NewsletterWidget title="Business Brief" description="Liberia's business and trade stories, weekly in your inbox." />
 
             </StickySidebar>
           </aside>
