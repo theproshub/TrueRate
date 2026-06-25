@@ -18,6 +18,8 @@ const sectionRoutes = [
   '/videos/interviews',
   '/videos/entrepreneurship',
   '/videos/technology',
+  '/videos/investing',
+  '/videos/leadership',
   '/watchlist',
   '/saved',
   '/about',

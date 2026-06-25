@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import TableOfContents from './_TableOfContents';
+import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -234,6 +235,30 @@ export default function AboutPage() {
             <p className="text-md text-gray-600 leading-[1.85]">
               TrueRate publishes financial and market information for informational purposes only. Nothing on this platform constitutes financial, investment, legal, or tax advice, or a recommendation to buy, sell, or hold any asset. Market rates are indicative, may differ from rates offered by banks or exchanges, and should be verified independently. Always consult a qualified professional before making any financial decision. TrueRate is not responsible for decisions made based on content published on this platform.
             </p>
+          </section>
+
+          <section id="find-us" className="mb-10 scroll-mt-36">
+            <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-6">Find TrueRate</h2>
+            <p className="text-lg text-gray-700 leading-[1.9] mb-5">
+              TrueRate is Liberia&apos;s financial intelligence platform. Follow TrueRate on social media for breaking news, market updates, and economic analysis.
+            </p>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {ACTIVE_SOCIAL_LINKS.map((s) => (
+                <li key={s.key}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-2.5 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 no-underline hover:border-gray-300 hover:bg-gray-50 transition-colors ${focusRing}`}
+                  >
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-gray-500">
+                      <path d={s.path} />
+                    </svg>
+                    TrueRate on {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <nav aria-label="More about TrueRate" className="border-t border-gray-100 pt-5 flex flex-wrap gap-x-8 gap-y-3">

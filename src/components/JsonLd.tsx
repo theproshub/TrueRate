@@ -38,12 +38,28 @@ const siteGraphItems = [
     description:
       'TrueRate is Liberia\u2019s financial intelligence platform \u2014 news, live market data, economic analytics, business, technology, and videos covering the economy, markets, and policy that shape the country.',
     foundingDate: '2026',
-    founders: [{ '@type': 'Person', name: 'Moses Julian Sackey' }],
+    founders: [{ '@type': 'Person', name: 'Moses Julian Sackey', jobTitle: 'Founder' }],
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Monrovia',
       addressCountry: 'LR',
     },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Liberia',
+      sameAs: 'https://www.wikidata.org/wiki/Q1014',
+    },
+    knowsAbout: [
+      'Liberia economy',
+      'Liberian dollar exchange rate',
+      'Liberia financial markets',
+      'Central Bank of Liberia',
+      'West Africa business',
+      'Liberia technology',
+      'Liberia banking',
+      'Liberia policy',
+      'Liberia startups',
+    ],
   },
   // 2. NewsMediaOrganization (extends Organization for Google News)
   {
@@ -57,6 +73,7 @@ const siteGraphItems = [
     actionableFeedbackPolicy: `${SITE_URL}/feedback`,
     correctionsPolicy: `${SITE_URL}/about#standards`,
     ethicsPolicy: `${SITE_URL}/about#standards`,
+    publishingPrinciples: `${SITE_URL}/about#standards`,
     masthead: `${SITE_URL}/about`,
     noBylinesPolicy: `${SITE_URL}/about#standards`,
   },

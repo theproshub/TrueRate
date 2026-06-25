@@ -77,6 +77,11 @@ export const metadata: Metadata = {
       "Liberia’s financial intelligence platform: news, live markets, economic analytics, business, technology, and videos.",
     // twitter:image falls back to the Open Graph image (app/opengraph-image.tsx).
   },
+  alternates: {
+    types: {
+      'application/rss+xml': '/feed',
+    },
+  },
   robots: {
     index: true,
     follow: true,
