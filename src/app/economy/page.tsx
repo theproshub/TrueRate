@@ -8,6 +8,7 @@ import { getDashboardIndicators } from '@/lib/data/indicators';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
 import { newsItems } from '@/data/news';
 import StickySidebar from '@/components/StickySidebar';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 
 export const metadata = {
   alternates: { canonical: '/economy' },
@@ -250,6 +251,8 @@ export default async function EconomyPage() {
               </>
             )}
           </div>
+
+          <EconomicEventsCalendar limit={4} />
 
           {/* More from Economy — recent published articles (no fabricated "most read") */}
           {articles.length > 0 && (

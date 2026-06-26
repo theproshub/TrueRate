@@ -8,6 +8,7 @@ import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
 import { fetchCommodities } from '@/lib/api/yahoo';
 import { getDashboardIndicators } from '@/lib/data/indicators';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import {
   getInterestRateData,
   getMoneySupplyData,
@@ -202,7 +203,7 @@ export default async function MarketsPage() {
   const lead        = byId('3') ?? newsItems[0];
   if (lead) used.add(lead.id);
   const subFeatures = take(2);
-  const whatsNews   = take(6);
+  const whatsNews   = take(4);
 
   // Section feeds — FT-style thematic desks
   const heardOnTheStreet   = analysisNews.slice(0, 5);
@@ -369,6 +370,7 @@ export default async function MarketsPage() {
           <Text variant="caption" className="mt-4 leading-relaxed">
             USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">CBL</a> &amp; <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
           </Text>
+
         </aside>
       </section>
 
@@ -596,6 +598,9 @@ export default async function MarketsPage() {
               <StoryCard key={n.id} n={n} />
             ))}
           </ul>
+          <div className="mt-5">
+            <EconomicEventsCalendar limit={3} />
+          </div>
         </aside>
       </section>
 

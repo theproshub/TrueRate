@@ -10,6 +10,7 @@ import { NewsFeedTabs } from './FinanceNewsClient';
 import { HeroCarousel } from '../NewsClient';
 import StickySidebar from '@/components/StickySidebar';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import NewsletterWidget from '@/components/NewsletterWidget';
 
 // Always render from the live database — no ISR cache, so newly published
@@ -314,29 +315,9 @@ export default async function FinanceNewsPage({
             <NewsletterWidget title="TrueRate Finance Brief" description="Forex, policy, commodities and macro — delivered every morning." />
           </div>
 
-          {/* Upcoming economic events */}
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden mb-5">
-            <div className="px-4 py-3.5 border-b border-gray-100">
-              <Heading level={6} as="h3" className="text-gray-900">Upcoming Events</Heading>
-            </div>
-            <div className="divide-y divide-gray-100">
-              {[
-                { date: 'Apr 7',  label: 'CBL Monetary Policy Meeting',   type: 'Policy' },
-                { date: 'Apr 10', label: 'Q1 GDP Advance Estimate',        type: 'Economy' },
-                { date: 'Apr 14', label: 'Mid-Year Budget Review',         type: 'Fiscal' },
-                { date: 'Apr 14', label: 'Liberia Investment Forum',       type: 'Trade' },
-                { date: 'Apr 22', label: 'IMF Staff Mission Begins',       type: 'IMF' },
-                { date: 'Apr 28', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets' },
-              ].map((ev, i) => (
-                <Link key={i} href="/economy" className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                  <span className="shrink-0 w-[40px] text-xs font-medium text-gray-500 tabular-nums">{ev.date}</span>
-                  <div className="min-w-0 flex-1 border-l border-gray-100 pl-3">
-                    <Text className="text-sm font-semibold text-gray-700 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.label}</Text>
-                    <span className="text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+          {/* Economic Calendar */}
+          <div className="mb-5">
+            <EconomicEventsCalendar limit={4} />
           </div>
 
           {/* Most Read */}

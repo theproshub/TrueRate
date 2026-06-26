@@ -34,7 +34,6 @@ export type Video = {
 
 export type TrendingSME = { name: string; sector: string; signal: string };
 export type Gainer = { label: string; change: string };
-export type EconEvent = { date: string; title: string };
 
 /* ─── Top Stories (Builders | Top Stories) ─── */
 export const HERO_STORY: Story = {
@@ -142,12 +141,4 @@ export const TOP_GAINERS: Gainer[] = [
   { label: 'Fintech SMEs',           change: '+24% YoY' },
   { label: 'Construction Materials', change: '+7% QoQ'  },
   { label: 'Women-Led Enterprises',  change: '+15% YoY' },
-];
-
-export const ECON_EVENTS: EconEvent[] = [
-  { date: 'Apr 7',  title: 'CBL Monetary Policy Meeting'         },
-  { date: 'Apr 10', title: 'Q1 GDP Advance Estimate'             },
-  { date: 'Apr 14', title: 'Liberia Investment Forum (Monrovia)' },
-  { date: 'Apr 18', title: 'LRA SME Tax Workshop'                },
-  { date: 'Apr 25', title: 'ECOWAS SME Finance Summit'           },
 ];

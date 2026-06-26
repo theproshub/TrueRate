@@ -5,6 +5,7 @@ import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { Heading, Text } from '@/components/ui';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 import NewsletterWidget from '@/components/NewsletterWidget';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import StickySidebar from '@/components/StickySidebar';
 
 export function TrendingPanel({ items = newsItems, popularItems }: { items?: NewsItem[]; popularItems?: NewsItem[] }) {
@@ -92,30 +93,8 @@ export function RightRail({ items = newsItems, popularItems }: { items?: NewsIte
         {/* Newsletter */}
         <NewsletterWidget />
 
-        {/* Upcoming events */}
-        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-          <div className="px-4 py-3.5 border-b border-gray-100">
-            <h3 className="text-sm font-bold text-gray-900">Upcoming Events</h3>
-          </div>
-          <div className="divide-y divide-gray-100">
-            {[
-              { date: 'Apr 7',  label: 'CBL Monetary Policy Meeting',   type: 'Policy',      href: '/economy/monetary-policy' },
-              { date: 'Apr 10', label: 'Q1 GDP Advance Estimate',        type: 'Economy',     href: '/economy/growth' },
-              { date: 'Apr 14', label: 'Mid-Year Budget Review',         type: 'Policy',      href: '/economy/fiscal' },
-              { date: 'Apr 14', label: 'Liberia Investment Forum',       type: 'Trade',       href: '/economy/trade' },
-              { date: 'Apr 18', label: 'World Bank Country Dialogue',    type: 'Development', href: '/economy' },
-              { date: 'Apr 22', label: 'ArcelorMittal Q1 Earnings Call', type: 'Markets',     href: '/markets' },
-            ].map((ev, i) => (
-              <Link key={i} href={ev.href} className="flex items-center gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                <span className="shrink-0 w-[40px] text-xs font-medium text-gray-500 tabular-nums">{ev.date}</span>
-                <div className="min-w-0 flex-1 border-l border-gray-100 pl-3">
-                  <p className="text-sm font-semibold text-gray-700 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.label}</p>
-                  <span className="text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        {/* Economic Calendar */}
+        <EconomicEventsCalendar limit={4} />
 
         {/* Most read */}
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">

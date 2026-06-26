@@ -9,6 +9,7 @@ import { TrendingPanel, RightRail } from '@/components/NewsSidebars';
 import { Heading, Text } from '@/components/ui';
 import { HeroCarousel, GeneralNewsTabs } from './NewsClient';
 import PlayableVideo from '@/components/PlayableVideo';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 
 // Always render from the live database — no ISR cache, so newly published
 // articles appear immediately.
@@ -27,17 +28,6 @@ function timeAgo(d: string) {
 /* Article-bearing sections are derived from the live DB inside the component
    (see NewsPage). Only non-article widgets (events, videos) remain static. */
 
-const UPCOMING_EVENTS = [
-  { date: 'Apr 7',  title: 'CBL Monetary Policy Committee Meeting',     type: 'Policy',      href: '/economy/monetary-policy' },
-  { date: 'Apr 10', title: 'Q1 2026 GDP Advance Estimate Release',       type: 'Data',        href: '/economy/growth' },
-  { date: 'Apr 12', title: 'LTA 5G Spectrum Consultation — Monrovia',    type: 'Tech',        href: '/technology' },
-  { date: 'Apr 14', title: 'Mid-Year Budget Review — Legislature',        type: 'Fiscal',      href: '/economy/fiscal' },
-  { date: 'Apr 14', title: 'Liberia Investment Forum — Monrovia',         type: 'Trade',       href: '/economy/trade' },
-  { date: 'Apr 18', title: 'West Africa Trade Facilitation Summit',       type: 'Trade',       href: '/economy/trade' },
-  { date: 'Apr 22', title: 'IMF Staff Mission Begins',                    type: 'IMF',         href: '/economy/fiscal' },
-  { date: 'Apr 28', title: 'ArcelorMittal Q1 Earnings Call',             type: 'Markets',     href: '/markets' },
-  { date: 'May 5',  title: 'African Development Bank Annual Meetings',    type: 'Development', href: '/economy' },
-];
 
 const VIDEOS = [
   { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'entertainment', time: 'Jun 20, 2026', youtubeId: '' },
@@ -414,24 +404,9 @@ export default async function NewsPage({
             </div>
           </div>
 
-          {/* Upcoming Events */}
+          {/* Economic Calendar */}
           <div className="mt-10 mb-4">
-            <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-1 h-5 bg-brand-accent rounded-full shrink-0" />
-                <Heading level={6} as="h2" className="text-gray-900 uppercase tracking-[0.12em]">Upcoming Events</Heading>
-              </div>
-              <Link href="/economy" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-base text-gray-500 hover:text-brand-accent-ink transition-colors no-underline">Full calendar ›</Link>
-            </div>
-            <div className="divide-y divide-gray-100">
-              {UPCOMING_EVENTS.map((ev, i) => (
-                <Link key={i} href={ev.href} className="group flex items-center gap-4 py-3 no-underline">
-                  <span className="shrink-0 w-[52px] text-sm font-medium text-gray-500 tabular-nums">{ev.date}</span>
-                  <Text className="flex-1 text-base font-semibold text-gray-800 group-hover:text-brand-accent-ink transition-colors leading-snug">{ev.title}</Text>
-                  <span className="shrink-0 text-2xs font-medium text-gray-500 uppercase tracking-wide">{ev.type}</span>
-                </Link>
-              ))}
-            </div>
+            <EconomicEventsCalendar limit={5} />
           </div>
 
         </div>

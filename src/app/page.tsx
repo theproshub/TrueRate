@@ -10,6 +10,7 @@ import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { SEED_INDICATORS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
 import { Heading, Text } from '@/components/ui';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import { getHomeFeed, type HomeArticle } from '@/lib/home-feed';
 
 export const metadata = {
@@ -284,26 +285,7 @@ function MostReadWidget({ items }: { items: HomeArticle[] }) {
 }
 
 function ExploreMore() {
-  const events = [
-    { label: 'CBL Monetary Policy Meeting', date: 'Jul 15, 2026' },
-    { label: 'LISGIS Q2 GDP Release', date: 'Jul 28, 2026' },
-    { label: 'West Africa Fintech Summit', date: 'Aug 5–7, 2026' },
-    { label: 'CBL Inflation Report (Jun)', date: 'Aug 12, 2026' },
-    { label: 'ECOWAS Trade Forum', date: 'Sep 3–4, 2026' },
-  ];
-  return (
-    <section aria-label="Upcoming Events" className="rounded-xl border border-gray-200 bg-white p-4">
-      <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">Upcoming Events</h3>
-      <ul className="list-none p-0 m-0 divide-y divide-gray-200">
-        {events.map((e) => (
-          <li key={e.label} className="flex items-start justify-between py-2.5 first:pt-0 last:pb-0">
-            <span className="text-sm font-semibold text-gray-600 leading-snug">{e.label}</span>
-            <span className="text-xs text-gray-500 whitespace-nowrap ml-3 pt-0.5">{e.date}</span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+  return <EconomicEventsCalendar limit={4} />;
 }
 
 function LatestSidebar({ mostRead }: { mostRead: HomeArticle[] }) {

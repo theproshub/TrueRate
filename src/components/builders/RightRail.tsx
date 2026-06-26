@@ -1,9 +1,9 @@
 import {
   TRENDING_SMES,
   TOP_GAINERS,
-  ECON_EVENTS,
 } from '@/lib/builders-data';
 import LiveMarketsMini from '@/components/builders/LiveMarketsMini';
+import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import StickySidebar from '@/components/StickySidebar';
 
 function RightRailPanel({ title, children }: { title: string; children: React.ReactNode }) {
@@ -60,18 +60,7 @@ function TopGainersPanel() {
 }
 
 function EventsListPanel() {
-  return (
-    <RightRailPanel title="Top Economic Events">
-      <ul className="list-none p-0 m-0 divide-y divide-gray-200">
-        {ECON_EVENTS.map((e, i) => (
-          <li key={i} className="py-2.5 first:pt-0 last:pb-0">
-            <p className="text-xs font-semibold text-brand-accent-ink mb-0.5 tabular-nums">{e.date}</p>
-            <p className="text-sm font-semibold text-gray-700 leading-snug">{e.title}</p>
-          </li>
-        ))}
-      </ul>
-    </RightRailPanel>
-  );
+  return <EconomicEventsCalendar limit={4} />;
 }
 
 export default function RightRail() {
