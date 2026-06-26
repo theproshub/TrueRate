@@ -15,7 +15,7 @@ import {
   getFiscalData,
   getTradeData,
 } from '@/lib/data/cbl-observations';
-import { CBL_POLICY_RATE, CBL_POLICY_RATE_PERIOD } from '@/lib/data/cbl-rate';
+import { getCblPolicyRate } from '@/lib/data/cbl-rate';
 import dynamic from 'next/dynamic';
 
 const TrendChart = dynamic(
@@ -64,12 +64,13 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
   // Fetch CBL data only for topics that display it.
-  const [cpi, exr, gdp, fiscal, trade] = await Promise.all([
+  const [cpi, exr, gdp, fiscal, trade, policyRate] = await Promise.all([
     slug === 'inflation' ? getCpiData(24) : Promise.resolve(null),
     slug === 'monetary-policy' ? getExchangeRateData(24) : Promise.resolve(null),
     slug === 'growth' ? getGdpData(15) : Promise.resolve(null),
     slug === 'fiscal' ? getFiscalData(24) : Promise.resolve(null),
     slug === 'trade' ? getTradeData(20) : Promise.resolve(null),
+    slug === 'monetary-policy' ? getCblPolicyRate() : Promise.resolve(null),
   ]);
 
   return (
@@ -153,8 +154,8 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
           <div className="flex flex-wrap gap-4 sm:gap-8 mb-6">
             <StatCell
               label="Policy Rate"
-              value={`${CBL_POLICY_RATE.toFixed(2)}%`}
-              sub={`MPC hold · ${CBL_POLICY_RATE_PERIOD}`}
+              value={`${(policyRate?.value ?? 0).toFixed(2)}%`}
+              sub={`MPC · ${policyRate?.period ?? ''}`}
             />
             {exr?.latest ? (
               <StatCell

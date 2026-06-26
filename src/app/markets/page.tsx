@@ -6,11 +6,8 @@ import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getNewsCatColor } from '@/lib/category-colors';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
 import { fetchCommodities } from '@/lib/api/yahoo';
-import {
-  fetchLiberiaIndicators,
-  latestValue,
-  WB_INDICATORS,
-} from '@/lib/api/worldbank';
+import { getDashboardIndicators } from '@/lib/data/indicators';
+import type { NormalizedIndicator } from '@/lib/types/indicators';
 import {
   getInterestRateData,
   getMoneySupplyData,
@@ -168,7 +165,7 @@ export default async function MarketsPage() {
   const [liveRates, commodities, indicators, interestRates, moneySupply, debtBreakdown] = await Promise.all([
     fetchLiveRates(),
     fetchCommodities(),
-    fetchLiberiaIndicators().catch(() => ({} as Record<string, { date: string; value: number }[]>)),
+    getDashboardIndicators().catch(() => [] as NormalizedIndicator[]),
     getInterestRateData(12),
     getMoneySupplyData(12),
     getDebtBreakdownData(12),
@@ -338,29 +335,39 @@ export default async function MarketsPage() {
           </ul>
 
           {/* Macro */}
-          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent-ink mb-2">Macro · World Bank</Text>
+          <Text variant="caption" className="font-bold uppercase tracking-wider text-brand-accent-ink mb-2">Macro · CBL / World Bank</Text>
           <ul className="m-0 p-0 list-none divide-y divide-gray-200 text-sm tabular-nums">
-            {[
-              { key: WB_INDICATORS.GDP_GROWTH, label: 'GDP growth' },
-              { key: WB_INDICATORS.INFLATION,  label: 'Inflation (CPI)' },
-              { key: WB_INDICATORS.RESERVES,   label: 'Reserves' },
-              { key: WB_INDICATORS.UNEMPLOYMENT, label: 'Unemployment' },
-              { key: WB_INDICATORS.GDP,        label: 'GDP' },
-              { key: WB_INDICATORS.GOVT_DEBT,  label: 'Govt debt %GDP' },
-            ].map(({ key, label }) => {
-              const v = latestValue(indicators[key] ?? []);
-              const isUsd = key === WB_INDICATORS.GDP || key === WB_INDICATORS.RESERVES;
-              return (
-                <li key={key} className="flex items-baseline justify-between py-1.5">
-                  <span className="font-semibold text-gray-900">{label}</span>
-                  <span className="font-bold text-gray-900">{v != null ? (isUsd ? formatUSD(v) : formatPct(v)) : '—'}</span>
-                </li>
-              );
-            })}
+            {(() => {
+              const indByKey = new Map(indicators.map((i: NormalizedIndicator) => [i.key, i]));
+              return [
+                { key: 'GDP_GROWTH',    label: 'GDP growth' },
+                { key: 'INFLATION',     label: 'Inflation (CPI)' },
+                { key: 'RESERVES',      label: 'Reserves' },
+                { key: 'UNEMPLOYMENT',  label: 'Unemployment' },
+                { key: 'GDP',           label: 'GDP' },
+                { key: 'GOVT_DEBT',     label: 'Govt debt' },
+                { key: 'CBL_RATE',      label: 'CBL Policy Rate' },
+              ].map(({ key, label }) => {
+                const ind = indByKey.get(key);
+                const v = ind?.value ?? null;
+                const isUsd = key === 'GDP' || key === 'RESERVES';
+                const formatted = v != null
+                  ? ind?.unit === 'M LRD' ? `L$${v.toLocaleString()}M`
+                  : ind?.unit === 'M USD' ? formatUSD(v * 1e6)
+                  : isUsd ? formatUSD(v) : formatPct(v)
+                  : '—';
+                return (
+                  <li key={key} className="flex items-baseline justify-between py-1.5">
+                    <span className="font-semibold text-gray-900">{label}</span>
+                    <span className="font-bold text-gray-900">{formatted}</span>
+                  </li>
+                );
+              });
+            })()}
           </ul>
 
           <Text variant="caption" className="mt-4 leading-relaxed">
-            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
+            USD/LRD from the <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr/research/buying-selling-rates" target="_blank" rel="noopener noreferrer">Central Bank of Liberia</a> (mid of daily buying/selling); EUR/GBP/CNY via <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml" target="_blank" rel="noopener noreferrer">European Central Bank</a> reference rates; GHS/NGN via an <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener noreferrer">open currency-rate feed</a>; macro from <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://www.cbl.org.lr" target="_blank" rel="noopener noreferrer">CBL</a> &amp; <a className="underline decoration-dotted underline-offset-2 hover:text-gray-900" href="https://data.worldbank.org/country/LR" target="_blank" rel="noopener noreferrer">World Bank</a>.
           </Text>
         </aside>
       </section>

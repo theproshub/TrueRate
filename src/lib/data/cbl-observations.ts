@@ -151,6 +151,30 @@ export async function getTradeData(quarters = 20): Promise<TradeData> {
 }
 
 // ---------------------------------------------------------------------------
+// Policy Rate (INR_MPR — CBL Monetary Policy Rate, monthly)
+// ---------------------------------------------------------------------------
+
+export interface PolicyRateData {
+  value: number;
+  previousValue: number;
+  period: string;
+  points: CblObsPoint[];
+}
+
+export async function getPolicyRateData(months = 24): Promise<PolicyRateData | null> {
+  const obs = await fetchSeries('LBR_INR_MPR_1', months);
+  if (!obs.length) return null;
+  const latest = obs[obs.length - 1];
+  const prev = obs.length >= 2 ? obs[obs.length - 2] : latest;
+  return {
+    value: latest.value,
+    previousValue: prev.value,
+    period: latest.date.slice(0, 7),
+    points: obs,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Interest Rates (INR — CBL interest rate series, monthly)
 // ---------------------------------------------------------------------------
 
