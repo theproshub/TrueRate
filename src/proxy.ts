@@ -30,6 +30,12 @@ const KNOWN_FILES = [
   '/favicon.ico',
   '/manifest.json',
   '/sw.js',
+  // App Router metadata routes (extensionless, so the matcher below still runs
+  // on them). These back the site-wide og:image / favicon for every page.
+  '/opengraph-image',
+  '/twitter-image',
+  '/icon',
+  '/apple-icon',
 ];
 
 function isKnownPath(pathname: string): boolean {
