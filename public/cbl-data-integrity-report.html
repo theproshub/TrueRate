@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Integrity Report — CBL Monetary Policy Rate (LBR_INR_MPR_1)</title>
+<style>
+  @page { margin: 1in; size: A4; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; color: #1a1a1a; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 60px 40px; background: #fff; }
+
+  /* Header */
+  .report-header { border-bottom: 3px solid #002868; padding-bottom: 24px; margin-bottom: 32px; }
+  .report-header .label { font-family: Arial, Helvetica, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #002868; margin-bottom: 4px; }
+  .report-header h1 { font-size: 22px; color: #002868; line-height: 1.3; margin-bottom: 6px; }
+  .report-header .subtitle { font-size: 15px; color: #444; }
+
+  /* Meta block */
+  .meta-block { font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #555; margin-bottom: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; }
+  .meta-block strong { color: #1a1a1a; }
+
+  /* Sections */
+  h2 { font-family: Arial, Helvetica, sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; color: #002868; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin: 36px 0 16px; }
+  h3 { font-size: 16px; color: #1a1a1a; margin: 24px 0 10px; }
+  p { margin-bottom: 14px; font-size: 15px; }
+  ul, ol { margin: 0 0 14px 24px; font-size: 15px; }
+  li { margin-bottom: 6px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
+  th { background: #002868; color: #fff; text-align: left; padding: 8px 12px; font-weight: 600; }
+  td { padding: 7px 12px; border-bottom: 1px solid #e0e0e0; }
+  tr:nth-child(even) td { background: #f7f9fc; }
+  tr.error-row td { background: #fff0f0; color: #b91c1c; font-weight: 600; }
+
+  /* Highlight boxes */
+  .finding-box { background: #fef3c7; border-left: 4px solid #d97706; padding: 16px 20px; margin: 20px 0; border-radius: 4px; }
+  .finding-box strong { display: block; margin-bottom: 4px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #92400e; }
+
+  .correction-box { background: #ecfdf5; border-left: 4px solid #059669; padding: 16px 20px; margin: 20px 0; border-radius: 4px; }
+  .correction-box strong { display: block; margin-bottom: 4px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #065f46; }
+
+  /* Code / SQL */
+  pre { background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; padding: 16px; font-family: 'Courier New', monospace; font-size: 12.5px; overflow-x: auto; margin: 12px 0 20px; line-height: 1.5; }
+
+  /* Footer */
+  .report-footer { margin-top: 48px; padding-top: 20px; border-top: 2px solid #002868; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #666; }
+  .report-footer .org { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+
+  /* Print */
+  @media print {
+    body { padding: 0; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="report-header">
+  <div class="label">Data Integrity Report</div>
+  <h1>Anomaly Detected in CBL DataWarehousePro:<br>Monetary Policy Rate Series (LBR_INR_MPR_1)</h1>
+  <div class="subtitle">Submitted to the Central Bank of Liberia — Statistics Department</div>
+</div>
+
+<div class="meta-block">
+  <div><strong>Prepared by:</strong> TrueRate Data Systems</div>
+  <div><strong>Date:</strong> June 28, 2026</div>
+  <div><strong>Series affected:</strong> LBR_INR_MPR_1</div>
+  <div><strong>Severity:</strong> High — public-facing data</div>
+  <div><strong>Period affected:</strong> April 2025 – present</div>
+  <div><strong>Classification:</strong> Data-entry error</div>
+</div>
+
+<!-- ═══════════ 1. EXECUTIVE SUMMARY ═══════════ -->
+<h2>1. Executive Summary</h2>
+
+<p>During routine data validation, TrueRate's automated quality-assurance system identified an inconsistency in the Monetary Policy Rate (MPR) series published through the CBL DataWarehousePro API.</p>
+
+<p>The April 2025 MPR observation is recorded as <strong>17.30 percent</strong>. Based on our analysis of the full rate-change history, supporting MPC communiqués, and standard central bank rate-setting conventions, the correct value is <strong>17.25 percent</strong>.</p>
+
+<p>This 5-basis-point discrepancy has cascaded forward through all subsequent observations. The current rate is displayed as 16.30 percent in the DataWarehousePro, while the official MPC-determined rate is 16.25 percent.</p>
+
+<div class="finding-box">
+  <strong>Key Finding</strong>
+  The April 2025 observation for LBR_INR_MPR_1 appears to contain a data-entry error: 17.30 was recorded instead of 17.25. This error propagates to all subsequent periods, causing the current rate to display as 16.30 instead of the MPC-set rate of 16.25.
+</div>
+
+<!-- ═══════════ 2. METHODOLOGY ═══════════ -->
+<h2>2. How the Error Was Detected</h2>
+
+<h3>2.1 Basis-Point Increment Analysis</h3>
+
+<p>Central banks worldwide — including the CBL — adjust policy rates in standardized increments, most commonly multiples of 25 basis points (0.25 percentage points). We extracted the complete MPR rate-change history from the DataWarehousePro (87 monthly observations, March 2019 through May 2026) and tested whether each rate change conforms to this convention.</p>
+
+<table>
+  <thead>
+    <tr><th>Period</th><th>Rate (%)</th><th>Change (bp)</th><th>Standard 25bp Multiple?</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Dec 2019</td><td>30.00</td><td>+2,600</td><td>Yes</td></tr>
+    <tr><td>Jun 2020</td><td>25.00</td><td>−500</td><td>Yes</td></tr>
+    <tr><td>Sep 2021</td><td>20.00</td><td>−500</td><td>Yes</td></tr>
+    <tr><td>Sep 2022</td><td>15.00</td><td>−500</td><td>Yes</td></tr>
+    <tr><td>Jul 2023</td><td>17.50</td><td>+250</td><td>Yes</td></tr>
+    <tr><td>Sep 2023</td><td>20.00</td><td>+250</td><td>Yes</td></tr>
+    <tr><td>Aug 2024</td><td>17.50</td><td>−250</td><td>Yes</td></tr>
+    <tr><td>Oct 2024</td><td>17.00</td><td>−50</td><td>Yes</td></tr>
+    <tr class="error-row"><td>Apr 2025</td><td>17.30</td><td>+30</td><td>No — only non-standard change in 7 years</td></tr>
+    <tr><td>Oct 2025</td><td>16.30</td><td>−100</td><td>Yes (but applied to incorrect base)</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Result:</strong> Nine out of ten rate changes are exact multiples of 25 basis points. The sole exception is April 2025, where a +30 basis point move was recorded. A 30bp adjustment has no precedent in the CBL's rate-setting history, nor is it standard practice at any central bank globally. This strongly indicates a data-entry error rather than an intentional policy decision.</p>
+
+<h3>2.2 Cascade Analysis</h3>
+
+<p>The October 2025 rate cut of 100 basis points was correctly applied in relative terms. However, because it was subtracted from the incorrect April 2025 base of 17.30, it produced an incorrect result:</p>
+
+<table>
+  <thead>
+    <tr><th></th><th>Pre-Apr 2025</th><th>Apr 2025</th><th>Oct 2025 (−100bp)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>As stored in DataWarehousePro</strong></td><td>17.00%</td><td>17.30%</td><td>16.30%</td></tr>
+    <tr><td><strong>Correct (based on MPC decision)</strong></td><td>17.00%</td><td>17.25%</td><td>16.25%</td></tr>
+  </tbody>
+</table>
+
+<p>This means every observation from April 2025 onward is overstated by 5 basis points.</p>
+
+<h3>2.3 Cross-Reference with MPC Communiqué</h3>
+
+<p>The Q2 2026 MPC communiqué (April 27, 2026) confirmed the policy rate was held at <strong>16.25 percent</strong>, consistent with our corrected value and inconsistent with the 16.30 percent stored in the DataWarehousePro.</p>
+
+<!-- ═══════════ 3. AFFECTED DATA ═══════════ -->
+<h2>3. Affected Observations</h2>
+
+<p>A total of <strong>14 monthly observations</strong> in the LBR_INR_MPR_1 series contain the incorrect value:</p>
+
+<table>
+  <thead>
+    <tr><th>Period Range</th><th>Number of Rows</th><th>Stored Value</th><th>Correct Value</th><th>Difference</th></tr>
+  </thead>
+  <tbody>
+    <tr class="error-row"><td>Apr 2025 – Sep 2025</td><td>6</td><td>17.30%</td><td>17.25%</td><td>+5bp</td></tr>
+    <tr class="error-row"><td>Oct 2025 – May 2026</td><td>8</td><td>16.30%</td><td>16.25%</td><td>+5bp</td></tr>
+  </tbody>
+</table>
+
+<p>No other series appear to be affected. The error is isolated to the MPR series and appears to originate from the manual entry of the April 2025 MPC decision.</p>
+
+<!-- ═══════════ 4. IMPACT ═══════════ -->
+<h2>4. Downstream Impact</h2>
+
+<p>The DataWarehousePro API is consumed by multiple data platforms and publications. Incorrect MPR values can affect:</p>
+
+<ul>
+  <li><strong>Third-party financial data providers</strong> that syndicate CBL data, potentially republishing the incorrect 16.30% figure</li>
+  <li><strong>Interest rate spread calculations</strong> — the spread between the policy rate and commercial lending rates is misstated by 5bp</li>
+  <li><strong>Monetary policy analysis</strong> — the cumulative easing since September 2023 appears as 3.70 percentage points instead of the actual 3.75 percentage points</li>
+  <li><strong>Public trust</strong> — discrepancies between published data and MPC communiqués can undermine confidence in official statistics</li>
+</ul>
+
+<!-- ═══════════ 5. RECOMMENDED CORRECTION ═══════════ -->
+<h2>5. Recommended Correction</h2>
+
+<div class="correction-box">
+  <strong>Proposed Fix</strong>
+  Update the 14 affected rows in the DataWarehousePro database to reflect the MPC-determined rates of 17.25% (Apr–Sep 2025) and 16.25% (Oct 2025–present).
+</div>
+
+<p>The following SQL reflects the required corrections (adapt table and column names to match the DataWarehousePro schema):</p>
+
+<pre>
+-- Correct Apr 2025 through Sep 2025: 17.30 → 17.25
+UPDATE observations
+SET    value = 17.25
+WHERE  mnemonic = 'LBR_INR_MPR_1'
+  AND  period_date >= '2025-04-01'
+  AND  period_date <  '2025-10-01'
+  AND  value = 17.30;
+
+-- Correct Oct 2025 onward: 16.30 → 16.25
+UPDATE observations
+SET    value = 16.25
+WHERE  mnemonic = 'LBR_INR_MPR_1'
+  AND  period_date >= '2025-10-01'
+  AND  value = 16.30;
+</pre>
+
+<p>After applying the correction, we recommend verifying the full series by confirming that every rate change is a multiple of 25 basis points.</p>
+
+<!-- ═══════════ 6. PREVENTION ═══════════ -->
+<h2>6. Prevention Recommendation</h2>
+
+<p>To prevent similar errors in the future, we respectfully suggest the following:</p>
+
+<ol>
+  <li><strong>Validation rule on entry:</strong> Flag any MPR change that is not a multiple of 25 basis points for manual review before it is committed to the database.</li>
+  <li><strong>Cross-check against communiqué:</strong> After each MPC meeting, verify that the rate entered into the DataWarehousePro matches the figure in the published communiqué.</li>
+  <li><strong>Downstream notification:</strong> Consider notifying registered API consumers when corrections are made to published series, so they can update their own systems.</li>
+</ol>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="report-footer">
+  <div class="org">TrueRate Data Systems</div>
+  <p style="margin-top: 6px;">
+    This report was generated through automated data-quality monitoring of the CBL DataWarehousePro API.
+    For questions or to discuss this finding, please contact us at <strong>juliansackey59@gmail.com</strong>.
+  </p>
+  <p style="margin-top: 12px; font-style: italic; color: #999;">
+    Report reference: TR-DI-2026-001 &nbsp;|&nbsp; Series: LBR_INR_MPR_1 &nbsp;|&nbsp; Generated: June 28, 2026
+  </p>
+</div>
+
+</body>
+</html>

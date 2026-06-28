@@ -102,7 +102,7 @@ export function RightRail({ items = newsItems, popularItems }: { items?: NewsIte
             <h3 className="text-sm font-bold text-gray-900">Most Read</h3>
           </div>
           <div className="divide-y divide-gray-100">
-            {mostReadSource.slice(0, 5).map((item) => (
+            {mostReadSource.slice(5, 10).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
                 <p className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
               </Link>

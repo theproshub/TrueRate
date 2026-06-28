@@ -22,13 +22,14 @@ These workflows fire automatically based on the request — no manual `/skill` i
 #### WRITE — "write an article", "create a story", "draft a piece about", "new article on"
 1. `search_series` → identify relevant CBL mnemonics from topic
 2. `data_quality_report` → gate: abort if any series is stale
-3. `article_data_sheet` → assemble formatted data sheet (every number comes from here)
-4. `trend_analysis` + `outlier_detection` → deeper context for primary series
-5. If 2+ indicators: `compare_series` + `cross_validate` → correlation + consistency check
-6. Write the article body using **only** values from the data sheet
-7. `verify_article_data` → automated claim-by-claim fact-check
-8. Fix any MISMATCH, re-verify until all pass
-9. Output: article with macroTags, data box, source attribution
+3. **`/validate-data` on referenced series** → pre-flight integrity check; abort if any HIGH-severity finding (e.g. non-25bp policy rate change)
+4. `article_data_sheet` → assemble formatted data sheet (every number comes from here)
+5. `trend_analysis` + `outlier_detection` → deeper context for primary series
+6. If 2+ indicators: `compare_series` + `cross_validate` → correlation + consistency check
+7. Write the article body using **only** values from the data sheet
+8. `verify_article_data` → automated claim-by-claim fact-check
+9. Fix any MISMATCH, re-verify until all pass
+10. Output: article with macroTags, data box, source attribution
 
 #### VERIFY — "check this article", "verify", "audit", "is this accurate", "fact check"
 1. Load article (from `src/data/news.ts` by ID, or `get_article` by slug, or inline text)
@@ -66,6 +67,17 @@ These workflows fire automatically based on the request — no manual `/skill` i
 5. Fix any MISMATCH, re-verify until clean
 6. Output: updated article with verification report
 
+#### VALIDATE — "check the data", "validate data", "data integrity", "audit the database", "sanity check"
+Full quantitative audit. Act as a senior data scientist — question every value, apply every test, prove every finding mathematically.
+1. Reconnaissance: full history pull (`get_series`), `series_statistics`, `data_quality_report` for all targets
+2. Statistical forensics: Z-score outlier detection (standard + modified), Benford's Law (χ² test, α=0.05), continuity/gap detection, structural break detection (variance ratio)
+3. Domain convention checks: 25bp grid test (MPR), covered interest rate parity (LRD vs USD), plausible range checks, velocity caps, stale-repeat detection
+4. Macroeconomic identity checks: Debt = Domestic + External, Trade balance = Exports − Imports, M2 ≥ Reserve money, Nominal GDP ≥ Real GDP, money multiplier stability
+5. Cross-series consistency: `cross_validate` + `compare_series` on related pairs with Pearson r thresholds
+6. Pipeline integrity: DB latest vs codebase fallbacks vs MPC communiqués
+7. Article impact scan: search `src/data/news.ts` for any incorrect values found
+8. Output: professional audit report with severity classification (CRITICAL/HIGH/MEDIUM/LOW), mathematical proofs, corrective SQL, and overall integrity score
+
 #### ECONOMY SNAPSHOT — "how's the economy", "macro overview", "economy dashboard"
 1. `macro_snapshot` → latest value for every CBL series
 2. `data_quality_report` → freshness check on key series
@@ -97,6 +109,7 @@ These workflows fire automatically based on the request — no manual `/skill` i
 - `/write-article <topic>` — Write a data-backed article at Bloomberg/Yahoo Finance quality
 - `/verify-article <id>` — Automated data integrity audit of an article against the CBL warehouse
 - `/correlate <series...>` — Multi-series correlation analysis with Pearson coefficients and editorial guidance
+- `/validate-data [series|group]` — Senior data scientist–grade integrity audit: Z-score outliers, Benford's Law, 25bp grid tests, macroeconomic identity checks, cross-series correlation, pipeline consistency. Blocks article publication on CRITICAL/HIGH findings. Every finding is mathematically proven.
 
 ## HCI guidelines (apply to every UI change)
 
