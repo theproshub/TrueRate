@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import WatchlistClient, { type WatchRow } from './WatchlistClient';
 import Breadcrumb from '@/components/Breadcrumb';
-import { getAnalyticsPayload } from '@/lib/analytics/data';
+import { getMcpAnalyticsPayload } from '@/lib/analytics/mcp-data';
 import { getWatchlist } from '@/lib/analytics/watchlist';
 import { statsFor } from '@/lib/analytics/stats';
 import type { AnalyticsItem } from '@/lib/analytics/types';
@@ -42,7 +42,7 @@ function toRow(item: AnalyticsItem): WatchRow {
 
 export default async function WatchlistPage() {
   const [payload, wl, saved] = await Promise.all([
-    getAnalyticsPayload(),
+    getMcpAnalyticsPayload(),
     getWatchlist(),
     getSavedArticles(),
   ]);

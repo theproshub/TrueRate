@@ -24,12 +24,11 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
           if (!r) continue;
           const idx = next.findIndex(x => x.label === label);
           if (idx === -1) continue;
-          const pct = r.changePercent;
           next[idx] = {
             label,
             value: r.rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-            pct: `${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%`,
-            up: pct >= 0,
+            pct: '',
+            up: true,
           };
         }
       }
@@ -74,7 +73,8 @@ export default function IndicatorsStrip({ initial }: { initial: TickerItem[] }) 
         }
       }
 
-      setItems(next);
+      // Only show items that received live data.
+      setItems(next.filter(i => i.value !== '—'));
     });
   }, [initial]);
 

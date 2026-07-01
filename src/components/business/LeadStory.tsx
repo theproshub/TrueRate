@@ -20,7 +20,7 @@ const focusRing =
 export default function LeadStory({ category, categorySlug, title, summary, source, time, href, image }: Props) {
   return (
     <article>
-      <Link href={href} className={`group flex flex-col md:flex-row gap-5 md:gap-6 no-underline ${focusRing}`}>
+      <Link href={href} className={`group flex flex-col md:flex-row gap-4 md:gap-6 no-underline ${focusRing}`}>
         <div className="md:w-[48%] shrink-0 overflow-hidden rounded-lg">
           <NewsThumbnail
             category={categorySlug ?? category}
@@ -30,18 +30,18 @@ export default function LeadStory({ category, categorySlug, title, summary, sour
         </div>
 
         <div className="flex-1 min-w-0 flex flex-col justify-center">
-          <span className={`text-[12px] font-extrabold uppercase tracking-[0.08em] ${getCatColor(categorySlug ?? category)}`}>
+          <span className={`text-[11px] sm:text-[12px] font-extrabold uppercase tracking-[0.08em] ${getCatColor(categorySlug ?? category)}`}>
             {category}
           </span>
-          <h3 className="mt-1.5 text-[24px] sm:text-[28px] lg:text-[30px] font-black leading-[1.15] text-[#0A0A0A] group-hover:underline decoration-2 underline-offset-2">
+          <h3 className="mt-1 sm:mt-1.5 text-[20px] sm:text-[28px] lg:text-[30px] font-black leading-[1.15] text-[#0A0A0A] group-hover:underline decoration-2 underline-offset-2">
             {title}
           </h3>
           {summary && (
-            <p className="mt-2 text-[15px] leading-[1.55] text-[#555] line-clamp-3 font-semibold font-montserrat">
+            <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-[1.55] text-[#555] line-clamp-2 sm:line-clamp-3 font-semibold font-montserrat">
               {summary}
             </p>
           )}
-          <SourceLabel source={source} time={time} className="mt-3" />
+          <SourceLabel source={source} time={time} className="mt-2 sm:mt-3" />
         </div>
       </Link>
     </article>

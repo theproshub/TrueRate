@@ -2,18 +2,16 @@
  * GET /api/rates
  *
  * Returns live LRD-denominated exchange rates.
- * Revalidates every hour — rates shift intraday.
+ * Returns an empty array when no live source is reachable — no stale seed fallback.
  *
- * Response shape: { date: string; rates: NormalizedRate[] }
+ * Response shape: { date: string | null; rates: NormalizedRate[]; lookup: Record<string, number> }
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
-import { exchangeRates } from '@/data/exchangeRates';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
-// ISR: revalidate hourly
-export const revalidate = 3600;
+export const revalidate = 900; // 15 min — consistent with indicators/analytics
 
 export interface NormalizedRate {
   pair: string;
@@ -22,9 +20,9 @@ export interface NormalizedRate {
   rate: number;
   change: number;
   changePercent: number;
-  high52w: number;
-  low52w: number;
 }
+
+const PAIR_ORDER = ['USD', 'EUR', 'GBP', 'CNY', 'GHS', 'NGN'] as const;
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
@@ -38,61 +36,43 @@ export async function GET(request: NextRequest) {
 
   try {
     const live = await fetchLiveRates();
-    const lrdRates = toLRDRates(live);
 
-    // Merge live rates onto the existing exchange rate records
-    // (preserves 52W high/low and change data from our seed file)
-    const rates: NormalizedRate[] = exchangeRates.map(r => {
-      const liveRate = lrdRates[r.from];
-      const rate = liveRate ?? r.rate; // fallback to seed if API missing
-      return {
-        pair: r.pair,
-        from: r.from,
-        to: r.to,
-        rate: Number(rate.toFixed(4)),
-        change: r.change,
-        changePercent: r.changePercent,
-        high52w: r.high52w,
-        low52w: r.low52w,
-      };
-    });
-
-    // Also expose the raw lookup map for the converter
-    const lookup: Record<string, number> = { LRD: 1 };
-    for (const r of rates) {
-      lookup[r.from] = r.rate;
+    if (live.stale) {
+      return NextResponse.json(
+        { date: null, rates: [], lookup: {} },
+        { status: 200 },
+      );
     }
 
-    return NextResponse.json(
-      // Don't advertise a current date when these are stale fallback rates.
-      { date: live.stale ? null : live.date, rates, lookup },
-      {
-        headers: {
-          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300',
-        },
-      }
-    );
-  } catch (err) {
-    console.error('[/api/rates] fetch failed:', err);
+    const lrdRates = toLRDRates(live);
 
-    // Full fallback: return seed data so the page stays functional
-    const rates: NormalizedRate[] = exchangeRates.map(r => ({
-      pair: r.pair,
-      from: r.from,
-      to: r.to,
-      rate: r.rate,
-      change: r.change,
-      changePercent: r.changePercent,
-      high52w: r.high52w,
-      low52w: r.low52w,
-    }));
+    const rates: NormalizedRate[] = PAIR_ORDER
+      .filter((from) => typeof lrdRates[from] === 'number' && Number.isFinite(lrdRates[from]))
+      .map((from) => ({
+        pair: `${from}/LRD`,
+        from,
+        to: 'LRD',
+        rate: Number(lrdRates[from].toFixed(4)),
+        change: 0,
+        changePercent: 0,
+      }));
 
     const lookup: Record<string, number> = { LRD: 1 };
     for (const r of rates) lookup[r.from] = r.rate;
 
     return NextResponse.json(
-      { date: null, rates, lookup },
-      { status: 200 } // still 200 so the UI renders
+      { date: live.date, rates, lookup },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=300',
+        },
+      },
+    );
+  } catch (err) {
+    console.error('[/api/rates] fetch failed:', err);
+    return NextResponse.json(
+      { date: null, rates: [], lookup: {} },
+      { status: 200 },
     );
   }
 }

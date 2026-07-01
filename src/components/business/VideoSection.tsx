@@ -25,7 +25,7 @@ export default function VideoSection({ videos }: { videos: Video[] }) {
 
   return (
     <section aria-labelledby="biz-videos-heading">
-      <h2 id="biz-videos-heading" className="text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-5">
+      <h2 id="biz-videos-heading" className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4 sm:mb-5">
         Top Videos
       </h2>
 
@@ -55,7 +55,7 @@ export default function VideoSection({ videos }: { videos: Video[] }) {
               </span>
             </div>
 
-            <h3 className="mt-3 text-[24px] font-extrabold leading-[1.25] text-[#0A0A0A] group-hover:underline decoration-1 underline-offset-2">
+            <h3 className="mt-3 text-[18px] sm:text-[24px] font-extrabold leading-[1.25] text-[#0A0A0A] group-hover:underline decoration-1 underline-offset-2">
               {lead.title}
             </h3>
             {lead.summary && (
@@ -73,7 +73,7 @@ export default function VideoSection({ videos }: { videos: Video[] }) {
                   <NewsThumbnail
                     category={v.categorySlug ?? v.category ?? 'business'}
                     src={v.image ?? undefined}
-                    className="h-[72px] w-[128px]"
+                    className="h-[56px] w-[100px] sm:h-[72px] sm:w-[128px]"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black/50">

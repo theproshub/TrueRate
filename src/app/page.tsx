@@ -7,7 +7,7 @@ import LiveMarketRail from '@/components/LiveMarketRail';
 import StickySidebar from '@/components/StickySidebar';
 import MobileSidebar from '@/components/MobileSidebar';
 import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
-import { SEED_INDICATORS } from '@/data/ticker-seed';
+import { TICKER_LABELS } from '@/data/ticker-seed';
 import { TODAYS_VIDEOS } from '@/data/todays-videos';
 import { Heading, Text } from '@/components/ui';
 import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
@@ -338,7 +338,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
-      <IndicatorsStrip initial={SEED_INDICATORS} />
+      <IndicatorsStrip initial={TICKER_LABELS} />
 
       <main className="mx-auto max-w-container px-4 sm:px-5 py-6 sm:py-8 pb-4 sm:pb-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-6">

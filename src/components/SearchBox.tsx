@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useMemo, useId } from 'react';
 import { useRouter } from 'next/navigation';
 import { newsItems } from '@/data/news';
 import type { NewsItem } from '@/lib/types';
-import { SEED_INDICATORS } from '@/data/ticker-seed';
+import { TICKER_LABELS } from '@/data/ticker-seed';
 import { getCatColor } from '@/lib/category-colors';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 
@@ -65,7 +65,7 @@ export default function SearchBox({
   const markets = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return SEED_INDICATORS.filter((m) => m.label.toLowerCase().includes(q)).slice(0, 4);
+    return TICKER_LABELS.filter((m) => m.label.toLowerCase().includes(q)).slice(0, 4);
   }, [query]);
 
   const showList = open && query.trim().length > 0;

@@ -104,19 +104,19 @@ export default async function SmallBusinessPage() {
   return (
     <>
       <main className="bg-white min-h-screen">
-        <div className="mx-auto max-w-[1280px] px-5 pt-6 pb-12">
+        <div className="mx-auto max-w-[1280px] px-4 sm:px-5 pt-5 sm:pt-6 pb-10 sm:pb-12">
           <div className="flex flex-col lg:flex-row lg:gap-8">
 
             {/* ══════════ Main column ══════════ */}
-            <div className="flex-1 min-w-0 space-y-6">
+            <div className="flex-1 min-w-0 space-y-5 sm:space-y-6">
 
               {/* ── 1. Top Stories ── */}
-              <section aria-labelledby="biz-top-heading" className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
-                <h2 id="biz-top-heading" className="text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-5">
+              <section aria-labelledby="biz-top-heading" className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+                <h2 id="biz-top-heading" className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4 sm:mb-5">
                   Small Business<span className="text-gray-300 font-normal mx-2">|</span>Top Stories
                 </h2>
                 <LeadStory {...hero} />
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 mt-6 pt-6 border-t border-gray-200">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-gray-200">
                   {secondaryStories.map((card, i) => (
                     <StoryCard key={card.href + i} {...card} horizontal />
                   ))}
@@ -124,8 +124,8 @@ export default async function SmallBusinessPage() {
               </section>
 
               {/* ── 2. Latest News ── */}
-              <section className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6" aria-labelledby="biz-latest-heading">
-                <h2 id="biz-latest-heading" className="text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4">
+              <section className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6" aria-labelledby="biz-latest-heading">
+                <h2 id="biz-latest-heading" className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4">
                   Latest News
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
@@ -143,23 +143,23 @@ export default async function SmallBusinessPage() {
               </section>
 
               {/* ── 3. Top Videos ── */}
-              <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
+              <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
                 <VideoSection videos={VIDEOS} />
               </div>
 
               {/* ── 4. Banking & Credit ── */}
-              <div className="border-t border-gray-200 pt-6">
+              <div className="border-t border-gray-200 pt-5 sm:pt-6">
                 <SectorBlock title="Banking & Credit" cards={sectorCards} />
               </div>
 
               {/* ── 5. Start a Business ── */}
-              <div className="border-t border-gray-200 pt-6">
+              <div className="border-t border-gray-200 pt-5 sm:pt-6">
                 <SectorBlock title="Start a Business" cards={sideHustle} />
               </div>
 
               {/* ── 6. More Business Stories ── */}
-              <section className="border-t border-gray-200 pt-6" aria-labelledby="biz-more-heading">
-                <h2 id="biz-more-heading" className="text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4">
+              <section className="border-t border-gray-200 pt-5 sm:pt-6" aria-labelledby="biz-more-heading">
+                <h2 id="biz-more-heading" className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4">
                   More Business Stories
                 </h2>
                 <div className="flex flex-col divide-y divide-gray-100">

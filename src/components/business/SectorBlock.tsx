@@ -29,11 +29,11 @@ export default function SectorBlock({
 
   return (
     <section aria-label={title}>
-      <h2 className="text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-5">
+      <h2 className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4 sm:mb-5">
         {brand && <>{brand}<span className="text-gray-300 font-normal mx-2">|</span></>}
         {title}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         {cards.map((card, i) => (
           <article key={card.href + i}>
             <Link href={card.href} className={`group block no-underline ${focusRing}`}>
@@ -41,7 +41,7 @@ export default function SectorBlock({
                 <NewsThumbnail
                   category={card.categorySlug ?? card.category}
                   src={card.image ?? undefined}
-                  className="w-full h-[140px] group-hover:scale-[1.03] transition-transform duration-300"
+                  className="w-full h-[100px] sm:h-[140px] group-hover:scale-[1.03] transition-transform duration-300"
                 />
               </div>
               <span className={`mt-2 block text-[10px] font-bold uppercase tracking-[0.06em] ${getCatColor(card.categorySlug ?? card.category)}`}>
