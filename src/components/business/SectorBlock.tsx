@@ -33,7 +33,7 @@ export default function SectorBlock({
         {brand && <>{brand}<span className="text-gray-300 font-normal mx-2">|</span></>}
         {title}
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {cards.map((card, i) => (
           <article key={card.href + i}>
             <Link href={card.href} className={`group block no-underline ${focusRing}`}>
