@@ -9,6 +9,12 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Georgia', 'Times New Roman', serif; color: #1a1a1a; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 60px 40px; background: #fff; }
 
+  /* Logo bar — letterhead lockup */
+  .logo-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; }
+  .logo-bar .brand { display: flex; align-items: center; }
+  .logo-bar img { height: 28px; width: auto; filter: brightness(0); }
+  .logo-bar .division { font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #6b7280; text-align: right; line-height: 1.4; }
+
   /* Header */
   .report-header { border-bottom: 3px solid #002868; padding-bottom: 24px; margin-bottom: 32px; }
   .report-header .label { font-family: Arial, Helvetica, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #002868; margin-bottom: 4px; }
@@ -45,7 +51,9 @@
 
   /* Footer */
   .report-footer { margin-top: 48px; padding-top: 20px; border-top: 2px solid #002868; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #666; }
-  .report-footer .org { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+  .report-footer .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .report-footer .footer-brand img { height: 20px; width: auto; filter: brightness(0); opacity: 0.7; }
+  .report-footer .org { font-size: 13px; font-weight: 700; color: #374151; letter-spacing: 0.3px; }
 
   /* Print */
   @media print {
@@ -56,7 +64,15 @@
 </head>
 <body>
 
-<!-- ═══════════ HEADER ═══════════ -->
+<!-- LOGO -->
+<div class="logo-bar">
+  <div class="brand">
+    <img src="/logo-tight.png" alt="TrueRate">
+  </div>
+  <div class="division">Data Systems</div>
+</div>
+
+<!-- HEADER -->
 <div class="report-header">
   <div class="label">Data Integrity Report</div>
   <h1>Anomaly Detected in CBL DataWarehousePro:<br>Monetary Policy Rate Series (LBR_INR_MPR_1)</h1>
@@ -72,7 +88,7 @@
   <div><strong>Classification:</strong> Data-entry error</div>
 </div>
 
-<!-- ═══════════ 1. EXECUTIVE SUMMARY ═══════════ -->
+<!-- 1. EXECUTIVE SUMMARY -->
 <h2>1. Executive Summary</h2>
 
 <p>During routine data validation, TrueRate's automated quality-assurance system identified an inconsistency in the Monetary Policy Rate (MPR) series published through the CBL DataWarehousePro API.</p>
@@ -86,7 +102,7 @@
   The April 2025 observation for LBR_INR_MPR_1 appears to contain a data-entry error: 17.30 was recorded instead of 17.25. This error propagates to all subsequent periods, causing the current rate to display as 16.30 instead of the MPC-set rate of 16.25.
 </div>
 
-<!-- ═══════════ 2. METHODOLOGY ═══════════ -->
+<!-- 2. METHODOLOGY -->
 <h2>2. How the Error Was Detected</h2>
 
 <h3>2.1 Basis-Point Increment Analysis</h3>
@@ -133,7 +149,7 @@
 
 <p>The Q2 2026 MPC communiqué (April 27, 2026) confirmed the policy rate was held at <strong>16.25 percent</strong>, consistent with our corrected value and inconsistent with the 16.30 percent stored in the DataWarehousePro.</p>
 
-<!-- ═══════════ 3. AFFECTED DATA ═══════════ -->
+<!-- 3. AFFECTED DATA -->
 <h2>3. Affected Observations</h2>
 
 <p>A total of <strong>14 monthly observations</strong> in the LBR_INR_MPR_1 series contain the incorrect value:</p>
@@ -150,7 +166,7 @@
 
 <p>No other series appear to be affected. The error is isolated to the MPR series and appears to originate from the manual entry of the April 2025 MPC decision.</p>
 
-<!-- ═══════════ 4. IMPACT ═══════════ -->
+<!-- 4. IMPACT -->
 <h2>4. Downstream Impact</h2>
 
 <p>The DataWarehousePro API is consumed by multiple data platforms and publications. Incorrect MPR values can affect:</p>
@@ -162,7 +178,7 @@
   <li><strong>Public trust</strong> — discrepancies between published data and MPC communiqués can undermine confidence in official statistics</li>
 </ul>
 
-<!-- ═══════════ 5. RECOMMENDED CORRECTION ═══════════ -->
+<!-- 5. RECOMMENDED CORRECTION -->
 <h2>5. Recommended Correction</h2>
 
 <div class="correction-box">
@@ -191,7 +207,7 @@ WHERE  mnemonic = 'LBR_INR_MPR_1'
 
 <p>After applying the correction, we recommend verifying the full series by confirming that every rate change is a multiple of 25 basis points.</p>
 
-<!-- ═══════════ 6. PREVENTION ═══════════ -->
+<!-- 6. PREVENTION -->
 <h2>6. Prevention Recommendation</h2>
 
 <p>To prevent similar errors in the future, we respectfully suggest the following:</p>
@@ -202,12 +218,15 @@ WHERE  mnemonic = 'LBR_INR_MPR_1'
   <li><strong>Downstream notification:</strong> Consider notifying registered API consumers when corrections are made to published series, so they can update their own systems.</li>
 </ol>
 
-<!-- ═══════════ FOOTER ═══════════ -->
+<!-- FOOTER -->
 <div class="report-footer">
-  <div class="org">TrueRate Data Systems</div>
+  <div class="footer-brand">
+    <img src="/logo-tight.png" alt="TrueRate">
+    <div class="org">TrueRate Data Systems</div>
+  </div>
   <p style="margin-top: 6px;">
     This report was generated through automated data-quality monitoring of the CBL DataWarehousePro API.
-    For questions or to discuss this finding, please contact us at <strong>juliansackey59@gmail.com</strong>.
+    For questions or to discuss this finding, please contact us at <strong>datasystems@truerateliberia.com</strong>.
   </p>
   <p style="margin-top: 12px; font-style: italic; color: #999;">
     Report reference: TR-DI-2026-001 &nbsp;|&nbsp; Series: LBR_INR_MPR_1 &nbsp;|&nbsp; Generated: June 28, 2026

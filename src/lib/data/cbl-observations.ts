@@ -213,17 +213,25 @@ export async function getInterestRateData(months = 12): Promise<InterestRateData
 
   const last = (arr: CblObsPoint[]) => arr.at(-1) ?? null;
 
+  // Guard: if LRD and USD values are identical for a row, the upstream data
+  // is suspect (likely a column-copy error). Null out the USD side so we
+  // display "—" instead of a misleading duplicate.
+  const guarded = (lrd: CblObsPoint | null, usd: CblObsPoint | null) => {
+    if (lrd && usd && lrd.value === usd.value) return null;
+    return usd;
+  };
+
   return {
     policyRate: { points: mpr, latest: last(mpr) },
     lendingLrd: { points: lendLrd, latest: last(lendLrd) },
     rows: [
       { label: 'Policy Rate (MPR)', lrd: last(mpr), usd: null },
-      { label: 'Lending',           lrd: last(lendLrd), usd: last(lendUsd) },
-      { label: 'Personal Loan',     lrd: last(plLrd),   usd: last(plUsd) },
-      { label: 'Mortgage',          lrd: last(mtgLrd),  usd: last(mtgUsd) },
-      { label: 'Time Deposit',      lrd: last(tdLrd),   usd: last(tdUsd) },
-      { label: 'Savings',           lrd: last(savLrd),  usd: last(savUsd) },
-      { label: 'CDs',               lrd: last(cdLrd),   usd: last(cdUsd) },
+      { label: 'Lending',           lrd: last(lendLrd), usd: guarded(last(lendLrd), last(lendUsd)) },
+      { label: 'Personal Loan',     lrd: last(plLrd),   usd: guarded(last(plLrd), last(plUsd)) },
+      { label: 'Mortgage',          lrd: last(mtgLrd),  usd: guarded(last(mtgLrd), last(mtgUsd)) },
+      { label: 'Time Deposit',      lrd: last(tdLrd),   usd: guarded(last(tdLrd), last(tdUsd)) },
+      { label: 'Savings',           lrd: last(savLrd),  usd: guarded(last(savLrd), last(savUsd)) },
+      { label: 'CDs',               lrd: last(cdLrd),   usd: guarded(last(cdLrd), last(cdUsd)) },
     ],
   };
 }

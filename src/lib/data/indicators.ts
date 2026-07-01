@@ -63,7 +63,8 @@ async function cblGdpIndicator(): Promise<NormalizedIndicator | null> {
   const latest = points[points.length - 1];
   const prev = points.length >= 2 ? points[points.length - 2] : null;
 
-  const scale = 1e-6;
+  // CBL LBR_NAT_0 is already in Millions of USD — convert to billions.
+  const scale = 1e-3;
   const value = fmt(latest.value * scale);
   const previousValue = prev ? fmt(prev.value * scale) : null;
   const change = previousValue !== null ? fmt(value - previousValue) : null;
@@ -78,7 +79,7 @@ async function cblGdpIndicator(): Promise<NormalizedIndicator | null> {
       previousValue !== null && previousValue !== 0
         ? fmt((change! / Math.abs(previousValue)) * 100)
         : null,
-    unit: 'M USD',
+    unit: 'B USD',
     period: latest.date.slice(0, 4),
     source: 'Central Bank of Liberia',
     history: points.map(p => ({ date: p.date, value: fmt(p.value * scale) })),
@@ -93,7 +94,8 @@ async function cblDebtIndicator(): Promise<NormalizedIndicator | null> {
   const latest = points[points.length - 1];
   const prev = points.length >= 2 ? points[points.length - 2] : null;
 
-  const scale = 1e-6;
+  // CBL LBR_FIS_DEBT_1 is already in Millions USD — convert to billions.
+  const scale = 1e-3;
   const value = fmt(latest.value * scale);
   const previousValue = prev ? fmt(prev.value * scale) : null;
   const change = previousValue !== null ? fmt(value - previousValue) : null;
@@ -108,7 +110,7 @@ async function cblDebtIndicator(): Promise<NormalizedIndicator | null> {
       previousValue !== null && previousValue !== 0
         ? fmt((change! / Math.abs(previousValue)) * 100)
         : null,
-    unit: 'M LRD',
+    unit: 'B USD',
     period: latest.date.slice(0, 7),
     source: 'Central Bank of Liberia',
     history: points.map(p => ({ date: p.date, value: fmt(p.value * scale) })),

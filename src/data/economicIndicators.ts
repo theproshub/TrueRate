@@ -97,18 +97,14 @@ export const economicIndicators: EconomicIndicator[] = [
     changePercent: 0.0,
     period: CBL_POLICY_RATE_PERIOD,
     source: 'Central Bank of Liberia',
-    // CBL Monetary Policy Rate — held at 16.25% with a cautious tightening bias
+    // CBL Monetary Policy Rate — actual end-of-year values from LBR_INR_MPR_1
     historicalData: generateHistoricalDataFromAnchors([
-      { year: 2015, value: 3.2  },
-      { year: 2016, value: 3.2  },
-      { year: 2017, value: 3.2  },
-      { year: 2018, value: 25.0 }, // Emergency hike to defend LRD
-      { year: 2019, value: 30.0 },
-      { year: 2020, value: 25.0 },
-      { year: 2021, value: 25.0 },
-      { year: 2022, value: 20.0 }, // Eased through 2022
-      { year: 2023, value: 16.25 }, // Cut to 16.25%
-      { year: 2024, value: 16.25 },
+      { year: 2019, value: 30.0 },  // Emergency hike Dec-19 (4% → 30%)
+      { year: 2020, value: 25.0 },  // Cut Jun-20
+      { year: 2021, value: 20.0 },  // Cut Sep-21
+      { year: 2022, value: 15.0 },  // Cut Sep-22
+      { year: 2023, value: 20.0 },  // Hiked Jul/Sep-23
+      { year: 2024, value: 17.0 },  // Cut Aug/Oct-24
     ], 0.005, 203),
   },
   {
@@ -135,24 +131,25 @@ export const economicIndicators: EconomicIndicator[] = [
   },
   {
     name: 'Trade Balance',
-    value: -0.78,
-    unit: 'B USD',
-    change: 0.04,
+    value: -780,
+    unit: 'M USD',
+    change: 40,
     changePercent: 4.88,
     period: '2023',
     source: 'World Bank',
+    // Annual goods trade balance (M USD) — matches live CBL BOP unit
     historicalData: generateHistoricalDataFromAnchors([
-      { year: 2015, value: -0.95 },
-      { year: 2016, value: -0.88 },
-      { year: 2017, value: -0.82 },
-      { year: 2018, value: -0.91 },
-      { year: 2019, value: -1.12 },
-      { year: 2020, value: -0.98 },
-      { year: 2021, value: -0.95 },
-      { year: 2022, value: -0.82 },
-      { year: 2023, value: -0.78 },
-      { year: 2024, value: -0.74 },
-    ], 0.02, 205),
+      { year: 2015, value: -950 },
+      { year: 2016, value: -880 },
+      { year: 2017, value: -820 },
+      { year: 2018, value: -910 },
+      { year: 2019, value: -1120 },
+      { year: 2020, value: -980 },
+      { year: 2021, value: -950 },
+      { year: 2022, value: -820 },
+      { year: 2023, value: -780 },
+      { year: 2024, value: -740 },
+    ], 10, 205),
   },
   {
     name: 'Foreign Reserves',
@@ -176,25 +173,26 @@ export const economicIndicators: EconomicIndicator[] = [
     ], 0.02, 206),
   },
   {
-    name: 'Government Debt/GDP',
-    value: 55.4,
-    unit: '%',
-    change: 1.8,
-    changePercent: 3.36,
-    period: '2023',
-    source: 'IMF',
+    name: 'Government Debt',
+    value: 2.64,
+    unit: 'B USD',
+    change: 0.19,
+    changePercent: 7.75,
+    period: '2024',
+    source: 'Ministry of Finance',
+    // Actual CBL LBR_FIS_DEBT_1 annual averages (Millions USD → B USD)
     historicalData: generateHistoricalDataFromAnchors([
-      { year: 2015, value: 35.6 },
-      { year: 2016, value: 37.2 },
-      { year: 2017, value: 38.8 },
-      { year: 2018, value: 43.2 },
-      { year: 2019, value: 48.7 },
-      { year: 2020, value: 55.1 }, // COVID spending spike
-      { year: 2021, value: 51.3 },
-      { year: 2022, value: 53.6 },
-      { year: 2023, value: 55.4 },
-      { year: 2024, value: 56.1 },
-    ], 0.008, 207),
+      { year: 2015, value: 1.18 },
+      { year: 2016, value: 1.25 },
+      { year: 2017, value: 1.32 },
+      { year: 2018, value: 1.42 },
+      { year: 2019, value: 1.54 },
+      { year: 2020, value: 1.64 },
+      { year: 2021, value: 1.67 },
+      { year: 2022, value: 1.97 },
+      { year: 2023, value: 2.27 },
+      { year: 2024, value: 2.64 },
+    ], 0.02, 207),
   },
   {
     name: 'Population',

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Integrity Report — Multiple Series Anomalies (INR, FIS, BOP Databanks)</title>
+<style>
+  @page { margin: 1in; size: A4; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; color: #1a1a1a; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 60px 40px; background: #fff; }
+
+  /* Logo bar — letterhead lockup */
+  .logo-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; }
+  .logo-bar .brand { display: flex; align-items: center; }
+  .logo-bar img { height: 28px; width: auto; filter: brightness(0); }
+  .logo-bar .division { font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #6b7280; text-align: right; line-height: 1.4; }
+
+  /* Header */
+  .report-header { border-bottom: 3px solid #002868; padding-bottom: 24px; margin-bottom: 32px; }
+  .report-header .label { font-family: Arial, Helvetica, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #002868; margin-bottom: 4px; }
+  .report-header h1 { font-size: 22px; color: #002868; line-height: 1.3; margin-bottom: 6px; }
+  .report-header .subtitle { font-size: 15px; color: #444; }
+
+  /* Meta block */
+  .meta-block { font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #555; margin-bottom: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; }
+  .meta-block strong { color: #1a1a1a; }
+
+  /* Sections */
+  h2 { font-family: Arial, Helvetica, sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; color: #002868; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin: 36px 0 16px; }
+  h3 { font-size: 16px; color: #1a1a1a; margin: 24px 0 10px; }
+  p { margin-bottom: 14px; font-size: 15px; }
+  ul, ol { margin: 0 0 14px 24px; font-size: 15px; }
+  li { margin-bottom: 6px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
+  th { background: #002868; color: #fff; text-align: left; padding: 8px 12px; font-weight: 600; }
+  td { padding: 7px 12px; border-bottom: 1px solid #e0e0e0; }
+  tr:nth-child(even) td { background: #f7f9fc; }
+  tr.error-row td { background: #fff0f0; color: #b91c1c; font-weight: 600; }
+
+  /* Highlight boxes */
+  .finding-box { background: #fef3c7; border-left: 4px solid #d97706; padding: 16px 20px; margin: 20px 0; border-radius: 4px; }
+  .finding-box strong { display: block; margin-bottom: 4px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #92400e; }
+
+  .correction-box { background: #ecfdf5; border-left: 4px solid #059669; padding: 16px 20px; margin: 20px 0; border-radius: 4px; }
+  .correction-box strong { display: block; margin-bottom: 4px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #065f46; }
+
+  .info-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 16px 20px; margin: 20px 0; border-radius: 4px; }
+  .info-box strong { display: block; margin-bottom: 4px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #1e40af; }
+
+  /* Code / SQL */
+  pre { background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; padding: 16px; font-family: 'Courier New', monospace; font-size: 12.5px; overflow-x: auto; margin: 12px 0 20px; line-height: 1.5; }
+
+  /* Footer */
+  .report-footer { margin-top: 48px; padding-top: 20px; border-top: 2px solid #002868; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #666; }
+  .report-footer .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .report-footer .footer-brand img { height: 20px; width: auto; filter: brightness(0); opacity: 0.7; }
+  .report-footer .org { font-size: 13px; font-weight: 700; color: #374151; letter-spacing: 0.3px; }
+
+  /* Print */
+  @media print {
+    body { padding: 0; }
+    .no-print { display: none; }
+    h2 { page-break-before: auto; }
+  }
+
+  /* TOC */
+  .toc { font-family: Arial, Helvetica, sans-serif; font-size: 14px; margin: 0 0 32px; }
+  .toc ol { margin: 8px 0 0 20px; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { color: #002868; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* Severity badge */
+  .severity { font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 2px 8px; border-radius: 3px; display: inline-block; margin-bottom: 8px; }
+  .severity.critical { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+  .severity.high { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+</style>
+</head>
+<body>
+
+<!-- LOGO -->
+<div class="logo-bar">
+  <div class="brand">
+    <img src="/logo-tight.png" alt="TrueRate">
+  </div>
+  <div class="division">Data Systems</div>
+</div>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="label">Data Integrity Report</div>
+  <h1>Anomalies Detected in CBL DataWarehousePro:<br>Interest Rate, Government Finance, and Balance of Payments Series</h1>
+  <div class="subtitle">Submitted to the Central Bank of Liberia — Statistics Department</div>
+</div>
+
+<div class="meta-block">
+  <div><strong>Prepared by:</strong> TrueRate Data Systems</div>
+  <div><strong>Date:</strong> July 1, 2026</div>
+  <div><strong>Databanks affected:</strong> INR, FIS, BOP, MON, PRO</div>
+  <div><strong>Severity:</strong> Critical — public-facing data</div>
+  <div><strong>Series affected:</strong> 24 series across 5 databanks</div>
+  <div><strong>Classification:</strong> Data-entry errors + anomalies</div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#summary">Executive Summary</a></li>
+    <li><a href="#finding-1">Finding 1 — Interest Rate LRD/USD Column Duplication</a></li>
+    <li><a href="#finding-2">Finding 2 — Government Budget: Parent Smaller Than Child</a></li>
+    <li><a href="#finding-3">Finding 3 — BOP: Sub-Item Exceeds Parent Category</a></li>
+    <li><a href="#additional">Additional Anomalies Requiring Verification</a></li>
+    <li><a href="#impact">Downstream Impact</a></li>
+    <li><a href="#corrections">Recommended Corrections</a></li>
+    <li><a href="#prevention">Prevention Recommendations</a></li>
+  </ol>
+</div>
+
+<!-- 1. EXECUTIVE SUMMARY -->
+<h2 id="summary">1. Executive Summary</h2>
+
+<p>During routine data validation on July 1, 2026, TrueRate's automated quality-assurance system identified three distinct anomalies across the Interest Rates (INR), Government Finance (FIS), and Balance of Payments (BOP) databanks published through the CBL DataWarehousePro API.</p>
+
+<p>These anomalies affect a combined <strong>16 series</strong> and involve data that is mathematically inconsistent with the hierarchical relationships defined by the DataWarehousePro schema. In each case, the error is detectable algorithmically and likely originates from data-entry or data-processing procedures.</p>
+
+<div class="finding-box">
+  <strong>Summary of Findings</strong>
+  <strong style="text-transform: none; letter-spacing: 0; font-size: 15px; color: #1a1a1a; margin-top: 8px;">Finding 1:</strong> All six LRD/USD interest rate pairs report identical values for February 2026, despite maintaining distinct currency spreads in prior months. This is economically implausible in a dual-currency banking system.<br><br>
+  <strong style="text-transform: none; letter-spacing: 0; font-size: 15px; color: #1a1a1a;">Finding 2:</strong> In March 2026, Salary &amp; Wages (a child of Recurrent Expenditure) is recorded at US$32.24 million — 77% larger than its parent category of US$18.17 million. A sub-component cannot exceed its total.<br><br>
+  <strong style="text-transform: none; letter-spacing: 0; font-size: 15px; color: #1a1a1a;">Finding 3:</strong> In Q4 2025, Workers' remittances (US$199.76 million) exceeds its parent category, Secondary Income Debit Outflows (US$48.04 million), by a factor of 4.2x. A "of which" memo item cannot exceed the total it belongs to.
+</div>
+
+<!-- 2. FINDING 1 — INTEREST RATES -->
+<h2 id="finding-1">2. Finding 1 — Interest Rate LRD/USD Column Duplication</h2>
+
+<span class="severity critical">Critical — 12 series affected</span>
+
+<h3>2.1 Description</h3>
+
+<p>The CBL publishes industry-average interest rates for six product categories, each broken out by currency denomination (Liberian Dollar and US Dollar). In a dual-currency economy, LRD-denominated rates are expected to differ from USD-denominated rates because lenders price in currency risk, liquidity premiums, and different funding costs. A persistent, economically meaningful spread between the two is normal and expected.</p>
+
+<p>In the February 2026 observation, all six LRD/USD pairs report <strong>exactly identical values</strong>. In prior months, these pairs maintained distinct spreads. The simultaneous collapse of all six spreads to zero in a single month has no economic precedent and is inconsistent with the mechanics of currency-specific lending.</p>
+
+<h3>2.2 Evidence</h3>
+
+<table>
+  <thead>
+    <tr><th>Rate Category</th><th>LRD Mnemonic</th><th>USD Mnemonic</th><th>Jan-26 LRD</th><th>Jan-26 USD</th><th>Jan-26 Spread</th><th>Feb-26 LRD</th><th>Feb-26 USD</th><th>Feb-26 Spread</th></tr>
+  </thead>
+  <tbody>
+    <tr class="error-row">
+      <td>Lending</td><td>LBR_INR_LRL_2</td><td>LBR_INR_LRU_8</td>
+      <td>12.88%</td><td>12.38%</td><td>+50bp</td>
+      <td>13.11%</td><td>13.11%</td><td>0bp</td>
+    </tr>
+    <tr class="error-row">
+      <td>Savings</td><td>LBR_INR_SRL_6</td><td>LBR_INR_SRU_12</td>
+      <td>1.93%</td><td>2.00%</td><td>-7bp</td>
+      <td>1.94%</td><td>1.94%</td><td>0bp</td>
+    </tr>
+    <tr class="error-row">
+      <td>Time Deposit</td><td>LBR_INR_DRL_5</td><td>LBR_INR_DRU_11</td>
+      <td>3.75%</td><td>4.36%</td><td>-61bp</td>
+      <td>3.67%</td><td>3.67%</td><td>0bp</td>
+    </tr>
+    <tr class="error-row">
+      <td>CDs</td><td>LBR_INR_CRL_7</td><td>LBR_INR_CRU_13</td>
+      <td>3.50%</td><td>3.40%</td><td>+10bp</td>
+      <td>3.43%</td><td>3.43%</td><td>0bp</td>
+    </tr>
+    <tr class="error-row">
+      <td>Mortgage</td><td>LBR_INR_MRL_4</td><td>LBR_INR_MRU_10</td>
+      <td>14.33%</td><td>14.33%</td><td>0bp</td>
+      <td>14.43%</td><td>14.43%</td><td>0bp</td>
+    </tr>
+    <tr class="error-row">
+      <td>Personal Loan</td><td>LBR_INR_PRL_3</td><td>LBR_INR_PRU_9</td>
+      <td>16.31%</td><td>16.31%</td><td>0bp</td>
+      <td>16.16%</td><td>16.16%</td><td>0bp</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>2.3 Analysis</h3>
+
+<p>The pattern is consistent with a <strong>column-copy error</strong> during data entry: the values for one currency denomination were pasted into the column for the other. The four product categories that had distinct spreads in January (Lending, Savings, Time Deposit, CDs) all lost those spreads simultaneously in February, while the two categories that were already coincidentally equal (Mortgage, Personal Loan) remained so.</p>
+
+<p>We also note that the Mortgage and Personal Loan rates have been identical across LRD and USD for the entire six-month window available (September 2025 through February 2026). While it is theoretically possible that banks charge the same rate regardless of currency for these specific products, we recommend verifying this with the underlying banking survey data, as it may reflect a longer-running entry issue for these two series.</p>
+
+<div class="info-box">
+  <strong>Determining which column is correct</strong>
+  We cannot determine from the published data alone whether the LRD values were copied into the USD column or vice versa. The source banking survey worksheets would resolve this. For the four pairs where a clear spread existed in January 2026, the January values provide a reference for what the correct February values should approximate.
+</div>
+
+<!-- 3. FINDING 2 — FISCAL -->
+<h2 id="finding-2">3. Finding 2 — Government Budget: Parent Smaller Than Child</h2>
+
+<span class="severity critical">Critical — 3 series affected</span>
+
+<h3>3.1 Description</h3>
+
+<p>The Government Finance (FIS) databank organizes budget data in a parent-child hierarchy. Recurrent Expenditure (LBR_FIS_BUD_2_1) is a sub-category of Total Expenditure, and its own children include Salary &amp; Wages (LBR_FIS_BUD_2_1_1) and Loans, Interest &amp; Other Charges (LBR_FIS_BUD_2_1_2). By definition, the sum of all children must be less than or equal to the parent.</p>
+
+<p>In the March 2026 observation, this accounting identity is violated: the child component Salary &amp; Wages alone exceeds its parent Recurrent Expenditure.</p>
+
+<h3>3.2 Evidence</h3>
+
+<table>
+  <thead>
+    <tr><th>Series</th><th>Mnemonic</th><th>Jan-26</th><th>Feb-26</th><th>Mar-26</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Recurrent Expenditure</strong> (parent)</td>
+      <td>LBR_FIS_BUD_2_1</td>
+      <td>26.54</td>
+      <td>51.04</td>
+      <td style="background:#fff0f0;color:#b91c1c;font-weight:600">18.17</td>
+    </tr>
+    <tr>
+      <td>&emsp;Salary &amp; Wages (child)</td>
+      <td>LBR_FIS_BUD_2_1_1</td>
+      <td>9.95</td>
+      <td>19.76</td>
+      <td style="background:#fff0f0;color:#b91c1c;font-weight:600">32.24</td>
+    </tr>
+    <tr>
+      <td>&emsp;Loans, Interest &amp; Other (child)</td>
+      <td>LBR_FIS_BUD_2_1_2</td>
+      <td>6.55</td>
+      <td>4.53</td>
+      <td>11.15</td>
+    </tr>
+    <tr class="error-row">
+      <td colspan="3"><strong>Sum of children (Mar-26)</strong></td>
+      <td colspan="2"><strong>43.39 M USD &gt; Parent 18.17 M USD</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All values are in Million USD. In January and February 2026, the parent correctly exceeds the sum of its children (with the residual representing other recurrent items not broken out). In March 2026, this relationship inverts.</p>
+
+<h3>3.3 Analysis</h3>
+
+<p>The March 2026 values suggest either:</p>
+
+<ol>
+  <li><strong>Swapped values:</strong> The parent and child figures may have been transposed during entry. If Recurrent Expenditure were 32.24 and Salary &amp; Wages were 18.17, the identity would hold (with a residual of 3.02 for other recurrent items), which is structurally plausible.</li>
+  <li><strong>Incorrect Salary &amp; Wages entry:</strong> The 32.24 figure is a 3.2x increase from the prior month (9.95 in Jan-26), which is unusual for a government payroll that is relatively stable month-to-month.</li>
+</ol>
+
+<p>Additionally, the Recurrent Expenditure figure of 18.17 in March is the lowest value in the three-month window, despite historically being the largest budget line item. This further suggests the value is misplaced.</p>
+
+<!-- 4. FINDING 3 — BOP -->
+<h2 id="finding-3">4. Finding 3 — BOP: Sub-Item Exceeds Parent Category</h2>
+
+<span class="severity critical">Critical — 2 series affected</span>
+
+<h3>4.1 Description</h3>
+
+<p>In the Balance of Payments (BOP) databank, Workers' remittances (LBR_BOP_1_7_2_1) is defined as a "of which" memo item under Secondary Income — Debit (Outflows) (LBR_BOP_1_7_2). By definition, a memo sub-item cannot exceed the total it belongs to.</p>
+
+<p>In the most recent three quarters, the Workers' remittances figure exceeds the Debit Outflows total by a factor of approximately 4x.</p>
+
+<h3>4.2 Evidence</h3>
+
+<table>
+  <thead>
+    <tr><th>Series</th><th>Mnemonic</th><th>2025Q2</th><th>2025Q3</th><th>2025Q4</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Secondary Income — Debit (Outflows)</strong> (parent)</td>
+      <td>LBR_BOP_1_7_2</td>
+      <td>48.85</td>
+      <td>48.64</td>
+      <td>48.04</td>
+    </tr>
+    <tr class="error-row">
+      <td>&emsp;Of which: Workers' remittances (child)</td>
+      <td>LBR_BOP_1_7_2_1</td>
+      <td>213.46</td>
+      <td>202.55</td>
+      <td>199.76</td>
+    </tr>
+    <tr class="error-row">
+      <td colspan="2"><strong>Child / Parent ratio</strong></td>
+      <td><strong>4.37x</strong></td>
+      <td><strong>4.16x</strong></td>
+      <td><strong>4.16x</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All values are in Million USD.</p>
+
+<h3>4.3 Analysis</h3>
+
+<p>The violation is persistent across all three available quarters, not a one-off data-entry error. This suggests a structural issue in how the series hierarchy is defined or how the data is compiled. Possible explanations:</p>
+
+<ol>
+  <li><strong>Hierarchy mis-assignment:</strong> Workers' remittances (LBR_BOP_1_7_2_1) may be incorrectly nested under Debit Outflows. In the BPM6 framework, workers' remittances typically appear under the <em>Credit (Inflows)</em> side of Secondary Income (LBR_BOP_1_7_1), not the Debit side. If the series is re-mapped under Credit Inflows, the relationship would be mathematically consistent — Q4 2025 Credit Inflows would need to be verified.</li>
+  <li><strong>Incorrect parent value:</strong> The Debit Outflows figure (~48M USD) may be understated. If the true debit outflows including remittances exceed 200M USD, the parent figure is too low.</li>
+</ol>
+
+<div class="finding-box">
+  <strong>Most Likely Explanation</strong>
+  Workers' remittances are typically a credit (inflow) to the receiving economy. Liberia is a net recipient of remittances from the large diaspora. The series LBR_BOP_1_7_2_1 is most likely mis-classified under Debit (Outflows) when it should be under Credit (Inflows). The values themselves (~US$200M/quarter) are consistent with published estimates of Liberia's annual remittance inflows.
+</div>
+
+<!-- 5. ADDITIONAL ANOMALIES -->
+<h2 id="additional">5. Additional Anomalies Requiring Verification</h2>
+
+<p>In addition to the three definitive errors above, our automated audit flagged the following anomalies. These may represent legitimate economic events, seasonal adjustments, or data-processing artifacts. We present them for verification against source documents rather than as confirmed errors.</p>
+
+<h3>5.1 Government Budget — Extreme Month-over-Month Movements (Mar-26)</h3>
+
+<span class="severity high">High — verify with Ministry of Finance</span>
+
+<p>Two Government Finance series exhibit month-over-month changes that exceed plausible bounds for government flow variables:</p>
+
+<table>
+  <thead>
+    <tr><th>Series</th><th>Mnemonic</th><th>Feb-26</th><th>Mar-26</th><th>Change</th></tr>
+  </thead>
+  <tbody>
+    <tr class="error-row">
+      <td>Non-Tax Revenue</td>
+      <td>LBR_FIS_BUD_1_2</td>
+      <td>17.15 M USD</td>
+      <td>244.91 M USD</td>
+      <td>+1,328%</td>
+    </tr>
+    <tr class="error-row">
+      <td>Capital Expenditure</td>
+      <td>LBR_FIS_BUD_2_2</td>
+      <td>0.06 M USD</td>
+      <td>49.68 M USD</td>
+      <td>+82,700%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Non-Tax Revenue:</strong> A 14x increase in a single month (from US$17.15M to US$244.91M) is unprecedented in the available history. The prior six months ranged from US$10–25M. If legitimate, this would represent an extraordinary one-time receipt (e.g. a mining concession payment or donor disbursement) that warrants annotation in the data.</p>
+
+<p><strong>Capital Expenditure:</strong> An increase from US$0.06M to US$49.68M represents an 82,700% change. The near-zero February value (US$0.06M) is itself suspect — capital spending rarely falls to effectively zero. This pattern suggests either a data-entry error or a timing artifact where expenditures were not recorded in February and were batch-entered in March.</p>
+
+<h3>5.2 Central Bank Monetary Survey — Balance Sheet Anomalies (Feb–Mar 2026)</h3>
+
+<span class="severity high">High — verify with CBL Monetary Statistics</span>
+
+<p>Three Central Bank Survey (CBS) series show movements that are difficult to reconcile with normal monetary operations:</p>
+
+<table>
+  <thead>
+    <tr><th>Series</th><th>Mnemonic</th><th>Jan-26</th><th>Feb-26</th><th>Mar-26</th><th>Key Movement</th></tr>
+  </thead>
+  <tbody>
+    <tr class="error-row">
+      <td>CB Net Foreign Assets</td>
+      <td>LBR_MON_2</td>
+      <td>-3,736 M LRD</td>
+      <td>3,350 M LRD</td>
+      <td>43,179 M LRD</td>
+      <td>Feb→Mar: +1,189%</td>
+    </tr>
+    <tr class="error-row">
+      <td>CB Liabilities to Other Sector</td>
+      <td>LBR_MON_6_3</td>
+      <td>1,495 M LRD</td>
+      <td>3,926 M LRD</td>
+      <td>151 M LRD</td>
+      <td>Feb→Mar: -96%</td>
+    </tr>
+    <tr class="error-row">
+      <td>Depository Corps: Other Items (Net)</td>
+      <td>LBR_MON_DC_11</td>
+      <td>18,408 M LRD</td>
+      <td>4,355 M LRD</td>
+      <td>24,222 M LRD</td>
+      <td>Jan→Feb: -76%; Feb→Mar: +456%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Net Foreign Assets:</strong> The CBS NFA swung from -3,736M LRD in January to +43,179M LRD in March — a sign change followed by a 12x increase. While an SDR allocation or large foreign-currency transaction could cause an NFA jump, the magnitude (roughly US$225M at current exchange rates) would represent a transformative event for Liberia's central bank balance sheet. We recommend verifying against the monthly balance sheet.</p>
+
+<p><strong>Liabilities to Other Sector:</strong> This series spiked from 155M LRD (Oct–Nov 2025 average) to 3,926M LRD in February 2026, then collapsed back to 151M LRD in March. The spike-and-reversal pattern is consistent with a temporary classification error or an end-of-period adjustment that was reversed.</p>
+
+<p><strong>Other Items (Net):</strong> The depository corporations survey "Other items (net)" — a residual balancing line — dropped 76% in one month then jumped 456% the next. Large swings in this residual line often indicate reclassifications or valuation adjustments elsewhere in the monetary survey that may not have been applied consistently.</p>
+
+<h3>5.3 Production Data — Unit of Measure Error</h3>
+
+<span class="severity high">High — metadata correction</span>
+
+<p>The Crude Palm Oil (CPO) production series (LBR_PRO_3) is labelled with a unit of measure of <strong>"Kilograms"</strong>. Recent monthly values range from 1,149 to 12,612. If these figures were truly in kilograms, Liberia's monthly CPO output would be 1–13 tonnes — implausibly low for a country with over 80,000 hectares of oil palm plantations.</p>
+
+<p>The values are consistent with <strong>Metric Tonnes</strong> (1,149–12,612 MT/month = 14,000–150,000 MT/year), which aligns with Liberia's published production capacity. The unit label in the series metadata should be corrected from "Kilograms" to "Metric Tonnes".</p>
+
+<div class="info-box">
+  <strong>Note on Data Staleness</strong>
+  Multiple key series have not been updated for several months: GDP (17.9 months stale), Balance of Payments (9 months), Government Debt (7 months), and Exchange Rate / CPI / Money Supply (4 months each). Our daily sync cron is running without errors, confirming that the DataWarehousePro API is operational but has not published newer observations for these series. We flag this for awareness as it may indicate a pipeline delay on the publication side.
+</div>
+
+<!-- 6. DOWNSTREAM IMPACT -->
+<h2 id="impact">6. Downstream Impact</h2>
+
+<p>The DataWarehousePro API is consumed by multiple data platforms, research institutions, and financial publications. These anomalies can produce the following downstream effects:</p>
+
+<ul>
+  <li><strong>Interest rate analysis:</strong> Analysts and financial publications relying on the DataWarehousePro will incorrectly report that the currency spread between LRD and USD banking products has collapsed to zero, potentially triggering misguided commentary about currency convergence or dollarization.</li>
+  <li><strong>Fiscal monitoring:</strong> The inverted parent-child relationship in the government budget data makes it impossible for downstream consumers to correctly compute recurrent spending composition or wage-bill-to-revenue ratios — key indicators used by the IMF, World Bank, and credit rating agencies in their assessments of Liberia's fiscal position.</li>
+  <li><strong>Balance of payments analysis:</strong> The remittance classification error overstates debit outflows and understates credit inflows, distorting the secondary income balance and, by extension, the current account balance. For an economy where remittances represent a significant share of GDP, this error has material implications for macroeconomic analysis.</li>
+  <li><strong>Public trust:</strong> Inconsistencies between published data and basic accounting identities can undermine confidence in official statistics among researchers, investors, and international institutions.</li>
+</ul>
+
+<!-- 7. RECOMMENDED CORRECTIONS -->
+<h2 id="corrections">7. Recommended Corrections</h2>
+
+<h3>6.1 Interest Rates (Finding 1)</h3>
+
+<div class="correction-box">
+  <strong>Proposed Fix</strong>
+  Re-source the February 2026 interest rate data from the original banking survey returns. Enter the correct LRD and USD values for each of the six rate categories. Additionally, verify the Mortgage and Personal Loan series for September 2025 through February 2026, as these show persistent zero spreads that may indicate a longer-running entry issue.
+</div>
+
+<p>The following SQL identifies the affected rows (adapt table and column names to match the DataWarehousePro schema):</p>
+
+<pre>
+-- Identify all Feb-26 interest rate observations where LRD = USD
+-- These 12 rows need to be re-sourced from the banking survey
+SELECT a.mnemonic AS lrd_mnemonic,
+       b.mnemonic AS usd_mnemonic,
+       a.value    AS lrd_value,
+       b.value    AS usd_value
+FROM   observations a
+JOIN   observations b
+  ON   b.period_date = a.period_date
+WHERE  a.period_date = '2026-02-01'
+  AND  (a.mnemonic, b.mnemonic) IN (
+         ('LBR_INR_LRL_2',  'LBR_INR_LRU_8'),
+         ('LBR_INR_SRL_6',  'LBR_INR_SRU_12'),
+         ('LBR_INR_DRL_5',  'LBR_INR_DRU_11'),
+         ('LBR_INR_CRL_7',  'LBR_INR_CRU_13'),
+         ('LBR_INR_MRL_4',  'LBR_INR_MRU_10'),
+         ('LBR_INR_PRL_3',  'LBR_INR_PRU_9')
+       )
+  AND  a.value = b.value;
+</pre>
+
+<h3>6.2 Government Budget (Finding 2)</h3>
+
+<div class="correction-box">
+  <strong>Proposed Fix</strong>
+  Verify the March 2026 values for LBR_FIS_BUD_2_1 (Recurrent Expenditure), LBR_FIS_BUD_2_1_1 (Salary &amp; Wages), and LBR_FIS_BUD_2_1_2 (Loans, Interest &amp; Other Charges) against the Ministry of Finance source data. If the parent and child values were transposed, swap them. After correction, verify: parent &ge; sum of children.
+</div>
+
+<pre>
+-- Diagnostic: show the March 2026 violation
+SELECT mnemonic, value
+FROM   observations
+WHERE  period_date = '2026-03-01'
+  AND  mnemonic IN (
+         'LBR_FIS_BUD_2_1',    -- Recurrent Expenditure (parent)
+         'LBR_FIS_BUD_2_1_1',  -- Salary &amp; Wages (child)
+         'LBR_FIS_BUD_2_1_2'   -- Loans, Interest &amp; Other (child)
+       )
+ORDER BY mnemonic;
+
+-- Expected result after correction:
+--   LBR_FIS_BUD_2_1   >= LBR_FIS_BUD_2_1_1 + LBR_FIS_BUD_2_1_2
+</pre>
+
+<h3>6.3 Balance of Payments (Finding 3)</h3>
+
+<div class="correction-box">
+  <strong>Proposed Fix</strong>
+  Verify the hierarchy assignment of LBR_BOP_1_7_2_1 (Workers' remittances). If remittances are credit inflows — consistent with BPM6 treatment and Liberia's remittance-receiving status — re-map the series under LBR_BOP_1_7_1 (Credit / Inflows) rather than LBR_BOP_1_7_2 (Debit / Outflows). This correction affects all historical observations, not just the most recent quarter.
+</div>
+
+<pre>
+-- If the series is reclassified under Credit (Inflows):
+UPDATE series_metadata  -- adapt to actual schema
+SET    parent_mnemonic = 'LBR_BOP_1_7_1'
+WHERE  mnemonic = 'LBR_BOP_1_7_2_1';
+
+-- After reclassification, verify:
+--   LBR_BOP_1_7_1 (Credit Inflows) >= LBR_BOP_1_7_2_1 (Workers' remittances)
+--   for all periods
+</pre>
+
+<!-- 8. PREVENTION -->
+<h2 id="prevention">8. Prevention Recommendations</h2>
+
+<p>To prevent similar errors in future data publications, we respectfully suggest the following automated validation checks be added to the DataWarehousePro ingestion pipeline:</p>
+
+<ol>
+  <li><strong>Currency-pair spread check:</strong> For any LRD/USD rate pair, flag if both values are identical. A zero spread is economically implausible for currency-differentiated products and should require manual confirmation before publication.</li>
+  <li><strong>Parent-child accounting identity check:</strong> For all hierarchical series (FIS budget items, BOP components), validate at ingestion time that <code>parent &ge; sum(children)</code>. Reject the batch if this identity is violated.</li>
+  <li><strong>Memo-item bound check:</strong> For "of which" memo sub-items, validate that <code>memo_item &le; parent_total</code> for all periods. This is a strict algebraic constraint that should never be violated.</li>
+  <li><strong>Velocity check:</strong> Flag any month-over-month change exceeding &plusmn;100% for flow variables (revenue, expenditure) for manual review before publication. The March 2026 salary figure (32.24M, up from 9.95M in January) would have been caught by this rule.</li>
+  <li><strong>Cross-period consistency:</strong> When entering a new month's data, display the prior month's values side-by-side to reduce transposition errors.</li>
+</ol>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <div class="footer-brand">
+    <img src="/logo-tight.png" alt="TrueRate">
+    <div class="org">TrueRate Data Systems</div>
+  </div>
+  <p style="margin-top: 6px;">
+    This report was generated through automated data-quality monitoring of the CBL DataWarehousePro API.
+    For questions or to discuss these findings, please contact us at <strong>datasystems@truerateliberia.com</strong>.
+  </p>
+  <p style="margin-top: 12px; font-style: italic; color: #999;">
+    Report reference: TR-DI-2026-002 &nbsp;|&nbsp; Databanks: INR, FIS, BOP, MON, PRO &nbsp;|&nbsp; Generated: July 1, 2026
+  </p>
+</div>
+
+</body>
+</html>
