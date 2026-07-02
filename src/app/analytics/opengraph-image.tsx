@@ -67,23 +67,15 @@ export default async function Image() {
     item = null;
   }
 
-  // No live series → degrade to the plain branded card (rule: imageless → mark).
+  // No live series → degrade to the branded card (rule: imageless → mark).
+  // Uses the same official brand-delivery artwork as the site-wide OG card.
   if (!item) {
-    const logo = await readFile(join(process.cwd(), 'public', 'Logo 3.png'));
-    const logoSrc = `data:image/png;base64,${logo.toString('base64')}`;
+    const brand = await readFile(join(process.cwd(), 'public', 'TRUERATE BRAND DELIVERY - 2.png'));
+    const brandSrc = `data:image/png;base64,${brand.toString('base64')}`;
     return new ImageResponse(
       (
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#1d1f23',
-          }}
-        >
-          <img src={logoSrc} width={720} height={462} alt="" />
+        <div style={{ width: '100%', height: '100%', display: 'flex' }}>
+          <img src={brandSrc} width={size.width} height={size.height} style={{ objectFit: 'cover' }} alt="" />
         </div>
       ),
       { ...size },

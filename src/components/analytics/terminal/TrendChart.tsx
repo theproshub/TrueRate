@@ -1,13 +1,12 @@
 'use client';
 
-import { useId } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import {
   Area,
   AreaChart,
   CartesianGrid,
   ReferenceLine,
   ReferenceDot,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -42,6 +41,24 @@ export default function TrendChart({
   mode?: 'percent' | 'value';
 }) {
   const gid = `trend-grad-${useId().replace(/:/g, '')}`;
+
+  // Measure the wrapper width ourselves and hand AreaChart an explicit width.
+  // ResponsiveContainer reads width(-1) on its first synchronous measure inside
+  // the sticky/flex focus column and won't draw until a later resize fires,
+  // which left the chart blank on initial load. A ResizeObserver measures the
+  // real laid-out width post-paint (and on every resize), so the chart renders
+  // immediately at the correct size. Height is fixed by the `height` prop.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const measure = () => setWidth(el.clientWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   if (points.length < 2) {
     return (
@@ -96,9 +113,9 @@ export default function TrendChart({
   const pad = (maxY - minY) * 0.12 || 1;
 
   return (
-    <div aria-hidden="true" className="w-full" style={{ height }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 8, right: 4, left: 0, bottom: 0 }}>
+    <div ref={wrapRef} aria-hidden="true" className="w-full" style={{ height }}>
+      {width > 0 && (
+        <AreaChart width={width} height={height} data={data} margin={{ top: 8, right: 4, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor={color} stopOpacity={0.18} />
@@ -196,7 +213,7 @@ export default function TrendChart({
             strokeWidth={2}
           />
         </AreaChart>
-      </ResponsiveContainer>
+      )}
     </div>
   );
 }
