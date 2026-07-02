@@ -90,7 +90,7 @@ export default function ReportsPage() {
                 href={r.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#002868] rounded-md hover:bg-[#001a4a] transition-colors focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none no-underline"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-[#1E1E1E] text-white hover:bg-[#2a2a2a] transition-colors focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none no-underline"
               >
                 <svg
                   aria-hidden="true"
