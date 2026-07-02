@@ -184,7 +184,7 @@ function SavedArticleRow({
             {row.categoryLabel}
           </div>
         )}
-        <div className="text-md font-bold leading-snug text-gray-900 transition-colors line-clamp-2 group-hover:text-gray-600">
+        <div className="text-md font-bold leading-snug text-gray-900 transition-colors line-clamp-2 group-hover:text-brand-accent-ink">
           {row.title}
         </div>
         {row.dek && <div className="mt-0.5 truncate text-xs text-gray-500">{row.dek}</div>}

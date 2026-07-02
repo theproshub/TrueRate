@@ -118,7 +118,7 @@ export default function VideosEntrepreneurshipPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-2xs font-bold uppercase tracking-wide text-gray-500 mb-1">{v.category}</div>
-                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-900/70 line-clamp-2 mb-1">{v.title}</h3>
+                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{v.title}</h3>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
               </a>
@@ -138,7 +138,7 @@ export default function VideosEntrepreneurshipPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-2xs font-bold uppercase tracking-wide text-gray-500 mb-1">{v.category}</div>
-                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-900/70 line-clamp-2 mb-1">{v.title}</h3>
+                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{v.title}</h3>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
               </a>

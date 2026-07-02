@@ -51,7 +51,7 @@ function SubStoryRow({ items: all }: { items: NewsItem[] }) {
           </div>
           <div className="mt-2.5">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</Heading>
+            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{item.title}</Heading>
             <div className="mt-1.5 flex items-center gap-1.5 text-xs text-gray-500">
               <span>{item.source}</span><span>·</span><span>{timeAgo(item.date)}</span>
             </div>
@@ -169,7 +169,7 @@ export default async function NewsPage({
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">
+                      <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">
                         {item.title}
                       </Heading>
                       <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
@@ -244,7 +244,7 @@ export default async function NewsPage({
                       <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-2xs font-bold uppercase tracking-wide text-gray-500">{p.category}</span>
                       <span className="text-xs text-gray-500">{p.readTime}</span>
                     </div>
-                    <Heading level={4} as="h3" className="font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors mb-2">{p.title}</Heading>
+                    <Heading level={4} as="h3" className="font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-2">{p.title}</Heading>
                     <Text className="text-sm sm:text-base text-gray-500 leading-relaxed line-clamp-2 sm:line-clamp-2 mb-2">{p.excerpt}</Text>
                     <div className="text-xs sm:text-sm text-gray-500">{p.author} · {p.time}</div>
                   </div>
@@ -270,7 +270,7 @@ export default async function NewsPage({
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col gap-1.5 sm:gap-2.5">
                     <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</div>
-                    <Heading level={6} as="h3" className="text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</Heading>
+                    <Heading level={6} as="h3" className="text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{item.title}</Heading>
                     <div className="text-2xs text-gray-500 mt-auto">{item.source} · {timeAgo(item.date)}</div>
                   </div>
                 </Link>
@@ -315,7 +315,7 @@ export default async function NewsPage({
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{op.title}</Heading>
+                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1">{op.title}</Heading>
                     <div className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">{op.author} · <span className="text-gray-500">{op.role}</span> · <span className="text-gray-500">{op.time}</span></div>
                   </div>
                   <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-500 transition-colors" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -340,7 +340,7 @@ export default async function NewsPage({
                     <NewsThumbnail category={s.category} src={s.image} className="w-full h-[140px]" />
                   </div>
                   <span className={`text-2xs font-bold uppercase tracking-wide mb-1.5 ${getCatColor(s.category)}`}>{s.category}</span>
-                  <Heading level={6} as="h3" className="leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3 mb-2">{s.title}</Heading>
+                  <Heading level={6} as="h3" className="leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-2">{s.title}</Heading>
                   <span className="text-xs text-gray-500 mt-auto">{s.time}</span>
                 </Link>
               ))}
@@ -363,7 +363,7 @@ export default async function NewsPage({
                     <NewsThumbnail category={a.category} src={a.image} className="h-[80px] w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1.5">{a.title}</Heading>
+                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1.5">{a.title}</Heading>
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                       <span>{a.date}</span>
                       <span>·</span>
@@ -388,7 +388,7 @@ export default async function NewsPage({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {communityVoices.map((cv, i) => (
                 <Link key={i} href={cv.href} className="group flex flex-col no-underline border-t border-gray-100 pt-4">
-                  <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-2">{cv.title}</Heading>
+                  <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-2">{cv.title}</Heading>
                   <Text className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 line-clamp-3 mb-3 flex-1">{cv.excerpt}</Text>
                   <div className="flex items-center gap-3">
                     <div className="shrink-0 overflow-hidden rounded-full">

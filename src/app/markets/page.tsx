@@ -93,7 +93,7 @@ function StoryCard({ n, withByline = false }: { n: NewsItem; withByline?: boolea
         </div>
         <div className="min-w-0 flex-1">
           <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
-          <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3">{n.title}</h3>
+          <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{n.title}</h3>
           <Text variant="meta" className="leading-relaxed text-gray-500 mt-1">
             {withByline && n.author ? <><span className="font-semibold text-gray-500">{n.author}</span><span className="mx-1 text-gray-700">·</span></> : null}
             {timeAgo(n.date)}
@@ -133,7 +133,7 @@ function DeskColumn({ title, href, items }: { title: string; href: string; items
         <div className="overflow-hidden rounded-xl mb-3">
           <NewsThumbnail category={lead.category} id={lead.id} src={lead.image} className="w-full h-[200px]" />
         </div>
-        <h3 className="text-md sm:text-lg font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors mb-1.5 text-balance">
+        <h3 className="text-md sm:text-lg font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-1.5 text-balance">
           {lead.title}
         </h3>
         <Text variant="meta" className="text-gray-500">
@@ -146,7 +146,7 @@ function DeskColumn({ title, href, items }: { title: string; href: string; items
       <div className="flex flex-col divide-y divide-gray-200 border-t border-gray-200">
         {rest.map(n => (
           <Link key={n.id} href={`/news/${n.id}`} className="group block py-3 no-underline">
-            <h4 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">
+            <h4 className="text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1">
               {n.title}
             </h4>
             <Text variant="meta" className="text-gray-500">
@@ -561,7 +561,7 @@ export default async function MarketsPage() {
               <span className="mx-2 text-gray-700">·</span>
               <span>{lead.category}</span>
             </Text>
-            <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:text-gray-600 transition-colors mb-3 text-balance">
+            <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-3 text-balance">
               {lead.title}
             </h2>
             <p className="text-md leading-relaxed text-gray-500 mb-3 line-clamp-3 max-w-[680px]">
@@ -583,7 +583,7 @@ export default async function MarketsPage() {
                   <NewsThumbnail category={s.category} id={s.id} src={s.image} className="w-full h-[180px] sm:h-[220px]" />
                 </div>
                 <p className={`text-2xs font-semibold uppercase tracking-wide mb-0.5 ${getNewsCatColor(s.category)}`}>{s.category}</p>
-                <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-1">{s.title}</h3>
                 <Text variant="meta" className="leading-relaxed text-gray-500">{timeAgo(s.date)}</Text>
               </Link>
             ))}
@@ -697,7 +697,7 @@ export default async function MarketsPage() {
               </div>
               <article>
                 <p className={`text-2xs font-semibold uppercase tracking-wide mb-1.5 ${getNewsCatColor(n.category)}`}>{n.category}</p>
-                <h3 className="text-base sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-2">{n.title}</h3>
+                <h3 className="text-base sm:text-md font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-2">{n.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">{n.summary}</p>
                 <Text variant="meta" className="text-gray-500">
                   {n.author && <><span className="font-semibold text-gray-600">{n.author}</span><span className="mx-1 text-gray-700">·</span></>}

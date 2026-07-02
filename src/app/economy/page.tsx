@@ -140,7 +140,7 @@ export default async function EconomyPage() {
               <span className={`text-2xs font-bold uppercase tracking-[0.18em] mb-2 block ${getCatColor(hero.category?.slug ?? 'economy')}`}>
                 {hero.category?.label ?? 'Economy'}
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:text-gray-600 transition-colors mb-3 text-balance">
+              <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-3 text-balance">
                 {hero.title}
               </h2>
               {hero.dek && (
@@ -164,7 +164,7 @@ export default async function EconomyPage() {
                       <NewsThumbnail category={s.category?.slug ?? 'economy'} src={s.hero_image} className="h-[64px] w-[96px]" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/70 transition-colors line-clamp-3 mb-1">{s.title}</h3>
+                      <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-1">{s.title}</h3>
                       <span className="text-xs text-gray-500">{timeAgo(s.published_at)}</span>
                     </div>
                   </Link>
@@ -211,7 +211,7 @@ export default async function EconomyPage() {
                     <span className={`text-2xs font-bold uppercase tracking-widest mb-1 ${getCatColor(s.category?.slug ?? 'economy')}`}>
                       {s.category?.label ?? 'Economy'}
                     </span>
-                    <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/70 transition-colors line-clamp-3 mb-1.5">{s.title}</h3>
+                    <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-1.5">{s.title}</h3>
                     <span className="text-xs text-gray-500">{timeAgo(s.published_at)}</span>
                   </Link>
                 ))}

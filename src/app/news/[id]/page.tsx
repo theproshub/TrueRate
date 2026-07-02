@@ -230,7 +230,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                         <NewsThumbnail category={r.category} id={r.id} className="w-full h-[110px]" />
                       </div>
                       <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(r.category)} mb-1`}>{r.category}</div>
-                      <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</Heading>
+                      <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-1">{r.title}</Heading>
                       <div className="text-xs text-gray-500">{r.source} · {timeAgo(r.date)}</div>
                     </Link>
                   ))}
@@ -252,7 +252,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)} mb-1`}>{s.category}</div>
-                      <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</Heading>
+                      <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1">{s.title}</Heading>
                       <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">{s.source} · {timeAgo(s.date)}</Text>
                     </div>
                   </Link>
@@ -483,7 +483,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                           )}
                         </div>
                         <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(catSlug)} mb-1`}>{catLabel}</div>
-                        <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-1">{r.title}</Heading>
+                        <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-1">{r.title}</Heading>
                         <div className="text-xs text-gray-500">TrueRate · {r.published_at ? timeAgo(r.published_at) : ''}</div>
                       </Link>
                     );
@@ -513,7 +513,7 @@ async function DbArticleView({ article }: { article: DbArticle }) {
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(catSlug)} mb-1`}>{catLabel}</div>
-                          <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{s.title}</Heading>
+                          <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1">{s.title}</Heading>
                           <Text as="p" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500">TrueRate · {s.published_at ? timeAgo(s.published_at) : ''}</Text>
                         </div>
                       </Link>

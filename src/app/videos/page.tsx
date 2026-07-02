@@ -119,7 +119,7 @@ function VideoCard({ title, duration, category, source, time, youtubeId }: { tit
         <VideoThumbnail category={category} duration={duration} className="w-full h-full" />
       </div>
       <div className="min-w-0 flex-1 flex flex-col justify-center">
-        <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{title}</h3>
+        <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{title}</h3>
         <div className="text-xs text-gray-500">{source ? `${source} · ` : ''}{time}</div>
       </div>
     </a>
@@ -190,7 +190,7 @@ export default function VideosPage() {
                   <VideoThumbnail category={v.category} duration={v.duration} className="w-full h-full" />
                 </div>
                 <div className="min-w-0 flex-1 flex flex-col justify-center">
-                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
+                  <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3 mb-0.5">{v.title}</h3>
                   <div className="text-xs text-gray-500">{v.time}</div>
                 </div>
               </a>

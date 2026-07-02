@@ -126,7 +126,7 @@ export default async function FinanceNewsPage({
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
                       </span>
-                      <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">
+                      <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">
                         {item.title}
                       </Heading>
                       <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2">{item.summary}</Text>
@@ -193,7 +193,7 @@ export default async function FinanceNewsPage({
                   <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
-                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
+                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{s.title}</Heading>
                     <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                       <span className="font-medium text-gray-500">{s.source}</span>
                       <span>&middot;</span>
@@ -220,7 +220,7 @@ export default async function FinanceNewsPage({
                   <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
-                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
+                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{s.title}</Heading>
                     <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                       <span className="font-medium text-gray-500">{s.source}</span>
                       <span>&middot;</span>
@@ -246,7 +246,7 @@ export default async function FinanceNewsPage({
                   <NewsThumbnail category={s.category.toLowerCase()} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[100px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
-                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{s.title}</Heading>
+                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{s.title}</Heading>
                     <Text className="mt-1.5 text-xs text-gray-500">{s.source} &middot; {s.time}</Text>
                   </div>
                 </Link>
@@ -268,7 +268,7 @@ export default async function FinanceNewsPage({
                   <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
-                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{s.title}</Heading>
+                    <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{s.title}</Heading>
                     <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                       <span className="font-medium text-gray-500">{s.source}</span>
                       <span>&middot;</span>
@@ -295,7 +295,7 @@ export default async function FinanceNewsPage({
                     <AuthorAvatar name={op.author} className="h-11 w-11 rounded-full" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{op.title}</Heading>
+                    <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1">{op.title}</Heading>
                     <Text className="text-sm text-gray-500">{op.author} &middot; <span className="text-gray-500">{op.role}</span> &middot; <span className="text-gray-500">{op.time}</span></Text>
                   </div>
                   <svg className="shrink-0 h-4 w-4 text-gray-500 group-hover:text-gray-500 transition-colors" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -332,7 +332,7 @@ export default async function FinanceNewsPage({
                     <NewsThumbnail category={item.category} id={item.id} src={item.image} className="h-[60px] w-[80px]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <Text className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Text>
+                    <Text className="text-sm font-bold leading-snug text-gray-700 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{item.title}</Text>
                     <span className={`text-2xs font-semibold uppercase tracking-wide mt-1 block ${getCatColor(item.category)}`}>{item.category}</span>
                   </div>
                 </Link>

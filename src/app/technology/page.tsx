@@ -174,7 +174,7 @@ export default async function TechnologyPage() {
                     {hero.category}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:text-gray-600 transition-colors mb-4 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-[1.1] text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-4 tracking-tight">
                   {hero.title}
                 </h1>
                 {hero.summary && <p className="text-md leading-relaxed text-gray-500 line-clamp-3 mb-4">{hero.summary}</p>}
@@ -199,7 +199,7 @@ export default async function TechnologyPage() {
                       <span className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
                         {card.category}
                       </span>
-                      <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 text-pretty">
+                      <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 text-pretty">
                         {card.title}
                       </h3>
                       <p className="mt-2 text-xs text-gray-500 truncate">
@@ -230,7 +230,7 @@ export default async function TechnologyPage() {
                         <p className={`text-2xs font-bold uppercase tracking-[0.12em] mb-1.5 ${getCatColor(card.categorySlug ?? card.category)}`}>
                           {card.category}
                         </p>
-                        <h3 className="text-sm sm:text-md font-semibold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors text-pretty">
+                        <h3 className="text-sm sm:text-md font-semibold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 text-pretty">
                           {card.title}
                         </h3>
                         <p className="mt-1.5 text-xs text-gray-500 truncate">
@@ -264,7 +264,7 @@ export default async function TechnologyPage() {
                         <span className={`text-2xs font-bold uppercase tracking-wide mb-1 sm:mb-1.5 block ${getCatColor(item.categorySlug ?? item.category)}`}>
                           {item.category}
                         </span>
-                        <h3 className="text-base sm:text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors mb-1 sm:mb-1.5 line-clamp-2">
+                        <h3 className="text-base sm:text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-1 sm:mb-1.5 line-clamp-2">
                           {item.title}
                         </h3>
                         {item.summary && <p className="hidden sm:block text-base leading-relaxed text-gray-500 line-clamp-2 mb-2">{item.summary}</p>}

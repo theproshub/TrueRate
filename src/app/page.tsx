@@ -42,14 +42,14 @@ function Meta({ a, byline = true }: { a: HomeArticle; byline?: boolean }) {
 function StoryRow({ a, thumb = 'right' }: { a: HomeArticle; thumb?: 'left' | 'right' | 'none' }) {
   const Thumbnail = (
     <div className="shrink-0 overflow-hidden rounded-lg">
-      <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
+      <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px] transition-transform duration-300 group-hover:scale-105" />
     </div>
   );
   return (
-    <Link href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
+    <Link href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline -mx-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
       {thumb === 'left' && Thumbnail}
       <div className="min-w-0 flex-1">
-        <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">
+        <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">
           {a.title}
         </h3>
         <Meta a={a} />
@@ -71,7 +71,7 @@ function FeaturedColumn({ items }: { items: HomeArticle[] }) {
       {/* Lead story */}
       <Link href={lead.href} className="group block no-underline">
         <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl mb-4">
-          <HeroVisual category={lead.categorySlug} id={lead.seedId} src={lead.src} className="h-[200px] sm:h-[260px]" />
+          <HeroVisual category={lead.categorySlug} id={lead.seedId} src={lead.src} className="h-[200px] sm:h-[260px] transition-transform duration-500 group-hover:scale-[1.03]" />
         </div>
         <div className="text-center max-w-[640px] mx-auto px-1">
           <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-3">
@@ -79,7 +79,7 @@ function FeaturedColumn({ items }: { items: HomeArticle[] }) {
             <span className="mx-2 text-gray-700">·</span>
             <span className={getCatColor(lead.categorySlug)}>{lead.categoryLabel}</span>
           </Text>
-          <h1 className="text-2xl sm:text-4xl font-extrabold leading-[1.15] text-gray-900 group-hover:text-gray-600 transition-colors mb-3 tracking-tight text-balance">
+          <h1 className="text-2xl sm:text-4xl font-extrabold leading-[1.15] text-gray-900 group-hover:text-brand-accent-ink transition-colors mb-3 tracking-tight text-balance">
             {lead.title}
           </h1>
           {lead.dek && (
@@ -101,12 +101,12 @@ function FeaturedColumn({ items }: { items: HomeArticle[] }) {
       {subs.length > 0 && (
         <div className="mt-6 flex flex-col divide-y divide-gray-200">
           {subs.map((a) => (
-            <Link key={a.href} href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
+            <Link key={a.href} href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline -mx-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
               <div className="shrink-0 overflow-hidden rounded-lg">
-                <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px]" />
+                <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[80px] sm:w-[120px] transition-transform duration-300 group-hover:scale-105" />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-3">{a.title}</h3>
+                <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{a.title}</h3>
                 <Meta a={a} />
               </div>
             </Link>
@@ -123,18 +123,18 @@ function NewsListColumn({ items }: { items: HomeArticle[] }) {
     <section aria-labelledby="top-stories-heading">
       <div className="border-b border-gray-200 pb-3 mb-4">
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
-          <h2 id="top-stories-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-gray-600 transition-colors">Top Stories</h2>
+          <h2 id="top-stories-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-brand-accent-ink transition-colors">Top Stories</h2>
           <span className="text-xl text-gray-500 group-hover:text-brand-accent-ink transition-colors">›</span>
         </Link>
       </div>
       <div className="flex flex-col divide-y divide-gray-200">
         {items.map((a) => (
-          <Link key={a.href} href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline">
+          <Link key={a.href} href={a.href} className="group flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline -mx-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
             <div className="overflow-hidden rounded-xl shrink-0">
-              <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
+              <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px] transition-transform duration-300 group-hover:scale-105" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors">{a.title}</h3>
+              <h3 className="line-clamp-3 text-sm sm:text-md font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors">{a.title}</h3>
               <Meta a={a} />
             </div>
           </Link>
@@ -150,18 +150,18 @@ function LatestColumn({ items }: { items: HomeArticle[] }) {
     <section aria-labelledby="latest-feed-heading">
       <div className="border-b border-gray-200 pb-3 mb-4">
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
-          <h2 id="latest-feed-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-gray-600 transition-colors">Latest</h2>
+          <h2 id="latest-feed-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-brand-accent-ink transition-colors">Latest</h2>
           <span className="text-xl text-gray-500 group-hover:text-brand-accent-ink transition-colors">›</span>
         </Link>
       </div>
       <div className="flex flex-col divide-y divide-gray-200">
         {items.map((a) => (
-          <Link key={a.href} href={a.href} className="flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline group">
+          <Link key={a.href} href={a.href} className="flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline group -mx-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
             <div className="shrink-0 overflow-hidden rounded-xl">
-              <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px]" />
+              <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px] transition-transform duration-300 group-hover:scale-105" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 line-clamp-3 group-hover:text-gray-600 transition-colors">{a.title}</h3>
+              <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 line-clamp-3 group-hover:text-brand-accent-ink transition-colors">{a.title}</h3>
               <Meta a={a} />
             </div>
           </Link>
@@ -180,16 +180,16 @@ function DeepReadsColumn({ items }: { items: HomeArticle[] }) {
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
           <div>
             <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Long reads</Text>
-            <Heading level={5} className="text-gray-900 group-hover:text-gray-600 transition-colors">In depth</Heading>
+            <Heading level={5} className="text-gray-900 group-hover:text-brand-accent-ink transition-colors">In depth</Heading>
           </div>
           <span className="text-xl text-gray-500 group-hover:text-brand-accent-ink transition-colors self-end">›</span>
         </Link>
       </div>
       <Link href={lead.href} className="group block no-underline mb-5">
         <div className="overflow-hidden rounded-xl mb-3">
-          <NewsThumbnail category={lead.categorySlug} id={lead.seedId} src={lead.src} className="w-full h-[180px]" />
+          <NewsThumbnail category={lead.categorySlug} id={lead.seedId} src={lead.src} className="w-full h-[180px] transition-transform duration-300 group-hover:scale-105" />
         </div>
-        <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors">{lead.title}</h3>
+        <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors">{lead.title}</h3>
         <div className="mt-2 text-xs text-gray-500">{lead.byline ? `${lead.byline} · ` : ''}{timeAgo(lead.date)}</div>
       </Link>
       {rest.length > 0 && (
@@ -207,7 +207,7 @@ function MoreNewsColumn({ items }: { items: HomeArticle[] }) {
     <section aria-labelledby="across-liberia-heading">
       <div className="border-b border-gray-200 pb-3 mb-4">
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
-          <h2 id="across-liberia-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-gray-600 transition-colors">Across Liberia</h2>
+          <h2 id="across-liberia-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-brand-accent-ink transition-colors">Across Liberia</h2>
           <span className="text-xl text-gray-500 group-hover:text-brand-accent-ink transition-colors">›</span>
         </Link>
       </div>
@@ -227,7 +227,7 @@ function QuickReadsColumn({ items }: { items: HomeArticle[] }) {
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
           <div>
             <Text variant="caption" className="font-semibold uppercase tracking-[0.2em] mb-0.5">Desk notes</Text>
-            <Heading level={5} className="text-gray-900 group-hover:text-gray-600 transition-colors">In brief</Heading>
+            <Heading level={5} className="text-gray-900 group-hover:text-brand-accent-ink transition-colors">In brief</Heading>
           </div>
           <span className="text-xl text-gray-500 group-hover:text-brand-accent-ink transition-colors self-end">›</span>
         </Link>
@@ -236,17 +236,17 @@ function QuickReadsColumn({ items }: { items: HomeArticle[] }) {
       {/* Lead — image + headline + meta */}
       <Link href={lead.href} className="group block no-underline mb-4">
         <div className="overflow-hidden rounded-xl mb-3">
-          <NewsThumbnail category={lead.categorySlug} id={lead.seedId} src={lead.src} className="w-full h-[180px]" />
+          <NewsThumbnail category={lead.categorySlug} id={lead.seedId} src={lead.src} className="w-full h-[180px] transition-transform duration-300 group-hover:scale-105" />
         </div>
-        <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors text-balance mb-1">{lead.title}</h3>
+        <h3 className="text-md font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors text-balance mb-1">{lead.title}</h3>
         <Text variant="meta" className="text-gray-500">{lead.byline ? `${lead.byline} · ` : ''}{timeAgo(lead.date)}</Text>
       </Link>
 
       {/* Follow list — headline + source · time */}
       <div className="flex flex-col divide-y divide-gray-200 border-t border-gray-200">
         {rest.map((a) => (
-          <Link key={a.href} href={a.href} className="group block py-3 no-underline">
-            <h4 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1 text-pretty">{a.title}</h4>
+          <Link key={a.href} href={a.href} className="group block py-3 no-underline -mx-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
+            <h4 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1 text-pretty">{a.title}</h4>
             <Text variant="meta" className="text-gray-500">{a.byline ? `${a.byline} · ` : ''}{timeAgo(a.date)}</Text>
           </Link>
         ))}
@@ -261,19 +261,19 @@ function MostReadWidget({ items }: { items: HomeArticle[] }) {
     <section aria-label="Most Read" className="rounded-xl border border-gray-200 bg-white p-4">
       <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-3">
         <Link href="/news" className="group inline-flex items-center gap-1.5 no-underline">
-          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-gray-600 transition-colors">Most Read</h3>
+          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-brand-accent-ink transition-colors">Most Read</h3>
           <span className="text-lg text-gray-500 group-hover:text-brand-accent-ink transition-colors">›</span>
         </Link>
       </div>
       <ul className="list-none p-0 m-0 divide-y divide-gray-200">
         {items.map((a) => (
           <li key={a.href} className="py-2.5 first:pt-0 last:pb-0">
-            <Link href={a.href} className="flex items-start gap-3 no-underline group">
+            <Link href={a.href} className="flex items-start gap-3 no-underline group -mx-2 px-2 py-1 rounded-lg hover:bg-gray-50 transition-colors">
               <div className="shrink-0 overflow-hidden rounded-lg">
-                <NewsThumbnail category={a.categorySlug} src={a.src ?? undefined} className="h-[52px] w-[72px]" />
+                <NewsThumbnail category={a.categorySlug} src={a.src ?? undefined} className="h-[52px] w-[72px] transition-transform duration-300 group-hover:scale-105" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold leading-snug text-gray-800 group-hover:text-gray-900 transition-colors line-clamp-2">{a.title}</p>
+                <p className="text-sm font-semibold leading-snug text-gray-800 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{a.title}</p>
                 <Text variant="meta" className="mt-1">{a.byline ? `${a.byline} · ` : ''}{timeAgo(a.date)}</Text>
               </div>
             </Link>

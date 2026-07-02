@@ -32,7 +32,7 @@ export function TrendingPanel({ items = newsItems, popularItems }: { items?: New
             <Link key={item.rank} href={item.href} className="flex items-start gap-3 px-4 py-3.5 no-underline group hover:bg-gray-50 transition-colors">
               <NewsThumbnail category={item.category} id={item.id} src={item.image} className="h-[72px] w-[72px] shrink-0 rounded-md" />
               <div className="min-w-0 flex-1 self-center">
-                <p className="text-base font-semibold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
+                <p className="text-base font-semibold leading-snug text-gray-700 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{item.title}</p>
               </div>
             </Link>
           ))}
@@ -104,7 +104,7 @@ export function RightRail({ items = newsItems, popularItems }: { items?: NewsIte
           <div className="divide-y divide-gray-100">
             {mostReadSource.slice(5, 10).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="flex items-start gap-3 px-4 py-3 no-underline group hover:bg-gray-50 transition-colors">
-                <p className="text-sm font-bold leading-snug text-gray-700 group-hover:text-brand-accent-ink transition-colors line-clamp-3">{item.title}</p>
+                <p className="text-sm font-bold leading-snug text-gray-700 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{item.title}</p>
               </Link>
             ))}
           </div>

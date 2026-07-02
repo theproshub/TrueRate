@@ -17,7 +17,7 @@ export default function MoreStoriesList() {
             <Link href={s.href} className="group flex items-start gap-4 py-4 no-underline">
               <NewsThumbnail category={s.category} className="w-[88px] h-[64px] sm:w-[120px] sm:h-[72px] rounded-md shrink-0" />
               <div className="min-w-0 flex-1 flex flex-col">
-                <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors mb-1">
+                <h3 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors mb-1">
                   {s.title}
                 </h3>
                 <span className="text-xs text-gray-500">{s.source} · {s.time}</span>

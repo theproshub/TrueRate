@@ -30,7 +30,7 @@ function HeroCard({ item }: { item: NewsItem }) {
       </div>
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-5">
-        <h2 className="text-xl font-extrabold leading-[1.15] text-white drop-shadow-lg line-clamp-3 tracking-tight text-balance">
+        <h2 className="text-xl font-extrabold leading-[1.15] text-white drop-shadow-lg line-clamp-3 tracking-tight text-balance hover:underline decoration-2 underline-offset-2">
           {item.title}
         </h2>
         <p className="mt-2 text-sm font-medium leading-relaxed text-white/75 line-clamp-2 drop-shadow">
@@ -88,7 +88,7 @@ export function HeroCarousel({ items = newsItems }: { items?: NewsItem[] }) {
         {/* Headline + summary overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-8">
           <Link href={`/news/${item.id}`} className="no-underline block">
-            <h2 className="text-4xl font-extrabold leading-[1.15] text-white drop-shadow-lg line-clamp-3 tracking-tight text-balance hover:text-brand-accent-ink transition-colors">
+            <h2 className="text-4xl font-extrabold leading-[1.15] text-white drop-shadow-lg line-clamp-3 tracking-tight text-balance hover:underline decoration-2 underline-offset-4">
               {item.title}
             </h2>
             <p className="mt-3 text-lg font-medium leading-relaxed text-white/75 line-clamp-2 max-w-[640px] drop-shadow">
@@ -139,7 +139,7 @@ function FeedList({ tab, items }: { tab: string; items: NewsItem[] }) {
           <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
           <div className="min-w-0 flex-1">
             <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
+            <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{item.title}</Heading>
             <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2 hidden sm:block">{item.summary}</Text>
             <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
               <span className="font-medium text-gray-500">{item.source}</span>
@@ -209,7 +209,7 @@ export function GeneralNewsTabs({ items = newsItems }: { items?: NewsItem[] }) {
             <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[100px] sm:h-[90px] sm:w-[140px] rounded-xl" />
             <div className="min-w-0 flex-1">
               <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>{item.category}</span>
-              <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2">{item.title}</Heading>
+              <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{item.title}</Heading>
               <Text className="mt-1 text-base leading-relaxed text-gray-500 line-clamp-2 hidden sm:block">{item.summary}</Text>
               <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                 <span className="font-medium text-gray-500">{item.source}</span>

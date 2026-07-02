@@ -105,7 +105,7 @@ export default function VideosSection({ videos }: { videos: Video[] }) {
                     </div>
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col justify-center">
-                    <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">
+                    <h3 className="text-sm font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">
                       {v.title}
                     </h3>
                     <p className="text-xs text-gray-500">

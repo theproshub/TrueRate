@@ -355,7 +355,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
                 <NewsThumbnail category={item.category} src={item.image} className="w-full h-[170px]" />
               </div>
               <p className={`text-2xs font-bold uppercase tracking-widest mb-1.5 ${getCatColor(item.category)}`}>{item.category}</p>
-              <h2 className="text-sm font-bold leading-snug text-gray-900 group-hover:text-gray-900/75 transition-colors line-clamp-3 mb-2">{item.title}</h2>
+              <h2 className="text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-2">{item.title}</h2>
               <p className="text-sm text-gray-500 line-clamp-2 mb-2">{item.summary}</p>
               <div className="mt-auto text-xs text-gray-500">{item.source} &middot; {timeAgo(item.date)}</div>
             </Link>

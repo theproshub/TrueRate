@@ -49,7 +49,7 @@ export default function VideoFeature() {
                     Now playing
                   </span>
                 )}
-                <h4 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-1">{v.title}</h4>
+                <h4 className="text-sm sm:text-base font-semibold leading-snug text-gray-900 group-hover:text-brand-accent-ink transition-colors line-clamp-2 mb-1">{v.title}</h4>
                 <span className="text-xs text-gray-500">{v.source}</span>
               </div>
             </a>
