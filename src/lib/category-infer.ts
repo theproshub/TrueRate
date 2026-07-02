@@ -42,10 +42,6 @@ const KEYWORDS: Record<string, RegExp[]> = {
     /internet/, /mobile money/, /broadband/, /\bai\b/, /artificial intelligence/,
     /platform/,
   ],
-  sports: [
-    /football/, /soccer/, /\blpl\b/, /\blwpl\b/, /\blba\b/, /lone star/, /athletic/,
-    /\bmatch\b/, /\bleague\b/, /tournament/, /\bsports?\b/,
-  ],
   world: [
     /international/, /\bforeign\b/, /\bglobal\b/, /ecowas/, /united nations/,
     /diplomat/, /\bborder/,

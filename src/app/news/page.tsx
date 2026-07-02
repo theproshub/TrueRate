@@ -30,7 +30,7 @@ function timeAgo(d: string) {
 
 
 const VIDEOS = [
-  { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'entertainment', time: 'Jun 20, 2026', youtubeId: '' },
+  { title: "Liberia's Film Rebate, Explained in Two Minutes", duration: '2:12', category: 'economy', time: 'Jun 20, 2026', youtubeId: '' },
   { title: "How Mining Drove Liberia's 2025 GDP Growth", duration: '3:45', category: 'economy', time: 'Jun 20, 2026', youtubeId: '' },
   { title: "Why the CBL Is Holding Its Policy Rate at 16.25%", duration: '2:48', category: 'policy', time: 'Jun 20, 2026', youtubeId: '' },
   { title: "How 'Pay Na-Na' Connects MTN and Orange Mobile Money", duration: '1:52', category: 'economy', time: 'Jun 19, 2026', youtubeId: '' },
