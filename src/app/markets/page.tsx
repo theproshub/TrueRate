@@ -196,11 +196,10 @@ export default async function MarketsPage() {
   const investingNews   = byCategory(newsItems, 'investing');
 
   // Lead block — derive from available articles (resilient to dataset changes)
-  const byId = (id: string) => newsItems.find(n => n.id === id);
   const used = new Set<string>();
   const take = (n: number) =>
     newsItems.filter(a => !used.has(a.id)).slice(0, n).map(a => { used.add(a.id); return a; });
-  const lead        = byId('3') ?? newsItems[0];
+  const lead        = newsItems[0];
   if (lead) used.add(lead.id);
   const subFeatures = take(2);
   const whatsNews   = take(4);

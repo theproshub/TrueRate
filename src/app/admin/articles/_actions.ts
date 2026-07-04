@@ -124,6 +124,9 @@ export async function createArticle(form: FormData) {
   await saveSource(supabase, data.id, parseSource(form));
 
   revalidatePath('/admin/articles');
+  revalidatePath('/');
+  revalidatePath('/news');
+  revalidatePath('/small-business');
   redirect(`/admin/articles/${data.id}/edit?ok=created`);
 }
 
@@ -164,6 +167,9 @@ export async function updateArticle(id: string, form: FormData) {
 
   revalidatePath('/admin/articles');
   revalidatePath(`/admin/articles/${id}/edit`);
+  revalidatePath('/');
+  revalidatePath('/news');
+  revalidatePath('/small-business');
   redirect(`/admin/articles/${id}/edit?ok=saved`);
 }
 
@@ -178,6 +184,52 @@ export async function deleteArticle(id: string) {
   }
   revalidatePath('/admin/articles');
   redirect('/admin/articles?ok=deleted');
+}
+
+export async function importSeedArticles() {
+  await requireAdmin('/admin/articles');
+  const { newsItems } = await import('@/data/news');
+  const supabase = await createClient();
+
+  // Get existing slugs to avoid duplicates
+  const { data: existing } = await supabase
+    .from('articles')
+    .select('slug');
+  const existingSlugs = new Set((existing ?? []).map((r) => (r as { slug: string }).slug));
+
+  // Get categories for mapping
+  const { data: cats } = await supabase.from('categories').select('id, slug');
+  const catMap = new Map((cats ?? []).map((c) => [(c as { slug: string }).slug, (c as { id: string }).id]));
+
+  // Get or create a default author
+  const { data: authors } = await supabase.from('authors').select('id, name').limit(1);
+  const defaultAuthorId = (authors?.[0] as { id: string } | undefined)?.id ?? null;
+
+  const toImport = newsItems.filter((n) => !existingSlugs.has(n.id));
+  if (toImport.length === 0) {
+    redirect('/admin/articles?ok=no_new_articles');
+  }
+
+  let imported = 0;
+  for (const n of toImport) {
+    const categoryId = catMap.get(n.category) ?? null;
+    const { error } = await supabase.from('articles').insert({
+      slug: n.id,
+      title: n.title,
+      dek: n.summary || null,
+      body: (n.body ?? []).join('\n\n'),
+      hero_image: n.image ?? null,
+      category_id: categoryId,
+      author_id: defaultAuthorId,
+      status: 'published' as const,
+      published_at: n.date ? new Date(n.date).toISOString() : new Date().toISOString(),
+      source_name: n.source ?? 'TrueRate',
+    });
+    if (!error) imported++;
+  }
+
+  revalidatePath('/admin/articles');
+  redirect(`/admin/articles?ok=imported_${imported}`);
 }
 
 // ─────────────────────────────────────────────────────────────────────

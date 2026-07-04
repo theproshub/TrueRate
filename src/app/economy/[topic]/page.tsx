@@ -41,10 +41,10 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
 
 function StatCell({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-0.5 min-w-0">
       <span className="text-2xs uppercase tracking-[0.14em] text-gray-500 font-medium">{label}</span>
-      <span className="text-xl sm:text-2xl font-bold tabular-nums text-gray-900 leading-none">{value}</span>
-      {sub && <span className="text-xs text-gray-500 mt-0.5">{sub}</span>}
+      <span className="text-lg sm:text-2xl font-bold tabular-nums text-gray-900 leading-none">{value}</span>
+      {sub && <span className="text-2xs sm:text-xs text-gray-500 mt-0.5">{sub}</span>}
     </div>
   );
 }
@@ -79,10 +79,10 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       <EconomyTopicTabs activeSlug={topic.slug} />
 
-      <header className="mb-8">
+      <header className="mb-6 sm:mb-8">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-accent-ink mb-2">Economy &middot; {topic.label}</p>
-        <h1 className="text-3xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label}</h1>
-        <p className="text-md text-gray-600 leading-relaxed max-w-[720px]">{topic.blurb}</p>
+        <h1 className="text-2xl sm:text-3xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-3">{topic.label}</h1>
+        <p className="text-sm sm:text-md text-gray-600 leading-relaxed max-w-[720px]">{topic.blurb}</p>
         <p className="mt-3 text-sm text-gray-500 tabular-nums">
           {items.length} {items.length === 1 ? 'story' : 'stories'} matched from the TrueRate newsroom.
         </p>
@@ -90,7 +90,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Inflation data panel ─────────────────────────────────────────── */}
       {slug === 'inflation' && cpi && (
-        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia CPI data">
+        <section className="mb-8 sm:mb-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-5" aria-label="Liberia CPI data">
           <div className="flex items-start justify-between mb-5 gap-4 flex-wrap">
             <div>
               <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
@@ -141,7 +141,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Monetary policy data panel ───────────────────────────────────── */}
       {slug === 'monetary-policy' && (
-        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="CBL monetary policy data">
+        <section className="mb-8 sm:mb-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-5" aria-label="CBL monetary policy data">
           <div className="mb-5">
             <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; Monetary Policy
@@ -186,7 +186,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Growth data panel ────────────────────────────────────────────── */}
       {slug === 'growth' && gdp && (
-        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia GDP data">
+        <section className="mb-8 sm:mb-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-5" aria-label="Liberia GDP data">
           <div className="mb-5">
             <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; National Accounts
@@ -233,7 +233,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Fiscal data panel ────────────────────────────────────────────── */}
       {slug === 'fiscal' && fiscal && (
-        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia fiscal data">
+        <section className="mb-8 sm:mb-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-5" aria-label="Liberia fiscal data">
           <div className="mb-5">
             <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; Government Finance
@@ -287,7 +287,7 @@ export default async function EconomyTopicPage({ params }: { params: Promise<{ t
 
       {/* ── Trade data panel ─────────────────────────────────────────────── */}
       {slug === 'trade' && trade && (
-        <section className="mb-10 rounded-xl border border-gray-200 bg-white p-5" aria-label="Liberia trade data">
+        <section className="mb-8 sm:mb-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-5" aria-label="Liberia trade data">
           <div className="mb-5">
             <p className="text-2xs font-bold uppercase tracking-[0.16em] text-brand-accent-ink mb-1">
               CBL Statistical Data &middot; Balance of Payments

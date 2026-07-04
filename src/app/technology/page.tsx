@@ -4,7 +4,6 @@ import { NewsThumbnail, HeroVisual } from '@/components/NewsThumbnail';
 import { getCatColor } from '@/lib/category-colors';
 import TechnologyTopicTabs from '@/components/TechnologyTopicTabs';
 import { fetchTechnologyArticles, toTechStory, type TechStory } from '@/lib/technology/feed';
-import { newsItems } from '@/data/news';
 import StickySidebar from '@/components/StickySidebar';
 import NewsletterWidget from '@/components/NewsletterWidget';
 
@@ -103,23 +102,8 @@ export default async function TechnologyPage() {
   const useDb = db.length > 0;
   const stories = db.map(toTechStory);
 
-  const TECH_CATS = new Set(['technology', 'startups', 'ai']);
-  const seedArticles: Card[] = newsItems
-    .filter((n) => TECH_CATS.has(n.category))
-    .map((n) => ({
-      category: n.category.charAt(0).toUpperCase() + n.category.slice(1),
-      categorySlug: n.category,
-      title: n.title,
-      summary: n.summary,
-      source: n.author ?? n.source,
-      time: (() => { const d = new Date(n.date); const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return `${m[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`; })(),
-      href: `/news/${n.id}`,
-      image: n.image ?? null,
-    }));
-  const hasSeed = seedArticles.length > 0;
-
-  const hero: Card = useDb ? storyToCard(stories[0]) : hasSeed ? seedArticles[0] : MOCK_HERO;
-  const leads: Card[] = useDb ? stories.slice(1, 4).map(storyToCard) : hasSeed ? seedArticles.slice(1, 4) : MOCK_STRIP.slice(0, 3);
+  const hero: Card = useDb ? storyToCard(stories[0]) : MOCK_HERO;
+  const leads: Card[] = useDb ? stories.slice(1, 4).map(storyToCard) : MOCK_STRIP.slice(0, 3);
   const strip: Card[] = useDb ? stories.slice(4, 12).map(storyToCard) : MOCK_STRIP;
   const feed: Card[] = useDb
     ? stories.slice(1).filter((s) => s.dek).slice(0, 10).map(storyToCard)
@@ -127,23 +111,6 @@ export default async function TechnologyPage() {
 
   return (
     <>
-      {/* Sample-data notice — only while running on placeholder content. */}
-      {!useDb && !hasSeed && (
-        <div role="note" aria-label="Sample data notice" className="bg-amber-400 text-amber-950">
-          <div className="mx-auto max-w-container px-4 py-2 flex items-start gap-2 text-sm">
-            <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0">
-              <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-            </svg>
-            <p className="leading-snug">
-              <span className="font-bold uppercase tracking-wide">Sample data</span>
-              {' — '}
-              this section uses placeholder content for design preview. Headlines and figures are
-              illustrative, not real reporting. They disappear automatically once technology stories
-              are published.
-            </p>
-          </div>
-        </div>
-      )}
 
       <main className="mx-auto max-w-container px-4 py-6">
 
@@ -290,22 +257,13 @@ export default async function TechnologyPage() {
               {/* More from / Most Read — real recent articles in DB mode (no
                   fabricated "most read"), mock list only in preview mode. */}
               <div className="hidden lg:block rounded-xl border border-gray-200 bg-white p-4">
-                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">{useDb || hasSeed ? 'More from Technology' : 'Most Read'}</h3>
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-[0.12em] border-b border-gray-200 pb-3 mb-3">{useDb ? 'More from Technology' : 'Most Read'}</h3>
                 <ol className="flex flex-col divide-y divide-gray-200">
                   {useDb
                     ? stories.slice(0, 6).map((s, i) => (
                         <li key={s.href + i} className="py-2.5 first:pt-0">
                           <Link href={s.href} className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                             <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug)}`}>{s.category}</span>
-                            {s.title}
-                          </Link>
-                        </li>
-                      ))
-                    : hasSeed
-                    ? seedArticles.map((s, i) => (
-                        <li key={s.href + i} className="py-2.5 first:pt-0">
-                          <Link href={s.href} className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
-                            <span className={`font-bold uppercase text-2xs tracking-wide mr-1.5 ${getCatColor(s.categorySlug ?? s.category)}`}>{s.category}</span>
                             {s.title}
                           </Link>
                         </li>

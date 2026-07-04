@@ -51,7 +51,8 @@ function toNewsItem(a: DbRow): NewsItem {
 }
 
 /**
- * Published articles as NewsItem[], newest first. DB when populated, else seed.
+ * Published articles as NewsItem[], newest first. DB is the source of truth;
+ * seed is only used when the DB has zero published rows or is unreachable.
  * Cached per request via React's cache() so multiple components on one page
  * share a single query.
  */

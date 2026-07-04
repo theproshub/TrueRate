@@ -5,7 +5,7 @@ import { VideoThumbnail } from '@/components/NewsThumbnail';
 import PlayableVideo from '@/components/PlayableVideo';
 import { CHANNEL_URL } from '@/lib/youtube';
 
-const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
+const ext = {} as const;
 
 export const metadata: Metadata = {
   title: 'Investing — TrueRate Videos',

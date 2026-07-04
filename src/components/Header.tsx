@@ -349,39 +349,32 @@ export default function Header() {
   const isLight = true;
 
   // Set --header-h CSS variable so pages can size themselves accurately.
-  // Update on resize AND after scroll-triggered height changes (mobile search collapse).
+  // ResizeObserver fires only when the header's actual size changes (collapse,
+  // resize) — unlike the old scroll listener it can't feedback-loop.
   useEffect(() => {
-    let prevH = 0;
-    const update = () => {
-      if (headerRef.current) {
-        const h = headerRef.current.offsetHeight;
-        if (h !== prevH) {
-          prevH = h;
-          document.documentElement.style.setProperty('--header-h', `${h}px`);
-        }
-      }
-    };
-    update();
-    window.addEventListener('resize', update);
-    window.addEventListener('scroll', update, { passive: true });
-    return () => {
-      window.removeEventListener('resize', update);
-      window.removeEventListener('scroll', update);
-    };
+    const el = headerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const h = Math.round(entry.borderBoxSize?.[0]?.blockSize ?? el.offsetHeight);
+      document.documentElement.style.setProperty('--header-h', `${h}px`);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
-
+  // Collapse mobile search on scroll with hysteresis so it doesn't toggle
+  // rapidly near the threshold (hide > 60px, show < 20px).
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolledDown(y > 60);
+      if (!scrolledDown && y > 60) setScrolledDown(true);
+      else if (scrolledDown && y < 20) setScrolledDown(false);
       lastScrollY.current = y;
     };
-    // Set initial state in case page loads already scrolled
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [scrolledDown]);
 
   // The /admin area has its own chrome (see app/admin/layout.tsx) — the public
   // marketing header doesn't belong there. Hooks above run unconditionally.
@@ -515,10 +508,10 @@ export default function Header() {
 
       {/* Mobile search — collapses on scroll */}
       <div
-        className={`sm:hidden ${scrolledDown ? 'hidden' : 'pb-3'}`}
+        className={`sm:hidden overflow-hidden transition-all duration-200 ease-in-out ${scrolledDown ? 'max-h-0 pb-0 opacity-0' : 'max-h-16 pb-3 opacity-100'}`}
         aria-hidden={scrolledDown}
       >
-        <div className="px-4">
+        <div className="px-3">
           <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
         </div>
       </div>

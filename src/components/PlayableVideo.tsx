@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { CHANNEL_URL } from '@/lib/youtube';
 
 type Props = {
   /** YouTube video ID. If empty, the facade opens the channel instead of embedding. */
@@ -24,18 +23,14 @@ type Props = {
 export default function PlayableVideo({ id, label, className = '', style, autoPlay, children }: Props) {
   const [playing, setPlaying] = useState(autoPlay && !!id);
 
-  // No video linked yet → keep the facade but open the channel on click.
   if (!id) {
     return (
-      <a
-        href={CHANNEL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <div
         className={`group relative block ${className}`}
         style={style}
       >
         {children}
-      </a>
+      </div>
     );
   }
 

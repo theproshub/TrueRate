@@ -3,7 +3,7 @@ import PlayableVideo from '@/components/PlayableVideo';
 import { FEATURED_VIDEO, VIDEO_THUMBS } from '@/lib/builders-data';
 import { videoHref } from '@/lib/youtube';
 
-const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
+const ext = {} as const;
 
 export default function VideoFeature() {
   return (

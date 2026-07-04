@@ -5,7 +5,7 @@ import { VideoThumbnail } from '@/components/NewsThumbnail';
 import PlayableVideo from '@/components/PlayableVideo';
 import { videoHref } from '@/lib/youtube';
 
-const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
+const ext = {} as const;
 
 const CAT_COLORS: Record<string, string> = {
   'Startups':         'text-violet-400',

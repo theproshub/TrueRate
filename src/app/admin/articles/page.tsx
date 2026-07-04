@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { importSeedArticles } from './_actions';
 
 interface ArticleRow {
   id: string;
@@ -23,6 +24,7 @@ interface PageProps {
     q?: string;
     status?: string;
     category?: string;
+    ok?: string;
   }>;
 }
 
@@ -54,6 +56,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
   const q = sp.q?.trim() ?? '';
   const statusFilter = sp.status?.trim() ?? '';
   const categoryFilter = sp.category?.trim() ?? '';
+  const okMsg = sp.ok?.trim() ?? '';
   const hasFilters = q !== '' || statusFilter !== '' || categoryFilter !== '';
 
   const supabase = await createClient();
@@ -103,6 +106,16 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
 
   return (
     <section aria-labelledby="articles-heading">
+      {okMsg.startsWith('imported_') && (
+        <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+          Imported {okMsg.replace('imported_', '')} seed articles into the database.
+        </div>
+      )}
+      {okMsg === 'no_new_articles' && (
+        <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+          All seed articles are already in the database.
+        </div>
+      )}
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 id="articles-heading" className="text-2xl font-bold tracking-tight text-gray-900">
@@ -116,12 +129,22 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
                 : `${articles.length} ${articles.length === 1 ? 'article' : 'articles'}`}
           </p>
         </div>
-        <Link
-          href="/admin/articles/new"
-          className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
-        >
-          New article
-        </Link>
+        <div className="flex items-center gap-3">
+          <form action={importSeedArticles}>
+            <button
+              type="submit"
+              className="rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+            >
+              Import seed articles
+            </button>
+          </form>
+          <Link
+            href="/admin/articles/new"
+            className="rounded-lg bg-brand-accent px-4 py-2.5 text-sm font-semibold text-brand-ink transition-colors hover:bg-brand-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+          >
+            New article
+          </Link>
+        </div>
       </div>
 
       {/* Filter bar (GET form, no JS) */}

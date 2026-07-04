@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await publicClient
     .from('articles')
-    .select('slug, title, dek, source_name, category:categories(slug)')
+    .select('slug, title, dek, source_name, hero_image, category:categories(slug)')
     .eq('status', 'published')
     .order('published_at', { ascending: false });
 
@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
     title: string;
     dek: string | null;
     source_name: string | null;
+    hero_image: string | null;
     category: { slug: string } | null;
   }) => ({
     id: a.slug,
@@ -36,6 +37,7 @@ export async function GET(request: NextRequest) {
     summary: a.dek ?? '',
     category: a.category?.slug ?? 'economy',
     source: a.source_name ?? 'TrueRate',
+    image: a.hero_image ?? undefined,
   }));
 
   return NextResponse.json(

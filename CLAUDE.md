@@ -15,21 +15,37 @@ The `truerate-mcp` Supabase edge function exposes all CBL statistical data as MC
 7. **Never claim correlation without data.** Only use "correlated" when Pearson |r| ≥ 0.5 from `compare_series`. Use "associated" for 0.3–0.5. Say "no meaningful correlation" below 0.3.
 8. **Never claim causation.** Use "coincided with", "associated with", "correlated with" — never "caused by" or "driven by".
 
+### Editorial standards — one story, one article
+
+TrueRate is a professional financial news platform. Apply Yahoo Finance / Bloomberg editorial discipline:
+
+1. **One data point, one article.** If March 2026 cement output already has an article, don't write a second one. Update the existing article or pitch a genuinely new angle to the user first.
+2. **Duplicate = same headline data.** Two articles that cite the same primary figure (e.g. "89,000 MT cement", "exports $2.07B", "lending rate 13.11%") for the same period are duplicates regardless of editorial angle. The angle can differ; the lead number cannot.
+3. **Repackaging is not a new article.** Taking an Economy article and rewriting it as a Business article is a duplicate. If the audience changes, update the original or link to it — don't create a parallel version.
+4. **Data recycling degrades trust.** Readers who see "13.11% lending rate" in 7 different articles lose confidence in the editorial voice. Reference the figure once in a dedicated article, then link to it from other pieces that mention it in passing.
+5. **When in doubt, UPDATE.** If new data arrives for a topic that already has an article, update that article rather than writing a new one — unless the story has fundamentally changed (e.g. a policy rate cut after months of holds).
+
 ### Automated workflow triggers
 
 These workflows fire automatically based on the request — no manual `/skill` invocation needed. Detect the intent and run the full pipeline.
 
 #### WRITE — "write an article", "create a story", "draft a piece about", "new article on"
 1. `search_series` → identify relevant CBL mnemonics from topic
-2. `data_quality_report` → gate: abort if any series is stale
-3. **`/validate-data` on referenced series** → pre-flight integrity check; abort if any HIGH-severity finding (e.g. non-25bp policy rate change)
-4. `article_data_sheet` → assemble formatted data sheet (every number comes from here)
-5. `trend_analysis` + `outlier_detection` → deeper context for primary series
-6. If 2+ indicators: `compare_series` + `cross_validate` → correlation + consistency check
-7. Write the article body using **only** values from the data sheet
-8. `verify_article_data` → automated claim-by-claim fact-check
-9. Fix any MISMATCH, re-verify until all pass
-10. Output: article with macroTags, data box, source attribution
+2. **DUPLICATE GATE (mandatory, blocks publication):**
+   - `search_articles` with 2–3 keyword queries covering the topic
+   - `latest_articles` to check the most recent 20 articles
+   - For each result, check: does it share the same primary data point AND period?
+   - **If a match is found:** STOP. Show the existing article(s) to the user and ask: "This topic is already covered by [slug]. Should I (a) update that article with fresh data, (b) proceed with a new article because the angle is genuinely different, or (c) abort?"
+   - Only proceed to step 3 if the user explicitly confirms no duplicate exists.
+3. `data_quality_report` → gate: abort if any series is stale
+4. **`/validate-data` on referenced series** → pre-flight integrity check; abort if any HIGH-severity finding (e.g. non-25bp policy rate change)
+5. `article_data_sheet` → assemble formatted data sheet (every number comes from here)
+6. `trend_analysis` + `outlier_detection` → deeper context for primary series
+7. If 2+ indicators: `compare_series` + `cross_validate` → correlation + consistency check
+8. Write the article body using **only** values from the data sheet
+9. `verify_article_data` → automated claim-by-claim fact-check
+10. Fix any MISMATCH, re-verify until all pass
+11. Output: article with macroTags, data box, source attribution
 
 #### VERIFY — "check this article", "verify", "audit", "is this accurate", "fact check"
 1. Load article (from `src/data/news.ts` by ID, or `get_article` by slug, or inline text)
@@ -104,12 +120,47 @@ Full quantitative audit. Act as a senior data scientist — question every value
 
 ### Skills (also invocable manually via `/skill-name`)
 
-- `/data-brief <topic>` — Generate a publication-ready data brief with exact CBL figures
-- `/fact-check <slug>` — Verify all numbers in an article against real data
-- `/write-article <topic>` — Write a data-backed article at Bloomberg/Yahoo Finance quality
-- `/verify-article <id>` — Automated data integrity audit of an article against the CBL warehouse
-- `/correlate <series...>` — Multi-series correlation analysis with Pearson coefficients and editorial guidance
-- `/validate-data [series|group]` — Senior data scientist–grade integrity audit: Z-score outliers, Benford's Law, 25bp grid tests, macroeconomic identity checks, cross-series correlation, pipeline consistency. Blocks article publication on CRITICAL/HIGH findings. Every finding is mathematically proven.
+#### Content creation
+- `/write-article <topic>` — Write a data-backed article at Bloomberg/Yahoo Finance quality. Includes mandatory duplicate gate and data integrity checks.
+- `/update-article <slug>` — Update an existing article with fresh CBL data. Preserves editorial voice while swapping in current figures. The antidote to writing duplicates.
+- `/data-brief <topic>` — Generate a publication-ready data brief with exact CBL figures.
+
+#### Pre-publication verification
+- `/fact-check <slug>` — Verify all numbers in an article against real data. Claim-by-claim verdicts.
+- `/verify-article <id>` — Automated data integrity audit of an article against the CBL warehouse.
+- `/headline-check <slug>` — Verify headline and dek claims specifically. Headlines are 10x more visible — a wrong number there does the most damage.
+- `/editorial-lint <slug>` — Enforce Bloomberg/Yahoo Finance writing standards: no approximate language, period labels on every figure, attribution, no causation claims.
+- `/number-lock <slug>` — Final pre-publication checkpoint. Runs ALL verification skills, then issues a signed audit certificate proving every number was verified at publish time.
+
+#### Data integrity
+- `/validate-data [series|group]` — Senior data scientist–grade integrity audit: Z-score outliers, Benford's Law, 25bp grid tests, macroeconomic identity checks, cross-series correlation, pipeline consistency. Blocks article publication on CRITICAL/HIGH findings.
+- `/audit-trail <slug>` — Forensic provenance chain: traces every number in an article back to the exact MCP tool call, database field, and computation. Like a financial auditor's working papers.
+- `/correlate <series...>` — Multi-series correlation analysis with Pearson coefficients and editorial guidance.
+
+#### Catalog health
+- `/dedup-check [topic]` — Scan the article catalog for duplicate or near-duplicate stories. Flags articles sharing the same headline data point and period.
+- `/consistency-check [mnemonic]` — Verify the same figure is reported identically across all articles. Catches "13.11%" in one article vs "13.1%" in another.
+- `/refresh-check [mnemonic]` — Find published articles whose data has been superseded by newer CBL releases. Prioritizes which articles to update first.
+
+#### CBL translation layer
+- `/mpc-explainer` — Plain-language explainer of an MPC policy rate decision. Translates the communiqué for a general audience with exact data, practical impact examples, and full rate-cycle context.
+- `/data-release [period]` — First-responder coverage when new CBL data drops. Auto-detects what moved, ranks by newsworthiness, generates wire-style coverage or updates existing articles.
+- `/indicator-explainer <indicator>` — Financial-literacy-grade explainer for any CBL indicator. Answers "what is this, why does it matter, what does the current number mean for me?" using Liberian examples.
+- `/plain-language <slug>` — Rewrite any article at a lower reading level for broader reach. Same exact figures, simpler framing. No data is lost, no numbers are rounded.
+
+#### Monitoring & alerts
+- `/trend-alert [group]` — Scan CBL series for significant movements: direction reversals, record values, threshold crossings, acceleration, outliers, divergences. Quantitative tests, not editorial judgment.
+- `/risk-monitor [domain]` — Red/amber/green dashboard for macro warning signs across inflation, currency, banking, fiscal, and growth domains. Quantitative thresholds calibrated for Liberia.
+- `/quarterly-review [quarter]` — Comprehensive quarterly economic review synthesizing every CBL indicator. TrueRate's flagship periodic report.
+
+#### Coverage discipline
+- `/coverage-map [group]` — Audit which CBL series have dedicated articles and which don't. Identifies editorial gaps and suggests the next articles to write.
+- `/sector-spotlight <sector>` — Deep-dive into a single economic sector: production, trade, GDP contribution, price dynamics, and structural role.
+- `/mpc-preview` — Pre-MPC meeting data-driven preview. Presents the exact data the MPC will consider with a CUT/HOLD/HIKE scorecard. No predictions — just the numbers.
+
+#### Context & accessibility
+- `/chart-narrative <mnemonic>` — WCAG 2.2 AA text summaries for charts: aria-label, structured narrative, and underlying data table. Every chart needs a companion narrative.
+- `/historical-context <indicator>` — Full historical arc for any current figure. Eras, inflection points, cycles, percentile position. The definitive reference for "where has this number been?"
 
 ## HCI guidelines (apply to every UI change)
 

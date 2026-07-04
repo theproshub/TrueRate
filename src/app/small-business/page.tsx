@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
 import { fetchBusinessArticles, toBusinessStory, type BusinessStory } from '@/lib/business/feed';
-import { newsItems } from '@/data/news';
 import { RightRail } from '@/components/NewsSidebars';
 import { getNewsItems, getPopularNewsItems } from '@/lib/news-source';
 
 import LeadStory from '@/components/business/LeadStory';
 import StoryCard from '@/components/business/StoryCard';
 import StoryRow from '@/components/business/StoryRow';
-import SectorBlock from '@/components/business/SectorBlock';
 import VideoSection from '@/components/business/VideoSection';
 import NewsletterInline from '@/components/business/NewsletterInline';
 
@@ -18,7 +16,7 @@ export const metadata: Metadata = {
     "News, analysis, and data for Liberia's business community — companies, trade, entrepreneurship, credit, and the sectors driving economic growth.",
 };
 
-export const revalidate = 300;
+export const revalidate = 0;
 
 /* ── Card shape ── */
 
@@ -60,39 +58,8 @@ export default async function SmallBusinessPage() {
     getNewsItems(),
     getPopularNewsItems(),
   ]);
-  const useDb = db.length > 0;
   const stories = db.map(toBusinessStory);
-
-  const BIZ_CATS = new Set([
-    'business', 'trade', 'industry', 'mining', 'credit', 'finance', 'banking', 'entrepreneurship',
-  ]);
-  const seedArticles: Card[] = newsItems
-    .filter((n) => BIZ_CATS.has(n.category))
-    .map((n) => ({
-      category: n.category.charAt(0).toUpperCase() + n.category.slice(1),
-      categorySlug: n.category,
-      title: n.title,
-      summary: n.summary,
-      source: n.author ?? n.source,
-      time: (() => {
-        const d = new Date(n.date);
-        const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return `${m[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-      })(),
-      href: `/news/${n.id}`,
-      image: n.image ?? null,
-    }));
-
-  const pool: Card[] = [
-    ...(useDb ? stories.map(storyToCard) : []),
-    ...seedArticles,
-  ];
-  const seen = new Set<string>();
-  const allCards = pool.filter((c) => {
-    if (seen.has(c.href)) return false;
-    seen.add(c.href);
-    return true;
-  });
+  const allCards: Card[] = stories.map(storyToCard);
 
   const hero = allCards[0];
   const secondaryStories = allCards.slice(1, 4);
@@ -148,14 +115,28 @@ export default async function SmallBusinessPage() {
               </div>
 
               {/* ── 4. Banking & Credit ── */}
-              <div className="border-t border-gray-200 pt-5 sm:pt-6">
-                <SectorBlock title="Banking & Credit" cards={sectorCards} />
-              </div>
+              <section className="border-t border-gray-200 pt-5 sm:pt-6" aria-labelledby="biz-banking-heading">
+                <h2 id="biz-banking-heading" className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4">
+                  Banking & Credit
+                </h2>
+                <div className="flex flex-col divide-y divide-gray-100">
+                  {sectorCards.map((item, i) => (
+                    <StoryRow key={item.href + i} {...item} compact />
+                  ))}
+                </div>
+              </section>
 
               {/* ── 5. Start a Business ── */}
-              <div className="border-t border-gray-200 pt-5 sm:pt-6">
-                <SectorBlock title="Start a Business" cards={sideHustle} />
-              </div>
+              <section className="border-t border-gray-200 pt-5 sm:pt-6" aria-labelledby="biz-start-heading">
+                <h2 id="biz-start-heading" className="text-lg sm:text-xl font-extrabold text-[#0A0A0A] pb-3 border-b border-gray-300 mb-4">
+                  Start a Business
+                </h2>
+                <div className="flex flex-col divide-y divide-gray-100">
+                  {sideHustle.map((item, i) => (
+                    <StoryRow key={item.href + i} {...item} compact />
+                  ))}
+                </div>
+              </section>
 
               {/* ── 6. More Business Stories ── */}
               <section className="border-t border-gray-200 pt-5 sm:pt-6" aria-labelledby="biz-more-heading">

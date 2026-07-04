@@ -36,11 +36,11 @@ export default function StickySidebar({
   }, []);
 
   return (
-    <div className="h-full">
+    <div className="lg:h-full">
       <div
         ref={innerRef}
         style={{ top: '64px' }}
-        className={`sticky flex flex-col gap-10 ${className}`}
+        className={`lg:sticky ${className || 'flex flex-col gap-5'}`}
       >
         {children}
       </div>

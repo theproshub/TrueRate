@@ -118,8 +118,8 @@ export default async function EconomyPage() {
   const wbIndicators = indicators.filter((ind) => ind.key !== 'CBL_RATE');
 
   const hero = articles[0] ?? null;
-  const topStories = articles.slice(1, 6);
-  const grid = articles.slice(6);
+  const topStories = articles.slice(1, 4);
+  const grid = articles.slice(4);
 
   return (
     <main className="mx-auto max-w-container px-4 py-6">
@@ -130,47 +130,53 @@ export default async function EconomyPage() {
 
       {/* Hero + Top Stories */}
       {hero ? (
-        <section className="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-6 pb-8 border-b border-gray-200">
-          {/* Lead feature */}
-          <div className="lg:col-span-2">
-            <Link href={`/news/${hero.slug}`} className="group block no-underline">
-              <div className="overflow-hidden -mx-2 sm:mx-0 rounded-none sm:rounded-xl mb-4">
-                <HeroVisual category={hero.category?.slug ?? 'economy'} src={hero.hero_image} className="w-full h-[280px] sm:h-[380px]" />
+        <section aria-labelledby="econ-top-heading" className="mb-8 sm:mb-10">
+          <h2 id="econ-top-heading" className="text-lg sm:text-xl font-extrabold text-gray-900 pb-3 border-b border-gray-300 mb-4 sm:mb-5">
+            Economy
+          </h2>
+
+          {/* Lead story */}
+          <article>
+            <Link href={`/news/${hero.slug}`} className="group flex flex-col md:flex-row gap-4 md:gap-6 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2">
+              <div className="md:w-[48%] shrink-0 overflow-hidden rounded-lg">
+                <HeroVisual category={hero.category?.slug ?? 'economy'} src={hero.hero_image} className="w-full aspect-[16/9] transition-transform duration-300 group-hover:scale-[1.02]" />
               </div>
-              <span className={`text-2xs font-bold uppercase tracking-[0.18em] mb-2 block ${getCatColor(hero.category?.slug ?? 'economy')}`}>
-                {hero.category?.label ?? 'Economy'}
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold leading-[1.15] tracking-tight text-gray-900 group-hover:underline decoration-1 underline-offset-2 mb-3 text-balance">
-                {hero.title}
-              </h2>
-              {hero.dek && (
-                <p className="text-base leading-relaxed text-gray-500 mb-3 line-clamp-3 max-w-[680px]">{hero.dek}</p>
-              )}
-              <div className="text-xs text-gray-500">
-                {hero.author?.name && <><span className="font-semibold text-gray-600">{hero.author.name}</span><span className="mx-1.5 text-gray-700">&middot;</span></>}
-                <span>{timeAgo(hero.published_at)}</span>
+              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <span className={`text-[11px] sm:text-[12px] font-extrabold uppercase tracking-[0.08em] ${getCatColor(hero.category?.slug ?? 'economy')}`}>
+                  {hero.category?.label ?? 'Economy'}
+                </span>
+                <h3 className="mt-1 sm:mt-1.5 text-[20px] sm:text-[28px] lg:text-[30px] font-black leading-[1.15] text-gray-900 group-hover:underline decoration-2 underline-offset-2">
+                  {hero.title}
+                </h3>
+                {hero.dek && (
+                  <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-[1.55] text-gray-500 line-clamp-2 sm:line-clamp-3">{hero.dek}</p>
+                )}
+                <div className="mt-2 sm:mt-3 text-xs text-gray-500">
+                  {hero.author?.name && <><span className="font-semibold text-gray-700">{hero.author.name}</span><span className="mx-1.5 text-gray-400">&middot;</span></>}
+                  <span>{timeAgo(hero.published_at)}</span>
+                </div>
               </div>
             </Link>
-          </div>
+          </article>
 
-          {/* Top Stories sidebar */}
+          {/* Secondary stories */}
           {topStories.length > 0 && (
-            <aside className="lg:border-l lg:border-gray-200 lg:pl-6">
-              <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide pb-3 mb-4 border-b border-gray-200">Top Stories</h2>
-              <div className="flex flex-col divide-y divide-gray-200">
-                {topStories.map((s) => (
-                  <Link key={s.id} href={`/news/${s.slug}`} className="group flex gap-3 py-3 first:pt-0 no-underline">
-                    <div className="shrink-0 overflow-hidden rounded-lg">
-                      <NewsThumbnail category={s.category?.slug ?? 'economy'} src={s.hero_image} className="h-[64px] w-[96px]" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3 mb-1">{s.title}</h3>
-                      <span className="text-xs text-gray-500">{timeAgo(s.published_at)}</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </aside>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-gray-200">
+              {topStories.slice(0, 3).map((s) => (
+                <Link key={s.id} href={`/news/${s.slug}`} className="group flex sm:flex-col gap-3 no-underline">
+                  <div className="shrink-0 sm:shrink overflow-hidden rounded-lg">
+                    <NewsThumbnail category={s.category?.slug ?? 'economy'} src={s.hero_image} className="h-[64px] w-[96px] sm:w-full sm:h-auto sm:aspect-[16/9] transition-transform duration-300 group-hover:scale-[1.02]" />
+                  </div>
+                  <div className="min-w-0 flex-1 flex flex-col justify-center sm:justify-start">
+                    <span className={`text-[11px] font-extrabold uppercase tracking-[0.08em] mb-0.5 sm:mb-1 ${getCatColor(s.category?.slug ?? 'economy')}`}>
+                      {s.category?.label ?? 'Economy'}
+                    </span>
+                    <h3 className="text-[13px] sm:text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 sm:line-clamp-3">{s.title}</h3>
+                    <span className="text-xs text-gray-500 mt-1">{timeAgo(s.published_at)}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           )}
         </section>
       ) : (
@@ -186,8 +192,8 @@ export default async function EconomyPage() {
       )}
 
       {/* Main content + right rail */}
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 lg:items-start">
-        <div className="flex-1 min-w-0 space-y-10 lg:pr-5">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-start">
+        <div className="flex-1 min-w-0 space-y-10 lg:pr-6">
           {grid.length > 0 && (
             <section aria-labelledby="latest-economy">
               <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
@@ -197,7 +203,7 @@ export default async function EconomyPage() {
                 </div>
                 <Link href="/news" className="inline-flex items-center min-h-[44px] -my-2 px-1 -mx-1 text-sm text-gray-500 hover:text-gray-900 transition-colors no-underline">All stories ›</Link>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {grid.map((s) => (
                   <Link key={s.id} href={`/news/${s.slug}`} className="group flex flex-col no-underline">
                     <div className="relative overflow-hidden rounded-xl mb-3">
@@ -221,8 +227,8 @@ export default async function EconomyPage() {
         </div>
 
         {/* Right rail */}
-        <aside className="w-full lg:w-[280px] shrink-0 lg:self-stretch lg:border-l lg:border-gray-200 lg:pl-5">
-          <StickySidebar className="space-y-5">
+        <aside className="w-full lg:w-[300px] shrink-0 lg:self-stretch border-t border-gray-200 pt-8 lg:border-t-0 lg:pt-0 lg:border-l lg:pl-6">
+          <StickySidebar className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
           {/* Data snapshot — live from Supabase (World Bank series) */}
           <div className="rounded-xl border border-gray-200 bg-white p-4">
             <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">Data Snapshot</h2>
@@ -235,9 +241,9 @@ export default async function EconomyPage() {
                     const change = formatIndicatorChange(ind);
                     const up = (ind.changePercent ?? 0) >= 0;
                     return (
-                      <div key={ind.key} className="flex items-center justify-between">
-                        <dt className="text-sm text-gray-500">{ind.name}</dt>
-                        <dd className="flex items-center gap-2">
+                      <div key={ind.key} className="flex items-baseline justify-between gap-2">
+                        <dt className="text-sm text-gray-500 min-w-0 truncate">{ind.name}</dt>
+                        <dd className="flex items-baseline gap-1.5 shrink-0">
                           <span className="text-base font-bold text-gray-900 tabular-nums">{formatIndicatorValue(ind)}</span>
                           {change && (
                             <span className={`text-xs font-semibold ${up ? 'text-pos' : 'text-neg'}`}>{change}</span>
@@ -256,11 +262,11 @@ export default async function EconomyPage() {
 
           {/* More from Economy — recent published articles (no fabricated "most read") */}
           {articles.length > 0 && (
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-4 sm:col-span-2 lg:col-span-1">
               <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">More from Economy</h2>
-              <ol className="flex flex-col divide-y divide-gray-200">
+              <ol className="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col divide-y sm:divide-y-0 lg:divide-y divide-gray-200 sm:gap-x-4 lg:gap-x-0">
                 {articles.slice(0, 6).map((item) => (
-                  <li key={item.id} className="py-2.5 first:pt-0">
+                  <li key={item.id} className="py-2.5 first:pt-0 sm:py-2 lg:py-2.5 lg:first:pt-0">
                     <Link href={`/news/${item.slug}`} className="text-sm font-medium text-gray-700 hover:text-brand-accent-ink transition-colors no-underline line-clamp-2 leading-snug block">
                       {item.title}
                     </Link>
