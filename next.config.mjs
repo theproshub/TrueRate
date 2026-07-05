@@ -4,7 +4,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const nextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: '2mb',
     },
   },
   images: {

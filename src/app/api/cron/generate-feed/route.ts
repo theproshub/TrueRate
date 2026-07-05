@@ -60,6 +60,19 @@ export async function GET(request: NextRequest) {
   }
 
   const supabase = feedAdminClient();
+
+  // 0. Idempotency guard: skip if a successful run happened within 30 minutes.
+  const thirtyMinAgo = new Date(Date.now() - 30 * 60_000).toISOString();
+  const { data: recentRun } = await supabase
+    .from('generation_log')
+    .select('id')
+    .in('status', ['success', 'partial'])
+    .gte('created_at', thirtyMinAgo)
+    .limit(1);
+  if (recentRun && recentRun.length > 0) {
+    return NextResponse.json({ ok: true, skipped: true, reason: 'duplicate run within 30min window' });
+  }
+
   const runDetail: Record<string, unknown> = {};
   let cardsCreated = 0;
   let hadError = false;
