@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { fetchCommodities } from '@/domain/markets/commodities';
@@ -121,6 +122,10 @@ export async function GET(request: NextRequest) {
       .from('quotes_daily')
       .upsert(rows, { onConflict: 'symbol_id,date', count: 'exact' });
     if (upErr) throw upErr;
+
+    revalidatePath('/api/rates');
+    revalidatePath('/api/commodities');
+    revalidatePath('/markets');
 
     return NextResponse.json({ ok: true, rowsWritten: count ?? rows.length, date: today, detail });
   } catch (e) {

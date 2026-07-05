@@ -6,6 +6,7 @@
 // when CRON_SECRET is set in project env.
 
 import { createAdminClient } from '@/lib/supabase/admin';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // Pro plan; ~366 series @ concurrency 8 finishes well under this
@@ -155,6 +156,12 @@ export async function GET(req: Request) {
       failed.push(ref.mnemonic);
     }
   });
+
+  // Bust ISR caches so fresh data is served immediately
+  revalidatePath('/api/rates');
+  revalidatePath('/api/indicators');
+  revalidatePath('/economy');
+  revalidatePath('/markets');
 
   return Response.json({
     ok: true,

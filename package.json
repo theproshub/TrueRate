@@ -41,6 +41,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/turndown": "^5.0.6",
+    "@vercel/config": "^0.5.5",
     "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
