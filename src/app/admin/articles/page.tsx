@@ -9,6 +9,7 @@ interface ArticleRow {
   status: 'draft' | 'published' | 'archived';
   published_at: string | null;
   updated_at: string;
+  hero_image: string | null;
   category: { label: string } | null;
   author:   { name: string }  | null;
 }
@@ -24,6 +25,7 @@ interface PageProps {
     q?: string;
     status?: string;
     category?: string;
+    image?: string;
     ok?: string;
   }>;
 }
@@ -56,8 +58,9 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
   const q = sp.q?.trim() ?? '';
   const statusFilter = sp.status?.trim() ?? '';
   const categoryFilter = sp.category?.trim() ?? '';
+  const imageFilter = sp.image?.trim() ?? '';
   const okMsg = sp.ok?.trim() ?? '';
-  const hasFilters = q !== '' || statusFilter !== '' || categoryFilter !== '';
+  const hasFilters = q !== '' || statusFilter !== '' || categoryFilter !== '' || imageFilter !== '';
 
   const supabase = await createClient();
 
@@ -75,14 +78,13 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
   let query = supabase
     .from('articles')
     .select(
-      `id, slug, title, status, published_at, updated_at,
+      `id, slug, title, status, published_at, updated_at, hero_image,
        category:categories(label),
        author:authors(name)`,
     )
     .order('updated_at', { ascending: false });
 
   if (q !== '') {
-    // Title contains q (case-insensitive). PostgREST ilike pattern needs % wildcards.
     query = query.ilike('title', `%${q}%`);
   }
   if (statusFilter !== '' && ['draft', 'published', 'archived'].includes(statusFilter)) {
@@ -90,6 +92,11 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
   }
   if (filterCategoryId) {
     query = query.eq('category_id', filterCategoryId);
+  }
+  if (imageFilter === 'missing') {
+    query = query.is('hero_image', null);
+  } else if (imageFilter === 'present') {
+    query = query.not('hero_image', 'is', null);
   }
 
   const { data, error } = await query;
@@ -185,6 +192,21 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
           </select>
         </div>
         <div className="flex flex-col gap-1">
+          <label htmlFor="filter-image" className="text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
+            Image
+          </label>
+          <select
+            id="filter-image"
+            name="image"
+            defaultValue={imageFilter}
+            className={FILTER_INPUT}
+          >
+            <option value="">All</option>
+            <option value="missing">No image</option>
+            <option value="present">Has image</option>
+          </select>
+        </div>
+        <div className="flex flex-col gap-1">
           <label htmlFor="filter-category" className="text-2xs font-bold uppercase tracking-[0.12em] text-gray-500">
             Category
           </label>
@@ -254,14 +276,27 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
               {articles.map((a) => (
                 <tr key={a.id} className="text-gray-900">
                   <td className="px-5 py-3">
-                    <Link
-                      href={`/admin/articles/${a.id}/edit`}
-                      className="font-semibold text-gray-900 no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
-                    >
-                      {a.title}
-                    </Link>
-                    <div className="mt-0.5 text-xs text-gray-500">
-                      /{a.slug} · {a.author?.name ?? 'No author'}
+                    <div className="flex items-start gap-2">
+                      {!a.hero_image && (
+                        <span
+                          title="No hero image"
+                          className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded bg-amber-100 text-2xs font-bold text-amber-700"
+                          aria-label="No hero image"
+                        >
+                          !
+                        </span>
+                      )}
+                      <div className="min-w-0">
+                        <Link
+                          href={`/admin/articles/${a.id}/edit`}
+                          className="font-semibold text-gray-900 no-underline transition-colors hover:text-brand-accent focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+                        >
+                          {a.title}
+                        </Link>
+                        <div className="mt-0.5 text-xs text-gray-500">
+                          /{a.slug} · {a.author?.name ?? 'No author'}
+                        </div>
+                      </div>
                     </div>
                   </td>
                   <td className="px-5 py-3 text-gray-500">

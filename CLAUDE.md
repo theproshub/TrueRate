@@ -25,6 +25,68 @@ TrueRate is a professional financial news platform. Apply Yahoo Finance / Bloomb
 4. **Data recycling degrades trust.** Readers who see "13.11% lending rate" in 7 different articles lose confidence in the editorial voice. Reference the figure once in a dedicated article, then link to it from other pieces that mention it in passing.
 5. **When in doubt, UPDATE.** If new data arrives for a topic that already has an article, update that article rather than writing a new one — unless the story has fundamentally changed (e.g. a policy rate cut after months of holds).
 
+### House style — TrueRate voice and structure
+
+TrueRate reads like Yahoo Finance or Bloomberg for Liberia. The voice is a smart business journalist explaining data to a Liberian businessperson. Vivid, concrete, never sensational — the examples are the vividness, not the adjectives.
+
+#### Headlines
+
+1. **≤12 words.** Lead with the hook: a number, a change, an insight, or a consequence.
+2. **Never lead with "Liberia" / "Liberia's" / "Liberian."** The reader is already on TrueRate — a Liberia-focused platform. Starting with "Liberia's" is like Yahoo Finance starting every headline with "America's." The country name may appear mid-headline for clarity, but it is never the first word.
+3. **Vary structure across a batch.** Colon titles ("The Cost of Credit: Why Businesses Pay 13%"), em-dash follow-ups ("Revenue Hits $304 Million — What It Means for Contractors"), question hooks ("Where the $5.2 Billion Economy Really Comes From"), declarative statements ("VAT Set to Replace GST in Biggest Tax Overhaul in Years"). Don't repeat the same pattern in consecutive articles.
+4. **Use % in headlines and deks.** Spell out "percent" in body text.
+
+#### Dek (standfirst)
+
+1. **1–2 sentences.** Include the headline figure with exact value and period.
+2. **End with the consequence** — the "so what" or "who this affects." The dek sells the article to someone deciding whether to read it.
+3. **May use % and abbreviations** (US$, L$, CBL) that would be spelled out in body text.
+
+#### Body
+
+1. **No dateline.** Do not start with "MONROVIA —" or any wire-service dateline. Open directly with the lede sentence.
+2. **Lede = one declarative sentence.** Key figure, exact value, period, source. No throat-clearing, no scene-setting.
+3. **Second paragraph = context.** Prior period, year-ago comparison, 24-month average, or share of a total. The reader needs to know whether the number is high, low, or normal.
+4. **"For [audience]" paragraphs.** This is the TrueRate signature. Ground every abstract number in impact on a specific group: "For cookshop owners borrowing L$500,000…", "For businesses that sell to the state…", "For the market women in Red Light…". Use real Liberian archetypes — keke operators, market traders, susu club members, construction subcontractors — not generic "stakeholders."
+5. **Concrete math.** Don't just say "the spread is wide." Say "a spread of 11.17 percentage points means a borrower pays L$65,000 per year in interest on L$500,000 before repaying any principal." Make the reader feel the number.
+6. **One idea per paragraph.** 3–5 sentences max. Short paragraphs scan well on mobile.
+7. **Close with a forward look or practical takeaway.** Never recap or summarize. End with "what to watch," a structural insight, or actionable guidance. The last sentence should leave the reader thinking, not reviewing.
+8. **Cross-link related articles** with `[text](/news/slug)` when citing a figure that has its own dedicated article. This is how TrueRate avoids data recycling while keeping stories connected.
+
+#### Numbers and attribution
+
+1. **Numerals for all money, percentages, and data points.** No exceptions.
+2. **"percent" in body, "%" in headlines/deks.** Never mix in the same context.
+3. **Distinguish "percentage points" from "percent."** A rate moving from 12% to 13% rose 1 percentage point (or 8.3 percent). Never conflate them.
+4. **Currency prefix always explicit.** US$5,159.74 million, L$500,000. Never bare "$" — always US$ or L$.
+5. **First reference spells out the source** with abbreviation: "Central Bank of Liberia (CBL)", "Liberia Institute of Statistics and Geo-Information Services (LISGIS)." Subsequent references use the abbreviation.
+6. **Use exact CBL values.** Write "13.11 percent" not "about 13 percent." Rounding is editorializing.
+
+#### Tone and word choice
+
+1. **Neutral analytical voice.** Factual verbs of direction: rose, fell, climbed, dropped, jumped, slid, expanded, contracted, narrowed, widened. These are precise, not hype.
+2. **Banned words and phrases:** massive, surge (as filler verb), shocking, game-changing, explosive, soaring, skyrocketing, unprecedented (unless literally verified as first-ever), slam, tank, crater, plummet (unless >20% decline), "it remains to be seen," "only time will tell." These are filler that substitutes drama for analysis.
+3. **No editorializing.** The article presents data and explains consequences. It does not tell the reader what to feel about the data. "The spread is 11 percentage points" — not "the spread is alarmingly wide."
+4. **No fabricated quotes, sources, or anecdotes.** If a quote would strengthen the piece, mark `[QUOTE NEEDED: subject, topic]` and flag it to the editor. Never invent a person.
+
+#### Structure and length
+
+1. **400–600 words** for data-driven pieces. Up to 900 for policy analysis or sector deep-dives.
+2. **Not strict inverted pyramid.** The TrueRate structure is: lede (key number) → context (comparison) → impact on specific audiences (multiple "For…" paragraphs) → structural analysis (why this is happening) → closing takeaway (forward look).
+3. **Every article answers "so what for business."** This is the editorial mission. A macro number without a business consequence is a data brief, not an article.
+
+### Visual standards — no duplicate images, high-quality only
+
+Visualization is a core value. Every image on TrueRate must meet Yahoo Finance / Bloomberg visual standards:
+
+1. **No duplicate hero images.** Every article gets its own unique hero image. Before assigning an image, check that no other published article uses the same file. Two articles sharing a hero image looks careless and undermines credibility.
+2. **No stock-photo filler.** Hero images must be relevant to the story — a cement plant for cement output, the CBL building for policy rate, Freeport for trade. Generic skylines, handshake photos, and clip-art charts are not acceptable.
+3. **High resolution only.** Minimum 1200px wide. No upscaled, pixelated, or watermarked images. WebP format preferred for performance.
+4. **Consistent aspect ratio.** Hero images should be 16:9 or 3:2. Avoid portrait crops, square crops, or inconsistent sizing across the article catalog.
+5. **Alt text on every image.** Descriptive `hero_alt` for screen readers ("Cemenco manufacturing plant in Monrovia" not "image1" or blank). Decorative-only images get `alt=""`.
+6. **Charts and data visualizations.** Use the TrueRate design system (Recharts, brand colors). No screenshots of spreadsheets. Every chart needs a `/chart-narrative` companion for accessibility.
+7. **No AI-generated imagery.** TrueRate is a data-driven news platform. All editorial images should be real photographs or purpose-built data visualizations — not AI-generated art, illustrations, or renders.
+
 ### Automated workflow triggers
 
 These workflows fire automatically based on the request — no manual `/skill` invocation needed. Detect the intent and run the full pipeline.

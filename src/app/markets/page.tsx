@@ -23,6 +23,7 @@ const TrendChart = dynamic(
 import { getNewsItems } from '@/lib/news-source';
 import type { NewsItem } from '@/lib/types';
 import { Heading, Text } from '@/components/ui';
+import { fetchMarketsArticles, toMarketsStory } from '@/lib/markets/feed';
 
 export const revalidate = 0; // always read the latest articles + live data from the DB
 
@@ -163,13 +164,14 @@ function DeskColumn({ title, href, items }: { title: string; href: string; items
 // ── page ────────────────────────────────────────────────────────────────────
 
 export default async function MarketsPage() {
-  const [liveRates, commodities, indicators, interestRates, moneySupply, debtBreakdown] = await Promise.all([
+  const [liveRates, commodities, indicators, interestRates, moneySupply, debtBreakdown, marketsArticles] = await Promise.all([
     fetchLiveRates(),
     fetchCommodities(),
     getDashboardIndicators().catch(() => [] as NormalizedIndicator[]),
     getInterestRateData(12),
     getMoneySupplyData(12),
     getDebtBreakdownData(12),
+    fetchMarketsArticles({ limit: 30 }),
   ]);
 
   // When both FX feeds are down we get hardcoded fallback rates. Honor the
@@ -195,12 +197,19 @@ export default async function MarketsPage() {
   const bankingNews     = byCategory(newsItems, 'banking');
   const investingNews   = byCategory(newsItems, 'investing');
 
-  // Lead block — derive from available articles (resilient to dataset changes)
+  // Lead block — sourced from the dedicated markets feed (forex, commodities,
+  // banking, investing, markets categories only) so the lead is unique to this
+  // page and doesn't repeat the homepage hero.
+  const marketsStories = marketsArticles.map(toMarketsStory);
   const used = new Set<string>();
-  const take = (n: number) =>
-    newsItems.filter(a => !used.has(a.id)).slice(0, n).map(a => { used.add(a.id); return a; });
-  const lead        = newsItems[0];
+  const leadStory = marketsStories[0];
+  const lead: NewsItem | undefined = leadStory
+    ? newsItems.find(n => n.id === leadStory.href.replace('/news/', ''))
+      ?? { id: leadStory.href.replace('/news/', ''), title: leadStory.title, summary: leadStory.dek ?? '', source: leadStory.source ?? 'TrueRate', date: leadStory.time, category: leadStory.categorySlug as NewsItem['category'], image: leadStory.image ?? undefined, author: leadStory.author }
+    : newsItems[0];
   if (lead) used.add(lead.id);
+  const take = (n: number) =>
+    newsItems.filter(a => !used.has(a.id) && ['forex','commodities','markets','investing','banking'].includes(a.category.toLowerCase())).slice(0, n).map(a => { used.add(a.id); return a; });
   const subFeatures = take(2);
   const whatsNews   = take(4);
 

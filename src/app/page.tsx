@@ -171,6 +171,33 @@ function LatestColumn({ items }: { items: HomeArticle[] }) {
   );
 }
 
+function MarketFinanceColumn({ items }: { items: HomeArticle[] }) {
+  if (items.length === 0) return null;
+  return (
+    <section aria-labelledby="market-finance-heading">
+      <div className="border-b border-gray-200 pb-3 mb-4">
+        <Link href="/economy" className="group inline-flex items-center gap-1.5 no-underline">
+          <h2 id="market-finance-heading" className="text-base font-bold text-gray-900 uppercase tracking-[0.12em] group-hover:text-brand-accent-ink transition-colors">Market &amp; Finance</h2>
+          <span className="text-xl text-gray-500 group-hover:text-brand-accent-ink transition-colors">›</span>
+        </Link>
+      </div>
+      <div className="flex flex-col divide-y divide-gray-200">
+        {items.map((a) => (
+          <Link key={a.href} href={a.href} className="flex items-start gap-3 sm:gap-4 py-4 first:pt-0 no-underline group -mx-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
+            <div className="shrink-0 overflow-hidden rounded-xl">
+              <NewsThumbnail category={a.categorySlug} id={a.seedId} src={a.src} className="h-[64px] w-[96px] sm:h-[90px] sm:w-[130px] transition-transform duration-300 group-hover:scale-105" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm sm:text-md font-bold leading-snug text-gray-900 line-clamp-3 group-hover:text-brand-accent-ink transition-colors">{a.title}</h3>
+              <Meta a={a} />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function DeepReadsColumn({ items }: { items: HomeArticle[] }) {
   const [lead, ...rest] = items;
   if (!lead) return null;
@@ -332,6 +359,7 @@ export default async function Home() {
   const newsList    = claim(recent, used, 4, FINANCE_CATS);
   const deepReads   = claim(recent, used, 7, DEPTH_CATS);
   const latest      = claim(recent, used, 5);
+  const marketFin   = claim(recent, used, 5, FINANCE_CATS);
   const quickReads  = claim(recent, used, 4, BRIEF_CATS);
   const moreNews    = claim(recent, used, 6);
   const mostRead    = popular.slice(0, 5);
@@ -349,9 +377,9 @@ export default async function Home() {
             <div className="border-t border-gray-200 pt-5">
               <VideosSection videos={TODAYS_VIDEOS} />
             </div>
-            {moreNews.length > 0 && (
+            {marketFin.length > 0 && (
               <div className="border-t border-gray-200 pt-5">
-                <MoreNewsColumn items={moreNews} />
+                <MarketFinanceColumn items={marketFin} />
               </div>
             )}
             {quickReads.length > 0 && (
@@ -372,6 +400,11 @@ export default async function Home() {
             {latest.length > 0 && (
               <div className="border-t border-gray-200 pt-5">
                 <LatestColumn items={latest} />
+              </div>
+            )}
+            {moreNews.length > 0 && (
+              <div className="border-t border-gray-200 pt-5">
+                <MoreNewsColumn items={moreNews} />
               </div>
             )}
           </div>

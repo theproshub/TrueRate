@@ -53,6 +53,7 @@ export default async function AdminDashboardPage() {
     draftCount,
     publishedCount,
     archivedCount,
+    noImageCount,
     authorCount,
     categoryCount,
     macroSeriesCount,
@@ -63,6 +64,12 @@ export default async function AdminDashboardPage() {
     countByStatus(supabase, 'draft'),
     countByStatus(supabase, 'published'),
     countByStatus(supabase, 'archived'),
+    supabase
+      .from('articles')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'published')
+      .is('hero_image', null)
+      .then(({ count }) => count ?? 0),
     totalCount(supabase, 'authors'),
     totalCount(supabase, 'categories'),
     totalCount(supabase, 'macro_series'),
@@ -106,6 +113,9 @@ export default async function AdminDashboardPage() {
           <StatCard label="Published" value={publishedCount} tone="positive" href="/admin/articles?status=published" />
           <StatCard label="Drafts"    value={draftCount}     tone="neutral"  href="/admin/articles?status=draft" />
           <StatCard label="Archived"  value={archivedCount}  tone="muted"    href="/admin/articles?status=archived" />
+          {noImageCount > 0 && (
+            <StatCard label="No image" value={noImageCount} tone="neutral" href="/admin/articles?image=missing" />
+          )}
         </div>
       </section>
 

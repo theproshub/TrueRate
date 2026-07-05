@@ -18,7 +18,7 @@ export const revalidate = 0; // always read the latest published articles from t
 
 // Categories that belong on the Economy front. Includes the finance desks
 // (policy, forex, commodities, banking) so every economic story surfaces here.
-const ECONOMY_CATEGORY_SLUGS = ['economy', 'markets', 'business', 'analysis', 'opinion', 'world', 'policy', 'forex', 'commodities', 'banking'];
+const ECONOMY_CATEGORY_SLUGS = ['economy', 'policy', 'analysis', 'opinion', 'world'];
 
 interface EconomyArticle {
   id: string;
@@ -59,7 +59,7 @@ function formatIndicatorChange(ind: NormalizedIndicator): string | null {
 
 // Static fallback: when no DB articles are published, surface the seed
 // articles from news.ts so the Economy front isn't empty.
-const ECONOMY_FALLBACK_SLUGS = ['economy', 'policy', 'analysis', 'commodities', 'banking', 'forex'];
+const ECONOMY_FALLBACK_SLUGS = ['economy', 'policy', 'analysis', 'opinion', 'world'];
 
 function titleCase(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -135,29 +135,65 @@ export default async function EconomyPage() {
             Economy
           </h2>
 
-          {/* Lead story */}
-          <article>
-            <Link href={`/news/${hero.slug}`} className="group flex flex-col md:flex-row gap-4 md:gap-6 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2">
-              <div className="md:w-[48%] shrink-0 overflow-hidden rounded-lg">
-                <HeroVisual category={hero.category?.slug ?? 'economy'} src={hero.hero_image} className="w-full aspect-[16/9] transition-transform duration-300 group-hover:scale-[1.02]" />
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col justify-center">
-                <span className={`text-[11px] sm:text-[12px] font-extrabold uppercase tracking-[0.08em] ${getCatColor(hero.category?.slug ?? 'economy')}`}>
-                  {hero.category?.label ?? 'Economy'}
-                </span>
-                <h3 className="mt-1 sm:mt-1.5 text-[20px] sm:text-[28px] lg:text-[30px] font-black leading-[1.15] text-gray-900 group-hover:underline decoration-2 underline-offset-2">
-                  {hero.title}
-                </h3>
-                {hero.dek && (
-                  <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-[1.55] text-gray-500 line-clamp-2 sm:line-clamp-3">{hero.dek}</p>
-                )}
-                <div className="mt-2 sm:mt-3 text-xs text-gray-500">
-                  {hero.author?.name && <><span className="font-semibold text-gray-700">{hero.author.name}</span><span className="mx-1.5 text-gray-400">&middot;</span></>}
-                  <span>{timeAgo(hero.published_at)}</span>
+          {/* Lead story + At a Glance sidebar */}
+          <div className="flex flex-col lg:flex-row gap-5 lg:gap-6">
+            {/* Lead story */}
+            <article className="lg:flex-1 min-w-0">
+              <Link href={`/news/${hero.slug}`} className="group flex flex-col md:flex-row gap-4 md:gap-6 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2">
+                <div className="md:w-[55%] shrink-0 overflow-hidden rounded-lg">
+                  <HeroVisual category={hero.category?.slug ?? 'economy'} src={hero.hero_image} className="w-full aspect-[16/9] transition-transform duration-300 group-hover:scale-[1.02]" />
                 </div>
+                <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <span className={`text-[11px] sm:text-[12px] font-extrabold uppercase tracking-[0.08em] ${getCatColor(hero.category?.slug ?? 'economy')}`}>
+                    {hero.category?.label ?? 'Economy'}
+                  </span>
+                  <h3 className="mt-1 sm:mt-1.5 text-[20px] sm:text-[24px] lg:text-[26px] font-black leading-[1.15] text-gray-900 group-hover:underline decoration-2 underline-offset-2">
+                    {hero.title}
+                  </h3>
+                  {hero.dek && (
+                    <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-[1.55] text-gray-500 line-clamp-2 sm:line-clamp-3">{hero.dek}</p>
+                  )}
+                  <div className="mt-2 sm:mt-3 text-xs text-gray-500">
+                    {hero.author?.name && <><span className="font-semibold text-gray-700">{hero.author.name}</span><span className="mx-1.5 text-gray-400">&middot;</span></>}
+                    <span>{timeAgo(hero.published_at)}</span>
+                  </div>
+                </div>
+              </Link>
+            </article>
+
+            {/* Liberia at a Glance — desktop only; mobile gets the Data Snapshot in the right rail */}
+            <aside className="hidden lg:block lg:w-[280px] shrink-0 lg:border-l lg:border-gray-200 lg:pl-6" aria-labelledby="at-a-glance-heading">
+              <div className="rounded-xl border border-gray-200 bg-white p-4">
+                <h3 id="at-a-glance-heading" className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">
+                  Liberia at a Glance
+                </h3>
+                {indicators.length === 0 ? (
+                  <p className="text-sm text-gray-500">Data unavailable.</p>
+                ) : (
+                  <dl className="space-y-2.5">
+                    {indicators.map((ind) => {
+                      const change = formatIndicatorChange(ind);
+                      const up = (ind.changePercent ?? 0) >= 0;
+                      return (
+                        <div key={ind.key} className="flex items-baseline justify-between gap-2">
+                          <dt className="text-sm text-gray-500 min-w-0 truncate">{ind.name}</dt>
+                          <dd className="flex items-baseline gap-1.5 shrink-0">
+                            <span className="text-sm font-bold text-gray-900 tabular-nums">{formatIndicatorValue(ind)}</span>
+                            {change && (
+                              <span className={`text-2xs font-semibold ${up ? 'text-pos' : 'text-neg'}`}>
+                                {change}
+                              </span>
+                            )}
+                          </dd>
+                        </div>
+                      );
+                    })}
+                  </dl>
+                )}
+                <p className="text-2xs text-gray-400 mt-3 pt-2 border-t border-gray-100">Source: CBL &middot; World Bank</p>
               </div>
-            </Link>
-          </article>
+            </aside>
+          </div>
 
           {/* Secondary stories */}
           {topStories.length > 0 && (
@@ -229,33 +265,31 @@ export default async function EconomyPage() {
         {/* Right rail */}
         <aside className="w-full lg:w-[300px] shrink-0 lg:self-stretch border-t border-gray-200 pt-8 lg:border-t-0 lg:pt-0 lg:border-l lg:pl-6">
           <StickySidebar className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
-          {/* Data snapshot — live from Supabase (World Bank series) */}
+          {/* Newsletter signup */}
           <div className="rounded-xl border border-gray-200 bg-white p-4">
-            <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">Data Snapshot</h2>
-            {wbIndicators.length === 0 ? (
-              <p className="text-sm text-gray-500">Indicator data unavailable.</p>
-            ) : (
-              <>
-                <dl className="space-y-3">
-                  {wbIndicators.map((ind) => {
-                    const change = formatIndicatorChange(ind);
-                    const up = (ind.changePercent ?? 0) >= 0;
-                    return (
-                      <div key={ind.key} className="flex items-baseline justify-between gap-2">
-                        <dt className="text-sm text-gray-500 min-w-0 truncate">{ind.name}</dt>
-                        <dd className="flex items-baseline gap-1.5 shrink-0">
-                          <span className="text-base font-bold text-gray-900 tabular-nums">{formatIndicatorValue(ind)}</span>
-                          {change && (
-                            <span className={`text-xs font-semibold ${up ? 'text-pos' : 'text-neg'}`}>{change}</span>
-                          )}
-                        </dd>
-                      </div>
-                    );
-                  })}
-                </dl>
-                <p className="text-2xs text-gray-600 mt-4">Source: World Bank · Liberia</p>
-              </>
-            )}
+            <h2 className="text-sm font-black text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-3 mb-3">Stay Informed</h2>
+            <p className="text-sm text-gray-500 leading-relaxed mb-4">
+              Get Liberia&apos;s key economic data and market moves delivered to your inbox every week.
+            </p>
+            <form action="/api/subscribe" method="POST" className="flex flex-col gap-2.5">
+              <label htmlFor="economy-email" className="sr-only">Email address</label>
+              <input
+                id="economy-email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@example.com"
+                autoComplete="email"
+                className="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-brand-accent focus:outline-none focus:ring-2 focus:ring-brand-accent"
+              />
+              <button
+                type="submit"
+                className="w-full rounded-lg bg-[#1E1E1E] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#2a2a2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+              >
+                Subscribe
+              </button>
+              <p className="text-2xs text-gray-400">Free. No spam. Unsubscribe anytime.</p>
+            </form>
           </div>
 
           <EconomicEventsCalendar limit={4} />

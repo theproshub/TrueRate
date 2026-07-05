@@ -47,6 +47,62 @@ interface ArticleFormProps {
   deleteAction?: () => Promise<void>;
 }
 
+function suggestHeroImage(title: string, body: string): string | null {
+  const text = `${title} ${body}`.toLowerCase();
+  const suggestions: [RegExp, string][] = [
+    [/policy rate|mpc|monetary policy committee/, 'Central Bank of Liberia (CBL) headquarters or MPC briefing room'],
+    [/inflation|cpi|consumer price|price.*ris/, 'Monrovia market stalls showing price tags on everyday goods'],
+    [/exchange rate|currency|lrd.*usd|dollar.*slip/, 'Foreign exchange bureau or money changers on Broad Street, Monrovia'],
+    [/lending rate|borrowing|cost of credit|interest rate/, 'Commercial bank branch entrance (LBDI, Ecobank, UBA) in Monrovia'],
+    [/money supply|broad money|reserve money|monetary/, 'Central Bank of Liberia building exterior with signage'],
+    [/private.*credit|bank.*lend.*business|credit.*stall/, 'Small business owner at their shop counter in Monrovia'],
+    [/deposit|bank.*hold|banking sector/, 'Row of commercial bank facades on Broad Street, Monrovia'],
+    [/personal loan|informal entrepreneur/, 'Market trader or street vendor at Waterside or Red Light market'],
+    [/startup|entrepreneur|first year|small business/, 'Young entrepreneur in a small office or co-working space in Monrovia'],
+    [/gold|artisanal min/, 'Artisanal gold mining operation in rural Liberia'],
+    [/iron.?ore|arcelormittal/, 'ArcelorMittal iron ore loading facility in Buchanan'],
+    [/mining|mineral.*output/, 'Open-pit mining operation with heavy equipment in Liberia'],
+    [/rubber|latex|tapping|plantation/, 'Rubber tapper collecting latex from scored tree trunks on a plantation'],
+    [/palm.?oil/, 'Palm oil fruit harvest at a Liberian plantation'],
+    [/cocoa/, 'Cocoa beans drying on raised beds at a Liberian farm'],
+    [/diamond/, 'Alluvial diamond sifting operation in rural Liberia'],
+    [/cement|cemenco|construction.*boom/, 'Cement bags or Cemenco manufacturing plant in Monrovia'],
+    [/beverage|bottl|brewery/, 'Monrovia Breweries or beverage manufacturing plant'],
+    [/manufactur/, 'Manufacturing facility or factory floor in Monrovia'],
+    [/forestry|timber|sawn/, 'Dense tropical forest canopy or timber logging site in rural Liberia'],
+    [/agriculture|farm|crop|harvest/, 'Farmer tending crops in a rural Liberian field'],
+    [/export|trade.*surge|freeport/, 'Cargo ships or containers at the Freeport of Monrovia'],
+    [/import|depend.*import/, 'Imported goods being unloaded at the Freeport of Monrovia'],
+    [/current.?account|balance of payment/, 'Container port operations at the Freeport of Monrovia'],
+    [/remittance/, 'Money transfer service office in Monrovia'],
+    [/gdp|economy grew|economic growth|sectoral/, 'Aerial or panoramic view of Monrovia showing the commercial district'],
+    [/two.?speed|inequality|uneven/, 'Aerial view of mining operations alongside a rural Liberian village'],
+    [/budget|fiscal|government spend|revenue|tax/, 'Ministry of Finance building or Capitol Building in Monrovia'],
+    [/debt|borrow.*government|external.*lend/, 'Ministry of Finance or international development partner offices in Monrovia'],
+    [/payroll|public.*sector.*employ/, 'Government office workers outside a ministry building in Monrovia'],
+    [/vat|gst|tax.*reform|revenue authority/, 'Liberia Revenue Authority (LRA) office building in Monrovia'],
+    [/electricity|power|lights|energy/, 'Power lines and transmission tower or LEC substation in Monrovia'],
+    [/health.*care|clinic|medical/, 'Entrance to a health clinic or hospital in Monrovia'],
+    [/education|school|fees/, 'Students in uniform outside a school in Monrovia'],
+    [/phone|telecom|data.*cheap|communication/, 'Mobile phone tower rising above a Monrovia neighborhood'],
+    [/transport|moving people/, 'Commercial vehicles and mobile towers along a Monrovia road'],
+    [/food|eating|restaurant|hospitality/, 'Restaurant or food service establishment in Monrovia'],
+    [/hotel|tourism|services.*boom/, 'Hotel lobby or hospitality venue in Monrovia (Royal Grand, Cape Hotel)'],
+    [/fintech|digital payment|mobile money|ekan/, 'Mobile phone displaying a payment or fintech interface'],
+    [/financial.*sector|financial.*institution/, 'Banking district on Broad/Ashmun Street in Monrovia'],
+    [/cash outside|currency.*circulation/, 'Liberian dollar banknotes being exchanged at a market stall'],
+    [/commodity|commodit/, 'Assorted commodity goods at a Monrovia market'],
+    [/china.*export|trade.*partner/, 'Shipping containers with Chinese shipping line branding at Freeport'],
+    [/steel|iron.*bar|reinforc/, 'Steel reinforcing bars at a Liberian construction or manufacturing site'],
+    [/services.*engine|services.*sector|services.*quiet/, 'Busy commercial street with shops and services in Monrovia'],
+  ];
+
+  for (const [pattern, suggestion] of suggestions) {
+    if (pattern.test(text)) return suggestion;
+  }
+  return null;
+}
+
 function slugify(input: string): string {
   return input
     .toLowerCase()
@@ -164,6 +220,7 @@ export default function ArticleForm({
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploading, startUpload] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageSuggestion = useMemo(() => suggestHeroImage(title, body), [title, body]);
 
   function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -376,10 +433,16 @@ export default function ArticleForm({
             Paste an external URL / <code className="text-gray-500">/public</code> path, or upload to
             Supabase Storage (max 10&nbsp;MB; JPEG, PNG, WebP, AVIF, GIF).
           </p>
-          {heroImage && (
+          {heroImage ? (
             <div className="mt-3 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={heroImage} alt="" className="max-h-48 w-full object-cover" />
+            </div>
+          ) : imageSuggestion && (
+            <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
+              <p className="text-xs font-semibold text-amber-800">Suggested image</p>
+              <p className="mt-1 text-sm text-amber-700">{imageSuggestion}</p>
+              <p className="mt-2 text-xs text-amber-600">Min 1200px wide · 16:9 or 3:2 · WebP preferred · Real photographs only</p>
             </div>
           )}
         </div>
