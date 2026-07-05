@@ -14,8 +14,8 @@ import {
   getGdpData,
   getFiscalData,
   getTradeData,
-} from '@/lib/data/cbl-observations';
-import { getCblPolicyRate } from '@/lib/data/cbl-rate';
+} from '@/domain/cbl/observations';
+import { getCblPolicyRate } from '@/domain/cbl/policy-rate';
 import dynamic from 'next/dynamic';
 
 const TrendChart = dynamic(

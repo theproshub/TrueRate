@@ -1,7 +1,7 @@
 import { publicClient } from '@/lib/supabase/public';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
-import { getCblPolicyRate } from '@/lib/data/cbl-rate';
-import { getCpiData, getGdpData, getFiscalData, getTradeData, getPolicyRateData } from '@/lib/data/cbl-observations';
+import { getCblPolicyRate } from '@/domain/cbl/policy-rate';
+import { getCpiData, getGdpData, getFiscalData, getTradeData, getPolicyRateData } from '@/domain/cbl/observations';
 
 async function cblPolicyRateIndicator(): Promise<NormalizedIndicator> {
   const rate = await getCblPolicyRate();

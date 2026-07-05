@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
-import { getDashboardIndicators } from '@/lib/data/indicators';
+import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 export const revalidate = 900; // 15 min — match analytics page cadence

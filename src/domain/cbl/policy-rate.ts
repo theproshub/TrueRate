@@ -10,7 +10,7 @@
  * Last reviewed: Q2 2026 MPC (April 27, 2026) — held at 16.25%.
  */
 
-import { getPolicyRateData } from '@/lib/data/cbl-observations';
+import { getPolicyRateData } from '@/domain/cbl/observations';
 
 /** Fallback constant for synchronous consumers (ticker seed, seed data). */
 export const CBL_POLICY_RATE: number = 16.25;

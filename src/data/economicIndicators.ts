@@ -20,7 +20,7 @@
 
 import { EconomicIndicator } from '@/lib/types';
 import { generateHistoricalDataFromAnchors } from '@/lib/utils';
-import { CBL_POLICY_RATE, CBL_POLICY_RATE_PERIOD } from '@/lib/data/cbl-rate';
+import { CBL_POLICY_RATE, CBL_POLICY_RATE_PERIOD } from '@/domain/cbl/policy-rate';
 
 export const economicIndicators: EconomicIndicator[] = [
   {

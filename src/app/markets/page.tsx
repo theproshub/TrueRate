@@ -6,14 +6,14 @@ import { NewsThumbnail } from '@/components/NewsThumbnail';
 import { getNewsCatColor } from '@/lib/category-colors';
 import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
 import { fetchCommodities } from '@/lib/api/yahoo';
-import { getDashboardIndicators } from '@/lib/data/indicators';
+import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
 import type { NormalizedIndicator } from '@/lib/types/indicators';
 import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import {
   getInterestRateData,
   getMoneySupplyData,
   getDebtBreakdownData,
-} from '@/lib/data/cbl-observations';
+} from '@/domain/cbl/observations';
 import dynamic from 'next/dynamic';
 
 const TrendChart = dynamic(
