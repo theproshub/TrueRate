@@ -37,6 +37,37 @@ export default defineConfig([
     },
   },
 
+  // ── Domain boundary guardrail ───────────────────────────────────────────────
+  // Facts (domain/cbl, domain/markets) must never import interpretation/editorial.
+  // Components must never create Supabase clients directly.
+  // Warnings now → errors after Tier 3 consolidation.
+  {
+    files: ["src/**/domain/cbl/**", "src/**/domain/markets/**"],
+    rules: {
+      "no-restricted-imports": [
+        "warn",
+        {
+          patterns: [
+            { group: ["**/domain/interpretation*", "**/domain/editorial*"], message: "Fact core must not import interpretation/editorial — push interpretation up to the caller." },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/components/**"],
+    rules: {
+      "no-restricted-imports": [
+        "warn",
+        {
+          patterns: [
+            { group: ["@supabase/supabase-js", "@supabase/ssr"], message: "Components should not import Supabase SDK directly — use a hook or accept data via props." },
+          ],
+        },
+      ],
+    },
+  },
+
   // ── Brand design-system guardrail ──────────────────────────────────────────
   // Locks in the accent-unification + on-brand-CTA work (see DESIGN-AUDIT.md).
   // Only patterns with ZERO current occurrences are errors, so this never breaks
