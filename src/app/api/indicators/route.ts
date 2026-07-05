@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import type { NormalizedIndicator } from '@/lib/types/indicators';
+import type { NormalizedIndicator } from '@/types/indicators';
 import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 

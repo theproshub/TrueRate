@@ -7,7 +7,7 @@ import { getNewsCatColor } from '@/lib/category-colors';
 import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { fetchCommodities } from '@/domain/markets/commodities';
 import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
-import type { NormalizedIndicator } from '@/lib/types/indicators';
+import type { NormalizedIndicator } from '@/types/indicators';
 import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
 import {
   getInterestRateData,

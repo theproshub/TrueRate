@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
-type Rate = { pair: string; from: string; to: string; rate: number; change?: number; changePercent?: number };
-type Indicator = { key: string; name: string; value: number; unit: string; change?: number; changePercent?: number };
+import type { MarketRate as Rate, MarketIndicator as Indicator } from '@/types/markets';
 
 type Row = { label: string; value: string; change: number | null; pct: number | null };
 

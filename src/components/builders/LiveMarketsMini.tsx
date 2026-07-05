@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { MarketRate as Rate, MarketIndicator as Indicator } from '@/types/markets';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    LiveMarketsMini — compact "Liberia Markets" panel for the builders rail.
@@ -11,9 +12,6 @@ import { useEffect, useState } from 'react';
    No fabricated values: rows render only from live endpoints, and the panel
    omits itself entirely if nothing loads.
 ───────────────────────────────────────────────────────────────────────────── */
-
-type Rate = { pair: string; from: string; rate: number };
-type Indicator = { key: string; name: string; value: number; unit: string };
 
 const FX_FROM = ['USD', 'EUR', 'GBP'];
 const INDICATOR_KEYS = ['CBL_RATE', 'INFLATION'];

@@ -1,9 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-type Rate = { pair: string; from: string; rate: number; change?: number; changePercent?: number };
-type Indicator = { key: string; name: string; value: number; unit: string; change?: number; changePercent?: number };
+import type { MarketRate as Rate, MarketIndicator as Indicator } from '@/types/markets';
 
 type Chip = { label: string; value: string; change: number | null; pct: number | null };
 

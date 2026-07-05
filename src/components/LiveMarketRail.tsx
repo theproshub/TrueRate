@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import type { MarketRate as Rate, MarketIndicator as Indicator } from '@/types/markets';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    LiveMarketRail — homepage sidebar market data, sourced from live endpoints.
@@ -15,24 +16,6 @@ import { useEffect, useState } from 'react';
    No section renders fabricated values. If an endpoint returns nothing, that
    block is omitted entirely (delete, don't seed).
 ───────────────────────────────────────────────────────────────────────────── */
-
-type Rate = {
-  pair: string;
-  from: string;
-  to: string;
-  rate: number;
-};
-
-type Indicator = {
-  key: string;
-  name: string;
-  value: number;
-  change: number | null;
-  changePercent: number | null;
-  unit: string;
-  period: string;
-  source: string;
-};
 
 /** FX pairs surfaced on the homepage, in display order. */
 const FX_FROM = ['USD', 'EUR', 'GBP'];

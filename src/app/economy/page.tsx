@@ -5,7 +5,7 @@ import { getCatColor } from '@/lib/category-colors';
 import EconomyTopicTabs from '@/components/EconomyTopicTabs';
 import { publicClient } from '@/lib/supabase/public';
 import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
-import type { NormalizedIndicator } from '@/lib/types/indicators';
+import type { NormalizedIndicator } from '@/types/indicators';
 import { newsItems } from '@/data/news';
 import StickySidebar from '@/components/StickySidebar';
 import EconomicEventsCalendar from '@/components/EconomicEventsCalendar';
