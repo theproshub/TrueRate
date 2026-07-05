@@ -39,13 +39,12 @@ export default defineConfig([
 
   // ── Domain boundary guardrail ───────────────────────────────────────────────
   // Facts (domain/cbl, domain/markets) must never import interpretation/editorial.
-  // Components must never create Supabase clients directly.
-  // Warnings now → errors after Tier 3 consolidation.
+  // Components should not create Supabase clients directly.
   {
     files: ["src/**/domain/cbl/**", "src/**/domain/markets/**"],
     rules: {
       "no-restricted-imports": [
-        "warn",
+        "error",
         {
           patterns: [
             { group: ["**/domain/interpretation*", "**/domain/editorial*"], message: "Fact core must not import interpretation/editorial — push interpretation up to the caller." },
