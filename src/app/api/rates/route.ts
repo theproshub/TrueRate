@@ -8,7 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
+import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 export const revalidate = 900; // 15 min — consistent with indicators/analytics

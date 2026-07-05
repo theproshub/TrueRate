@@ -11,7 +11,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchCommodities } from '@/lib/api/yahoo';
+import { fetchCommodities } from '@/domain/markets/commodities';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 // ISR: match the Yahoo client's 15-minute cache.

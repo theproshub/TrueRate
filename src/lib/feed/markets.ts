@@ -1,4 +1,4 @@
-import { fetchLiveRates } from '@/lib/api/exchange';
+import { fetchLiveRates } from '@/domain/markets/exchange';
 import type { MarketsTicker } from './schemas';
 
 /**

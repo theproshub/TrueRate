@@ -19,7 +19,7 @@
  * use lowercase keys (lrd, eur, gbp, cny, ghs, ngn).
  */
 
-import { resolveCblUsdLrd } from './cbl';
+import { resolveCblUsdLrd } from './cbl-scraper';
 
 const CDN_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
 const CDN_URL_FALLBACK = 'https://latest.currency-api.pages.dev/v1/currencies/usd.json';

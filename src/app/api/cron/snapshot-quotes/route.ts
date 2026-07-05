@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { fetchLiveRates, toLRDRates } from '@/lib/api/exchange';
-import { fetchCommodities } from '@/lib/api/yahoo';
+import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
+import { fetchCommodities } from '@/domain/markets/commodities';
 import { FX_SYMBOLS, COMMODITY_SYMBOLS } from '@/lib/analytics/catalog';
 
 /**
