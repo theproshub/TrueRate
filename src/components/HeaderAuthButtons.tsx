@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import type { User } from '@supabase/supabase-js';
-import { createClient } from '@/lib/supabase/client';
+import { createClient, type User } from '@/lib/supabase/client';
 
 function SignedOutButtons({ isLight }: { isLight: boolean }) {
   return (
