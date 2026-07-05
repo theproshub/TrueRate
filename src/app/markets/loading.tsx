@@ -9,7 +9,7 @@ export default function MarketsLoading() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-6 border-b border-gray-200">
           <div className="lg:col-span-2 space-y-4">
             <div className="h-5 w-48 rounded bg-white" />
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {Array.from({ length: 2 }).map((_, i) => (
                 <div key={i} className="space-y-3">
                   <div className="h-4 w-20 rounded bg-white" />

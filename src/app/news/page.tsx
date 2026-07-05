@@ -360,7 +360,7 @@ export default async function NewsPage({
               {archives.map((a, i) => (
                 <Link key={i} href={a.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
                   <div className="shrink-0 overflow-hidden rounded-xl">
-                    <NewsThumbnail category={a.category} src={a.image} className="h-[80px] w-[120px]" />
+                    <NewsThumbnail category={a.category} src={a.image} className="h-[60px] w-[88px] sm:h-[80px] sm:w-[120px]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <Heading level={6} as="h3" className="text-sm leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2 mb-1.5">{a.title}</Heading>

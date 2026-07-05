@@ -121,7 +121,7 @@ export default async function FinanceNewsPage({
               <div className="flex-1 min-w-0 flex flex-col divide-y divide-gray-100">
                 {searchResults.map((item) => (
                   <Link key={item.id} href={`/news/${item.id}`} className="group flex gap-4 py-4 first:pt-5 last:pb-5 no-underline">
-                    <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[90px] w-[140px] rounded-xl" />
+                    <NewsThumbnail category={item.category} id={item.id} src={item.image} className="shrink-0 h-[70px] w-[96px] sm:h-[90px] sm:w-[140px] rounded-xl" />
                     <div className="min-w-0 flex-1">
                       <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(item.category)}`}>
                         {item.category}
@@ -190,7 +190,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-col divide-y divide-gray-100">
               {economyStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[60px] w-[88px] sm:h-[80px] sm:w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{s.title}</Heading>
@@ -217,7 +217,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-col divide-y divide-gray-100">
               {marketsStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category} id={s.id} src={s.image} className="shrink-0 h-[60px] w-[88px] sm:h-[80px] sm:w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{s.title}</Heading>
@@ -243,7 +243,7 @@ export default async function FinanceNewsPage({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {tradeStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-3 no-underline border-t border-gray-100 pt-4 first:border-t-0 first:pt-0 [&:nth-child(2)]:border-t-0 [&:nth-child(2)]:pt-0 sm:[&:nth-child(2)]:border-t-0">
-                  <NewsThumbnail category={s.category.toLowerCase()} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[100px] rounded-xl" />
+                  <NewsThumbnail category={s.category.toLowerCase()} id={s.id} src={s.image} className="shrink-0 h-[60px] w-[88px] sm:h-[80px] sm:w-[100px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-3">{s.title}</Heading>
@@ -265,7 +265,7 @@ export default async function FinanceNewsPage({
             <div className="flex flex-col divide-y divide-gray-100">
               {policyStories.map((s, i) => (
                 <Link key={i} href={s.href} className="group flex gap-4 py-4 first:pt-0 no-underline">
-                  <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} id={s.id} src={s.image} className="shrink-0 h-[80px] w-[120px] rounded-xl" />
+                  <NewsThumbnail category={s.category.toLowerCase().replace(/\s+/g, '-')} id={s.id} src={s.image} className="shrink-0 h-[60px] w-[88px] sm:h-[80px] sm:w-[120px] rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category.toLowerCase())}`}>{s.category}</span>
                     <Heading level={6} as="h3" className="mt-0.5 text-sm font-bold leading-snug text-gray-900 group-hover:underline decoration-1 underline-offset-2 line-clamp-2">{s.title}</Heading>

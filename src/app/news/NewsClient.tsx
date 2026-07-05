@@ -64,7 +64,7 @@ export function HeroCarousel({ items = newsItems }: { items?: NewsItem[] }) {
         aria-label="Top stories"
       >
         {slides.map((slide) => (
-          <div key={slide.id} className="snap-center shrink-0 w-[85vw]">
+          <div key={slide.id} className="snap-center shrink-0 w-[80vw]">
             <HeroCard item={slide} />
           </div>
         ))}

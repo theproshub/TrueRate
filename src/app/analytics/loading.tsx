@@ -26,7 +26,7 @@ export default function AnalyticsLoading() {
           <div className="space-y-4">
             <div className="h-6 w-40 rounded bg-white" />
             <div className="h-[260px] w-full rounded-lg bg-white" />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="h-16 rounded bg-white" />
               <div className="h-16 rounded bg-white" />
             </div>
