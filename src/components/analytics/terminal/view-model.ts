@@ -6,7 +6,7 @@
 import type { AnalyticsItem, Timeframe } from '@/lib/analytics/types';
 import { statsFor, sliceByTimeframe, downsample } from '@/lib/analytics/stats';
 import { formatValue, formatValueWithUnit, formatPct } from '@/lib/analytics/format';
-import { editorialFor } from './editorial';
+import { editorialFor } from '@/domain/interpretation/editorial-notes';
 import type { Direction } from './colors';
 
 export type { Timeframe } from '@/lib/analytics/types';

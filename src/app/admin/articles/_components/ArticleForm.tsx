@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { renderMarkdown } from '@/lib/markdown';
 import type { ParsedTemplate } from '@/lib/article-template';
 import { inferCategory } from '@/lib/category-infer';
-import { authorNameForCategory } from '@/lib/category-desk';
+import { authorNameForCategory } from '@/domain/editorial/byline-registry';
 import { uploadArticleImage } from '../_upload';
 import TemplateImporter from './TemplateImporter';
 

@@ -5,7 +5,7 @@ import SectionEndNav from '@/components/SectionEndNav';
 import TickerTape from '@/components/analytics/terminal/TickerTape';
 import TrendsTerminal from '@/components/analytics/terminal/TrendsTerminal';
 import { getMcpAnalyticsPayload } from '@/lib/analytics/mcp-data';
-import { SECTION_CONFIG } from '@/components/analytics/terminal/editorial';
+import { SECTION_CONFIG } from '@/domain/interpretation/editorial-notes';
 import type { AnalyticsItem } from '@/lib/analytics/types';
 
 export const revalidate = 900; // ISR: rebuild every 15 min
