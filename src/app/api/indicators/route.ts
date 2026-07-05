@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { NormalizedIndicator } from '@/types/indicators';
 import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 export const revalidate = 900; // 15 min — match analytics page cadence
 
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
       },
     );
   } catch (err) {
-    console.error('[/api/indicators] DB read failed:', err);
+    logger.error('Indicators DB read failed', { route: '/api/indicators', err: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { updatedAt: null, indicators: [] },
       { status: 200 },

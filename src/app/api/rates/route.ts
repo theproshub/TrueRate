@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 export const revalidate = 900; // 15 min — consistent with indicators/analytics
 
@@ -69,7 +70,7 @@ export async function GET(request: NextRequest) {
       },
     );
   } catch (err) {
-    console.error('[/api/rates] fetch failed:', err);
+    logger.error('FX fetch failed', { route: '/api/rates', err: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { date: null, rates: [], lookup: {} },
       { status: 200 },

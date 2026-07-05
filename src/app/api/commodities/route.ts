@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchCommodities } from '@/domain/markets/commodities';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 // ISR: match the Yahoo client's 15-minute cache.
 export const revalidate = 900;
@@ -38,7 +39,7 @@ export async function GET(request: NextRequest) {
       },
     );
   } catch (err) {
-    console.error('[/api/commodities] fetch failed:', err);
+    logger.error('Commodities fetch failed', { route: '/api/commodities', err: err instanceof Error ? err.message : String(err) });
     // Honest empty payload — callers show a dash, never fabricated prices.
     return NextResponse.json({ date: null, commodities: [] }, { status: 200 });
   }

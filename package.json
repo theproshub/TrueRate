@@ -21,6 +21,7 @@
     "@types/sanitize-html": "^2.16.1",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
+    "@vercel/speed-insights": "^2.0.0",
     "ai": "^6.0.190",
     "clsx": "^2.1.1",
     "mammoth": "^1.12.0",
