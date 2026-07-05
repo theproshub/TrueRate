@@ -15,7 +15,7 @@ export async function submitFeedback(input: {
   message: string;
 }): Promise<FeedbackResult> {
   const ip = (await headers()).get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  const { allowed } = rateLimit(`feedback:${ip}`, 5, 60_000 * 15);
+  const { allowed } = await rateLimit(`feedback:${ip}`, 5, 60_000 * 15);
   if (!allowed) {
     return { ok: false, error: 'Too many submissions. Please try again in a few minutes.' };
   }

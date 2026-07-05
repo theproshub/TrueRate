@@ -19,7 +19,7 @@ export type { NormalizedIndicator };
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  const { allowed, remaining } = rateLimit(`api-indicators:${ip}`, 60, 60_000);
+  const { allowed, remaining } = await rateLimit(`api-indicators:${ip}`, 60, 60_000);
   if (!allowed) {
     return NextResponse.json(
       { error: 'Rate limit exceeded' },

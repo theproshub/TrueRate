@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { publicClient } from '@/lib/supabase/public';
 import { rateLimit, rateLimitHeaders } from '@/lib/rate-limit';
+import { ViewBodySchema } from '@/lib/validation';
 
 export const revalidate = 0;
 
@@ -13,7 +14,7 @@ function hashIp(ip: string): string {
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  const { allowed, remaining } = rateLimit(`api-views:${ip}`, 120, 60_000);
+  const { allowed, remaining } = await rateLimit(`api-views:${ip}`, 120, 60_000);
   if (!allowed) {
     return NextResponse.json(
       { error: 'Rate limit exceeded' },
@@ -24,13 +25,16 @@ export async function POST(request: NextRequest) {
   let slug: string;
   try {
     const body = await request.json();
-    slug = body.slug;
+    const parsed = ViewBodySchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
+    slug = parsed.data.slug;
   } catch {
-    return NextResponse.json({ error: 'Invalid body' }, { status: 400 });
-  }
-
-  if (!slug || typeof slug !== 'string') {
-    return NextResponse.json({ error: 'slug is required' }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
   const { data: article } = await publicClient

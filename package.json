@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "hydrate:worldbank": "node --env-file=.env.local scripts/hydrate-worldbank.mjs",
     "backfill:cbl-history": "node --env-file=.env.local scripts/backfill-cbl-history.mjs",
     "dedupe:symbols": "node --env-file=.env.local scripts/dedupe-symbols.mjs",
@@ -17,6 +19,8 @@
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.0",
     "@types/sanitize-html": "^2.16.1",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "ai": "^6.0.190",
     "clsx": "^2.1.1",
     "mammoth": "^1.12.0",
@@ -37,14 +41,17 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/turndown": "^5.0.6",
+    "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
-    "postcss": "^8",
+    "postcss": "^8.5.10",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.9"
   },
   "overrides": {
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3"
+    "@types/react-dom": "19.2.3",
+    "postcss": "^8.5.10"
   }
 }
