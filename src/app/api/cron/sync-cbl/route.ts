@@ -5,7 +5,7 @@
 // Vercel automatically sends `Authorization: Bearer <CRON_SECRET>` to cron routes
 // when CRON_SECRET is set in project env.
 
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // Pro plan; ~366 series @ concurrency 8 finishes well under this
@@ -84,11 +84,7 @@ export async function GET(req: Request) {
     return new Response('Unauthorized', { status: 401 });
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } },
-  );
+  const supabase = createAdminClient();
 
   const catalog: Catalog = await fetch(
     `${BASE}/getDatabanksWithMnemonics/${PORTAL}`,

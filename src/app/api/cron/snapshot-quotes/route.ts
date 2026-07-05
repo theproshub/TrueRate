@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { fetchCommodities } from '@/domain/markets/commodities';
 import { FX_SYMBOLS, COMMODITY_SYMBOLS } from '@/lib/analytics/catalog';
@@ -22,11 +22,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 function adminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  );
+  return createAdminClient();
 }
 
 interface QuoteRow {

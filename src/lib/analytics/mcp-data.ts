@@ -9,7 +9,7 @@
  * NEVER fabricates data — empty series yield an honest empty state.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase/admin';
 import type { AnalyticsItem, AnalyticsPayload, SeriesPoint } from './types';
 
 // ---------------------------------------------------------------------------
@@ -21,11 +21,7 @@ const HAS_DB_CREDS = Boolean(
 );
 
 function db() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  );
+  return createAdminClient();
 }
 
 // ---------------------------------------------------------------------------
@@ -185,9 +181,10 @@ async function loadMarketTickers(): Promise<MarketTicker[]> {
     .limit(1)
     .single();
 
-  if (!data?.payload?.tickers) return [];
+  const payload = data?.payload as Record<string, unknown> | null;
+  if (!payload?.tickers) return [];
 
-  return (data.payload.tickers as ContentCardTicker[]).map((t) => ({
+  return (payload.tickers as ContentCardTicker[]).map((t) => ({
     symbol: t.symbol,
     name: t.name,
     price: t.price,

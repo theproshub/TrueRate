@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateObject } from 'ai';
 import { feedAdminClient } from '@/lib/feed/db';
+import type { Json } from '@/lib/supabase/types';
 import {
   BreakingBatchSchema,
   ArticleBatchSchema,
@@ -25,7 +26,7 @@ const EXPIRES_HOURS = { breaking: 24, markets: 25 } as const;
 interface CardInsert {
   type: 'breaking' | 'article' | 'quote' | 'big_stat' | 'markets';
   category: string | null;
-  payload: unknown;
+  payload: Json;
   status: 'draft' | 'published';
   is_ai_generated: boolean;
   source_note: string | null;
@@ -112,7 +113,7 @@ export async function GET(request: NextRequest) {
           inserts.push({
             type: job.type,
             category: (card.category as string) ?? null,
-            payload: card,
+            payload: card as Json,
             status: 'draft',
             is_ai_generated: true,
             source_note:
@@ -189,14 +190,14 @@ export async function GET(request: NextRequest) {
       cards_created: cardsCreated,
       status: hadError ? 'partial' : 'success',
       error: hadError ? 'see detail' : null,
-      detail: runDetail,
+      detail: runDetail as Json,
     });
 
     return NextResponse.json({
       ok: true,
       cardsCreated,
       status: hadError ? 'partial' : 'success',
-      detail: runDetail,
+      detail: runDetail as Json,
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
@@ -204,7 +205,7 @@ export async function GET(request: NextRequest) {
       cards_created: cardsCreated,
       status: 'error',
       error: message,
-      detail: runDetail,
+      detail: runDetail as Json,
     });
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }

@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { fetchCommodities } from '@/domain/markets/commodities';
 import {
@@ -34,11 +34,7 @@ const HAS_DB_CREDS = Boolean(
 );
 
 function db() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  );
+  return createAdminClient();
 }
 
 /** CBL series from cbl_observations, with display formatting.
