@@ -21,7 +21,7 @@ function nonEmpty(value: FormDataEntryValue | null): string | null {
   return s.length > 0 ? s : null;
 }
 
-type Status = 'draft' | 'published' | 'archived';
+type Status = 'draft' | 'pending' | 'published' | 'archived';
 
 interface ArticleInput {
   title: string;
@@ -43,7 +43,7 @@ function parseForm(form: FormData): ArticleInput | { error: string } {
   if (!body)  return { error: 'Body is required.' };
 
   const status = (nonEmpty(form.get('status')) ?? 'draft') as Status;
-  if (!['draft', 'published', 'archived'].includes(status)) {
+  if (!['draft', 'pending', 'published', 'archived'].includes(status)) {
     return { error: `Invalid status: ${status}` };
   }
 

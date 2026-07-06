@@ -42,7 +42,7 @@ export interface ParsedTemplate {
   author?: string;
   sourceName?: string;
   sourceUrl?: string;
-  status?: 'draft' | 'published' | 'archived';
+  status?: 'draft' | 'pending' | 'published' | 'archived';
   body: string;
 }
 
@@ -173,6 +173,7 @@ function normalizeStatus(
   if (!value) return undefined;
   const v = value.toLowerCase();
   if (v.includes('publish')) return 'published';
+  if (v.includes('pend')) return 'pending';
   if (v.includes('archiv')) return 'archived';
   if (v.includes('draft')) return 'draft';
   return undefined;

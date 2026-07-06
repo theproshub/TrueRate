@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 
 async function countByStatus(
   supabase: Awaited<ReturnType<typeof createClient>>,
-  status: 'draft' | 'published' | 'archived',
+  status: 'draft' | 'pending' | 'published' | 'archived',
 ): Promise<number> {
   const { count } = await supabase
     .from('articles')
@@ -41,7 +41,7 @@ function shortDate(iso: string | null): string {
 interface RecentArticle {
   id: string;
   title: string;
-  status: 'draft' | 'published' | 'archived';
+  status: 'draft' | 'pending' | 'published' | 'archived';
   updated_at: string;
   category: { label: string } | null;
 }
@@ -51,8 +51,10 @@ export default async function AdminDashboardPage() {
 
   const [
     draftCount,
+    pendingCount,
     publishedCount,
     archivedCount,
+    openFindingsCount,
     noImageCount,
     authorCount,
     categoryCount,
@@ -62,8 +64,14 @@ export default async function AdminDashboardPage() {
     recentArticlesResult,
   ] = await Promise.all([
     countByStatus(supabase, 'draft'),
+    countByStatus(supabase, 'pending'),
     countByStatus(supabase, 'published'),
     countByStatus(supabase, 'archived'),
+    supabase
+      .from('data_integrity_findings')
+      .select('*', { count: 'exact', head: true })
+      .in('status', ['open', 'reviewing'])
+      .then(({ count }) => count ?? 0),
     supabase
       .from('articles')
       .select('*', { count: 'exact', head: true })
@@ -84,7 +92,7 @@ export default async function AdminDashboardPage() {
 
   const recentArticles =
     (recentArticlesResult.data ?? []) as unknown as RecentArticle[];
-  const totalArticles = draftCount + publishedCount + archivedCount;
+  const totalArticles = draftCount + pendingCount + publishedCount + archivedCount;
 
   return (
     <section aria-labelledby="dashboard-heading" className="space-y-8">
@@ -112,7 +120,9 @@ export default async function AdminDashboardPage() {
           <StatCard label="Total articles" value={totalArticles} href="/admin/articles" />
           <StatCard label="Published" value={publishedCount} tone="positive" href="/admin/articles?status=published" />
           <StatCard label="Drafts"    value={draftCount}     tone="neutral"  href="/admin/articles?status=draft" />
+          <StatCard label="Pending review" value={pendingCount} tone="neutral" href="/admin/articles?status=pending" />
           <StatCard label="Archived"  value={archivedCount}  tone="muted"    href="/admin/articles?status=archived" />
+          <StatCard label="Open data findings" value={openFindingsCount} tone={openFindingsCount > 0 ? 'neutral' : 'muted'} href="/admin/data-integrity" />
           {noImageCount > 0 && (
             <StatCard label="No image" value={noImageCount} tone="neutral" href="/admin/articles?image=missing" />
           )}

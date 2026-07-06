@@ -31,7 +31,7 @@ export interface ArticleDefaults {
   category_id?: string | null;
   source_name?: string | null;
   source_url?: string | null;
-  status?: 'draft' | 'published' | 'archived';
+  status?: 'draft' | 'pending' | 'published' | 'archived';
   published_at?: string | null;
 }
 
@@ -146,7 +146,7 @@ export default function ArticleForm({
   const [heroAlt, setHeroAlt] = useState(d.hero_alt ?? '');
   const [sourceName, setSourceName] = useState(d.source_name ?? '');
   const [sourceUrl, setSourceUrl] = useState(d.source_url ?? '');
-  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(
+  const [status, setStatus] = useState<'draft' | 'pending' | 'published' | 'archived'>(
     d.status ?? 'draft',
   );
   const [tab, setTab] = useState<'write' | 'preview'>('write');
@@ -508,7 +508,7 @@ export default function ArticleForm({
         <fieldset>
           <legend className={LABEL}>Status</legend>
           <div className="mt-2 flex flex-wrap gap-4">
-            {(['draft', 'published', 'archived'] as const).map((s) => (
+            {(['draft', 'pending', 'published', 'archived'] as const).map((s) => (
               <label key={s} className="inline-flex items-center gap-2 text-sm text-gray-900">
                 <input type="radio" name="status" value={s} checked={status === s} onChange={() => setStatus(s)} className="h-4 w-4 accent-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink" />
                 <span>{s.charAt(0).toUpperCase() + s.slice(1)}</span>

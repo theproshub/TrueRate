@@ -6,7 +6,7 @@ interface ArticleRow {
   id: string;
   slug: string;
   title: string;
-  status: 'draft' | 'published' | 'archived';
+  status: 'draft' | 'pending' | 'published' | 'archived';
   published_at: string | null;
   updated_at: string;
   hero_image: string | null;
@@ -32,11 +32,13 @@ interface PageProps {
 
 const STATUS_LABEL: Record<ArticleRow['status'], string> = {
   draft:     'Draft',
+  pending:   'Pending review',
   published: 'Published',
   archived:  'Archived',
 };
 const STATUS_COLOR: Record<ArticleRow['status'], string> = {
   draft:     'text-gray-500',
+  pending:   'text-amber-600',
   published: 'text-pos',
   archived:  'text-gray-500',
 };
@@ -87,7 +89,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
   if (q !== '') {
     query = query.ilike('title', `%${q}%`);
   }
-  if (statusFilter !== '' && ['draft', 'published', 'archived'].includes(statusFilter)) {
+  if (statusFilter !== '' && ['draft', 'pending', 'published', 'archived'].includes(statusFilter)) {
     query = query.eq('status', statusFilter);
   }
   if (filterCategoryId) {
@@ -187,6 +189,7 @@ export default async function AdminArticlesPage({ searchParams }: PageProps) {
           >
             <option value="">All</option>
             <option value="published">Published</option>
+            <option value="pending">Pending review</option>
             <option value="draft">Draft</option>
             <option value="archived">Archived</option>
           </select>

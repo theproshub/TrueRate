@@ -441,6 +441,51 @@ export type Database = {
         }
         Relationships: []
       }
+      data_integrity_findings: {
+        Row: {
+          affected_slugs: string[]
+          created_at: string
+          detail: string
+          id: string
+          period_label: string | null
+          resolution_note: string | null
+          resolved_at: string | null
+          series_mnemonic: string | null
+          severity: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affected_slugs?: string[]
+          created_at?: string
+          detail: string
+          id?: string
+          period_label?: string | null
+          resolution_note?: string | null
+          resolved_at?: string | null
+          series_mnemonic?: string | null
+          severity: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affected_slugs?: string[]
+          created_at?: string
+          detail?: string
+          id?: string
+          period_label?: string | null
+          resolution_note?: string | null
+          resolved_at?: string | null
+          series_mnemonic?: string | null
+          severity?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       content_cards: {
         Row: {
           category: string | null

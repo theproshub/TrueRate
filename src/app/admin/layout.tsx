@@ -49,6 +49,12 @@ export default async function AdminLayout({
               Users
             </Link>
             <Link
+              href="/admin/data-integrity"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+            >
+              Data Integrity
+            </Link>
+            <Link
               href="/admin/feed"
               className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >

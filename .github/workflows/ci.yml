@@ -20,5 +20,7 @@ jobs:
         run: npx tsc --noEmit
       - name: Lint
         run: npx eslint .
+      - name: Editorial lint
+        run: node scripts/lint-editorial.mjs
       - name: Test
         run: npx vitest run

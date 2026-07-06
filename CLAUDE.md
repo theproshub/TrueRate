@@ -61,6 +61,11 @@ TrueRate reads like Yahoo Finance or Bloomberg for Liberia. The voice is a smart
 4. **Currency prefix always explicit.** US$5,159.74 million, L$500,000. Never bare "$" — always US$ or L$.
 5. **First reference spells out the source** with abbreviation: "Central Bank of Liberia (CBL)", "Liberia Institute of Statistics and Geo-Information Services (LISGIS)." Subsequent references use the abbreviation.
 6. **Use exact CBL values.** Write "13.11 percent" not "about 13 percent." Rounding is editorializing.
+7. **Derive regime dates from the series, never from other articles.** "Held at X since <month>" / "Nth consecutive month" / "first since" must come from locating the observation where the value last changed (`get_series`). A wrong "since December 2025" MPR date (actual: October 2025) once propagated into six articles because each copied the previous one.
+8. **Never generalize from an outlier month.** If a component of a cited figure is >3× its trailing median (or |z| > 3), scope every share/ratio claim to that month and acknowledge the anomaly in the same sentence — e.g. "tax covered a fifth of revenue" was true only in the month a US$244.91M one-off receipt landed.
+9. **Recompute derived ratios from exact stored values and round once, at the end.** 175.13 / 263.28 is 66.52 percent, not 66.53.
+10. **Component-identity gate.** Before citing an aggregate with published sub-components (revenue, expenditure, debt, broad money, trade balance), verify the components sum to it for that exact period. If they don't, the figure may be corrupted at the source — don't publish it; run `/validate-data`.
+11. **Mechanical style is enforced by `npm run lint:editorial` (CI, seed) and `npm run lint:editorial:db` (seed + live catalog).** Run the `:db` variant before publishing anything: it catches bare $, Liberia-led headlines, datelines, banned words, and cross-catalog precision drift (4.5% vs 4.50%).
 
 #### Tone and word choice
 
@@ -154,7 +159,7 @@ Full quantitative audit. Act as a senior data scientist — question every value
 5. Cross-series consistency: `cross_validate` + `compare_series` on related pairs with Pearson r thresholds
 6. Pipeline integrity: DB latest vs codebase fallbacks vs MPC communiqués
 7. Article impact scan: search `src/data/news.ts` for any incorrect values found
-8. Output: professional audit report with severity classification (CRITICAL/HIGH/MEDIUM/LOW), mathematical proofs, corrective SQL, and overall integrity score
+8. Output: professional audit report with severity classification (CRITICAL/HIGH/MEDIUM/LOW), mathematical proofs, and overall integrity score. **The warehouse is never edited.** Each CRITICAL/HIGH finding is filed to `data_integrity_findings` (`scripts/file-integrity-finding.mjs`) for human review at `/admin/data-integrity`, and any article citing the disputed figure is set to `status = 'pending'` on the admin dashboard until the finding is resolved.
 
 #### ECONOMY SNAPSHOT — "how's the economy", "macro overview", "economy dashboard"
 1. `macro_snapshot` → latest value for every CBL series
