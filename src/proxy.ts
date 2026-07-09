@@ -20,7 +20,6 @@ const KNOWN_PREFIXES = [
   '/sign-up',
   '/signin',
   '/admin',
-  '/reports',
   '/api',
 ];
 

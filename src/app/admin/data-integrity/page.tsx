@@ -25,6 +25,43 @@ const SEVERITY_STYLE: Record<Finding['severity'], string> = {
   low: 'bg-gray-500/10 text-gray-600 border-gray-300',
 };
 
+// Formal data-integrity reports submitted to the CBL Statistics Department.
+// The rendered HTML lives in /public and is linked directly (static, not gated),
+// so a report link can still be shared with the CBL even though this index now
+// lives inside the admin area.
+interface PublishedReport {
+  ref: string;
+  title: string;
+  date: string;
+  severity: Finding['severity'];
+  series: number;
+  summary: string;
+  href: string;
+}
+
+const PUBLISHED_REPORTS: PublishedReport[] = [
+  {
+    ref: 'TR-DI-2026-002',
+    title: 'Multiple Series Anomalies — INR, FIS, BOP, MON, PRO Databanks',
+    date: 'July 1, 2026',
+    severity: 'critical',
+    series: 24,
+    summary:
+      'Interest rate LRD/USD column duplication, government budget hierarchy violation, BOP remittance mis-classification, fiscal velocity spikes, monetary survey balance-sheet anomalies, and CPO unit-of-measure error.',
+    href: '/cbl-data-integrity-report-002.html',
+  },
+  {
+    ref: 'TR-DI-2026-001',
+    title: 'Monetary Policy Rate Series (LBR_INR_MPR_1)',
+    date: 'June 28, 2026',
+    severity: 'high',
+    series: 1,
+    summary:
+      'A 5-basis-point data-entry error in the April 2025 MPR observation (17.30 recorded instead of 17.25) cascaded forward through 14 monthly observations.',
+    href: '/cbl-data-integrity-report.html',
+  },
+];
+
 function shortDate(iso: string | null): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString(undefined, {
@@ -55,7 +92,8 @@ export default async function DataIntegrityPage() {
           Discrepancies between TrueRate&rsquo;s verification pipeline and the CBL data
           warehouse. The warehouse is never edited — findings are reviewed here, and
           affected articles stay <strong className="text-gray-300">pending</strong> until a
-          finding is resolved or dismissed.
+          finding is resolved or dismissed. Formal reports submitted to the CBL are
+          published below.
         </p>
       </header>
 
@@ -104,7 +142,65 @@ export default async function DataIntegrityPage() {
           </ul>
         </section>
       )}
+
+      <section aria-labelledby="published-reports-heading">
+        <h2
+          id="published-reports-heading"
+          className="mb-1 text-2xs font-bold uppercase tracking-[0.12em] text-gray-500"
+        >
+          Published reports ({PUBLISHED_REPORTS.length})
+        </h2>
+        <p className="mb-3 max-w-2xl text-xs text-gray-500">
+          Formal reports submitted to the CBL Statistics Department. Report links are
+          public static files, so they can be shared directly with the CBL.
+        </p>
+        <ul className="space-y-4">
+          {PUBLISHED_REPORTS.map((r) => (
+            <li key={r.ref} className="rounded-2xl border border-gray-200 bg-brand-card px-5 py-4">
+              <ReportCard report={r} />
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
+  );
+}
+
+function ReportCard({ report: r }: { report: PublishedReport }) {
+  return (
+    <article aria-label={r.title}>
+      <div className="flex flex-wrap items-center gap-2">
+        <span
+          className={`rounded-full border px-2.5 py-0.5 text-2xs font-bold uppercase tracking-wide ${SEVERITY_STYLE[r.severity]}`}
+        >
+          {r.severity}
+        </span>
+        <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-700">{r.ref}</code>
+        <span className="text-xs text-gray-500">{r.series} series affected</span>
+        <span className="ml-auto text-xs text-gray-500">{r.date}</span>
+      </div>
+
+      <h3 className="mt-2 text-base font-bold text-gray-900">{r.title}</h3>
+      <p className="mt-1 text-sm leading-relaxed text-gray-600">{r.summary}</p>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <a
+          href={r.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+        >
+          View report
+        </a>
+        <a
+          href={r.href}
+          download
+          className="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+        >
+          Download HTML
+        </a>
+      </div>
+    </article>
   );
 }
 

@@ -72,6 +72,11 @@ const nextConfig = {
         destination: '/news',
         permanent: true,
       },
+      {
+        source: '/reports',
+        destination: '/admin/data-integrity',
+        permanent: true,
+      },
     ];
   },
 };
