@@ -10,6 +10,7 @@ const KNOWN_PREFIXES = [
   '/small-business',
   '/technology',
   '/videos',
+  '/market-women-mode',
   '/watchlist',
   '/saved',
   '/about',

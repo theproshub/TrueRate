@@ -25,6 +25,7 @@ const SECTIONS_NAV: { label: string; href: string }[] = [
   { label: 'Economy',          href: '/economy' },
   { label: 'Technology',       href: '/technology' },
   { label: 'Videos',           href: '/videos' },
+  { label: 'Market Women Mode', href: '/market-women-mode' },
 ];
 
 type NavChild = { label: string; href?: string; heading?: boolean };
@@ -71,6 +72,7 @@ const PRIMARY_NAV: PrimaryNavItem[] = [
 ];
 
 const MORE_NAV: { label: string; href: string; desc: string }[] = [
+  { label: 'Market Women Mode', href: '/market-women-mode', desc: 'Today’s money numbers, made simple — tap to hear' },
   { label: 'My Watchlist',     href: '/watchlist',        desc: 'Track your tickers and stories' },
   { label: 'About TrueRate',   href: '/about',            desc: 'Our mission and editorial standards' },
 ];
@@ -107,6 +109,7 @@ const MORE_MENU: MoreColumn[] = [
   {
     title: 'More on TrueRate',
     items: [
+      { label: 'Market Women Mode', href: '/market-women-mode' },
       { label: 'Business',          href: '/small-business' },
       { label: 'My Watchlist',     href: '/watchlist' },
       { label: 'About TrueRate',   href: '/about' },
@@ -147,7 +150,7 @@ const ACCORDION_ITEMS: PrimaryNavItem[] = (() => {
       { label: 'Iron ore (BHP ADR proxy)',  href: '/analytics#sec-commodities' },
     ],
   });
-  const MOBILE_ORDER = ['News', 'Analytics', 'Business', 'Finance', 'Videos', 'My Watchlist'];
+  const MOBILE_ORDER = ['Market Women Mode', 'News', 'Analytics', 'Business', 'Finance', 'Videos', 'My Watchlist'];
   return MOBILE_ORDER
     .map(label => lookup.get(label))
     .filter((item): item is PrimaryNavItem => Boolean(item));
@@ -221,6 +224,35 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
               const active = isActive(pathname, href);
               const hasChildren = Boolean(children && children.length > 0);
               const isOpen = expanded.has(label);
+
+              // Market Women Mode is a low-literacy surface — carry its meaning
+              // with the speaker icon + color, not the words, so a non-reading
+              // user recognizes it at a glance. Rendered as a distinct card.
+              if (href === '/market-women-mode') {
+                return (
+                  <Link
+                    key={label}
+                    href={href}
+                    onClick={onClose}
+                    className={`mx-3 mb-2 mt-1 flex items-center gap-3 rounded-2xl border-2 px-4 py-3 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
+                      active
+                        ? 'border-brand-accent-ink bg-brand-accent/20'
+                        : 'border-brand-accent bg-brand-accent/10 hover:bg-brand-accent/20'
+                    }`}
+                  >
+                    <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-accent-ink text-2xl">
+                      🔊
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-lg font-black leading-tight text-brand-accent-ink">{label}</span>
+                      <span className="block text-sm font-medium text-gray-600">Tap to hear — money news made simple</span>
+                    </span>
+                    <svg aria-hidden="true" className="h-5 w-5 shrink-0 text-brand-accent-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                );
+              }
 
               return (
                 <div key={label} className="relative">
@@ -559,6 +591,23 @@ export default function Header() {
                 : SECTIONS_NAV
               ).map(({ label, href }) => {
                 const active = isActive(pathname, href);
+
+                // Market Women Mode — icon-led, accent pill so it's recognizable
+                // without reading, matching its low-literacy purpose.
+                if (href === '/market-women-mode') {
+                  return (
+                    <Link key={label} href={href}
+                      className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 my-1 rounded-full border-2 text-base font-bold no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
+                        active
+                          ? 'border-brand-accent-ink bg-brand-accent/20 text-brand-accent-ink'
+                          : 'border-brand-accent bg-brand-accent/10 text-brand-accent-ink hover:bg-brand-accent/20'
+                      }`}>
+                      <span aria-hidden="true" className="text-lg leading-none">🔊</span>
+                      {label}
+                    </Link>
+                  );
+                }
+
                 return (
                   <Link key={label} href={href}
                     className={`flex items-center whitespace-nowrap px-3 py-2 my-1 rounded-md text-base font-semibold transition-colors no-underline ${
