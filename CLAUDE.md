@@ -228,6 +228,7 @@ Full quantitative audit. Act as a senior data scientist — question every value
 #### Context & accessibility
 - `/chart-narrative <mnemonic>` — WCAG 2.2 AA text summaries for charts: aria-label, structured narrative, and underlying data table. Every chart needs a companion narrative.
 - `/historical-context <indicator>` — Full historical arc for any current figure. Eras, inflection points, cycles, percentile position. The definitive reference for "where has this number been?"
+- `/peer-benchmark <indicator>` — Compare a Liberian indicator against regional peers (Sierra Leone, Guinea, Ghana, Côte d'Ivoire). Liberia figures from the CBL warehouse; peer figures fetched live from IMF/World Bank/peer central banks with per-row citations — never from memory.
 
 ## HCI guidelines (apply to every UI change)
 
