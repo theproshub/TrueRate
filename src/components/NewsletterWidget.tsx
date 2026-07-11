@@ -1,20 +1,26 @@
 'use client';
 
 import { useId, useState } from 'react';
+import { subscribeNewsletter } from '@/lib/newsletter/actions';
 
 export default function NewsletterWidget({ title = 'TrueRate Daily Brief', description = 'Liberia business & economy, delivered every morning.' }: { title?: string; description?: string } = {}) {
   const id = useId();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const value = email.trim();
     if (!value) { setError('Enter your email to subscribe.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { setError('Enter a valid email address.'); return; }
     setError('');
-    setDone(true);
+    setSubmitting(true);
+    const result = await subscribeNewsletter({ email: value, source: 'daily_brief' });
+    setSubmitting(false);
+    if (result.ok) setDone(true);
+    else setError(result.error);
   }
 
   return (
@@ -39,11 +45,15 @@ export default function NewsletterWidget({ title = 'TrueRate Daily Brief', descr
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? `${id}-err` : undefined}
             placeholder="Email address"
-            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-400 transition-colors mb-2"
+            className="w-full rounded-lg bg-gray-100 border border-gray-200 px-3 py-2.5 text-base text-gray-900 placeholder:text-gray-500 outline-none focus:border-gray-400 focus-visible:ring-2 focus-visible:ring-brand-accent-ink transition-colors mb-2"
           />
-          {error && <p id={`${id}-err`} role="alert" className="text-sm text-red-500 mb-2">{error}</p>}
-          <button type="submit" className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink">
-            Sign up free
+          {error && <p id={`${id}-err`} role="alert" className="text-sm text-neg mb-2">{error}</p>}
+          <button
+            type="submit"
+            disabled={submitting}
+            className="w-full rounded-lg border border-gray-200 bg-white py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 transition disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+          >
+            {submitting ? 'Signing up…' : 'Sign up free'}
           </button>
         </form>
       )}

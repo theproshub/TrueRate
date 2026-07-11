@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
+import { subscribeNewsletter } from '@/lib/newsletter/actions';
 
 const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A0A0A] focus-visible:ring-offset-1';
@@ -9,15 +10,20 @@ export default function NewsletterInline() {
   const id = useId();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const value = email.trim();
     if (!value) { setError('Enter your email.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { setError('Enter a valid email address.'); return; }
     setError('');
-    setDone(true);
+    setSubmitting(true);
+    const result = await subscribeNewsletter({ email: value, source: 'business_brief' });
+    setSubmitting(false);
+    if (result.ok) setDone(true);
+    else setError(result.error);
   }
 
   if (done) {
@@ -57,9 +63,10 @@ export default function NewsletterInline() {
           />
           <button
             type="submit"
-            className={`px-4 py-2 bg-[#0A0A0A] text-white text-[12px] font-bold tracking-[0.04em] hover:bg-[#333] transition-colors whitespace-nowrap rounded-sm ${focusRing}`}
+            disabled={submitting}
+            className={`px-4 py-2 bg-[#0A0A0A] text-white text-[12px] font-bold tracking-[0.04em] hover:bg-[#333] transition-colors whitespace-nowrap rounded-sm disabled:opacity-60 disabled:cursor-not-allowed ${focusRing}`}
           >
-            Sign up
+            {submitting ? 'Signing up…' : 'Sign up'}
           </button>
         </form>
       </div>

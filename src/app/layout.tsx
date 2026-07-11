@@ -110,9 +110,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} ${robotoMono.variable}`}>
       <body className={inter.className}>
+        {/* Same-page fragment link, not route navigation — plain <a> is correct here. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-gray-900 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-accent"
+        >
+          Skip to main content
+        </a>
         <SiteJsonLd />
         <Header />
-        {children}
+        <div id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </div>
         <BackToTop />
         <Footer />
         <SpeedInsights />

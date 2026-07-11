@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef, type ReactNode } from 'react';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 export default function MobileSidebar({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const trapRef = useFocusTrap<HTMLDivElement>(open);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);
@@ -16,6 +18,7 @@ export default function MobileSidebar({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!open) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     closeRef.current?.focus();
@@ -26,6 +29,7 @@ export default function MobileSidebar({ children }: { children: ReactNode }) {
     return () => {
       document.body.style.overflow = prev;
       window.removeEventListener('keydown', onKey);
+      previouslyFocused?.focus?.();
     };
   }, [open]);
 
@@ -36,6 +40,7 @@ export default function MobileSidebar({ children }: { children: ReactNode }) {
         type="button"
         aria-label="Open sidebar"
         onClick={() => setOpen(true)}
+        inert={!visible}
         className={`lg:hidden fixed bottom-20 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#1E1E1E] text-white shadow-lg hover:bg-[#2a2a2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent motion-safe:transition-[transform,opacity] motion-safe:duration-200 ${
           visible
             ? 'translate-y-0 opacity-100'
@@ -50,16 +55,17 @@ export default function MobileSidebar({ children }: { children: ReactNode }) {
       {/* Drawer */}
       {open && (
         <div
+          ref={trapRef}
           className="lg:hidden fixed inset-0 z-50 flex justify-end"
           role="dialog"
           aria-modal="true"
           aria-label="Sidebar"
         >
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm motion-safe:animate-[fadeIn_0.15s_ease-out]"
             onClick={() => setOpen(false)}
           />
-          <div className="relative w-[88vw] max-w-[380px] h-full bg-gray-50 shadow-2xl animate-[slideInRight_0.22s_cubic-bezier(0.32,0.72,0,1)] flex flex-col">
+          <div className="relative w-[88vw] max-w-[380px] h-full bg-gray-50 shadow-2xl motion-safe:animate-[slideInRight_0.22s_cubic-bezier(0.32,0.72,0,1)] flex flex-col">
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white shrink-0">
               <span className="text-sm font-bold text-gray-900 uppercase tracking-[0.1em]">Markets &amp; More</span>
               <button

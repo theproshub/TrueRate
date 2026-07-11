@@ -14,7 +14,7 @@ const focusRing =
 
 export default function AboutPage() {
   return (
-    <div className="bg-white min-h-screen">
+    <main className="bg-white min-h-screen">
 
       {/* Hero */}
       <div className="border-b border-gray-200">
@@ -278,6 +278,6 @@ export default function AboutPage() {
 
         </div>
       </div>
-    </div>
+    </main>
   );
 }

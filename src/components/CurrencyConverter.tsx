@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useId } from 'react';
 import { Heading, Text } from '@/components/ui';
 
 const SUPPORTED = ['LRD', 'USD', 'EUR', 'GBP', 'GHS', 'NGN', 'SLL', 'XOF'];
@@ -22,6 +22,7 @@ interface Props {
 }
 
 export default function CurrencyConverter({ initialLookup }: Props) {
+  const id = useId();
   const [lookup, setLookup] = useState<Record<string, number>>(
     initialLookup ?? { LRD: 1, USD: 182.53, EUR: 209.85, GBP: 245.3, GHS: 13.2, NGN: 0.131, SLL: 0.0094, XOF: 0.322 }
   );
@@ -86,13 +87,14 @@ export default function CurrencyConverter({ initialLookup }: Props) {
       <div className="px-5 py-5">
         {/* Amount input */}
         <div className="mb-4">
-          <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">Amount</label>
+          <label htmlFor={`${id}-amount`} className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">Amount</label>
           <input
+            id={`${id}-amount`}
             type="number"
             min="0"
             value={amount}
             onChange={e => setAmount(e.target.value)}
-            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-lg font-bold text-gray-900 outline-none focus:border-brand-accent-ink/50 focus:bg-white transition tabular-nums"
+            className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-lg font-bold text-gray-900 outline-none focus:border-brand-accent-ink/50 focus:bg-white focus-visible:ring-2 focus-visible:ring-brand-accent-ink transition tabular-nums"
             placeholder="Enter amount"
           />
         </div>
@@ -100,23 +102,30 @@ export default function CurrencyConverter({ initialLookup }: Props) {
         {/* From / Swap / To row */}
         <div className="flex items-end gap-2 mb-5">
           <div className="flex-1">
-            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">From</label>
-            <select
-              value={from}
-              onChange={e => setFrom(e.target.value)}
-              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-md font-semibold text-gray-900 outline-none focus:border-brand-accent-ink/50 transition appearance-none cursor-pointer"
-            >
-              {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
-                <option key={c} value={c}>{c} — {LABELS[c]}</option>
-              ))}
-            </select>
+            <label htmlFor={`${id}-from`} className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">From</label>
+            <div className="relative">
+              <select
+                id={`${id}-from`}
+                value={from}
+                onChange={e => setFrom(e.target.value)}
+                className="w-full rounded-lg border border-gray-200 bg-white pl-3 pr-8 py-2.5 text-md font-semibold text-gray-900 outline-none focus:border-brand-accent-ink/50 focus-visible:ring-2 focus-visible:ring-brand-accent-ink transition appearance-none cursor-pointer"
+              >
+                {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
+                  <option key={c} value={c}>{c} — {LABELS[c]}</option>
+                ))}
+              </select>
+              <svg aria-hidden="true" className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
 
           <button
+            type="button"
             onClick={swap}
             aria-label="Swap currencies"
             title="Swap currencies"
-            className="shrink-0 mb-0.5 flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-200 hover:bg-white transition"
+            className="shrink-0 mb-0.5 flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-200 hover:bg-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
@@ -124,21 +133,27 @@ export default function CurrencyConverter({ initialLookup }: Props) {
           </button>
 
           <div className="flex-1">
-            <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">To</label>
-            <select
-              value={to}
-              onChange={e => setTo(e.target.value)}
-              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-md font-semibold text-gray-900 outline-none focus:border-brand-accent-ink/50 transition appearance-none cursor-pointer"
-            >
-              {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
-                <option key={c} value={c}>{c} — {LABELS[c]}</option>
-              ))}
-            </select>
+            <label htmlFor={`${id}-to`} className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">To</label>
+            <div className="relative">
+              <select
+                id={`${id}-to`}
+                value={to}
+                onChange={e => setTo(e.target.value)}
+                className="w-full rounded-lg border border-gray-200 bg-white pl-3 pr-8 py-2.5 text-md font-semibold text-gray-900 outline-none focus:border-brand-accent-ink/50 focus-visible:ring-2 focus-visible:ring-brand-accent-ink transition appearance-none cursor-pointer"
+              >
+                {SUPPORTED.filter(c => lookup[c] !== undefined || c === 'LRD').map(c => (
+                  <option key={c} value={c}>{c} — {LABELS[c]}</option>
+                ))}
+              </select>
+              <svg aria-hidden="true" className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
         </div>
 
-        {/* Result */}
-        <div className="rounded-lg bg-white border border-gray-200 px-4 py-4 text-center">
+        {/* Result — polite live region so conversions are announced */}
+        <div aria-live="polite" aria-atomic="true" className="rounded-lg bg-white border border-gray-200 px-4 py-4 text-center">
           <p className="text-base text-gray-500 mb-1">
             {amount || '1'} {from} =
           </p>

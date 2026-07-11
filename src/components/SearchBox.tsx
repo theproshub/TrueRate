@@ -2,17 +2,19 @@
 
 import { useState, useRef, useEffect, useMemo, useId } from 'react';
 import { useRouter } from 'next/navigation';
-import { newsItems } from '@/data/news';
 import type { NewsItem } from '@/lib/types';
 import type { TickerItem } from '@/data/ticker-seed';
 import { getCatColor } from '@/lib/category-colors';
 import { NewsThumbnail } from '@/components/NewsThumbnail';
 
+type SlimStory = Pick<NewsItem, 'id' | 'title' | 'summary' | 'category' | 'source'> & { image?: string };
+
 /**
  * Site search with live typeahead: as you type it shows matching stories
  * (with thumbnail + real category color) and matching markets/tickers.
- * - Arrow keys move the story highlight, Enter opens it (or runs a full
- *   search), Escape closes, click-outside closes.
+ * - ARIA combobox: arrow keys move the highlight across ALL suggestions
+ *   (stories, markets, and the full-search row), Enter opens the highlighted
+ *   one (or runs a full search), Escape closes, click-outside closes.
  */
 export default function SearchBox({
   isLight,
@@ -36,18 +38,27 @@ export default function SearchBox({
   const listId = useId();
 
   // Live published articles for typeahead, fetched once from the slim index.
-  // Falls back to the in-repo seed until the request resolves (or if it fails),
-  // so search always works offline/empty-DB.
-  const [index, setIndex] = useState<(Pick<NewsItem, 'id' | 'title' | 'summary' | 'category' | 'source'> & { image?: string })[]>(newsItems);
+  // The in-repo seed is a lazy-loaded fallback (only if the request fails or
+  // comes back empty) so the ~100KB catalog stays out of the main bundle.
+  const [index, setIndex] = useState<SlimStory[]>([]);
   const [tickers, setTickers] = useState<TickerItem[]>([]);
 
   useEffect(() => {
     let alive = true;
 
+    const loadSeedFallback = () =>
+      import('@/data/news')
+        .then((m) => { if (alive) setIndex(m.newsItems); })
+        .catch(() => {});
+
     fetch('/api/news')
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => { if (alive && d?.items?.length) setIndex(d.items); })
-      .catch(() => {});
+      .then((d) => {
+        if (!alive) return;
+        if (d?.items?.length) setIndex(d.items);
+        else return loadSeedFallback();
+      })
+      .catch(loadSeedFallback);
 
     Promise.all([
       fetch('/api/rates').then(r => r.json()).catch(() => null),
@@ -133,6 +144,12 @@ export default function SearchBox({
 
   const showList = open && query.trim().length > 0;
 
+  // One flat option list so arrow keys traverse EVERY suggestion:
+  // stories at [0, stories.length), then markets, then the full-search row.
+  const marketsOffset = stories.length;
+  const searchOptionIdx = stories.length + markets.length;
+  const optionCount = searchOptionIdx + 1;
+
   // Close when clicking outside.
   useEffect(() => {
     if (!open) return;
@@ -150,13 +167,20 @@ export default function SearchBox({
     router.push(href);
   }
 
-  function submit() {
-    if (active >= 0 && stories[active]) {
-      go(`/news/${stories[active].id}`);
-      return;
-    }
+  function fullSearch() {
     const q = query.trim();
     if (q) go(`/news?q=${encodeURIComponent(q)}`);
+  }
+
+  function activateOption(i: number) {
+    if (i < marketsOffset && stories[i]) go(`/news/${stories[i].id}`);
+    else if (i < searchOptionIdx && markets[i - marketsOffset]) go('/markets');
+    else fullSearch();
+  }
+
+  function submit() {
+    if (showList && active >= 0 && active < optionCount) activateOption(active);
+    else fullSearch();
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -165,10 +189,10 @@ export default function SearchBox({
       setActive(-1);
       return;
     }
-    if (!showList || stories.length === 0) return;
+    if (!showList) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActive((i) => Math.min(i + 1, stories.length - 1));
+      setActive((i) => Math.min(i + 1, optionCount - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActive((i) => Math.max(i - 1, -1));
@@ -187,7 +211,7 @@ export default function SearchBox({
         e.preventDefault();
         submit();
       }}
-      className={`relative items-center rounded-xl border transition bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400 ${className}`}
+      className={`relative items-center rounded-xl border transition bg-gray-100 border-gray-200 focus-within:bg-white focus-within:border-gray-400 focus-within:ring-2 focus-within:ring-brand-accent ${className}`}
     >
       <label htmlFor={inputId} className="sr-only">
         Search stories, companies, or topics
@@ -222,6 +246,13 @@ export default function SearchBox({
         </svg>
       </button>
 
+      {/* Screen-reader announcement of result counts as the user types. */}
+      <p role="status" className="sr-only">
+        {showList
+          ? `${stories.length} ${stories.length === 1 ? 'story' : 'stories'} and ${markets.length} ${markets.length === 1 ? 'market' : 'markets'} found.`
+          : ''}
+      </p>
+
       {showList && (
         <div
           id={listId}
@@ -243,23 +274,24 @@ export default function SearchBox({
           {/* Stories */}
           {stories.length > 0 && (
             <>
-              <p className={groupLabel}>Stories</p>
+              <p className={groupLabel} aria-hidden="true">Stories</p>
               {stories.map((s, i) => (
-                <div key={s.id} id={`${listId}-opt-${i}`} role="option" aria-selected={i === active}>
-                  <button
-                    type="button"
-                    onMouseEnter={() => setActive(i)}
-                    onClick={() => go(`/news/${s.id}`)}
-                    className={`flex w-full items-center gap-3 px-3 py-2 text-left no-underline transition-colors ${
-                      i === active ? 'bg-gray-100' : ''
-                    }`}
-                  >
-                    <NewsThumbnail category={s.category} src={s.image} id={s.id} className="h-10 w-16 shrink-0 rounded-md" />
-                    <span className="min-w-0 flex flex-col items-start gap-0.5">
-                      <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
-                      <span className={`text-sm leading-snug line-clamp-1 ${isLight ? 'text-gray-900' : 'text-gray-900'}`}>{s.title}</span>
-                    </span>
-                  </button>
+                <div
+                  key={s.id}
+                  id={`${listId}-opt-${i}`}
+                  role="option"
+                  aria-selected={i === active}
+                  onMouseEnter={() => setActive(i)}
+                  onClick={() => go(`/news/${s.id}`)}
+                  className={`flex w-full cursor-pointer items-center gap-3 px-3 py-2 text-left transition-colors ${
+                    i === active ? 'bg-gray-100' : ''
+                  }`}
+                >
+                  <NewsThumbnail category={s.category} src={s.image} id={s.id} className="h-10 w-16 shrink-0 rounded-md" />
+                  <span className="min-w-0 flex flex-col items-start gap-0.5">
+                    <span className={`text-2xs font-bold uppercase tracking-wide ${getCatColor(s.category)}`}>{s.category}</span>
+                    <span className={`text-sm leading-snug line-clamp-1 ${isLight ? 'text-gray-900' : 'text-gray-900'}`}>{s.title}</span>
+                  </span>
                 </div>
               ))}
             </>
@@ -268,36 +300,45 @@ export default function SearchBox({
           {/* Markets / tickers */}
           {markets.length > 0 && (
             <>
-              <p className={`${groupLabel} ${stories.length > 0 ? 'border-t mt-1 ' : ''}${isLight ? 'border-gray-100' : 'border-gray-200'}`}>Markets</p>
-              {markets.map((m) => (
-                <button
-                  key={m.label}
-                  type="button"
-                  onClick={() => go('/markets')}
-                  className={`flex w-full items-center justify-between gap-3 px-4 py-2 text-left transition-colors ${
-                    isLight ? 'hover:bg-gray-100' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <span className={`text-sm font-medium ${isLight ? 'text-gray-900' : 'text-gray-900'}`}>{m.label}</span>
-                  <span className="flex items-center gap-2 tabular-nums">
-                    <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-gray-600'}`}>{m.value}</span>
-                    <span className={`text-2xs font-semibold ${m.up ? 'text-pos' : 'text-neg'}`}>{m.pct}</span>
-                  </span>
-                </button>
-              ))}
+              <p className={`${groupLabel} ${stories.length > 0 ? 'border-t mt-1 ' : ''}${isLight ? 'border-gray-100' : 'border-gray-200'}`} aria-hidden="true">Markets</p>
+              {markets.map((m, i) => {
+                const idx = marketsOffset + i;
+                return (
+                  <div
+                    key={m.label}
+                    id={`${listId}-opt-${idx}`}
+                    role="option"
+                    aria-selected={idx === active}
+                    onMouseEnter={() => setActive(idx)}
+                    onClick={() => go('/markets')}
+                    className={`flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2 text-left transition-colors ${
+                      idx === active ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    <span className={`text-sm font-medium ${isLight ? 'text-gray-900' : 'text-gray-900'}`}>{m.label}</span>
+                    <span className="flex items-center gap-2 tabular-nums">
+                      <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-gray-600'}`}>{m.value}</span>
+                      <span className={`text-2xs font-semibold ${m.up ? 'text-pos' : 'text-neg'}`}>{m.pct}</span>
+                    </span>
+                  </div>
+                );
+              })}
             </>
           )}
 
           {/* Full search */}
-          <button
-            type="button"
-            onClick={submit}
-            className={`flex w-full items-center gap-2 border-t mt-1 px-4 py-2.5 text-left text-sm font-medium transition-colors ${
-              isLight ? 'border-gray-100 text-brand-accent-ink hover:bg-gray-100' : 'border-gray-100 text-brand-accent-ink hover:bg-gray-100'
+          <div
+            id={`${listId}-opt-${searchOptionIdx}`}
+            role="option"
+            aria-selected={searchOptionIdx === active}
+            onMouseEnter={() => setActive(searchOptionIdx)}
+            onClick={fullSearch}
+            className={`flex w-full cursor-pointer items-center gap-2 border-t mt-1 px-4 py-2.5 text-left text-sm font-medium transition-colors border-gray-100 text-brand-accent-ink ${
+              searchOptionIdx === active ? 'bg-gray-100' : ''
             }`}
           >
             Search for &ldquo;{query.trim()}&rdquo; →
-          </button>
+          </div>
         </div>
       )}
     </form>

@@ -201,6 +201,16 @@
   animation-play-state: paused;
 }
 
+/* Reduced motion: stop decorative animation globally. Drawer entrances are
+   gated at the call site with motion-safe:; these classes animate forever,
+   so they get a blanket stop. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-scroll,
+  .animate-pulse {
+    animation: none;
+  }
+}
+
 /* ── Scrollbar ─────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track  { background: transparent; }

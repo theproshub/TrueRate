@@ -16,7 +16,13 @@ export default function BackToTop() {
     <button
       type="button"
       aria-label="Back to top"
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      inert={!visible}
+      onClick={() =>
+        window.scrollTo({
+          top: 0,
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        })
+      }
       className={`fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#1E1E1E] text-white shadow-lg hover:bg-[#2a2a2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent motion-safe:transition-[transform,opacity] motion-safe:duration-200 ${
         visible
           ? 'translate-y-0 opacity-100'

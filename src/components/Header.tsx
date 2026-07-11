@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import HeaderAuthButtons from './HeaderAuthButtons';
 import SearchBox from './SearchBox';
 import { Text } from '@/components/ui';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { ACTIVE_SOCIAL_LINKS } from '@/lib/social';
 
 
@@ -165,6 +166,7 @@ function isActive(pathname: string, href: string): boolean {
 function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: string }) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set(['Finance']));
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const trapRef = useFocusTrap<HTMLDivElement>(true);
 
   function toggleExpanded(label: string) {
     setExpanded(prev => {
@@ -200,9 +202,9 @@ function MobileMenu({ onClose, pathname }: { onClose: () => void; pathname: stri
   ];
 
   return (
-    <div id="mobile-menu" className="sm:hidden fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Main menu">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]" onClick={onClose} />
-      <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-white h-full shadow-2xl animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
+    <div ref={trapRef} id="mobile-menu" className="sm:hidden fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Main menu">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm motion-safe:animate-[fadeIn_0.15s_ease-out]" onClick={onClose} />
+      <div className="relative flex flex-col w-[86vw] max-w-[360px] bg-white h-full shadow-2xl motion-safe:animate-[slideInLeft_0.22s_cubic-bezier(0.32,0.72,0,1)]">
 
         {/* Close button — floated top-right, no dedicated row */}
         <button
@@ -399,14 +401,13 @@ export default function Header() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      if (!scrolledDown && y > 60) setScrolledDown(true);
-      else if (scrolledDown && y < 20) setScrolledDown(false);
+      setScrolledDown(prev => (!prev && y > 60 ? true : prev && y < 20 ? false : prev));
       lastScrollY.current = y;
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [scrolledDown]);
+  }, []);
 
   // The /admin area has its own chrome (see app/admin/layout.tsx) — the public
   // marketing header doesn't belong there. Hooks above run unconditionally.
@@ -478,7 +479,6 @@ export default function Header() {
               type="button"
               onClick={() => setMoreOpen(o => !o)}
               aria-expanded={moreOpen}
-              aria-haspopup="menu"
               aria-controls="more-menu"
               className={`flex items-center gap-1 px-3 py-1.5 rounded text-base font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent ${
                 moreOpen
@@ -491,26 +491,27 @@ export default function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
+            {/* Plain nav of links, not role="menu" — menu semantics promise
+                arrow-key navigation this dropdown doesn't implement. */}
             {moreOpen && (
-              <div
+              <nav
                 id="more-menu"
-                role="menu"
+                aria-label="More sections"
                 className="absolute right-0 top-full z-50 mt-1 w-[min(960px,calc(100vw-2rem))] border rounded-b-lg overflow-hidden shadow-2xl bg-[#1E1E1E] border-white/[0.08] shadow-black/60"
               >
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-6 p-6">
                   {MORE_MENU.map(column => (
-                    <div key={column.title} role="none">
-                      <h3 className="text-md font-bold mb-3 text-white">
+                    <div key={column.title}>
+                      <p className="text-md font-bold mb-3 text-white">
                         {column.title}
-                      </h3>
-                      <ul className="space-y-2" role="none">
+                      </p>
+                      <ul className="space-y-2">
                         {column.items.map(item => {
                           const active = isActive(pathname, item.href);
                           return (
-                            <li key={`${column.title}:${item.label}`} role="none">
+                            <li key={`${column.title}:${item.label}`}>
                               <Link
                                 href={item.href}
-                                role="menuitem"
                                 onClick={() => setMoreOpen(false)}
                                 className={`block text-base no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded ${
                                   active
@@ -527,7 +528,7 @@ export default function Header() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </nav>
             )}
           </div>
         </div>
@@ -538,10 +539,11 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile search — collapses on scroll */}
+      {/* Mobile search — collapses on scroll. `inert` (not aria-hidden) so the
+          input inside also leaves the tab order while collapsed. */}
       <div
         className={`sm:hidden overflow-hidden transition-all duration-200 ease-in-out ${scrolledDown ? 'max-h-0 pb-0 opacity-0' : 'max-h-16 pb-3 opacity-100'}`}
-        aria-hidden={scrolledDown}
+        inert={scrolledDown}
       >
         <div className="px-3">
           <SearchBox isLight={isLight} inputId="site-search-mobile" variant="mobile" className="flex" />
