@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { TR_TEMPLATES, templateSize } from '@/app/admin/social-cards/_components/templates/registry';
 
-const PART1 = ['breaking', 'article', 'quote', 'stat', 'markets'] as const;
+const ALL = ['breaking', 'article', 'quote', 'stat', 'markets', 'rate', 'event', 'explainer', 'story', 'cover'] as const;
 
 describe('social-cards template registry', () => {
-  it('registers part-1 formats with both variants and labels', () => {
-    for (const key of PART1) {
+  it('registers all ten formats with both variants and labels', () => {
+    for (const key of ALL) {
       const entry = TR_TEMPLATES[key];
       expect(entry, key).toBeDefined();
       expect(typeof entry.terminal).toBe('function');
@@ -16,5 +16,11 @@ describe('social-cards template registry', () => {
 
   it('feed cards default to 1080×1350', () => {
     expect(templateSize('breaking')).toEqual({ w: 1080, h: 1350 });
+  });
+
+  it('story and cover carry explicit sizes', () => {
+    expect(templateSize('story')).toEqual({ w: 1080, h: 1920 });
+    expect(templateSize('cover')).toEqual({ w: 1920, h: 1080 });
+    expect(templateSize('rate')).toEqual({ w: 1080, h: 1350 });
   });
 });
