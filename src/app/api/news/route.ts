@@ -10,7 +10,13 @@ export async function GET(request: NextRequest) {
   if (!allowed) {
     return NextResponse.json(
       { error: 'Rate limit exceeded' },
-      { status: 429, headers: rateLimitHeaders(remaining, 60, 60_000) },
+      {
+        status: 429,
+        headers: {
+          ...rateLimitHeaders(remaining, 60, 60_000),
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
     );
   }
 
@@ -21,7 +27,7 @@ export async function GET(request: NextRequest) {
     .order('published_at', { ascending: false });
 
   if (error) {
-    return NextResponse.json({ items: [] }, { status: 200 });
+    return NextResponse.json({ items: [] }, { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } });
   }
 
   const items = (data ?? []).map((a: {
@@ -42,6 +48,6 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(
     { items },
-    { headers: { 'Cache-Control': 'no-store' } },
+    { headers: { 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' } },
   );
 }

@@ -31,7 +31,13 @@ export async function GET(request: NextRequest) {
   if (!allowed) {
     return NextResponse.json(
       { error: 'Rate limit exceeded' },
-      { status: 429, headers: rateLimitHeaders(remaining, 60, 60_000) },
+      {
+        status: 429,
+        headers: {
+          ...rateLimitHeaders(remaining, 60, 60_000),
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
     );
   }
 
@@ -41,7 +47,7 @@ export async function GET(request: NextRequest) {
     if (live.stale) {
       return NextResponse.json(
         { date: null, rates: [], lookup: {} },
-        { status: 200 },
+        { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } },
       );
     }
 
@@ -66,6 +72,7 @@ export async function GET(request: NextRequest) {
       {
         headers: {
           'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=300',
+          'Access-Control-Allow-Origin': '*',
         },
       },
     );
@@ -73,7 +80,7 @@ export async function GET(request: NextRequest) {
     logger.error('FX fetch failed', { route: '/api/rates', err: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { date: null, rates: [], lookup: {} },
-      { status: 200 },
+      { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } },
     );
   }
 }
