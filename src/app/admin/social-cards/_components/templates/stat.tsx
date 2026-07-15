@@ -37,8 +37,8 @@ export function StatTerminal({ data }: { data: CardTweaks }) {
         <div style={{
           fontFamily: FONT_MONO, fontSize: 22,
           letterSpacing: 4, textTransform: 'uppercase',
-          color: C.lime, marginBottom: 28, fontWeight: 600
-        }}>▲ FIGURE OF THE DAY</div>
+          color: '#F3F4F4', marginBottom: 28, fontWeight: 600
+        }}><span style={{ color: C.green }}>▲</span> FIGURE OF THE DAY</div>
 
         <div style={{
           fontFamily: FONT_SANS, fontSize: 260, fontWeight: 900,

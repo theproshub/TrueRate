@@ -76,8 +76,8 @@ export function MarketsTerminal({ data }: { data: CardTweaks }) {
           <div style={{
             fontFamily: FONT_MONO, fontSize: 22,
             letterSpacing: 4, textTransform: 'uppercase',
-            color: C.lime, marginBottom: 18, fontWeight: 600
-          }}>▲ MARKETS · LIVE CLOSE</div>
+            color: '#F3F4F4', marginBottom: 18, fontWeight: 600
+          }}><span style={{ color: C.green }}>▲</span> MARKETS · LIVE CLOSE</div>
           <h1 style={{
             fontFamily: FONT_SANS, fontSize: 54, fontWeight: 800,
             lineHeight: 1.05, letterSpacing: -1, textWrap: 'balance'

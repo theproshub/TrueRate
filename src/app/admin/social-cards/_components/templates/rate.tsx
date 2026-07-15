@@ -40,7 +40,7 @@ function RateCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
           <div style={{
             fontFamily: FONT_MONO, fontSize: 26,
             letterSpacing: 5, textTransform: 'uppercase',
-            color: dark ? C.lime : C.navy, fontWeight: 700, marginBottom: 20
+            color: dark ? '#F3F4F4' : C.navy, fontWeight: 700, marginBottom: 20
           }}>USD → LRD</div>
 
           <div style={{
@@ -50,8 +50,8 @@ function RateCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
 
           <div style={{
             fontFamily: FONT_MONO, fontSize: 26, fontWeight: 700,
-            color: data.rateUp ? (dark ? C.lime : '#2c7a3f') : C.red, marginBottom: 52
-          }}>{data.rateUp ? '▲' : '▼'} {data.rateChange} vs yesterday</div>
+            color: dark ? '#F3F4F4' : C.navy, marginBottom: 52
+          }}><span style={{ color: data.rateUp ? C.green : C.red }}>{data.rateUp ? '▲' : '▼'} {data.rateChange}</span> vs yesterday</div>
 
           {/* Buy / Sell */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
