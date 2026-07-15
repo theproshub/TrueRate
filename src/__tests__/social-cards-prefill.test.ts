@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { storyEdits, rateEdits, marketEdits, marketsPrefillReady } from '@/app/admin/social-cards/_components/prefill';
+import { storyEdits, rateEdits, marketEdits, marketsPrefillReady, statEdits, calendarEventEdits } from '@/app/admin/social-cards/_components/prefill';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 
 describe('storyEdits', () => {
@@ -104,5 +104,48 @@ describe('marketsPrefillReady', () => {
 
   it('is false when USD is missing even if commodities are sufficient', () => {
     expect(marketsPrefillReady({}, [q(1, 0.1), q(2, 0.2), q(3, 0.3)])).toBe(false);
+  });
+});
+
+describe('statEdits', () => {
+  const ind = {
+    key: 'CBL_RATE', name: 'CBL Policy Rate', value: 16.25, previousValue: 16.5,
+    change: -0.25, changePercent: -1.5152, unit: '%', period: 'Jun-26',
+    source: 'Central Bank of Liberia', history: [],
+  };
+
+  it('formats the exact value with unit and builds a factual context line', () => {
+    const e = statEdits(ind);
+    expect(e.stat).toBe('16.25%');
+    expect(e.statLabel).toBe('CBL Policy Rate, Jun-26');
+    expect(e.statContext).toBe('Previous reading: 16.5%. Source: Central Bank of Liberia.');
+  });
+
+  it('omits the previous-reading sentence when previousValue is missing', () => {
+    const e = statEdits({ ...ind, previousValue: null });
+    expect(e.statContext).toBe('Source: Central Bank of Liberia.');
+  });
+
+  it('handles non-percent units with thousands separators', () => {
+    const e = statEdits({ ...ind, name: 'Total Exports', value: 5159.74, previousValue: null, unit: 'US$M', period: 'Mar-26' });
+    expect(e.stat).toBe('5,159.74 US$M');
+    expect(e.statLabel).toBe('Total Exports, Mar-26');
+  });
+});
+
+describe('calendarEventEdits', () => {
+  it('maps the calendar event and clears unknown time/venue (no fabrication)', () => {
+    const e = calendarEventEdits({
+      id: 'mpc-2026-q3', date: '2026-07-15',
+      title: 'CBL Monetary Policy Committee Meeting',
+      body: 'Quarterly MPC decision.', category: 'monetary-policy',
+      impact: 'high', source: 'Central Bank of Liberia',
+    });
+    expect(e.eventKind).toBe('Monetary Policy');
+    expect(e.eventTitle).toBe('CBL Monetary Policy Committee Meeting');
+    expect(e.eventDate).toBe('Jul 15, 2026');
+    expect(e.eventTime).toBe('');
+    expect(e.eventVenue).toBe('');
+    expect(e.eventCTA).toBe('truerateliberia.com');
   });
 });

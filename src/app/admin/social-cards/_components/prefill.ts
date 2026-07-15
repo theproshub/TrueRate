@@ -1,5 +1,7 @@
 import type { CardTweaks } from './templates/types';
 import type { CommodityQuote } from '@/domain/markets/commodities';
+import type { NormalizedIndicator } from '@/types/indicators';
+import { CATEGORY_LABELS, type EconomicEvent } from '@/data/economic-events';
 
 export interface StoryItem {
   slug: string;
@@ -85,4 +87,45 @@ export function marketEdits(
     (edits as Record<string, unknown>)[`market${n}Up`] = (c.changePercent as number) >= 0;
   });
   return edits;
+}
+
+/** Exact stored value with unit — "16.25%", "5,159.74 US$M". No rounding beyond storage. */
+function formatIndicatorValue(value: number, unit: string): string {
+  const v = value.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  if (unit === '%') return `${v}%`;
+  return unit ? `${v} ${unit}` : v;
+}
+
+/**
+ * Big Stat prefill from a dashboard indicator. Context is strictly factual —
+ * previous reading (when the data exists) and source, nothing editorial.
+ */
+export function statEdits(ind: NormalizedIndicator): Partial<CardTweaks> {
+  const prev = ind.previousValue;
+  const prevLine = typeof prev === 'number' && Number.isFinite(prev)
+    ? `Previous reading: ${formatIndicatorValue(prev, ind.unit)}. `
+    : '';
+  return {
+    stat: formatIndicatorValue(ind.value, ind.unit),
+    statLabel: `${ind.name}, ${ind.period}`,
+    statContext: `${prevLine}Source: ${ind.source}.`,
+    date: LONG_DATE.format(new Date()),
+  };
+}
+
+const EVENT_DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+/**
+ * Event card prefill from the economic calendar. Time and venue are cleared —
+ * the calendar doesn't know them, and stamping seed values would fabricate.
+ */
+export function calendarEventEdits(event: EconomicEvent): Partial<CardTweaks> {
+  return {
+    eventKind: CATEGORY_LABELS[event.category],
+    eventTitle: event.title,
+    eventDate: EVENT_DATE.format(new Date(event.date + 'T00:00:00')),
+    eventTime: '',
+    eventVenue: '',
+    eventCTA: 'truerateliberia.com',
+  };
 }

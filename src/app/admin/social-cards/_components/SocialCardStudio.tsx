@@ -4,6 +4,7 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 import type { StoryItem } from './prefill';
+import type { NormalizedIndicator } from '@/types/indicators';
 import type { RatesPayload } from '../_actions';
 import { TR_TEMPLATES, templateSize } from './templates/registry';
 import type { TemplateFormat, TemplateVariant } from './templates/types';
@@ -17,6 +18,7 @@ export interface StudioProps {
   initialStories: StoryItem[];
   initialRates: RatesPayload;
   initialCommodities: CommodityQuote[];
+  initialIndicators: NormalizedIndicator[];
 }
 
 const FOCUS_RING = 'focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none';
@@ -50,7 +52,7 @@ const SLIDE_NAV_BTN: CSSProperties = {
 const SLIDE_LABELS = ['Cover slide', 'Point 1', 'Point 2', 'Point 3', 'Outro slide'];
 
 export default function SocialCardStudio(
-  { initialStories, initialRates, initialCommodities }: StudioProps,
+  { initialStories, initialRates, initialCommodities, initialIndicators }: StudioProps,
 ) {
   const { tweaks, setTweak, applyMany } = usePersistedTweaks();
   const [showTweaks, setShowTweaks] = useState(false);
@@ -275,6 +277,7 @@ export default function SocialCardStudio(
         stories={initialStories}
         rates={initialRates}
         commodities={initialCommodities}
+        indicators={initialIndicators}
         onApply={applyMany}
         onClose={() => setShowSync(false)}
       />

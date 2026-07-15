@@ -2,8 +2,10 @@
 
 import { useState, useTransition, type ReactNode } from 'react';
 import type { CommodityQuote } from '@/domain/markets/commodities';
-import { refreshStories, refreshRates, refreshCommodities, type RatesPayload } from '../_actions';
-import { storyEdits, rateEdits, marketEdits, marketsPrefillReady, type StoryItem } from './prefill';
+import type { NormalizedIndicator } from '@/types/indicators';
+import { getUpcomingEvents } from '@/data/economic-events';
+import { refreshStories, refreshRates, refreshCommodities, refreshIndicators, type RatesPayload } from '../_actions';
+import { storyEdits, rateEdits, marketEdits, marketsPrefillReady, statEdits, calendarEventEdits, type StoryItem } from './prefill';
 import { FONT_SANS, FONT_MONO } from './templates/shared';
 import type { CardTweaks } from './templates/types';
 
@@ -11,6 +13,7 @@ export interface SyncPanelProps {
   stories: StoryItem[];
   rates: RatesPayload;
   commodities: CommodityQuote[];
+  indicators: NormalizedIndicator[];
   onApply: (edits: Partial<CardTweaks>) => void;
   onClose: () => void;
 }
@@ -47,10 +50,11 @@ function SyncSection({ title, children, last }: { title: string; children: React
 const STALE_MESSAGE = 'Live rates unavailable — refusing to prefill from stale data.';
 const COMMODITIES_INCOMPLETE_MESSAGE = 'Live commodity data incomplete — refusing to prefill.';
 
-export default function SyncPanel({ stories, rates, commodities, onApply, onClose }: SyncPanelProps) {
+export default function SyncPanel({ stories, rates, commodities, indicators, onApply, onClose }: SyncPanelProps) {
   const [storyList, setStoryList] = useState(stories);
   const [rateData, setRateData] = useState(rates);
   const [commodityList, setCommodityList] = useState(commodities);
+  const [indicatorList, setIndicatorList] = useState(indicators);
   const [error, setError] = useState('');
   const [pending, startTransition] = useTransition();
 
@@ -58,19 +62,24 @@ export default function SyncPanel({ stories, rates, commodities, onApply, onClos
     setError('');
     startTransition(async () => {
       try {
-        const [s, r, c] = await Promise.all([
+        const [s, r, c, i] = await Promise.all([
           refreshStories(),
           refreshRates(),
           refreshCommodities(),
+          refreshIndicators(),
         ]);
         setStoryList(s);
         setRateData(r);
         setCommodityList(c);
+        setIndicatorList(i);
       } catch {
         setError('Could not refresh from the site — try again.');
       }
     });
   };
+
+  // Static curated calendar module — date-dependent, not network-dependent.
+  const upcomingEvents = getUpcomingEvents(new Date(), 5);
 
   const shortDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   const marketDateLabel = `${shortDate} · Latest`;
@@ -171,6 +180,74 @@ export default function SyncPanel({ stories, rates, commodities, onApply, onClos
             {ratesUsable ? COMMODITIES_INCOMPLETE_MESSAGE : STALE_MESSAGE}
           </p>
         }
+      </SyncSection>
+
+      <SyncSection title="Key Indicators">
+        {indicatorList.length === 0 &&
+        <p style={{ fontSize: 12, color: 'rgba(243,244,244,0.55)', lineHeight: 1.5 }}>
+          No indicator data returned.
+        </p>
+        }
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+          {indicatorList.map((ind) => (
+            <li key={ind.key} style={{ marginBottom: 6 }}>
+              <button
+                type="button"
+                onClick={() => onApply({ ...statEdits(ind), templateType: 'stat' })}
+                aria-label={`Use ${ind.name} as Big Stat`}
+                className={FOCUS_RING}
+                style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10,
+                  width: '100%', minHeight: 44, textAlign: 'left',
+                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#F3F4F4', padding: '8px 10px', cursor: 'pointer', fontSize: 13,
+                  lineHeight: 1.35, fontFamily: FONT_SANS,
+                }}
+              >
+                <span>{ind.name}</span>
+                <span style={{ fontFamily: FONT_MONO, fontSize: 12, whiteSpace: 'nowrap', color: 'rgba(243,244,244,0.75)' }}>
+                  {ind.value.toLocaleString('en-US', { maximumFractionDigits: 2 })}{ind.unit === '%' ? '%' : ` ${ind.unit}`} · {ind.period}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </SyncSection>
+
+      <SyncSection title="Economic Calendar">
+        {upcomingEvents.length === 0 &&
+        <p style={{ fontSize: 12, color: 'rgba(243,244,244,0.55)', lineHeight: 1.5 }}>
+          No upcoming events on the calendar.
+        </p>
+        }
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+          {upcomingEvents.map((ev) => (
+            <li key={ev.id} style={{ marginBottom: 6 }}>
+              <button
+                type="button"
+                onClick={() => onApply({ ...calendarEventEdits(ev), templateType: 'event' })}
+                aria-label={`Use event: ${ev.title}`}
+                className={FOCUS_RING}
+                style={{
+                  display: 'block', width: '100%', minHeight: 44, textAlign: 'left',
+                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#F3F4F4', padding: '8px 10px', cursor: 'pointer', fontSize: 13,
+                  lineHeight: 1.35, fontFamily: FONT_SANS,
+                }}
+              >
+                <span style={{
+                  fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1,
+                  textTransform: 'uppercase',
+                  color: ev.impact === 'high' ? '#e11b22' : 'rgba(243,244,244,0.55)',
+                  display: 'block', marginBottom: 2,
+                }}>
+                  {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(ev.date + 'T00:00:00'))} · {ev.impact}
+                </span>
+                {ev.title}
+              </button>
+            </li>
+          ))}
+        </ul>
       </SyncSection>
 
       <SyncSection title="Latest Stories" last>

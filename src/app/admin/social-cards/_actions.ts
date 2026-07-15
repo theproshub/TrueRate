@@ -5,6 +5,8 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth/admin';
 import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
 import { fetchCommodities, type CommodityQuote } from '@/domain/markets/commodities';
+import { getDashboardIndicators } from '@/domain/cbl/dashboard-indicators';
+import type { NormalizedIndicator } from '@/types/indicators';
 import type { StoryItem } from './_components/prefill';
 
 const BUCKET = 'article-images';
@@ -58,6 +60,16 @@ export async function refreshCommodities(): Promise<CommodityQuote[]> {
   await requireAdmin();
   try {
     return await fetchCommodities();
+  } catch {
+    return [];
+  }
+}
+
+/** CBL dashboard indicators (policy rate, inflation, GDP, fiscal, trade) for Big Stat prefill. */
+export async function refreshIndicators(): Promise<NormalizedIndicator[]> {
+  await requireAdmin();
+  try {
+    return await getDashboardIndicators();
   } catch {
     return [];
   }
