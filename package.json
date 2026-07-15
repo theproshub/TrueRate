@@ -26,6 +26,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "ai": "^6.0.190",
     "clsx": "^2.1.1",
+    "html-to-image": "^1.11.13",
     "mammoth": "^1.12.0",
     "marked": "^18.0.4",
     "next": "^16.2.9",

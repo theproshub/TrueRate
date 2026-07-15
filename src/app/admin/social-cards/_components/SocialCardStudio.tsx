@@ -10,6 +10,7 @@ import type { TemplateFormat, TemplateVariant } from './templates/types';
 import TweaksPanel, { IMAGE_SLOTS } from './TweaksPanel';
 import SyncPanel from './SyncPanel';
 import StoragePicker from './StoragePicker';
+import ExportButton from './ExportButton';
 import { usePersistedTweaks } from './usePersistedTweaks';
 
 export interface StudioProps {
@@ -187,24 +188,7 @@ export default function SocialCardStudio(
           Tweaks
         </button>
 
-        <button
-          type="button"
-          aria-disabled="true"
-          className={FOCUS_RING}
-          style={{
-            ...TOOLBAR_BTN_BASE,
-            background: '#BFEA36', color: '#050d11',
-            border: '1px solid #BFEA36', fontWeight: 700,
-            gap: 6, opacity: 0.5, cursor: 'not-allowed',
-          }}
-        >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          Download HD PNG
-        </button>
+        <ExportButton format={format} onSetSlide={(n) => setTweak('explainerSlide', n)} />
       </div>
 
       {/* Preview */}
