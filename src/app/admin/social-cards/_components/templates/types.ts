@@ -36,6 +36,10 @@ export interface CardTweaks {
   quoteRole: string;
   quoteContext: string;
   quoteAccent: string;
+  /** Footer-left line on photo-led cards — photo credit or source, rendered
+      verbatim in uppercase (e.g. "PHOTO: GETTY IMAGES", "SOURCE: CBL").
+      Blank renders no line. */
+  creditLine: string;
   breakingImage: string;
   breakingImagePosY: number;
   articleImage: string;
@@ -121,6 +125,7 @@ export const TWEAK_DEFAULTS: CardTweaks = {
   quoteRole: 'CEO, PayLink Liberia',
   quoteContext: 'At the West Africa FinTech Summit, Monrovia',
   quoteAccent: '#BFEA36',
+  creditLine: '',
   breakingImage: '',
   breakingImagePosY: 50,
   articleImage: '',

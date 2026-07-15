@@ -380,6 +380,13 @@ export default function TweaksPanel({ tweaks, setTweak, storagePicker }: TweaksP
           onChange={(v) => setTweak(imageSlot.posKey, v)}
         />
         }
+        {(templateType === 'breaking' || templateType === 'article' || templateType === 'quote' || templateType === 'story') &&
+        <TwInput
+          label="Credit / source (optional)"
+          value={tweaks.creditLine}
+          onChange={(v) => setTweak('creditLine', v)}
+        />
+        }
       </TwSection>
       }
 

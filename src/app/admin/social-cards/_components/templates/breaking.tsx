@@ -102,7 +102,7 @@ export function BreakingTerminal({ data }: { data: CardTweaks }) {
           color: '#fff',
           display: 'block', lineHeight: 1,
           whiteSpace: 'nowrap', fontSize: "30px", fontWeight: "400"
-        }}>PHOTO: {((data as CardTweaks & { photoCredit?: string }).photoCredit || 'GOOGLE').toUpperCase()}</span>
+        }}>{data.creditLine ? data.creditLine.toUpperCase() : ''}</span>
         <span style={{ display: 'block', lineHeight: 0, marginBottom: 0 }}>
           <TrueRateMark color={C.lime} size={64} />
         </span>

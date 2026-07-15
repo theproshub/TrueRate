@@ -45,7 +45,7 @@ function StoryCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
           fontFamily: FONT_SANS, textTransform: 'uppercase',
           color: '#fff', lineHeight: 1, whiteSpace: 'nowrap',
           fontSize: '30px', fontWeight: '400'
-        }}>PHOTO: {((data as CardTweaks & { photoCredit?: string }).photoCredit || 'GOOGLE').toUpperCase()}</span>
+        }}>{data.creditLine ? data.creditLine.toUpperCase() : ''}</span>
         <span style={{
           fontFamily: FONT_MONO, fontSize: 24,
           letterSpacing: 2, textTransform: 'uppercase',
