@@ -188,7 +188,7 @@ export default function SocialCardStudio(
           Tweaks
         </button>
 
-        <ExportButton format={format} onSetSlide={(n) => setTweak('explainerSlide', n)} />
+        <ExportButton format={format} onSetSlide={(n) => setTweak('explainerSlide', n)} currentSlide={explainerSlide} />
       </div>
 
       {/* Preview */}

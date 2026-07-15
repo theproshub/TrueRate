@@ -28,10 +28,11 @@ const EXPORT_BTN_STYLE: CSSProperties = {
 const nextFrame = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
 
 export default function ExportButton({
-  format, onSetSlide,
+  format, onSetSlide, currentSlide,
 }: {
   format: TemplateFormat;
   onSetSlide: (n: number) => void;
+  currentSlide: number;
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -42,6 +43,7 @@ export default function ExportButton({
     setBusy(true);
     setError('');
     const size = templateSize(format);
+    const startSlide = currentSlide;
     try {
       if (format === 'explainer') {
         for (let slide = 0; slide <= 4; slide++) {
@@ -56,6 +58,9 @@ export default function ExportButton({
     } catch (err) {
       setError(err instanceof Error ? `Export failed: ${err.message}` : 'Export failed.');
     } finally {
+      if (format === 'explainer') {
+        onSetSlide(startSlide);
+      }
       setBusy(false);
     }
   }
