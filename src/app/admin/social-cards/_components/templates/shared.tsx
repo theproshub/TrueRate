@@ -72,6 +72,7 @@ export function TrueRateMark({ color = '#BFEA36' }: { color?: string; size?: num
     : color === '#fff' || color === 'white'
       ? 'brightness(0) invert(1)'
       : 'none';
+  // eslint-disable-next-line @next/next/no-img-element -- exported to canvas; next/image would rewrite the URL
   return <img src={LOGO_SRC} alt="" style={{
     height: 48, filter, display: 'block',
     width: 'auto', objectFit: 'contain',
@@ -96,8 +97,12 @@ export function PhotoPlaceholder({
   if (imageUrl) {
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: '#0a0a0a' }}>
+        {/* No crossOrigin: the browser HTTP cache can hold a copy of the image that is
+            unusable for CORS validation (observed with Supabase storage), which makes a
+            crossOrigin load fail outright and break the preview. Export doesn't need the
+            attribute — html-to-image inlines images via fetch with cacheBust. */}
         {/* eslint-disable-next-line @next/next/no-img-element -- exported to canvas; next/image would rewrite the URL */}
-        <img src={imageUrl} alt={label} crossOrigin="anonymous" style={{
+        <img src={imageUrl} alt={label} style={{
           width: '100%', height: '100%', objectFit: 'cover',
           objectPosition, display: 'block',
           imageRendering: 'high-quality' as CSSProperties['imageRendering'],
