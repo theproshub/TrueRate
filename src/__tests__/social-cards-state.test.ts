@@ -30,6 +30,18 @@ describe('social-cards state', () => {
     expect(loadSavedTweaks('{"headline":"X"}')).toEqual({ headline: 'X' });
   });
 
+  it('loadSavedTweaks drops unknown keys not present in TWEAK_DEFAULTS', () => {
+    expect(loadSavedTweaks('{"totallyUnknownKey":"x"}')).toEqual({});
+  });
+
+  it('loadSavedTweaks drops keys whose type does not match the default (e.g. null for a string field)', () => {
+    expect(loadSavedTweaks('{"headline":null}')).toEqual({});
+  });
+
+  it('loadSavedTweaks keeps keys whose type matches the default', () => {
+    expect(loadSavedTweaks('{"explainerSlide":2}')).toEqual({ explainerSlide: 2 });
+  });
+
   it('uses the fresh storage key, not the prototype key', () => {
     expect(STORAGE_KEY).toBe('tr_admin_cards_v1');
   });
