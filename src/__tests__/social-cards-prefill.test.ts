@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { storyEdits, rateEdits, marketEdits } from '@/app/admin/social-cards/_components/prefill';
+import { storyEdits, rateEdits, marketEdits, marketsPrefillReady } from '@/app/admin/social-cards/_components/prefill';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 
 describe('storyEdits', () => {
@@ -47,7 +47,7 @@ describe('marketEdits', () => {
   const q = (name: string, unit: string, price: number | null, changePercent: number | null): CommodityQuote =>
     ({ name, symbol: 'X', unit, note: '', price, prevClose: null, date: null, change: null, changePercent });
 
-  it('fills rows 2-4 from the first three priced quotes', () => {
+  it('fills rows 2-4 from the first three fully-live quotes (price and changePercent both finite)', () => {
     const e = marketEdits({ LRD: 1, USD: 183.93 }, [
       q('Gold', '$/oz', 2285.4, 0.82),
       q('Brent crude', '$/bbl', null, null),      // skipped: no price
@@ -63,5 +63,46 @@ describe('marketEdits', () => {
     expect(e.market3Up).toBe(false);
     expect(e.market4Label).toBe('Coffee (¢/lb)');
     expect(e.market4Up).toBe(true);               // 0 counts as up (flat)
+  });
+
+  it('excludes a priced quote whose changePercent is null (never mixes live price with seed change)', () => {
+    const e = marketEdits({ LRD: 1, USD: 183.93 }, [
+      q('Gold', '$/oz', 2285.4, null),             // priced but no change — excluded
+      q('Cocoa', '$/t', 8123, -1.2),
+      q('Coffee', '¢/lb', 301.5, 0),
+      q('Palm oil', '$/t', 950.2, 1.1),
+    ], 'Jul 14, 2026 · Close');
+    expect(e.market2Label).toBe('Cocoa ($/t)');
+    expect(e.market3Label).toBe('Coffee (¢/lb)');
+    expect(e.market4Label).toBe('Palm oil ($/t)');
+    expect('market2Label' in e && e.market2Label === 'Gold ($/oz)').toBe(false);
+  });
+
+  it('empties market1Change even when the live USD rate is applied', () => {
+    const e = marketEdits({ LRD: 1, USD: 183.93 }, [
+      q('Gold', '$/oz', 2285.4, 0.82),
+      q('Cocoa', '$/t', 8123, -1.2),
+      q('Coffee', '¢/lb', 301.5, 0),
+    ], 'Jul 14, 2026 · Close');
+    expect(e.market1Value).toBe('183.93');
+    expect(e.market1Change).toBe('');
+    expect('market1Up' in e).toBe(false);
+  });
+});
+
+describe('marketsPrefillReady', () => {
+  const q = (price: number | null, changePercent: number | null): CommodityQuote =>
+    ({ name: 'X', symbol: 'X', unit: 'u', note: '', price, prevClose: null, date: null, change: null, changePercent });
+
+  it('is false when fewer than 3 quotes have finite price and changePercent', () => {
+    expect(marketsPrefillReady({ USD: 183.93 }, [q(1, 0.1), q(2, null), q(3, 0.3)])).toBe(false);
+  });
+
+  it('is true when at least 3 quotes have finite price and changePercent', () => {
+    expect(marketsPrefillReady({ USD: 183.93 }, [q(1, 0.1), q(2, 0.2), q(3, 0.3)])).toBe(true);
+  });
+
+  it('is false when USD is missing even if commodities are sufficient', () => {
+    expect(marketsPrefillReady({}, [q(1, 0.1), q(2, 0.2), q(3, 0.3)])).toBe(false);
   });
 });

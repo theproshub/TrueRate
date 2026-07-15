@@ -3,7 +3,7 @@
 import { useState, useTransition, type ReactNode } from 'react';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 import { refreshStories, refreshRates, refreshCommodities, type RatesPayload } from '../_actions';
-import { storyEdits, rateEdits, marketEdits, type StoryItem } from './prefill';
+import { storyEdits, rateEdits, marketEdits, marketsPrefillReady, type StoryItem } from './prefill';
 import { FONT_SANS, FONT_MONO } from './templates/shared';
 import type { CardTweaks } from './templates/types';
 
@@ -45,6 +45,7 @@ function SyncSection({ title, children, last }: { title: string; children: React
 }
 
 const STALE_MESSAGE = 'Live rates unavailable — refusing to prefill from stale data.';
+const COMMODITIES_INCOMPLETE_MESSAGE = 'Live commodity data incomplete — refusing to prefill.';
 
 export default function SyncPanel({ stories, rates, commodities, onApply, onClose }: SyncPanelProps) {
   const [storyList, setStoryList] = useState(stories);
@@ -74,6 +75,7 @@ export default function SyncPanel({ stories, rates, commodities, onApply, onClos
   const shortDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   const marketDateLabel = `${shortDate} · Latest`;
   const ratesUsable = !rateData.stale && typeof rateData.lookup.USD === 'number' && Number.isFinite(rateData.lookup.USD);
+  const marketsReady = ratesUsable && marketsPrefillReady(rateData.lookup, commodityList);
 
   return (
     <div
@@ -156,7 +158,7 @@ export default function SyncPanel({ stories, rates, commodities, onApply, onClos
       </SyncSection>
 
       <SyncSection title="Markets">
-        {ratesUsable ?
+        {marketsReady ?
           <button
             type="button"
             onClick={() => onApply({ ...marketEdits(rateData.lookup, commodityList, marketDateLabel), templateType: 'markets' })}
@@ -166,7 +168,7 @@ export default function SyncPanel({ stories, rates, commodities, onApply, onClos
             Apply to Markets card
           </button> :
           <p role="alert" style={{ fontSize: 12, color: '#e11b22', lineHeight: 1.5 }}>
-            {STALE_MESSAGE}
+            {ratesUsable ? COMMODITIES_INCOMPLETE_MESSAGE : STALE_MESSAGE}
           </p>
         }
       </SyncSection>

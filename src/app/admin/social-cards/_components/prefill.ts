@@ -48,7 +48,21 @@ export function rateEdits(lookup: Record<string, number>, dateLabel: string): Pa
 
 const NUM = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-/** Markets card prefill: row 1 = LRD/USD, rows 2–4 = first priced commodities. */
+function isFullyLive(c: CommodityQuote): boolean {
+  return typeof c.price === 'number' && Number.isFinite(c.price) &&
+    typeof c.changePercent === 'number' && Number.isFinite(c.changePercent);
+}
+
+/**
+ * True when markets prefill can be fully live: USD rate + ≥3 quotes with finite price AND changePercent.
+ */
+export function marketsPrefillReady(lookup: Record<string, number>, commodities: CommodityQuote[]): boolean {
+  const usd = lookup.USD;
+  if (typeof usd !== 'number' || !Number.isFinite(usd)) return false;
+  return commodities.filter(isFullyLive).length >= 3;
+}
+
+/** Markets card prefill: row 1 = LRD/USD, rows 2–4 = first fully-live commodities. */
 export function marketEdits(
   lookup: Record<string, number>,
   commodities: CommodityQuote[],
@@ -57,19 +71,18 @@ export function marketEdits(
   const edits: Partial<CardTweaks> = { marketDate: dateLabel, ...rateEdits(lookup, dateLabel) };
   delete edits.rateValue;
   delete edits.rateDate;
+  // Live LRD/USD value with an emptied change cell — the editor supplies the day's change;
+  // never leave the seed figure implied-live.
+  edits.market1Change = '';
 
-  const priced = commodities.filter(
-    (c) => typeof c.price === 'number' && Number.isFinite(c.price),
-  ).slice(0, 3);
+  const priced = commodities.filter(isFullyLive).slice(0, 3);
 
   priced.forEach((c, i) => {
     const n = i + 2; // rows 2..4
     (edits as Record<string, unknown>)[`market${n}Label`] = `${c.name} (${c.unit})`;
     (edits as Record<string, unknown>)[`market${n}Value`] = NUM.format(c.price as number);
-    if (typeof c.changePercent === 'number' && Number.isFinite(c.changePercent)) {
-      (edits as Record<string, unknown>)[`market${n}Change`] = `${Math.abs(c.changePercent).toFixed(2)}%`;
-      (edits as Record<string, unknown>)[`market${n}Up`] = c.changePercent >= 0;
-    }
+    (edits as Record<string, unknown>)[`market${n}Change`] = `${Math.abs(c.changePercent as number).toFixed(2)}%`;
+    (edits as Record<string, unknown>)[`market${n}Up`] = (c.changePercent as number) >= 0;
   });
   return edits;
 }
