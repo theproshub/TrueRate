@@ -7,7 +7,9 @@ import type { StoryItem } from './prefill';
 import type { RatesPayload } from '../_actions';
 import { TR_TEMPLATES, templateSize } from './templates/registry';
 import type { TemplateFormat, TemplateVariant } from './templates/types';
-import TweaksPanel from './TweaksPanel';
+import TweaksPanel, { IMAGE_SLOTS } from './TweaksPanel';
+import SyncPanel from './SyncPanel';
+import StoragePicker from './StoragePicker';
 import { usePersistedTweaks } from './usePersistedTweaks';
 
 export interface StudioProps {
@@ -47,13 +49,8 @@ const SLIDE_NAV_BTN: CSSProperties = {
 const SLIDE_LABELS = ['Cover slide', 'Point 1', 'Point 2', 'Point 3', 'Outro slide'];
 
 export default function SocialCardStudio(
-  // initialStories/initialRates/initialCommodities are consumed by the Pull-from-Site
-  // panel wired up in Task 10 — kept in the interface per the brief, unused here.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   { initialStories, initialRates, initialCommodities }: StudioProps,
 ) {
-  // applyMany is consumed by the Sync panel in Task 10.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { tweaks, setTweak, applyMany } = usePersistedTweaks();
   const [showTweaks, setShowTweaks] = useState(false);
   const [showSync, setShowSync] = useState(false);
@@ -289,8 +286,25 @@ export default function SocialCardStudio(
         {DIM.w} × {DIM.h} · {formatCaption}
       </div>
 
-      {/* Sync panel mounts in Task 10. */}
-      {showTweaks && <TweaksPanel tweaks={tweaks} setTweak={setTweak} storagePicker={null} />}
+      {showSync &&
+      <SyncPanel
+        stories={initialStories}
+        rates={initialRates}
+        commodities={initialCommodities}
+        onApply={applyMany}
+        onClose={() => setShowSync(false)}
+      />
+      }
+
+      {showTweaks &&
+      <TweaksPanel
+        tweaks={tweaks}
+        setTweak={setTweak}
+        storagePicker={
+          <StoragePicker onSelect={(url) => setTweak(IMAGE_SLOTS[format].key, url)} />
+        }
+      />
+      }
     </div>
   );
 }

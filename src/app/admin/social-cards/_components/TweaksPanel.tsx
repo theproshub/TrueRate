@@ -2,7 +2,26 @@
 
 import { useId, useRef, type CSSProperties, type ReactNode } from 'react';
 import { FONT_SANS, FONT_MONO } from './templates/shared';
-import type { CardTweaks } from './templates/types';
+import type { CardTweaks, TemplateFormat } from './templates/types';
+
+/**
+ * Image slot for each template format — single source of truth for "which
+ * CardTweaks key holds this format's hero image". Exported so callers outside
+ * TweaksPanel (e.g. the studio wiring the StoragePicker) can resolve the
+ * current format's image key without duplicating this table.
+ */
+export const IMAGE_SLOTS = {
+  breaking: { key: 'breakingImage', posKey: 'breakingImagePosY', label: 'Breaking News' },
+  article: { key: 'articleImage', posKey: 'articleImagePosY', label: 'Article' },
+  quote: { key: 'quoteImage', posKey: 'quoteImagePosY', label: 'Quote / Portrait' },
+  stat: { key: 'statImage', posKey: 'statImagePosY', label: 'Big Stat' },
+  markets: { key: 'marketsImage', posKey: 'marketsImagePosY', label: 'Markets' },
+  rate: { key: 'rateImage', posKey: 'rateImagePosY', label: 'Daily Rate' },
+  event: { key: 'eventImage', posKey: 'eventImagePosY', label: 'Event' },
+  explainer: { key: 'explainerImage', posKey: 'explainerImagePosY', label: 'Explainer Cover' },
+  story: { key: 'storyImage', posKey: 'storyImagePosY', label: 'Story' },
+  cover: { key: 'coverImage', posKey: 'coverImagePosY', label: 'Video Cover' },
+} as const satisfies Record<TemplateFormat, { key: keyof CardTweaks; posKey: keyof CardTweaks; label: string }>;
 
 // Ported from design_handoff_admin_social_cards/tr_app.jsx:83 — no other consumer, so it
 // lives here rather than in templates/types.ts.
@@ -320,18 +339,7 @@ export default function TweaksPanel({ tweaks, setTweak, storagePicker }: TweaksP
   };
 
   // Image slot for the current template
-  const imageSlot = ({
-    breaking: { key: 'breakingImage', posKey: 'breakingImagePosY', label: 'Breaking News' },
-    article: { key: 'articleImage', posKey: 'articleImagePosY', label: 'Article' },
-    quote: { key: 'quoteImage', posKey: 'quoteImagePosY', label: 'Quote / Portrait' },
-    stat: { key: 'statImage', posKey: 'statImagePosY', label: 'Big Stat' },
-    markets: { key: 'marketsImage', posKey: 'marketsImagePosY', label: 'Markets' },
-    rate: { key: 'rateImage', posKey: 'rateImagePosY', label: 'Daily Rate' },
-    event: { key: 'eventImage', posKey: 'eventImagePosY', label: 'Event' },
-    explainer: { key: 'explainerImage', posKey: 'explainerImagePosY', label: 'Explainer Cover' },
-    story: { key: 'storyImage', posKey: 'storyImagePosY', label: 'Story' },
-    cover: { key: 'coverImage', posKey: 'coverImagePosY', label: 'Video Cover' },
-  } as const)[templateType];
+  const imageSlot = IMAGE_SLOTS[templateType];
 
   return (
     <div
