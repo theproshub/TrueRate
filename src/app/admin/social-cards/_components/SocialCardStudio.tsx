@@ -7,6 +7,7 @@ import type { StoryItem } from './prefill';
 import type { RatesPayload } from '../_actions';
 import { TR_TEMPLATES, templateSize } from './templates/registry';
 import type { TemplateFormat, TemplateVariant } from './templates/types';
+import TweaksPanel from './TweaksPanel';
 import { usePersistedTweaks } from './usePersistedTweaks';
 
 export interface StudioProps {
@@ -288,7 +289,8 @@ export default function SocialCardStudio(
         {DIM.w} × {DIM.h} · {formatCaption}
       </div>
 
-      {/* Tweaks / Sync panels mount in Tasks 9–10. */}
+      {/* Sync panel mounts in Task 10. */}
+      {showTweaks && <TweaksPanel tweaks={tweaks} setTweak={setTweak} storagePicker={null} />}
     </div>
   );
 }
