@@ -61,6 +61,12 @@ export default async function AdminLayout({
               Feed
             </Link>
             <Link
+              href="/admin/social-cards"
+              className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
+            >
+              Social Cards
+            </Link>
+            <Link
               href="/admin/security"
               className="whitespace-nowrap text-gray-500 transition-colors hover:text-gray-900 focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent-ink"
             >
