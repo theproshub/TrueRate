@@ -53,7 +53,7 @@ export function ArticleBroadsheet({ data }: { data: CardTweaks }) {
       background: '#fff', fontFamily: FONT_SANS
     }}>
       {/* Top — full photo */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 870 }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 840 }}>
         <PhotoPlaceholder variant="tech" label="Feature photo" imageUrl={data.articleImage} objectPosition={`center ${data.articleImagePosY ?? 30}%`} bw={data.bwPhoto} />
         {/* Gradient bottom */}
         <div style={{
@@ -78,7 +78,7 @@ export function ArticleBroadsheet({ data }: { data: CardTweaks }) {
 
       {/* Bottom white — excerpt + category meta */}
       <div style={{
-        position: 'absolute', top: 870, left: 0, right: 0, bottom: 0,
+        position: 'absolute', top: 840, left: 0, right: 0, bottom: 0,
         background: C.paper,
         padding: '40px 44px',
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between'

@@ -14,7 +14,7 @@ export function BreakingBroadsheet({ data }: { data: CardTweaks }) {
       background: '#fff', fontFamily: FONT_SANS, color: C.navy
     }}>
       {/* Top image half */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 760 }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 840 }}>
         <PhotoPlaceholder variant="finance" label="News photo" imageUrl={data.breakingImage} objectPosition={`center ${data.breakingImagePosY ?? 50}%`} bw={data.bwPhoto} />
         {/* Category chip */}
         <div style={{
@@ -28,7 +28,7 @@ export function BreakingBroadsheet({ data }: { data: CardTweaks }) {
 
       {/* Bottom text half */}
       <div style={{
-        position: 'absolute', top: 760, left: 0, right: 0, bottom: 0,
+        position: 'absolute', top: 840, left: 0, right: 0, bottom: 0,
         padding: '48px 48px 40px',
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
       }}>

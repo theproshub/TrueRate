@@ -28,7 +28,7 @@ export const TR_TEMPLATES: Record<TemplateFormat, TemplateEntry> = {
   event: { terminal: EventTerminal, broadsheet: EventBroadsheet, label: 'Event' },
   explainer: { terminal: ExplainerTerminal, broadsheet: ExplainerBroadsheet, label: 'Explainer' },
   story: { terminal: StoryTerminal, broadsheet: StoryBroadsheet, label: 'Story', size: { w: 1080, h: 1920 } },
-  cover: { terminal: CoverTerminal, broadsheet: CoverBroadsheet, label: 'Video Cover', size: { w: 1920, h: 1080 } },
+  cover: { terminal: CoverTerminal, broadsheet: CoverBroadsheet, label: 'Video Cover', size: { w: 1080, h: 1920 } },
 };
 
 export function templateSize(format: TemplateFormat): { w: number; h: number } {

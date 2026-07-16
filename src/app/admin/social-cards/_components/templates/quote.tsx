@@ -87,7 +87,7 @@ export function QuoteBroadsheet({ data }: { data: CardTweaks }) {
       background: C.paper, fontFamily: FONT_SANS, color: C.navy
     }}>
       {/* Top photo */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 760 }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 840 }}>
         <PhotoPlaceholder variant="portrait" label="Subject portrait" imageUrl={data.quoteImage} objectPosition={`center ${data.quoteImagePosY ?? 20}%`} bw={data.bwPhoto} />
         <div style={{
           position: 'absolute', inset: 0,
@@ -98,7 +98,7 @@ export function QuoteBroadsheet({ data }: { data: CardTweaks }) {
 
       {/* Quote below */}
       <div style={{
-        position: 'absolute', top: 760, left: 0, right: 0, bottom: 0,
+        position: 'absolute', top: 840, left: 0, right: 0, bottom: 0,
         padding: '40px 48px 44px',
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
       }}>

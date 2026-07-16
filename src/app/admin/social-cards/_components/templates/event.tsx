@@ -31,7 +31,7 @@ export function EventTerminal({ data }: { data: CardTweaks }) {
         {/* Details rows */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 8 }}>
           {[
-            data.eventDate && `${data.eventDate}  ·  ${data.eventTime}`,
+            data.eventDate && (data.eventTime ? `${data.eventDate}  ·  ${data.eventTime}` : data.eventDate),
             data.eventVenue
           ].filter(Boolean).map((row, i) =>
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -55,7 +55,7 @@ export function EventBroadsheet({ data }: { data: CardTweaks }) {
       width: 1080, height: 1350, position: 'relative', overflow: 'hidden',
       background: C.paper, fontFamily: FONT_SANS, color: C.navy
     }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 700 }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 840 }}>
         <PhotoPlaceholder variant="finance" label="Event image" imageUrl={data.eventImage} objectPosition={`center ${data.eventImagePosY ?? 50}%`} bw={data.bwPhoto} />
         <div style={{ position: 'absolute', top: 44, right: 48, zIndex: 10 }}>
           <TrueRateMark color={C.lime} size={64} />
@@ -66,7 +66,7 @@ export function EventBroadsheet({ data }: { data: CardTweaks }) {
       </div>
 
       <div style={{
-        position: 'absolute', top: 700, left: 0, right: 0, bottom: 0,
+        position: 'absolute', top: 840, left: 0, right: 0, bottom: 0,
         padding: '44px 48px 40px', display: 'flex', flexDirection: 'column'
       }}>
         <AutoFitHeadline text={data.eventTitle} maxSize={64} minSize={42} maxLines={3}
@@ -74,7 +74,7 @@ export function EventBroadsheet({ data }: { data: CardTweaks }) {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {[
-            data.eventDate && `${data.eventDate}  ·  ${data.eventTime}`,
+            data.eventDate && (data.eventTime ? `${data.eventDate}  ·  ${data.eventTime}` : data.eventDate),
             data.eventVenue
           ].filter(Boolean).map((row, i) =>
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

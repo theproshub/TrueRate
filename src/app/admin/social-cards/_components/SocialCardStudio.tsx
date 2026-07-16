@@ -106,7 +106,7 @@ export default function SocialCardStudio(
   const label = TR_TEMPLATES[format]?.label ?? format;
   const formatCaption =
     format === 'story' ? '9:16 Story · IG · WhatsApp · TikTok'
-      : format === 'cover' ? '16:9 · Video Thumbnail'
+      : format === 'cover' ? '9:16 · Vertical Video · Reels · TikTok · Shorts'
         : '4:5 Portrait · IG · FB · LinkedIn · X';
 
   return (

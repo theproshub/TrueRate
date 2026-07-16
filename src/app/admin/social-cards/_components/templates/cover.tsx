@@ -4,45 +4,48 @@ import type { CardTweaks } from './types';
 const C = TR_COLORS;
 
 // ═══════════════════════════════════════════════════════════
-// 10. VIDEO COVER — 1920×1080 thumbnail (YouTube / video posts)
+// 10. VIDEO COVER — 1080×1920 vertical (Reels / TikTok / Shorts)
 // ═══════════════════════════════════════════════════════════
 export function CoverTerminal({ data }: { data: CardTweaks }) {
   return (
     <div style={{
-      width: 1920, height: 1080, position: 'relative', overflow: 'hidden',
+      width: 1080, height: 1920, position: 'relative', overflow: 'hidden',
       background: C.navy, fontFamily: FONT_SANS, color: '#fff'
     }}>
+      {/* Full-bleed vertical photo */}
       <div style={{ position: 'absolute', inset: 0 }}>
         <PhotoPlaceholder variant="portrait" label="Cover image" imageUrl={data.coverImage} objectPosition={`center ${data.coverImagePosY ?? 30}%`} bw={data.bwPhoto} />
+        {/* Vertical scrim — legible header top, strong base for headline */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(90deg, rgba(6,14,20,0.95) 0%, rgba(6,14,20,0.75) 38%, rgba(6,14,20,0.1) 70%, rgba(6,14,20,0) 100%)'
+          background: 'linear-gradient(180deg, rgba(6,14,20,0.6) 0%, rgba(6,14,20,0.15) 24%, rgba(6,14,20,0.1) 46%, rgba(6,14,20,0.92) 100%)'
         }} />
       </div>
 
+      {/* Header — category + mark */}
       <div style={{
-        position: 'absolute', left: 80, top: 0, bottom: 0, width: 880, zIndex: 10,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center'
+        position: 'absolute', top: 64, left: 64, right: 64, zIndex: 10,
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
       }}>
-        <MonoChip style={{ alignSelf: 'flex-start', marginBottom: 34 }}>{data.category}</MonoChip>
-        <AutoFitHeadline text={data.coverTitle} maxSize={92} minSize={60} maxLines={4} styleOverrides={{ margin: '0 0 40px' }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          {/* play affordance */}
+        <MonoChip>{data.category}</MonoChip>
+        <TrueRateMark color={C.lime} size={64} />
+      </div>
+
+      {/* Headline + play CTA pinned to the base */}
+      <div style={{ position: 'absolute', left: 64, right: 64, bottom: 180, zIndex: 10 }}>
+        <AutoFitHeadline text={data.coverTitle} maxSize={100} minSize={60} maxLines={5} styleOverrides={{ margin: '0 0 44px' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
           <span style={{
-            width: 74, height: 74, background: C.lime, display: 'inline-flex',
+            width: 84, height: 84, background: C.lime, display: 'inline-flex',
             alignItems: 'center', justifyContent: 'center', flexShrink: 0
           }}>
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="#050d11"><path d="M8 5v14l11-7z" /></svg>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="#050d11"><path d="M8 5v14l11-7z" /></svg>
           </span>
           <span style={{
-            fontFamily: FONT_MONO, fontSize: 24,
+            fontFamily: FONT_MONO, fontSize: 26,
             letterSpacing: 2, textTransform: 'uppercase', color: '#fff'
           }}>Watch · truerateliberia.com</span>
         </div>
-      </div>
-
-      <div style={{ position: 'absolute', right: 80, bottom: 26, zIndex: 10 }}>
-        <TrueRateMark color={C.lime} size={64} />
       </div>
     </div>
   );
@@ -51,17 +54,24 @@ export function CoverTerminal({ data }: { data: CardTweaks }) {
 export function CoverBroadsheet({ data }: { data: CardTweaks }) {
   return (
     <div style={{
-      width: 1920, height: 1080, position: 'relative', overflow: 'hidden',
-      background: C.paper, fontFamily: FONT_SANS, color: C.navy,
-      display: 'grid', gridTemplateColumns: '820px 1fr'
+      width: 1080, height: 1920, position: 'relative', overflow: 'hidden',
+      background: C.paper, fontFamily: FONT_SANS, color: C.navy
     }}>
-      {/* Left panel */}
-      <div style={{ padding: '70px 70px 60px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-        <MonoChip style={{ alignSelf: 'flex-start' }}>{data.category}</MonoChip>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <AutoFitHeadline text={data.coverTitle} maxSize={80} minSize={52} maxLines={5}
-            styleOverrides={{ color: C.navy, margin: 0 }} />
+      {/* Top — tall vertical photo */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1180, overflow: 'hidden' }}>
+        <PhotoPlaceholder variant="portrait" label="Cover image" imageUrl={data.coverImage} objectPosition={`center ${data.coverImagePosY ?? 30}%`} bw={data.bwPhoto} />
+        <div style={{ position: 'absolute', bottom: 32, left: 48 }}>
+          <MonoChip>{data.category}</MonoChip>
         </div>
+      </div>
+
+      {/* Bottom paper panel — headline + watch CTA + mark */}
+      <div style={{
+        position: 'absolute', top: 1180, left: 0, right: 0, bottom: 0,
+        padding: '60px 64px 56px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
+      }}>
+        <AutoFitHeadline text={data.coverTitle} maxSize={80} minSize={52} maxLines={5}
+          styleOverrides={{ color: C.navy, margin: 0 }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <span style={{
@@ -79,10 +89,6 @@ export function CoverBroadsheet({ data }: { data: CardTweaks }) {
             <TrueRateMark color={C.navy} size={54} />
           </span>
         </div>
-      </div>
-      {/* Right image */}
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
-        <PhotoPlaceholder variant="portrait" label="Cover image" imageUrl={data.coverImage} objectPosition={`center ${data.coverImagePosY ?? 30}%`} bw={data.bwPhoto} />
       </div>
     </div>
   );
