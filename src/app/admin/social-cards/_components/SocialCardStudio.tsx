@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 import type { StoryItem } from './prefill';
@@ -58,6 +58,30 @@ export default function SocialCardStudio(
   const [showTweaks, setShowTweaks] = useState(false);
   const [showSync, setShowSync] = useState(false);
 
+  // Measure the actual preview area so the card scales to fit any viewport.
+  // Defaults to the desktop budget (560×700) so the first paint on large
+  // screens matches the pre-existing render before the observer runs.
+  const previewRef = useRef<HTMLDivElement | null>(null);
+  const [avail, setAvail] = useState<{ w: number; h: number }>({ w: 560, h: 700 });
+
+  useLayoutEffect(() => {
+    const el = previewRef.current;
+    if (!el) return;
+    const measure = () => {
+      const cs = getComputedStyle(el);
+      const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+      const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+      setAvail({
+        w: Math.max(0, el.clientWidth - padX),
+        h: Math.max(0, el.clientHeight - padY),
+      });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   // Escape closes whichever panel is open (HCI).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -71,7 +95,13 @@ export default function SocialCardStudio(
   const variant = (tweaks.variant === 'broadsheet' ? 'broadsheet' : 'terminal') as TemplateVariant;
   const Template = TR_TEMPLATES[format]?.[variant] ?? TR_TEMPLATES.breaking.terminal;
   const DIM = templateSize(format);
-  const SCALE = Math.min(560 / DIM.w, 700 / DIM.h);
+  // Reserve vertical room for the explainer slide-nav row that shares this container.
+  const reserveH = format === 'explainer' ? 64 : 0;
+  // Fit the card inside the measured area, capped at the desktop budget (560×700)
+  // so large screens are unchanged and phones shrink to fit instead of overflowing.
+  const maxW = Math.min(avail.w, 560);
+  const maxH = Math.min(avail.h - reserveH, 700);
+  const SCALE = Math.max(0.05, Math.min(maxW / DIM.w, maxH / DIM.h));
   const explainerSlide = Number(tweaks.explainerSlide) || 0;
   const label = TR_TEMPLATES[format]?.label ?? format;
   const formatCaption =
@@ -194,7 +224,7 @@ export default function SocialCardStudio(
       </div>
 
       {/* Preview */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '36px 20px', gap: 18 }}>
+      <div ref={previewRef} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '36px 20px', gap: 18, minWidth: 0, overflow: 'hidden' }}>
         <p className="sr-only">
           {`Preview of the ${label} card, ${DIM.w} by ${DIM.h} pixels.`}
         </p>
