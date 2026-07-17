@@ -47,7 +47,10 @@ When a statement is not verified, prefix it so the reader can see the gap:
 ## The hooks
 - `claim-guard` (Stop, advisory) — warns when a success/result claim (type 7) or an
   external URL (type 3) appears without matching evidence this turn.
-- `publish-guard` (PreToolUse, blocking) — denies a Claude-initiated publish unless a
-  fresh `number-lock` receipt exists for the article (type 1 gate).
+- `publish-guard` (PreToolUse, blocking) — a stop-and-confirm tripwire: denies running
+  the bulk article importer (`node … import-news-articles`) so a human confirms every
+  affected article passed `/number-lock` first (type 1 gate). It gates only the
+  importer command, since TrueRate publishes to the Supabase `articles` table, not to
+  `src/data/news.ts`.
 - `article-number-scan` (PostToolUse, advisory) — flags currency/percent figures
   added to `src/data/news.ts` that lack a period label (type 1).

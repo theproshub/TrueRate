@@ -18,9 +18,16 @@ for the general "don't claim done without evidence" case. Two gaps remain:
    invoke it. There are no hooks that catch fabrication or unverified claims
    automatically.
 
-This system fills both gaps with **one router skill + three hooks + one small
-extension to `number-lock`**. It composes existing gates rather than duplicating
-them.
+This system fills both gaps with **one router skill + three hooks**. It composes
+existing gates rather than duplicating them.
+
+> **Post-review amendment (2026-07-17).** The final whole-branch review found that
+> publish state does not live in `src/data/news.ts` (it is written to the Supabase
+> `articles` table by the bulk importer), so the originally-planned per-slug
+> `number-lock` *receipt gate* had no reachable path. `publish-guard` was reworked
+> into a stop-and-confirm tripwire on the bulk importer, the `news.ts` Edit/Write
+> detection and the receipt mechanism were dropped, and `number-lock` was left
+> unchanged. Sections below reflect the shipped design.
 
 ## Scope
 
@@ -28,8 +35,6 @@ them.
 - A new `anti-hallucination` skill (protocol + router).
 - Three Claude Code hooks (Stop, PreToolUse, PostToolUse) enforcing the discipline
   on Claude's own actions.
-- A minimal extension to `number-lock` so it persists a receipt file that a hook
-  can read.
 - Committed `.claude/settings.json` wiring the hooks for the whole team.
 
 ### Out of scope
@@ -39,8 +44,7 @@ them.
   guarding the UI button belongs in the app, not here. A future app-side task may
   add a server-action-level lock; this spec does not.
 - Rewriting or duplicating any existing verify skill. `number-lock`,
-  `verify-article`, `validate-data`, `fact-check` stay as they are (number-lock
-  gains one small write step).
+  `verify-article`, `validate-data`, `fact-check` stay exactly as they are.
 - Blocking behavior on the general claim-guard. It warns only (per decision below).
 
 ## Design decisions (settled during brainstorming)
@@ -50,8 +54,8 @@ them.
 | System shape | 1 router skill + 3 hooks (Approach 2, hooks-heavy) |
 | Stop hook strictness | Warn, non-blocking |
 | Hook location | Committed `.claude/settings.json` (team-wide), scripts in `.claude/hooks/` |
-| Publish-guard coverage | Claude-initiated publishes only; UI path out of scope |
-| Reuse vs new | Compose existing gates; only `number-lock` is extended |
+| Publish-guard coverage | Claude-initiated bulk importer only; UI path out of scope |
+| Reuse vs new | Compose existing gates; nothing existing is modified |
 
 ## Components
 
@@ -113,28 +117,35 @@ positives that trap the session. The exact Stop-hook JSON contract for a
 non-blocking advisory (systemMessage vs additionalContext vs stderr) is confirmed
 against current Claude Code hook docs at implementation time.
 
-### 3. Hook: `publish-guard.mjs` (PreToolUse, hard block)
+### 3. Hook: `publish-guard.mjs` (PreToolUse, stop-and-confirm tripwire)
 
 **File:** `.claude/hooks/publish-guard.mjs`
-**Event:** `PreToolUse` (matchers: `Bash`, `Edit`, `Write`)
+**Event:** `PreToolUse` (matcher: `Bash|Edit|Write` — but only `Bash` is acted on)
+
+**Publish reality (corrected after review):** TrueRate does not carry publish state
+in `src/data/news.ts` — that file is the read-only fallback seed and has no `status`
+or `slug` fields. Articles are published by writing `status: 'published'` to the
+Supabase `articles` table, done either by the bulk importer
+`scripts/import-news-articles.mjs` or by the admin-UI server actions in
+`src/app/admin/articles/_actions.ts`. A Claude Code hook can only intercept Claude's
+own tool calls, so the only Claude-initiated publish it can gate is *running the bulk
+importer*. There is no per-article publish command, so a per-slug `number-lock`
+receipt cannot be machine-verified here — hence a tripwire, not a receipt gate.
 
 **Behavior:**
 1. Reads the pending tool call from stdin.
-2. **Recognises a Claude-initiated publish** when the tool call is:
-   - a Bash command invoking a publish path (`import-news-articles`, or
-     `node scripts/…` that sets articles to published), OR
-   - an Edit/Write that introduces `status: 'published'` (or `status = 'published'`)
-     into `src/data/news.ts` or a DB seed file.
-3. Extracts the target article slug from the command/diff where possible.
-4. Checks for a **fresh `number-lock` receipt** at
-   `.claude/state/number-lock/<slug>.json` (present, matching slug, recent).
-5. If no valid receipt → **denies** the tool call (`permissionDecision: deny`) with
-   a reason: "Run `/number-lock <slug>` before publishing." If a valid receipt
-   exists → allows.
-6. Non-publish tool calls pass through untouched (fast exit).
+2. `isPublishCommand(toolName, input)` returns true iff the tool is `Bash` AND the
+   command both invokes a JS runner (`node`) AND names a publish-y target
+   (`import-news-articles`, or a `*publish*.{mjs,js,ts}` script). Requiring both a
+   runner and a target means inspecting the script (`cat`/`grep`/`git log`/a commit
+   message mentioning it) is **not** flagged — the review found the earlier
+   substring match blocked benign commands.
+3. If it is a publish command → **denies** (`permissionDecision: deny`) with a
+   stop-and-confirm reason telling the human to confirm every affected article passed
+   `/number-lock` first. Everything else passes through untouched (fast exit).
 
-**Boundary:** covers only Claude-initiated publishes. The admin-UI server action is
-out of scope (see Scope).
+**Boundary:** covers only the Claude-initiated bulk importer. The admin-UI server
+action and any future per-article publish path are out of scope (see Scope).
 
 ### 4. Hook: `article-number-scan.mjs` (PostToolUse, advisory)
 
@@ -151,24 +162,17 @@ out of scope (see Scope).
    reminder: confirm each figure came from an `article_data_sheet` and carries a
    period label. Does not block.
 
-### 5. `number-lock` extension
+### 5. `number-lock` (unchanged after review)
 
-**File:** `.claude/skills/number-lock.md` (edit)
+**File:** `.claude/skills/number-lock.md`
 
-Add a **Step 5 — Persist the receipt**: on a successful lock, write
-`.claude/state/number-lock/<slug>.json` containing:
-
-```json
-{
-  "slug": "<article-slug>",
-  "issued_at": "<ISO timestamp>",
-  "figures": [{ "claim_text": "...", "mnemonic": "...", "db_value": 0, "match": "EXACT" }],
-  "integrity_score": "N/N"
-}
-```
-
-This is the artifact `publish-guard` reads. The printed certificate is unchanged;
-this only adds a persisted copy. A denied lock writes nothing.
+The original design added a receipt file for `publish-guard` to read. After review,
+`publish-guard` became a tripwire that cannot machine-verify a per-article receipt
+(there is no per-article publish command — see §3), so the receipt had no consumer
+and was dropped. `number-lock` is left as-is: it prints its audit certificate; the
+discipline it enforces is what `publish-guard`'s deny message points the human back
+to. (`number-lock.md` is a local, git-ignored skill file, so this is not part of the
+committed diff.)
 
 ### 6. Wiring: `.claude/settings.json`
 
@@ -178,8 +182,7 @@ Create a committed `.claude/settings.json` registering the three hooks:
 - `PreToolUse` (Bash, Edit, Write) → `publish-guard.mjs`
 - `PostToolUse` (Edit, Write) → `article-number-scan.mjs`
 
-`.claude/settings.local.json` (untracked, per-user) is left as-is. `.claude/state/`
-is git-ignored (receipts are per-checkout artifacts).
+`.claude/settings.local.json` (untracked, per-user) is left as-is.
 
 ## Data flow
 
@@ -188,48 +191,50 @@ Write article ──> article_data_sheet / verify_article_data (numbers grounded
       │
       ├─ Edit src/data/news.ts ──> [PostToolUse] article-number-scan → advisory on unlabelled figures
       │
-      /number-lock <slug> ──> writes .claude/state/number-lock/<slug>.json
-      │
-      ├─ Claude publishes (script / seed edit) ──> [PreToolUse] publish-guard
-      │        └─ receipt present? allow : deny "run /number-lock first"
+      ├─ Claude runs the bulk importer (node … import-news-articles) ──> [PreToolUse] publish-guard
+      │        └─ deny "confirm every article passed /number-lock first"
       │
    End of turn ──> [Stop] claim-guard → reminder if a success/citation claim is ungrounded
 ```
 
 ## Testing
 
-Each hook is a small, pure Node script: read JSON from stdin, write JSON/exit code.
-Build test-first (`superpowers:test-driven-development`):
+Each hook is a thin Node runner over a pure function: read JSON from stdin, write
+JSON/exit code. Build test-first (`superpowers:test-driven-development`):
 
 - **claim-guard:** fixtures for (a) grounded success claim → silent, (b) ungrounded
   "tests pass" → reminder, (c) ungrounded external URL → reminder, (d) no claims →
   silent. Assert it never sets a blocking decision.
-- **publish-guard:** fixtures for (a) publish Bash with valid receipt → allow,
-  (b) publish Bash without receipt → deny, (c) Edit introducing `status:'published'`
-  without receipt → deny, (d) unrelated Bash/Edit → allow. Assert slug extraction.
-- **article-number-scan:** fixtures for (a) unlabelled `US$5M` added → advisory,
-  (b) figure with period label → silent, (c) edit to unrelated file → silent.
+- **publish-guard:** unit fixtures for `isPublishCommand` — (a) `node … import-news-articles`
+  → true, (b) `cat`/`grep`/commit message mentioning the importer → false, (c) an
+  Edit/Write tool → false (only Bash is gated), (d) unrelated Bash → false — plus a
+  runner-level integration test (deny JSON on the importer, empty on an unrelated
+  command).
+- **article-number-scan:** fixtures for (a) unlabelled `US$304M` added → advisory,
+  (b) figure with a month/quarter period label → silent, (c) figure whose only nearby
+  date is a bare year → advisory, (d) edit to an unrelated file → silent.
 
-Skill and settings wiring verified manually (trigger check + a real publish attempt
-that gets blocked, then unblocked after `/number-lock`).
+Skill and settings wiring verified manually (trigger check + a real importer command
+that gets denied).
 
 ## Risks / trade-offs
 
 - **Heuristic hooks have false positives/negatives.** Mitigated by making claim-guard
-  and article-number-scan advisory-only; only publish-guard blocks, and it blocks on
-  a precise textual signal (`status: 'published'` / known script names).
-- **Stop-hook contract drift.** The exact non-blocking-advisory mechanism is
-  confirmed against current Claude Code docs during implementation.
-- **Slug extraction may miss unusual publish commands.** publish-guard fails
-  *closed* only for recognised publish signals; anything it can't parse as a publish
-  passes through (it is a tripwire, not a firewall — the UI path already sits
-  outside it).
+  and article-number-scan advisory-only; only publish-guard blocks, and it blocks
+  only when a command both invokes `node` and names a publish-y script — so inspecting
+  the importer is never blocked.
+- **Stop-hook contract:** the non-blocking-advisory mechanism (`systemMessage` +
+  `hookSpecificOutput.additionalContext`, exit 0) is confirmed against current Claude
+  Code hook docs.
+- **publish-guard is a tripwire, not a firewall.** It denies the one Claude-initiated
+  publish path it can see (the bulk importer); the admin-UI publish and any future
+  per-article publish command sit outside it and are gated in the app, not here.
 
 ## Success criteria
 
 1. Typing `/anti-hallucination` (or a trigger phrase) surfaces the taxonomy + routing.
-2. A `number-lock` run leaves a receipt file; a subsequent Claude-initiated publish
-   of that slug is allowed, and one without a receipt is denied with a clear reason.
+2. Running the bulk importer (`node … import-news-articles`) is denied with a
+   stop-and-confirm reason; inspecting the importer (`cat`/`grep`) is not blocked.
 3. An ungrounded "tests pass"/"deployed" claim at end of turn produces a reminder;
    a grounded one does not.
 4. Adding an unlabelled currency figure to `news.ts` produces an advisory.

@@ -920,3 +920,29 @@ git commit -m "feat(hooks): wire anti-hallucination hooks in committed settings.
 **Placeholder scan:** none — every step has real code/commands and expected output.
 
 **Type consistency:** `evaluate(entries)→string[]`, `detectPublish(toolName,input)→{isPublish,slug}`, `decide(det,lookup,now?,maxAgeMs?)→{deny,reason?}`, `lookup(slug)→{valid,issuedAt?}`, `scan(text)→string[]`, and `hook-io` exports are used identically in runners and tests. Receipt shape (`slug`, `issued_at` ISO) is written by number-lock (Task 5 Step 6) and read by the publish-guard runner (Task 5 Step 5) consistently.
+
+---
+
+## Post-review amendment (2026-07-17)
+
+The final whole-branch review found that Task 5's premise was wrong: publish state
+does not live in `src/data/news.ts` (the fallback seed has no `status`/`slug`
+fields) — TrueRate publishes to the Supabase `articles` table via the bulk importer
+`scripts/import-news-articles.mjs`. Consequences and the applied fix (commit
+`f7b204b`):
+
+- **publish-guard reworked into a tripwire.** `detectPublish`/`decide`/`lookup` were
+  replaced by `isPublishCommand(toolName, input) -> boolean` (true iff a `Bash`
+  command both invokes `node` and names a publish-y target). The runner denies such
+  commands with a stop-and-confirm `DENY_REASON`; there is no receipt lookup, slug
+  extraction, or `news.ts` Edit/Write detection. This also fixed the review's #1
+  (the old substring regex blocked benign `cat`/`grep`/`git` commands).
+- **number-lock left unchanged.** Task 5 Step 6's receipt-writing step was dropped —
+  with no reachable allow-path, the receipt had no consumer. (`number-lock.md` is a
+  local git-ignored skill file and never entered the committed diff.)
+- **article-number-scan period regex tightened** to require a month/quarter label
+  (bare year no longer counts), reducing false negatives.
+- **Tests** now include a runner-level integration test for publish-guard.
+
+Tasks 1-4, 6, 7 stand as written. The shipped design is described in the updated
+design spec (`…-design.md`).
