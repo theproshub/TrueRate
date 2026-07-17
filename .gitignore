@@ -40,5 +40,12 @@ supabase/.branches/
 *.tsbuildinfo
 next-env.d.ts
 
-# claude worktrees
-.claude/
+# claude local dir — ignore everything except the committed anti-hallucination system
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/anti-hallucination.md
+.claude/state/
+.claude/worktrees/
