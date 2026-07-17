@@ -1,55 +1,49 @@
-import { detectPublish, decide } from './publish-guard.mjs';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import { isPublishCommand, DENY_REASON } from './publish-guard.mjs';
 
-describe('detectPublish', () => {
-  it('flags the import-news-articles script as a bulk publish', () => {
-    const d = detectPublish('Bash', { command: 'node scripts/import-news-articles.mjs' });
-    expect(d).toEqual({ isPublish: true, slug: null });
+const RUNNER = join(dirname(fileURLToPath(import.meta.url)), '..', 'publish-guard.mjs');
+function runHook(payload) {
+  return execFileSync('node', [RUNNER], { input: JSON.stringify(payload), encoding: 'utf8' });
+}
+
+describe('isPublishCommand', () => {
+  it('flags running the bulk importer with node', () => {
+    expect(isPublishCommand('Bash', { command: 'node scripts/import-news-articles.mjs' })).toBe(true);
   });
-
-  it('extracts a slug from a --slug flag', () => {
-    const d = detectPublish('Bash', { command: 'node scripts/publish-one.mjs --slug my-story' });
-    expect(d).toEqual({ isPublish: true, slug: 'my-story' });
+  it('flags running the importer with env-file flags', () => {
+    expect(isPublishCommand('Bash', { command: 'node --env-file=.env.local scripts/import-news-articles.mjs' })).toBe(true);
   });
-
-  it('flags an Edit that introduces status: published into news.ts', () => {
-    const d = detectPublish('Edit', {
-      file_path: '/repo/src/data/news.ts',
-      new_string: "{ slug: 'cement-output-rises', status: 'published' }",
-    });
-    expect(d).toEqual({ isPublish: true, slug: 'cement-output-rises' });
+  it('flags running a *publish*.mjs script with node', () => {
+    expect(isPublishCommand('Bash', { command: 'node scripts/publish-feed.mjs' })).toBe(true);
   });
-
-  it('ignores an unrelated Bash command', () => {
-    expect(detectPublish('Bash', { command: 'ls -la' })).toEqual({ isPublish: false, slug: null });
+  it('does NOT flag inspecting the importer with cat', () => {
+    expect(isPublishCommand('Bash', { command: 'cat scripts/import-news-articles.mjs' })).toBe(false);
   });
-
-  it('ignores a news.ts edit that does not publish', () => {
-    const d = detectPublish('Edit', { file_path: '/repo/src/data/news.ts', new_string: "status: 'draft'" });
-    expect(d).toEqual({ isPublish: false, slug: null });
+  it('does NOT flag grep of the importer', () => {
+    expect(isPublishCommand('Bash', { command: 'grep -n published scripts/import-news-articles.mjs' })).toBe(false);
+  });
+  it('does NOT flag a commit message mentioning the importer', () => {
+    expect(isPublishCommand('Bash', { command: 'git commit -m "refactor import-news-articles"' })).toBe(false);
+  });
+  it('does NOT flag Edit/Write tools (only Bash is gated)', () => {
+    expect(isPublishCommand('Edit', { file_path: 'src/data/news.ts', new_string: "status: 'published'" })).toBe(false);
+  });
+  it('does NOT flag an unrelated command', () => {
+    expect(isPublishCommand('Bash', { command: 'ls -la' })).toBe(false);
   });
 });
 
-describe('decide', () => {
-  const fresh = () => ({ valid: true, issuedAt: Date.now() });
-  it('allows a non-publish call', () => {
-    expect(decide({ isPublish: false, slug: null }, () => ({ valid: false }))).toEqual({ deny: false });
+describe('publish-guard runner (integration)', () => {
+  it('denies when the bulk importer is run', () => {
+    const out = runHook({ tool_name: 'Bash', tool_input: { command: 'node scripts/import-news-articles.mjs' } });
+    const parsed = JSON.parse(out);
+    expect(parsed.hookSpecificOutput.permissionDecision).toBe('deny');
+    expect(parsed.hookSpecificOutput.permissionDecisionReason).toBe(DENY_REASON);
   });
-  it('denies a bulk publish (no slug)', () => {
-    const r = decide({ isPublish: true, slug: null }, () => fresh());
-    expect(r.deny).toBe(true);
-  });
-  it('denies when no receipt exists', () => {
-    const r = decide({ isPublish: true, slug: 'x' }, () => ({ valid: false }));
-    expect(r.deny).toBe(true);
-    expect(r.reason).toMatch(/number-lock x/);
-  });
-  it('allows when a fresh receipt exists', () => {
-    expect(decide({ isPublish: true, slug: 'x' }, () => fresh())).toEqual({ deny: false });
-  });
-  it('denies when the receipt is stale (>24h)', () => {
-    const stale = { valid: true, issuedAt: Date.now() - 25 * 3600 * 1000 };
-    const r = decide({ isPublish: true, slug: 'x' }, () => stale);
-    expect(r.deny).toBe(true);
-    expect(r.reason).toMatch(/stale/);
+  it('emits nothing (allow) for an unrelated command', () => {
+    const out = runHook({ tool_name: 'Bash', tool_input: { command: 'ls -la' } });
+    expect(out.trim()).toBe('');
   });
 });

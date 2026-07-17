@@ -2,7 +2,7 @@ const MONEY_RE =
   /(?:US\$|L\$|\$)\s?\d[\d,]*(?:\.\d+)?(?:\s?(?:million|billion|thousand|bn|MT|metric tons))?/gi;
 const PCT_RE = /\b\d[\d,]*(?:\.\d+)?\s?(?:percent|%)/gi;
 const PERIOD_RE =
-  /\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\s]?(?:20)?\d{2}\b|\bQ[1-4][-\s]?20\d{2}\b|\b(?:19|20)\d{2}\b/i;
+  /\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[-\s]?(?:20)?\d{2}\b|\bQ[1-4][-\s]?20\d{2}\b/i;
 
 export function scan(text) {
   if (!text) return [];

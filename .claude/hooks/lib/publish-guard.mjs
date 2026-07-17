@@ -1,50 +1,23 @@
-const PUBLISH_CMD_RE = /(import-news-articles|scripts\/[\w-]*publish[\w-]*)/i;
-const STATUS_PUBLISHED_RE = /status\s*[:=]\s*['"]published['"]/;
-const SLUG_RE = /slug\s*[:=]\s*['"]([a-z0-9-]+)['"]/i;
-const CMD_SLUG_RE = /--slug[= ]([a-z0-9-]+)/i;
-const DEFAULT_MAX_AGE_MS = 24 * 3600 * 1000;
+// publish-guard: a stop-and-confirm tripwire on Claude-initiated bulk article
+// publishes. TrueRate publishes by running the bulk importer
+// (scripts/import-news-articles.mjs), which writes status:'published' to the
+// Supabase `articles` table — NOT to src/data/news.ts (the fallback seed has
+// no status/slug fields). Because the importer publishes many articles at once
+// with no per-article slug, this hook cannot verify a per-article number-lock;
+// it denies the command so a human confirms every article was number-locked
+// first. Heuristic: a JS runner (`node`) AND a publish-y script target must
+// both appear, so inspecting the script (cat/grep/git log) is not blocked.
 
-export function detectPublish(toolName, input = {}) {
-  if (toolName === 'Bash') {
-    const cmd = input.command || '';
-    if (PUBLISH_CMD_RE.test(cmd)) {
-      const m = cmd.match(CMD_SLUG_RE);
-      return { isPublish: true, slug: m ? m[1] : null };
-    }
-    return { isPublish: false, slug: null };
-  }
-  if (toolName === 'Edit' || toolName === 'Write') {
-    const fp = input.file_path || '';
-    if (!/news\.ts$/.test(fp)) return { isPublish: false, slug: null };
-    const text = input.new_string ?? input.content ?? '';
-    if (!STATUS_PUBLISHED_RE.test(text)) return { isPublish: false, slug: null };
-    const m = text.match(SLUG_RE);
-    return { isPublish: true, slug: m ? m[1] : null };
-  }
-  return { isPublish: false, slug: null };
+const RUNNER_RE = /\bnode\b/i;
+const PUBLISH_TARGET_RE = /(?:import-news-articles|[\w./-]*publish[\w./-]*\.(?:mjs|js|ts))/i;
+
+export function isPublishCommand(toolName, input = {}) {
+  if (toolName !== 'Bash') return false;
+  const cmd = input.command || '';
+  return RUNNER_RE.test(cmd) && PUBLISH_TARGET_RE.test(cmd);
 }
 
-export function decide(det, lookup, now = Date.now(), maxAgeMs = DEFAULT_MAX_AGE_MS) {
-  if (!det.isPublish) return { deny: false };
-  if (!det.slug) {
-    return {
-      deny: true,
-      reason:
-        'Bulk/unattributed publish detected. Run /number-lock <slug> and publish articles individually so every figure is verified (anti-hallucination publish-guard, type 1).',
-    };
-  }
-  const r = lookup(det.slug);
-  if (!r || !r.valid) {
-    return {
-      deny: true,
-      reason: `No number-lock receipt for "${det.slug}". Run /number-lock ${det.slug} before publishing (anti-hallucination publish-guard, type 1).`,
-    };
-  }
-  if (now - r.issuedAt > maxAgeMs) {
-    return {
-      deny: true,
-      reason: `number-lock receipt for "${det.slug}" is stale (>24h). Re-run /number-lock ${det.slug} (anti-hallucination publish-guard, type 1).`,
-    };
-  }
-  return { deny: false };
-}
+export const DENY_REASON =
+  'Bulk article publish detected. Before publishing, confirm every affected ' +
+  'article has passed /number-lock with its figures verified against the CBL ' +
+  'warehouse. Stop-and-confirm gate — anti-hallucination publish-guard (type 1).';

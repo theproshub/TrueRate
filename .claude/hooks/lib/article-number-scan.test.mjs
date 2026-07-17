@@ -26,4 +26,8 @@ describe('article-number-scan scan', () => {
     const f = scan('L$500,000 here and L$500,000 there.');
     expect(f).toEqual(['L$500,000']);
   });
+
+  it('flags a figure whose only nearby date is a bare year', () => {
+    expect(scan('Revenue was US$304 million in 2026.')).toContain('US$304 million');
+  });
 });
