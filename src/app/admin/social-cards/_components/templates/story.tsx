@@ -36,16 +36,11 @@ function StoryCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
         <AutoFitHeadline text={data.headline} maxSize={92} minSize={60} maxLines={5} styleOverrides={{ margin: 0 }} />
       </div>
 
-      {/* Bottom CTA */}
+      {/* Bottom CTA — no source line on photo-led cards */}
       <div style={{
         position: 'absolute', left: 56, right: 56, bottom: 140, zIndex: 10,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+        display: 'flex', justifyContent: 'flex-end', alignItems: 'center'
       }}>
-        <span style={{
-          fontFamily: FONT_SANS, textTransform: 'uppercase',
-          color: '#fff', lineHeight: 1, whiteSpace: 'nowrap',
-          fontSize: '30px', fontWeight: '400'
-        }}>{data.creditLine ? data.creditLine.toUpperCase() : ''}</span>
         <span style={{
           fontFamily: FONT_MONO, fontSize: 24,
           letterSpacing: 2, textTransform: 'uppercase',

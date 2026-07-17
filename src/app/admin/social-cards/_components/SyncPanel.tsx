@@ -250,14 +250,14 @@ export default function SyncPanel({ stories, rates, commodities, indicators, onA
         </ul>
       </SyncSection>
 
-      <SyncSection title="Latest Stories" last>
+      <SyncSection title={`Articles (${storyList.length})`} last>
         {storyList.length === 0 &&
         <p style={{ fontSize: 12, color: 'rgba(243,244,244,0.55)', lineHeight: 1.5 }}>
           No published stories returned.
         </p>
         }
         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-          {storyList.slice(0, 12).map((s) => (
+          {storyList.map((s) => (
             <li key={s.slug} style={{ marginBottom: 6 }}>
               <button
                 type="button"

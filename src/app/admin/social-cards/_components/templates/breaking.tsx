@@ -1,4 +1,4 @@
-import { AutoFitHeadline, PhotoPlaceholder, TrueRateMark, TR_COLORS, FONT_SANS, FONT_MONO } from './shared';
+import { AutoFitHeadline, PhotoPlaceholder, TrueRateMark, TR_COLORS, FONT_SANS, FONT_MONO, sectionColor } from './shared';
 import type { CardTweaks } from './types';
 
 const C = TR_COLORS;
@@ -16,10 +16,10 @@ export function BreakingBroadsheet({ data }: { data: CardTweaks }) {
       {/* Top image half */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 840 }}>
         <PhotoPlaceholder variant="finance" label="News photo" imageUrl={data.breakingImage} objectPosition={`center ${data.breakingImagePosY ?? 50}%`} bw={data.bwPhoto} />
-        {/* Category chip */}
+        {/* Category chip — section color signals the vertical (Bloomberg-style) */}
         <div style={{
           position: 'absolute', bottom: 28, left: 44, zIndex: 10,
-          background: C.lime, color: C.navy,
+          background: sectionColor(data.category), color: '#fff',
           padding: '12px 22px',
           fontFamily: FONT_MONO,
           fontSize: 22, letterSpacing: 3, textTransform: 'uppercase', fontWeight: 700
@@ -82,7 +82,7 @@ export function BreakingTerminal({ data }: { data: CardTweaks }) {
         letterSpacing: 4, textTransform: 'uppercase',
         color: '#fff', fontWeight: 700, fontSize: "24px"
       }}>
-        BREAKING · {data.category}
+        BREAKING · <span style={{ color: sectionColor(data.category) }}>{data.category}</span>
       </div>
 
       {/* Headline — Yahoo Finance style: huge, bottom-left */}
@@ -90,19 +90,12 @@ export function BreakingTerminal({ data }: { data: CardTweaks }) {
         <AutoFitHeadline text={data.headline} styleOverrides={{ margin: 0 }} />
       </div>
 
-      {/* Bottom — subtle subtext + brand */}
+      {/* Bottom — brand mark only (no source line on photo-led cards) */}
       <div style={{
         position: 'absolute', left: 48, right: 48, bottom: 28,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        display: 'flex', justifyContent: 'flex-end', alignItems: 'center',
         zIndex: 10
       }}>
-        <span style={{
-          fontFamily: FONT_SANS,
-          letterSpacing: 0.5, textTransform: 'uppercase',
-          color: '#fff',
-          display: 'block', lineHeight: 1,
-          whiteSpace: 'nowrap', fontSize: "30px", fontWeight: "400"
-        }}>{data.creditLine ? data.creditLine.toUpperCase() : ''}</span>
         <span style={{ display: 'block', lineHeight: 0, marginBottom: 0 }}>
           <TrueRateMark color={C.lime} size={64} />
         </span>

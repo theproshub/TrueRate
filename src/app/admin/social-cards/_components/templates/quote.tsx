@@ -60,18 +60,11 @@ export function QuoteTerminal({ data }: { data: CardTweaks }) {
         }
       </div>
 
-      {/* Footer — photo credit bottom-left, logo bottom-right */}
+      {/* Footer — logo bottom-right (no source line on photo-led cards) */}
       <div style={{
         position: 'absolute', left: 48, right: 48, bottom: 28, zIndex: 10,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+        display: 'flex', justifyContent: 'flex-end', alignItems: 'center'
       }}>
-        <span style={{
-          fontFamily: FONT_SANS,
-          letterSpacing: 0.5, textTransform: 'uppercase',
-          color: '#fff',
-          display: 'block', lineHeight: 1,
-          whiteSpace: 'nowrap', fontSize: "30px", fontWeight: "400"
-        }}>{data.creditLine ? data.creditLine.toUpperCase() : ''}</span>
         <span style={{ display: 'block', lineHeight: 0, marginBottom: 0 }}>
           <TrueRateMark color={C.lime} size={64} />
         </span>

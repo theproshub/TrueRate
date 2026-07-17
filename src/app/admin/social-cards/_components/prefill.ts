@@ -17,7 +17,11 @@ export const TR_CAT_MAP: Record<string, string> = {
   economy: 'Economy', markets: 'Markets', business: 'Business',
   technology: 'Technology', analytics: 'Analytics', news: 'News',
   videos: 'Videos', finance: 'Markets', policy: 'Economy',
-  banking: 'Markets', investing: 'Markets', commodities: 'Markets', forex: 'Markets',
+  banking: 'Banking', commodities: 'Commodities', forex: 'Forex',
+  investing: 'Markets', // no dedicated chip — closest umbrella
+  // Site sections that don't have a dedicated chip: analysis reads as Analytics,
+  // startups group under Technology. Without these, both fell back to 'News'.
+  analysis: 'Analytics', startups: 'Technology',
 };
 
 const LONG_DATE = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });

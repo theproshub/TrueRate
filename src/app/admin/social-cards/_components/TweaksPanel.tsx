@@ -25,7 +25,7 @@ export const IMAGE_SLOTS = {
 
 // Ported from design_handoff_admin_social_cards/tr_app.jsx:83 — no other consumer, so it
 // lives here rather than in templates/types.ts.
-const CATEGORIES = ['News', 'Markets', 'Economy', 'Analytics', 'Business', 'Technology', 'Videos'] as const;
+const CATEGORIES = ['News', 'Markets', 'Banking', 'Forex', 'Commodities', 'Economy', 'Analytics', 'Business', 'Technology', 'Videos'] as const;
 
 const FOCUS_RING = 'focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:outline-none';
 
@@ -378,13 +378,6 @@ export default function TweaksPanel({ tweaks, setTweak, storagePicker }: TweaksP
           max={100}
           value={tweaks[imageSlot.posKey] ?? 50}
           onChange={(v) => setTweak(imageSlot.posKey, v)}
-        />
-        }
-        {(templateType === 'breaking' || templateType === 'article' || templateType === 'quote' || templateType === 'story') &&
-        <TwInput
-          label="Credit / source (optional)"
-          value={tweaks.creditLine}
-          onChange={(v) => setTweak('creditLine', v)}
         />
         }
       </TwSection>

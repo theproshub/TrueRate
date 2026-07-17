@@ -12,6 +12,32 @@ export const TR_COLORS = {
   red: '#e11b22', green: '#00a757',
 } as const;
 
+// Section accent colors for social cards. The studio's category dropdown is the
+// seven site sections (News, Markets, Economy, Analytics, Business, Technology,
+// Videos). Running them through the site's fine-grained getCatColor() palette
+// collides (Markets/Technology, Economy/Business) and leaves gaps, so each
+// section gets its own distinct, legible hue here — drawn from the same color
+// language. Used for the color-coded chip/eyebrow on section cards (breaking).
+// Lime stays reserved for brand.
+export const SECTION_HEX: Record<string, string> = {
+  news:        '#e11b22', // site red — urgent/breaking
+  markets:     '#0284c7', // sky-600
+  banking:     '#0d9488', // teal-600
+  forex:       '#0891b2', // cyan-600
+  commodities: '#b45309', // amber-700 — metals/gold
+  economy:     '#2563eb', // blue-600
+  business:    '#059669', // emerald-600
+  analytics:   '#9333ea', // purple-600
+  technology:  '#4f46e5', // indigo-600
+  videos:      '#db2777', // pink-600
+};
+
+// Resolve a category label to its section hex. Falls back to slate-600 (holds
+// white text) for any label outside the fixed dropdown.
+export function sectionColor(cat?: string): string {
+  return SECTION_HEX[(cat ?? '').trim().toLowerCase()] ?? '#475569';
+}
+
 const LOGO_SRC = '/logo-tight.png';
 
 // Auto-fit headline: shrinks font-size so the text fits within container width

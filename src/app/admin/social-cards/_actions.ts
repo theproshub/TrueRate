@@ -18,7 +18,8 @@ export interface RatesPayload {
   stale: boolean;
 }
 
-/** Same query as /api/news, limited to the 12 the panel shows. */
+/** Every published article, newest first — the panel lists them all so the
+ *  whole site is reachable for posting. Capped generously to stay bounded. */
 export async function refreshStories(): Promise<StoryItem[]> {
   await requireAdmin();
   const { data, error } = await publicClient
@@ -26,7 +27,7 @@ export async function refreshStories(): Promise<StoryItem[]> {
     .select('slug, title, dek, source_name, hero_image, category:categories(slug)')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
-    .limit(12);
+    .limit(500);
   if (error || !data) return [];
   return data.map((a: {
     slug: string;
