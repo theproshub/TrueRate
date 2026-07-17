@@ -33,6 +33,15 @@ describe('isPublishCommand', () => {
   it('does NOT flag an unrelated command', () => {
     expect(isPublishCommand('Bash', { command: 'ls -la' })).toBe(false);
   });
+  it('does NOT flag running the hook’s own test file (self-reference)', () => {
+    expect(isPublishCommand('Bash', { command: 'node --test .claude/hooks/lib/publish-guard.test.mjs' })).toBe(false);
+  });
+  it('does NOT flag an unpublish script (opposite semantics)', () => {
+    expect(isPublishCommand('Bash', { command: 'node scripts/unpublish-old-drafts.mjs' })).toBe(false);
+  });
+  it('does NOT flag a republish-check script', () => {
+    expect(isPublishCommand('Bash', { command: 'node scripts/republish-check.mjs' })).toBe(false);
+  });
 });
 
 describe('publish-guard runner (integration)', () => {

@@ -9,7 +9,7 @@
 // both appear, so inspecting the script (cat/grep/git log) is not blocked.
 
 const RUNNER_RE = /\bnode\b/i;
-const PUBLISH_TARGET_RE = /(?:import-news-articles|[\w./-]*publish[\w./-]*\.(?:mjs|js|ts))/i;
+const PUBLISH_TARGET_RE = /(?:import-news-articles|scripts\/publish[\w-]*\.(?:mjs|js|ts))/i;
 
 export function isPublishCommand(toolName, input = {}) {
   if (toolName !== 'Bash') return false;
