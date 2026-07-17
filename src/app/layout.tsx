@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
 import { SiteJsonLd } from '@/components/JsonLd';
+import MetaPixel from '@/components/MetaPixel';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -125,6 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BackToTop />
         <Footer />
         <SpeedInsights />
+        <MetaPixel />
       </body>
     </html>
   );
