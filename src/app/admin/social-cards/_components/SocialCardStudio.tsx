@@ -317,6 +317,7 @@ export default function SocialCardStudio(
       <TweaksPanel
         tweaks={tweaks}
         setTweak={setTweak}
+        applyMany={applyMany}
         storagePicker={
           <StoragePicker onSelect={(url) => setTweak(IMAGE_SLOTS[format].key, url)} />
         }

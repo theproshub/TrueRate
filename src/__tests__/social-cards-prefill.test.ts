@@ -11,6 +11,9 @@ describe('storyEdits', () => {
     expect(e.headline).toBe('VAT Set to Replace GST');
     expect(e.articleTitle).toBe('VAT Set to Replace GST');
     expect(e.coverTitle).toBe('VAT Set to Replace GST');
+    expect(e.explainerHook).toBe('VAT Set to Replace GST');   // explainer sourced from the real article
+    expect(e.storyHook).toBe('VAT Set to Replace GST');       // story hook too
+    expect(e.explainerTitle).toBe('');                        // stale subhead cleared
     expect(e.category).toBe('Economy');          // policy → Economy via TR_CAT_MAP
     expect(e.subtext).toBe('Big change.');
     expect(e.articleExcerpt).toBe('Big change.');

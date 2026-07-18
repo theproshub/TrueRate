@@ -37,7 +37,9 @@ function ExplainerCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
     </div>;
 
   if (slide === 0) {
-    // COVER
+    // COVER — kept as-is (hook hero + optional subhead).
+    const hook = (data.explainerHook || '').trim();
+    const coverTitle = (data.explainerTitle || '').trim();
     return frame(
       <>
         {dark &&
@@ -50,14 +52,28 @@ function ExplainerCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
           <div style={{
             fontFamily: FONT_MONO, fontSize: 24,
             letterSpacing: 4, textTransform: 'uppercase', color: C.lime,
-            fontWeight: 700, marginBottom: 20
+            fontWeight: 700, marginBottom: 22
           }}>What it means for you</div>
-          <AutoFitHeadline text={data.explainerTitle} maxSize={78} minSize={50} maxLines={4}
-            styleOverrides={{ margin: '0 0 30px', color: dark ? '#fff' : C.navy }} />
+          {hook
+            ? <>
+                {/* Hook is the scroll-stopper hero; cover title drops to a subhead. */}
+                <AutoFitHeadline text={hook} maxSize={82} minSize={46} maxLines={4}
+                  styleOverrides={{ margin: '0 0 20px', color: dark ? '#fff' : C.navy }} />
+                {coverTitle &&
+                  <div style={{
+                    fontSize: 30, lineHeight: 1.35, color: sub, textWrap: 'pretty',
+                    margin: '0 0 32px', maxWidth: 900
+                  }}>{coverTitle}</div>
+                }
+              </>
+            : <AutoFitHeadline text={coverTitle} maxSize={78} minSize={50} maxLines={4}
+                styleOverrides={{ margin: '0 0 32px', color: dark ? '#fff' : C.navy }} />
+          }
           <div style={{
             fontFamily: FONT_MONO, fontSize: 24,
-            letterSpacing: 2, textTransform: 'uppercase', color: dark ? '#fff' : C.navy
-          }}>Swipe →</div>
+            letterSpacing: 2, textTransform: 'uppercase',
+            color: dark ? '#fff' : C.navy, display: 'flex', alignItems: 'center'
+          }}>Swipe to read →</div>
         </div>
         <CardFooter credit="truerateliberia.com" dark={dark} />
       </>

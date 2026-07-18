@@ -3,6 +3,7 @@
 import { useId, useRef, type CSSProperties, type ReactNode } from 'react';
 import { FONT_SANS, FONT_MONO } from './templates/shared';
 import type { CardTweaks, TemplateFormat } from './templates/types';
+import { HOOK_BANK, type HookEntry } from './hookBank';
 
 /**
  * Image slot for each template format — single source of truth for "which
@@ -32,6 +33,7 @@ const FOCUS_RING = 'focus-visible:ring-2 focus-visible:ring-brand-accent focus-v
 export interface TweaksPanelProps {
   tweaks: CardTweaks;
   setTweak: <K extends keyof CardTweaks>(k: K, v: CardTweaks[K]) => void;
+  applyMany: (edits: Partial<CardTweaks>) => void;
   storagePicker?: ReactNode;
 }
 
@@ -133,6 +135,36 @@ function TwSelect({
         style={{ ...twField, height: 32, appearance: 'none' }}
       >
         {options.map((o) => <option key={o} value={o} style={{ background: '#050d11' }}>{o}</option>)}
+      </select>
+    </>
+  );
+}
+
+// Insert-a-hook picker: grouped by category, always resets to the prompt after a
+// pick so it reads as an action ("insert this template") rather than a stored value.
+// Chosen hook lands in the editable Cover Hook field, where the [placeholders] get filled.
+function TwHookPicker({ onPick }: { onPick: (entry: HookEntry) => void }) {
+  const id = useId();
+  const byHook = new Map<string, HookEntry>();
+  for (const g of HOOK_BANK) for (const h of g.hooks) byHook.set(h.hook, h);
+  return (
+    <>
+      <label htmlFor={id} style={twLabel}>Insert Hook Template</label>
+      <select
+        id={id}
+        value=""
+        onChange={(e) => { const entry = byHook.get(e.target.value); if (entry) onPick(entry); }}
+        className={FOCUS_RING}
+        style={{ ...twField, height: 32, appearance: 'none' }}
+      >
+        <option value="" style={{ background: '#050d11' }}>Pick a hook…</option>
+        {HOOK_BANK.map((g) => (
+          <optgroup key={g.category} label={g.category} style={{ background: '#050d11' }}>
+            {g.hooks.map((h) => (
+              <option key={h.hook} value={h.hook} style={{ background: '#050d11' }}>{h.hook}</option>
+            ))}
+          </optgroup>
+        ))}
       </select>
     </>
   );
@@ -323,10 +355,11 @@ function TwImageUpload({
   );
 }
 
-export default function TweaksPanel({ tweaks, setTweak, storagePicker }: TweaksPanelProps) {
+export default function TweaksPanel({ tweaks, setTweak, applyMany, storagePicker }: TweaksPanelProps) {
   const { templateType } = tweaks;
   const showField = {
-    headline: templateType === 'breaking' || templateType === 'story',
+    headline: templateType === 'breaking',
+    story: templateType === 'story',
     subtext: templateType === 'breaking',
     article: templateType === 'article',
     stat: templateType === 'stat' || templateType === 'article',
@@ -392,6 +425,14 @@ export default function TweaksPanel({ tweaks, setTweak, storagePicker }: TweaksP
       <TwSection title="Breaking News">
         <TwTextarea label="Headline" value={tweaks.headline} onChange={(v) => setTweak('headline', v)} rows={3} />
         <TwTextarea label="Lede" value={tweaks.subtext} onChange={(v) => setTweak('subtext', v)} rows={4} />
+      </TwSection>
+      }
+
+      {showField.story &&
+      <TwSection title="Story">
+        <TwHookPicker onPick={(e) => setTweak('storyHook', e.hook)} />
+        <TwTextarea label="Hook (scroll-stopper)" value={tweaks.storyHook} onChange={(v) => setTweak('storyHook', v)} rows={2} />
+        <TwTextarea label="Headline" value={tweaks.headline} onChange={(v) => setTweak('headline', v)} rows={3} />
       </TwSection>
       }
 
@@ -479,15 +520,21 @@ export default function TweaksPanel({ tweaks, setTweak, storagePicker }: TweaksP
       }
 
       {showField.explainer &&
-      <TwSection title="Explainer Carousel">
-        <TwTextarea label="Cover Title" value={tweaks.explainerTitle} onChange={(v) => setTweak('explainerTitle', v)} rows={3} />
+      <TwSection title="Explainer · Plain-language money news">
+        {/* Seed the whole carousel in one atomic update: cover hook + the three
+            distinct reason-points that explain it (not a duplicate of the hook).
+            Clear the cover title too — otherwise a stale default subhead lingers
+            under the new hook. The user adds a fresh subhead only if they want one. */}
+        <TwHookPicker onPick={(e) => applyMany({ explainerHook: e.hook, explainerTitle: '', ex1Title: e.points[0], ex2Title: e.points[1], ex3Title: e.points[2] })} />
+        <TwTextarea label="Hook — the plain takeaway" value={tweaks.explainerHook} onChange={(v) => setTweak('explainerHook', v)} rows={2} />
+        <TwTextarea label="Subhead (optional)" value={tweaks.explainerTitle} onChange={(v) => setTweak('explainerTitle', v)} rows={2} />
         {([1, 2, 3] as const).map((n) => (
           <div key={n}>
-            <TwInput label={`Point ${n} · Title`} value={tweaks[exTitleKey(n)]} onChange={(v) => setTweak(exTitleKey(n), v)} />
-            <TwTextarea label={`Point ${n} · Body`} value={tweaks[exBodyKey(n)]} onChange={(v) => setTweak(exBodyKey(n), v)} rows={3} />
+            <TwInput label={`Point ${n} — the takeaway`} value={tweaks[exTitleKey(n)]} onChange={(v) => setTweak(exTitleKey(n), v)} />
+            <TwTextarea label={`Point ${n} — who it affects & how`} value={tweaks[exBodyKey(n)]} onChange={(v) => setTweak(exBodyKey(n), v)} rows={3} />
           </div>
         ))}
-        <TwTextarea label="Outro CTA" value={tweaks.explainerCTA} onChange={(v) => setTweak('explainerCTA', v)} rows={2} />
+        <TwTextarea label="Closing line" value={tweaks.explainerCTA} onChange={(v) => setTweak('explainerCTA', v)} rows={2} />
       </TwSection>
       }
 

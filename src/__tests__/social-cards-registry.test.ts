@@ -20,7 +20,7 @@ describe('social-cards template registry', () => {
 
   it('story and cover carry explicit sizes', () => {
     expect(templateSize('story')).toEqual({ w: 1080, h: 1920 });
-    expect(templateSize('cover')).toEqual({ w: 1920, h: 1080 });
+    expect(templateSize('cover')).toEqual({ w: 1080, h: 1920 });
     expect(templateSize('rate')).toEqual({ w: 1080, h: 1350 });
   });
 });

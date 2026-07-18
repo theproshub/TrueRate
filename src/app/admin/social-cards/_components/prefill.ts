@@ -29,6 +29,11 @@ const LONG_DATE = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeri
 export function storyEdits(s: StoryItem): Partial<CardTweaks> {
   const edits: Partial<CardTweaks> = {
     headline: s.title, articleTitle: s.title, coverTitle: s.title,
+    // Seed the explainer + story hooks from the real published headline, so their
+    // figures come straight from a verified article (accuracy by construction).
+    // explainerTitle is cleared so no stale default subhead lingers under the hook;
+    // the editor writes the plain-language points and can simplify the hook.
+    explainerHook: s.title, storyHook: s.title, explainerTitle: '',
     category: TR_CAT_MAP[(s.category || '').toLowerCase()] || 'News',
     date: LONG_DATE.format(new Date()),
   };

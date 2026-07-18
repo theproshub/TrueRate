@@ -67,6 +67,9 @@ export interface CardTweaks {
   eventImage: string;
   eventImagePosY: number;
   explainerSlide: number;
+  /** Cover scroll-stopper. When set, it becomes the hero line on slide 0 and
+      the cover title drops to a supporting subhead. Blank = title stays hero. */
+  explainerHook: string;
   explainerTitle: string;
   explainerImage: string;
   explainerImagePosY: number;
@@ -79,6 +82,9 @@ export interface CardTweaks {
   explainerCTA: string;
   storyImage: string;
   storyImagePosY: number;
+  /** Story scroll-stopper — mirrors explainerHook. When set it becomes the hero
+      line and the headline drops to a subhead. Blank = headline stays hero. */
+  storyHook: string;
   coverTitle: string;
   coverImage: string;
   coverImagePosY: number;
@@ -153,18 +159,20 @@ export const TWEAK_DEFAULTS: CardTweaks = {
   eventImage: '',
   eventImagePosY: 50,
   explainerSlide: 0,
-  explainerTitle: 'The CBL Just Held Interest Rates. Here\'s What That Means for Your Money.',
+  explainerHook: 'Market woman, susu member, family living on money from abroad — the Central Bank’s decision touches your money.',
+  explainerTitle: '',
   explainerImage: '',
   explainerImagePosY: 50,
-  ex1Title: 'Loan payments stay put',
-  ex1Body: 'If you hold a variable-rate loan, your monthly payment won\'t rise this quarter — but it won\'t fall either. Budget on current numbers.',
-  ex2Title: 'Savings still beat cash',
-  ex2Body: 'Deposit rates hold near 4.5%. With inflation easing to 10.2%, the gap is narrowing — money in an account loses less value than money under the mattress.',
-  ex3Title: 'The LRD gets breathing room',
-  ex3Body: 'Steady rates support the exchange rate. If you\'re paid in USD or send remittances, expect less volatility through Q3.',
-  explainerCTA: 'Follow for plain-language money news, every day.',
+  ex1Title: 'Borrowing costs the same',
+  ex1Body: 'For a market woman who borrows to stock her table, nothing changed — she pays the same to borrow as before. So don’t wait for a cheaper loan; it’s not coming yet.',
+  ex2Title: 'The bank is the safer place',
+  ex2Body: 'For anyone saving small money, like a susu member, the bank is safer. Cash at home slowly loses value as prices rise. In the bank it stays safe and grows a little each month.',
+  ex3Title: 'The dollar should stay steady',
+  ex3Body: 'For a family living on money from abroad, that’s good news. The US dollar price should not jump, so what they receive — and the imported goods they buy — should cost about the same.',
+  explainerCTA: 'Follow TrueRate — money news anybody can understand.',
   storyImage: '',
   storyImagePosY: 40,
+  storyHook: '',
   coverTitle: 'VAT Set to Replace GST in Biggest Tax Overhaul in Years',
   coverImage: '',
   coverImagePosY: 30,

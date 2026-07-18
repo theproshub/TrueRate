@@ -7,6 +7,8 @@ const C = TR_COLORS;
 // 9. STORY — 1080×1920 vertical (IG/FB story, WhatsApp status, TikTok)
 // ═══════════════════════════════════════════════════════════
 function StoryCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
+  const hook = (data.storyHook || '').trim();
+  const headline = (data.headline || '').trim();
   return (
     <div style={{
       width: 1080, height: 1920, position: 'relative', overflow: 'hidden',
@@ -31,9 +33,22 @@ function StoryCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
         <TrueRateMark color={C.lime} size={54} />
       </div>
 
-      {/* Headline lower third */}
+      {/* Hook + headline lower third — hook is the scroll-stopper hero (mirrors
+          the explainer cover); when set, the headline drops to a subhead. */}
       <div style={{ position: 'absolute', left: 56, right: 70, bottom: 330, zIndex: 10 }}>
-        <AutoFitHeadline text={data.headline} maxSize={92} minSize={60} maxLines={5} styleOverrides={{ margin: 0 }} />
+        {hook
+          ? <>
+              <AutoFitHeadline text={hook} maxSize={92} minSize={56} maxLines={5}
+                styleOverrides={{ margin: headline ? '0 0 22px' : 0 }} />
+              {headline &&
+                <div style={{
+                  fontFamily: FONT_SANS, fontSize: 34, lineHeight: 1.35,
+                  color: 'rgba(255,255,255,0.82)', textWrap: 'pretty', margin: 0
+                }}>{headline}</div>
+              }
+            </>
+          : <AutoFitHeadline text={headline} maxSize={92} minSize={60} maxLines={5} styleOverrides={{ margin: 0 }} />
+        }
       </div>
 
       {/* Bottom CTA — no source line on photo-led cards */}
