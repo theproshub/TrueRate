@@ -494,7 +494,7 @@ const TOOLS = [
   {
     name: "article_data_sheet",
     description:
-      "Pre-write data assembly: given a list of CBL mnemonics, returns a formatted data sheet with the latest value, period, YoY change, trend, min/max, and publication-ready formatted values (with unit labels like 'US$2.82B' or 'L$299.4B'). Use this BEFORE writing an article to build the data foundation — every number in the article must come from this sheet.",
+      "Pre-write data assembly: given a list of CBL mnemonics, returns a formatted data sheet with the latest value, period, YoY change, trend, min/max, and publication-ready formatted values (with unit labels like 'US$2.82B' or 'LD$299.4B'). Use this BEFORE writing an article to build the data foundation — every number in the article must come from this sheet.",
     inputSchema: {
       type: "object",
       properties: {
@@ -1611,7 +1611,7 @@ async function callTool(
         claims.push({ text: m[0], value, unit: "USD_M", context: fullText.slice(start, end).trim() });
       }
 
-      // LRD amounts: L$123.45 billion/million
+      // LRD amounts: LD$123.45 billion/million
       const lrdPattern = /L\$([\d,]+\.?\d*)\s*(billion|million|B|M)?/gi;
       while ((m = lrdPattern.exec(fullText)) !== null) {
         const raw = parseFloat(m[1].replace(/,/g, ""));
@@ -1865,9 +1865,9 @@ async function callTool(
           else if (v >= 1) formatted = `US$${v.toFixed(1)}M`;
           else formatted = `US$${(v * 1000).toFixed(0)}K`;
         } else if (unit.includes("lrd") || unit.includes("l$") || unit.includes("million lrd")) {
-          if (v >= 1000) formatted = `L$${(v / 1000).toFixed(1)}B`;
-          else if (v >= 1) formatted = `L$${v.toFixed(1)}M`;
-          else formatted = `L$${v.toFixed(2)}M`;
+          if (v >= 1000) formatted = `LD$${(v / 1000).toFixed(1)}B`;
+          else if (v >= 1) formatted = `LD$${v.toFixed(1)}M`;
+          else formatted = `LD$${v.toFixed(2)}M`;
         } else if (unit.includes("%") || unit.includes("percent") || unit.includes("rate")) {
           formatted = `${v}%`;
         } else if (unit.includes("index")) {

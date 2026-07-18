@@ -2,7 +2,7 @@
 // over the article seed (src/data/news.ts) and, with --db, the live Supabase catalog.
 //
 // Errors (exit 1):
-//   E1  bare "$" before a number (must be US$ or L$) — titles, deks, body
+//   E1  bad currency prefix — bare "$" or old "L$" before a number (must be US$ or LD$) — titles, deks, body
 //   E2  headline leading with Liberia / Liberia's / Liberian
 //   E3  wire-service dateline opening the body ("MONROVIA — ")
 //   E4  banned hype words (massive, shocking, skyrocketing, …)
@@ -23,7 +23,7 @@ import { dirname, join } from 'node:path';
 const here = dirname(fileURLToPath(import.meta.url));
 const CHECK_DB = process.argv.includes('--db');
 
-const BARE_DOLLAR = /(^|[^SL])\$\d/;
+const BAD_CURRENCY = /(?<!US)(?<!LD)\$\d/;  // flags bare "$" and the old "L$" — the Liberian dollar must be LD$
 const LIBERIA_LEAD = /^Liberia('s)?\s|^Liberian\s/;
 const DATELINE = /^[A-Z]{3,}(\s[A-Z]{3,})? — /;
 const BANNED = /\b(massive|shocking|game-changing|explosive|soaring|skyrocket(s|ed|ing)?|slam(s|med)?|crater(s|ed)?|tank(ed|ing)|it remains to be seen|only time will tell)\b/i;
@@ -36,8 +36,8 @@ const pctForms = new Map(); // numeric value -> Map(stringForm -> [where])
 
 function checkText(where, kind, text) {
   if (!text) return;
-  const m = text.match(BARE_DOLLAR);
-  if (m) errors.push(`E1 bare-$ in ${kind} of ${where}: "…${text.slice(Math.max(0, m.index - 20), m.index + 15)}…"`);
+  const m = text.match(BAD_CURRENCY);
+  if (m) errors.push(`E1 bad currency prefix (use US$ / LD$) in ${kind} of ${where}: "…${text.slice(Math.max(0, m.index - 20), m.index + 15)}…"`);
   const banned = text.match(BANNED);
   if (banned) errors.push(`E4 banned word "${banned[0]}" in ${kind} of ${where}`);
   const filler = text.match(FILLER);
