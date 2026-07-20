@@ -6,8 +6,12 @@ import { useEffect, useRef } from 'react';
 
 // Meta (Facebook) Pixel for @truerateliberia. ID is public by design (it ships
 // in the client bundle), but reading from env lets us swap or disable it per
-// environment without a code change. Falls back to the production pixel.
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '2093911624671196';
+// environment without a code change.
+//
+// No hardcoded fallback on purpose: an ID that drifts out of the business
+// portfolio still accepts events, so the site looks tracked while the data
+// lands in a dataset nobody can read. Unset means off, loudly.
+const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 // Only load in production — keeps preview/localhost traffic out of Meta analytics.
 const ENABLED = process.env.NODE_ENV === 'production' && !!PIXEL_ID;
