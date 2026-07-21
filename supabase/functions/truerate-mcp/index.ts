@@ -1072,7 +1072,7 @@ async function callTool(
       // Get tagged macro series via article_macros join
       const { data: macroTags, error: tagErr } = await supabase
         .from("article_macros")
-        .select("macro_series_id, macro_series:macro_series(series_id, label)")
+        .select("series_id, macro_series:macro_series(series_id, label)")
         .eq("article_id", article.id);
       if (tagErr) throw new RpcError(INTERNAL_ERROR, tagErr.message);
 
