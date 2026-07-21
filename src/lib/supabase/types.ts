@@ -195,6 +195,7 @@ export type Database = {
           hero_alt: string | null
           hero_image: string | null
           id: string
+          macro_tags: string[]
           published_at: string | null
           slug: string
           source_name: string | null
@@ -213,6 +214,7 @@ export type Database = {
           hero_alt?: string | null
           hero_image?: string | null
           id?: string
+          macro_tags?: string[]
           published_at?: string | null
           slug: string
           source_name?: string | null
@@ -231,6 +233,7 @@ export type Database = {
           hero_alt?: string | null
           hero_image?: string | null
           id?: string
+          macro_tags?: string[]
           published_at?: string | null
           slug?: string
           source_name?: string | null

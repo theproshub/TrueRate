@@ -338,7 +338,7 @@ const TOOLS = [
   {
     name: "article_data_context",
     description:
-      "Given an article slug, returns all CBL macro series tagged to that article (via article_macros) with their latest values and recent history. Use this when writing, editing, or fact-checking an article to ensure every number cited is backed by real data.",
+      "Given an article slug, returns all CBL warehouse series tagged to that article (via its macro_tags mnemonics) with their latest values and recent history. Use this when writing, editing, or fact-checking an article to ensure every number cited is backed by real data.",
     inputSchema: {
       type: "object",
       properties: {
@@ -1061,38 +1061,24 @@ async function callTool(
     case "article_data_context": {
       const slug = requireString(args, "slug");
 
-      // Find the article
+      // Find the article and its CBL warehouse mnemonics (macro_tags).
       const { data: article, error: artErr } = await supabase
         .from("articles")
-        .select("id, slug, title, dek, published_at")
+        .select("id, slug, title, dek, published_at, macro_tags")
         .eq("slug", slug)
         .single();
       if (artErr) throw new RpcError(INTERNAL_ERROR, artErr.message);
 
-      // Get tagged macro series via article_macros join
-      const { data: macroTags, error: tagErr } = await supabase
-        .from("article_macros")
-        .select("series_id, macro_series:macro_series(series_id, label)")
-        .eq("article_id", article.id);
-      if (tagErr) throw new RpcError(INTERNAL_ERROR, tagErr.message);
-
-      // Map macro_series.series_id to CBL mnemonics
-      // Supabase returns the joined relation as an array; flatten and extract series_id.
-      const seriesIds: string[] = [];
-      for (const tag of (macroTags ?? []) as Array<{ macro_series: Array<{ series_id: string }> | { series_id: string } | null }>) {
-        const ms = tag.macro_series;
-        if (!ms) continue;
-        if (Array.isArray(ms)) {
-          for (const s of ms) if (s.series_id) seriesIds.push(s.series_id);
-        } else if (ms.series_id) {
-          seriesIds.push(ms.series_id);
-        }
-      }
+      // macro_tags holds cbl_series mnemonics (LBR_*) directly — no join needed.
+      const rawTags = (article as { macro_tags?: string[] | null }).macro_tags;
+      const seriesIds: string[] = Array.isArray(rawTags)
+        ? [...new Set(rawTags.map((t) => String(t).trim()).filter((t) => t.length > 0))]
+        : [];
 
       if (seriesIds.length === 0) {
         return textContent({
           article: { slug: article.slug, title: article.title },
-          message: "No macro series tagged to this article. Tag series in the CMS before using data context.",
+          message: "No macro series tagged to this article. Tag it with CBL mnemonics (macro_tags) before using data context.",
           data: [],
         });
       }
