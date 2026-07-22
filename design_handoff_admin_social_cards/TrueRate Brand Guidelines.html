@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrueRate — Social Brand Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #050d11;
+    --navy-2: #040f18;
+    --lime: #BFEA36;
+    --paper: #f8f9fa;
+    --red: #e11b22;
+    --green: #00a757;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--navy);
+    color: #F3F4F4;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--lime); text-decoration: none; }
+  a:hover { color: #d4f56a; text-decoration: underline; }
+  .page { max-width: 1060px; margin: 0 auto; padding: 72px 48px 120px; }
+  .mono {
+    font-family: 'Roboto Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+  .eyebrow {
+    font-family: 'Roboto Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--lime);
+    margin-bottom: 16px;
+  }
+  .section {
+    margin-top: 88px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .section-num {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+  }
+  h1 { font-size: 64px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.08; text-wrap: balance; }
+  h2 { font-size: 34px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 28px; }
+  h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  p.lead { font-size: 19px; line-height: 1.6; color: rgba(243,244,244,0.75); max-width: 720px; margin-top: 24px; }
+  p.note { font-size: 14px; line-height: 1.6; color: rgba(243,244,244,0.6); max-width: 640px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  /* Color swatches */
+  .swatch { border: 1px solid rgba(255,255,255,0.12); }
+  .swatch .chip { height: 120px; }
+  .swatch .meta { padding: 14px 16px; background: var(--navy-2); }
+  .swatch .name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .swatch .hex { font-family: 'Roboto Mono', monospace; font-size: 12px; color: rgba(243,244,244,0.6); letter-spacing: 1px; }
+  .swatch .use { font-size: 12px; color: rgba(243,244,244,0.55); margin-top: 6px; line-height: 1.45; }
+
+  /* Type specimens */
+  .spec { border: 1px solid rgba(255,255,255,0.12); padding: 28px 30px; margin-bottom: 16px; background: var(--navy-2); }
+  .spec .label { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); margin-bottom: 16px; }
+  .spec .rule { font-family: 'Roboto Mono', monospace; font-size: 12px; color: rgba(243,244,244,0.55); margin-top: 14px; letter-spacing: 0.5px; }
+
+  /* Logo block */
+  .logo-stage { background: var(--navy-2); border: 1px solid rgba(255,255,255,0.12); padding: 56px; display: flex; align-items: center; justify-content: center; }
+  .logo-stage.light { background: var(--paper); }
+  .logo-caption { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(243,244,244,0.5); margin-top: 10px; }
+
+  /* Rules table */
+  .rule-row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .rule-row .k { font-family: 'Roboto Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); font-weight: 600; padding-top: 2px; }
+  .rule-row .v { font-size: 15px; line-height: 1.55; color: rgba(243,244,244,0.82); }
+  .rule-row .v strong { color: #fff; }
+
+  /* Do / Don't */
+  .dd { border: 1px solid rgba(255,255,255,0.12); padding: 22px 24px; background: var(--navy-2); }
+  .dd .tag { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; }
+  .dd.do .tag { color: var(--lime); }
+  .dd.dont .tag { color: var(--red); }
+  .dd ul { list-style: none; }
+  .dd li { font-size: 14px; line-height: 1.55; color: rgba(243,244,244,0.8); padding-left: 18px; position: relative; margin-bottom: 8px; }
+  .dd.do li::before { content: '▲'; position: absolute; left: 0; font-size: 9px; top: 5px; color: var(--lime); }
+  .dd.dont li::before { content: '▼'; position: absolute; left: 0; font-size: 9px; top: 5px; color: var(--red); }
+
+  /* Template inventory */
+  .inv { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .inv-item { border: 1px solid rgba(255,255,255,0.12); padding: 18px 20px; background: var(--navy-2); display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .inv-item .n { font-weight: 700; font-size: 15px; }
+  .inv-item .d { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 1px; color: rgba(243,244,244,0.5); white-space: nowrap; }
+
+  footer { margin-top: 100px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: flex-end; }
+  footer .src { font-size: 13px; color: rgba(243,244,244,0.5); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  @media print {
+    body { background: #fff; color: var(--navy); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">Brand Guidelines · Social Media · v2</div>
+    <h1>The TrueRate<br>Social System</h1>
+    <p class="lead">How TrueRate — Liberia's financial intelligence platform — shows up on Instagram, Facebook, X, WhatsApp, and TikTok. One system, ten formats, zero guesswork.</p>
+  </header>
+
+  <!-- 01 LOGO -->
+  <div class="section">
+    <div class="section-num">01</div>
+    <h2>Wordmark</h2>
+    <div class="grid-2">
+      <div>
+        <div class="logo-stage"><img src="uploads/logo-trimmed.png" alt="TrueRate wordmark" style="height: 44px;"></div>
+        <div class="logo-caption">On dark / photography — lime</div>
+      </div>
+      <div>
+        <div class="logo-stage light"><img src="uploads/logo-trimmed.png" alt="TrueRate wordmark on light" style="height: 44px; filter: brightness(0);"></div>
+        <div class="logo-caption">On surface / light — black</div>
+      </div>
+    </div>
+    <div style="margin-top: 28px;">
+      <div class="rule-row"><div class="k">Placement</div><div class="v"><strong>Photo-led cards</strong> (Breaking, Article, Quote, Story, Video Cover): bottom-right, on the baseline strip shared with the photo credit. <strong>Data cards</strong> (Big Stat, Markets, Daily Rate, Event, Explainer): upper-left header row, opposite the date/section meta.</div></div>
+      <div class="rule-row"><div class="k">Size</div><div class="v"><strong>64px tall</strong> on 1080-wide canvases. Never smaller than 48px, never larger than 72px.</div></div>
+      <div class="rule-row"><div class="k">Clear space</div><div class="v">Keep at least the height of the mark clear on all sides. Nothing else shares the mark's corner.</div></div>
+      <div class="rule-row"><div class="k">Asset</div><div class="v">Always use the trimmed wordmark file — the untrimmed logo carries transparent padding that breaks sizing.</div></div>
+    </div>
+  </div>
+
+  <!-- 02 COLOR -->
+  <div class="section">
+    <div class="section-num">02</div>
+    <h2>Color</h2>
+    <div class="grid-3">
+      <div class="swatch">
+        <div class="chip" style="background:#050d11;"></div>
+        <div class="meta"><div class="name">Dark</div><div class="hex">#050D11</div><div class="use">Primary dark background — site `brand-dark` token.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#BFEA36;"></div>
+        <div class="meta"><div class="name">Lime</div><div class="hex">#BFEA36</div><div class="use">Brand accent. Chips, wordmark, key figures. Use sparingly — it should feel like a signal, not wallpaper.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#f8f9fa;"></div>
+        <div class="meta"><div class="name">Surface</div><div class="hex">#F8F9FA</div><div class="use">Light variant background (Broadsheet) — site `brand-surface` token.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#e11b22;"></div>
+        <div class="meta"><div class="name">Negative</div><div class="hex">#E11B22</div><div class="use">Negative change only — site `neg` token. Never decorative.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#00a757;"></div>
+        <div class="meta"><div class="name">Positive</div><div class="hex">#00A757</div><div class="use">Positive change — site `pos` token. (On dark, lime may play this role.)</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#040f18;"></div>
+        <div class="meta"><div class="name">Card</div><div class="hex">#040F18</div><div class="use">Panels and cards on dark — site `brand-card` token.</div></div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#1E1E1E;"></div>
+        <div class="meta"><div class="name">Charcoal</div><div class="hex">#1E1E1E</div><div class="use">Approved neutral — site footer background. Secondary bands and utility surfaces only; never a primary card canvas.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 TYPE -->
+  <div class="section">
+    <div class="section-num">03</div>
+    <h2>Typography</h2>
+    <div class="spec">
+      <div class="label">Headline — Inter 800</div>
+      <div style="font-size: 46px; font-weight: 800; letter-spacing: -1px; line-height: 1.12; text-wrap: balance;">Gold Hit US$175 Million in March — Now Two-Thirds of All Exports</div>
+      <div class="rule">Inter 800 · line-height 1.12 · letter-spacing −1px · auto-fits 54–78px on 1080w · max 4 lines · sentence case</div>
+    </div>
+    <div class="spec">
+      <div class="label">Label / Chip — Roboto Mono 700</div>
+      <div><span style="background: var(--lime); color: var(--navy); padding: 12px 22px; font-family: 'Roboto Mono', monospace; font-size: 15px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700;">Breaking · Markets</span></div>
+      <div class="rule">Roboto Mono 700 · 22px on canvas · tracking +3 · uppercase · lime chip, dark ink text</div>
+    </div>
+    <div class="spec">
+      <div class="label">Credit / Source — Inter 400</div>
+      <div style="font-size: 24px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px;">PHOTO: GETTY IMAGES</div>
+      <div class="rule">Inter 400 · 30px on canvas · uppercase · tracking +0.5 · bottom-left, baseline-aligned with wordmark</div>
+    </div>
+    <div class="spec">
+      <div class="label">Data — Inter 800 display</div>
+      <div style="font-size: 84px; font-weight: 800; letter-spacing: -3px; line-height: 0.9; color: var(--lime);">183.93</div>
+      <div class="rule">Big figures own the card: 200–280px on canvas · lime on dark, ink on surface</div>
+    </div>
+  </div>
+
+  <!-- 04 LAYOUT -->
+  <div class="section">
+    <div class="section-num">04</div>
+    <h2>Layout System</h2>
+    <div class="rule-row"><div class="k">Canvas</div><div class="v"><strong>1080×1350</strong> (4:5) feed · <strong>1080×1920</strong> (9:16) story · <strong>1920×1080</strong> (16:9) video cover</div></div>
+    <div class="rule-row"><div class="k">Margins</div><div class="v"><strong>48px</strong> on all content sides. Headlines, chips, credits share the same left edge.</div></div>
+    <div class="rule-row"><div class="k">Baseline strip</div><div class="v">Photo-led cards: credit (left) + wordmark (right) on one row, <strong>28px</strong> from the bottom edge. Data cards: source line only (wordmark lives in the header). Content block sits clear above it.</div></div>
+    <div class="rule-row"><div class="k">Photography</div><div class="v">Full-bleed, color, editorial. Vertical gradient scrim for legibility — never a solid box behind text.</div></div>
+    <div class="rule-row"><div class="k">Story safe zones</div><div class="v">Keep content 250px clear of top and bottom on 9:16 (platform UI overlays).</div></div>
+    <div class="rule-row"><div class="k">Variants</div><div class="v"><strong>Terminal</strong> (dark #050D11, photo-forward, default) · <strong>Broadsheet</strong> (surface #F8F9FA, editorial). Pick one per post; don't mix within a carousel.</div></div>
+  </div>
+
+  <!-- 05 FORMATS -->
+  <div class="section">
+    <div class="section-num">05</div>
+    <h2>Format Inventory</h2>
+    <div class="inv">
+      <div class="inv-item"><span class="n">Breaking</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Article</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Quote</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Big Stat</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Markets</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Daily Rate</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Event</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Explainer · 5 slides</span><span class="d">1080×1350</span></div>
+      <div class="inv-item"><span class="n">Story</span><span class="d">1080×1920</span></div>
+      <div class="inv-item"><span class="n">Video Cover</span><span class="d">1920×1080</span></div>
+    </div>
+    <p class="note" style="margin-top: 20px;">All ten live in the template app — content, imagery, and crops are editable; the system (type, margins, footer) is locked.</p>
+  </div>
+
+  <!-- 06 VOICE -->
+  <div class="section">
+    <div class="section-num">06</div>
+    <h2>Voice &amp; Standards</h2>
+    <div class="grid-2">
+      <div class="dd do">
+        <div class="tag">▲ Do</div>
+        <ul>
+          <li>Lead with the number: "Gold Hit US$175 Million in March"</li>
+          <li>Sentence case headlines; specific figures over adjectives</li>
+          <li>Credit every photo; source every figure (CBL · LISGIS · TrueRate Research)</li>
+          <li>Sign off with truerateliberia.com / @truerateliberia</li>
+          <li>Authoritative, plain-language — explain what it means for the reader</li>
+        </ul>
+      </div>
+      <div class="dd dont">
+        <div class="tag">▼ Don't</div>
+        <ul>
+          <li>No ALL-CAPS headlines, no exclamation marks, no emoji</li>
+          <li>No lime backgrounds — lime is an accent, never a canvas</li>
+          <li>No off-token colors — only site tokens: #050D11 · #040F18 · #BFEA36 · #F8F9FA · #E11B22 · #00A757 · #1E1E1E (neutral)</li>
+          <li>No unsourced numbers, no "experts say"</li>
+          <li>No black-and-white photo treatment (color is the house style)</li>
+          <li>Never stretch, recolor, or restage the wordmark</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="src">TrueRate · truerateliberia.com</span>
+    <img src="uploads/logo-trimmed.png" alt="TrueRate" style="height: 36px;">
+  </footer>
+
+</div>
+</body>
+</html>
