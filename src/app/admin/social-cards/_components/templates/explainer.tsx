@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { AutoFitHeadline, PhotoPlaceholder, TrueRateMark, CardFooter, MonoChip, TR_COLORS, FONT_SANS, FONT_MONO } from './shared';
+import { AutoFitHeadline, PhotoPlaceholder, TrueRateMark, CardFooter, TR_COLORS, FONT_SANS, FONT_MONO } from './shared';
 import type { CardTweaks } from './types';
 
 const C = TR_COLORS;
@@ -12,27 +12,17 @@ function ExplainerCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
   const sub = dark ? 'rgba(255,255,255,0.7)' : 'rgba(5,13,17,0.75)';
   const slide = Math.max(0, Math.min(4, Number(data.explainerSlide) || 0));
   const points = [
-    { t: data.ex1Title, b: data.ex1Body },
-    { t: data.ex2Title, b: data.ex2Body },
-    { t: data.ex3Title, b: data.ex3Body }
+    { t: data.ex1Title, b: data.ex1Body, img: data.ex1Image, posY: data.ex1ImagePosY },
+    { t: data.ex2Title, b: data.ex2Body, img: data.ex2Image, posY: data.ex2ImagePosY },
+    { t: data.ex3Title, b: data.ex3Body, img: data.ex3Image, posY: data.ex3ImagePosY }
   ];
 
   const frame = (children: ReactNode) =>
     <div style={{
       width: 1080, height: 1350, position: 'relative', overflow: 'hidden',
-      background: dark ? C.navy : C.paper, fontFamily: FONT_SANS, color: fg
+      background: (data.explainerBg || '').trim() || (dark ? C.navy : C.paper),
+      fontFamily: FONT_SANS, color: fg
     }}>
-      {/* header */}
-      <div style={{
-        position: 'absolute', top: 48, left: 48, right: 48, zIndex: 10,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-      }}>
-        <MonoChip>Explainer</MonoChip>
-        <span style={{
-          fontFamily: FONT_MONO, fontSize: 24,
-          letterSpacing: 2, color: dark ? 'rgba(255,255,255,0.55)' : 'rgba(5,13,17,0.55)'
-        }}>{slide === 0 ? '' : `${slide} / 4`}</span>
-      </div>
       {children}
     </div>;
 
@@ -81,46 +71,74 @@ function ExplainerCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
   }
 
   if (slide <= 3) {
-    // POINT slides
-    const p = points[slide - 1] || { t: '', b: '' };
+    // POINT slides — Instagram/Yahoo style: title + body joined into one
+    // same-size bold block, bottom-anchored, no divider. When an image is set
+    // it goes full-bleed behind a bottom-weighted gradient (like breaking /
+    // article) and the text switches to white for legibility.
+    const p = points[slide - 1] || { t: '', b: '', img: '', posY: 50 };
+    const hasImg = !!(p.img || '').trim();
+    const customBg = (data.explainerBg || '').trim();
+    // Terminal points take the article/breaking photo+gradient background by
+    // default (placeholder when no image); a set image always shows. A chosen
+    // solid color overrides the photo. Broadsheet stays on the paper bg.
+    const showPhoto = !customBg && (dark || hasImg);
+    const overDark = showPhoto || (dark && !!customBg);
+    const titleColor = overDark ? '#fff' : fg;
+    const bodyColor = overDark ? 'rgba(255,255,255,0.88)' : 'rgba(5,13,17,0.86)';
+    const t = (p.t || '').trim();
+    const b = (p.b || '').trim();
+    // Only join title→body with a separator when both exist; a title-only point
+    // (the common case once points are seeded from the hook bank) shows clean.
+    const sep = /[.!?]$/.test(t) ? ' ' : '. ';
     return frame(
       <>
-        <div style={{ position: 'absolute', left: 48, right: 60, top: 210, bottom: 150, zIndex: 10, display: 'flex', flexDirection: 'column' }}>
-          <div style={{
-            fontSize: 220, fontWeight: 800, lineHeight: 0.9, letterSpacing: -8,
-            color: C.lime, marginBottom: 40,
-            WebkitTextStroke: dark ? 'none' : `2px ${C.navy}`
-          }}>{String(slide).padStart(2, '0')}</div>
-          <h2 style={{
-            fontSize: 58, fontWeight: 800, lineHeight: 1.12, letterSpacing: -1,
-            textWrap: 'balance', margin: '0 0 28px', color: fg
-          }}>{p.t}</h2>
+        {showPhoto &&
+          <div style={{ position: 'absolute', inset: 0 }}>
+            <PhotoPlaceholder variant="finance" label="Explainer image" imageUrl={p.img} objectPosition={`center ${p.posY ?? 50}%`} bw={data.bwPhoto} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(6,14,20,0.55) 0%, rgba(6,14,20,0.25) 40%, rgba(6,14,20,0.85) 100%)' }} />
+          </div>
+        }
+        <div style={{ position: 'absolute', left: 56, right: 64, bottom: 150, zIndex: 10 }}>
           <p style={{
-            fontSize: 32, lineHeight: 1.5, color: sub, textWrap: 'pretty', margin: 0
-          }}>{p.b}</p>
+            fontSize: 44, lineHeight: 1.4, letterSpacing: -0.5,
+            textWrap: 'pretty', margin: 0, color: titleColor
+          }}>
+            <span style={{ fontWeight: 800 }}>{t ? (b ? t + sep : t) : ''}</span>
+            <span style={{ fontWeight: 800, color: bodyColor }}>{b}</span>
+          </p>
         </div>
-        <CardFooter credit="truerateliberia.com" dark={dark} />
+        <CardFooter credit="truerateliberia.com" dark={overDark ? true : dark} />
       </>
     );
   }
 
-  // OUTRO
+  // OUTRO — text-only on the solid/variant bg by default; a set image goes
+  // full-bleed behind a centered darkening overlay and the text turns white.
+  const outroImg = (data.explainerOutroImage || '').trim();
+  const outroOverDark = !!outroImg || dark;
+  const outroFg = outroOverDark ? '#fff' : C.navy;
   return frame(
     <>
+      {outroImg &&
+        <div style={{ position: 'absolute', inset: 0 }}>
+          <PhotoPlaceholder variant="finance" label="Outro image" imageUrl={outroImg} objectPosition={`center ${data.explainerOutroImagePosY ?? 50}%`} bw={data.bwPhoto} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(6,14,20,0.78) 0%, rgba(6,14,20,0.6) 50%, rgba(6,14,20,0.85) 100%)' }} />
+        </div>
+      }
       <div style={{
         position: 'absolute', inset: 0, zIndex: 10,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', padding: '0 100px'
       }}>
-        <TrueRateMark color={dark ? C.lime : C.navy} size={64} />
+        <TrueRateMark color={outroOverDark ? C.lime : C.navy} size={64} />
         <h2 style={{
           fontSize: 54, fontWeight: 800, lineHeight: 1.12, letterSpacing: -1,
-          textWrap: 'balance', margin: '40px 0 24px', color: fg
+          textWrap: 'balance', margin: '40px 0 24px', color: outroFg
         }}>{data.explainerCTA}</h2>
         <div style={{
           fontFamily: FONT_MONO, fontSize: 26,
           letterSpacing: 3, textTransform: 'uppercase', color: C.lime,
-          background: dark ? 'transparent' : C.navy, padding: dark ? 0 : '10px 22px',
+          background: outroOverDark ? 'transparent' : C.navy, padding: outroOverDark ? 0 : '10px 22px',
           fontWeight: 700
         }}>@truerateliberia</div>
       </div>

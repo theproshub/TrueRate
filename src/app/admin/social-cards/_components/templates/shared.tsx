@@ -79,6 +79,35 @@ export function AutoFitHeadline({
   );
 }
 
+// Stretches text horizontally (scaleX) so it fills the parent's full width on one
+// line, anchored left. Distorts glyph width by design — for a display number that
+// should always span edge to edge regardless of how many characters it has.
+export function StretchWidth({
+  text, baseSize = 230, styleOverrides,
+}: { text?: string; baseSize?: number; styleOverrides?: CSSProperties }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const parent = el?.parentElement;
+    if (!el || !parent) return;
+    const natural = el.scrollWidth;
+    if (natural > 0) setScale(parent.clientWidth / natural);
+  }, [text, baseSize]);
+
+  return (
+    <div style={{ width: '100%', overflow: 'hidden' }}>
+      <div ref={ref} style={{
+        display: 'inline-block', whiteSpace: 'nowrap',
+        transformOrigin: 'left center', transform: `scaleX(${scale})`,
+        fontFamily: FONT_SANS, fontSize: baseSize, lineHeight: 1,
+        ...styleOverrides,
+      }}>{text}</div>
+    </div>
+  );
+}
+
 export function Logo({ mode = 'white', size = 28 }: { mode?: 'white' | 'navy' | 'lime'; size?: number }) {
   const color = mode === 'white' ? '#fff' : mode === 'navy' ? '#050d11' : '#BFEA36';
   return <span style={{

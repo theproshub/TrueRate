@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { storyEdits, rateEdits, marketEdits, marketsPrefillReady, statEdits, calendarEventEdits } from '@/app/admin/social-cards/_components/prefill';
+import { HOOK_BANK } from '@/app/admin/social-cards/_components/hookBank';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 
 describe('storyEdits', () => {
@@ -27,6 +28,23 @@ describe('storyEdits', () => {
     expect(e.category).toBe('News');
     expect('breakingImage' in e).toBe(false);
     expect('subtext' in e).toBe(false);
+  });
+
+  it('with no matching hook pack, clears the explainer points so no stale default lingers', () => {
+    const e = storyEdits({ slug: 'no-such-article', title: 'T', summary: '', category: 'economy', source: 'TrueRate' });
+    expect(e.explainerHook).toBe('T');           // falls back to the headline
+    expect(e.ex1Title).toBe(''); expect(e.ex1Body).toBe('');
+    expect(e.ex2Title).toBe(''); expect(e.ex2Body).toBe('');
+    expect(e.ex3Title).toBe(''); expect(e.ex3Body).toBe('');
+  });
+
+  it('with a matching hook pack, seeds the article hook + two-part points', () => {
+    const pack = HOOK_BANK[0].hooks[0];          // any real, catalog-tied entry
+    const e = storyEdits({ slug: pack.slug, title: 'Whatever headline', summary: '', category: 'economy', source: 'TrueRate' });
+    expect(e.explainerHook).toBe(pack.hook);     // plain-language pack hook, not the headline
+    expect(e.ex1Title).toBe(pack.points[0]); expect(e.ex1Body).toBe(pack.bodies[0]);
+    expect(e.ex2Title).toBe(pack.points[1]); expect(e.ex2Body).toBe(pack.bodies[1]);
+    expect(e.ex3Title).toBe(pack.points[2]); expect(e.ex3Body).toBe(pack.bodies[2]);
   });
 });
 

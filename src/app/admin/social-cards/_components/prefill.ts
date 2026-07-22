@@ -2,6 +2,12 @@ import type { CardTweaks } from './templates/types';
 import type { CommodityQuote } from '@/domain/markets/commodities';
 import type { NormalizedIndicator } from '@/types/indicators';
 import { CATEGORY_LABELS, type EconomicEvent } from '@/data/economic-events';
+import { HOOK_BANK, type HookEntry } from './hookBank';
+
+/** slug → hook pack, so a pulled story resolves to its 1:1 article-tied hook + points. */
+const HOOK_BY_SLUG: Map<string, HookEntry> = new Map(
+  HOOK_BANK.flatMap((g) => g.hooks).map((h) => [h.slug, h]),
+);
 
 export interface StoryItem {
   slug: string;
@@ -27,13 +33,21 @@ export const TR_CAT_MAP: Record<string, string> = {
 const LONG_DATE = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
 export function storyEdits(s: StoryItem): Partial<CardTweaks> {
+  // Resolve the article's 1:1 hook pack. When found, the explainer carousel is
+  // seeded with the plain-language hook + the three article-specific point titles.
+  const pack = HOOK_BY_SLUG.get(s.slug);
   const edits: Partial<CardTweaks> = {
     headline: s.title, articleTitle: s.title, coverTitle: s.title,
-    // Seed the explainer + story hooks from the real published headline, so their
-    // figures come straight from a verified article (accuracy by construction).
-    // explainerTitle is cleared so no stale default subhead lingers under the hook;
-    // the editor writes the plain-language points and can simplify the hook.
-    explainerHook: s.title, storyHook: s.title, explainerTitle: '',
+    // Explainer hook prefers the plain-language pack hook (built for a lay reader);
+    // fall back to the headline when the article has no pack. Story template keeps
+    // the headline. explainerTitle cleared so no stale default subhead lingers.
+    explainerHook: pack ? pack.hook : s.title, storyHook: s.title, explainerTitle: '',
+    // Point slides: seed the article's own three takeaways + plain-language bodies
+    // when we have a pack; otherwise CLEAR them. Either way the default market-woman
+    // / susu / family copy is wiped, so no two explainers share stale point text.
+    ex1Title: pack ? pack.points[0] : '', ex1Body: pack ? pack.bodies[0] : '',
+    ex2Title: pack ? pack.points[1] : '', ex2Body: pack ? pack.bodies[1] : '',
+    ex3Title: pack ? pack.points[2] : '', ex3Body: pack ? pack.bodies[2] : '',
     category: TR_CAT_MAP[(s.category || '').toLowerCase()] || 'News',
     date: LONG_DATE.format(new Date()),
   };

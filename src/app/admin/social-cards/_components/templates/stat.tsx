@@ -1,4 +1,4 @@
-import { PhotoPlaceholder, TrueRateMark, TR_COLORS, FONT_SANS, FONT_MONO } from './shared';
+import { AutoFitHeadline, PhotoPlaceholder, TrueRateMark, TR_COLORS, FONT_SANS, FONT_MONO } from './shared';
 import type { CardTweaks } from './types';
 
 const C = TR_COLORS;
@@ -17,7 +17,7 @@ export function StatTerminal({ data }: { data: CardTweaks }) {
         <PhotoPlaceholder variant="abstract" label="Thematic image" imageUrl={data.statImage} objectPosition={`center ${data.statImagePosY ?? 50}%`} bw={data.bwPhoto} />
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(135deg, rgba(5,13,17,0.85) 0%, rgba(5,13,17,0.65) 50%, rgba(5,13,17,0.95) 100%)'
+          background: 'linear-gradient(180deg, rgba(5,13,17,0.5) 0%, rgba(5,13,17,0.3) 38%, rgba(5,13,17,0.95) 100%)'
         }} />
       </div>
 
@@ -31,34 +31,26 @@ export function StatTerminal({ data }: { data: CardTweaks }) {
       </div>
 
       <div style={{
-        position: 'absolute', top: 150, left: 48, right: 48, bottom: 130, zIndex: 10,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center'
+        position: 'absolute', left: 48, right: 48, bottom: 110, zIndex: 10
       }}>
         <div style={{
-          fontFamily: FONT_MONO, fontSize: 22,
-          letterSpacing: 4, textTransform: 'uppercase',
-          color: '#F3F4F4', marginBottom: 28, fontWeight: 600
+          fontFamily: FONT_MONO, fontSize: 20,
+          letterSpacing: 3, textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.6)', marginBottom: 20, fontWeight: 600
         }}><span style={{ color: C.green }}>▲</span> FIGURE OF THE DAY</div>
 
-        <div style={{
-          fontFamily: FONT_SANS, fontSize: 260, fontWeight: 900,
-          lineHeight: 0.85, letterSpacing: -10,
-          color: C.lime, marginBottom: 20
-        }}>{data.stat}</div>
+        <AutoFitHeadline text={data.stat} maxSize={180} minSize={80} maxLines={1}
+          styleOverrides={{
+            fontWeight: 900, letterSpacing: -6, lineHeight: 0.9, color: C.lime,
+            margin: '0 0 18px', textAlign: 'left', textWrap: 'normal',
+            fontVariantNumeric: 'tabular-nums'
+          }} />
 
-        <div style={{ width: 100, height: 4, background: '#fff', marginBottom: 28 }} />
-
-        <h2 style={{
-          fontFamily: FONT_SANS, fontSize: 36, fontWeight: 800,
-          lineHeight: 1.12, letterSpacing: -1,
-          color: '#fff', marginBottom: 16, textWrap: 'balance'
-        }}>{data.statLabel}</h2>
-
-        <p style={{
-          fontSize: 26, lineHeight: 1.55,
-          color: 'rgba(255,255,255,0.7)',
-          maxWidth: 860, textWrap: 'pretty'
-        }}>{data.statContext}</p>
+        <AutoFitHeadline text={data.statLabel} maxSize={42} minSize={28} maxLines={3}
+          styleOverrides={{
+            fontWeight: 700, letterSpacing: -1, lineHeight: 1.12,
+            color: '#fff', margin: 0, textAlign: 'left', textWrap: 'pretty'
+          }} />
       </div>
 
       <div style={{

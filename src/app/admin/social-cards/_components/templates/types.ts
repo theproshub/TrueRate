@@ -73,13 +73,29 @@ export interface CardTweaks {
   explainerTitle: string;
   explainerImage: string;
   explainerImagePosY: number;
+  /** Solid background color for explainer slides when no image is set.
+      Blank = the variant default (navy on terminal, paper on broadsheet). */
+  explainerBg: string;
+  /** Each of the three point slides carries its own background photo, separate
+      from the cover (explainerImage). Blank on a terminal card falls back to the
+      placeholder; blank on broadsheet stays on the paper/color bg. */
   ex1Title: string;
   ex1Body: string;
+  ex1Image: string;
+  ex1ImagePosY: number;
   ex2Title: string;
   ex2Body: string;
+  ex2Image: string;
+  ex2ImagePosY: number;
   ex3Title: string;
   ex3Body: string;
+  ex3Image: string;
+  ex3ImagePosY: number;
   explainerCTA: string;
+  /** Background photo for the outro / CTA slide (slide E). Blank = text-only on
+      the solid/variant background. */
+  explainerOutroImage: string;
+  explainerOutroImagePosY: number;
   storyImage: string;
   storyImagePosY: number;
   /** Story scroll-stopper — mirrors explainerHook. When set it becomes the hero
@@ -93,7 +109,8 @@ export interface CardTweaks {
 
 export const IMAGE_KEYS = [
   'breakingImage', 'articleImage', 'quoteImage', 'statImage', 'marketsImage',
-  'rateImage', 'eventImage', 'explainerImage', 'storyImage', 'coverImage',
+  'rateImage', 'eventImage', 'explainerImage', 'ex1Image', 'ex2Image', 'ex3Image',
+  'explainerOutroImage', 'storyImage', 'coverImage',
 ] as const satisfies readonly (keyof CardTweaks)[];
 
 export const TWEAK_DEFAULTS: CardTweaks = {
@@ -163,13 +180,22 @@ export const TWEAK_DEFAULTS: CardTweaks = {
   explainerTitle: '',
   explainerImage: '',
   explainerImagePosY: 50,
+  explainerBg: '',
   ex1Title: 'Borrowing costs the same',
   ex1Body: 'For a market woman who borrows to stock her table, nothing changed — she pays the same to borrow as before. So don’t wait for a cheaper loan; it’s not coming yet.',
+  ex1Image: '',
+  ex1ImagePosY: 50,
   ex2Title: 'The bank is the safer place',
   ex2Body: 'For anyone saving small money, like a susu member, the bank is safer. Cash at home slowly loses value as prices rise. In the bank it stays safe and grows a little each month.',
+  ex2Image: '',
+  ex2ImagePosY: 50,
   ex3Title: 'The dollar should stay steady',
   ex3Body: 'For a family living on money from abroad, that’s good news. The US dollar price should not jump, so what they receive — and the imported goods they buy — should cost about the same.',
+  ex3Image: '',
+  ex3ImagePosY: 50,
   explainerCTA: 'Follow TrueRate — money news anybody can understand.',
+  explainerOutroImage: '',
+  explainerOutroImagePosY: 50,
   storyImage: '',
   storyImagePosY: 40,
   storyHook: '',

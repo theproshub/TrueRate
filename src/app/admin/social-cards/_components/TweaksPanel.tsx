@@ -34,7 +34,10 @@ export interface TweaksPanelProps {
   tweaks: CardTweaks;
   setTweak: <K extends keyof CardTweaks>(k: K, v: CardTweaks[K]) => void;
   applyMany: (edits: Partial<CardTweaks>) => void;
-  storagePicker?: ReactNode;
+  /** Builds a "browse site images" picker bound to a specific CardTweaks image
+      key. A factory (rather than a single node) so the explainer can wire an
+      independent picker for the cover and each per-slide image. */
+  renderStoragePicker?: (onSelect: (url: string) => void) => ReactNode;
 }
 
 // --- Typed dynamic-key accessors -------------------------------------------------
@@ -57,6 +60,12 @@ function exTitleKey<N extends ExIndex>(n: N): `ex${N}Title` {
 }
 function exBodyKey<N extends ExIndex>(n: N): `ex${N}Body` {
   return `ex${n}Body` as `ex${N}Body`;
+}
+function exImageKey<N extends ExIndex>(n: N): `ex${N}Image` {
+  return `ex${n}Image` as `ex${N}Image`;
+}
+function exImagePosKey<N extends ExIndex>(n: N): `ex${N}ImagePosY` {
+  return `ex${n}ImagePosY` as `ex${N}ImagePosY`;
 }
 
 // --- Shared field styling (verbatim from tr_app.jsx:468-475) ----------------------
@@ -355,7 +364,7 @@ function TwImageUpload({
   );
 }
 
-export default function TweaksPanel({ tweaks, setTweak, applyMany, storagePicker }: TweaksPanelProps) {
+export default function TweaksPanel({ tweaks, setTweak, applyMany, renderStoragePicker }: TweaksPanelProps) {
   const { templateType } = tweaks;
   const showField = {
     headline: templateType === 'breaking',
@@ -402,7 +411,7 @@ export default function TweaksPanel({ tweaks, setTweak, applyMany, storagePicker
         <TwImageUpload
           value={tweaks[imageSlot.key]}
           onChange={(v) => setTweak(imageSlot.key, v)}
-          storagePicker={storagePicker}
+          storagePicker={renderStoragePicker?.((url) => setTweak(imageSlot.key, url))}
         />
         {tweaks[imageSlot.key] &&
         <TwSlider
@@ -521,20 +530,56 @@ export default function TweaksPanel({ tweaks, setTweak, applyMany, storagePicker
 
       {showField.explainer &&
       <TwSection title="Explainer · Plain-language money news">
-        {/* Seed the whole carousel in one atomic update: cover hook + the three
-            distinct reason-points that explain it (not a duplicate of the hook).
-            Clear the cover title too — otherwise a stale default subhead lingers
-            under the new hook. The user adds a fresh subhead only if they want one. */}
-        <TwHookPicker onPick={(e) => applyMany({ explainerHook: e.hook, explainerTitle: '', ex1Title: e.points[0], ex2Title: e.points[1], ex3Title: e.points[2] })} />
+        {/* Seed the whole carousel from the picked pack: the plain hook plus each
+            point's takeaway (title) AND its plain-language explanation (body), all
+            article-specific. This overwrites the default market-woman / susu / family
+            copy, so no two explainers share stale point text. */}
+        <TwHookPicker onPick={(e) => applyMany({
+          explainerHook: e.hook, explainerTitle: '',
+          ex1Title: e.points[0], ex1Body: e.bodies[0],
+          ex2Title: e.points[1], ex2Body: e.bodies[1],
+          ex3Title: e.points[2], ex3Body: e.bodies[2],
+        })} />
         <TwTextarea label="Hook — the plain takeaway" value={tweaks.explainerHook} onChange={(v) => setTweak('explainerHook', v)} rows={2} />
         <TwTextarea label="Subhead (optional)" value={tweaks.explainerTitle} onChange={(v) => setTweak('explainerTitle', v)} rows={2} />
+        <TwColor label="Background color (no-image slides)" value={tweaks.explainerBg || (tweaks.variant === 'terminal' ? '#050d11' : '#f8f9fa')} onChange={(v) => setTweak('explainerBg', v)} />
         {([1, 2, 3] as const).map((n) => (
           <div key={n}>
             <TwInput label={`Point ${n} — the takeaway`} value={tweaks[exTitleKey(n)]} onChange={(v) => setTweak(exTitleKey(n), v)} />
             <TwTextarea label={`Point ${n} — who it affects & how`} value={tweaks[exBodyKey(n)]} onChange={(v) => setTweak(exBodyKey(n), v)} rows={3} />
+            <div style={{ ...twLabel, marginTop: 2 }}>{`Point ${n} · Background image`}</div>
+            <TwImageUpload
+              value={tweaks[exImageKey(n)]}
+              onChange={(v) => setTweak(exImageKey(n), v)}
+              storagePicker={renderStoragePicker?.((url) => setTweak(exImageKey(n), url))}
+            />
+            {tweaks[exImageKey(n)] &&
+            <TwSlider
+              label={`Point ${n} image · Vertical Crop`}
+              min={0}
+              max={100}
+              value={tweaks[exImagePosKey(n)] ?? 50}
+              onChange={(v) => setTweak(exImagePosKey(n), v)}
+            />
+            }
           </div>
         ))}
         <TwTextarea label="Closing line" value={tweaks.explainerCTA} onChange={(v) => setTweak('explainerCTA', v)} rows={2} />
+        <div style={{ ...twLabel, marginTop: 2 }}>Outro · Background image</div>
+        <TwImageUpload
+          value={tweaks.explainerOutroImage}
+          onChange={(v) => setTweak('explainerOutroImage', v)}
+          storagePicker={renderStoragePicker?.((url) => setTweak('explainerOutroImage', url))}
+        />
+        {tweaks.explainerOutroImage &&
+        <TwSlider
+          label="Outro image · Vertical Crop"
+          min={0}
+          max={100}
+          value={tweaks.explainerOutroImagePosY ?? 50}
+          onChange={(v) => setTweak('explainerOutroImagePosY', v)}
+        />
+        }
       </TwSection>
       }
 

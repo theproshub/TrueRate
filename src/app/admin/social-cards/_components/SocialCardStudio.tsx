@@ -8,7 +8,7 @@ import type { NormalizedIndicator } from '@/types/indicators';
 import type { RatesPayload } from '../_actions';
 import { TR_TEMPLATES, templateSize } from './templates/registry';
 import type { TemplateFormat, TemplateVariant } from './templates/types';
-import TweaksPanel, { IMAGE_SLOTS } from './TweaksPanel';
+import TweaksPanel from './TweaksPanel';
 import SyncPanel from './SyncPanel';
 import StoragePicker from './StoragePicker';
 import ExportButton from './ExportButton';
@@ -318,9 +318,7 @@ export default function SocialCardStudio(
         tweaks={tweaks}
         setTweak={setTweak}
         applyMany={applyMany}
-        storagePicker={
-          <StoragePicker onSelect={(url) => setTweak(IMAGE_SLOTS[format].key, url)} />
-        }
+        renderStoragePicker={(onSelect) => <StoragePicker onSelect={onSelect} />}
       />
       }
     </div>
