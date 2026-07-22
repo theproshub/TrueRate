@@ -29,6 +29,8 @@ TrueRate is a professional financial news platform. Apply Yahoo Finance / Bloomb
 
 TrueRate reads like Yahoo Finance or Bloomberg for Liberia. The voice is a smart business journalist explaining data to a Liberian businessperson. Vivid, concrete, never sensational — the examples are the vividness, not the adjectives.
 
+> For the social-cards **Explainer carousel** (the plain-language, swipeable format at `/admin/social-cards`), a separate and simpler voice applies — no jargon, everyday scenarios, for any Liberian regardless of financial literacy. See [Explainer hook house style](docs/social-cards-explainer-house-style.md).
+
 #### Headlines
 
 1. **≤12 words.** Lead with the hook: a number, a change, an insight, or a consequence.
@@ -114,6 +116,17 @@ These workflows fire automatically based on the request — no manual `/skill` i
 10. Fix any MISMATCH, re-verify until all pass
 11. Output: article with macroTags, data box, source attribution
 
+#### EXPLAINER — "write an explainer", "make a hook", "explain [topic] for users", "plain-language [topic]", "explainer card / carousel"
+Same rigor as WRITE, but the output is the **social-cards Explainer carousel** (cover hook + three two-part points + outro) — money news put in plain language anyone can understand. It is **derived 1:1 from one published, already-verified article**, never written from raw memory. Voice + rules: `docs/social-cards-explainer-house-style.md`. Hooks live in `src/app/admin/social-cards/_components/hookBank.ts`.
+1. **Resolve the source article (required).** `search_articles` / `latest_articles` / `get_article` → the ONE published article this explainer sits on. If no article covers the topic yet, run **WRITE first** — the explainer is a translation layer on top of a verified article, not a substitute for it.
+2. **DUPLICATE GATE (one hook per article, mandatory).** Check `hookBank.ts` for an entry with that article's `slug`. If one exists, STOP and **UPDATE** it — never add a second hook for the same article. (Slug uniqueness is enforced by `social-cards-hookbank.test.ts`.)
+3. **Freshness gate.** `data_quality_report` on the article's macroTags/series → abort if any cited series is stale. A plain-language hook citing a superseded figure is still wrong.
+4. **Assemble the numbers.** `article_data_context` / `article_data_sheet` (or the article body) → every figure in the hook + points comes from here, exact values, **this article only** (no borrowing a number from another story).
+5. **Write in house style.** Cover hook = one plain sentence (archetype-led or curiosity gap, ≤~110 chars, never "Liberia"-led). Three points, each a bold takeaway + one plain-language body (who it affects & how), built **fact → contrast → consequence**. No jargon, `US$`/`LD$` never bare `$`, no causation, no banned words.
+6. **Verify.** `verify_article_data`-style claim check: every number in the hook/points matches the article/CBL; recompute any derived ratio. Plain-language lint: no jargon, period/currency correct, no causation/hype.
+7. Fix any MISMATCH, re-verify until clean.
+8. **Output:** a `HookEntry { slug, articleTitle, hook, points, bodies }` added to `hookBank.ts` under the article's category group; `npm test` (hook-bank + prefill) must pass.
+
 #### VERIFY — "check this article", "verify", "audit", "is this accurate", "fact check"
 1. Load article (from `src/data/news.ts` by ID, or `get_article` by slug, or inline text)
 2. `data_quality_report` → freshness check on all macroTags
@@ -190,6 +203,8 @@ Full quantitative audit. Act as a senior data scientist — question every value
 #### Content creation
 - `/write-article <topic>` — Write a data-backed article at Bloomberg/Yahoo Finance quality. Includes mandatory duplicate gate and data integrity checks.
 - `/update-article <slug>` — Update an existing article with fresh CBL data. Preserves editorial voice while swapping in current figures. The antidote to writing duplicates.
+- `/write-explainer <topic|slug>` — Turn a published article into a plain-language Explainer carousel (hook + three two-part points). Same rigor as `/write-article` (source article → duplicate gate → freshness → exact figures → verify), but the voice is the [explainer house style](docs/social-cards-explainer-house-style.md) — money news anyone can understand.
+- `/update-explainer <slug>` — Refresh an existing hook-bank entry with current figures from its source article, preserving the plain-language voice. The antidote to duplicate or stale hooks.
 - `/data-brief <topic>` — Generate a publication-ready data brief with exact CBL figures.
 
 #### Pre-publication verification
