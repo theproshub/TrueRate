@@ -30,7 +30,7 @@ from one verified article. Mirrors the `EXPLAINER` workflow in CLAUDE.md:
    article body. Every number in the hook + points comes from *this article only*.
 5. **Write to this house style** (below): hook + three two-part points + outro.
 6. **Verify.** Claim-check every number against the article/CBL; recompute derived
-   ratios; run the plain-language lint (no jargon, `US$`/`LD$`, no causation/hype).
+   ratios; run the plain-language lint (no jargon, `US$`/`L$`, no causation/hype).
    Fix mismatches, re-verify.
 7. **Output** a `HookEntry { slug, articleTitle, hook, points, bodies }`; tests pass.
 
@@ -85,8 +85,8 @@ consequence for a specific person.
    headline for the point — keep the exact figure where it *is* the point, but drop
    jargon ("broad money", "quasi money", "constant-price GDP"). No semicolons.
 2. **Body = a real Liberian's day.** `bodies[i]` names an archetype and shows how the
-   number lands on them: *"For a cookshop owner borrowing LD$500,000, interest alone
-   tops LD$65,000 a year — before she pays back a cent."* It must **add the lived
+   number lands on them: *"For a cookshop owner borrowing L$500,000, interest alone
+   tops L$65,000 a year — before she pays back a cent."* It must **add the lived
    consequence**, never rephrase the takeaway. Figures stay to what the article
    states; a body may soften one with "about/roughly" only if the exact value already
    appears in the entry.
@@ -111,13 +111,13 @@ consequence for a specific person.
 
 1. **Exact values, never rounded.** `13.11%`, not "about 13%". `US$175.13 million`,
    not "roughly US$175M". Rounding is editorializing.
-2. **Currency prefix always explicit: `US$` or `LD$`.** Never a bare `$`, never the
-   old `L$` / bare `L`. (Enforced elsewhere by lint E1; keep the bank clean too.)
+2. **Currency prefix always explicit: `US$` or `L$`.** Never a bare `$`, never a
+   bare `L`. (Enforced elsewhere by lint E1; keep the bank clean too.)
 3. **`%` is fine on cards** (unlike article body text, which spells out "percent").
 4. **Percentage points ≠ percent.** A rate moving 12% → 13% rose *1 percentage
    point*. Say "an 11.17-point gap", not "11.17 percent".
 5. **Illustrative math is welcome** when it makes a number felt, on an explicit
-   example amount: *"Over LD$65,000 a year on LD$500,000."*
+   example amount: *"Over L$65,000 a year on L$500,000."*
 
 ---
 
@@ -153,6 +153,6 @@ consequence for a specific person.
 2. Hook doesn't start with "Liberia"; no jargon; not a restated point.
 3. Three points build **fact → contrast → consequence**, each one line, each a
    distinct takeaway.
-4. Every figure is exact, sourced from *this* article, with `US$`/`LD$` (never `$`/`L$`).
+4. Every figure is exact, sourced from *this* article, with `US$`/`L$` (never a bare `$`).
 5. No banned words, no causation, no invented numbers or people.
 6. `slug` is the real article slug; no other entry uses it.

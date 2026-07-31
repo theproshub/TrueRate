@@ -42,15 +42,15 @@ TrueRate reads like Yahoo Finance or Bloomberg for Liberia. The voice is a smart
 
 1. **1–2 sentences.** Include the headline figure with exact value and period.
 2. **End with the consequence** — the "so what" or "who this affects." The dek sells the article to someone deciding whether to read it.
-3. **May use % and abbreviations** (US$, LD$, CBL) that would be spelled out in body text.
+3. **May use % and abbreviations** (US$, L$, CBL) that would be spelled out in body text.
 
 #### Body
 
 1. **No dateline.** Do not start with "MONROVIA —" or any wire-service dateline. Open directly with the lede sentence.
 2. **Lede = one declarative sentence.** Key figure, exact value, period, source. No throat-clearing, no scene-setting.
 3. **Second paragraph = context.** Prior period, year-ago comparison, 24-month average, or share of a total. The reader needs to know whether the number is high, low, or normal.
-4. **"For [audience]" paragraphs.** This is the TrueRate signature. Ground every abstract number in impact on a specific group: "For cookshop owners borrowing LD$500,000…", "For businesses that sell to the state…", "For the market women in Red Light…". Use real Liberian archetypes — keke operators, market traders, susu club members, construction subcontractors — not generic "stakeholders."
-5. **Concrete math.** Don't just say "the spread is wide." Say "a spread of 11.17 percentage points means a borrower pays LD$65,000 per year in interest on LD$500,000 before repaying any principal." Make the reader feel the number.
+4. **"For [audience]" paragraphs.** This is the TrueRate signature. Ground every abstract number in impact on a specific group: "For cookshop owners borrowing L$500,000…", "For businesses that sell to the state…", "For the market women in Red Light…". Use real Liberian archetypes — keke operators, market traders, susu club members, construction subcontractors — not generic "stakeholders."
+5. **Concrete math.** Don't just say "the spread is wide." Say "a spread of 11.17 percentage points means a borrower pays L$65,000 per year in interest on L$500,000 before repaying any principal." Make the reader feel the number.
 6. **One idea per paragraph.** 3–5 sentences max. Short paragraphs scan well on mobile.
 7. **Close with a forward look or practical takeaway.** Never recap or summarize. End with "what to watch," a structural insight, or actionable guidance. The last sentence should leave the reader thinking, not reviewing.
 8. **Cross-link related articles** with `[text](/news/slug)` when citing a figure that has its own dedicated article. This is how TrueRate avoids data recycling while keeping stories connected.
@@ -60,7 +60,7 @@ TrueRate reads like Yahoo Finance or Bloomberg for Liberia. The voice is a smart
 1. **Numerals for all money, percentages, and data points.** No exceptions.
 2. **"percent" in body, "%" in headlines/deks.** Never mix in the same context.
 3. **Distinguish "percentage points" from "percent."** A rate moving from 12% to 13% rose 1 percentage point (or 8.3 percent). Never conflate them.
-4. **Currency prefix always explicit.** US$5,159.74 million, LD$500,000. Never bare "$" — always US$ or LD$.
+4. **Currency prefix always explicit.** US$5,159.74 million, L$500,000. Never bare "$" — always US$ or L$.
 5. **First reference spells out the source** with abbreviation: "Central Bank of Liberia (CBL)", "Liberia Institute of Statistics and Geo-Information Services (LISGIS)." Subsequent references use the abbreviation.
 6. **Use exact CBL values.** Write "13.11 percent" not "about 13 percent." Rounding is editorializing.
 7. **Derive regime dates from the series, never from other articles.** "Held at X since <month>" / "Nth consecutive month" / "first since" must come from locating the observation where the value last changed (`get_series`). A wrong "since December 2025" MPR date (actual: October 2025) once propagated into six articles because each copied the previous one.
@@ -122,7 +122,7 @@ Same rigor as WRITE, but the output is the **social-cards Explainer carousel** (
 2. **DUPLICATE GATE (one hook per article, mandatory).** Check `hookBank.ts` for an entry with that article's `slug`. If one exists, STOP and **UPDATE** it — never add a second hook for the same article. (Slug uniqueness is enforced by `social-cards-hookbank.test.ts`.)
 3. **Freshness gate.** `data_quality_report` on the article's macroTags/series → abort if any cited series is stale. A plain-language hook citing a superseded figure is still wrong.
 4. **Assemble the numbers.** `article_data_context` / `article_data_sheet` (or the article body) → every figure in the hook + points comes from here, exact values, **this article only** (no borrowing a number from another story).
-5. **Write in house style.** Cover hook = one plain sentence (archetype-led or curiosity gap, ≤~110 chars, never "Liberia"-led). Three points, each a bold takeaway + one plain-language body (who it affects & how), built **fact → contrast → consequence**. No jargon, `US$`/`LD$` never bare `$`, no causation, no banned words.
+5. **Write in house style.** Cover hook = one plain sentence (archetype-led or curiosity gap, ≤~110 chars, never "Liberia"-led). Three points, each a bold takeaway + one plain-language body (who it affects & how), built **fact → contrast → consequence**. No jargon, `US$`/`L$` never bare `$`, no causation, no banned words.
 6. **Verify.** `verify_article_data`-style claim check: every number in the hook/points matches the article/CBL; recompute any derived ratio. Plain-language lint: no jargon, period/currency correct, no causation/hype.
 7. Fix any MISMATCH, re-verify until clean.
 8. **Output:** a `HookEntry { slug, articleTitle, hook, points, bodies }` added to `hookBank.ts` under the article's category group; `npm test` (hook-bank + prefill) must pass.
@@ -196,7 +196,7 @@ Full quantitative audit. Act as a senior data scientist — question every value
 | `outlier_detection` | Z-score anomaly detection with severity levels |
 | `cross_validate` | Directional consistency check between 2–6 related series |
 | `verify_article_data` | **Automated fact-checker**: extracts every number from article text, matches against CBL data with unit conversion, returns claim-by-claim EXACT/SUPPORTED/MISMATCH verdicts. Mandatory before publishing. |
-| `article_data_sheet` | **Pre-write data assembly**: given mnemonics, returns formatted data sheet with publication-ready values (US$2.82B, LD$299.4B, 16.3%), YoY changes, trends. Build the article from this sheet — no other source of numbers. |
+| `article_data_sheet` | **Pre-write data assembly**: given mnemonics, returns formatted data sheet with publication-ready values (US$2.82B, L$299.4B, 16.3%), YoY changes, trends. Build the article from this sheet — no other source of numbers. |
 
 ### Skills (also invocable manually via `/skill-name`)
 

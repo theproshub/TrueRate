@@ -361,7 +361,7 @@ export default async function MarketsPage() {
                 const v = ind?.value ?? null;
                 const isUsd = key === 'GDP' || key === 'RESERVES';
                 const formatted = v != null
-                  ? ind?.unit === 'M LRD' ? `LD$${v.toLocaleString()}M`
+                  ? ind?.unit === 'M LRD' ? `L$${v.toLocaleString()}M`
                   : ind?.unit === 'M USD' ? formatUSD(v * 1e6)
                   : isUsd ? formatUSD(v) : formatPct(v)
                   : '—';

@@ -34,7 +34,7 @@ export function formatCurrency(value: number, currency = 'USD'): string {
 }
 
 export function formatLRD(value: number): string {
-  return `LD$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `L$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export function formatNumber(value: number, decimals = 2): string {

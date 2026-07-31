@@ -8,7 +8,7 @@
 -- Currencies (ISO 4217)
 -- ─────────────────────────────────────────────────────────────────
 insert into public.currencies (code, name, symbol) values
-  ('LRD', 'Liberian Dollar',          'LD$'),
+  ('LRD', 'Liberian Dollar',          'L$'),
   ('USD', 'US Dollar',                '$'),
   ('EUR', 'Euro',                     '€'),
   ('GBP', 'British Pound',            '£'),
