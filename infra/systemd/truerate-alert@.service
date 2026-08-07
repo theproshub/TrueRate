@@ -1,0 +1,18 @@
+[Unit]
+Description=TrueRate — failure alert for %i
+Documentation=https://github.com/theproshub/TrueRate/blob/develop/docs/superpowers/specs/2026-08-07-droplet-jobs-design.md
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=truerate
+Group=truerate
+EnvironmentFile=/etc/truerate/env
+ExecStart=/srv/truerate/infra/systemd/alert.sh %i
+
+# Reading another unit's journal requires membership in systemd-journal.
+# See infra/systemd/README.md.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true

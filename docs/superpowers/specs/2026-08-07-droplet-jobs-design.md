@@ -142,8 +142,21 @@ Vercel crons stay live. Idempotency decides how each job crosses over:
 3. `vercel.ts` and the droplet never both run `generate-feed`.
 4. A failed timer produces a notification, not silence.
 
+## Host
+
+Ubuntu 26.04 LTS, 1 vCPU / 2 GB RAM, NYC, `192.34.63.217`. Hardened as described above.
+Docker present, running Uptime Kuma bound to `127.0.0.1:3001` and reached over an SSH
+tunnel.
+
+The 2 GB is shared with Uptime Kuma, so job units set `MemoryHigh=768M` / `MemoryMax=1G`
+— a leaking job gets throttled and reclaimed rather than inviting the OOM killer to pick
+a victim. The three current jobs are network-bound and nowhere near that. Headless Chrome
+work later would want a larger droplet.
+
 ## Open items
 
-Droplet IP, RAM, and distro version are not yet recorded here. RAM matters only if
-headless Chrome work is added later (wants ≥2 GB); the three current jobs are
-network-bound and fit comfortably in the smallest tier.
+- Confirm root SSH is actually refused (`ssh root@192.34.63.217` must fail).
+- Enable DigitalOcean droplet backups — the box holds no unique state today, but
+  `/etc/truerate/env` is not in git.
+- Later: evaluate moving the CBL MCP server off Supabase Edge Functions. Out of scope
+  here; it means owning TLS and uptime for every Claude session.
