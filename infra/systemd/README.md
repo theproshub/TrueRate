@@ -33,15 +33,16 @@ sudo chown truerate:truerate /srv/truerate
 # Reading a failed unit's journal for the alert body needs this group.
 sudo usermod -aG systemd-journal truerate
 
-sudo -u truerate git clone https://github.com/theproshub/TrueRate.git /srv/truerate
+# Clone the deploy branch directly with -b. `deploy.sh` lives in that branch,
+# so a default-branch clone would leave step 4 invoking a script that does not
+# exist yet. Use `develop` once this work is merged there.
+sudo -u truerate git clone -b feat/droplet-sync-cbl-job \
+  https://github.com/theproshub/TrueRate.git /srv/truerate
 ```
 
 The repo is public, so HTTPS needs no credentials. Were it private, the
 `truerate` user would need a read-only deploy key at
 `/srv/truerate/.ssh/id_ed25519` and an SSH clone URL.
-
-The clone's default branch does not matter — `deploy.sh` in step 4 checks out
-whatever `DEPLOY_BRANCH` names.
 
 ### 3. Secrets
 
