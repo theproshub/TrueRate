@@ -89,9 +89,16 @@ sudo systemctl daemon-reload
 
 A 2GB droplet does not want unbounded logs.
 
+A drop-in rather than an edit of `journald.conf`: an in-place `sed` silently
+does nothing if the distro ships the key in a different form, leaving logs
+uncapped while appearing to have worked.
+
 ```bash
-sudo sed -i 's/^#\?SystemMaxUse=.*/SystemMaxUse=500M/' /etc/systemd/journald.conf
+sudo mkdir -p /etc/systemd/journald.conf.d
+printf '[Journal]\nSystemMaxUse=500M\n' \
+  | sudo tee /etc/systemd/journald.conf.d/99-truerate.conf >/dev/null
 sudo systemctl restart systemd-journald
+journalctl --disk-usage
 ```
 
 ## Verify before scheduling
