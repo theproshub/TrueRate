@@ -22,6 +22,8 @@ interface JobOutcome {
   result: Record<string, unknown>;
   /** Non-fatal problems: the run succeeded, but not cleanly. */
   degraded: boolean;
+  /** Why it degraded, in this job's own terms. Shown in the alert. */
+  degradedReason?: string;
   tags: readonly string[];
 }
 
@@ -32,14 +34,24 @@ const JOBS: Record<string, (log: (m: string) => void) => Promise<JobOutcome>> = 
     // A handful of transient portal errors is normal and shouldn't page anyone.
     // A large fraction failing means the portal changed shape or is down.
     const degraded = total > 0 && result.failed_count / total > FAILURE_THRESHOLD;
-    return { result: { ...result }, degraded, tags: SYNC_CBL_REVALIDATE_TAGS };
+    return {
+      result: { ...result },
+      degraded,
+      degradedReason: `${result.failed_count} of ${total} series failed (threshold ${FAILURE_THRESHOLD * 100}%)`,
+      tags: SYNC_CBL_REVALIDATE_TAGS,
+    };
   },
 
   'snapshot-quotes': async (log) => {
     const result = await snapshotQuotes(log);
     // ok:false means every live feed was unusable — nothing was written, and
     // a day with no close silently leaves a hole in the series.
-    return { result: { ...result }, degraded: !result.ok, tags: SNAPSHOT_QUOTES_REVALIDATE_TAGS };
+    return {
+      result: { ...result },
+      degraded: !result.ok,
+      degradedReason: 'no live quote source returned usable data — nothing written',
+      tags: SNAPSHOT_QUOTES_REVALIDATE_TAGS,
+    };
   },
 
   'generate-feed': async (log) => {
@@ -47,6 +59,7 @@ const JOBS: Record<string, (log: (m: string) => void) => Promise<JobOutcome>> = 
     return {
       result: { ...result },
       degraded: result.status === 'partial',
+      degradedReason: 'at least one card generator failed — see detail',
       // A skipped run changed nothing, so there is nothing to revalidate.
       tags: result.skipped ? [] : GENERATE_FEED_REVALIDATE_TAGS,
     };
@@ -124,13 +137,13 @@ async function main() {
   }
 
   log(`${name}: start`);
-  const { result, degraded, tags } = await job(log);
+  const { result, degraded, degradedReason, tags } = await job(log);
   log(`${name}: ${JSON.stringify(summarize(result))}`);
 
   await revalidate(tags);
 
   if (degraded) {
-    log(`${name}: FAILED — too many series failed`);
+    log(`${name}: FAILED — ${degradedReason ?? 'run completed but degraded'}`);
     process.exit(1);
   }
   log(`${name}: done`);
