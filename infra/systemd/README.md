@@ -33,10 +33,10 @@ sudo chown truerate:truerate /srv/truerate
 # Reading a failed unit's journal for the alert body needs this group.
 sudo usermod -aG systemd-journal truerate
 
-# Clone the deploy branch directly with -b. `deploy.sh` lives in that branch,
-# so a default-branch clone would leave step 4 invoking a script that does not
-# exist yet. Use `develop` once this work is merged there.
-sudo -u truerate git clone -b feat/droplet-sync-cbl-job \
+# Clone `develop` directly with -b. It is the deploy branch and the one
+# `deploy.sh` defaults to; a clone of the default branch would leave step 4
+# invoking a script that does not exist there.
+sudo -u truerate git clone -b develop \
   https://github.com/theproshub/TrueRate.git /srv/truerate
 ```
 
@@ -77,17 +77,21 @@ authenticates through OIDC, which does not exist off-platform.
 
 ### 4. First deploy
 
-`deploy.sh` defaults to `develop`. Until this work is merged there, point it at
-the feature branch — `sudo` resets the environment, so the variable has to be
-set with `env` rather than as a bare prefix:
+`deploy.sh` defaults to `develop`, which is what production tracks:
 
 ```bash
-sudo -u truerate env DEPLOY_BRANCH=feat/droplet-sync-cbl-job \
-  /srv/truerate/scripts/deploy.sh
+sudo -u truerate /srv/truerate/scripts/deploy.sh
 ```
 
-Once merged, drop the `env` prefix and it tracks `develop`. The scripts are
-committed mode 755, so no `chmod` is needed.
+To ship some other branch, override `DEPLOY_BRANCH` — `sudo` resets the
+environment, so the variable has to be set with `env` rather than as a bare
+prefix:
+
+```bash
+sudo -u truerate env DEPLOY_BRANCH=my-branch /srv/truerate/scripts/deploy.sh
+```
+
+The scripts are committed mode 755, so no `chmod` is needed.
 
 ### 5. Install the units
 
