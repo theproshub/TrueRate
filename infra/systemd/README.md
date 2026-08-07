@@ -24,17 +24,24 @@ The `truerate` user owns the deployment and runs the jobs. It has no login
 shell — nothing should ever `ssh` in as it.
 
 ```bash
-sudo useradd --system --create-home --home-dir /srv/truerate --shell /usr/sbin/nologin truerate
+# No --create-home: it would populate /srv/truerate with skel files, and
+# `git clone` refuses a non-empty target. Create an empty directory instead.
+sudo useradd --system --home-dir /srv/truerate --shell /usr/sbin/nologin truerate
+sudo mkdir -p /srv/truerate
+sudo chown truerate:truerate /srv/truerate
 
 # Reading a failed unit's journal for the alert body needs this group.
 sudo usermod -aG systemd-journal truerate
 
 sudo -u truerate git clone https://github.com/theproshub/TrueRate.git /srv/truerate
-cd /srv/truerate && sudo -u truerate git checkout develop
 ```
 
-For a private repo, give the `truerate` user a read-only deploy key at
-`/srv/truerate/.ssh/id_ed25519` and clone over SSH instead.
+The repo is public, so HTTPS needs no credentials. Were it private, the
+`truerate` user would need a read-only deploy key at
+`/srv/truerate/.ssh/id_ed25519` and an SSH clone URL.
+
+The clone's default branch does not matter — `deploy.sh` in step 4 checks out
+whatever `DEPLOY_BRANCH` names.
 
 ### 3. Secrets
 
@@ -59,10 +66,17 @@ authenticates to `/api/revalidate` with it. Pull it with `vercel env pull`.
 
 ### 4. First deploy
 
+`deploy.sh` defaults to `develop`. Until this work is merged there, point it at
+the feature branch — `sudo` resets the environment, so the variable has to be
+set with `env` rather than as a bare prefix:
+
 ```bash
-sudo chmod +x /srv/truerate/scripts/deploy.sh /srv/truerate/infra/systemd/alert.sh
-sudo -u truerate /srv/truerate/scripts/deploy.sh
+sudo -u truerate env DEPLOY_BRANCH=feat/droplet-sync-cbl-job \
+  /srv/truerate/scripts/deploy.sh
 ```
+
+Once merged, drop the `env` prefix and it tracks `develop`. The scripts are
+committed mode 755, so no `chmod` is needed.
 
 ### 5. Install the units
 
