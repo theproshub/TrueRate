@@ -39,6 +39,22 @@ function log(message: string) {
 }
 
 /**
+ * Trim long string arrays before logging. A full list of 364 failed mnemonics
+ * buries the one field that explains the failure.
+ */
+function summarize(result: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(result)) {
+    if (Array.isArray(value) && value.length > 5) {
+      out[key] = [...value.slice(0, 5), `…and ${value.length - 5} more`];
+    } else {
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
+/**
  * Ask the live site to revalidate. A failure here leaves the site serving stale
  * data until the next ISR window — bad, but the data is already committed, so
  * it is reported rather than thrown.
@@ -85,7 +101,7 @@ async function main() {
 
   log(`${name}: start`);
   const { result, degraded, tags } = await job(log);
-  log(`${name}: ${JSON.stringify(result)}`);
+  log(`${name}: ${JSON.stringify(summarize(result))}`);
 
   await revalidate(tags);
 

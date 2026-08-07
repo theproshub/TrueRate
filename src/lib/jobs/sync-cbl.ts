@@ -37,6 +37,11 @@ export interface SyncCblResult {
   observations_upserted: number;
   failed_count: number;
   failed: string[];
+  /**
+   * Distinct failure reasons, capped. Without this a bad service-role key looks
+   * identical to a portal outage: hundreds of anonymous failures and no cause.
+   */
+  sample_errors: string[];
   duration_ms: number;
 }
 
@@ -116,6 +121,16 @@ export async function syncCbl(
   let obsOk = 0;
   let done = 0;
   const failed: string[] = [];
+  const sampleErrors: string[] = [];
+
+  // Record why a series failed, keeping only distinct reasons. 364 identical
+  // "invalid API key" messages say the same thing as one.
+  const fail = (mnemonic: string, reason: string) => {
+    failed.push(mnemonic);
+    if (sampleErrors.length < 5 && !sampleErrors.includes(reason)) {
+      sampleErrors.push(reason);
+    }
+  };
 
   await pool(refs, CONCURRENCY, async (ref) => {
     try {
@@ -123,7 +138,7 @@ export async function syncCbl(
         `${BASE}/getMnemonicData/${PORTAL}/${ref.databank}/${ref.mnemonic}`,
       );
       if (!res.ok) {
-        failed.push(ref.mnemonic);
+        fail(ref.mnemonic, `portal fetch: HTTP ${res.status}`);
         return;
       }
       const j = await res.json();
@@ -144,7 +159,7 @@ export async function syncCbl(
       };
       const sErr = (await supabase.from('cbl_series').upsert(seriesRow, { onConflict: 'mnemonic' })).error;
       if (sErr) {
-        failed.push(ref.mnemonic);
+        fail(ref.mnemonic, `cbl_series upsert: ${sErr.message}`);
         return;
       }
       seriesOk++;
@@ -168,13 +183,13 @@ export async function syncCbl(
           await supabase.from('cbl_observations').upsert(rows, { onConflict: 'mnemonic,period_date' })
         ).error;
         if (oErr) {
-          failed.push(ref.mnemonic);
+          fail(ref.mnemonic, `cbl_observations upsert: ${oErr.message}`);
           return;
         }
         obsOk += rows.length;
       }
-    } catch {
-      failed.push(ref.mnemonic);
+    } catch (err) {
+      fail(ref.mnemonic, `exception: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
       done++;
       if (done % 50 === 0) onProgress(`${done}/${refs.length} series processed`);
@@ -187,6 +202,7 @@ export async function syncCbl(
     observations_upserted: obsOk,
     failed_count: failed.length,
     failed,
+    sample_errors: sampleErrors,
     duration_ms: Date.now() - startedAt,
   };
 }
