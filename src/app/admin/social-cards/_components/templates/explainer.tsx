@@ -59,11 +59,6 @@ function ExplainerCore({ data, dark }: { data: CardTweaks; dark: boolean }) {
             : <AutoFitHeadline text={coverTitle} maxSize={78} minSize={50} maxLines={4}
                 styleOverrides={{ margin: '0 0 32px', color: dark ? '#fff' : C.navy }} />
           }
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 24,
-            letterSpacing: 2, textTransform: 'uppercase',
-            color: dark ? '#fff' : C.navy, display: 'flex', alignItems: 'center'
-          }}>Swipe to read →</div>
         </div>
         <CardFooter credit="truerateliberia.com" dark={dark} />
       </>
