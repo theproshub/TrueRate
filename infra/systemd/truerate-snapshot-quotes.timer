@@ -1,0 +1,16 @@
+[Unit]
+Description=TrueRate — daily end-of-day quote snapshot
+Documentation=https://github.com/theproshub/TrueRate/blob/develop/docs/superpowers/specs/2026-08-07-droplet-jobs-design.md
+
+[Timer]
+# 22:30 UTC, matching the schedule this job had on Vercel. Late enough that
+# US commodity sessions have closed.
+OnCalendar=*-*-* 22:30:00 UTC
+# Run on boot if the droplet was down at the scheduled time. Upserts on
+# (symbol_id, date), so a late catch-up run overwrites rather than duplicates.
+Persistent=true
+RandomizedDelaySec=300
+Unit=truerate-snapshot-quotes.service
+
+[Install]
+WantedBy=timers.target

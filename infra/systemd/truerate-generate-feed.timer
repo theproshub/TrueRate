@@ -1,0 +1,16 @@
+[Unit]
+Description=TrueRate — daily feed card generation
+Documentation=https://github.com/theproshub/TrueRate/blob/develop/docs/superpowers/specs/2026-08-07-droplet-jobs-design.md
+
+[Timer]
+# 06:00 UTC, matching the schedule this job had on Vercel.
+OnCalendar=*-*-* 06:00:00 UTC
+# Deliberately NOT Persistent. This job INSERTs and is not idempotent; a
+# catch-up run firing at boot alongside the normal schedule is exactly how
+# duplicate cards appear. A missed day is cheaper than a duplicated one.
+Persistent=false
+RandomizedDelaySec=300
+Unit=truerate-generate-feed.service
+
+[Install]
+WantedBy=timers.target

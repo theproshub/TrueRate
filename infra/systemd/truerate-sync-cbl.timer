@@ -3,11 +3,10 @@ Description=TrueRate — daily CBL Statistics sync
 Documentation=https://github.com/theproshub/TrueRate/blob/develop/docs/superpowers/specs/2026-08-07-droplet-jobs-design.md
 
 [Timer]
-# Vercel cron runs sync-cbl at 06:05 UTC. This deliberately runs an hour later
-# so both can operate during the verification window — the job upserts, so a
-# double run is a no-op. Once the droplet is trusted, drop sync-cbl from
-# vercel.ts and move this to 06:05.
-OnCalendar=*-*-* 07:05:00 UTC
+# 06:05 UTC, the schedule this job had on Vercel. The Vercel cron is gone —
+# vercel.ts no longer declares any — so there is nothing to run in parallel
+# with and no reason for the old one-hour offset.
+OnCalendar=*-*-* 06:05:00 UTC
 # Run on boot if the droplet was down at the scheduled time.
 Persistent=true
 # Avoid hammering the CBL portal at a predictable second.

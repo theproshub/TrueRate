@@ -3,9 +3,9 @@ import type { VercelConfig } from '@vercel/config/v1';
 export const config: VercelConfig = {
   framework: 'nextjs',
 
-  crons: [
-    { path: '/api/cron/generate-feed', schedule: '0 6 * * *' },
-    { path: '/api/cron/snapshot-quotes', schedule: '30 22 * * *' },
-    { path: '/api/cron/sync-cbl', schedule: '5 6 * * *' },
-  ],
+  // No crons. All three scheduled jobs (sync-cbl, snapshot-quotes,
+  // generate-feed) run as systemd timers on the droplet — see
+  // infra/systemd/README.md. The /api/cron/* routes remain as authenticated
+  // manual triggers and share their implementation with the timers via
+  // src/lib/jobs/.
 };

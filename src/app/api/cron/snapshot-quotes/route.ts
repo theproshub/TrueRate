@@ -1,39 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { createAdminClient } from '@/lib/supabase/admin';
-import { fetchLiveRates, toLRDRates } from '@/domain/markets/exchange';
-import { fetchCommodities } from '@/domain/markets/commodities';
-import { FX_SYMBOLS, COMMODITY_SYMBOLS } from '@/lib/analytics/catalog';
+import { snapshotQuotes } from '@/lib/jobs/snapshot-quotes';
 
 /**
  * GET /api/cron/snapshot-quotes
  *
- * Persists ONE real end-of-day close per tracked symbol into `quotes_daily`,
- * building the price/FX time-series forward over time (quotes_daily started
- * empty — there is no historical bulk source for Liberian FX, and no free bulk
- * history endpoint for commodities, so we accumulate honest daily snapshots).
+ * Manual/on-demand trigger. The scheduled run is a systemd timer on the
+ * droplet (see infra/systemd/); the job itself lives in
+ * src/lib/jobs/snapshot-quotes.ts so both callers share one implementation.
  *
- * NEVER fabricates: a symbol whose live source fails is simply skipped this run.
- * Upsert on (symbol_id, date) makes re-runs within a day idempotent.
- *
- * Auth: Vercel Cron sends `Authorization: Bearer <CRON_SECRET>`.
+ * Auth: Authorization: Bearer <CRON_SECRET>.
  */
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
-
-function adminClient() {
-  return createAdminClient();
-}
-
-interface QuoteRow {
-  symbol_id: string;
-  date: string;
-  close: number;
-  open: number | null;
-  high: number | null;
-  low: number | null;
-}
 
 export async function GET(request: NextRequest) {
   const auth = request.headers.get('authorization');
@@ -41,95 +21,23 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = adminClient();
-  const today = new Date().toISOString().slice(0, 10);
-  const detail: Record<string, unknown> = {};
-
   try {
-    // Map tickers → symbol UUIDs.
-    const { data: symbols, error: symErr } = await db
-      .from('symbols')
-      .select('id, ticker');
-    if (symErr) throw symErr;
-    const idByTicker = new Map((symbols ?? []).map((s) => [s.ticker, s.id]));
+    const result = await snapshotQuotes();
 
-    const rows: QuoteRow[] = [];
-
-    // ── FX: live USD-base rates → LRD cross-rates ──
-    try {
-      const live = await fetchLiveRates();
-      if (live.stale) {
-        // Both FX feeds down — never persist hardcoded fallback rates as a
-        // real end-of-day close. Skip FX entirely this run.
-        throw new Error('FX feed unavailable (stale fallback) — skipped');
-      }
-      const lrd = toLRDRates(live); // { USD: <LRD per USD>, EUR: ..., ... }
-      let fxCount = 0;
-      for (const sym of FX_SYMBOLS) {
-        const base = sym.sourceKey.toUpperCase(); // 'usd' → 'USD'
-        // The USD/LRD series is the official CBL record — only persist it when
-        // freshly scraped today. A cached ('CBL-cache') or CDN anchor must not
-        // be written as a new official close.
-        if (base === 'USD' && live.lrdSource !== 'CBL') continue;
-        const value = lrd[base];
-        const id = idByTicker.get(sym.ticker);
-        if (id && typeof value === 'number' && Number.isFinite(value)) {
-          rows.push({ symbol_id: id, date: today, close: Number(value.toFixed(4)), open: null, high: null, low: null });
-          fxCount++;
-        }
-      }
-      detail.fx = fxCount;
-    } catch (e) {
-      detail.fx_error = e instanceof Error ? e.message : String(e);
-    }
-
-    // ── Commodities: live Yahoo Finance snapshot ──
-    try {
-      const commodities = await fetchCommodities();
-      const bySymbol = new Map(commodities.map((c) => [c.symbol, c]));
-      let cCount = 0;
-      for (const sym of COMMODITY_SYMBOLS) {
-        const q = bySymbol.get(sym.sourceKey);
-        const id = idByTicker.get(sym.ticker);
-        if (id && q && typeof q.price === 'number' && Number.isFinite(q.price)) {
-          rows.push({
-            symbol_id: id,
-            date: today,
-            close: Number(q.price.toFixed(4)),
-            // q.prevClose is the *previous* session's close, not today's open —
-            // don't mislabel it in the open column.
-            open: null,
-            high: null,
-            low: null,
-          });
-          cCount++;
-        }
-      }
-      detail.commodities = cCount;
-    } catch (e) {
-      detail.commodities_error = e instanceof Error ? e.message : String(e);
-    }
-
-    if (rows.length === 0) {
+    if (!result.ok) {
       return NextResponse.json(
-        { ok: false, error: 'no live quotes available this run', detail },
+        { ok: false, error: 'no live quotes available this run', detail: result.detail },
         { status: 200 },
       );
     }
-
-    // Upsert so re-running within a day overwrites, never duplicates.
-    const { error: upErr, count } = await db
-      .from('quotes_daily')
-      .upsert(rows, { onConflict: 'symbol_id,date', count: 'exact' });
-    if (upErr) throw upErr;
 
     revalidatePath('/api/rates');
     revalidatePath('/api/commodities');
     revalidatePath('/markets');
 
-    return NextResponse.json({ ok: true, rowsWritten: count ?? rows.length, date: today, detail });
+    return NextResponse.json(result);
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    return NextResponse.json({ ok: false, error: message, detail }, { status: 500 });
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

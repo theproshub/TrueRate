@@ -1,0 +1,44 @@
+[Unit]
+Description=TrueRate — daily feed card generation
+Documentation=https://github.com/theproshub/TrueRate/blob/develop/docs/superpowers/specs/2026-08-07-droplet-jobs-design.md
+# Calls the Vercel AI Gateway and live market APIs; needs the network up first.
+After=network-online.target
+Wants=network-online.target
+OnFailure=truerate-alert@%n.service
+
+[Service]
+Type=oneshot
+User=truerate
+Group=truerate
+WorkingDirectory=/srv/truerate
+EnvironmentFile=/etc/truerate/env
+Environment=NODE_ENV=production
+Environment=HOME=/srv/truerate
+
+# Call the binary directly. `npx` will reach out to the registry if it can't
+# resolve a package locally, and a scheduled job must never depend on that.
+ExecStart=/srv/truerate/node_modules/.bin/tsx src/lib/jobs/run.ts generate-feed
+
+# Four sequential LLM calls. Generous, because a timeout mid-insert is worse
+# than a slow run: this job INSERTs and is not idempotent.
+TimeoutStartSec=1800
+
+# 2GB box shared with Uptime Kuma. MemoryHigh throttles and reclaims before
+# MemoryMax triggers the OOM killer, so a leak degrades instead of dying.
+MemoryHigh=768M
+MemoryMax=1G
+Nice=10
+
+# Hardening — this process needs the network, /srv/truerate, and nothing else.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/truerate
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true

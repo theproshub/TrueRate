@@ -52,18 +52,28 @@ and an untracked env file there is one bad command from being lost.
 ```bash
 sudo mkdir -p /etc/truerate
 sudo tee /etc/truerate/env >/dev/null <<'EOF'
-NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=...
-CRON_SECRET=...
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=<service role key>
+CRON_SECRET=<same value as Vercel production>
 TRUERATE_SITE_URL=https://truerateliberia.com
-JOB_ALERT_WEBHOOK_URL=...
+JOB_ALERT_WEBHOOK_URL=<slack or discord webhook>
+AI_GATEWAY_API_KEY=<vercel ai gateway key>   # generate-feed only
 EOF
 sudo chown root:truerate /etc/truerate/env
 sudo chmod 640 /etc/truerate/env
 ```
 
-`CRON_SECRET` must be the same value as in the Vercel project env — the droplet
-authenticates to `/api/revalidate` with it. Pull it with `vercel env pull`.
+**Substitute every placeholder.** Pasting this block verbatim produces a job
+that fails with `TypeError: fetch failed` against a host that does not exist —
+a confusing symptom for an obvious cause. Confirm with
+`sudo grep -c '<' /etc/truerate/env`, which must print `0`.
+
+`CRON_SECRET` must match **Vercel production**, not preview — `vercel env pull`
+defaults to the development/preview environment, and a preview value gets a 401
+from the live site. Check with `vercel env ls production`.
+
+`AI_GATEWAY_API_KEY` is needed only by `generate-feed`. On Vercel the AI Gateway
+authenticates through OIDC, which does not exist off-platform.
 
 ### 4. First deploy
 
@@ -102,57 +112,71 @@ sudo systemctl restart systemd-journald
 journalctl --disk-usage
 ```
 
+## The jobs
+
+`vercel.ts` declares no crons. These timers are the only thing running these
+jobs; the `/api/cron/*` routes remain as authenticated manual triggers sharing
+the same implementation from `src/lib/jobs/`.
+
+| Job | Timer | Writes | Re-runnable |
+|-----|-------|--------|-------------|
+| `sync-cbl` | 06:05 UTC | upsert `cbl_series`, `cbl_observations` | yes |
+| `snapshot-quotes` | 22:30 UTC | upsert `quotes_daily` on `(symbol_id, date)` | yes |
+| `generate-feed` | 06:00 UTC | **insert** `content_cards`, `markets_snapshot` | **no** |
+
+`generate-feed` is the one to be careful with. It inserts, so a second run
+creates duplicate cards. Two things guard it: a 30-minute duplicate check
+against `generation_log.run_at`, and `Persistent=false` on its timer so a
+missed run is skipped rather than caught up at boot. A missed day is cheaper
+than a duplicated one.
+
 ## Verify before scheduling
 
-Run the job by hand and watch it. Do not enable the timer until this passes.
+Run each job by hand and confirm it exits clean. Do not enable a timer until
+its job has passed once.
 
 ```bash
 sudo systemctl start truerate-sync-cbl.service
-journalctl -u truerate-sync-cbl -f
-```
-
-Expect a `catalog: N series` line, periodic progress, and a final JSON result
-with `failed_count` near zero. Then check the exit was clean:
-
-```bash
+journalctl -u truerate-sync-cbl --no-pager -n 30
 systemctl show truerate-sync-cbl.service --property=Result --value   # -> success
 ```
 
-Test the alert path too, since a silent broken alerter is the failure mode that
-hides every other failure:
+What a healthy run looks like:
+
+- **`sync-cbl`** — `catalog: N series`, progress every 50, then
+  `failed_count: 0` and a non-zero `observations_upserted`. A non-empty
+  `sample_errors` names the cause.
+- **`snapshot-quotes`** — `fx: N quotes` and `commodities: N quotes`, then
+  `ok: true` with `rows_written` > 0. `ok: false` means every live feed was
+  unusable and nothing was written.
+- **`generate-feed`** — a line per card type, then `status: "success"`.
+  `"partial"` means at least one generator failed and is treated as a failure.
+  `skipped: true` means the 30-minute guard fired, which is correct behaviour.
+
+Test the alert path too, since a silently broken alerter is the failure mode
+that hides every other failure:
 
 ```bash
-sudo -u truerate JOB_ALERT_WEBHOOK_URL="$(sudo grep JOB_ALERT_WEBHOOK_URL /etc/truerate/env | cut -d= -f2-)" \
+sudo -u truerate env \
+  JOB_ALERT_WEBHOOK_URL="$(sudo grep '^JOB_ALERT_WEBHOOK_URL=' /etc/truerate/env | cut -d= -f2-)" \
   /srv/truerate/infra/systemd/alert.sh truerate-sync-cbl.service
 ```
 
-## Enable the timer
+## Enable the timers
 
 ```bash
 sudo systemctl enable --now truerate-sync-cbl.timer
-systemctl list-timers truerate-\*
+sudo systemctl enable --now truerate-snapshot-quotes.timer
+sudo systemctl enable --now truerate-generate-feed.timer
+systemctl list-timers 'truerate-*'
 ```
-
-The timer runs at 07:05 UTC, an hour after the Vercel cron at 06:05. Both may
-run during verification: the job upserts on `mnemonic` and `mnemonic,period_date`,
-so a double run is a no-op.
-
-## Cutting Vercel over
-
-After a few days of matching results, remove the `sync-cbl` entry from
-`vercel.ts` and move `OnCalendar` to `06:05`. Keep the route handler — it is the
-manual "run it now" button and shares its implementation with the timer.
-
-**`generate-feed` is different.** It uses plain `INSERT` into `content_cards`,
-so running it in both places duplicates social cards. It requires a hard
-cutover: delete it from `vercel.ts` in the same commit that enables its timer.
 
 ## Operating
 
 ```bash
-journalctl -u truerate-sync-cbl -f              # follow
-journalctl -u truerate-sync-cbl --since today   # today's run
-systemctl list-timers truerate-\*               # when does it next fire
-sudo systemctl start truerate-sync-cbl.service  # run now
-sudo -u truerate /srv/truerate/scripts/deploy.sh  # ship a change
+journalctl -u truerate-sync-cbl -f                  # follow one job
+journalctl -u 'truerate-*' --since today            # all jobs today
+systemctl list-timers 'truerate-*'                  # next fire times
+sudo systemctl start truerate-sync-cbl.service      # run now
+sudo -u truerate /srv/truerate/scripts/deploy.sh    # ship a change
 ```

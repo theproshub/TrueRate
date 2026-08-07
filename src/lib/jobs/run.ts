@@ -9,8 +9,11 @@
 //
 // Env required: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
 //               CRON_SECRET, TRUERATE_SITE_URL
+//               AI_GATEWAY_API_KEY (generate-feed only)
 
 import { syncCbl, SYNC_CBL_REVALIDATE_TAGS } from './sync-cbl';
+import { snapshotQuotes, SNAPSHOT_QUOTES_REVALIDATE_TAGS } from './snapshot-quotes';
+import { generateFeed, GENERATE_FEED_REVALIDATE_TAGS } from './generate-feed';
 
 /** Fraction of series that may fail before the run counts as failed overall. */
 const FAILURE_THRESHOLD = 0.1;
@@ -30,6 +33,23 @@ const JOBS: Record<string, (log: (m: string) => void) => Promise<JobOutcome>> = 
     // A large fraction failing means the portal changed shape or is down.
     const degraded = total > 0 && result.failed_count / total > FAILURE_THRESHOLD;
     return { result: { ...result }, degraded, tags: SYNC_CBL_REVALIDATE_TAGS };
+  },
+
+  'snapshot-quotes': async (log) => {
+    const result = await snapshotQuotes(log);
+    // ok:false means every live feed was unusable — nothing was written, and
+    // a day with no close silently leaves a hole in the series.
+    return { result: { ...result }, degraded: !result.ok, tags: SNAPSHOT_QUOTES_REVALIDATE_TAGS };
+  },
+
+  'generate-feed': async (log) => {
+    const result = await generateFeed(log);
+    return {
+      result: { ...result },
+      degraded: result.status === 'partial',
+      // A skipped run changed nothing, so there is nothing to revalidate.
+      tags: result.skipped ? [] : GENERATE_FEED_REVALIDATE_TAGS,
+    };
   },
 };
 
@@ -60,6 +80,10 @@ function summarize(result: Record<string, unknown>): Record<string, unknown> {
  * it is reported rather than thrown.
  */
 async function revalidate(tags: readonly string[]): Promise<boolean> {
+  // Nothing changed, so nothing to bust. Posting an empty tag list would just
+  // draw a spurious warning out of the endpoint.
+  if (tags.length === 0) return true;
+
   const siteUrl = process.env.TRUERATE_SITE_URL;
   const secret = process.env.CRON_SECRET;
   if (!siteUrl || !secret) {
