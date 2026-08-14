@@ -128,3 +128,58 @@ export function diffCatalog(
 
   return findings;
 }
+
+/** Human-readable reason, stored on the article and shown in the notice. */
+export function describeFinding(f: ReleaseFinding): string {
+  if (f.kind === 'new_period') {
+    return `Outdated — ${f.mnemonic} gained ${f.period_label} (${f.new_value}).`;
+  }
+  if (f.kind === 'revision') {
+    return `Outdated — ${f.mnemonic} ${f.period_label} restated ${f.old_value} → ${f.new_value}.`;
+  }
+  return `${f.mnemonic}: ${f.detail ?? f.kind}`;
+}
+
+const NOTICE_HEADINGS: Record<ReleaseKind, string> = {
+  new_period: 'NEW PERIODS',
+  revision: 'REVISIONS',
+  series_missing: 'SERIES MISSING',
+  series_failed: 'SERIES REGRESSED',
+};
+
+/** Order matters: the most editorially urgent kind reads first. */
+const NOTICE_ORDER: ReleaseKind[] = [
+  'revision',
+  'new_period',
+  'series_missing',
+  'series_failed',
+];
+
+const NOTICE_CAP = 15;
+
+/**
+ * Grouped, capped summary for JOB_ALERT_WEBHOOK_URL. A monthly CBL release can
+ * carry 150+ findings; dumping them all buries the ones that matter.
+ * Returns undefined when there is nothing to say, so the caller can skip the post.
+ */
+export function formatReleaseNotice(
+  findings: readonly ReleaseFinding[],
+): string | undefined {
+  if (findings.length === 0) return undefined;
+
+  const blocks: string[] = [];
+
+  for (const kind of NOTICE_ORDER) {
+    const group = findings.filter((f) => f.kind === kind);
+    if (group.length === 0) continue;
+
+    const lines = group.slice(0, NOTICE_CAP).map((f) => `  ${describeFinding(f)}`);
+    if (group.length > NOTICE_CAP) {
+      lines.push(`  …and ${group.length - NOTICE_CAP} more`);
+    }
+
+    blocks.push(`${NOTICE_HEADINGS[kind]} (${group.length})\n${lines.join('\n')}`);
+  }
+
+  return `CBL warehouse changes detected\n\n${blocks.join('\n\n')}`;
+}

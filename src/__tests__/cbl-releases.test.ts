@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   diffSeries,
   diffCatalog,
+  describeFinding,
+  formatReleaseNotice,
   type ObservationIndex,
   type ScrapedRow,
 } from '@/lib/jobs/cbl-releases';
@@ -106,5 +108,60 @@ describe('diffCatalog', () => {
 
   it('reports nothing when the catalog is intact', () => {
     expect(diffCatalog(new Set(['A']), new Set(['A']), new Map())).toEqual([]);
+  });
+});
+
+describe('describeFinding', () => {
+  it('describes a new period with its value', () => {
+    expect(
+      describeFinding({
+        kind: 'new_period',
+        mnemonic: 'LBR_CPI_0',
+        period_label: 'Jun-26',
+        new_value: 822.59,
+      }),
+    ).toBe('Outdated — LBR_CPI_0 gained Jun-26 (822.59).');
+  });
+
+  it('describes a revision with both values', () => {
+    expect(
+      describeFinding({
+        kind: 'revision',
+        mnemonic: 'LBR_CPI_0',
+        period_label: 'Jun-26',
+        old_value: 822.59,
+        new_value: 823.4,
+      }),
+    ).toBe('Outdated — LBR_CPI_0 Jun-26 restated 822.59 → 823.4.');
+  });
+});
+
+describe('formatReleaseNotice', () => {
+  it('returns undefined when there is nothing to report', () => {
+    expect(formatReleaseNotice([])).toBeUndefined();
+  });
+
+  it('groups findings by kind with counts', () => {
+    const notice = formatReleaseNotice([
+      { kind: 'new_period', mnemonic: 'A', period_label: 'Jun-26', new_value: 1 },
+      { kind: 'new_period', mnemonic: 'B', period_label: 'Jun-26', new_value: 2 },
+      { kind: 'series_missing', mnemonic: 'C', detail: 'gone' },
+    ])!;
+    expect(notice).toContain('NEW PERIODS (2)');
+    expect(notice).toContain('SERIES MISSING (1)');
+    expect(notice).toContain('A');
+  });
+
+  it('caps each group at 15 entries and states the remainder', () => {
+    const many = Array.from({ length: 20 }, (_, i) => ({
+      kind: 'new_period' as const,
+      mnemonic: `M${i}`,
+      period_label: 'Jun-26',
+      new_value: i,
+    }));
+    const notice = formatReleaseNotice(many)!;
+    expect(notice).toContain('NEW PERIODS (20)');
+    expect(notice).toContain('…and 5 more');
+    expect(notice).not.toContain('M19');
   });
 });
