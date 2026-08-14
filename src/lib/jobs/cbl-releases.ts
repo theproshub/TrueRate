@@ -3,6 +3,9 @@
 //
 // Design: docs/superpowers/specs/2026-08-13-cbl-release-monitoring-design.md
 
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { createAdminClient } from '@/lib/supabase/admin';
+
 export type ReleaseKind =
   | 'new_period'
   | 'revision'
@@ -182,4 +185,183 @@ export function formatReleaseNotice(
   }
 
   return `CBL warehouse changes detected\n\n${blocks.join('\n\n')}`;
+}
+
+export type AdminClient = ReturnType<typeof createAdminClient>;
+
+/**
+ * The generated `Database` type predates the cbl_releases migration, so it knows
+ * nothing about that table or about articles.needs_refresh / refresh_reason.
+ *
+ * This is a deliberately narrow escape hatch, scoped to this module, used only
+ * for the tables the generated types have not caught up with. Delete it and use
+ * the typed client directly once types are regenerated against the migrated
+ * schema (see supabase/migrations/2026-08-13-cbl-releases.sql).
+ */
+function untyped(supabase: AdminClient): SupabaseClient {
+  return supabase as unknown as SupabaseClient;
+}
+
+/** PostgREST caps a single response; page through the whole table. */
+const INDEX_PAGE = 10_000;
+
+/**
+ * Load every existing observation into memory keyed `mnemonic|period_date`.
+ * ~44k rows / ~5 MB today, trivially under the unit's MemoryHigh=768M.
+ *
+ * The explicit ORDER BY is load-bearing: range pagination without a total order
+ * can skip or repeat rows between pages.
+ */
+export async function loadObservationIndex(
+  supabase: AdminClient,
+): Promise<ObservationIndex> {
+  const index: ObservationIndex = new Map();
+
+  for (let from = 0; ; from += INDEX_PAGE) {
+    const { data, error } = await supabase
+      .from('cbl_observations')
+      .select('mnemonic, period_date, value')
+      .order('mnemonic', { ascending: true })
+      .order('period_date', { ascending: true })
+      .range(from, from + INDEX_PAGE - 1);
+
+    if (error) throw error;
+
+    const rows = data ?? [];
+    for (const r of rows) {
+      index.set(
+        observationKey(r.mnemonic, r.period_date),
+        r.value === null ? null : Number(r.value),
+      );
+    }
+
+    if (rows.length < INDEX_PAGE) break;
+  }
+
+  return index;
+}
+
+export interface ReleaseSummary {
+  runId: string;
+  findings: ReleaseFinding[];
+  articlesLabeled: number;
+  findingsFiled: number;
+}
+
+const INSERT_CHUNK = 500;
+
+interface AffectedArticle {
+  id: string;
+  slug: string;
+  macro_tags: string[] | null;
+}
+
+/** Revisions outrank new periods when one article cites several changed series. */
+function bestReasonByMnemonic(
+  findings: readonly ReleaseFinding[],
+): Map<string, string> {
+  const best = new Map<string, ReleaseFinding>();
+  for (const f of findings) {
+    if (f.kind !== 'new_period' && f.kind !== 'revision') continue;
+    const existing = best.get(f.mnemonic);
+    if (existing?.kind === 'revision' && f.kind === 'new_period') continue;
+    best.set(f.mnemonic, f);
+  }
+  return new Map([...best].map(([m, f]) => [m, describeFinding(f)]));
+}
+
+/** Published articles whose macro_tags mention any of these mnemonics. */
+async function findAffectedArticles(
+  supabase: AdminClient,
+  mnemonics: string[],
+): Promise<AffectedArticle[]> {
+  if (mnemonics.length === 0) return [];
+  const { data, error } = await untyped(supabase)
+    .from('articles')
+    .select('id, slug, macro_tags')
+    .eq('status', 'published')
+    .overlaps('macro_tags', mnemonics);
+  if (error) throw error;
+  return (data ?? []) as AffectedArticle[];
+}
+
+/**
+ * Persist findings, label affected articles, and file revisions to the integrity
+ * queue.
+ *
+ * Never touches articles.status. getNewsItems filters status='published' and
+ * falls back to the news.ts seed at zero rows, so unpublishing on a release
+ * would pull live articles off the site — and a large release could flip the
+ * whole site to seed data. An article citing June CPI is not wrong when July
+ * lands; it is merely no longer current.
+ */
+export async function recordReleases(
+  supabase: AdminClient,
+  runId: string,
+  findings: readonly ReleaseFinding[],
+): Promise<ReleaseSummary> {
+  const summary: ReleaseSummary = {
+    runId,
+    findings: [...findings],
+    articlesLabeled: 0,
+    findingsFiled: 0,
+  };
+  if (findings.length === 0) return summary;
+
+  // 1. Full change log.
+  for (let i = 0; i < findings.length; i += INSERT_CHUNK) {
+    const chunk = findings.slice(i, i + INSERT_CHUNK).map((f) => ({
+      run_id: runId,
+      kind: f.kind,
+      mnemonic: f.mnemonic,
+      period_date: f.period_date ?? null,
+      period_label: f.period_label ?? null,
+      old_value: f.old_value ?? null,
+      new_value: f.new_value ?? null,
+      detail: f.detail ?? null,
+    }));
+    const { error } = await untyped(supabase).from('cbl_releases').insert(chunk);
+    if (error) throw error;
+  }
+
+  // 2. Label affected published articles.
+  const reasons = bestReasonByMnemonic(findings);
+  const articles = await findAffectedArticles(supabase, [...reasons.keys()]);
+
+  for (const article of articles) {
+    const hit = (article.macro_tags ?? []).find((m) => reasons.has(m));
+    if (!hit) continue;
+    const { error } = await untyped(supabase)
+      .from('articles')
+      .update({ needs_refresh: true, refresh_reason: reasons.get(hit) })
+      .eq('id', article.id);
+    if (error) throw error;
+    summary.articlesLabeled++;
+  }
+
+  // 3. Revisions are a review item, not just a change. An article quoting a
+  //    superseded value is wrong, not merely stale.
+  for (const rev of findings.filter((f) => f.kind === 'revision')) {
+    const slugs = articles
+      .filter((a) => (a.macro_tags ?? []).includes(rev.mnemonic))
+      .map((a) => a.slug);
+
+    const { error } = await untyped(supabase)
+      .from('data_integrity_findings')
+      .insert({
+        severity: 'HIGH',
+        title: `${rev.mnemonic} ${rev.period_label} restated by source`,
+        detail:
+          `cbl_observations held ${rev.old_value}; CBL now publishes ${rev.new_value}. ` +
+          `Articles listed quote the superseded figure.`,
+        series_mnemonic: rev.mnemonic,
+        period_label: rev.period_label ?? null,
+        affected_slugs: slugs,
+        status: 'open',
+      });
+    if (error) throw error;
+    summary.findingsFiled++;
+  }
+
+  return summary;
 }
