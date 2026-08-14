@@ -8,6 +8,14 @@
 // Env required: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
 
 import { createAdminClient } from '@/lib/supabase/admin';
+import {
+  loadObservationIndex,
+  diffSeries,
+  diffCatalog,
+  recordReleases,
+  type ObservationIndex,
+  type ReleaseFinding,
+} from './cbl-releases';
 
 const PORTAL = 'cblstatistics';
 const BASE = 'https://app.datawarehousepro.com/guest';
@@ -43,6 +51,17 @@ export interface SyncCblResult {
    */
   sample_errors: string[];
   duration_ms: number;
+  /** Release detection outcome. Absent when detection could not run. */
+  releases?: {
+    run_id: string;
+    counts: Record<string, number>;
+    articles_labeled: number;
+    findings_filed: number;
+  };
+  /** Findings for the caller's notice. Absent when detection could not run. */
+  release_findings?: ReleaseFinding[];
+  /** Set when detection failed; the sync itself still succeeded. */
+  detection_error?: string;
 }
 
 /** Cache tags to invalidate after a successful run — see /api/revalidate. */
@@ -117,6 +136,22 @@ export async function syncCbl(
   const refs = flatten(catalog);
   onProgress(`catalog: ${refs.length} series across ${Object.keys(catalog).length} databanks`);
 
+  // Detection must never cost us the sync. If the index will not load we still
+  // scrape — we just cannot say what changed, and the run reports degraded.
+  const runId = crypto.randomUUID();
+  let index: ObservationIndex | null = null;
+  let detectionError: string | undefined;
+  try {
+    index = await loadObservationIndex(supabase);
+    onProgress(`index: ${index.size} existing observations`);
+  } catch (err) {
+    detectionError = `index load failed: ${err instanceof Error ? err.message : String(err)}`;
+    onProgress(`WARN ${detectionError}`);
+  }
+
+  const findings: ReleaseFinding[] = [];
+  const failedReasons = new Map<string, string>();
+
   let seriesOk = 0;
   let obsOk = 0;
   let done = 0;
@@ -124,9 +159,11 @@ export async function syncCbl(
   const sampleErrors: string[] = [];
 
   // Record why a series failed, keeping only distinct reasons. 364 identical
-  // "invalid API key" messages say the same thing as one.
+  // "invalid API key" messages say the same thing as one. The per-mnemonic map
+  // is what diffCatalog needs to tell a regression from a first-time failure.
   const fail = (mnemonic: string, reason: string) => {
     failed.push(mnemonic);
+    failedReasons.set(mnemonic, reason);
     if (sampleErrors.length < 5 && !sampleErrors.includes(reason)) {
       sampleErrors.push(reason);
     }
@@ -178,6 +215,10 @@ export async function syncCbl(
         })
         .filter((r): r is NonNullable<typeof r> => r !== null);
 
+      if (index) {
+        findings.push(...diffSeries(index, j.mnemonic, rows));
+      }
+
       if (rows.length) {
         const oErr = (
           await supabase.from('cbl_observations').upsert(rows, { onConflict: 'mnemonic,period_date' })
@@ -196,6 +237,39 @@ export async function syncCbl(
     }
   });
 
+  let releases: SyncCblResult['releases'];
+  if (index) {
+    try {
+      const { data: knownRows, error: knownErr } = await supabase
+        .from('cbl_series')
+        .select('mnemonic');
+      if (knownErr) throw knownErr;
+
+      const known = new Set((knownRows ?? []).map((r) => r.mnemonic));
+      const scraped = new Set(refs.map((r) => r.mnemonic));
+      findings.push(...diffCatalog(known, scraped, failedReasons));
+
+      const summary = await recordReleases(supabase, runId, findings);
+      const counts: Record<string, number> = {};
+      for (const f of findings) counts[f.kind] = (counts[f.kind] ?? 0) + 1;
+
+      releases = {
+        run_id: runId,
+        counts,
+        articles_labeled: summary.articlesLabeled,
+        findings_filed: summary.findingsFiled,
+      };
+      onProgress(
+        `releases: ${findings.length} findings, ` +
+          `${summary.articlesLabeled} articles labeled, ` +
+          `${summary.findingsFiled} findings filed`,
+      );
+    } catch (err) {
+      detectionError = `recording failed: ${err instanceof Error ? err.message : String(err)}`;
+      onProgress(`WARN ${detectionError}`);
+    }
+  }
+
   return {
     ok: true,
     series_synced: seriesOk,
@@ -204,5 +278,8 @@ export async function syncCbl(
     failed,
     sample_errors: sampleErrors,
     duration_ms: Date.now() - startedAt,
+    releases,
+    release_findings: index ? findings : undefined,
+    detection_error: detectionError,
   };
 }
