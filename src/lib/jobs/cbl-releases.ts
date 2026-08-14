@@ -87,3 +87,44 @@ export function diffSeries(
 
   return findings;
 }
+
+/**
+ * Catalog-level findings. Needs no previous-run state: presence in `cbl_series`
+ * proves a series synced successfully at least once, because sync-cbl only ever
+ * upserts and never deletes.
+ *
+ * @param known   mnemonics already in cbl_series
+ * @param scraped mnemonics in today's portal catalog
+ * @param failedReasons mnemonic -> failure reason for this run
+ */
+export function diffCatalog(
+  known: ReadonlySet<string>,
+  scraped: ReadonlySet<string>,
+  failedReasons: ReadonlyMap<string, string>,
+): ReleaseFinding[] {
+  const findings: ReleaseFinding[] = [];
+
+  for (const mnemonic of known) {
+    if (!scraped.has(mnemonic)) {
+      findings.push({
+        kind: 'series_missing',
+        mnemonic,
+        detail: 'in cbl_series but absent from the scraped catalog',
+      });
+    }
+  }
+
+  for (const [mnemonic, reason] of failedReasons) {
+    // Only a regression if it worked before. A brand-new series failing on its
+    // first attempt is a portal problem, not a regression.
+    if (known.has(mnemonic)) {
+      findings.push({
+        kind: 'series_failed',
+        mnemonic,
+        detail: `synced before, failed today: ${reason}`,
+      });
+    }
+  }
+
+  return findings;
+}

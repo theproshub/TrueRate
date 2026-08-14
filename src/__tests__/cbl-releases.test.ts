@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   diffSeries,
+  diffCatalog,
   type ObservationIndex,
   type ScrapedRow,
 } from '@/lib/jobs/cbl-releases';
@@ -64,5 +65,46 @@ describe('diffSeries', () => {
   it('treats null -> null as unchanged', () => {
     const index: ObservationIndex = new Map([['LBR_CPI_0|2026-06-01', null]]);
     expect(diffSeries(index, 'LBR_CPI_0', [row('2026-06-01', null)])).toEqual([]);
+  });
+});
+
+describe('diffCatalog', () => {
+  it('reports a known series absent from the catalog as missing', () => {
+    const out = diffCatalog(new Set(['A', 'B']), new Set(['A']), new Map());
+    expect(out).toEqual([
+      {
+        kind: 'series_missing',
+        mnemonic: 'B',
+        detail: 'in cbl_series but absent from the scraped catalog',
+      },
+    ]);
+  });
+
+  it('reports a previously-synced series that failed today as a regression', () => {
+    const out = diffCatalog(
+      new Set(['A']),
+      new Set(['A']),
+      new Map([['A', 'portal fetch: HTTP 502']]),
+    );
+    expect(out).toEqual([
+      {
+        kind: 'series_failed',
+        mnemonic: 'A',
+        detail: 'synced before, failed today: portal fetch: HTTP 502',
+      },
+    ]);
+  });
+
+  it('does not report a failure for a series never synced before', () => {
+    const out = diffCatalog(
+      new Set<string>(),
+      new Set(['NEW']),
+      new Map([['NEW', 'portal fetch: HTTP 500']]),
+    );
+    expect(out).toEqual([]);
+  });
+
+  it('reports nothing when the catalog is intact', () => {
+    expect(diffCatalog(new Set(['A']), new Set(['A']), new Map())).toEqual([]);
   });
 });
