@@ -14,6 +14,7 @@
 import { syncCbl, SYNC_CBL_REVALIDATE_TAGS } from './sync-cbl';
 import { snapshotQuotes, SNAPSHOT_QUOTES_REVALIDATE_TAGS } from './snapshot-quotes';
 import { generateFeed, GENERATE_FEED_REVALIDATE_TAGS } from './generate-feed';
+import { formatReleaseNotice } from './cbl-releases';
 
 /** Fraction of series that may fail before the run counts as failed overall. */
 const FAILURE_THRESHOLD = 0.1;
@@ -24,6 +25,12 @@ interface JobOutcome {
   degraded: boolean;
   /** Why it degraded, in this job's own terms. Shown in the alert. */
   degradedReason?: string;
+  /**
+   * Succeeded, but worth telling a human about. OnFailure= only fires on
+   * failure, so a successful run with something to report has no other route
+   * to a person. Posted to JOB_ALERT_WEBHOOK_URL.
+   */
+  notice?: string;
   tags: readonly string[];
 }
 
@@ -33,11 +40,18 @@ const JOBS: Record<string, (log: (m: string) => void) => Promise<JobOutcome>> = 
     const total = result.series_synced + result.failed_count;
     // A handful of transient portal errors is normal and shouldn't page anyone.
     // A large fraction failing means the portal changed shape or is down.
-    const degraded = total > 0 && result.failed_count / total > FAILURE_THRESHOLD;
+    const massFailure = total > 0 && result.failed_count / total > FAILURE_THRESHOLD;
+    // Detection breaking is degraded-but-synced: the data committed, but we
+    // cannot say what changed, and silence there is the failure mode that hides
+    // every other failure.
+    const degraded = massFailure || Boolean(result.detection_error);
     return {
       result: { ...result },
       degraded,
-      degradedReason: `${result.failed_count} of ${total} series failed (threshold ${FAILURE_THRESHOLD * 100}%)`,
+      degradedReason: massFailure
+        ? `${result.failed_count} of ${total} series failed (threshold ${FAILURE_THRESHOLD * 100}%)`
+        : result.detection_error,
+      notice: formatReleaseNotice(result.release_findings ?? []),
       tags: SYNC_CBL_REVALIDATE_TAGS,
     };
   },
@@ -125,6 +139,37 @@ async function revalidate(tags: readonly string[]): Promise<boolean> {
   }
 }
 
+/**
+ * Post a non-failure notice to the alert webhook. alert.sh stays a pure failure
+ * path; this is the "exit 0 but interesting" channel. A missing webhook is
+ * logged, never fatal — the run itself succeeded.
+ */
+async function notify(message: string): Promise<boolean> {
+  const url = process.env.JOB_ALERT_WEBHOOK_URL;
+  if (!url) {
+    log('WARN notice not delivered: JOB_ALERT_WEBHOOK_URL is unset');
+    log(message);
+    return false;
+  }
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text: message, content: message }),
+    });
+    if (!res.ok) {
+      log(`WARN notice failed: HTTP ${res.status}`);
+      return false;
+    }
+    log('notice delivered');
+    return true;
+  } catch (err) {
+    log(`WARN notice failed: ${err instanceof Error ? err.message : String(err)}`);
+    return false;
+  }
+}
+
 async function main() {
   const name = process.argv[2];
   const job = name ? JOBS[name] : undefined;
@@ -137,10 +182,11 @@ async function main() {
   }
 
   log(`${name}: start`);
-  const { result, degraded, degradedReason, tags } = await job(log);
+  const { result, degraded, degradedReason, tags, notice } = await job(log);
   log(`${name}: ${JSON.stringify(summarize(result))}`);
 
   await revalidate(tags);
+  if (notice) await notify(notice);
 
   if (degraded) {
     log(`${name}: FAILED — ${degradedReason ?? 'run completed but degraded'}`);
