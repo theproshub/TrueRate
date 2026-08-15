@@ -57,23 +57,42 @@ SUPABASE_SERVICE_ROLE_KEY=<service role key>
 CRON_SECRET=<same value as Vercel production>
 TRUERATE_SITE_URL=https://truerateliberia.com
 JOB_ALERT_WEBHOOK_URL=<slack or discord webhook>
-AI_GATEWAY_API_KEY=<vercel ai gateway key>   # generate-feed only
+AI_GATEWAY_API_KEY=<vercel ai gateway key>
 EOF
 sudo chown root:truerate /etc/truerate/env
 sudo chmod 640 /etc/truerate/env
 ```
 
+**No inline comments.** systemd's `EnvironmentFile` parser only honours `#` at
+the start of a line — a trailing `KEY=value   # note` makes the note part of the
+value. An API key with a comment glued to it fails authentication while looking
+correct in the file.
+
 **Substitute every placeholder.** Pasting this block verbatim produces a job
 that fails with `TypeError: fetch failed` against a host that does not exist —
-a confusing symptom for an obvious cause. Confirm with
-`sudo grep -c '<' /etc/truerate/env`, which must print `0`.
+a confusing symptom for an obvious cause.
+
+Verify both at once — the first must print `0`, the second must list all six
+names:
+
+```bash
+sudo grep -c '<' /etc/truerate/env
+sudo grep -oE '^[A-Z_]+' /etc/truerate/env
+```
+
+A missing name is silent: each variable is read by a different code path, so an
+absent `AI_GATEWAY_API_KEY` only surfaces as `generate-feed` returning
+`status: "partial"`, and an absent `JOB_ALERT_WEBHOOK_URL` surfaces as no alert
+about it.
 
 `CRON_SECRET` must match **Vercel production**, not preview — `vercel env pull`
 defaults to the development/preview environment, and a preview value gets a 401
 from the live site. Check with `vercel env ls production`.
 
-`AI_GATEWAY_API_KEY` is needed only by `generate-feed`. On Vercel the AI Gateway
-authenticates through OIDC, which does not exist off-platform.
+`AI_GATEWAY_API_KEY` is needed only by `generate-feed`, and there is **no
+existing value to copy**: on Vercel the AI Gateway authenticates through OIDC,
+so no such variable exists in the Vercel environment. Mint a fresh key in the
+Vercel dashboard under AI Gateway → API Keys.
 
 ### 4. First deploy
 
@@ -150,6 +169,20 @@ What a healthy run looks like:
 - **`sync-cbl`** — `catalog: N series`, progress every 50, then
   `failed_count: 0` and a non-zero `observations_upserted`. A non-empty
   `sample_errors` names the cause.
+
+  Release detection then logs `index: N existing observations` and
+  `releases: N findings, N articles labeled, N findings filed`.
+
+  **`index: N` must equal the row count of `cbl_observations`** (44152 as of
+  Aug 2026). The job now throws if it does not, because a partial index makes
+  every unread observation look new: a run that indexed 1000 of 44152 rows
+  emitted 43024 false `new_period` findings and flagged all 45 tagged articles.
+  PostgREST silently caps a page at its own `max-rows`, so the loader advances
+  by rows actually returned and verifies the total before diffing.
+
+  Zero findings on a day CBL published nothing is correct. `WARN index load
+  failed` or `index incomplete` means the sync ran but could not report
+  changes — the run is marked degraded and alerts.
 - **`snapshot-quotes`** — `fx: N quotes` and `commodities: N quotes`, then
   `ok: true` with `rows_written` > 0. `ok: false` means every live feed was
   unusable and nothing was written.
