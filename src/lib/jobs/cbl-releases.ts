@@ -188,8 +188,8 @@ export function formatReleaseNotice(
 
 export type AdminClient = ReturnType<typeof createAdminClient>;
 
-/** PostgREST caps a single response; page through the whole table. */
-const INDEX_PAGE = 10_000;
+/** Rows requested per page. The server may return fewer — see below. */
+const INDEX_PAGE = 1_000;
 
 /**
  * Load every existing observation into memory keyed `mnemonic|period_date`.
@@ -197,13 +197,25 @@ const INDEX_PAGE = 10_000;
  *
  * The explicit ORDER BY is load-bearing: range pagination without a total order
  * can skip or repeat rows between pages.
+ *
+ * Two rules here are the scar tissue from a real incident. PostgREST silently
+ * caps a response at its own `max-rows` (1000 by default) regardless of the
+ * range you ask for, so:
+ *
+ *   1. Advance by the number of rows ACTUALLY returned, never by the requested
+ *      page size, and stop only on an empty page. Treating a short page as the
+ *      last page loaded 1000 of 44152 rows, and every unread observation then
+ *      looked new — one run wrote 43024 false new_period findings.
+ *   2. Verify the loaded count against an exact count and throw if they differ.
+ *      A partial index is far more dangerous than no index: it fails silently
+ *      and confidently. Throwing degrades the run, which alerts.
  */
 export async function loadObservationIndex(
   supabase: AdminClient,
 ): Promise<ObservationIndex> {
   const index: ObservationIndex = new Map();
 
-  for (let from = 0; ; from += INDEX_PAGE) {
+  for (let from = 0; ; ) {
     const { data, error } = await supabase
       .from('cbl_observations')
       .select('mnemonic, period_date, value')
@@ -214,6 +226,8 @@ export async function loadObservationIndex(
     if (error) throw error;
 
     const rows = data ?? [];
+    if (rows.length === 0) break;
+
     for (const r of rows) {
       index.set(
         observationKey(r.mnemonic, r.period_date),
@@ -221,7 +235,19 @@ export async function loadObservationIndex(
       );
     }
 
-    if (rows.length < INDEX_PAGE) break;
+    from += rows.length;
+  }
+
+  const { count, error: countErr } = await supabase
+    .from('cbl_observations')
+    .select('*', { count: 'exact', head: true });
+  if (countErr) throw countErr;
+
+  if (count !== null && index.size !== count) {
+    throw new Error(
+      `observation index incomplete: loaded ${index.size} of ${count} rows. ` +
+        `Refusing to diff against a partial index.`,
+    );
   }
 
   return index;

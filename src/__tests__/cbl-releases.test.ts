@@ -4,6 +4,7 @@ import {
   diffCatalog,
   describeFinding,
   formatReleaseNotice,
+  loadObservationIndex,
   type ObservationIndex,
   type ScrapedRow,
 } from '@/lib/jobs/cbl-releases';
@@ -163,5 +164,84 @@ describe('formatReleaseNotice', () => {
     expect(notice).toContain('NEW PERIODS (20)');
     expect(notice).toContain('…and 5 more');
     expect(notice).not.toContain('M19');
+  });
+});
+
+/**
+ * Minimal Supabase stub that reproduces PostgREST's silent `max-rows` cap:
+ * it returns at most `cap` rows no matter how large a range you request.
+ */
+function stubClient(total: number, cap: number) {
+  // (mnemonic, period_date) must be unique per row — the index is keyed on it,
+  // and a colliding fixture silently under-counts and looks like a loader bug.
+  const rows = Array.from({ length: total }, (_, i) => {
+    const within = i % 100;
+    return {
+      mnemonic: `M${Math.floor(i / 100)}`,
+      period_date: `${2000 + Math.floor(within / 12)}-${String((within % 12) + 1).padStart(2, '0')}-01`,
+      value: i,
+    };
+  });
+  let pageRequests = 0;
+
+  const builder = {
+    order() {
+      return builder;
+    },
+    range(from: number, to: number) {
+      pageRequests++;
+      const requested = to - from + 1;
+      return Promise.resolve({
+        data: rows.slice(from, from + Math.min(requested, cap)),
+        error: null,
+      });
+    },
+    // Awaiting the builder directly is the head/count call.
+    then(resolve: (v: { count: number; error: null }) => void) {
+      resolve({ count: total, error: null });
+    },
+  };
+
+  return {
+    client: { from: () => ({ select: () => builder }) },
+    pageRequests: () => pageRequests,
+  };
+}
+
+describe('loadObservationIndex', () => {
+  it('loads every row when the server caps pages below the requested size', async () => {
+    // The real incident: 44152 rows, PostgREST capping at 1000.
+    const { client } = stubClient(44152, 1000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const index = await loadObservationIndex(client as any);
+    expect(index.size).toBe(44152);
+  });
+
+  it('advances by rows returned, not by the requested page size', async () => {
+    const { client, pageRequests } = stubClient(2500, 1000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await loadObservationIndex(client as any);
+    // 1000 + 1000 + 500 + one empty page that ends the loop.
+    expect(pageRequests()).toBe(4);
+  });
+
+  it('throws rather than diffing against a partial index', async () => {
+    // Server reports 100 rows but hands back none — the silent-truncation shape.
+    const short = {
+      from: () => ({
+        select: () => ({
+          order() {
+            return this;
+          },
+          range: () => Promise.resolve({ data: [], error: null }),
+          then: (r: (v: { count: number; error: null }) => void) =>
+            r({ count: 100, error: null }),
+        }),
+      }),
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await expect(loadObservationIndex(short as any)).rejects.toThrow(
+      /index incomplete: loaded 0 of 100/,
+    );
   });
 });
