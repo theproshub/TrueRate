@@ -144,6 +144,15 @@ Four touch points, no restructuring:
 `series_missing` costs nothing extra. `sync-cbl` never deletes, so any mnemonic present
 in `cbl_series` but absent from today's scraped catalog has disappeared upstream.
 
+**`series_missing` repeats by design.** It reports a standing condition, not an
+event, so a series CBL has dropped is reported on every run for as long as it
+stays dropped — a row in `cbl_releases` and a line in the notice each day.
+Suppressing repeats was considered and **deliberately rejected** (2026-08-15):
+a standing problem should stay visible rather than scroll away after one
+mention. Do not "fix" this as duplicate-finding noise. If the volume ever does
+become a problem, the intended remedy is to notify only on change while still
+recording daily, not to stop recording.
+
 `series_failed` is scoped to *regressions*, and needs no previous-run state either:
 presence in `cbl_series` proves the series synced successfully at least once, so a
 mnemonic that is in `cbl_series` and in today's catalog but landed in `failed[]` has
