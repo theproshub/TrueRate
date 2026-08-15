@@ -3,7 +3,6 @@
 //
 // Design: docs/superpowers/specs/2026-08-13-cbl-release-monitoring-design.md
 
-import type { SupabaseClient } from '@supabase/supabase-js';
 import type { createAdminClient } from '@/lib/supabase/admin';
 
 export type ReleaseKind =
@@ -189,19 +188,6 @@ export function formatReleaseNotice(
 
 export type AdminClient = ReturnType<typeof createAdminClient>;
 
-/**
- * The generated `Database` type predates the cbl_releases migration, so it knows
- * nothing about that table or about articles.needs_refresh / refresh_reason.
- *
- * This is a deliberately narrow escape hatch, scoped to this module, used only
- * for the tables the generated types have not caught up with. Delete it and use
- * the typed client directly once types are regenerated against the migrated
- * schema (see supabase/migrations/2026-08-13-cbl-releases.sql).
- */
-function untyped(supabase: AdminClient): SupabaseClient {
-  return supabase as unknown as SupabaseClient;
-}
-
 /** PostgREST caps a single response; page through the whole table. */
 const INDEX_PAGE = 10_000;
 
@@ -276,13 +262,13 @@ async function findAffectedArticles(
   mnemonics: string[],
 ): Promise<AffectedArticle[]> {
   if (mnemonics.length === 0) return [];
-  const { data, error } = await untyped(supabase)
+  const { data, error } = await supabase
     .from('articles')
     .select('id, slug, macro_tags')
     .eq('status', 'published')
     .overlaps('macro_tags', mnemonics);
   if (error) throw error;
-  return (data ?? []) as AffectedArticle[];
+  return data ?? [];
 }
 
 /**
@@ -320,7 +306,7 @@ export async function recordReleases(
       new_value: f.new_value ?? null,
       detail: f.detail ?? null,
     }));
-    const { error } = await untyped(supabase).from('cbl_releases').insert(chunk);
+    const { error } = await supabase.from('cbl_releases').insert(chunk);
     if (error) throw error;
   }
 
@@ -331,7 +317,7 @@ export async function recordReleases(
   for (const article of articles) {
     const hit = (article.macro_tags ?? []).find((m) => reasons.has(m));
     if (!hit) continue;
-    const { error } = await untyped(supabase)
+    const { error } = await supabase
       .from('articles')
       .update({ needs_refresh: true, refresh_reason: reasons.get(hit) })
       .eq('id', article.id);
@@ -346,7 +332,7 @@ export async function recordReleases(
       .filter((a) => (a.macro_tags ?? []).includes(rev.mnemonic))
       .map((a) => a.slug);
 
-    const { error } = await untyped(supabase)
+    const { error } = await supabase
       .from('data_integrity_findings')
       .insert({
         severity: 'HIGH',

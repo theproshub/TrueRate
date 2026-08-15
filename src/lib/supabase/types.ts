@@ -196,6 +196,8 @@ export type Database = {
           hero_image: string | null
           id: string
           macro_tags: string[]
+          needs_refresh: boolean
+          refresh_reason: string | null
           published_at: string | null
           slug: string
           source_name: string | null
@@ -215,6 +217,8 @@ export type Database = {
           hero_image?: string | null
           id?: string
           macro_tags?: string[]
+          needs_refresh?: boolean
+          refresh_reason?: string | null
           published_at?: string | null
           slug: string
           source_name?: string | null
@@ -234,6 +238,8 @@ export type Database = {
           hero_image?: string | null
           id?: string
           macro_tags?: string[]
+          needs_refresh?: boolean
+          refresh_reason?: string | null
           published_at?: string | null
           slug?: string
           source_name?: string | null
@@ -401,6 +407,45 @@ export type Database = {
             referencedColumns: ["mnemonic"]
           },
         ]
+      }
+      cbl_releases: {
+        Row: {
+          detail: string | null
+          detected_at: string
+          id: string
+          kind: string
+          mnemonic: string
+          new_value: number | null
+          old_value: number | null
+          period_date: string | null
+          period_label: string | null
+          run_id: string
+        }
+        Insert: {
+          detail?: string | null
+          detected_at?: string
+          id?: string
+          kind: string
+          mnemonic: string
+          new_value?: number | null
+          old_value?: number | null
+          period_date?: string | null
+          period_label?: string | null
+          run_id: string
+        }
+        Update: {
+          detail?: string | null
+          detected_at?: string
+          id?: string
+          kind?: string
+          mnemonic?: string
+          new_value?: number | null
+          old_value?: number | null
+          period_date?: string | null
+          period_label?: string | null
+          run_id?: string
+        }
+        Relationships: []
       }
       cbl_series: {
         Row: {
